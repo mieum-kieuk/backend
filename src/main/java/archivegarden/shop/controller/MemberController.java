@@ -3,10 +3,11 @@ package archivegarden.shop.controller;
 import archivegarden.shop.service.MemberService;
 import archivegarden.shop.web.form.MemberSaveDto;
 import archivegarden.shop.web.form.MemberSaveForm;
-import jakarta.validation.Valid;
+import archivegarden.shop.web.validation.ValidationSequence;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,14 +26,21 @@ public class MemberController {
     }
 
     @PostMapping("/join")
-    public String join(@Valid @ModelAttribute MemberSaveForm form, BindingResult bindingResult) {
+    public String join(@Validated(ValidationSequence.class) @ModelAttribute("form") MemberSaveForm form, BindingResult bindingResult) {
+
+        //복합 룰 검증
+        if(form.getPassword() != null && form.getPasswordConfirm() != null) {
+            if (!form.getPassword().equals(form.getPasswordConfirm())) {
+                bindingResult.reject("passwordNotEqual", "동일한 비밀번호를 입력해주세요.");
+            }
+        }
 
         if(bindingResult.hasErrors()) {
             return "members/join";
         }
 
         memberService.join(new MemberSaveDto(form));
-        return "members/join/complete";
+        return "redirect:/members/join/complete";
     }
 
     @GetMapping("/join/complete")
