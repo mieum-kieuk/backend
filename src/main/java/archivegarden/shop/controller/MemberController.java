@@ -8,10 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -46,5 +43,17 @@ public class MemberController {
     @GetMapping("/join/complete")
     public String joinComplete() {
         return "members/join_complete";
+    }
+
+    @ResponseBody
+    @PostMapping("/verification/loginId")
+    public boolean verifyLoginId(@RequestParam String loginId) {
+        return memberService.duplicateLoginId(loginId);
+    }
+
+    @ResponseBody
+    @PostMapping("/verification/email")
+    public boolean verifyEmail(@RequestParam String email) {
+        return memberService.duplicateEmail(email);
     }
 }
