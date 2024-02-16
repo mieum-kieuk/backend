@@ -1,48 +1,42 @@
 package archivegarden.shop.web.form;
 
-import archivegarden.shop.web.validation.ValidationGroups.NotBlankGroup;
-import archivegarden.shop.web.validation.ValidationGroups.PatternGroup;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Pattern;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
-@AllArgsConstructor
+@Data
 public class MemberSaveForm {
 
-    @NotBlank(message = "아이디를 입력해주세요.", groups = NotBlankGroup.class)
-    @Pattern(regexp = "^(?=.*[a-zA-z])(?=.*\\d)[a-zA-Z\\d]{6,16}+$", message = "6자 이상 16자 이하의 영문 혹은 영문과 숫자를 조합", groups = PatternGroup.class)
+    @Pattern(regexp = "(?=.*[a-z])(?=.*\\d)[a-z\\d]{5,20}+$", message = "5~20자의 영문 소문자, 숫자를 사용해 주세요.")
     private String loginId;
 
-    @NotBlank(message = "비밀번호를 입력해주세요.", groups = NotBlankGroup.class)
-    @Pattern(regexp = "^(?=.*[a-zA-z])(?=.*\\d)(?=.*\\W)[a-zA-Z\\d\\W]{10,16}$", message = "10자 이상 16자 이하의 영문, 숫자, 특수문자 조합", groups = PatternGroup.class)
+    @Pattern(regexp = "^(?=.*[a-zA-z])(?=.*\\d)(?=.*\\W)[a-zA-Z\\d\\W]{8,16}$", message = "8~16자의 영문 대/소문자, 숫자, 특수문자를 사용해 주세요.")
     private String password;
 
-    @NotBlank(message = "비밀번호 확인을 입력해주세요.", groups = NotBlankGroup.class)
-    @Pattern(regexp = "^(?=.*[a-zA-z])(?=.*\\d)(?=.*\\W)[a-zA-Z\\d\\W]{10,16}$", message = "10자 이상 16자 이하의 영문, 숫자, 특수문자 조합", groups = PatternGroup.class)
     private String passwordConfirm;
 
-    @NotBlank(message = "이름을 입력해주세요.")
-    @Pattern(regexp = "^[가-힣]{2,5}$", message = "공백없이 한글(2~5자)")
+    @Pattern(regexp = "^[a-zA-z가-힣]{1,40}$", message = "한글, 영문 대/소문자를 사용해 주세요. (특수기호, 공백 사용 불가)")
     private String name;
 
-    @NotBlank(message = "핸드폰 번호를 입력해주세요.")
-    @Pattern(regexp = "^01(?:0|1|[6-9])-(?:\\d{3}|\\d{4})-\\d{4}$")
-    private String phonenumber;
+    @Pattern(regexp = "^01(0|1|[6-9])$")
+    private String phonenumber1;
 
-    @NotBlank(message = "이메일을 입력해주세요.")
-    @Email
+    @Pattern(regexp = "^(\\d){3,4}$")
+    private String phonenumber2;
+
+    @Pattern(regexp = "^(\\d){4}$")
+    private String phonenumber3;
+
+/*    @Pattern(regexp = "^(\\d){6}$")
+    private String verificationCode;*/
+
+    @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\\\.[a-zA-Z]+$", message = "유효한 이메일을 입력해 주세요.")
     private String email;
 
-    @NotNull(message = "이용약관에 동의하세요.")
+    @AssertTrue(message = "이용약관에 동의해 주세요.")
     private boolean agree_to_terms_of_use;
 
-    @NotNull(message = "개인정보 수집 및 이용 방침에 동의하세요")
+    @AssertTrue(message = "개인정보 수집 및 이용 방침에 동의해 주세요.")
     private boolean agree_to_personal_information;
 
     private boolean agree_to_receive_sms;

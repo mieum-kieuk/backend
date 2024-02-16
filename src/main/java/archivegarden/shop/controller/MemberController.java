@@ -3,12 +3,13 @@ package archivegarden.shop.controller;
 import archivegarden.shop.service.MemberService;
 import archivegarden.shop.web.form.MemberSaveDto;
 import archivegarden.shop.web.form.MemberSaveForm;
-import archivegarden.shop.web.validation.ValidationSequence;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.regex.Pattern;
 
 @Controller
 @RequiredArgsConstructor
@@ -23,13 +24,18 @@ public class MemberController {
     }
 
     @PostMapping("/join")
-    public String join(@Validated(ValidationSequence.class) @ModelAttribute("form") MemberSaveForm form, BindingResult bindingResult) {
+    public String join(@Validated @ModelAttribute("form") MemberSaveForm form, BindingResult bindingResult) {
 
-        //복합 룰 검증
-        if(form.getPassword() != null && form.getPasswordConfirm() != null) {
+        //비밀번호 == 비밀번호 확인 검증
+        if(form.getPassword() != null) {
             if (!form.getPassword().equals(form.getPasswordConfirm())) {
-                bindingResult.reject("passwordNotEqual", "동일한 비밀번호를 입력해주세요.");
+                bindingResult.rejectValue("passwordConfirm", "passwordNotEqual", "비밀번호가 일치하지 않습니다.");
             }
+        }
+
+        //핸드폰 번호 검증
+        if(bindingResult.hasFieldErrors("phonenumber1") || bindingResult.hasFieldErrors("phonenumber2") || bindingResult.hasFieldErrors("phonenumber3")) {
+            bindingResult.rejectValue("phonenumber1", "Invaild", "유효하지 않은 휴대폰 번호입니다. 입력한 번호를 확인해 주세요.");
         }
 
         if(bindingResult.hasErrors()) {
