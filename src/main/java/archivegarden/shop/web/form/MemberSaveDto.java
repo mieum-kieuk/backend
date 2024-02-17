@@ -23,7 +23,7 @@ public class MemberSaveDto {
         this.loginId = form.getLoginId();
         this.password = form.getPassword();
         this.name = form.getName();
-        this.phonenumber = form.getPhonenumber();
+        this.phonenumber = form.getPhonenumber1() + form.getPhonenumber2() + form.getPhonenumber3();
         this.email = form.getEmail();
         this.grade = Grade.GREEN;
         this.authority = Authority.ROLE_USER;

@@ -27,8 +27,8 @@ public class MemberSaveForm {
     @Pattern(regexp = "^(\\d){4}$")
     private String phonenumber3;
 
-/*    @Pattern(regexp = "^(\\d){6}$")
-    private String verificationCode;*/
+    @Pattern(regexp = "^(\\d){6}$")
+    private String verificationCode;
 
     @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\\\.[a-zA-Z]+$", message = "유효한 이메일을 입력해 주세요.")
     private String email;
