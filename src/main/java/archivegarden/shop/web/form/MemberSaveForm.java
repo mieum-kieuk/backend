@@ -2,9 +2,13 @@ package archivegarden.shop.web.form;
 
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Pattern;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class MemberSaveForm {
 
     @Pattern(regexp = "(?=.*[a-z])(?=.*\\d)[a-z\\d]{5,20}+$", message = "5~20자의 영문 소문자, 숫자를 사용해 주세요.")
@@ -30,7 +34,7 @@ public class MemberSaveForm {
     @Pattern(regexp = "^(\\d){6}$")
     private String verificationCode;
 
-    @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\\\.[a-zA-Z]+$", message = "유효한 이메일을 입력해 주세요.")
+    @Pattern(regexp = "[0-9a-zA-Z]+(.[_a-z0-9-]+)*@(?:\\w+\\.)+\\w+$", message = "유효한 이메일을 입력해 주세요.")
     private String email;
 
     @AssertTrue(message = "이용약관에 동의해 주세요.")

@@ -29,6 +29,7 @@ public class Member extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private Authority authority;
 
+    private boolean isEmailVerified;
     private boolean agree_to_receive_sms;
     private boolean agree_to_receive_email;
 
@@ -38,8 +39,9 @@ public class Member extends BaseTimeEntity {
         this.name = dto.getName();
         this.phonenumber = dto.getPhonenumber();
         this.email = dto.getEmail();
-        this.grade = dto.getGrade();
-        this.authority = dto.getAuthority();
+        this.grade = Grade.GREEN;
+        this.authority = Authority.ROLE_USER;
+        this.isEmailVerified = false;
         this.agree_to_receive_sms = dto.isAgree_to_receive_sms();
         this.agree_to_receive_email = dto.isAgree_to_receive_email();
     }
