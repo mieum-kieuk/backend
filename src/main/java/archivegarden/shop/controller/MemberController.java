@@ -5,6 +5,7 @@ import archivegarden.shop.web.form.MemberSaveDto;
 import archivegarden.shop.web.form.MemberSaveForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +26,7 @@ public class MemberController {
     public String join(@Validated @ModelAttribute("form") MemberSaveForm form, BindingResult bindingResult) {
 
         //비밀번호 == 비밀번호 확인 검증
-        if(form.getPassword() != null) {
+        if(StringUtils.hasText(form.getPassword())) {
             if (!form.getPassword().equals(form.getPasswordConfirm())) {
                 bindingResult.rejectValue("passwordConfirm", "passwordNotEqual", "비밀번호가 일치하지 않습니다.");
             }
