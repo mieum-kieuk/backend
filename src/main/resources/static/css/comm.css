@@ -353,11 +353,9 @@ legend {
     display: flex;
     justify-content: center;
     margin: 240px 0;
+    font-size: 11px;
+    color: #111;
 }
-#join .displaynone {
-    display: none;
-}
-
 .join_wrap {
     max-width: 550px;
     width: 100%;
@@ -366,24 +364,28 @@ legend {
     justify-content: center;
 }
 .join_wrap .join_tit, .join_wrap .addinfo {
-    margin: 20px 0 4px;
+    margin: 4px 0 20px;
 }
-.join_wrap .join_tit::after {
+.join_wrap .join_tit.btn_included {
+    margin: 4px 0;
+}
+.join_wrap .join_tit.ess::after {
     content: "*"; /* 가상 요소에 별표 내용 추가 */
     color: #d94747; /* 별표 색상 지정 */
     margin-left: 3px; /* 별표와 텍스트 사이의 간격 조정 */
 }
 .join_wrap .addinfo {
-    color: #666;
-    font-size: 15px;
+    color: #999;
+    font-size: 11px;
 }
 
 .auth_wrap {
     width: 100%;
     display: flex;
+    margin-bottom: 20px;
 }
 .auth_wrap .join_tit {
-    font-size: 18px;
+    font-size: 14px;
     margin-bottom: 8px;
 }
 .auth_wrap #personal_type_wrap {
@@ -391,10 +393,8 @@ legend {
     align-items: center;
 }
 .auth_wrap #personal_type_wrap label {
+    font-size: 12px;
     margin-left: 4px;
-}
-.auth_wrap #email_auth {
-    font-size: 15px;
 }
 
 .input_area {
@@ -411,48 +411,112 @@ legend {
 .input_wrap li {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-end;
 }
 .input_wrap input {
     border: none;
     border-bottom: 1px solid black;
     padding-bottom: 5px;
     width: 100%;
-    height: 50px;
 }
 .input_wrap input:focus {
     outline: none;
 }
+.input_wrap input::placeholder {
+    color: #999;
+}
+.input_wrap .input_box_wrap {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.input_wrap .input_box_wrap span {
+    margin-top: 3px;
+}
 .input_wrap #name_content {
     width: 100%;
 }
+.input_wrap .address li:nth-child(2) {
+    justify-content: flex-start;
+    width: 70%;
+}
+.input_wrap .address li:nth-child(2) .input_box {
+    width: 70%;
+}
+.input_wrap .address input {
+    margin-top: 20px;
+}
 .input_wrap .phone_number.select {
     display: flex;
-    align-items: center;
-}
-.input_wrap .phone_number.select input {
-    height: 50px;
+    justify-content: flex-start;
+    align-items: flex-end;
+    width: 70%;
+    margin-bottom: 8px;
 }
 .input_wrap .phone_number.select input:focus {
     outline: none;
+}
+.input_wrap .phone_number.select .input_box {
+    margin-bottom: 0;
 }
 .input_wrap .phone_number.select select {
     border: none;
     border-bottom: 1px solid black;
     width: 100%;
-    height: 50px;
 }
-.input_wrap .phone_number.select #btn_action_verify_mobile {
-    height: 45px;
-    margin-left: 12px;
+.input_wrap .number_sec {
+    display: flex;
+    width: 70%;
+}
+.input_wrap .txtInfo {
+    display: none;
+    margin-bottom: 20px;
+}
+.input_wrap #confirm_verify_mobile {
+    display: none;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-end;
+    width: 70%;
+    margin-bottom: 20px;
+}
+.input_wrap #confirm_verify_mobile:first-child {
+    font-weight: bold;
+    width: 70%;
+}
+.input_wrap #confirm_verify_mobile .input_box {
+    margin-bottom: 0;
+}
+.input_wrap #confirm_verify_mobile .verify_sec {
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+}
+.input_wrap #confirm_verify_mobile .verify_sec .join_tit {
+    margin-bottom: 4px;
+}
+.input_wrap #confirm_verify_mobile .verify {
+    flex: 1;
+}
+.input_wrap #confirm_verify_mobile .verify .time {
+    margin-top: 5px;
     font-size: 14px;
+    color: #888;
+}
+
+#searchZipCodeBtn, #btn_action_verify_mobile, #btn_verify_mobile_confirm {
+    width: 80px;
+    margin-left: 12px;
+    padding: 10px;
+    height: 30px;
 }
 
 .agree_all {
     display: flex;
     justify-content: space-between;
     width: 100%;
-    margin-bottom: 20px;
+    margin-bottom: 8px;
 }
 
 .agree_area_wrap {
@@ -465,14 +529,13 @@ legend {
 .agree_area_wrap .agree_area a {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 16px;
+    margin-bottom: 8px;
 }
 .agree_area_wrap .content {
     height: 200px;
     overflow-y: auto;
-    padding: 0 10px;
+    padding: 20px;
     border: 1px solid #333;
-    font-size: 14px;
     color: #333;
     margin-bottom: 20px;
 }
@@ -501,12 +564,24 @@ legend {
     margin-left: 4px;
 }
 
+.submit_btn {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.submit_btn .btn1 {
+    width: 48%;
+}
+.submit_btn .join_btn {
+    background: #111;
+    color: #fff;
+}
+
 .btn1 {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 60px;
-    width: 100%;
+    height: 45px;
     padding: 20px;
     border-radius: 2px;
     border: solid 1px #333;
