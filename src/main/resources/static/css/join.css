@@ -1,0 +1,583 @@
+@charset "UTF-8";
+/* reset */
+body,
+div,
+dl,
+dt,
+dd,
+ul,
+ol,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+pre,
+code,
+form,
+fieldset,
+legend,
+textarea,
+p,
+blockquote,
+th,
+td,
+input,
+select,
+button,
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+fieldset,
+img {
+  border: 0 none;
+}
+
+dl,
+ul,
+ol,
+menu,
+li {
+  list-style: none;
+}
+
+blockquote,
+q {
+  quotes: none;
+}
+
+blockquote:before, blockquote:after {
+  content: "";
+  content: none;
+}
+
+q:before, q:after {
+  content: "";
+  content: none;
+}
+
+input,
+select,
+textarea {
+  font-size: 100%;
+  vertical-align: middle;
+}
+
+button {
+  font-size: 100%;
+  vertical-align: middle;
+  border: 0 none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+body {
+  -webkit-text-size-adjust: none;
+}
+
+/* 뷰표트 변환시 폰트크기 자동확대 방지 */
+input[type=text], input[type=password], input[type=submit], input[type=search] {
+  -webkit-appearance: none;
+  border-radius: 0;
+}
+input:checked[type=checkbox] {
+  background-color: #666;
+  -webkit-appearance: checkbox;
+}
+
+button {
+  -webkit-appearance: button;
+  border-radius: 0;
+}
+
+input[type=button], input[type=submit], input[type=reset], input[type=file] {
+  -webkit-appearance: button;
+  border-radius: 0;
+}
+input[type=search]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+}
+
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 30px #fff inset;
+  -webkit-text-fill-color: #222;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* 기본 폰트 설정 */
+/* mobile */
+body {
+  font-size: 16px;
+  font-family: "Inter", "Pretendard", "Noto Sans KR", "Malgun Gothic", "맑은 고딕", sans-serif;
+}
+
+/* desktop */
+@media screen and (min-width: 1280px) {
+  body {
+    font-size: 16px;
+  }
+}
+a {
+  text-decoration: none;
+}
+a:active, a:hover, a:visited {
+  text-decoration: none;
+}
+a:visited, a:link {
+  color: #222;
+}
+
+address,
+caption,
+cite,
+code,
+dfn,
+em,
+var {
+  font-style: normal;
+  font-weight: normal;
+}
+
+hr {
+  display: none;
+}
+
+input[type=password] {
+  font-family: "Inter", "Pretendard", "Noto Sans KR", "Malgun Gothic", "맑은 고딕", sans-serif;
+}
+
+#skip {
+  position: relative;
+  z-index: 3000;
+}
+#skip a {
+  position: absolute;
+  top: -35px;
+  left: 0;
+  right: 0;
+  display: inline-block;
+  padding: 7px 10px 5px;
+  background: #333;
+  color: #fff;
+  text-decoration: none;
+  text-align: center;
+  opacity: 0;
+}
+#skip a:focus {
+  top: 0;
+  opacity: 1;
+  z-index: 1000;
+}
+
+/* 이미지 스프라이트 */
+.img-g {
+  display: inline-block;
+  overflow: hidden;
+  background: url(../../images/comm/img-comm.png) no-repeat;
+  vertical-align: top;
+}
+
+/* 이미지 */
+/* global */
+.ir-pm {
+  display: block;
+  overflow: hidden;
+  font-size: 0px;
+  line-height: 0;
+  text-indent: -9999px;
+}
+
+/* 사용된 이미지내 의미있는 텍스트의 대체텍스트를 제공할때 */
+.ir-wa {
+  display: block;
+  overflow: hidden;
+  position: relative;
+  z-index: -10;
+  width: 100%;
+  height: 100%;
+}
+
+/* 중요한 이미지 대체텍스트로 이미지off시에도 대체 텍스트를 보여주고자 할때 */
+.blind,
+caption,
+legend {
+  overflow: hidden;
+  position: absolute;
+  width: 0;
+  height: 0;
+  line-height: 0;
+  text-indent: -9999px;
+}
+
+/* 대체텍스트가 아닌 접근성을 위한 숨김텍스트를 제공할때 */
+.f_l {
+  float: left;
+}
+
+.f_r {
+  float: right;
+}
+
+.show {
+  display: block;
+}
+
+.hide {
+  display: none;
+}
+
+.tbl {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* 테이블 초기화 */
+.clearfix {
+  display: block;
+  overflow: visible;
+  width: auto;
+  clear: both;
+  zoom: 1;
+}
+.clearfix:after {
+  display: block;
+  visibility: hidden;
+  height: 0;
+  font-size: 0;
+  clear: both;
+  content: "";
+}
+
+#join {
+  display: flex;
+  justify-content: center;
+  padding-top: 240px;
+  margin: 0;
+  font-size: 11px;
+  color: #222;
+}
+#join .displaynone {
+  display: none;
+}
+
+.join_wrap {
+  max-width: 550px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.join_wrap .join_tit, .join_wrap .addinfo {
+  margin: 4px 0 20px;
+}
+.join_wrap .join_tit.btn_included {
+  margin: 4px 0;
+}
+.join_wrap .join_tit.ess::after {
+  content: "*"; /* 가상 요소에 별표 내용 추가 */
+  color: #d94747; /* 별표 색상 지정 */
+  margin-left: 3px; /* 별표와 텍스트 사이의 간격 조정 */
+}
+.join_wrap .addinfo {
+  color: #999;
+  font-size: 11px;
+}
+
+.auth_wrap {
+  width: 100%;
+  display: flex;
+  margin-bottom: 20px;
+}
+.auth_wrap .join_tit {
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+.auth_wrap #personal_type_wrap {
+  display: flex;
+  align-items: center;
+}
+.auth_wrap #personal_type_wrap label {
+  font-size: 12px;
+  margin-left: 4px;
+}
+
+.input_area {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.input_wrap {
+  width: 100%;
+  white-space: nowrap;
+  margin-bottom: 100px;
+}
+.input_wrap li {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+.input_wrap input {
+  border: none;
+  border-bottom: 1px solid black;
+  padding-bottom: 5px;
+  width: 100%;
+}
+.input_wrap input:focus {
+  outline: none;
+}
+.input_wrap input::placeholder {
+  color: #999;
+}
+.input_wrap .input_box_wrap {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.input_wrap .input_box_wrap span {
+  margin-top: 3px;
+}
+.input_wrap #name_content {
+  width: 100%;
+}
+.input_wrap .address .input_box {
+  margin-top: 20px;
+}
+.input_wrap .address input[disabled] {
+  background-color: transparent;
+}
+.input_wrap .address li:nth-child(2) {
+  justify-content: flex-start;
+  width: 70%;
+}
+.input_wrap .address li:nth-child(2) .input_box {
+  width: 70%;
+}
+.input_wrap .address, .input_wrap .phone_number {
+  margin-bottom: 20px;
+}
+.input_wrap .phone_number .join_tit {
+  margin: 4px 0 4px 0;
+}
+.input_wrap .phone_number.select {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end;
+  width: 70%;
+  margin-bottom: 3px;
+}
+.input_wrap .phone_number.select input:focus {
+  outline: none;
+}
+.input_wrap .phone_number.select .input_box {
+  margin-bottom: 0;
+}
+.input_wrap .phone_number.select #phonenumber1 {
+  border: none;
+  border-bottom: 1px solid black;
+  width: 100%;
+}
+.input_wrap .phone_number.select #phonenumber1:focus {
+  outline: none;
+}
+.input_wrap .phone_number.select #phonenumber2, .input_wrap .phone_number.select #phonenumber3 {
+  padding-left: 5px;
+}
+.input_wrap .number_sec {
+  display: flex;
+  width: 70%;
+}
+.input_wrap .txtInfo {
+  display: none;
+  margin-bottom: 20px;
+}
+.input_wrap #confirm_verify_mobile {
+  display: none;
+  justify-content: flex-start;
+  align-items: flex-end;
+  width: 70%;
+  margin-bottom: 20px;
+}
+.input_wrap #confirm_verify_mobile:first-child {
+  font-weight: bold;
+  width: 70%;
+}
+.input_wrap #confirm_verify_mobile .input_box {
+  margin-bottom: 0;
+  width: 150px;
+}
+.input_wrap #confirm_verify_mobile .verify_sec {
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+  align-items: flex-start;
+}
+.input_wrap #confirm_verify_mobile .verify_sec .join_tit {
+  margin-bottom: 20px;
+}
+.input_wrap #confirm_verify_mobile .verify {
+  flex: 1;
+}
+.input_wrap #confirm_verify_mobile .verify .time {
+  margin-top: 5px;
+  font-size: 12px;
+  color: #888;
+}
+
+#verificationMsg {
+  margin-bottom: 20px;
+}
+
+#searchZipCodeBtn, #btn_action_verify_mobile, #btn_verify_mobile_confirm {
+  width: 80px;
+  margin-left: 12px;
+  padding: 10px;
+  height: 30px;
+}
+
+.agree_all {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.agree_area_wrap {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-bottom: 100px;
+}
+.agree_area_wrap .agree_area a {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+.agree_area_wrap .content {
+  height: 200px;
+  overflow-y: auto;
+  padding: 20px;
+  border: 1px solid #333;
+  color: #333;
+  margin-bottom: 20px;
+}
+.agree_area_wrap .agree_area.opt .content {
+  height: 100px;
+  margin-bottom: 10px;
+}
+.agree_area_wrap .check.shopinfo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+.agree_area_wrap .check.shopinfo li {
+  display: flex;
+  margin-bottom: 4px;
+}
+.agree_area_wrap .check.shopinfo li span {
+  margin-right: 10px;
+}
+
+.check {
+  display: flex;
+  align-items: center;
+}
+.check label {
+  margin-left: 4px;
+}
+
+.submit_btn {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.submit_btn .btn1 {
+  width: 48%;
+}
+.submit_btn .join_btn {
+  background: #222;
+  color: #fff;
+}
+
+.btn1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 45px;
+  padding: 20px;
+  border-radius: 2px;
+  border: solid 1px #333;
+  background-color: #fff;
+}
+
+#join_succ {
+  display: flex;
+  justify-content: center;
+  padding-top: 120px;
+}
+
+.join_succ_wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 550px;
+  width: 100%;
+  font-size: 11px;
+}
+.join_succ_wrap .success_message {
+  margin-bottom: 20px;
+}
+.join_succ_wrap .success_message h1, .join_succ_wrap .success_message p, .join_succ_wrap .success_message a {
+  text-align: center;
+}
+.join_succ_wrap .success_message h1 {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+.join_succ_wrap .success_message p {
+  font-size: 14px;
+}
+.join_succ_wrap .submit_btn {
+  display: flex;
+  justify-content: center;
+}
+.join_succ_wrap .submit_btn .home_btn {
+  background: #222;
+  color: #fff;
+}
+.join_succ_wrap .user_info {
+  padding: 20px;
+  margin: 30px;
+  border-top: 1px solid #222;
+  border-bottom: 1px solid #222;
+}
+.join_succ_wrap .user_info li {
+  display: flex;
+  align-items: center;
+  padding: 2px;
+}
+.join_succ_wrap .user_info li p {
+  width: 30px;
+  text-align: start;
+}
+.join_succ_wrap .user_info li span {
+  margin-left: 50px;
+}
