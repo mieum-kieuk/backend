@@ -27,6 +27,7 @@
     </style>
 </head>
 <body>
+<div th:replace="~{/layout/header :: header}"></div>
 <div id="join">
     <div class="join_wrap">
         <div class="auth_wrap">
@@ -51,7 +52,7 @@
                 </li>
             </ul>
         </div>
-        <form action="" th:action th:object="${form}" method="post" th:onsubmit="return signUp();">
+        <form action="" th:action th:object="${form}" method="post" th:onsubmit="return signUp()">
             <div class="input_area">
                 <div class="input_wrap">
                     <ul>
@@ -95,8 +96,7 @@
                         </li>
                         <li>
                         <span id="name_content" class="input_box_wrap">
-                            <input th:field="*{name}" class="input_box ec-user-name" placeholder="" maxlength="30"
-                                   type="text"/>
+                            <input th:field="*{name}" class="input_box ec-user-name" placeholder="" maxlength="12" type="text"/>
                             <span id="nameMsg"></span>
                             <div class="field-error" th:errors="*{name}"></div>
                         </span>
@@ -107,11 +107,11 @@
                             <p class="join_tit btn_included">주소</p>
                         </li>
                         <li>
-                            <input class="input_box" th:field="*{zipCode}" placeholder="우편번호" type="text"/>
+                            <input class="input_box" th:field="*{zipCode}" placeholder="우편번호" type="text" disabled/>
                             <button type="button" id="searchZipCodeBtn" class="btn1" onclick="findPostCode()">주소검색</button>
                         </li>
                         <li>
-                            <input class="input_box" th:field="*{basicAddress}" placeholder="기본주소" type="text"/>
+                            <input class="input_box" th:field="*{basicAddress}" placeholder="기본주소" type="text" disabled/>
                         </li>
                         <li>
                             <input class="input_box" th:field="*{detailAddress}" placeholder="상세주소(선택 가능)"
@@ -144,7 +144,7 @@
                         <li class="verify_sec">
                             <p class="join_tit ess">인증번호</p>
                             <div class="verify">
-                                <input th:field="*{verificationNo}" class="input_box inputTypeText" placeholder=""
+                                <input id="verificationNo" class="input_box inputTypeText" placeholder=""
                                        maxlength="6" type="text"/>
                                 <span class="time" id="expiryTime"></span>
                             </div>
@@ -507,7 +507,8 @@
                 </div>
             </div>
             <div class="submit_btn">
-                <button type="submit" class="btn1 cancel_btn">
+                <button type="button" class="btn1 cancel_btn"
+                        onclick="location.href='../index.html'" th:onclick="|location.href='@{/}'|">
                     취소
                 </button>
                 <button type="submit" class="btn1 join_btn">
@@ -517,5 +518,6 @@
         </form>
     </div>
 </div>
+<div th:replace="~{/layout/footer :: footer}"></div>
 </body>
 </html>

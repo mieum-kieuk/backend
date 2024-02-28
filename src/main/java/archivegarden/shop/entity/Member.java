@@ -1,10 +1,15 @@
 package archivegarden.shop.entity;
 
-import archivegarden.shop.web.form.MemberSaveDto;
+import archivegarden.shop.dto.member.MemberSaveDto;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static jakarta.persistence.CascadeType.ALL;
 
 @Getter
 @Entity
@@ -20,18 +25,24 @@ public class Member extends BaseTimeEntity {
 
     private String password;
     private String name;
+
+    @Column(name = "phone_number")
     private String phonenumber;
+
     private String email;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(value = EnumType.STRING)
     private Grade grade;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(value = EnumType.STRING)
     private Authority authority;
 
-    private boolean isEmailVerified;
-    private boolean agree_to_receive_sms;
-    private boolean agree_to_receive_email;
+    private String agree_to_receive_sms;
+    private String agree_to_receive_mail;
+    private String isEmailVerified;
+
+    @OneToMany(mappedBy = "member", cascade = ALL)
+    private List<ShippingAddress> shippingAddressList = new ArrayList<>();
 
     public Member(MemberSaveDto dto) {
         this.loginId = dto.getLoginId();
@@ -39,10 +50,10 @@ public class Member extends BaseTimeEntity {
         this.name = dto.getName();
         this.phonenumber = dto.getPhonenumber();
         this.email = dto.getEmail();
-        this.grade = Grade.GREEN;
+        this.grade = Grade.WHITE;
         this.authority = Authority.ROLE_USER;
-        this.isEmailVerified = false;
-        this.agree_to_receive_sms = dto.isAgree_to_receive_sms();
-        this.agree_to_receive_email = dto.isAgree_to_receive_email();
+        this.agree_to_receive_sms = Boolean.toString(dto.isAgree_to_receive_sms()).toUpperCase();
+        this.agree_to_receive_mail = Boolean.toString(dto.isAgree_to_receive_mail()).toUpperCase();
+        this.isEmailVerified = Boolean.toString(false).toUpperCase();
     }
 }

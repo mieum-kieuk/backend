@@ -5,7 +5,6 @@ let isValidName = false;
 let isValidEmail = false;
 let isValidPhone = false;
 let isValidVerificationCode = false;
-let isValidAgree = false;
 
 $(document).ready(function () {
 
@@ -35,7 +34,6 @@ $(document).ready(function () {
             url: '/members/verification/loginId',
             data: {loginId: loginId},
             success: function (result) {
-                console.log(result);
                 if (result) {
                     $('#idMsg').text('사용 가능한 아이디입니다.');
                     $('#idMsg').removeClass('error').addClass('success');
@@ -82,6 +80,7 @@ $(document).ready(function () {
         } else {
 
             if (password === confirmPassword) {
+                $('#pwconfirmMsg').text('');
                 isValidPwConfirm = true;
             } else {
                 $('#pwconfirmMsg').text('비밀번호가 일치하지 않습니다.');
@@ -89,7 +88,6 @@ $(document).ready(function () {
             }
         }
     });
-
 
     // 이름 입력란 유효성 검사
     $('#name_content input').on('focusout', function () {
@@ -101,7 +99,7 @@ $(document).ready(function () {
             return;
         }
 
-        var regex = /^[가-힣a-zA-Z]{2,5}$/;
+        var regex = /^[가-힣a-zA-Z]{2,12}$/;
         if (!regex.test(name)) {
             $('#nameMsg').text('한글, 영문 대/소문자를 사용해 주세요. (특수기호, 공백 사용 불가)');
             isValidName = false;
@@ -128,8 +126,25 @@ $(document).ready(function () {
             isValidEmail = false;
             return;
         }
-
         $('#emailMsg').text('');
+
+        // AJAX 호출
+        $.ajax({
+            type: 'POST',
+            url: '/members/verification/email',
+            data: {email: email},
+            success: function (result) {
+                if (result) {
+                    $('#emailMsg').text('사용 가능한 이메일입니다.');
+                    $('#emailMsg').removeClass('error').addClass('success');
+                    isValidEmail = true;
+                } else {
+                    $('#emailMsg').text('이미 사용 중인 이메일입니다.');
+                    $('#emailMsg').removeClass('success').addClass('error');
+                    isValidEmail = false;
+                }
+            }
+        })
         isValidEmail = true;
     });
 
@@ -229,7 +244,6 @@ $(document).ready(function () {
 
 //회원가입 완료
 function signUp() {
-    console.log($('#agree_to_terms_of_use').val());
     if (!isValidId) {
         alert("아이디를 확인해주세요");
         return false;
@@ -239,7 +253,7 @@ function signUp() {
         return false;
     }
     if (!isValidPwConfirm) {
-        alert("비밀번호 확인란을 확인해주세요");
+        alert("비밀번호가 일치하지 않습니다.");
         return false;
     }
     if (!isValidName) {
@@ -259,39 +273,17 @@ function signUp() {
         return false;
     }
 
-    //이용약관 안넘어가는검증필
-    // if(!isValidAgree) {
-        // alert("이용약관에 동의해주세요.");
-    //     return false;
-    // }
+    if(!$('#agree_to_terms_of_use').is(':checked')) {
+        alert("이용약관 동의를 확인해 주세요.");
+        return false;
+    }
 
-    window.location.href = 'join_success.html';
+    if(!$('#agree_to_personal_information').is(':checked')) {
+        alert("개인정보 수집 및 이용 동의를 확인해 주세요.");
+        return false;
+    }
+
     return true;
 }
-
-$(document).ready(function() {
-
-    $('#submitBtn').on('click', function() {
-        signUp();
-    });
-
-    // var userInfo = {
-    //     userId: 'user123',
-    //     userName: '홍길동',
-    //     userEmail: 'user123@example.com',
-    //     memberGrade: '일반 회원'
-    // };
-
-    // $('#userId').text(userInfo.userId);
-    // $('#userName').text(userInfo.userName);
-    // $('#userEmail').text(userInfo.userEmail);
-    // $('#memberGrade').text(userInfo.memberGrade);
-
-    // $('.home_btn').click(function() {
-    //     window.location.href = 'home.html';
-    // });
-
-});
-
 
 

@@ -1,15 +1,24 @@
-package archivegarden.shop.service;
+package archivegarden.shop.service.member;
 
-import archivegarden.shop.entity.Member;
-import archivegarden.shop.repository.MemberRepository;
 import archivegarden.shop.dto.member.MemberSaveDto;
+import archivegarden.shop.dto.member.NewMemberInfo;
+import archivegarden.shop.dto.member.VerificationRequestDto;
+import archivegarden.shop.entity.Member;
+import archivegarden.shop.entity.ShippingAddress;
+import archivegarden.shop.repository.MemberRepository;
+import archivegarden.shop.util.RedisUtil;
+import archivegarden.shop.util.SmsUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
-import java.util.Optional;
+import java.util.NoSuchElementException;
+import java.util.Random;
 
+@Slf4j
 @RequiredArgsConstructor
 @Transactional
 @Service
@@ -17,12 +26,27 @@ public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
+    private final RedisUtil redisUtil;
+    private final SmsUtil smsUtil;
 
     @Override
     public Long join(MemberSaveDto dto) {
-        encodePassword(dto);    //비밀번호 암호화
+        //비밀번호 암호화
+        encodePassword(dto);
+
+        //멤버 생성
         Member member = new Member(dto);
+
+        //배송주소 생성
+        if(StringUtils.hasText(dto.getAddress())) {
+            ShippingAddress.createShippingAddressWhenJoin(member, dto.getAddress());
+        }
+
+        //멤버 저장
         memberRepository.save(member);
+
+        //인증 이메일 전송
+
         return member.getId();
     }
 
@@ -51,6 +75,55 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public boolean duplicatePhonenumber(String phonenumber) {
         return memberRepository.findByPhonenumber(phonenumber).isEmpty();
+    }
+
+    /**
+     * 인증코드 전송
+     */
+    @Override
+    public void sendVerificationNo(String to) {
+        if(redisUtil.existData(to)) {
+            redisUtil.deleteData(to);
+        }
+
+        String verificationNo = createVerificationNo();
+        log.info("verificationNo={}", verificationNo);
+
+//        smsUtil.sendOne(to, verificationNo);
+
+        redisUtil.setDataExpire(to, verificationNo, 60 * 3L);
+    }
+
+    /**
+     * 인증코드 검증
+     */
+    @Override
+    public boolean validateVerificationNo(VerificationRequestDto requestDto) {
+        String phonenumber = requestDto.getPhonenumber1() + requestDto.getPhonenumber2() + requestDto.getPhonenumber3();
+
+        if(redisUtil.existData(phonenumber)) {
+            return redisUtil.getData(phonenumber).equals(requestDto.getVerificationNo());
+        }
+
+        return false;
+    }
+
+    /**
+     * 회원 가입 완료페이지에서 필요한 정보 조회
+     */
+    @Override
+    public NewMemberInfo getNewMemberInfo(Long memberId) {
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new NoSuchElementException("존재하지 않는 회원입니다."));
+        return new NewMemberInfo(member);
+    }
+
+    /**
+     * 111111 ~ 999999 범위의  인증번호 생성
+     */
+    private String createVerificationNo() {
+        Random random = new Random();
+        int verificationNo = random.nextInt(888888) + 111111;
+        return String.valueOf(verificationNo);
     }
 
     private void encodePassword(MemberSaveDto dto) {
