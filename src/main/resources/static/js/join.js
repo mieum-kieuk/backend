@@ -261,11 +261,37 @@ function signUp() {
 
     //이용약관 안넘어가는검증필
     // if(!isValidAgree) {
+        // alert("이용약관에 동의해주세요.");
     //     return false;
     // }
 
+    window.location.href = 'join_success.html';
     return true;
 }
+
+$(document).ready(function() {
+
+    $('#submitBtn').on('click', function() {
+        signUp();
+    });
+
+    // var userInfo = {
+    //     userId: 'user123',
+    //     userName: '홍길동',
+    //     userEmail: 'user123@example.com',
+    //     memberGrade: '일반 회원'
+    // };
+
+    // $('#userId').text(userInfo.userId);
+    // $('#userName').text(userInfo.userName);
+    // $('#userEmail').text(userInfo.userEmail);
+    // $('#memberGrade').text(userInfo.memberGrade);
+
+    // $('.home_btn').click(function() {
+    //     window.location.href = 'home.html';
+    // });
+
+});
 
 
 

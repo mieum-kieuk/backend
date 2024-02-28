@@ -122,14 +122,11 @@
                                 <p>-</p><input id="phonenumber2" class="input_box" placeholder="" value="" type="text"/>
                                 <p>-</p><input id="phonenumber3" class="input_box" placeholder="" value="" type="text"/>
                             </div>
-                            <span id="phoneMsg"></span>
                             <button type="button" id="btn_action_verify_mobile" class="btn1"
                                     onclick="userVerifyMobile.joinSendVerificationNumber(); return true;">인증번호받기
                             </button>
                         </li>
-
-                        <li class="txtInfo displaynone" id="result_send_verify_mobile_success"></li>
-                        <li class="displaynone" id="result_send_verify_mobile_fail"></li>
+                        <span id="phoneNumberMsg"></span>
 
                     </ul>
                     <ul class="displaynone" id="confirm_verify_mobile">
@@ -145,6 +142,9 @@
                                 onclick="userVerifyMobile.joinVerifySmsNumberConfirm(); return false;">확인
                         </button>
                     </ul>
+
+                    <span id="verificationMsg"></span>
+
                     <ul>
                         <li scope="row">
                             <p class="join_tit ess ">이메일</p>
