@@ -19,8 +19,12 @@ public class MemberSaveForm {
 
     private String passwordConfirm;
 
-    @Pattern(regexp = "^[a-zA-z가-힣]{1,40}$", message = "한글, 영문 대/소문자를 사용해 주세요. (특수기호, 공백 사용 불가)")
+    @Pattern(regexp = "^[a-zA-z가-힣]{1,12}$", message = "한글, 영문 대/소문자를 사용해 주세요. (특수기호, 공백 사용 불가)")
     private String name;
+
+    private String zipcode;     //우편번호
+    private String address1;    //기본주소
+    private String address2;    //상세주소
 
     @Pattern(regexp = "^01(0|1|[6-9])$")
     private String phonenumber1;
@@ -34,7 +38,7 @@ public class MemberSaveForm {
     @Pattern(regexp = "^(\\d){6}$")
     private String verificationCode;
 
-    @Pattern(regexp = "[0-9a-zA-Z]+(.[_a-z0-9-]+)*@(?:\\w+\\.)+\\w+$", message = "유효한 이메일을 입력해 주세요.")
+    @Pattern(regexp = "^[A-Za-z0-9_\\.\\-]+@[A-Za-z0-9\\-]+\\.[A-Za-z0-9\\-]+$", message = "유효한 이메일을 입력해 주세요.")
     private String email;
 
     @AssertTrue(message = "이용약관에 동의해 주세요.")

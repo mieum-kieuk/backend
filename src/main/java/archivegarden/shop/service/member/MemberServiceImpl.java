@@ -2,7 +2,7 @@ package archivegarden.shop.service;
 
 import archivegarden.shop.entity.Member;
 import archivegarden.shop.repository.MemberRepository;
-import archivegarden.shop.web.form.MemberSaveDto;
+import archivegarden.shop.dto.member.MemberSaveDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -32,8 +32,7 @@ public class MemberServiceImpl implements MemberService {
      */
     @Override
     public boolean duplicateLoginId(String loginId) {
-        Optional<Member> optionalMember = memberRepository.findByLoginId(loginId);
-        return optionalMember.isEmpty() ? true : false;
+        return memberRepository.findByLoginId(loginId).isEmpty();
     }
 
     /**
@@ -42,8 +41,16 @@ public class MemberServiceImpl implements MemberService {
      */
     @Override
     public boolean duplicateEmail(String email) {
-        Optional<Member> optionalMember = memberRepository.findByEmail(email);
-        return optionalMember.isEmpty() ? true: false;
+        return memberRepository.findByEmail(email).isEmpty();
+    }
+
+    /**
+     * 사용 가능한 핸드폰 번호 -> true
+     * 이미 존재하는 핸드폰 번호 -> false
+     */
+    @Override
+    public boolean duplicatePhonenumber(String phonenumber) {
+        return memberRepository.findByPhonenumber(phonenumber).isEmpty();
     }
 
     private void encodePassword(MemberSaveDto dto) {

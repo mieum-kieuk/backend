@@ -1,6 +1,6 @@
 package archivegarden.shop.service;
 
-import archivegarden.shop.web.form.MemberSaveDto;
+import archivegarden.shop.dto.member.MemberSaveDto;
 
 public interface MemberService {
 
@@ -9,4 +9,6 @@ public interface MemberService {
     boolean duplicateLoginId(String loginId);
 
     boolean duplicateEmail(String email);
+
+    boolean duplicatePhonenumber(String phonenumber);
 }
