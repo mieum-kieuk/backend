@@ -44,6 +44,12 @@ public class Member extends BaseTimeEntity {
     @OneToMany(mappedBy = "member", cascade = ALL)
     private List<ShippingAddress> shippingAddressList = new ArrayList<>();
 
+    //==연관 관계 메서드==//
+    public void completeEmailVerification() {
+        this.isEmailVerified = Boolean.toString(true).toUpperCase();
+    }
+
+    //==생성자 메서드==//
     public Member(MemberSaveDto dto) {
         this.loginId = dto.getLoginId();
         this.password = dto.getPassword();

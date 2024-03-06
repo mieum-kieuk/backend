@@ -6,6 +6,7 @@ import archivegarden.shop.dto.member.VerificationRequestDto;
 import archivegarden.shop.entity.Member;
 import archivegarden.shop.entity.ShippingAddress;
 import archivegarden.shop.repository.MemberRepository;
+import archivegarden.shop.service.email.EmailService;
 import archivegarden.shop.util.RedisUtil;
 import archivegarden.shop.util.SmsUtil;
 import lombok.RequiredArgsConstructor;
@@ -25,10 +26,14 @@ import java.util.Random;
 public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
+    private final EmailService emailService;
     private final PasswordEncoder passwordEncoder;
     private final RedisUtil redisUtil;
     private final SmsUtil smsUtil;
 
+    /**
+     * 회원가입
+     */
     @Override
     public Long join(MemberSaveDto dto) {
         //비밀번호 암호화
@@ -46,6 +51,7 @@ public class MemberServiceImpl implements MemberService {
         memberRepository.save(member);
 
         //인증 이메일 전송
+        emailService.sendValidationRequestEmail(member.getEmail(), member.getCreatedAt());
 
         return member.getId();
     }
@@ -126,6 +132,9 @@ public class MemberServiceImpl implements MemberService {
         return String.valueOf(verificationNo);
     }
 
+    /**
+     * 비밀번호 암호화
+     */
     private void encodePassword(MemberSaveDto dto) {
         String encodedPassword = passwordEncoder.encode(dto.getPassword());
         dto.setPassword(encodedPassword);
