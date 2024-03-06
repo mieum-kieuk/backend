@@ -14,6 +14,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../../static/css/comm.css" th:href="@{/css/comm.css}"/>
+    <link rel="stylesheet" href="../../static/css/join.css" th:href="@{/css/join.css}"/>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -107,11 +108,11 @@
                             <p class="join_tit btn_included">주소</p>
                         </li>
                         <li>
-                            <input class="input_box" th:field="*{zipCode}" placeholder="우편번호" type="text" disabled/>
+                            <input class="input_box" th:field="*{zipCode}" placeholder="우편번호" type="text" readonly/>
                             <button type="button" id="searchZipCodeBtn" class="btn1" onclick="findPostCode()">주소검색</button>
                         </li>
                         <li>
-                            <input class="input_box" th:field="*{basicAddress}" placeholder="기본주소" type="text" disabled/>
+                            <input class="input_box" th:field="*{basicAddress}" placeholder="기본주소" type="text" readonly/>
                         </li>
                         <li>
                             <input class="input_box" th:field="*{detailAddress}" placeholder="상세주소(선택 가능)"

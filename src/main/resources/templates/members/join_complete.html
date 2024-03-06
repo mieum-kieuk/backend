@@ -13,6 +13,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../../static/css/comm.css" th:href="@{/css/comm.css}"/>
+    <link rel="stylesheet" href="../../static/css/join.css" th:href="@{/css/join.css}"/>
 </head>
 <body>
 <div th:replace="~{/layout/header :: header}"></div>
@@ -34,7 +35,7 @@
             </li>
         </ul>
         <div class="submit_btn">
-            <button type="button" class="btn1 home_btn">메인으로 이동</button>
+            <button type="button" class="btn1 home_btn" onclick="location.href='../index.html'" th:onclick="|location.href='@{/}'|">메인으로 이동</button>
         </div>
     </div>
 </div>
