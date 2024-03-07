@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>아이디 찾기 | Archivegarden</title>
+    <title>비밀번호 찾기 | Archivegarden</title>
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Archivegarden" />
     <meta property="og:description" content="" />
@@ -19,12 +19,12 @@
     <link rel="stylesheet" href="../../css/comm.css" />
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
-    <script defer src="../../js/findId.js"></script>
+    <script defer src="../../js/findPw.js"></script>
 </head>
 <body>
 <div id="find" class="find">
     <div class="find_wrap">
-        <form id="findIdForm" action="find_id_complete" method="post" onsubmit="return validationCheck()">
+        <form id="findPwForm" action="find_pw_complete" method="post" onsubmit="return validationCheck()">
             <div>
                 <div>인증방법</div>
                 <input type="radio" id="findType1" name="findType" value="EMAIL" checked="checked">
@@ -35,7 +35,15 @@
             </div>
             <div class="input_wrap">
                 <ul>
-                    <li id="name_title">
+                    <li>
+                        <p>아이디</p>
+                    </li>
+                    <li class="input_box_wrap">
+                        <input id="loginId" class="inputTypeText" placeholder="" maxlength="20" type="text"/>
+                    </li>
+                </ul>
+                <ul>
+                    <li>
                         <p>이름</p>
                     </li>
                     <li id="name_content" class="input_box_wrap">

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>회원가입 완료 | Archivegarden</title>
+    <title>아이디 찾기 | Archivegarden</title>
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Archivegarden" />
     <meta property="og:description" content="" />
@@ -15,30 +15,30 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
-    <link rel="stylesheet" href="../../css/join.css" />
+    <link rel="stylesheet" href="../../css/login.css" />
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
-    <script defer src="../../js/join.js"></script>
-    <script defer src="../../js/findAddress.js"></script>
+    <script defer src="../../js/findId.js"></script>
 </head>
 <body>
-    <div id="join_succ">
-    <div class="join_succ_wrap">
-    <div class="success_message">
-    <h1>회원가입이 완료 되었습니다.</h1>
-    <p><span id="userId"></span> 님은 <span>[<span id="memberGrade"></span>]</span>입니다.</p>
-    </div>
+<div id="find">
+    <div class="find_wrap">
+        <div class="success_message">
+            <h1>아이디 찾기가 완료 되었습니다.</h1>
+            <p>가입된 아이디가 총 <span id="totalIds"></span>개 있습니다.</p>
+        </div>
         <ul class="user_info">
-        <li><p>아이디</p>  <span id="userId">mary706</span></li>
-        <li><p>이름</p>  <span id="userName">김지우
-            
-        </span></li>
-        <li><p>이메일</p>  <span id="userEmail"></span></li>
+            <li><p>이름</p>  <span id="userName"></span></li>
+            <li><p>이메일</p>  <span id="userEmail"></span></li>
+
+            <li><p>아이디</p> <span id="userId"></span> (<span id="memberGrade"></span>, <span id="joinDate"></span><p>가입)</p></li>
+
         </ul>
-    <div class="submit_btn">
-        <button type="submit" class="btn1 home_btn">메인으로 이동</button>
+        <div class="submit_btn">
+            <button type="submit" id="loginBtn" class="btn1 login_btn">로그인</button>
+            <button type="submit" id="findBtn" class="btn1 find_btn">비밀번호 찾기</button>
+        </div>
     </div>
-    </div>
-    </div>
+</div>
 </body>
 </html>

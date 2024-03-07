@@ -114,3 +114,32 @@ $('input[name="findType"]').change(function () {
         $('.field-error').empty();
     }
 })
+
+$(document).ready(function() {
+
+//    $("#totalIds").text(totalIds);
+//    $("#userName").text(name);
+    $("#userEmail").text(email);
+
+    var maskedId = userId.substring(0, 3) + '*'.repeat(userId.length - 3);
+    $("#userId").text(maskedId);
+
+    $("#memberGrade").text(memberGrade);
+    $("#joinDate").text(joinDate);
+
+    function redirectToLogin() {
+        window.location.href = "/login";
+    }
+
+    function redirectToFindPassword() {
+        window.location.href = "/find_password";
+    }
+
+    $("#loginBtn").click(function() {
+        redirectToLogin();
+    });
+
+    $("#findBtn").click(function() {
+        redirectToFindPassword();
+    });
+});
