@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>로그인 | Archivegarden</title>
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Archivegarden" />
+    <meta property="og:description" content="" />
+    <meta property="og:image" content="" />
+    <meta property="og:url" content="" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="../../css/login.css" />
+    <script defer src="../../js/login.js"></script>
+</head>
+<body>
+<div id="login">
+    <div class="login_wrap">
+        <form action=""  method="post">
+            <div class="input_wrap">
+                <ul>
+                    <li>
+                        <p class="login_tit">ID</p>
+                    </li>
+                    <li class="input_box_wrap">
+                        <input id="loginId" class="inputTypeText" placeholder="" maxlength="20" type="text"/>
+                    </li>
+                </ul>
+                <ul>
+                    <li>
+                        <p class="login_tit">PASSWORD</p>
+                    </li>
+                    <li class="input_box_wrap">
+                        <input id="password" class="input_box" autocomplete="off" maxlength="16" 0="disabled" type="password"/>
+                    </li>
+                </ul>
+            </div>
+            <div class="submit_btn">
+                <button type="submit" id="loginBtn" class="btn1 login_btn">
+                    Sign in
+                </button>
+            </div>
+            <div class="account_btns">
+                <ul class="find_btn">
+                    <li class="btn2"> <a href="/member/id/find_id.html">forgot your id?</a>
+                    </li>
+                    <li class="btn2"><a href="/member/passwd/find_passwd_info.html">or password?</a>
+                    </li>
+                </ul>
+                <ul class="create_btn">
+                    <li class="btn2"><a href="/member/join.html">create account</a></li>
+                </ul>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>
