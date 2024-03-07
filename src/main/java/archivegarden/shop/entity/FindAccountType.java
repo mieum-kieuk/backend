@@ -1,7 +1,7 @@
 package archivegarden.shop.entity;
 
 public enum FindAccountType {
-    EMAIL("이메일"), PHONENUMBER("휴대폰 번호");
+    EMAIL("이메일"), PHONENUMBER("휴대전화번호");
 
     private final String description;
 

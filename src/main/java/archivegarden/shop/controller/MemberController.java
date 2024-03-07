@@ -52,7 +52,7 @@ public class MemberController {
 
         //핸드폰 번호 검증
         if (bindingResult.hasFieldErrors("phonenumber1") || bindingResult.hasFieldErrors("phonenumber2") || bindingResult.hasFieldErrors("phonenumber3")) {
-            bindingResult.rejectValue("phonenumber1", "Invaild", "유효하지 않은 휴대폰 번호입니다. 입력한 번호를 확인해 주세요.");
+            bindingResult.rejectValue("phonenumber1", "Invaild", "유효하지 않은 폰 번호입니다. 입력한 번호를 확인해 주세요.");
         }
 
         if (bindingResult.hasErrors()) {
@@ -90,20 +90,20 @@ public class MemberController {
 
         //정규식 검증
         if (bindingResult.hasErrors()) {
-            return new PhonenumberResponseDto(false, "유효하지 않은 휴대폰 번호입니다. 입력한 번호를 확인해 주세요.");
+            return new PhonenumberResponseDto(false, "유효하지 않은 휴대전화번호입니다. 입력한 번호를 확인해 주세요.");
         }
 
         //중복 검증
         String phonenumber = requestDto.getPhonenumber1() + requestDto.getPhonenumber2() + requestDto.getPhonenumber3();
         boolean isAvailable = memberService.duplicatePhonenumber(phonenumber);
         if (!isAvailable) {
-            return new PhonenumberResponseDto(false, "사용하려는 휴대폰 번호는 이미 다른 계정에 등록되어 있습니다.");
+            return new PhonenumberResponseDto(false, "사용하려는 휴대전화번호는 이미 다른 계정에 등록되어 있습니다.");
         }
 
         //인증번호 전송
         try {
             memberService.sendVerificationNo(phonenumber);
-            return new PhonenumberResponseDto(true, "인증번호가 발송되었습니다. 인증번호를 받지 못하셨다면 휴대폰 번호를 확인해 주세요.");
+            return new PhonenumberResponseDto(true, "인증번호가 발송되었습니다. 인증번호를 받지 못하셨다면 휴대전화번호를 확인해 주세요.");
         } catch (Exception e) {
             return new PhonenumberResponseDto(false, "인증번호 발송 중 오류가 발생했습니다. 다시 시도해 주세요.");
         }

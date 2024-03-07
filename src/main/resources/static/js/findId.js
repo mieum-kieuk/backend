@@ -38,7 +38,7 @@ $(document).ready(function () {
         regexEmail = true;
     });
 
-    // 휴대폰 번호 입력란 유효성 검사
+    // 휴대전화번호 입력란 유효성 검사
     $('#phonenumber2, #phonenumber3').on('focusout', function () {
         let phonenumber2= $('#phonenumber2').val();
         let phonenumber3= $('#phonenumber3').val();
@@ -86,12 +86,12 @@ function validationCheck() {
 
     if(byPhonenumber) {
         if (!isPhonenumberPresent) {
-            alert("휴대폰 번호를 입력해 주세요.");
+            alert("휴대전화번호를 입력해 주세요.");
             return false;
         }
 
         if (!regexPhonenumber) {
-            alert("휴대폰 번호 형식에 맞게 입력해 주세요.");
+            alert("휴대전화번호 형식에 맞게 입력해 주세요.");
             return false;
         }
     }

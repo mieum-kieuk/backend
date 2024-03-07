@@ -33,7 +33,7 @@ public class FindIdValidator implements Validator {
             } else if (!Pattern.matches("^[A-Za-z0-9_\\.\\-]+@[A-Za-z0-9\\-]+\\.[A-Za-z0-9\\-]+$", form.getEmail())) {
                 errors.rejectValue("email", "regex");
             }
-        //휴대폰번호
+        //휴대전화번호
         } else {
             if (!Pattern.matches("^01(0|1|[6-9])$", form.getPhonenumber1()) ||
                     !Pattern.matches("^(\\d){3,4}$", form.getPhonenumber2()) ||
