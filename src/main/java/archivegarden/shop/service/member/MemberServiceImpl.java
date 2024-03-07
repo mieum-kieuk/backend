@@ -1,8 +1,7 @@
 package archivegarden.shop.service.member;
 
-import archivegarden.shop.dto.member.MemberSaveDto;
-import archivegarden.shop.dto.member.NewMemberInfo;
-import archivegarden.shop.dto.member.VerificationRequestDto;
+import archivegarden.shop.dto.member.*;
+import archivegarden.shop.entity.FindAccountType;
 import archivegarden.shop.entity.Member;
 import archivegarden.shop.entity.ShippingAddress;
 import archivegarden.shop.repository.MemberRepository;
@@ -17,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.Random;
 
 @Slf4j
@@ -121,6 +121,24 @@ public class MemberServiceImpl implements MemberService {
     public NewMemberInfo getNewMemberInfo(Long memberId) {
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new NoSuchElementException("존재하지 않는 회원입니다."));
         return new NewMemberInfo(member);
+    }
+
+    /**
+     * 아이디 찾기
+     */
+    @Override
+    public Optional<FindIdResultDto> findId(FindIdForm form) {
+
+        if(form.getFindType() == FindAccountType.EMAIL) {
+            Optional<Member> optionalMember = memberRepository.findByNameAndEmail(form.getName(), form.getEmail());
+            return optionalMember.map(m -> new FindIdResultDto(m));
+        } else if (form.getFindType() == FindAccountType.PHONENUMBER) {
+            String phonenumber = form.getPhonenumber1() + form.getPhonenumber2() + form.getPhonenumber3();
+            Optional<Member> optionalMember = memberRepository.findByNameAndPhonenumber(form.getName(), phonenumber);
+            return optionalMember.map(m -> new FindIdResultDto(m));
+        }
+
+        return Optional.empty();
     }
 
     /**

@@ -1,8 +1,8 @@
 package archivegarden.shop.service.member;
 
-import archivegarden.shop.dto.member.MemberSaveDto;
-import archivegarden.shop.dto.member.NewMemberInfo;
-import archivegarden.shop.dto.member.VerificationRequestDto;
+import archivegarden.shop.dto.member.*;
+
+import java.util.Optional;
 
 public interface MemberService {
 
@@ -19,4 +19,6 @@ public interface MemberService {
     boolean validateVerificationNo(VerificationRequestDto requestDto);
 
     NewMemberInfo getNewMemberInfo(Long memberId);
+
+    Optional<FindIdResultDto> findId(FindIdForm form);
 }
