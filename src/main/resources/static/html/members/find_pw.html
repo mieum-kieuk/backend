@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
-    <link rel="stylesheet" href="../../css/login.css" />
+    <link rel="stylesheet" href="../../css/find.css" />
     <link rel="stylesheet" href="../../css/comm.css" />
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
@@ -25,13 +25,16 @@
 <div id="find" class="find">
     <div class="find_wrap">
         <form id="findPwForm" action="find_pw_complete" method="post" onsubmit="return validationCheck()">
-            <div>
-                <div>인증방법</div>
-                <input type="radio" id="findType1" name="findType" value="EMAIL" checked="checked">
-                <label for="findType1">이메일</label>
-                <input type="radio" id="findType2" name="findType" value="PHONENUMBER">
-                <label for="findType2">휴대전화번호</label>
-
+            <div class="auth_select">
+                <p>인증방법</p>
+                <div class="radio_wrap">
+                    <div>
+                        <input type="radio" id="findType1" name="findType" value="EMAIL" checked="checked">
+                        <label for="findType1">이메일</label></div>
+                    <div>
+                        <input type="radio" id="findType2" name="findType" value="PHONENUMBER">
+                        <label for="findType2">휴대전화번호</label></div>
+                </div>
             </div>
             <div class="input_wrap">
                 <ul>

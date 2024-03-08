@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>아이디 찾기 | Archivegarden</title>
+    <title>비밀번호 찾기 | Archivegarden</title>
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Archivegarden" />
     <meta property="og:description" content="" />
@@ -18,25 +18,23 @@
     <link rel="stylesheet" href="../../css/find.css" />
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
-    <script defer src="../../js/findId.js"></script>
+    <script defer src="../../js/findPw.js"></script>
 </head>
 <body>
 <div id="find">
     <div class="find_wrap">
-        <div class="success_message">
-            <h1>아이디 찾기가 완료 되었습니다.</h1>
-            <p>가입된 아이디가 총 <span id="totalIds"></span>개 있습니다.</p>
-        </div>
+
         <ul class="user_info">
-            <li><p>이름</p>  <span id="userName"></span></li>
+            <li><p>임시 비밀번호</p>
+                <span>
+                        <input type="radio" id="findType1" name="findType" value="EMAIL" checked="checked">
+                        <label for="findType1">이메일</label>
+                    </span>
+            </li>
             <li><p>이메일</p>  <span id="userEmail"></span></li>
-
-            <li><p>아이디</p> <span id="userId"></span> (<span id="memberGrade"></span>, <span id="joinDate"></span><p>가입)</p></li>
-
         </ul>
         <div class="submit_btn">
-            <button type="submit" id="loginBtn" class="btn1 login_btn">로그인</button>
-            <button type="submit" id="findBtn" class="btn1 find_btn">비밀번호 찾기</button>
+            <button type="submit" id="sendPwBtn" class="btn1 find_btn">임시 비밀번호 전송</button>
         </div>
     </div>
 </div>
