@@ -2,6 +2,7 @@ package archivegarden.shop.service.email;
 
 import archivegarden.shop.dto.member.MemberSaveDto;
 import archivegarden.shop.dto.member.MemberSaveForm;
+import archivegarden.shop.repository.MemberRepository;
 import archivegarden.shop.service.member.MemberService;
 import archivegarden.shop.util.RedisUtil;
 import org.junit.jupiter.api.DisplayName;
@@ -9,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,7 +30,13 @@ class EmailServiceTest {
     private MemberService memberService;
 
     @Autowired
+    private MemberRepository memberRepository;
+
+    @Autowired
     private RedisUtil redisUtil;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Test
     @DisplayName("인증 이메일 전송")
@@ -112,4 +120,21 @@ class EmailServiceTest {
         //then
         assertThat(result).isEqualTo("email/email_verification_fail");
     }
+
+    @Test
+    @DisplayName("임시 비밀번호 전송")
+    public void EmailServiceTest() throws Exception {
+        //given
+        String originPassword = "test1234!!";
+        String to = "veryvery98@naver.com";
+        memberService.join(new MemberSaveDto(new MemberSaveForm("test1234", originPassword, "test1234!!", "테스터", "", "", "", "010", "1111", "1111", to, true, true, true, true)));
+
+        //when
+        emailService.sendTempPassword(to);
+
+        //then
+        String encodedPassword = memberRepository.findByEmail(to).get().getPassword();
+        assertThat(passwordEncoder.matches(originPassword, encodedPassword)).isFalse();
+    }
+
 }

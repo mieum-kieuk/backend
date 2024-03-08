@@ -131,12 +131,26 @@ public class MemberServiceImpl implements MemberService {
 
         if(form.getFindType() == FindAccountType.EMAIL) {
             return memberRepository.findByNameAndEmail(form.getName(), form.getEmail()).map(FindIdResultDto::new);
-        } else if (form.getFindType() == FindAccountType.PHONENUMBER) {
+        } else {
             String phonenumber = form.getPhonenumber1() + form.getPhonenumber2() + form.getPhonenumber3();
             return memberRepository.findByNameAndPhonenumber(form.getName(), phonenumber).map(FindIdResultDto::new);
         }
+    }
 
-        return Optional.empty();
+    /**
+     * 비밀번호 찾기
+     *
+     * @return: 회원 이메일
+     */
+    @Override
+    public String findPassword(FindPasswordForm form) {
+
+        if(form.getFindType() == FindAccountType.EMAIL) {
+           return memberRepository.findPasswordByEmail(form.getLoginId(), form.getName(), form.getEmail());
+        } else {
+            String phonenumber = form.getPhonenumber1() + form.getPhonenumber2() + form.getPhonenumber3();
+            return memberRepository.findPasswordByPhonenumber(form.getLoginId(), form.getName(), phonenumber);
+        }
     }
 
     /**

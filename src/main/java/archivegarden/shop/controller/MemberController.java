@@ -4,6 +4,7 @@ import archivegarden.shop.dto.member.*;
 import archivegarden.shop.entity.FindAccountType;
 import archivegarden.shop.service.member.MemberService;
 import archivegarden.shop.web.validation.FindIdValidator;
+import archivegarden.shop.web.validation.FindPasswordValidator;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -24,10 +25,16 @@ public class MemberController {
 
     private final MemberService memberService;
     private final FindIdValidator findIdValidator;
+    private final FindPasswordValidator findPasswordValidator;
 
     @InitBinder(value = "findIdForm")
-    public void init(WebDataBinder dataBinder) {
+    public void initFindIdBinder(WebDataBinder dataBinder) {
         dataBinder.addValidators(findIdValidator);
+    }
+
+    @InitBinder(value = "findPasswordForm")
+    public void initFindPasswordBinder(WebDataBinder dataBinder) {
+        dataBinder.addValidators(findPasswordValidator);
     }
 
     @ModelAttribute("findAccountTypes")
@@ -128,17 +135,50 @@ public class MemberController {
         }
 
         Optional<FindIdResultDto> result = memberService.findId(form);
-        if(result.isPresent()) {
-            redirectAttributes.addFlashAttribute("member", result.get());
-            return "redirect:/members/find-id/complete";
-        } else {
+        if(result.isEmpty()) {
             bindingResult.reject("memberNotFound");
             return "members/find_id";
+        } else {
+            redirectAttributes.addFlashAttribute("member", result.get());
+            return "redirect:/members/find-id/complete";
         }
     }
 
     @GetMapping("/find-id/complete")
     public String findIdResult(@ModelAttribute("member") FindIdResultDto dto) {
         return "members/find_id_complete";
+    }
+
+    @GetMapping("/find-password")
+    public String findPasswordForm(@ModelAttribute("findPasswordForm") FindPasswordForm form) {
+        return "members/find_pw";
+    }
+
+    @PostMapping("/find-password")
+    public String verifyFindPassword(@Validated @ModelAttribute("findPasswordForm") FindPasswordForm form, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+
+        if(bindingResult.hasErrors()) {
+            return "members/find_pw";
+        }
+
+        String email = memberService.findPassword(form);
+        if(email == null) {
+            bindingResult.reject("memberNotFound");
+            return "members/find_pw";
+        } else {
+            redirectAttributes.addAttribute("email", email);
+            return "redirect:/members/find-password/send";
+        }
+    }
+
+    @GetMapping("/find-password/send")
+    public String verifyFindPasswordSuccess(@RequestParam("email") String email, Model model) {
+        model.addAttribute("email", email);
+        return "members/find_pw_send";
+    }
+
+    @GetMapping("/find-password/complete")
+    public String findPasswordResult() {
+        return "members/find_pw_complete";
     }
 }

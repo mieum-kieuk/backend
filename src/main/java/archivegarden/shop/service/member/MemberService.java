@@ -21,4 +21,6 @@ public interface MemberService {
     NewMemberInfo getNewMemberInfo(Long memberId);
 
     Optional<FindIdResultDto> findId(FindIdForm form);
+
+    String findPassword(FindPasswordForm form);
 }

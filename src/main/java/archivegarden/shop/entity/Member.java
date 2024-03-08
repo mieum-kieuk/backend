@@ -49,6 +49,10 @@ public class Member extends BaseTimeEntity {
         this.isEmailVerified = Boolean.toString(true).toUpperCase();
     }
 
+    public void updatePassword(String password) {
+        this.password = password;
+    }
+
     //==생성자 메서드==//
     public Member(MemberSaveDto dto) {
         this.loginId = dto.getLoginId();
