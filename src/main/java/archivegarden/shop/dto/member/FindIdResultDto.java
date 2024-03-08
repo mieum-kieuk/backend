@@ -1,12 +1,11 @@
 package archivegarden.shop.dto.member;
 
-import archivegarden.shop.entity.Grade;
 import archivegarden.shop.entity.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Getter
 @Setter
@@ -16,14 +15,20 @@ public class FindIdResultDto {
     private String name;
     private String email;
     private String loginId;
-    private Grade grade;
-    private LocalDateTime createdAt;
+    private String grade;
+    private String createdAt;
 
     public FindIdResultDto(Member member) {
         this.name = member.getName();
         this.email = member.getEmail();
-        this.loginId = member.getLoginId();
-        this.grade = member.getGrade();
-        this.createdAt = member.getCreatedAt();
+
+        String newLoginId = member.getLoginId().substring(0, 3);
+        for(int i = 3; i < member.getLoginId().length(); i++) {
+            newLoginId += "*";
+        }
+        this.loginId = newLoginId;
+
+        this.grade = member.getGrade() + "회원";
+        this.createdAt = DateTimeFormatter.ofPattern("yyyy년 M월 d일").format(member.getCreatedAt());
     }
 }

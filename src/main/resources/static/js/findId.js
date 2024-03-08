@@ -115,6 +115,7 @@ $('input[name="findType"]').change(function () {
     }
 })
 
+/*
 $(document).ready(function() {
 
 //    $("#totalIds").text(totalIds);
@@ -143,3 +144,4 @@ $(document).ready(function() {
         redirectToFindPassword();
     });
 });
+ */

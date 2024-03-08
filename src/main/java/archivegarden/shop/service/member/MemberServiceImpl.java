@@ -130,12 +130,10 @@ public class MemberServiceImpl implements MemberService {
     public Optional<FindIdResultDto> findId(FindIdForm form) {
 
         if(form.getFindType() == FindAccountType.EMAIL) {
-            Optional<Member> optionalMember = memberRepository.findByNameAndEmail(form.getName(), form.getEmail());
-            return optionalMember.map(m -> new FindIdResultDto(m));
+            return memberRepository.findByNameAndEmail(form.getName(), form.getEmail()).map(FindIdResultDto::new);
         } else if (form.getFindType() == FindAccountType.PHONENUMBER) {
             String phonenumber = form.getPhonenumber1() + form.getPhonenumber2() + form.getPhonenumber3();
-            Optional<Member> optionalMember = memberRepository.findByNameAndPhonenumber(form.getName(), phonenumber);
-            return optionalMember.map(m -> new FindIdResultDto(m));
+            return memberRepository.findByNameAndPhonenumber(form.getName(), phonenumber).map(FindIdResultDto::new);
         }
 
         return Optional.empty();

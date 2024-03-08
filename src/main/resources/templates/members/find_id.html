@@ -23,9 +23,9 @@
 </head>
 <body>
 <div th:replace="~{/layout/header :: header}"></div>
-<div id="find_id" class="find">
+<div id="find" class="find">
     <div class="find_wrap">
-        <form id="findIdForm" action="" th:action th:object="${form}" method="post" th:onsubmit="return validationCheck()">
+        <form id="findIdForm" action="" th:action th:object="${findIdForm}" method="post" th:onsubmit="return validationCheck()">
             <div th:if="${#fields.hasGlobalErrors()}">
                 <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">전체 오류 메세지</p>
             </div>
@@ -92,7 +92,7 @@
 
 <script th:inline="javascript">
     $(document).ready(function () {
-        let findType = [[${form.findType}]]
+        let findType = [[${findIdForm.findType}]]
         if (findType == null || findType === 'EMAIL') {
             $('#findType1').attr('checked', 'checked');
             $('#phonenumber_view').hide();

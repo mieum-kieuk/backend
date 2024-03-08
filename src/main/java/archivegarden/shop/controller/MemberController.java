@@ -25,7 +25,7 @@ public class MemberController {
     private final MemberService memberService;
     private final FindIdValidator findIdValidator;
 
-    @InitBinder
+    @InitBinder(value = "findIdForm")
     public void init(WebDataBinder dataBinder) {
         dataBinder.addValidators(findIdValidator);
     }
@@ -41,7 +41,7 @@ public class MemberController {
     }
 
     @PostMapping("/join")
-    public String join(@Validated @ModelAttribute("form") MemberSaveForm form, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    public String join(@Valid @ModelAttribute("form") MemberSaveForm form, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
         //비밀번호 == 비밀번호 확인 검증
         if (StringUtils.hasText(form.getPassword())) {
@@ -116,12 +116,12 @@ public class MemberController {
     }
 
     @GetMapping("/find-id")
-    public String findIdForm(@ModelAttribute("form") FindIdForm form) {
+    public String findIdForm(@ModelAttribute("findIdForm") FindIdForm form) {
         return "members/find_id";
     }
 
     @PostMapping("/find-id")
-    public String findId(@Validated @ModelAttribute("form") FindIdForm form, BindingResult bindingResult, Model model) {
+    public String findId(@Validated @ModelAttribute("findIdForm") FindIdForm form, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
             return "members/find_id";
@@ -129,11 +129,16 @@ public class MemberController {
 
         Optional<FindIdResultDto> result = memberService.findId(form);
         if(result.isPresent()) {
-            model.addAttribute("member", result);
-            return "redirect:/members/find-id/result";
+            redirectAttributes.addFlashAttribute("member", result.get());
+            return "redirect:/members/find-id/complete";
         } else {
             bindingResult.reject("memberNotFound");
             return "members/find_id";
         }
+    }
+
+    @GetMapping("/find-id/complete")
+    public String findIdResult(@ModelAttribute("member") FindIdResultDto dto) {
+        return "members/find_id_complete";
     }
 }
