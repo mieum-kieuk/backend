@@ -12,81 +12,84 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
-    <link rel="stylesheet" href="../../static/css/login.css" th:href="@{/css/login.css}"/>
+    <link rel="stylesheet" href="../../static/css/find.css" th:href="@{/css/find.css}"/>
     <link rel="stylesheet" href="../../static/css/comm.css" th:href="@{/css/comm.css}"/>
-    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-
     <script defer src="../../static/js/findId.js" th:src="@{/js/findId.js}"></script>
+
+    <style>
+        .field-error {
+            margin-top: 3px;
+        }
+    </style>
 </head>
-<body>
 <div th:replace="~{/layout/header :: header}"></div>
+<body>
 <div id="find" class="find">
-    <div class="find_wrap">
-        <form id="findIdForm" action="" th:action th:object="${findIdForm}" method="post" th:onsubmit="return validationCheck()">
-            <div th:if="${#fields.hasGlobalErrors()}">
-                <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">전체 오류 메세지</p>
-            </div>
-            <div>
-                <div>인증방법</div>
+    <form id="findIdForm" action="" th:action th:object="${findIdForm}" method="post"
+          th:onsubmit="return validationCheck()">
+        <div th:if="${#fields.hasGlobalErrors()}">
+            <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">전체 오류 메세지</p>
+        </div>
+        <div class="auth_select">
+            <p>인증방법</p>
+            <div class="radio_wrap">
                 <div th:each="type : ${findAccountTypes}">
                     <input type="radio" th:field="*{findType}" th:value="${type.name()}"/>
                     <label th:for="${#ids.prev('findType')}" th:text="${type.description}">
                         이메일
                     </label>
                 </div>
-                <div class="field-error" th:errors="*{findType}"></div>
             </div>
-            <div class="input_wrap">
-                <ul>
-                    <li id="name_title">
-                        <p>이름</p>
-                    </li>
-                    <li id="name_content" class="input_box_wrap">
-                        <input th:field="*{name}" class="input_box ec-user-name" placeholder="" maxlength="12"
-                               type="text"/>
-                    </li>
-                    <div class="field-error" th:errors="*{name}"></div>
-                </ul>
-                <ul id="email_view">
-                    <li>
-                        <p>이메일</p>
-                    </li>
-                    <li class="input_box_wrap">
-                        <input th:field="*{email}" class="input_box" placeholder="" maxlength="45" type="text"/>
-                    </li>
-                    <div class="field-error" th:errors="*{email}"></div>
-                </ul>
-                <ul class="phone_number" id="phonenumber_view">
-                    <li class="">
-                        <p>휴대전화번호</p>
-                    </li>
-                    <li class="phone_number select">
-                        <div class="number_sec">
-                            <select th:field="*{phonenumber1}">
-                                <option value="010">010</option>
-                                <option value="011">011</option>
-                                <option value="016">016</option>
-                                <option value="017">017</option>
-                                <option value="018">018</option>
-                                <option value="019">019</option>
-                            </select>
-                            <p>-</p><input th:field="*{phonenumber2}" class="input_box" placeholder="" maxlength="4"
-                                           type="text"/>
-                            <p>-</p><input th:field="*{phonenumber3}" class="input_box" placeholder="" maxlength="4"
-                                           type="text"/>
-                        </div>
-                        <div class="field-error" th:errors="*{phonenumber1}"></div>
-                    </li>
-                </ul>
-            </div>
-            <div class="submit_btn">
-                <button type="submit" class="btn1 ok_btn">확인</button>
-            </div>
-        </form>
-    </div>
+            <div class="field-error" th:errors="*{findType}"></div>
+        </div>
+        <div class="input_wrap">
+            <ul>
+                <li id="name_title">
+                    <p>이름</p>
+                </li>
+                <li id="name_content" class="input_box_wrap">
+                    <input th:field="*{name}" class="input_box ec-user-name" placeholder="" maxlength="12"
+                           type="text"/>
+                </li>
+                <div class="field-error" th:errors="*{name}"></div>
+            </ul>
+            <ul id="email_view">
+                <li>
+                    <p>이메일</p>
+                </li>
+                <li class="input_box_wrap">
+                    <input th:field="*{email}" class="input_box" placeholder="" maxlength="45" type="text"/>
+                </li>
+                <div class="field-error" th:errors="*{email}"></div>
+            </ul>
+            <ul class="phone_number" id="phonenumber_view">
+                <li class="">
+                    <p>휴대전화번호</p>
+                </li>
+                <li class="phone_number select">
+                    <div class="number_sec">
+                        <select th:field="*{phonenumber1}">
+                            <option value="010">010</option>
+                            <option value="011">011</option>
+                            <option value="016">016</option>
+                            <option value="017">017</option>
+                            <option value="018">018</option>
+                            <option value="019">019</option>
+                        </select>
+                        <p>-</p><input th:field="*{phonenumber2}" class="input_box" placeholder="" maxlength="4"
+                                       type="text"/>
+                        <p>-</p><input th:field="*{phonenumber3}" class="input_box" placeholder="" maxlength="4"
+                                       type="text"/>
+                    </div>
+                    <div class="field-error" th:errors="*{phonenumber1}"></div>
+                </li>
+            </ul>
+        </div>
+        <div class="submit_btn">
+            <button type="submit" class="btn1 ok_btn">확인</button>
+        </div>
+    </form>
 </div>
 <div th:replace="~{/layout/footer :: footer}"></div>
 

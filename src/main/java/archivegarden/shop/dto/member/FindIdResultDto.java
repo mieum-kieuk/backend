@@ -28,7 +28,7 @@ public class FindIdResultDto {
         }
         this.loginId = newLoginId;
 
-        this.grade = member.getGrade() + "회원";
+        this.grade = member.getGrade().toString();
         this.createdAt = DateTimeFormatter.ofPattern("yyyy년 M월 d일").format(member.getCreatedAt());
     }
 }

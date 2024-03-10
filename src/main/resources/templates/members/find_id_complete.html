@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>아이디 찾기 | Archivegarden</title>
+    <title>아이디 찾기 완료 | Archivegarden</title>
     <meta property="og:type" content="website"/>
     <meta property="og:title" content="Archivegarden"/>
     <meta property="og:description" content=""/>
@@ -12,39 +12,32 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
     <link rel="stylesheet" href="../../static/css/comm.css" th:href="@{/css/comm.css}">
-    <link rel="stylesheet" href="../../static/css/login.css" th:href="@{/css/login.css}">
-    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <link rel="stylesheet" href="../../static/css/find.css" th:href="@{/css/find.css}">
 </head>
 <body>
 <div th:replace="~{/layout/header :: header}"></div>
 <div id="find">
     <div class="find_wrap">
         <div class="success_message">
-            <h1>아이디 찾기가 완료 되었습니다.</h1>
+            <h1>아이디 찾기가 완료되었습니다.</h1>
         </div>
         <ul class="user_info">
             <li><p>이름</p>  <span th:text="${member.name}"></span></li>
             <li><p>이메일</p>  <span th:text="${member.email}"></span></li>
-
-            <li><p>아이디</p> <span th:text="${member.loginId}"></span> (<span th:text="${member.grade}"></span>, <span
-                    th:text="${member.createdAt}"></span>
-                <p>가입)</p></li>
-
+            <li><p>아이디</p> <span th:text="|${member.loginId} ( ${member.grade} 회원, ${member.createdAt} 가입 )|"></span></li>
         </ul>
         <div class="submit_btn">
-            <button type="button" id="loginBtn" class="btn1 login_btn" onclick="location.href='./login.html'"
-                    th:onclick="|location.href=@{/login}|">로그인
+            <button type="button" id="loginBtn" class="btn1 login_btn" onclick="location.href='../login.html'"
+                    th:onclick="|location.href='@{/login}'|">로그인
             </button>
             <button type="button" id="findBtn" class="btn1 find_btn" onclick="location.href='./find_pw.html'"
-                    th:onclick="|location.href=@{/members/find-password}|">비밀번호 찾기</button>
+                    th:onclick="|location.href='@{/members/find-password}'|">비밀번호 찾기
+            </button>
         </div>
     </div>
 </div>
 <div th:replace="~{/layout/footer :: footer}"></div>
-
 </body>
 </html>
