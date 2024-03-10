@@ -8,6 +8,17 @@ let isValidVerificationCode = false;
 
 $(document).ready(function () {
 
+    $('input[type="text"]').on('input', function(e) {
+        var maxLength = $(this).attr('maxlength');
+        var textLength = e.target.value.length;
+
+        // 최대 길이 초과 시 입력 제한
+        if (textLength > maxLength) {
+            var trimmedValue = e.target.value.substring(0, maxLength);
+            $(this).val(trimmedValue);
+        }
+    });
+
     // 아이디 입력란 유효성 검사
     $('#loginId').on('focusout', function () {
         var loginId = $(this).val();
@@ -50,6 +61,7 @@ $(document).ready(function () {
     // 비밀번호 입력란 유효성 검사
     $('#password').on('focusout', function () {
         var password = $(this).val();
+        var confirmPassword = $('#passwordConfirm').val();
 
         if (password.trim() === '') {
             $('#pwMsg').text('비밀번호를 입력해주세요.');
@@ -66,7 +78,14 @@ $(document).ready(function () {
 
         $('#pwMsg').text('');
         isValidPw = true;
+
+        // 비밀번호가 일치하면 확인 메시지를 비움
+        if (password === confirmPassword) {
+            $('#pwconfirmMsg').text('');
+            isValidPwConfirm = true;
+        }
     });
+
 
     // 비밀번호 확인란
     $('#passwordConfirm').on('focusout', function () {
@@ -78,7 +97,6 @@ $(document).ready(function () {
             $('#pwconfirmMsg').text('');
             isValidPwConfirm = false;
         } else {
-
             if (password === confirmPassword) {
                 $('#pwconfirmMsg').text('');
                 isValidPwConfirm = true;
@@ -87,7 +105,9 @@ $(document).ready(function () {
                 isValidPwConfirm = false;
             }
         }
+
     });
+
 
     // 이름 입력란 유효성 검사
     $('#name_content input').on('focusout', function () {
@@ -148,13 +168,50 @@ $(document).ready(function () {
         isValidEmail = true;
     });
 
+    $('input[id^="phonenumber"]').on('input', function () {
+        var phonenumber1 = $('#phonenumber1').val();
+        var phonenumber2 = $('#phonenumber2').val();
+        var phonenumber3 = $('#phonenumber3').val();
+        var regex = /^[0-9]{3,4}$/;
+        var regex4 = /^[0-9]{4}$/; // phonenumber3는 4자리
 
+        // 정규식 검사를 통해 유효한 휴대전화번호인지 확인
+        var isValidPhoneNumber = regex.test(phonenumber1) && regex.test(phonenumber2) && regex4.test(phonenumber3);
+
+        if (isValidPhoneNumber) {
+            $('#btn_action_verify_mobile').removeClass('disabled'); // 활성화 클래스 추가
+        } else {
+            $('#btn_action_verify_mobile').addClass('disabled'); // 활성화 클래스 제거
+        }
+        // 인증번호 입력 칸 숨김
+        $('#confirm_verify_mobile').hide();
+        $('#phoneNumberMsg').text('');
+        $('#btn_action_verify_mobile').text('인증번호 받기');
+        // 타이머 초기화
+        clearInterval(interval);
+        $('#expiryTime').text('');
+    });
+
+    $('input[id^="phonenumber"]').on('focusout', function () {
+        var phonenumber1 = $('#phonenumber1').val().trim(); // 공백 제거
+        var phonenumber2 = $('#phonenumber2').val().trim();
+        var phonenumber3 = $('#phonenumber3').val().trim();
+
+        // 입력값이 비어 있는지 확인
+        if (phonenumber1 === '' || phonenumber2 === '' || phonenumber3 === '') {
+            $('#phoneNumberMsg').text('휴대전화번호를 입력해 주세요.');
+            isValidPhone = false;
+            return;
+        }
+    });
+
+// 인증번호 받기 버튼 클릭 시 처리
     $('#btn_action_verify_mobile').on('click', function () {
         var phonenumber1 = $('#phonenumber1').val();
         var phonenumber2 = $('#phonenumber2').val();
         var phonenumber3 = $('#phonenumber3').val();
 
-        //AJAX 호출 - 인증번호 요청
+        // AJAX 호출 - 인증번호 요청
         $.ajax({
             type: 'POST',
             url: '/members/send/verificationNo',
@@ -178,44 +235,11 @@ $(document).ready(function () {
         });
     });
 
-    $('#btn_verify_mobile_confirm').on('click', function () {
-        var phonenumber1 = $('#phonenumber1').val();
-        var phonenumber2 = $('#phonenumber2').val();
-        var phonenumber3 = $('#phonenumber3').val();
-        var verificationNo = $('#verificationNo').val();
-
-        //AJAX 호출 - 인증번호 검증
-        $.ajax({
-            type: 'POST',
-            url: '/members/verification/verificationNo',
-            data: {
-                phonenumber1: phonenumber1,
-                phonenumber2: phonenumber2,
-                phonenumber3: phonenumber3,
-                verificationNo: verificationNo
-            },
-            success: function (result) {
-                if (result) {
-                    $('#expiryTime').css('display', 'none');
-                    $('#verificationNo').val('');
-                    $('#verificationNo').attr('placeholder', '핸드폰 인증 완료');
-                    $('#verificationNo').attr('disabled', true);
-                    $('#verificationNo').css('background-color', '#EFEFEF');
-                    $('#btn_verify_mobile_confirm').attr('disabled', true);
-                    $('#btn_verify_mobile_confirm').css('border', '1px solid #EFEFEF');
-                    isValidVerificationCode = true;
-                } else {
-                    $('#verificationNo').val('');
-                    alert('인증번호가 일치하지 않습니다.\n확인 후 다시 시도해 주세요.');
-                    isValidVerificationCode = false;
-                }
-            }
-        });
-    });
+    var interval; // 전역 변수로 선언
 
     function startTimer() {
         var timer = 180; // 3분 = 180초
-        var interval = setInterval(function () {
+        interval = setInterval(function () {
             var minutes = Math.floor(timer / 60);
             var seconds = timer % 60;
 
@@ -225,11 +249,13 @@ $(document).ready(function () {
                 clearInterval(interval);
                 $('#phoneNumberMsg').text('');
                 $('#confirm_verify_mobile').css('display', 'none');
-                $('#btn_action_verify_mobile').text('인증번호받기');
+                $('#btn_action_verify_mobile').text('인증번호 받기');
                 $('#verificationNo').val('');
             }
         }, 1000);
     }
+
+
 
     $('#agree_group').on('click', "#agree_all", function () {
         var isChecked = $(this).prop('checked');

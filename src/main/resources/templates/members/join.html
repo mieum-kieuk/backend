@@ -17,7 +17,6 @@
     <link rel="stylesheet" href="../../static/css/join.css" th:href="@{/css/join.css}"/>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script defer src="../../static/js/join.js" th:src="@{/js/join.js}"></script>
     <script defer src="../../static/js/findAddress.js" th:src="@{/js/findAddress.js}"></script>
 
@@ -136,22 +135,24 @@
                                 <p>-</p><input th:field="*{phonenumber2}" class="input_box" placeholder="" maxlength="4" type="text"/>
                                 <p>-</p><input th:field="*{phonenumber3}" class="input_box" placeholder="" maxlength="4" type="text"/>
                             </div>
-                            <button type="button" id="btn_action_verify_mobile" class="btn1">인증번호받기</button>
+                            <button type="button" id="btn_action_verify_mobile" class="btn1 disabled">인증번호받기</button>
                         </li>
                         <span id="phoneNumberMsg"></span>
                         <div class="field-error" th:errors="*{phonenumber1}"></div>
                     </ul>
                     <ul class="displaynone" id="confirm_verify_mobile">
-                        <li class="verify_sec">
+                        <li class="verify_sec1">
                             <p class="join_tit ess">인증번호</p>
+                        </li>
+                        <li class="verify_sec2">
                             <div class="verify">
                                 <input id="verificationNo" class="input_box inputTypeText" placeholder=""
                                        maxlength="6" type="text"/>
                                 <span class="time" id="expiryTime"></span>
                             </div>
+                            <button type="button" class="btn1" id="btn_verify_mobile_confirm">확인</button>
+                            <span id="verificationMsg"></span>
                         </li>
-                        <button type="button" class="btn1" id="btn_verify_mobile_confirm">확인</button>
-                        <span id="verificationMsg"></span>
                     </ul>
                     <ul>
                         <li scope="row">

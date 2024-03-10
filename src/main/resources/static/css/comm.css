@@ -88,7 +88,7 @@ body {
 /* 뷰표트 변환시 폰트크기 자동확대 방지 */
 input[type=text], input[type=password], input[type=submit], input[type=search] {
   -webkit-appearance: none;
-  border-radius: 0;
+  border-radius: 2px;
 }
 input:checked[type=checkbox] {
   background-color: #666;
@@ -383,4 +383,5 @@ legend {
 
 .field-error {
   color: #d94747;
+  font-size: 11px;
 }
