@@ -171,3 +171,34 @@ form input::placeholder {
 .find_wrap .user_info li span {
     margin-left: 20px;
 }
+#find_pw {
+    display: flex;
+    justify-content: center;
+    padding-top: 120px;
+}
+#find_pw .find_wrap{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 450px;
+    width: 100%;
+    font-size: 11px;
+}
+#find_pw .find_wrap .success_message {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+#find_pw .find_wrap .success_message span {
+    font-size: 16px;
+    padding: 0 30px;
+}
+#find_pw .find_wrap .user_info {
+    padding: 10px 20px;
+    margin: 30px;
+    border: 1px solid #999;
+    border-radius: 2px;
+}
+#find_pw .find_wrap .submit_btn .login_btn {
+    width: 100%;
+}
