@@ -1,0 +1,37 @@
+#productList {
+    max-width: 2800px;
+    width: 100%;
+}
+#productList .content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.prd_category {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.category_tit {
+    display: flex;
+    flex-direction: row;
+}
+
+.prd_list_wrap {
+    display: flex;
+    justify-content: center;
+}
+
+.prd_list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.thumb img {
+    width: 400px;
+    height: 400px;
+    object-fit: cover;
+}
