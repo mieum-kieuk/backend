@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
 <header th:fragment="header" id="header" class="header">
     <nav id="gnb">
@@ -54,8 +54,9 @@
                 <ul class="depth1">
                     <li class="depth1_menu"><a href="">Account</a>
                         <ul class="depth2">
-                            <li><a href="login.html">Login</a></li>
-                            <li><a href="members/join.html" th:href="@{/members/join}">Join</a></li>
+                            <li><a href="../login.html" sec:authorize="isAnonymous()" th:href="@{/login}">Login</a></li>
+                            <li><a href="../members/join.html" sec:authorize="isAnonymous()" th:href="@{/members/join}">Join</a></li>
+                            <li><a href="../index.html" sec:authorize="isAuthenticated()" th:href="@{/logout}">Logout</a></li>
                             <li><a href="order.html">Order</a></li>
                             <li><a href="mypage.html">Mypage</a></li>
                         </ul>
