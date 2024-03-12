@@ -110,7 +110,7 @@ public class MemberController {
         //인증번호 전송
         try {
             memberService.sendVerificationNo(phonenumber);
-            return new PhonenumberResponseDto(true, "인증번호가 발송되었습니다. 인증번호를 받지 못하셨다면 휴대전화번호를 확인해 주세요.");
+            return new PhonenumberResponseDto(true, "인증번호가 발송되었습니다.\n인증번호를 받지 못하셨다면 휴대전화번호를 확인해 주세요.");
         } catch (Exception e) {
             return new PhonenumberResponseDto(false, "인증번호 발송 중 오류가 발생했습니다. 다시 시도해 주세요.");
         }
@@ -155,30 +155,27 @@ public class MemberController {
     }
 
     @PostMapping("/find-password")
-    public String verifyFindPassword(@Validated @ModelAttribute("findPasswordForm") FindPasswordForm form, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    public String verifyFindPassword(@Validated @ModelAttribute("findPasswordForm") FindPasswordForm form, BindingResult bindingResult, Model model) {
 
         if(bindingResult.hasErrors()) {
             return "members/find_pw";
         }
 
-        String email = memberService.findPassword(form);
-        if(email == null) {
+        String findTypeValue = memberService.findPassword(form);
+        if(findTypeValue == null) {
             bindingResult.reject("memberNotFound");
             return "members/find_pw";
         } else {
-            redirectAttributes.addAttribute("email", email);
-            return "redirect:/members/find-password/send";
+            FindPasswordDto findPasswordDto = new FindPasswordDto(form.getFindType(), findTypeValue);
+            model.addAttribute("dto", findPasswordDto);
+
+            return "members/find_pw_send";
         }
     }
 
-    @GetMapping("/find-password/send")
-    public String verifyFindPasswordSuccess(@RequestParam("email") String email, Model model) {
-        model.addAttribute("email", email);
-        return "members/find_pw_send";
-    }
-
     @GetMapping("/find-password/complete")
-    public String findPasswordResult() {
+    public String findPasswordResult(@ModelAttribute("dto") FindPasswordDto dto, Model model) {
+        model.addAttribute("dto", dto);
         return "members/find_pw_complete";
     }
 }

@@ -42,7 +42,7 @@ public class EmailService {
     public void sendValidationRequestEmail(String to, LocalDateTime created) {
 
         String uuid = UUID.randomUUID().toString();
-        String verificationUrl = "http://localhost:8080/verification/email/link?address=" + to + "&uuid=" + uuid;
+        String verificationUrl = "http://localhost:8080/email/verification/link?address=" + to + "&uuid=" + uuid;
 
         Context context = new Context();
         context.setVariable("email", to);
@@ -52,7 +52,7 @@ public class EmailService {
         MimeMessagePreparator preparator = mimeMessage -> {
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "UTF-8");
 
-            String content = templateEngine.process("email/email_verification_template", context);
+            String content = templateEngine.process("email/template/verification_link", context);
 
             helper.setTo(to);
             helper.setFrom(from);
@@ -74,15 +74,15 @@ public class EmailService {
 
         if(redisUtil.existData(email)) {
             if(Boolean.valueOf(member.getIsEmailVerified())) {    //이미 인증 완료
-                return "email/email_verification_complete";
+                return "email/verification_complete";
             } else if(redisUtil.getData(email).equals(uuid)) {    //처음 성공
                 updateEmailVerified(email);
-                return "email/email_verification_success";
+                return "email/verification_success";
             } else {    //uuid 일치X
-                return "email/email_verification_fail";
+                return "email/verification_fail";
             }
         } else {    //인증 유효 시간 만료
-            return "email/email_verification_timeout";
+            return "email/verification_timeout";
         }
     }
 
@@ -102,20 +102,31 @@ public class EmailService {
      * 임시 비밀번호 발급
      */
     public Long sendTempPassword(String to) throws MessagingException {
-        //엔티티 조회
+
+        //엔티티조회
         Member member = memberRepository.findByEmail(to).orElseThrow(() -> new NoSuchElementException("존재하지 않는 회원입니다."));
 
         //임시 비밀번호 발급
         String tempPassword = getTempPassword();
 
         //임시 비밀번호 전송
-        MimeMessage message = javaMailSender.createMimeMessage();
-        message.setFrom(from);
-        message.setRecipients(Message.RecipientType.TO, to);
-        message.setSubject("[ArchiveGarden] 임시 비밀번호가 발급되었습니다.");
-        message.setText(setTempPasswordContext(member.getName(), tempPassword), "utf-8", "html");
+        Context context = new Context();
+        context.setVariable("name", member.getName());
+        context.setVariable("tempPassword", tempPassword);
+        context.setVariable("loginUrl", "http://localhost:8080/login");
 
-        javaMailSender.send(message);
+        MimeMessagePreparator preparator = mimeMessage -> {
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "UTF-8");
+
+            String content = templateEngine.process("email/template/temp_password", context);
+
+            helper.setTo(to);
+            helper.setFrom(from);
+            helper.setSubject("[ArchiveGarden] 임시 비밀번호가 발급되었습니다.");
+            helper.setText(content, true);
+        };
+
+        javaMailSender.send(preparator);
 
         //비밀번호 업데이트
         String encodedPassword = passwordEncoder.encode(tempPassword);

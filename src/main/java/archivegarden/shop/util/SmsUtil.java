@@ -21,6 +21,9 @@ public class SmsUtil {
     @Value("${coolsms.api.secret}")
     private String apiSecret;
 
+    @Value("${coolsms.api.from}")
+    private String from;
+
     private DefaultMessageService messageService;
 
     @PostConstruct
@@ -30,13 +33,13 @@ public class SmsUtil {
     }
 
     /**
-     * 단일 메시지 발송 예제
+     * 회원가입시 인증 코드 발송
      */
-    public SingleMessageSentResponse sendOne(String to, String verificationCode) {
+    public SingleMessageSentResponse sendVerificationNo(String to, String verificationCode) {
 
         Message message = new Message();
         // 발신번호 및 수신번호는 반드시 01012345678 형태로 입력되어야 합니다.
-        message.setFrom("01043401954");
+        message.setFrom(from);
         message.setTo(to);
         message.setText("[ArchiveGarden] 인증번호 [" + verificationCode + "]입니다. 정확하게 입력해 주세요.");
 
@@ -44,5 +47,39 @@ public class SmsUtil {
         log.info("sms response={}", response);
 
         return response;
+    }
+
+    /**
+     * 비밀번호 찾는 경우 임시 비밀번호 발송
+     */
+    public SingleMessageSentResponse sendTempPassword(String to) {
+
+        Message message = new Message();
+        message.setFrom(from);
+        message.setTo(to);
+        message.setText("[ArchiveGarden] 인증번호 [" + getTempPassword() + "]입니다. 정확하게 입력해 주세요.");
+
+        SingleMessageSentResponse response = messageService.sendOne(new SingleMessageSendingRequest(message));
+        log.info("sms response={}", response);
+
+        return response;
+    }
+
+    /**
+     * 임시 비밀번호 생성
+     */
+    private String getTempPassword(){
+        char[] charSet = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
+                'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
+
+        String password = "";
+
+        // 문자 배열 길이의 값을 랜덤으로 10개를 뽑아 구문을 작성함
+        int idx = 0;
+        for (int i = 0; i < 10; i++) {
+            idx = (int) (charSet.length * Math.random());
+            password += charSet[idx];
+        }
+        return password;
     }
 }

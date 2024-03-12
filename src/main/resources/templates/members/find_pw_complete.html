@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>비밀번호 찾기 | Archivegarden</title>
+    <title>비밀번호 찾기 완료 | Archivegarden</title>
     <meta property="og:type" content="website"/>
     <meta property="og:title" content="Archivegarden"/>
     <meta property="og:description" content=""/>
@@ -12,23 +12,19 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
-    <link rel="stylesheet" href="../../css/comm.css"/>
-    <link rel="stylesheet" href="../../css/find.css"/>
-    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-
-    <script defer src="../../js/findId.js"></script>
+    <link rel="stylesheet" href="../../static/css/comm.css" th:href="@{/css/comm.css}"/>
+    <link rel="stylesheet" href="../../static/css/find.css" th:href="@{/css/find.css}"/>
 </head>
 <body>
+<div th:replace="~{/layout/header :: header}"></div>
 <div id="find_pw">
     <div class="find_wrap">
         <div class="success_message">
-            <span>임시 비밀번호가<br> <b>고객님의 메일로 전송되었습니다.</b></span>
+            <span>임시 비밀번호가<br> <b>고객님의 [[${dto.description}]]로 전송되었습니다.</b></span>
         </div>
         <ul class="user_info">
-            <li><p>이메일</p>  <span id="userEmail" th:text="${email}"></span></li>
+            <li><p th:text="${dto.description}">이메일</p>  <span id="userEmail" th:text="${dto.value}"></span></li>
         </ul>
         <div class="submit_btn">
             <button type="button" id="loginBtn" class="btn1 login_btn" onclick="location.href='../members/login.html'" th:onclick="|location.href='@{/login}'|">
@@ -37,5 +33,6 @@
         </div>
     </div>
 </div>
+<div th:replace="~{/layout/footer :: footer}"></div>
 </body>
 </html>

@@ -145,7 +145,6 @@ form input::placeholder {
     background: #222;
     color: #fff;
     width: 80%;
-    margin-top: 15px;
 }
 
 .find_wrap .user_info {
@@ -200,5 +199,12 @@ form input::placeholder {
     border-radius: 2px;
 }
 #find_pw .find_wrap .submit_btn .login_btn {
+    width: 100%;
+}
+#find_pw p {
+    width: 70px;
+    margin-right: 10px;
+}
+#find_pw .find_wrap .submit_btn #sendPwBtn {
     width: 100%;
 }

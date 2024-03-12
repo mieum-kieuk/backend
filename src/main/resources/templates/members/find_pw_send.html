@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>비밀번호 찾기 | Archivegarden</title>
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="Archivegarden"/>
+    <meta property="og:description" content=""/>
+    <meta property="og:image" content=""/>
+    <meta property="og:url" content=""/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="../../static/css/find.css" th:href="@{/css/find.css}"/>
+    <link rel="stylesheet" href="../../static/css/comm.css" th:href="@{/css/comm.css}"/>
+    <script defer src="../../static/js/findPw.js" th:src="@{/js/findPw.js}"></script>
+</head>
+<body>
+<div th:replace="~{/layout/header :: header}"></div>
+<div id="find_pw">
+    <div class="find_wrap">
+        <ul class="user_info">
+            <li>
+                <p>임시 비밀번호</p>
+                <span>
+                    <input type="radio" id="findType" name="findType" checked="checked">
+                    <label for="findType" th:text="${dto.description}">이메일</label>
+                </span>
+            </li>
+            <li>
+                <p th:text="${dto.description}">이메일</p>
+                <span id="findTypeValue" th:text="${dto.value}"></span>
+            </li>
+        </ul>
+        <div class="submit_btn">
+            <button type="button" id="sendPwBtn" class="btn1 find_btn" onclick="location.href='./find_pw_complete.html'" th:onclick="|location.href='@{/{type}/temp-password(type=${dto.findType}, value=${dto.value})}'|">임시 비밀번호 전송</button>
+        </div>
+    </div>
+</div>
+<div th:replace="~{/layout/footer :: footer}"></div>
+</body>
+</html>

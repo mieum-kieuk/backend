@@ -95,7 +95,7 @@ public class MemberServiceImpl implements MemberService {
         String verificationNo = createVerificationNo();
         log.info("verificationNo={}", verificationNo);
 
-//        smsUtil.sendOne(to, verificationNo);
+//        smsUtil.sendVerificationNo(to, verificationNo);
 
         redisUtil.setDataExpire(to, verificationNo, 60 * 3L);
     }
@@ -140,13 +140,13 @@ public class MemberServiceImpl implements MemberService {
     /**
      * 비밀번호 찾기
      *
-     * @return: 회원 이메일
+     * @return: 회원 이메일 또는 휴대전화번호
      */
     @Override
     public String findPassword(FindPasswordForm form) {
 
         if(form.getFindType() == FindAccountType.EMAIL) {
-           return memberRepository.findPasswordByEmail(form.getLoginId(), form.getName(), form.getEmail());
+            return memberRepository.findPasswordByEmail(form.getLoginId(), form.getName(), form.getEmail());
         } else {
             String phonenumber = form.getPhonenumber1() + form.getPhonenumber2() + form.getPhonenumber3();
             return memberRepository.findPasswordByPhonenumber(form.getLoginId(), form.getName(), phonenumber);
