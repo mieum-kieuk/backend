@@ -20,35 +20,52 @@ public class Member extends BaseTimeEntity {
     @Column(name = "member_id")
     private Long id;
 
-    @Column(name = "login_id")
+    @Column(name = "login_id", length = 20, nullable = false)
     private String loginId;
 
+    @Column(length = 100, nullable = false)
     private String password;
+
+    @Column(length = 12, nullable = false)
     private String name;
 
-    @Column(name = "phone_number")
+    @Column(name = "phone_number", length = 11, nullable = false)
     private String phonenumber;
 
+    @Column(length = 45, nullable = false)
     private String email;
 
+    @Column(length = 10, nullable = false)
     @Enumerated(value = EnumType.STRING)
     private Grade grade;
 
+    @Column(length = 30, nullable = false)
     @Enumerated(value = EnumType.STRING)
     private Authority authority;
 
+    @Column(length = 10, nullable = false)
     private String agree_to_receive_sms;
+
+    @Column(length = 10, nullable = false)
     private String agree_to_receive_mail;
+
+    @Column(length = 10, nullable = false)
     private String isEmailVerified;
 
     @OneToMany(mappedBy = "member", cascade = ALL)
     private List<ShippingAddress> shippingAddressList = new ArrayList<>();
 
-    //==연관 관계 메서드==//
+    //==비즈니스 로직==//
+    /**
+     * 이메일 인증 완료
+     */
     public void completeEmailVerification() {
         this.isEmailVerified = Boolean.toString(true).toUpperCase();
     }
 
+    /**
+     * 비밀번호 변경
+     */
     public void updatePassword(String password) {
         this.password = password;
     }
