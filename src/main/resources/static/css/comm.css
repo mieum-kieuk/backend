@@ -88,7 +88,7 @@ body {
 /* 뷰표트 변환시 폰트크기 자동확대 방지 */
 input[type=text], input[type=password], input[type=submit], input[type=search] {
   -webkit-appearance: none;
-  border-radius: 2px;
+  border-radius: 0px;
 }
 input:checked[type=checkbox] {
   background-color: #666;
@@ -265,12 +265,19 @@ legend {
 }
 
 .wrap {
+  display: flex;
+  justify-content: center;
   max-width: 2800px;
   width: 100%;
   margin: 0;
+  min-height: 100%;
+  height: auto;
+  flex-wrap: wrap;
 }
 
 #header {
+  display: flex;
+  justify-content: center;
   position: fixed;
   width: 100%;
   z-index: 1000;
@@ -278,50 +285,85 @@ legend {
 
 #gnb {
   display: flex;
+  width: 100%;
   flex-direction: row;
   justify-content: space-between;
   padding: 30px 30px 0;
+  align-items: center;
+  white-space: nowrap;
 }
 
 .logo {
   display: flex;
-  justify-content: center;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
+  /*justify-content: center;*/
+
+}
+.logo img {
+  height: 28px;
+  object-fit: cover;
 }
 
 .gnb_menu {
   display: flex;
   font-size: 14px;
+  align-items: center;
 }
-.gnb_menu .search {
-  margin-right: 40px;
+.gnb_menu.center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  margin: auto;
+  /*justify-content: center;*/
+}
+.gnb_menu .search{
+  width: 33%;
+  /*padding:0 40px;*/
+  margin: 0 auto;
+}
+.gnb_menu .cart {
+  width: 33%;
+  /*padding-left: 40px;*/
+  margin: 0 auto;
 }
 
-.depth1 {
+.gnb_menu .depth1 {
   display: flex;
   flex-direction: row;
   position: relative;
+  align-items: center;
 }
-.depth1 .depth1_menu {
-  margin-right: 40px;
-  margin-bottom: 20px;
+.gnb_menu.center .depth1_menu {
+  width: 33%;
+}
+.depth1_menu:hover > a{
+  font-weight: 500;
+  color: #666;
+  opacity: 0.7;
 }
 .depth1 .depth1_menu:hover .depth2 {
   display: block;
 }
-
+.gnb_menu .depth1_menu {
+  position: relative;
+  padding: 0 40px;
+}
 .depth2 {
   display: none;
   position: absolute;
+  left: 33%;
   padding: 10px 0;
+  text-align: left;
+}
+.gnb_menu .account .depth2 {
+  /*position: absolute;*/
+  left: 30%;
 }
 .depth2 li {
-  padding-bottom: 3px;
+  padding-bottom: 5px;
 }
 .depth2 li :hover {
-  font-weight: 600;
+  font-weight: 500;
   color: #666;
   opacity: 0.7;
 }
@@ -365,6 +407,9 @@ legend {
 
 #footer {
   position: relative;
+  transform: translateY(0%);
+  width: 100%;
+  height: 132px;
   padding: 40px 30px;
   margin-top: 100px;
   font-size: 12px;
