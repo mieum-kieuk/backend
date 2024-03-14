@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 
 import static jakarta.persistence.FetchType.LAZY;
 
-
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "SHIPPING_ADDRESS")
@@ -17,17 +16,14 @@ public class ShippingAddress extends BaseTimeEntity {
     @Column(name = "shipping_address_id")
     private Long id;
 
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;
-
     @Column(name = "shipping_address_name")
     private String shippingAddressName;
 
     @Column(name = "recipient_name")
     private String recipientName;
 
-    private String address;
+    @Embedded
+    private Address address;
 
     @Column(name = "phone_number")
     private String phonenumber;
@@ -38,6 +34,10 @@ public class ShippingAddress extends BaseTimeEntity {
     @Enumerated(value = EnumType.STRING)
     private ShippingAddressStatus status;
 
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
+
     //==연관관계 메서드==//
     private void setMember(Member member) {
         this.member = member;
@@ -45,12 +45,12 @@ public class ShippingAddress extends BaseTimeEntity {
     }
 
     //==생성 메서드==//
-    public static ShippingAddress createShippingAddressWhenJoin(Member member, String address) {
+    public static ShippingAddress createShippingAddressWhenJoin(Member member, String zipCode, String basicAddress, String detailAddress) {
         ShippingAddress shippingAddress = new ShippingAddress();
         shippingAddress.setMember(member);
         shippingAddress.shippingAddressName = "미지정";
         shippingAddress.recipientName = member.getName();
-        shippingAddress.address = address;
+        shippingAddress.address = new Address(zipCode, basicAddress, detailAddress);
         shippingAddress.phonenumber = member.getPhonenumber();
         shippingAddress.isDefaultAddress = Boolean.toString(true).toUpperCase();
         shippingAddress.status = ShippingAddressStatus.INACTIVE;

@@ -50,23 +50,23 @@ public class MemberController {
     @PostMapping("/join")
     public String join(@Valid @ModelAttribute("form") MemberSaveForm form, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
+        //휴대전화번호 검증
+        if (bindingResult.hasFieldErrors("phonenumber1") || bindingResult.hasFieldErrors("phonenumber2") || bindingResult.hasFieldErrors("phonenumber3")) {
+            bindingResult.rejectValue("phonenumber1", "phonenumberInvalid");
+        }
+
         //비밀번호 == 비밀번호 확인 검증
         if (StringUtils.hasText(form.getPassword())) {
             if (!form.getPassword().equals(form.getPasswordConfirm())) {
-                bindingResult.rejectValue("passwordConfirm", "passwordNotEqual", "비밀번호가 일치하지 않습니다.");
+                bindingResult.rejectValue("passwordConfirm", "passwordNotMatch");
             }
-        }
-
-        //핸드폰 번호 검증
-        if (bindingResult.hasFieldErrors("phonenumber1") || bindingResult.hasFieldErrors("phonenumber2") || bindingResult.hasFieldErrors("phonenumber3")) {
-            bindingResult.rejectValue("phonenumber1", "Invaild", "유효하지 않은 폰 번호입니다. 입력한 번호를 확인해 주세요.");
         }
 
         if (bindingResult.hasErrors()) {
             return "members/join";
         }
 
-        Long memberId = memberService.join(new MemberSaveDto(form));
+        Long memberId = memberService.join(form);
 
         redirectAttributes.addFlashAttribute("memberId", memberId);
         return "redirect:/members/join/complete";

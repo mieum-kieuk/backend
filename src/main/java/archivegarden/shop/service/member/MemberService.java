@@ -6,7 +6,7 @@ import java.util.Optional;
 
 public interface MemberService {
 
-    Long join(MemberSaveDto dto);
+    Long join(MemberSaveForm dto);
 
     boolean duplicateLoginId(String loginId);
 

@@ -24,4 +24,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     @Query("select m.phonenumber from Member m where m.loginId = :loginId and m.name = :name and m.phonenumber = :phonenumber")
     String findPasswordByPhonenumber(@Param("loginId") String loginId, @Param("name") String name, @Param("phonenumber") String phonenumber);
+
+    @Query("select m from Member m where m.loginId = :loginId and m.phonenumber = :phonenumber or m.email = :email")
+    Optional<Member> findDuplicateMember(@Param("loginId") String loginId, @Param("phonenumber") String phonenumber, @Param("email") String email);
 }

@@ -1,6 +1,6 @@
 package archivegarden.shop.entity;
 
-import archivegarden.shop.dto.member.MemberSaveDto;
+import archivegarden.shop.dto.member.MemberSaveForm;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -71,16 +71,18 @@ public class Member extends BaseTimeEntity {
     }
 
     //==생성자 메서드==//
-    public Member(MemberSaveDto dto) {
-        this.loginId = dto.getLoginId();
-        this.password = dto.getPassword();
-        this.name = dto.getName();
-        this.phonenumber = dto.getPhonenumber();
-        this.email = dto.getEmail();
-        this.grade = Grade.WHITE;
-        this.authority = Authority.ROLE_USER;
-        this.agree_to_receive_sms = Boolean.toString(dto.isAgree_to_receive_sms()).toUpperCase();
-        this.agree_to_receive_mail = Boolean.toString(dto.isAgree_to_receive_mail()).toUpperCase();
-        this.isEmailVerified = Boolean.toString(false).toUpperCase();
+    public static Member createMember(MemberSaveForm form) {
+        Member member = new Member();
+        member.loginId = form.getLoginId();
+        member.password = form.getPassword();
+        member.name = form.getName();
+        member.phonenumber = form.getPhonenumber1() + form.getPhonenumber2() + form.getPhonenumber3();
+        member.email = form.getEmail();
+        member.grade = Grade.WHITE;
+        member.authority = Authority.ROLE_USER;
+        member.agree_to_receive_sms = Boolean.toString(form.isAgree_to_receive_sms()).toUpperCase();
+        member.agree_to_receive_mail = Boolean.toString(form.isAgree_to_receive_mail()).toUpperCase();
+        member.isEmailVerified = Boolean.toString(false).toUpperCase();
+        return member;
     }
 }

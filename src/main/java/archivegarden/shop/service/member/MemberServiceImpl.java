@@ -20,9 +20,9 @@ import java.util.Optional;
 import java.util.Random;
 
 @Slf4j
-@RequiredArgsConstructor
-@Transactional
 @Service
+@RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
@@ -34,17 +34,22 @@ public class MemberServiceImpl implements MemberService {
     /**
      * 회원가입
      */
+    @Transactional
     @Override
-    public Long join(MemberSaveDto dto) {
+    public Long join(MemberSaveForm form) {
+
+        //중복 회원 검증
+        validateDuplicateMember(form);
+
         //비밀번호 암호화
-        encodePassword(dto);
+        encodePassword(form);
 
         //멤버 생성
-        Member member = new Member(dto);
+        Member member = Member.createMember(form);
 
         //배송주소 생성
-        if(StringUtils.hasText(dto.getAddress())) {
-            ShippingAddress.createShippingAddressWhenJoin(member, dto.getAddress());
+        if (StringUtils.hasText(form.getZipCode()) && StringUtils.hasText(form.getBasicAddress())) {
+            ShippingAddress.createShippingAddressWhenJoin(member, form.getZipCode(), form.getBasicAddress(), form.getDetailAddress());
         }
 
         //멤버 저장
@@ -54,6 +59,22 @@ public class MemberServiceImpl implements MemberService {
         emailService.sendValidationRequestEmail(member.getEmail(), member.getCreatedAt());
 
         return member.getId();
+    }
+
+    /**
+     * 비밀번호 암호화
+     */
+    private void encodePassword(MemberSaveForm form) {
+        String encodedPassword = passwordEncoder.encode(form.getPassword());
+        form.setPassword(encodedPassword);
+    }
+
+    /**
+     * 중복 회원 검증
+     */
+    private void validateDuplicateMember(MemberSaveForm form) {
+        String phonenumber = form.getPhonenumber1() + form.getPhonenumber2() + form.getPhonenumber3();
+        memberRepository.findDuplicateMember(form.getLoginId(), phonenumber, form.getEmail()).orElseThrow(() -> new IllegalStateException("이미 존재하는 회원입니다."));
     }
 
     /**
@@ -88,7 +109,7 @@ public class MemberServiceImpl implements MemberService {
      */
     @Override
     public void sendVerificationNo(String to) {
-        if(redisUtil.existData(to)) {
+        if (redisUtil.existData(to)) {
             redisUtil.deleteData(to);
         }
 
@@ -107,7 +128,7 @@ public class MemberServiceImpl implements MemberService {
     public boolean validateVerificationNo(VerificationRequestDto requestDto) {
         String phonenumber = requestDto.getPhonenumber1() + requestDto.getPhonenumber2() + requestDto.getPhonenumber3();
 
-        if(redisUtil.existData(phonenumber)) {
+        if (redisUtil.existData(phonenumber)) {
             return redisUtil.getData(phonenumber).equals(requestDto.getVerificationNo());
         }
 
@@ -129,7 +150,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public Optional<FindIdResultDto> findId(FindIdForm form) {
 
-        if(form.getFindType() == FindAccountType.EMAIL) {
+        if (form.getFindType() == FindAccountType.EMAIL) {
             return memberRepository.findByNameAndEmail(form.getName(), form.getEmail()).map(FindIdResultDto::new);
         } else {
             String phonenumber = form.getPhonenumber1() + form.getPhonenumber2() + form.getPhonenumber3();
@@ -145,7 +166,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public String findPassword(FindPasswordForm form) {
 
-        if(form.getFindType() == FindAccountType.EMAIL) {
+        if (form.getFindType() == FindAccountType.EMAIL) {
             return memberRepository.findPasswordByEmail(form.getLoginId(), form.getName(), form.getEmail());
         } else {
             String phonenumber = form.getPhonenumber1() + form.getPhonenumber2() + form.getPhonenumber3();
@@ -160,13 +181,5 @@ public class MemberServiceImpl implements MemberService {
         Random random = new Random();
         int verificationNo = random.nextInt(888888) + 111111;
         return String.valueOf(verificationNo);
-    }
-
-    /**
-     * 비밀번호 암호화
-     */
-    private void encodePassword(MemberSaveDto dto) {
-        String encodedPassword = passwordEncoder.encode(dto.getPassword());
-        dto.setPassword(encodedPassword);
     }
 }
