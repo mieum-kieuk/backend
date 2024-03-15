@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>할인 혜택 등록 | Tickers</title>
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Tickers" />
+    <meta property="og:description" content="" />
+    <meta property="og:image" content="" />
+    <meta property="og:url" content="" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="../../../css/comm.css">
+    <link rel="stylesheet" href="../../../css/admin_form.css">
+    <!--    <script defer src="../../../js/.js"></script>-->
+</head>
+<body>
+<div id="addProduct">
+    <div class="sidebar">
+        <h2>메뉴</h2>
+        <ul>
+            <li><a href="#">상품 관리</a></li>
+            <li><a href="#">할인 혜택 관리</a></li>
+            <li><a href="#">주문 관리</a></li>
+            <li><a href="#">고객 관리</a></li>
+
+        </ul>
+    </div>
+    <div class="content">
+        <h2 class="content_tit">할인 혜택 등록</h2>
+        <form id="discountForm">
+
+            <div class="discount type">
+                <span>할인 방식:</span>
+                <div class="input_box_wrap">
+                <input type="radio" id="rate" name="options" value="option1">
+                <label for="rate">정률 할인</label>
+                </div>
+                <div class="input_box_wrap">
+                <input type="radio" id="fix" name="options" value="option2">
+                <label for="fix">정액 할인</label>
+                </div>
+            </div>
+            <div class="input_box_wrap">
+                <label for="value">할인 설정</label>
+                <input type="number" id="value" name="value"  placeholder="숫자만 입력해주세요.">
+            </div>
+
+
+            <input type="submit" value="할인 등록하기">
+        </form>
+    </div>
+</div>
+</body>
+</html>
