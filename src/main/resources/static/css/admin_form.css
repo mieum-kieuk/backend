@@ -1,0 +1,51 @@
+.wrap  {
+    font-family: "Inter";
+    display: flex;
+    margin: 0;
+}
+
+.sidebar {
+    height: 100%;
+    width: 200px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    padding-top: 20px;
+    text-align: center;
+}
+
+.sidebar h2 {
+    color: white;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    padding: 10px;
+}
+
+.sidebar ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+.sidebar ul li a:hover {
+    background-color: #555;
+}
+
+.content {
+    margin-left: 220px;
+    padding: 20px;
+}
+label {
+    display: inline-block;
+    width: 100px;
+}
+
+input, select, textarea {
+    margin-left: 30px;
+}
