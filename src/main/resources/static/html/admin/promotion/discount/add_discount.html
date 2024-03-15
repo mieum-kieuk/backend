@@ -17,10 +17,10 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="../../../../css/comm.css">
     <link rel="stylesheet" href="../../../../css/admin_form.css">
-    <!--    <script defer src="../../../js/.js"></script>-->
+    <script defer src="../../../../js/addDiscount.js"></script>
 </head>
 <body>
-<div class="admin_wrap">
+<div id="addProduct">
     <div class="sidebar">
         <h2>메뉴</h2>
         <ul>
@@ -31,7 +31,6 @@
 
         </ul>
     </div>
-<div id="addProduct">
     <div class="content">
         <h2 class="content_tit">할인 혜택 등록</h2>
         <form id="discountForm">
@@ -39,12 +38,12 @@
             <div class="discount type">
                 <span>할인 방식</span>
                 <div class="input_box_wrap">
-                <input type="radio" id="rate" name="options" value="option1">
-                <label for="rate">정률 할인</label>
+                    <input type="radio" id="rate" name="options" value="option1" checked>
+                    <label for="rate">정률 할인</label>
                 </div>
                 <div class="input_box_wrap">
-                <input type="radio" id="fix" name="options" value="option2">
-                <label for="fix">정액 할인</label>
+                    <input type="radio" id="fix" name="options" value="option2">
+                    <label for="fix">정액 할인</label>
                 </div>
             </div>
             <div class="input_box_wrap">
@@ -53,10 +52,10 @@
             </div>
 
 
-            <input type="submit" value="할인 등록하기">
+            <button type="submit" class="btn1"> 등록하기</button>
         </form>
     </div>
 </div>
-</div>
 </body>
 </html>
+
