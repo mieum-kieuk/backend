@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>할인 혜택 등록 | Tickers</title>
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Tickers" />
+    <meta property="og:description" content="" />
+    <meta property="og:image" content="" />
+    <meta property="og:url" content="" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="../../../../static/css/comm.css" th:href="@{/css/comm.css}">
+    <link rel="stylesheet" href="../../../../static/css/admin_form.css" th:href="@{/css/admin_form.css}">
+    <script defer src="../../../static/js/addDiscount.js" th:src="@{/js/addDiscount.js}"></script>
+</head>
+<body>
+<div th:replace="~{/layout/menu :: admin_menu}"></div>
+<div id="addProduct">
+    <div class="content">
+        <h2 class="content_tit">할인 혜택 등록</h2>
+        <form id="discountForm" action="" th:action th:object="${form}" method="post">
+            <div class="discount type">
+                <span>할인 방식</span>
+                <div  class="input_box_wrap" th:each="discountType : ${discountTypes}">
+                    <input type="radio" th:field="*{type}" th:value="${discountType.name()}">
+                    <label th:for="${#ids.prev('type')}" th:text="${discountType.description}">정률 할인</label>
+                </div>
+            </div>
+            <div class="field-error" th:errors="*{type}"></div>
+            <div class="input_box_wrap">
+                <label for="value">할인 설정</label>
+                <input type="number" id="value" th:field="*{value}" value="" placeholder="숫자만 입력해주세요." min="1">
+            </div>
+            <div class="field-error" th:errors="*{value}"></div>
+            <input type="submit" value="등록하기">
+        </form>
+    </div>
+</div>
+</body>
+</html>
