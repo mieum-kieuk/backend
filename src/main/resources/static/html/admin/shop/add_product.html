@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>상품 등록 | Tickers</title>
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Tickers" />
+    <meta property="og:description" content="" />
+    <meta property="og:image" content="" />
+    <meta property="og:url" content="" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="../../../css/comm.css">
+    <link rel="stylesheet" href="../../../css/admin_form.css">
+<!--    <script defer src="../../../js/.js"></script>-->
+</head>
+<body>
+<div class="admin_wrap">
+<div class="sidebar">
+    <h2>메뉴</h2>
+    <ul>
+        <li><a href="#">상품 관리</a></li>
+        <li><a href="#">할인 혜택 관리</a></li>
+        <li><a href="#">주문 관리</a></li>
+        <li><a href="#">고객 관리</a></li>
+
+    </ul>
+</div>
+<div id="addProduct">
+
+    <div class="content">
+        <h2 class="content_tit">상품 등록</h2>
+        <form id="addProductForm">
+            <div class="input_box_wrap">
+            <label for="name">상품명</label>
+            <input type="text" id="name" name="name" required maxlength="50">
+            </div>
+            <div class="input_box_wrap">
+            <label for="price">상품 가격</label>
+            <input type="number" id="price" name="price" required>
+            </div>
+            <div class="input_box_wrap">
+            <label for="stockQuantity">재고</label>
+            <input type="number" id="stockQuantity" name="stockQuantity" required>
+            </div>
+            <div class="input_box_wrap">
+            <label for="details">상품 상세정보</label>
+            <textarea id="details" name="details" rows="4" cols="50"></textarea>
+            </div>
+            <div class="input_box_wrap">
+            <label for="sizeGuide">상품 크기</label>
+            <input type="text" id="sizeGuide" name="sizeGuide">
+            </div>
+            <div class="input_box_wrap">
+            <label for="shipping">배송 정보</label>
+            <textarea id="shipping" name="shipping" rows="4" cols="50"></textarea>
+            </div>
+            <div class="input_box_wrap">
+            <label for="notice">주의 사항</label>
+            <textarea id="notice" name="notice" rows="4" cols="50"></textarea>
+            </div>
+            <div class="input_box_wrap mb-01" >
+            <label for="displayImage">섬네일 사진</label>
+            <input type="file" id="displayImage" name="displayImage">
+            </div>
+            <div class="text description"><span>상품 목록에서 보여질 사진입니다.</span></div>
+<!--            <div class="input_box_wrap>-->
+<!--            <label for="displayImageHover">섬네일 사진2</label>-->
+<!--            <input type="file" id="displayImageHover" name="displayImage">-->
+<!--            <div class="text description"><span>상품 목록에서 커서를 올리면 보여질 사진입니다.</span></div>-->
+<!--            </div>-->
+            <div class="input_box_wrap mb-01">
+            <label for="imageFiles">사진 첨부</label>
+            <input type="file" id="imageFiles" name="imageFiles" multiple>
+            </div>
+            <div class="text description">
+                <ul >
+                    <li>
+                        <span>20MB 이하의 이미지만 업로드 가능합니다.</span>
+                    </li>
+                    <li>
+                        <span>상품과 무관한 내용이거나 음란 및 불법적인 내용은 통보없이 삭제 될 수 있습니다.</span>
+                    </li>
+                    <li>
+                        <span>사진은 최대 20장까지 등록가능합니다.</span>
+                    </li>
+                </ul>
+            </div>
+
+            <input type="submit" value="상품 등록">
+        </form>
+    </div>
+</div>
+</div>
+</body>
+</html>
