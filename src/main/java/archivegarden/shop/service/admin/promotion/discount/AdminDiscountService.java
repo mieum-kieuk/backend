@@ -1,8 +1,8 @@
-package archivegarden.shop.service.admin.discount;
+package archivegarden.shop.service.admin.promotion.discount;
 
 import archivegarden.shop.dto.admin.discount.AddDiscountForm;
 import archivegarden.shop.entity.Discount;
-import archivegarden.shop.repository.admin.AdminDiscountRepository;
+import archivegarden.shop.repository.admin.promotion.AdminDiscountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,8 +1,8 @@
-package archivegarden.shop.controller.admin;
+package archivegarden.shop.controller.admin.promotion;
 
 import archivegarden.shop.dto.admin.discount.AddDiscountForm;
 import archivegarden.shop.entity.DiscountType;
-import archivegarden.shop.service.admin.discount.AdminDiscountService;
+import archivegarden.shop.service.admin.promotion.discount.AdminDiscountService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -30,9 +30,14 @@ public class AdminDiscountController {
     @PostMapping("/add")
     public String addDiscount(@Valid @ModelAttribute("form") AddDiscountForm form, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
-        //정률 할인일 경우 value 범위 검증
+        // value 범위 검증
         if(form.getType() != null && form.getValue() != null) {
-            if(form.getType().equals(DiscountType.RATE) && form.getValue() > 100) {
+            //정액 할인
+            if(form.getType().equals(DiscountType.FIX) && form.getValue() < 1) {
+                bindingResult.rejectValue("value", "invalid", "1 이상의 값을 입력해 주세요.");
+            }
+            //정률 할인
+            if(form.getType().equals(DiscountType.RATE) && (form.getValue() < 1 || form.getValue() > 100)) {
                 bindingResult.rejectValue("value", "invalid", "1부터 100사이의 값을 입력해 주세요.");
             }
         }

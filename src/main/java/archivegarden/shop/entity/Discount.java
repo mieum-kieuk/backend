@@ -16,6 +16,7 @@ public class Discount {
     @Enumerated(value = EnumType.STRING)
     private DiscountType type;
 
+    @Column(name = "\"value\"")
     private int value;
 
     //==생성자 메서드==//
