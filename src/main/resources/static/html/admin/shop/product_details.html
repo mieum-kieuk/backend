@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>상품 등록 | Tickers</title>
+    <title>상품 등록 확인 | Tickers</title>
 
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Tickers" />
@@ -47,70 +47,52 @@
             </ul>
         </div>
     </div>
-    <div id="addProduct">
-
+    <div id="productDetails">
         <div class="content">
-            <h2 class="content_tit">상품 등록</h2>
-            <form id="addProductForm">
+            <h2 class="content_tit">상품 등록 확인</h2>
                 <div class="input_box_wrap">
-                    <label for="name">상품명</label>
-                    <input type="text" id="name" name="name"  maxlength="50">
+                    <span class="input_tit">상품명</span>
+                    <span id="name">상품명</span>
                 </div>
                 <div class="input_box_wrap">
-                    <label for="price">상품 가격</label>
-                    <input type="number" id="price" name="price" >
+                    <span class="input_tit">상품 가격</span>
+                    <span id="price">상품 가격</span>
                 </div>
                 <div class="input_box_wrap">
-                    <label for="stockQuantity">재고</label>
-                    <input type="number" id="stockQuantity" name="stockQuantity" >
+                    <span class="input_tit">재고</span>
+                    <span id="stockQuantity">재고</span>
                 </div>
                 <div class="input_box_wrap">
-                    <label for="details">상품 상세정보</label>
-                    <textarea id="details" name="details" rows="4" cols="50"></textarea>
+                    <span class="input_tit">상품 상세정보</span>
+                    <span id="details">재고</span>
                 </div>
                 <div class="input_box_wrap">
-                    <label for="sizeGuide">상품 크기</label>
-                    <textarea  id="sizeGuide" name="sizeGuide" rows="4" cols="50"></textarea>
+                    <span class="input_tit">상품 크기</span>
+                    <span id="sizeGuide">상품 크기</span>
                 </div>
                 <div class="input_box_wrap">
-                    <label for="shipping">배송 정보</label>
-                    <textarea id="shipping" name="shipping" rows="4" cols="50"></textarea>
+                    <span class="input_tit">배송 정보</span>
+                    <span id="shipping">배송 정보</span>
                 </div>
                 <div class="input_box_wrap">
-                    <label for="notice">주의 사항</label>
-                    <textarea id="notice" name="notice" rows="4" cols="50"></textarea>
+                    <span class="input_tit">주의 사항</span>
+                    <span id="notice">주의 사항</span>
                 </div>
                 <div class="input_box_wrap desc" >
-                    <label for="displayImage">섬네일 사진</label>
-                    <input type="file" id="displayImage" name="displayImage">
+                    <span class="input_tit">섬네일 사진</span>
+                    <span id="displayImage">섬네일 사진</span>
                 </div>
-                <div class="text description"><span>상품 목록에서 보여질 사진입니다.</span></div>
-                <!--            <div class="input_box_wrap>-->
-                <!--            <label for="displayImageHover">섬네일 사진2</label>-->
-                <!--            <input type="file" id="displayImageHover" name="displayImage">-->
-                <!--            <div class="text description"><span>상품 목록에서 커서를 올리면 보여질 사진입니다.</span></div>-->
-                <!--            </div>-->
+
                 <div class="input_box_wrap desc">
-                    <label for="imageFiles">사진 첨부</label>
-                    <input type="file" id="imageFiles" name="imageFiles" multiple>
+                    <span class="input_tit">사진 첨부</span>
+                    <span id="imageFiles">사진 첨부</span>
                 </div>
-                <div class="text description">
-                    <ul >
-                        <li>
-                            <span>20MB 이하의 이미지만 업로드 가능합니다.</span>
-                        </li>
-                        <li>
-                            <span>상품과 무관한 내용이거나 음란 및 불법적인 내용은 통보없이 삭제 될 수 있습니다.</span>
-                        </li>
-                        <li>
-                            <span>사진은 최대 20장까지 등록가능합니다.</span>
-                        </li>
-                    </ul>
-                </div>
+
                 <div class="input_box_wrap btn">
-                    <button type="submit" class="btn1"> 등록하기</button>
+                    <button class="btn1" onclick="goToProductEdit()">수정하기</button>
+                    <button class="btn1" onclick="goToProductDelete()">삭제하기</button>
+                    <button class="btn1" onclick="goToProductList()">목록으로</button>
                 </div>
-            </form>
         </div>
     </div>
 </div>
