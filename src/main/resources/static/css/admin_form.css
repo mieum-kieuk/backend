@@ -20,7 +20,7 @@ body  {
 }
 .sidebar h2 {
     font-size: 18px;
-    padding: 20px 0px;
+    padding: 20px 0;
 }
 .sidebar ul li {
     padding: 10px;
@@ -72,6 +72,11 @@ input, select, textarea{
     padding: 5px 5px;
     border-radius: 2px;
 }
+input::-webkit-inner-spin-button {
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+}
 ::placeholder {
     font-size: 11px;
 }
@@ -90,6 +95,7 @@ input, select, textarea{
     font-family: 'Material Symbols Outlined';
     font-weight: 300;
     font-size: 20px;
+    color: #666;
 }
 /*addProduct*/
 #addProductForm {
@@ -121,21 +127,17 @@ input, select, textarea{
 #discountForm {
     max-width: 500px;
 }
-#discountForm .discount.type {
+#discountForm .discount.type, #editDiscountForm .discount.type {
     display: flex;
 }
-#discountForm .discount.type span{
+#discountForm .discount.type span, #editDiscountForm .discount.type span{
     margin-right: 20px;
     width: 120px;
 }
 #rate, #fix {
     margin-right: 5px;
 }
-#discountForm #value::-webkit-inner-spin-button {
-    appearance: none;
-    -moz-appearance: none;
-    -webkit-appearance: none;
-}
+
 .input_tit {
     margin-right: 20px;
     width: 120px;
@@ -167,12 +169,12 @@ input, select, textarea{
 }
 .dropdown_menu {
     display: none;
-    flex-direction: column;.menu_toggle {
+    flex-direction: column;
+}
+.menu_toggle {
     position: absolute;
     top: 0;
     right: 0;
-
-}
 }
 .dropdown_menu.show {
     display: flex;

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>상품 등록 | Tickers</title>
+    <title>상품 등록 수정 | Tickers</title>
 
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Tickers" />
@@ -19,7 +19,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="../../../css/comm.css">
     <link rel="stylesheet" href="../../../css/admin_form.css">
-    <script defer src="../../../js/addProduct.js"></script>
+    <script defer src="../../../js/editProduct.js"></script>
 </head>
 <body>
 <div class="admin_wrap">
@@ -47,52 +47,46 @@
             </ul>
         </div>
     </div>
-    <div id="addProduct">
-
+    <div id="editProduct">
         <div class="content">
-            <h2 class="content_tit">상품 등록</h2>
-            <form id="addProductForm">
+            <h2 class="content_tit">상품 수정</h2>
+            <form id="ProductForm">
                 <div class="input_box_wrap">
-                    <label for="name">상품명</label>
-                    <input type="text" id="name" name="name"  maxlength="50">
+                    <label for="editName">상품명</label>
+                    <input type="text" id="editName" name="editName"  maxlength="50">
                 </div>
                 <div class="input_box_wrap">
-                    <label for="price">상품 가격</label>
-                    <input type="number" id="price" name="price" >
+                    <label for="editPrice">상품 가격</label>
+                    <input type="number" id="editPrice" name="editPrice" >
                 </div>
                 <div class="input_box_wrap">
-                    <label for="stockQuantity">재고</label>
-                    <input type="number" id="stockQuantity" name="stockQuantity" >
+                    <label for="editStockQuantity">재고</label>
+                    <input type="number" id="editStockQuantity" name="editStockQuantity" >
                 </div>
                 <div class="input_box_wrap">
-                    <label for="details">상품 상세정보</label>
-                    <textarea id="details" name="details" rows="4" cols="50"></textarea>
+                    <label for="editDetails">상품 상세정보</label>
+                    <textarea id="editDetails" name="editDetails" rows="4" cols="50"></textarea>
                 </div>
                 <div class="input_box_wrap">
-                    <label for="sizeGuide">상품 크기</label>
-                    <textarea  id="sizeGuide" name="sizeGuide" rows="4" cols="50"></textarea>
+                    <label for="editSizeGuide">상품 크기</label>
+                    <textarea  id="editSizeGuide" name="editSizeGuide" rows="4" cols="50"></textarea>
                 </div>
                 <div class="input_box_wrap">
-                    <label for="shipping">배송 정보</label>
-                    <textarea id="shipping" name="shipping" rows="4" cols="50"></textarea>
+                    <label for="editShipping">배송 정보</label>
+                    <textarea id="editShipping" name="editShipping" rows="4" cols="50"></textarea>
                 </div>
                 <div class="input_box_wrap">
-                    <label for="notice">주의 사항</label>
-                    <textarea id="notice" name="notice" rows="4" cols="50"></textarea>
+                    <label for="editNotice">주의 사항</label>
+                    <textarea id="editNotice" name="editNotice" rows="4" cols="50"></textarea>
                 </div>
                 <div class="input_box_wrap desc" >
-                    <label for="displayImage">섬네일 사진</label>
-                    <input type="file" id="displayImage" name="displayImage">
+                    <label for="editDisplayImage">섬네일 사진</label>
+                    <input type="file" id="editDisplayImage" name="editDisplayImage">
                 </div>
                 <div class="text description"><span>상품 목록에서 보여질 사진입니다.</span></div>
-                <!--            <div class="input_box_wrap>-->
-                <!--            <label for="displayImageHover">섬네일 사진2</label>-->
-                <!--            <input type="file" id="displayImageHover" name="displayImage">-->
-                <!--            <div class="text description"><span>상품 목록에서 커서를 올리면 보여질 사진입니다.</span></div>-->
-                <!--            </div>-->
                 <div class="input_box_wrap desc">
-                    <label for="imageFiles">사진 첨부</label>
-                    <input type="file" id="imageFiles" name="imageFiles" multiple>
+                    <label for="editImageFiles">사진 첨부</label>
+                    <input type="file" id="editImageFiles" name="editImageFiles" multiple>
                 </div>
                 <div class="text description">
                     <ul >
@@ -108,7 +102,8 @@
                     </ul>
                 </div>
                 <div class="input_box_wrap btn">
-                    <button type="submit" class="btn1"> 등록하기</button>
+                    <button type="submit" class="btn1"> 수정하기</button>
+                    <button type="button" class="btn1" onclick="goToProductList()">취소하기</button>
                 </div>
             </form>
         </div>
@@ -116,5 +111,3 @@
 </div>
 </body>
 </html>
-
-

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>할인 혜택 수정 | Tickers</title>
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Tickers" />
+    <meta property="og:description" content="" />
+    <meta property="og:image" content="" />
+    <meta property="og:url" content="" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="../../../../css/comm.css">
+    <link rel="stylesheet" href="../../../../css/admin_form.css">
+    <script defer src="../../../../js/editDiscount.js"></script>
+</head>
+<body>
+<div class="admin_wrap">
+    <div class="sidebar">
+        <div class="side_menu top">
+            <ul>
+                <li class="logo">
+                    <a href="#">
+                        <img src="../../../../images/tickers_logo.png" alt="로고">
+                    </a>
+                </li>
+                <li><a href="#">기본 설정</a></li>
+                <li><a href="#">사이트 바로가기</a></li>
+            </ul>
+            <hr>
+        </div>
+        <div class="side_menu">
+            <h2>메뉴</h2>
+            <ul>
+                <li><a href="#">상품 관리</a></li>
+                <li><a href="#">할인 혜택 관리</a></li>
+                <li><a href="#">주문 관리</a></li>
+                <li><a href="#">고객 관리</a></li>
+            </ul>
+        </div>
+    </div>
+    <div id="discountEdit">
+        <div class="content">
+            <h2 class="content_tit">할인 혜택 수정</h2>
+            <form id="editDiscountForm">
+                <div class="discount type">
+                    <span>할인 방식</span>
+                    <div class="input_box_wrap">
+                        <input type="radio" id="editRate" name="editOptions" value="option1" checked>
+                        <label for="editRate">정률 할인</label>
+                    </div>
+                    <div class="input_box_wrap">
+                        <input type="radio" id="editFix" name="editOptions" value="option2">
+                        <label for="editFix">정액 할인</label>
+                    </div>
+                </div>
+                <div class="input_box_wrap">
+                    <label for="editValue">할인 설정</label>
+                    <input type="number" id="editValue" name="editValue"  placeholder="숫자를 입력해주세요.">
+                </div>
+                <div class="input_box_wrap btn">
+                    <button type="submit" class="btn1"> 등록하기</button>
+                    <button type="button" class="btn1" onclick="goToDiscountDetails()">취소하기</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

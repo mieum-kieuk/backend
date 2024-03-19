@@ -88,7 +88,7 @@ body {
 /* 뷰표트 변환시 폰트크기 자동확대 방지 */
 input[type=text], input[type=password], input[type=submit], input[type=search] {
   -webkit-appearance: none;
-  border-radius: 0px;
+  /*border-radius: 0px;*/
 }
 input:checked[type=checkbox] {
   background-color: #666;
@@ -97,12 +97,12 @@ input:checked[type=checkbox] {
 
 button {
   -webkit-appearance: button;
-  border-radius: 0;
+  /*border-radius: 0;*/
 }
 
 input[type=button], input[type=submit], input[type=reset], input[type=file] {
   -webkit-appearance: button;
-  border-radius: 0;
+  /*border-radius: 0;*/
 }
 input[type=search]::-webkit-search-cancel-button {
   -webkit-appearance: none;
@@ -125,6 +125,7 @@ input:-webkit-autofill:active {
 body {
   font-size: 16px;
   font-family: "Inter", "Pretendard", "Noto Sans KR", "Malgun Gothic", "맑은 고딕", sans-serif;
+  color: #222;
 }
 
 /* desktop */
