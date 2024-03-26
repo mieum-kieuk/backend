@@ -8,7 +8,7 @@ function validateBeforeSubmit() {
     }
 
     if (parseInt(discountValue) < 1) {
-        alert('0보다 큰 값을 입력해 주세요.');
+        alert('1 이상의 값을 입력해 주세요.');
         return false;
     }
 
@@ -19,12 +19,10 @@ function validateBeforeSubmit() {
         }
     } else if (discountType === 'FIX') {
         if (parseInt(discountValue) < 1) {
-            alert('0보다 큰 값을 입력해 주세요.');
+            alert('1 이상의 값을 입력해 주세요.');
             return false;
         }
     }
 
     return true;
 }
-
-

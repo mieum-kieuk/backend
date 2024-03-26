@@ -94,7 +94,9 @@ input:checked[type=checkbox] {
   background-color: #666;
   -webkit-appearance: checkbox;
 }
-
+input:focus {
+  outline: none;
+}
 button {
   -webkit-appearance: button;
   /*border-radius: 0;*/
@@ -373,38 +375,51 @@ legend {
   max-width: 2800px;
   width: 100%;
 }
-
-.main_wrap {
-  width: 100%;
+.main_content {
+  display: flex;
+  flex-direction: column;
 }
-
+.main_wrap {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 40px;
+}
+.main_slide > ul {
+  /*position: relative;*/
+}
+.main_slide > ul > li {
+  /*position: absolute;*/
+  top: 0;
+}
 .main_slide img {
   width: 100%;
-  height: 100vh;
+  /*height: 100vh;*/
   object-fit: cover;
   object-position: top;
 }
-.main_slide .swiper-pagination-bullet-active {
-  background: #333;
-}
-
 .main_content_wrap {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* 2개의 열을 생성 */
-  grid-gap: 20px; /* 열 사이의 간격 설정 */
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: auto;
 }
-.main_content_wrap li img {
+.main_content_wrap li {
+  width: 100%;
+}
+.main_content_wrap .thumb img {
+  display: block;
   width: 100%;
   height: 500px;
   object-fit: cover;
 }
-.main_content_wrap li:nth-child(1) {
-  grid-column: 1/span 3; /* 첫 번째 열에 배치 */
-}
-.main_content_wrap li:nth-child(2) {
-  grid-column: 2/span 3; /* 두 번째 열에 배치 */
-  grid-row: 2/span 1; /* 첫 번째 열의 아래로 배치 */
-}
+/*.main_content_wrap li:nth-child(1) {*/
+/*  grid-column: 1/span 3; !* 첫 번째 열에 배치 *!*/
+/*}*/
+/*.main_content_wrap li:nth-child(2) {*/
+/*  grid-column: 2/span 3; !* 두 번째 열에 배치 *!*/
+/*  grid-row: 2/span 1; !* 첫 번째 열의 아래로 배치 *!*/
+/*}*/
 
 #footer {
   position: relative;

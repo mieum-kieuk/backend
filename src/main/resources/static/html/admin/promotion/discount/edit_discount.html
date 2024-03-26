@@ -16,7 +16,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="../../../../css/comm.css">
     <link rel="stylesheet" href="../../../../css/admin_form.css">
-    <script defer src="../../../../js/editDiscount.js"></script>
+    <script defer src="../../../../js/addDiscount.js"></script>
 </head>
 <body>
 <div class="admin_wrap">
@@ -47,6 +47,10 @@
         <div class="content">
             <h2 class="content_tit">할인 혜택 수정</h2>
             <form id="editDiscountForm">
+                <div class="input_box_wrap">
+                    <label for="name">할인명</label>
+                    <input type="number" id="name" name="name" >
+                </div>
                 <div class="discount type">
                     <span>할인 방식</span>
                     <div class="input_box_wrap">
@@ -64,7 +68,7 @@
                 </div>
                 <div class="input_box_wrap btn">
                     <button type="submit" class="btn1"> 등록하기</button>
-                    <button type="button" class="btn1" onclick="goToDiscountDetails()">취소하기</button>
+                    <button type="button" class="btn1" onclick="goToDiscountDetails()">목록으로</button>
                 </div>
             </form>
         </div>

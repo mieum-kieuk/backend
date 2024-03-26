@@ -53,6 +53,7 @@
                 <thead>
                 <tr>
                     <th></th>
+                    <th>할인명</th>
                     <th>할인 방식</th>
                     <th>할인 설정</th>
                     <th></th>
@@ -60,7 +61,10 @@
                 </thead>
                 <tbody class="discount_list">
                 <tr>
-                    <td><input type="checkbox" name="" id=""></td>
+                    <td>
+                        <label for="checkbox"></label>
+                        <input type="checkbox" name="checkbox" id="checkbox"></td>
+                    <td>할인명</td>
                     <td>정률 할인</td>
                     <td>10%</td>
                     <td>
@@ -71,37 +75,17 @@
                             <div class="dropdown_menu">
                                 <ul>
                                     <li>
-                                        <button class="edit_btn">수정</button>
+                                        <button class="edit_btn" onclick="goToEditDiscount()">수정</button>
                                     </li>
                                     <li>
-                                        <button class="delete_btn">삭제</button>
+                                        <button class="delete_btn" onclick="goToDeleteDiscount()">삭제</button>
                                     </li>
                                 </ul>
-
                             </div>
                         </div>
                     </td>
-
                 </tr>
-                <tr>
-                    <td>
-                        <label for="checkbox"></label>
-                        <input type="checkbox" id="checkbox">
-                    </td>
-                    <td><span id="type"></span></td>
-                    <td><span id="value"></span></td>
-                    <td>
-                        <button class="edit_btn">
-                            <span class="material-symbols-outlined">edit</span>
-                        </button>
-                    </td>
-                    <td>
-                        <button class="delete_btn">
-                            <span class="material-symbols-outlined">delete</span>
-                        </button>
-                    </td>
 
-                </tr>
                 </tbody>
             </table>
         </div>

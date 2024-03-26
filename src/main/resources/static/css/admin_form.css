@@ -44,6 +44,9 @@ body  {
 .side_menu.top {
     padding-bottom: 20px;
 }
+form {
+    max-width: 600px;
+}
 .content {
     margin-left: 200px;
     padding: 20px;
@@ -65,7 +68,7 @@ body  {
 label {
     display: flex;
     width: 120px;
-    margin-right: 20px; /* label 오른쪽 간격 추가 */
+    margin-right: 20px;
 }
 input, select, textarea{
     border: 1px solid #999;
@@ -102,7 +105,6 @@ input::-webkit-inner-spin-button {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    max-width: 590px;
 }
 .input_box_wrap.desc {
     margin-bottom: 5px;
@@ -124,9 +126,6 @@ input::-webkit-inner-spin-button {
     content: "";
 }
 /*discount*/
-#discountForm {
-    max-width: 500px;
-}
 #discountForm .discount.type, #editDiscountForm .discount.type {
     display: flex;
 }
@@ -134,7 +133,7 @@ input::-webkit-inner-spin-button {
     margin-right: 20px;
     width: 120px;
 }
-#rate, #fix {
+#rate, #fix, #editRate, #editFix {
     margin-right: 5px;
 }
 
@@ -143,6 +142,9 @@ input::-webkit-inner-spin-button {
     width: 120px;
 }
 /*List*/
+th {
+    color: #999;
+}
 #discountList th,#discountList td, #productList th, #productList td{
     display: flex;
     flex-direction: row;
@@ -150,7 +152,6 @@ input::-webkit-inner-spin-button {
     padding: 5px;
     font-size: 12px;
     font-weight: 400;
-    color: #999;
     width: 80px;
     height: 30px;
 }
@@ -165,18 +166,37 @@ input::-webkit-inner-spin-button {
 }
 .menu {
     position: relative;
-    /*top: 100%;*/
+    display: inline-block;
+    border-radius: 5px;
+    /*overflow: hidden; !* 내부 요소가 넘치지 않도록 함 *!*/
 }
+
 .dropdown_menu {
     display: none;
-    flex-direction: column;
-}
-.menu_toggle {
     position: absolute;
-    top: 0;
-    right: 0;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #ffffff;
+    border-radius: 2px;
+    white-space: nowrap;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 2;
 }
+.dropdown_menu button {
+    padding: 2px 3px;
+    text-align: center;
+}
+
+.menu_toggle {
+    position: relative;
+    z-index: 1;
+}
+
 .dropdown_menu.show {
     display: flex;
-    background: #eee;
+    flex-direction: column;
+    align-items: stretch;
 }
+
+
