@@ -44,3 +44,14 @@ $(document).ready(function() {
     });
 });
 
+function deleteOk(discountId){
+    if(!confirm('삭제하시면 복구할 수 없습니다. \n정말로 삭제하시겠습니까??')){
+        return false;
+    } else {
+        location.href= discountId + "/delete";
+        return true;
+    }
+}
+
+
+

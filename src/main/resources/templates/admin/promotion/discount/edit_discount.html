@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>할인 혜택 등록 | Tickers</title>
+    <title>할인 혜택 수정 | Tickers</title>
 
     <meta property="og:type" content="website"/>
     <meta property="og:title" content="Tickers"/>
@@ -16,48 +16,56 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="../../../../static/css/comm.css" th:href="@{/css/comm.css}">
     <link rel="stylesheet" href="../../../../static/css/admin_form.css" th:href="@{/css/admin_form.css}">
-    <script defer src="../../../../static/js/discount.js" th:src="@{/js/discount.js}"></script>
+    <script src="../../../../static/js/discount.js" th:src="@{/js/discount.js}"></script>
 </head>
 <body>
 <div class="admin_wrap">
     <div th:replace="~{/layout/menu :: admin_menu}"></div>
-    <div id="addDiscount">
+    <div id="discountEdit">
         <div class="content">
-            <h2 class="content_tit">할인 혜택 등록</h2>
-            <form id="discountForm" action="" th:action th:object="${discount}" method="post"
+            <h2 class="content_tit">할인 혜택 수정</h2>
+            <form id="editDiscountForm" action="" th:action th:object="${discount}" method="post"
                   th:onsubmit="return validateBeforeSubmit()" novalidate>
                 <div class="form_wrap">
                     <div class="input_box_wrap">
-                        <label for="value">할인명</label>
-                        <input type="text" id="name" th:field="*{name}" maxlength="30">
+                        <label for="name">할인명</label>
+                        <input type="text" id="name" th:field="*{name}">
                     </div>
                     <div class="field-error" th:errors="*{name}"></div>
                     <div class="discount type">
                         <span>할인 방식</span>
-                        <div class="discount_type">
-                            <div class="input_box_wrap radio" th:each="discountType : ${discountTypes}">
-                                <input type="radio" th:field="*{type}" th:value="${discountType.name()}"
-                                       th:checked="*{type} != null and ${discountType.name()} == *{type.name()}">
-                                <label th:for="${#ids.prev('type')}" th:text="${discountType.description}">정률 할인</label>
-                            </div>
+                        <div class="input_box_wrap radio" th:each="discountType : ${discountTypes}">
+                            <input type="radio" th:field="*{type}" th:value="${discountType.name()}">
+                            <label th:for="${#ids.prev('type')}" th:text="${discountType.description}">정률 할인</label>
                         </div>
                     </div>
                     <div class="field-error" th:errors="*{type}"></div>
                     <div class="input_box_wrap">
                         <label for="value">할인 설정</label>
-                        <input type="number" id="value" th:field="*{value}" placeholder="숫자를 입력해 주세요." min="1">
+                        <input type="number" id="value" th:field="*{value}" placeholder="숫자를 입력해주세요.">
                     </div>
                     <div class="field-error" th:errors="*{value}"></div>
                 </div>
                 <div class="input_box_wrap btn">
-                    <button type="button" class="btn1" onclick="location.href='./discount_list.html'"
-                            th:onclick="|location.href='@{/admin/promotion/discounts}'|">취소
+                    <button type="button" class="btn1" onclick="location.href='./discount_details.html'"
+                            th:onclick="|location.href='@{/admin/promotion/discounts/{discountId}(discountId=${discount.id})}'|">
+                        취소
                     </button>
-                    <button type="submit" class="btn1 submit_btn">등록</button>
+                    <button type="submit" class="btn1 edit">수정</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
+<script th:inline="javascript">
+    $(document).ready(function () {
+        let type = [[${discount.type}]]
+        if (type === 'RATE') {
+            $('#type1').attr('checked', 'checked');
+        } else if (type === 'FIX') {
+            $('#type2').attr('checked', 'checked');
+        }
+    })
+</script>
 </body>
 </html>

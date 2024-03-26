@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>할인 혜택 확인 | Tickers</title>
+
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="Tickers"/>
+    <meta property="og:description" content=""/>
+    <meta property="og:image" content=""/>
+    <meta property="og:url" content=""/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="../../../../static/css/comm.css" th:href="@{/css/comm.css}">
+    <link rel="stylesheet" href="../../../../static/css/admin_form.css" th:href="@{/css/admin_form.css}">
+    <script defer src="../../../../static/js/discount.js" th:src="@{/js/discount.js}"></script>
+</head>
+<body>
+<div class="admin_wrap">
+    <div th:replace="~{/layout/menu :: admin_menu}"></div>
+    <div id="discountDetails">
+        <div class="content">
+            <h2 class="content_tit">할인 혜택 확인</h2>
+            <div class="input_box_wrap">
+                <span class="input_tit">할인명</span>
+                <span id="name" th:text="${discount.name}">신상 할인</span>
+            </div>
+            <div class="input_box_wrap">
+                <span class="input_tit">할인 방식</span>
+                <span id="type" th:text="${discount.type.description}">정률 할인</span>
+            </div>
+            <div class="input_box_wrap">
+                <span class="input_tit">할인 설정</span>
+                <span id="value" th:text="${discount.type.name()} == 'RATE' ? ${discount.value} + '%' : ${discount.value} + '원'">10%</span>
+            </div>
+            <div class="input_box_wrap btn">
+                <button class="btn1" onclick="location.href='./edit_discount.html'" th:onclick="|location.href='@{/admin/promotion/discounts/{discountId}/edit(discountId=${discount.id})}'|">수정</button>
+                <button class="btn1" id="delete-btn" onclick="location.href='./discount_list.html'" th:onclick="|deleteOk(${discount.id})|">삭제</button>
+                <button class="btn1" onclick="location.href='./discount_list.html'" th:onclick="|location.href='@{/admin/promotion/discounts}'|">목록</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
