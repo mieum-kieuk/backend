@@ -47,17 +47,18 @@
         <div class="content">
             <h2 class="content_tit">할인 혜택 수정</h2>
             <form id="editDiscountForm">
+                <div class="form_wrap">
                 <div class="input_box_wrap">
                     <label for="name">할인명</label>
-                    <input type="number" id="name" name="name" >
+                    <input type="text" id="name" name="name" >
                 </div>
                 <div class="discount type">
                     <span>할인 방식</span>
-                    <div class="input_box_wrap">
+                    <div class="input_box_wrap radio">
                         <input type="radio" id="editRate" name="editOptions" value="option1" checked>
                         <label for="editRate">정률 할인</label>
                     </div>
-                    <div class="input_box_wrap">
+                    <div class="input_box_wrap radio">
                         <input type="radio" id="editFix" name="editOptions" value="option2">
                         <label for="editFix">정액 할인</label>
                     </div>
@@ -66,9 +67,10 @@
                     <label for="editValue">할인 설정</label>
                     <input type="number" id="editValue" name="editValue"  placeholder="숫자를 입력해주세요.">
                 </div>
+                </div>
                 <div class="input_box_wrap btn">
-                    <button type="submit" class="btn1"> 등록하기</button>
-                    <button type="button" class="btn1" onclick="goToDiscountDetails()">목록으로</button>
+                    <button type="button" class="btn1" onclick="location.href = './discount_details.html'">취소</button>
+                    <button type="submit" class="btn1 edit"> 수정</button>
                 </div>
             </form>
         </div>

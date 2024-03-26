@@ -27,3 +27,20 @@ function validateBeforeSubmit() {
 
     return true;
 }
+
+$(document).ready(function() {
+    $('.menu_toggle').click(function() {
+        var dropdownMenu = $(this).siblings('.dropdown_menu');
+        $('.dropdown_menu').not(dropdownMenu).removeClass('show');
+        dropdownMenu.toggleClass('show');
+    });
+
+    $('#selectAll').click(function() {
+        if ($(this).prop('checked')) {
+            $('.discount_table tbody input[type="checkbox"]').prop('checked', true);
+        } else {
+            $('.discount_table tbody input[type="checkbox"]').prop('checked', false);
+        }
+    });
+});
+

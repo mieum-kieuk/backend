@@ -1,11 +1,12 @@
 body  {
-    font-size: 14px;
+    font-size: 12px;
     display: flex;
 }
 /*공통*/
 .admin_wrap {
     width: 100%;
-    padding: 0 100px 0 0;
+    padding: 0 50px ;
+    margin-left: 200px;
 }
 .sidebar {
     height: 100%;
@@ -44,12 +45,16 @@ body  {
 .side_menu.top {
     padding-bottom: 20px;
 }
-form {
-    max-width: 600px;
+.form_wrap {
+    width: 100%;
+    border: 1px solid #d7d7d7;
+    padding: 30px;
+    color: #666;
+    margin-bottom: 20px;
+    border-radius: 2px;
 }
 .content {
-    margin-left: 200px;
-    padding: 20px;
+    padding: 20px 10px;
 }
 .content_tit {
     padding: 20px 0 30px;
@@ -59,6 +64,20 @@ form {
     flex-direction: row;
     align-items: center;
     margin-bottom: 20px;
+    width: 100%;
+}
+.input_box_wrap input {
+    width: 100%;
+}
+.input_box_wrap textarea {
+    width: 100%;
+}
+.input_box_wrap.radio label{
+    color: #666;
+    font-weight: 400;
+}
+.input_box_wrap.radio input{
+    width: auto;
 }
 .input_box_wrap.btn {
     justify-content: flex-end;
@@ -66,10 +85,20 @@ form {
     gap: 8px;
 }
 label {
-    display: flex;
-    width: 120px;
+    display: block;
+    max-width: 120px;
+    width: 100%;
     margin-right: 20px;
+    white-space: nowrap;
+    color: #999;
+    font-weight: 600;
 }
+.checkbox_cell, .btn_cell {
+    display: flex;
+    width: 40px;
+    padding: 0 10px;
+}
+
 input, select, textarea{
     border: 1px solid #999;
     padding: 5px 5px;
@@ -80,19 +109,22 @@ input::-webkit-inner-spin-button {
     -moz-appearance: none;
     -webkit-appearance: none;
 }
-::placeholder {
-    font-size: 11px;
-}
+
 .btn1 {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 80px;
+    width: 100px;
     /*height: 45px;*/
     padding: 8px;
     border-radius: 2px;
-    border: solid 1px #333;
-    background-color: #fff;
+    border: solid 1px #666;
+    background: #fff;
+    color: #666;
+}
+.submit_btn, .edit {
+    color: #fff;
+    background: #000;
 }
 .material-symbols-outlined {
     font-family: 'Material Symbols Outlined';
@@ -100,6 +132,7 @@ input::-webkit-inner-spin-button {
     font-size: 20px;
     color: #666;
 }
+
 /*addProduct*/
 #addProductForm {
     display: flex;
@@ -110,28 +143,43 @@ input::-webkit-inner-spin-button {
     margin-bottom: 5px;
 }
 
-#imageFiles, #displayImage {
-    width: 450px;
+#imageFiles, #displayImage, #editImageFiles, #editDisplayImage{
+    width: 100%;
     border-left: none;
     border-right: none;
+    border-radius: 0;
 }
 .description {
     padding: 0 0 20px 140px;
 }
 .description span {
-    font-size: 12px;
+    font-size: 11px;
     color: #666;
 }
 .description span::before{
-    content: "";
+    content: "• ";
 }
 /*discount*/
+.discount_type {
+    display: flex;
+    flex-direction: row;
+}
+.discount.type .input_box_wrap{
+    width: auto;
+}
+.discount_type label {
+    display: block;
+    width: 100% ;
+}
 #discountForm .discount.type, #editDiscountForm .discount.type {
     display: flex;
 }
 #discountForm .discount.type span, #editDiscountForm .discount.type span{
+    display: block;
     margin-right: 20px;
     width: 120px;
+    font-weight: 600;
+    color: #999;
 }
 #rate, #fix, #editRate, #editFix {
     margin-right: 5px;
@@ -142,25 +190,37 @@ input::-webkit-inner-spin-button {
     width: 120px;
 }
 /*List*/
+table {
+    width: 100%;
+    margin-bottom: 20px;
+}
 th {
     color: #999;
+    white-space: nowrap;
 }
-#discountList th,#discountList td, #productList th, #productList td{
+#noDataMessage > td {
+    text-align: center;
+    white-space: nowrap;
+}
+th, td{
     display: flex;
     flex-direction: row;
     justify-content: center;
+    align-items: center;
     padding: 5px;
     font-size: 12px;
     font-weight: 400;
-    width: 80px;
-    height: 30px;
+    width: 100%;
+    height: auto;
 }
-#discountList td, #productList td {
-    align-items: center;
+td span {
+    display: block;
+    width: 100%;
 }
 #discountList tr, #productList tr{
     display: flex;
     flex-direction: row;
+    justify-content: center;
     align-items: center;
     border-bottom: 1px solid #eee;
 }
@@ -168,7 +228,6 @@ th {
     position: relative;
     display: inline-block;
     border-radius: 5px;
-    /*overflow: hidden; !* 내부 요소가 넘치지 않도록 함 *!*/
 }
 
 .dropdown_menu {
@@ -184,7 +243,7 @@ th {
     z-index: 2;
 }
 .dropdown_menu button {
-    padding: 2px 3px;
+    padding: 5px 10px;
     text-align: center;
 }
 
