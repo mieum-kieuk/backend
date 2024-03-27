@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>홈 | Archivegarden</title>
+    <title>홈 | Tickers</title>
 
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Archivegarden" />
@@ -13,10 +13,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.min.js" integrity="sha512-Ysw1DcK1P+uYLqprEAzNQJP+J4hTx4t/3X2nbVwszao8wD+9afLjBQYjz7Uk4ADP+Er++mJoScI42ueGtQOzEA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
     <link rel="stylesheet" href="../css/comm.css" />
     <script defer src="../js/comm.js"></script>
 
@@ -33,7 +30,7 @@
                 <div class="gnb_menu center">
                 <ul class="depth1">
                     <li class="depth1_menu">
-                        <a href="product.html">Shop</a>
+                        Shop
                         <ul class="depth2">
                             <li><a href="">All</a></li>
                             <li><a href="">Masking tape</a></li>
@@ -43,7 +40,7 @@
                     </li>
                     <li class="depth1_menu"><a href="about.html">About</a>
                     </li>
-                    <li class="depth1_menu"><a href="community.html">Community</a>
+                    <li class="depth1_menu">Community
                         <ul class="depth2">
                             <li><a href="">Notice</a></li>
                             <li><a href="">Q&amp;A</a></li>
@@ -61,7 +58,7 @@
                     </div>
                     <div class="account">
                         <ul class="depth1">
-                            <li class="depth1_menu"><a href="">Account</a>
+                            <li class="depth1_menu">Account
                                 <ul class="depth2">
                                     <li><a href="login.html">Login</a></li>
                                     <li><a href="join.html">Join</a></li>
@@ -73,7 +70,7 @@
         
                     </div>
                     <div class="cart">
-                        <a href="cart.html" id="cartLink">Cart(0)
+                        <a href="./cart.html" >Cart(0)
                         </a>
                     </div>
                 </div>
@@ -81,20 +78,64 @@
         </header>
         <main id="main">
             <div class="main_content">
-                    <div class="swiper main_slide">
-                        <div class="swiper-wrapper">
-                          <div class="swiper-slide"><a href=""><img src="/images/banner1.jpeg" alt=""></a></div>
-                          <div class="swiper-slide"><a href=""><img src="/images/banner2.jpeg" alt=""></a></div>
-                          <div class="swiper-slide"><a href=""><img src="/images/banner3.jpeg" alt=""></a></div>
-                        </div>
-                        <div class="swiper-pagination"></div>
-                      </div>
-                    <div class="main_wrap">
-                    <ul class="main_content_wrap">
-                        <li><a href=""><img src="/images/main_content1.jpeg" alt=""><p>23 Holiday Collection</p></a></li>
-                        <li><a href=""><img src="/images/main_content2.jpeg" alt=""><p>23 Holiday Collection</p></a></li>
+                <div class="main_slide">
+                    <ul>
+                        <li><img src="../images/main.jpg" alt="메인이미지1"></li>
+                        <li><img src="../images/main_content1.jpeg" alt="메인이미지2"></li>
                     </ul>
                 </div>
+                <div>
+                <div class="main_product_wrap">
+                    <ul class="prd_list">
+                        <li>
+                            <div class="thumb">
+                                <a href="/product"><img src="../images/maskingtape1.jpeg" alt="제품1"></a>
+                            </div>
+                            <div class="description">
+                                <div class="prd_name"><a href="/product"><span>Masking Tape01</span></a></div>
+                                <ul class="prd_price">
+                                    <li>
+                                        <span class="original_price">KRW 7,000</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="thumb">
+                                <a href="/product"><img src="../images/maskingtape1.jpeg" alt="제품1"></a>
+                            </div>
+                            <div class="description">
+                                <div class="prd_name"><a href="/product"><span>Masking Tape01</span></a></div>
+                                <ul class="prd_price discount">
+                                    <li>
+                                        <span class="original_price">KRW 7,000</span>
+                                    </li>
+                                    <li>
+                                        <span class="discount_rate">10%</span><span class="discounted_price"> KRW 6,300</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="thumb">
+                                <a href="/product"><img src="../images/maskingtape1.jpeg" alt="제품1"></a>
+                            </div>
+                            <div class="description">
+                                <div class="prd_name"><a href="/product"><span>Masking Tape01</span></a></div>
+                                <ul class="prd_price soldout">
+                                    <li>
+                                        <span class="original_price">KRW 7,000</span>
+                                    </li>
+                                    <li>
+                                        <span class="sold_out">sold out</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
             </div>
         </main>
         <footer id="footer">
@@ -113,21 +154,27 @@
                 </div>
                 <div class="footer_inner">
                     <ul>
-                        <li><a href="">Company : 아카이브가든</a></li>
-                        <li><a href="">전화번호</a></li>
-                        <li><a href="">이메일</a></li>
+                        <li>Company : 티커스</li>
+                        <li>전화번호 : 010-1234-5678</li>
+                        <li>이메일 : tickers@gmail.com</li>
                     </ul>
                 </div>
-                <div class="footer_inner ">
+                <div class="footer_inner">
                     <ul>
-                        <li><a href="">사업자 번호</a></li>
-                        <li><a href="">주소</a></li>
-                        <li><a href="">Copywight ©archive garden All rights reserved.</a></li>
+                        <li>사업자 번호 : 070-61-01100</li>
+                        <li>주소 : 서울시 티커스구 티커스대로 123</li>
+                        <li>Copyright ©Tickers All rights reserved.</li>
                     </ul>
                 </div>
             </div>
         </footer>
-        
+    </div>
+    <div class="search_bg"></div> <!-- 검색 폼 밖의 배경 -->
+    <div class="search_form_wrap">
+        <form action="search_complete.html" method="get">
+            <input type="text" placeholder="검색어를 입력하세요">
+            <button type="submit">Search</button>
+        </form>
     </div>
 </body>
 </html>
