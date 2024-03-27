@@ -56,7 +56,7 @@ public class AdminDiscountController {
 
     @GetMapping("/{discountId}")
     public String discountDetails(@PathVariable("discountId") Long discountId, Model model) {
-        DiscountDto discountDto = discountService.discountDetails(discountId);
+        DiscountDto discountDto = discountService.getDiscount(discountId);
         model.addAttribute("discount", discountDto);
         return "admin/promotion/discount/discount_details";
     }
@@ -86,6 +86,13 @@ public class AdminDiscountController {
     public String deleteDiscount(@PathVariable("discountId") Long discountId) {
         discountService.deleteDiscount(discountId);
         return "redirect:/admin/promotion/discounts";
+    }
+
+    @ResponseBody
+    @PostMapping("/delete")
+    public boolean deleteDiscountsByAjax(@RequestBody List<Long> discountIds) {
+        discountService.deleteDiscounts(discountIds);
+        return true;
     }
 
     private void validateDiscountValueRange(DiscountType type, Integer value, BindingResult bindingResult) {

@@ -67,7 +67,7 @@
                                     </li>
                                     <li>
                                         <button class="delete_btn" onclick="location.href='./discount_list.html'"
-                                                th:onclick="|location.href='@{/admin/promotion/discounts/{discountId}/delete(discountId=${discount.id})}'|">
+                                                th:onclick="|deleteOk(${discount.id})|">
                                             삭제
                                         </button>
                                     </li>

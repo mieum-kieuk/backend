@@ -28,14 +28,14 @@ function validateBeforeSubmit() {
     return true;
 }
 
-$(document).ready(function() {
-    $('.menu_toggle').click(function() {
+$(document).ready(function () {
+    $('.menu_toggle').click(function () {
         var dropdownMenu = $(this).siblings('.dropdown_menu');
         $('.dropdown_menu').not(dropdownMenu).removeClass('show');
         dropdownMenu.toggleClass('show');
     });
 
-    $('#selectAll').click(function() {
+    $('#selectAll').click(function () {
         if ($(this).prop('checked')) {
             $('.discount_table tbody input[type="checkbox"]').prop('checked', true);
         } else {
@@ -44,13 +44,44 @@ $(document).ready(function() {
     });
 });
 
-function deleteOk(discountId){
-    if(!confirm('삭제하시면 복구할 수 없습니다. \n정말로 삭제하시겠습니까??')){
+function deleteOk(discountId) {
+    if (!confirm('삭제하시면 복구할 수 없습니다. \n정말로 삭제하시겠습니까?')) {
         return false;
     } else {
-        location.href= discountId + "/delete";
+        window.location.href = '/admin/promotion/discounts/' + discountId + "/delete";
         return true;
     }
+}
+
+function deleteDiscount() {
+
+    let discountIds = [];
+    let checkboxes = $('input[name=checkbox]:checked');
+
+    if (checkboxes.length == 0) {
+        alert('삭제할 할인 혜택을 선택해 주세요.');
+        return false;
+    } else {
+        if(!confirm(checkboxes.length + '개 항목을 삭제하시겠습니까?')) {
+            return false;
+        } else {
+            $(checkboxes.each(function (v) {
+                let discountId = checkboxes[v].id.split('checkbox')[1];
+                discountIds.push(discountId);
+            }))
+
+            $.ajax({
+                type: 'POST',
+                url: '/admin/promotion/discounts/delete',
+                data: JSON.stringify(discountIds),
+                contentType: 'application/json',
+                success: function (result) {
+                    window.location.href = '/admin/promotion/discounts';
+                }
+            })
+        }
+    }
+
 }
 
 

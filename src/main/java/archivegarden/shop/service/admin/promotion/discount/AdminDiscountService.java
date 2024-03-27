@@ -34,11 +34,23 @@ public class AdminDiscountService {
     }
 
     /**
-     * 할인 혜택 상세 페이지
+     * 할인 혜택 단건 조회
      */
-    public DiscountDto discountDetails(Long discountId) {
+    @Transactional(readOnly = true)
+    public DiscountDto getDiscount(Long discountId) {
         Discount discount = discountRepository.findById(discountId).orElseThrow(() -> new NoSuchElementException("존재하지 않는 할인 혜택입니다."));
         return new DiscountDto(discount);
+    }
+
+    /**
+     * 할인 혜택 목록 조회
+     */
+    @Transactional(readOnly = true)
+    public List<DiscountDto> getDiscountList() {
+        return discountRepository.findAll()
+                .stream()
+                .map(d -> new DiscountDto(d))
+                .collect(Collectors.toList());
     }
 
     /**
@@ -53,27 +65,17 @@ public class AdminDiscountService {
     }
 
     /**
-     * 할인 혜택 삭제
+     * 할인 혜택 단건 삭제
      */
     public void deleteDiscount(Long discountId) {
         discountRepository.deleteById(discountId);
     }
 
     /**
-     * 할인 혜택 단건 조회
+     * Ajax
+     * 할인 혜택 여러개 삭제
      */
-    public DiscountDto getDiscount(Long discountId) {
-        Discount discount = discountRepository.findById(discountId).orElseThrow(() -> new NoSuchElementException("존재하지 않는 할인 혜택입니다."));
-        return new DiscountDto(discount);
-    }
-
-    /**
-     * 할인 혜택 목록 조회
-     */
-    public List<DiscountDto> getDiscountList() {
-        return discountRepository.findAll()
-                .stream()
-                .map(d -> new DiscountDto(d))
-                .collect(Collectors.toList());
+    public void deleteDiscounts(List<Long> discountIds) {
+        discountIds.stream().forEach(id -> discountRepository.deleteById(id));
     }
 }
