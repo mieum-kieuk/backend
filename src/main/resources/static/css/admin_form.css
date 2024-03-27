@@ -48,7 +48,7 @@ body  {
 .form_wrap {
     width: 100%;
     border: 1px solid #d7d7d7;
-    padding: 30px;
+    padding: 30px 30px 10px 30px;
     color: #666;
     margin-bottom: 20px;
     border-radius: 2px;
@@ -72,6 +72,9 @@ body  {
 .input_box_wrap textarea {
     width: 100%;
 }
+input[type=radio] {
+    margin-right: 5px;
+}
 .input_box_wrap.radio label{
     color: #666;
     font-weight: 400;
@@ -93,8 +96,11 @@ label {
     color: #999;
     font-weight: 600;
 }
+thead .btn_cell {
+    opacity: 0;
+}
 .checkbox_cell, .btn_cell {
-    display: flex;
+    display: table-cell;
     width: 40px;
     padding: 0 10px;
 }
@@ -109,13 +115,14 @@ input::-webkit-inner-spin-button {
     -moz-appearance: none;
     -webkit-appearance: none;
 }
-
+select option {
+    color: #666;
+}
 .btn1 {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100px;
-    /*height: 45px;*/
     padding: 8px;
     border-radius: 2px;
     border: solid 1px #666;
@@ -140,7 +147,7 @@ input::-webkit-inner-spin-button {
     align-items: flex-start;
 }
 .input_box_wrap.desc {
-    margin-bottom: 5px;
+    margin-bottom: 10px;
 }
 
 #imageFiles, #displayImage, #editImageFiles, #editDisplayImage{
@@ -159,6 +166,13 @@ input::-webkit-inner-spin-button {
 .description span::before{
     content: "• ";
 }
+#productDetails #imageFiles, #productDetails #displayImage {
+    width: auto;
+}
+#productDetails .input_box_wrap.desc {
+    margin-bottom: 20px;
+}
+
 /*discount*/
 .discount_type {
     display: flex;
@@ -181,13 +195,12 @@ input::-webkit-inner-spin-button {
     font-weight: 600;
     color: #999;
 }
-#rate, #fix, #editRate, #editFix {
-    margin-right: 5px;
-}
-
-.input_tit {
+.input_box_wrap .input_tit {
+    display: block;
     margin-right: 20px;
     width: 120px;
+    font-weight: 600;
+    color: #999;
 }
 /*List*/
 table {

@@ -17,9 +17,9 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="../../../css/comm.css">
-    <link rel="stylesheet" href="../../../css/admin_form.css">
-    <script defer src="../../../js/editProduct.js"></script>
+    <link rel="stylesheet" href="../../../../css/comm.css">
+    <link rel="stylesheet" href="../../../../css/admin_form.css">
+    <script defer src="../../../../js/adminProduct.js"></script>
 </head>
 <body>
 <div class="admin_wrap">
@@ -28,7 +28,7 @@
             <ul>
                 <li class="logo">
                     <a href="#">
-                        <img src="../../../images/tickers_logo.png" alt="로고">
+                        <img src="../../../../images/tickers_logo.png" alt="로고">
                     </a>
                 </li>
                 <li><a href="#">기본 설정</a></li>
@@ -51,9 +51,19 @@
         <div class="content">
             <h2 class="content_tit">상품 수정</h2>
             <form id="ProductForm">
+                <div class="form_wrap">
                 <div class="input_box_wrap">
                     <label for="editName">상품명</label>
                     <input type="text" id="editName" name="editName"  maxlength="50">
+                </div>
+                <div class="input_box_wrap">
+                    <label for="category">카테고리</label>
+                    <select id="category" name="category">
+                        <option value="option0" selected>카테고리를 선택해 주세요.</option>
+                        <option value="option1">Masking tape</option>
+                        <option value="option2">Sticker</option>
+                        <option value="option3">Memo</option>
+                    </select>
                 </div>
                 <div class="input_box_wrap">
                     <label for="editPrice">상품 가격</label>
@@ -101,9 +111,10 @@
                         </li>
                     </ul>
                 </div>
+                </div>
                 <div class="input_box_wrap btn">
-                    <button type="submit" class="btn1"> 수정하기</button>
-                    <button type="button" class="btn1" onclick="goToProductList()">취소하기</button>
+                    <button type="button" class="btn1" onclick="location.href = 'product_list.html'">취소</button>
+                    <button type="submit" class="btn1 edit">수정</button>
                 </div>
             </form>
         </div>
