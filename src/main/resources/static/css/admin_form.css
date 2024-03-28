@@ -159,7 +159,7 @@ select {
     align-items: flex-start;
 }
 .input_box_wrap.desc {
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 }
 .ess_tit::after {
     content: "*";
@@ -195,7 +195,7 @@ select {
     margin-left: 140px;
 }
 .description {
-    padding: 0 0 20px 140px;
+    padding: 0 0 15px 140px;
 }
 .description span {
     font-size: 11px;
@@ -225,13 +225,16 @@ select {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    border-bottom: 1px solid #666;
-    padding-top: 15px;
+    border-bottom: 1px solid #999;
     width: 100%;
+    margin-top: 15px;
+}
+.preview_image_container:last-child {
+    border-bottom: none;
 }
 .btn_wrap {
     position: absolute;
-    top: 15px;
+    top: 0;
     right: 0;
 }
 .preview_images {
@@ -244,7 +247,7 @@ select {
     height: 400px;
     object-fit: cover;
 }
-.file_name {
+.filename_container {
     margin-bottom: 10px;
 }
 .preview_container .material-symbols-outlined {
@@ -261,14 +264,17 @@ select {
     display: flex;
     flex-direction: column;
 }
-.details_images_container img{
+.details_images_container img {
     display: block;
     width: 400px;
     height: 400px;
     object-fit: cover;
     margin-bottom: 20px;
 }
-/*discount*/
+.details_images_container img:last-child {
+    margin-bottom: 0;
+}
+    /*discount*/
 .discount_type {
     display: flex;
     flex-direction: row;
@@ -313,6 +319,7 @@ select {
 #discountDetails th, #discountDetails td, #productDetails th, #productDetails td{
     display: flex;
     justify-content: flex-start;
+    align-items: flex-start;
     text-align: left;
     padding: 10px;
     border-bottom: 1px solid #eee;
@@ -321,6 +328,12 @@ select {
 table {
     width: 100%;
     margin-bottom: 20px;
+}
+table img {
+    display: block;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
 }
 th {
     color: #999;

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>상품 등록 세부사항 | Tickers</title>
+
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="Tickers"/>
+    <meta property="og:description" content=""/>
+    <meta property="og:image" content=""/>
+    <meta property="og:url" content=""/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="../../../../static/css/comm.css" th:href="@{/css/comm.css}">
+    <link rel="stylesheet" href="../../../../static/css/admin_form.css" th:href="@{/css/admin_form.css}">
+    <script defer src="../../../../static/js/adminProduct.js" th:src="@{/js/adminProduct.js}"></script>
+</head>
+<body>
+<div class="admin_wrap">
+    <div th:replace="~{/layout/menu :: admin_menu}"></div>
+    <div id="productDetails">
+        <div class="content">
+            <h2 class="content_tit">상품 등록 세부사항</h2>
+            <div class="form_wrap">
+                <table>
+                    <tr>
+                        <th class="input_tit">상품명</th>
+                        <td id="name" th:text="${product.name}">상품명</td>
+                    </tr>
+                    <tr>
+                        <th class="input_tit">카테고리</th>
+                        <td id="category" th:text="${product.category.displayName}">카테고리</td>
+                    </tr>
+                    <tr>
+                        <th class="input_tit">상품 가격</th>
+                        <td id="price">[[${product.price}]]원</td>
+                    </tr>
+                    <tr>
+                        <th class="input_tit">상품 가격</th>
+                        <td id="stockQuantity">[[${product.stockQuantity}]]개</td>
+                    </tr>
+                    <tr>
+                        <th class="input_tit">상품 상세정보</th>
+                        <td id="details" th:text="${product.details}">상품 상세정보</td>
+                    </tr>
+                    <tr>
+                        <th class="input_tit">상품 크기</th>
+                        <td id="sizeGuide" th:text="${product.sizeGuide}">상품 크기</td>
+                    </tr>
+                    <tr>
+                        <th class="input_tit">배송 정보</th>
+                        <td id="shipping" th:text="${product.shipping}">배송 정보</td>
+                    </tr>
+                    <tr>
+                        <th class="input_tit">주의 사항</th>
+                        <td id="notice" th:text="${product.notice}">주의 사항</td>
+                    </tr>
+                    <tr>
+                        <th class="input_tit">섬네일 사진1</th>
+                        <td class="details_images_container">
+                            <img th:src="|/productImages/${product.displayImage1}|">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="input_tit">섬네일 사진2</th>
+                        <td class="details_images_container">
+                            <img th:src="|/productImages/${product.displayImage2}|">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="input_tit">사진 첨부</th>
+                        <td class="details_images_container">
+                            <img th:each="detailImage : ${product.detailsImages}"
+                                 th:src="|/productImages/${detailImage}|">
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="input_box_wrap btn">
+                <button class="btn1" onclick="location.href='./edit_product.html'">수정</button>
+                <button class="btn1" onclick="location.href='./product_list.html'"
+                        th:onclick="|deleteOk(${product.id})|">삭제
+                </button>
+                <button class="btn1" onclick="location.href='./product_list.html'">목록</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+
