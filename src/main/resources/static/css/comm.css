@@ -74,6 +74,7 @@ button {
   border: 0 none;
   background-color: transparent;
   cursor: pointer;
+  color: #222;
 }
 
 table {
@@ -195,7 +196,7 @@ input[type=password] {
 .img-g {
   display: inline-block;
   overflow: hidden;
-  background: url(../../images/comm/img-comm.png) no-repeat;
+  /*background: url(../../images/comm/img-comm.png) no-repeat;*/
   vertical-align: top;
 }
 
@@ -320,27 +321,43 @@ legend {
   transform: translateX(-50%);
   display: flex;
   margin: auto;
-  /*justify-content: center;*/
+  max-width: 380px;
+  width: 100%;
+  justify-content: center;
 }
-.gnb_menu .search{
+.gnb_menu .search, .gnb_menu .cart {
   width: 33%;
-  /*padding:0 40px;*/
   margin: 0 auto;
 }
-.gnb_menu .cart {
-  width: 33%;
-  /*padding-left: 40px;*/
-  margin: 0 auto;
-}
-
 .gnb_menu .depth1 {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
   position: relative;
   align-items: center;
+  text-align: center;
+  width: 100%;
 }
 .gnb_menu.center .depth1_menu {
-  width: 33%;
+  display: flex;
+  width: 33.3333%;
+  text-align: center;
+  justify-content: center;
+  padding: 0;
+}
+#shop {
+  text-align: left;
+  justify-content: flex-start;
+}
+#about{
+  padding: 0 80px;
+}
+#community {
+  text-align: right;
+  justify-content: flex-end;
+}
+#community .depth2 {
+  margin-left: 34px;
 }
 .depth1_menu:hover > a{
   color: #999;
@@ -355,7 +372,8 @@ legend {
 }
 .depth2 {
   position: absolute;
-  left: 33%;
+  top: 100%;
+  left: 0;
   max-height: 0;
   overflow: hidden;
   text-align: left;
@@ -370,7 +388,9 @@ legend {
 .depth2 li :hover {
   color: #999;
 }
-
+.gnb_menu li {
+  cursor: default;
+}
 #main {
   max-width: 2800px;
   width: 100%;
@@ -416,19 +436,23 @@ legend {
   width: 100%;
 }
 .prd_list {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.prd_list > li {
+  display: flex;
+  flex-direction: column;
 }
 .prd_list .thumb img {
   display: block;
-  width: 400px;
-  height: 400px;
+  width: 450px;
+  height: 450px;
   object-fit: cover;
 }
 .prd_name {
   font-size: 14px;
-  margin: 5px 0;
+  margin: 10px 0 5px 0;
 }
 .prd_price {
   display: flex;
@@ -438,19 +462,17 @@ legend {
 }
 .prd_price.discount .discount_rate {
   color: #d94747;
-  /*font-size: 12px;*/
 }
 .prd_price.discount .original_price {
   text-decoration: line-through;
   color: #666;
-  /*font-size: 12px;*/
 }
 .prd_price.discount .discounted_price {
 }
 .prd_price.soldout .sold_out{
   color: #d94747;
 }
-#footer {
+.footer {
   position: relative;
   transform: translateY(0%);
   width: 100%;
@@ -459,8 +481,13 @@ legend {
   margin-top: 100px;
   font-size: 12px;
   border-top: 1px solid #333;
+  border-top: 1px solid #333;
+  background: #fff;
 }
-
+.footer.fixed{
+  position: fixed;
+  bottom: 0;
+}
 .footer_wrap {
   display: flex;
   width: 100%;
@@ -477,8 +504,8 @@ legend {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(8px);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
   z-index: 999;
 }
 .search_form_wrap {
@@ -489,11 +516,12 @@ legend {
   transform: translate(-50%, -50%);
   padding: 20px;
   border-radius: 10px;
+  width: 40%;
   z-index: 1000;
 }
 .search_form_wrap form {
   display: flex;
-  border-bottom: 1px solid #333;
+  border-bottom: 1px solid #222;
   padding: 5px;
   width: 100%;
 }
@@ -501,16 +529,16 @@ legend {
   font-size: 14px;
   border: none;
   background: none;
-  color: #ffffff;
+  width: 100%;
 }
 .search_form_wrap input::placeholder {
   font-size: 14px;
-  color: #ffffff;
+  color: #333;
   opacity: 0.7;
 }
 .search_form_wrap button {
   font-size: 14px;
-  color: #ffffff;
+  color: #222;
   opacity: 0.7;
 }
 .field-error {

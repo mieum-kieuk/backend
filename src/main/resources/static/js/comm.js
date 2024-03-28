@@ -6,10 +6,10 @@ $(function () {
     setInterval(function () {
         let next = (now + 1) % slideCount
 
-        $(slideList[now]).fadeOut(1500)
-        $(slideList[next]).fadeIn(1500)
+        $(slideList[now]).fadeOut(3000)
+        $(slideList[next]).fadeIn(3000)
         now = next
-    }, 3000)
+    }, 10000)
 })
 
 $(document).ready(function() {
@@ -21,6 +21,7 @@ $(document).ready(function() {
 
         e.stopPropagation();
     });
+
 
     $(document).click(function(e) {
         if (!$(e.target).closest('.search_form_wrap').length && !$(e.target).hasClass('search')) {
