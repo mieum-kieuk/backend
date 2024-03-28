@@ -106,15 +106,6 @@ label {
     color: #999;
     font-weight: 600;
 }
-thead .btn_cell {
-    opacity: 0;
-}
-.checkbox_cell, .btn_cell {
-    display: table-cell;
-    width: 40px;
-    padding: 0 10px;
-}
-
 input, select, textarea{
     border: 1px solid #999;
     padding: 5px 5px;
@@ -331,13 +322,11 @@ table {
 }
 table img {
     display: block;
-    width: 100px;
-    height: 100px;
+    max-width: 100px;
+    max-height: 150px;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
-}
-th {
-    color: #999;
-    white-space: nowrap;
 }
 #noDataMessage > td {
     text-align: center;
@@ -353,17 +342,36 @@ th, td{
     font-weight: 400;
     width: 100%;
     height: auto;
+    max-height: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
-td span {
-    display: block;
-    width: 100%;
+th {
+    color: #999;
+    white-space: nowrap;
+}
+td #details {
+    max-height: 150px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 7;
+    -webkit-box-orient: vertical;
 }
 #discountList tr, #productList tr{
     display: flex;
     flex-direction: row;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     border-bottom: 1px solid #d7d7d7;
+}
+thead .btn_cell {
+    opacity: 0;
+}
+.checkbox_cell, .btn_cell {
+    display: table-cell;
+    width: 40px;
+    padding: 5px 10px 0 10px;
+    overflow: visible;
 }
 .menu {
     position: relative;

@@ -48,12 +48,20 @@
     </div>
     <div id="productList">
         <div class="content">
-            <h2 class="content_tit">상품 등록 목록</h2>
+            <div class="content_tit">
+            <h2>상품 등록 목록</h2>
+            <div class="input_box_wrap btn">
+                <button type="button" class="btn1">삭제</button>
+                <button type="submit" class="btn1 submit_btn" onclick="location.href = './add_product.html'"> 등록</button>
+            </div>
+            </div>
             <table class="product_table">
                 <thead>
                 <tr>
                     <th class="checkbox_cell">
                     <input type="checkbox" id="selectAll"></th>
+                    <th>섬네일 사진1</th>
+                    <th>섬네일 사진2</th>
                     <th>상품명</th>
                     <th>카테고리</th>
                     <th>가격</th>
@@ -62,18 +70,21 @@
                     <th>크기</th>
                     <th>배송정보</th>
                     <th>주의사항</th>
-                    <th>섬네일 사진</th>
                     <th>첨부 사진</th>
-                    <th class="btn_cell"></th>
+                    <th class="btn_cell"><span class="material-symbols-outlined">more_horiz</span></th>
                 </tr>
                 </thead>
                 <tbody class="discount_list">
+                <tr id="noDataMessage" >
+                    <td colspan="12">등록된 할인 혜택이 없습니다.</td>
+                </tr>
                 <tr>
                     <td class="checkbox_cell">
                         <input type="checkbox" id="checkbox">
                     </td>
-                    <td><span id="name">
-                    </span></td>
+                    <td><img id="displayImage1"></img></td>
+                    <td><img id="displayImage2"></img></td>
+                    <td><span id="name"></span></td>
                     <td><span id="category"></span></td>
                     <td><span id="price"></span></td>
                     <td><span id="stockQuantity"></span></td>
@@ -81,8 +92,7 @@
                     <td><span id="sizeGuide"></span></td>
                     <td><span id="shipping"></span></td>
                     <td><span id="notice"></span></td>
-                    <td><span id="displayImage"></span></td>
-                    <td><span id="imageFiles"></span></td>
+                    <td><span id="detailsImages"></span></td>
                     <td class="btn_cell"><div class="menu">
                         <button class="menu_toggle">
                             <span class="material-symbols-outlined">more_horiz</span>
@@ -98,47 +108,9 @@
                             </ul>
                         </div>
                     </div></td>
-
                 </tr>
-                <tr>
-                    <td class="checkbox_cell">
-                        <input type="checkbox" >
-                    </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td class="btn_cell"><div class="menu">
-                        <button class="menu_toggle">
-                            <span class="material-symbols-outlined">more_horiz</span>
-                        </button>
-                        <div class="dropdown_menu">
-                            <ul>
-                                <li>
-                                    <button class="edit_btn" onclick="location.href = 'edit_product.html'">수정</button>
-                                </li>
-                                <li>
-                                    <button class="delete_btn" onclick="">삭제</button>
-                                </li>
-                            </ul>
-                        </div>
-                    </div></td>
-
-                </tr>
-
-
                 </tbody>
             </table>
-            <div class="input_box_wrap btn">
-                <button type="button" class="btn1">삭제</button>
-                <button type="submit" class="btn1 submit_btn"> 등록</button>
-            </div>
         </div>
     </div>
 </div>
