@@ -73,6 +73,10 @@ body  {
 .input_box_wrap input, .input_box_wrap select {
     width: 100%;
 }
+.input_box_wrap select {
+    color: #666;
+    height: 26px;
+}
 .input_box_wrap textarea {
     width: 100%;
     resize: vertical;
@@ -120,8 +124,10 @@ input::-webkit-inner-spin-button {
     -moz-appearance: none;
     -webkit-appearance: none;
 }
-select option {
-    color: #666;
+select {
+    appearance: none;
+    /*-moz-appearance: none;*/
+    /*-webkit-appearance: none;*/
 }
 .btn1 {
     display: flex;
@@ -155,7 +161,7 @@ select option {
     margin-bottom: 10px;
 }
 
-#detailImages, #displayImage1, #displayImage2, #editImageFiles, #editDisplayImage{
+#detailsImages, #displayImage1, #displayImage2, #editImageFiles, #editDisplayImage{
     width: 100%;
     border-left: none;
     border-right: none;
@@ -181,15 +187,49 @@ select option {
     margin-bottom: 20px;
 }
 .preview_container {
-    display: flex;
-    flex-direction: column;
+    display: none;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
     margin-left: 140px;
 }
-.preview_image {
+.preview_container.column {
+    flex-direction: column;
+}
+.preview_image_container {
+    position: relative;
     display: flex;
     flex-direction: column;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #999;
+    justify-content: space-between;
+    width: 100%;
+}
+.btn_wrap {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.preview_images {
+    display: flex;
+    flex-direction: column;
+}
+.preview_image {
+    margin-bottom: 10px;
+    width: 400px;
+    height: 400px;
+    object-fit: cover;
+}
+.file_name {
+    margin-bottom: 10px;
+}
+.preview_container .material-symbols-outlined {
+    font-size: 16px;
+    line-height: 16px;
+    margin-left: 10px;
+    color: #222;
+}
+.delete_btn {
+    display: flex;
+    align-items: center;
 }
 /*discount*/
 .discount_type {

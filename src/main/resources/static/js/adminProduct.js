@@ -63,103 +63,85 @@ function validateBeforeSubmit() {
 
     return true;
 }
-// 이미지 미리보기 함수
-function previewImage1(event) {
-    let input = event.target;
-    let previewContainer = document.getElementById('previewContainer1');
-    let fileNameElement = document.getElementById('displayImage1Name');
 
-    // 선택된 파일 가져오기
-    let selectedFile = input.files[0];
+let deleteButton = $('<button>').addClass('delete_btn').click(function() {
+    $(this).closest('.preview_image_container').remove(); // 부모 요소 삭제
+});
 
-    if (selectedFile) {
+let container1 = $('#previewContainer1');
+let image1 = container1.find('.preview_image');
+let filename1 = container1.find('.file_name');
+
+$('#displayImage1').change(function() {
+    if (this.files && this.files[0]) {
+        let imageFile = this.files[0];
         let reader = new FileReader();
 
         reader.onload = function(e) {
-            // 이미지 미리보기 표시
-            let previewImage = document.createElement('img');
-            previewImage.src = e.target.result;
-            previewImage.style.maxWidth = '200px';
-            previewImage.style.maxHeight = '200px';
-            previewImage.style.marginBottom = '10px';
-            previewContainer.innerHTML = '';
-            previewContainer.appendChild(previewImage);
-
-
-            fileNameElement.textContent = selectedFile.name;
+            image1.attr('src', e.target.result);
+            filename1.text(imageFile.name);
         };
 
-        reader.readAsDataURL(selectedFile);
+        reader.readAsDataURL(this.files[0]);
     }
-}
-function previewImage2(event) {
-    let input = event.target;
-    let previewContainer = document.getElementById('previewContainer2');
-    let fileNameElement = document.getElementById('displayImage2Name');
+    container1.css('display', 'flex');
+});
 
+let container2 = $('#previewContainer2');
+let image2 = container2.find('.preview_image');
+let filename2 = container2.find('.file_name');
 
-    let selectedFile = input.files[0];
-
-    if (selectedFile) {
+$('#displayImage2').change(function() {
+    if (this.files && this.files[0]) {
+        let imageFile = this.files[0];
         let reader = new FileReader();
 
         reader.onload = function(e) {
-
-            let previewImage = document.createElement('img');
-            previewImage.src = e.target.result;
-            previewImage.style.maxWidth = '200px';
-            previewImage.style.maxHeight = '200px';
-            previewImage.style.marginBottom = '10px';
-            previewContainer.innerHTML = '';
-            previewContainer.appendChild(previewImage);
-
-
-            fileNameElement.textContent = selectedFile.name;
+            image2.attr('src', e.target.result);
+            filename2.text(imageFile.name);
         };
 
-        reader.readAsDataURL(selectedFile);
+        reader.readAsDataURL(this.files[0]);
     }
-}
-function previewImage3(event) {
-    let input = event.target;
-    let previewContainer = document.getElementById('previewContainer3');
-    let fileNameElement = document.getElementById('detailImagesFileName');
-    
-    previewContainer.innerHTML = '';
+    container2.css('display', 'flex');
+});
 
-    // 선택된 파일들을 반복하여 미리보기 표시
-    for (let i = 0; i < input.files.length; i++) {
-        let selectedFile = input.files[i]; // 선택된 파일 변수에 할당
+$('#detailsImages').change(function() {
+    let files = this.files; // 선택된 파일 목록 가져오기
+    let previewContainer = $('#previewContainer3');
 
+    previewContainer.empty();
+
+    for (let i = 0; i < files.length; i++) {
+        let file = files[i];
+
+        // FileReader 객체 생성
         let reader = new FileReader();
+
         reader.onload = function(e) {
-            let previewDiv = document.createElement('div');
-            previewDiv.className = 'preview_image';
-            previewDiv.style.marginBottom = '10px';
+            // 미리보기 이미지 및 파일명 생성
+            let previewImage = $('<img>').addClass('preview_image').attr('src', e.target.result);
+            let fileNameSpan = $('<span>').addClass('file_name').text(file.name);
 
-            let previewImage = document.createElement('img');
-            previewImage.src = e.target.result;
-            previewImage.style.maxWidth = '500px';
-            previewImage.style.maxHeight = '500px';
-            previewDiv.style.marginBottom = '10px';
+            // 삭제 버튼 생성 및 이벤트 핸들러 등록
+            let deleteButton = $('<button>').addClass('delete_btn').click(function() {
+                $(this).closest('.preview_image_container').remove(); // 부모 요소 삭제
+            });
+            let deleteSpan = $('<span>').addClass('material-symbols-outlined').text('close');
+            deleteButton.append(deleteSpan);
 
+            // 삭제 버튼을 감싸는 div 생성
+            let btnWrap = $('<div>').addClass('btn_wrap').append(deleteButton);
 
-            let fileNameSpan = document.createElement('span');
-            fileNameSpan.textContent = '파일명: ' + selectedFile.name;
-
-            let deleteButton = document.createElement('button');
-            deleteButton.textContent = '삭제';
-            deleteButton.className = 'delete-button';
-            deleteButton.onclick = function() {
-                previewDiv.remove();
-            };
-
-            previewDiv.appendChild(previewImage);
-            previewDiv.appendChild(fileNameSpan);
-            previewDiv.appendChild(deleteButton);
-            previewContainer.appendChild(previewDiv);
+            // 미리보기 컨테이너에 이미지, 파일명, 삭제 버튼 추가
+            let previewDiv = $('<div>').addClass('preview_image_container').append(previewImage, fileNameSpan, btnWrap);
+            previewContainer.append(previewDiv);
         };
-        reader.readAsDataURL(selectedFile);
-    }
-}
 
+        // 파일 읽기 요청
+        reader.readAsDataURL(file);
+    }
+
+    // 미리보기 컨테이너 표시
+    previewContainer.css('display', 'flex');
+});
