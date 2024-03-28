@@ -57,20 +57,25 @@ body  {
     padding: 20px 10px;
 }
 .content_tit {
-    padding: 20px 0 30px;
+    display: flex;
+    padding: 20px 0 10px;
+}
+.content_tit h2{
+    width: 100%;
 }
 .input_box_wrap {
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: flex-start;
     margin-bottom: 20px;
     width: 100%;
 }
-.input_box_wrap input {
+.input_box_wrap input, .input_box_wrap select {
     width: 100%;
 }
 .input_box_wrap textarea {
     width: 100%;
+    resize: vertical;
 }
 input[type=radio] {
     margin-right: 5px;
@@ -150,11 +155,14 @@ select option {
     margin-bottom: 10px;
 }
 
-#imageFiles, #displayImage, #editImageFiles, #editDisplayImage{
+#detailImages, #displayImage1, #displayImage2, #editImageFiles, #editDisplayImage{
     width: 100%;
     border-left: none;
     border-right: none;
     border-radius: 0;
+}
+#preview {
+    margin-left: 140px;
 }
 .description {
     padding: 0 0 20px 140px;
@@ -167,12 +175,22 @@ select option {
     content: "• ";
 }
 #productDetails #imageFiles, #productDetails #displayImage {
-    width: auto;
+    /*width: auto;*/
 }
 #productDetails .input_box_wrap.desc {
     margin-bottom: 20px;
 }
-
+.preview_container {
+    display: flex;
+    flex-direction: column;
+    margin-left: 140px;
+}
+.preview_image {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #999;
+}
 /*discount*/
 .discount_type {
     display: flex;
@@ -201,6 +219,26 @@ select option {
     width: 120px;
     font-weight: 600;
     color: #999;
+}
+/*Details*/
+#discountDetails .form_wrap #productDetails .form_wrap {
+    padding: 30px;
+}
+#discountDetails tr, #productDetails tr{
+    display: flex;
+}
+#discountDetails tr:last-child td, #productDetails tr:last-child td, #discountDetails tr:last-child th, #productDetails tr:last-child th  {
+    border: none;
+}
+#discountDetails th, #productDetails th{
+    width: 20%;
+}
+#discountDetails th, #discountDetails td, #productDetails th, #productDetails td{
+    display: flex;
+    justify-content: flex-start;
+    text-align: left;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
 }
 /*List*/
 table {
@@ -235,7 +273,7 @@ td span {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #d7d7d7;
 }
 .menu {
     position: relative;
