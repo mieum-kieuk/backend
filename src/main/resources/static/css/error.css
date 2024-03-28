@@ -1,0 +1,37 @@
+#error {
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    color: #222;
+    margin-top: 200px;
+}
+.error_wrap {
+    max-width: 500px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.input_box_wrap {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+input {
+    width: 100%;
+}
+.error_tit, .error_txt{
+    margin-bottom: 20px;
+}
+.error_tit {
+    display: flex;
+    flex-direction: column;
+}
+.home_btn, .qna_btn {
+    width: 48%;
+}
+.home_btn {
+    background: #000;
+    color: #fff;
+}
