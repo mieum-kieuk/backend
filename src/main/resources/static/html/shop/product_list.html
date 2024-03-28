@@ -13,6 +13,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.min.js" integrity="sha512-Ysw1DcK1P+uYLqprEAzNQJP+J4hTx4t/3X2nbVwszao8wD+9afLjBQYjz7Uk4ADP+Er++mJoScI42ueGtQOzEA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -28,9 +29,19 @@
         <div class="content">
             <div class="prd_category">
                 <ul class="category_tit">
-                    <li><a href="/product">All</a></li>
-                    <li><a href="/product">Masking Tape</a></li>
-                    <li><a href="/product">Sticker</a></li>
+                    <li><a href="/product_list">All</a></li>
+                    <li><a href="/maskingtape_list">Masking tape</a></li>
+                    <li><a href="/sticker_list">Sticker</a></li>
+                    <li><a href="/memo_list">Memo</a></li>
+                </ul>
+            </div>
+            <div class="prd_sort">
+                <ul class="sort_tit">
+                    <li><a href="/lowprice">Low price</a></li>
+                    <li><a href="/highprice">High price</a></li>
+                    <li><a href="/new">New</a></li>
+                    <li><a href="/popular">Hit</a></li>
+                    <li><a href="/alphabetical">Name</a></li>
                 </ul>
             </div>
             <div class="prd_list_wrap">
@@ -43,10 +54,7 @@
                             <div class="prd_name"><a href="/product"><span>Masking Tape01</span></a></div>
                             <ul class="prd_price">
                                 <li>
-                                    <span>KRW 7,000</span>
-                                </li>
-                                <li>
-                                    <span>KRW 6,300</span>
+                                    <span class="original_price">KRW 7,000</span>
                                 </li>
                             </ul>
                         </div>
@@ -57,28 +65,12 @@
                         </div>
                         <div class="description">
                             <div class="prd_name"><a href="/product"><span>Masking Tape01</span></a></div>
-                            <ul class="prd_price">
+                            <ul class="prd_price discount">
                                 <li>
-                                    <span>KRW 7,000</span>
+                                     <span class="original_price">KRW 7,000</span>
                                 </li>
                                 <li>
-                                    <span>KRW 6,300</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="thumb">
-                            <a href="/product"><img src="../../images/maskingtape1.jpeg" alt="제품1"></a>
-                        </div>
-                        <div class="description">
-                            <div class="prd_name"><a href="/product"><span>Masking Tape01</span></a></div>
-                            <ul class="prd_price">
-                                <li>
-                                    <span>KRW 7,000</span>
-                                </li>
-                                <li>
-                                    <span>KRW 6,300</span>
+                                    <span class="discount_rate">10%</span><span class="discounted_price"> KRW 6,300</span>
                                 </li>
                             </ul>
                         </div>
@@ -89,18 +81,33 @@
                         </div>
                         <div class="description">
                             <div class="prd_name"><a href="/product"><span>Masking Tape01</span></a></div>
-                            <ul class="prd_price">
+                            <ul class="prd_price soldout">
                                 <li>
-                                    <span>KRW 7,000</span>
+                                    <span class="original_price">KRW 7,000</span>
                                 </li>
                                 <li>
-                                    <span>KRW 6,300</span>
+                                    <span class="sold_out">sold out</span>
                                 </li>
                             </ul>
                         </div>
                     </li>
+
                 </ul>
             </div>
+            <div class="pagination">
+                <ul>
+                    <li><a href="#" class="prev_first"><span class="material-symbols-outlined">navigate_before</span></a></li>
+                    <li><a href="#" class="prev">Prev</a></li>
+                    <li><a href="#">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#">4</a></li>
+                    <li><a href="#">5</a></li>
+                    <li><a href="#" class="next">Next</a></li>
+                    <li><a href="#" class="next_last"><span class="material-symbols-outlined">navigate_next</span></a></li>
+                </ul>
+            </div>
+
         </div>
     </div>
 

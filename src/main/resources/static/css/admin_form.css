@@ -71,6 +71,7 @@ body  {
     width: 100%;
 }
 .input_box_wrap input, .input_box_wrap select {
+    display: flex;
     width: 100%;
 }
 .input_box_wrap select {
@@ -126,8 +127,8 @@ input::-webkit-inner-spin-button {
 }
 select {
     appearance: none;
-    /*-moz-appearance: none;*/
-    /*-webkit-appearance: none;*/
+    -moz-appearance: none;
+    -webkit-appearance: none;
 }
 .btn1 {
     display: flex;
@@ -159,6 +160,29 @@ select {
 }
 .input_box_wrap.desc {
     margin-bottom: 10px;
+}
+.ess_tit::after {
+    content: "*";
+    color: #d94747;
+    margin-left: 3px;
+}
+.select_wrap  {
+    position: relative;
+    width: 100%;
+}
+.select_wrap .material-symbols-outlined {
+    position: absolute;
+    top: 0;
+    right: 5px;
+    line-height: 26px;
+    cursor: grab;
+}
+.show_options {
+    display: flex;
+}
+
+.show_options option {
+    display: flex;
 }
 
 #detailsImages, #displayImage1, #displayImage2, #editImageFiles, #editDisplayImage{
@@ -201,11 +225,13 @@ select {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    border-bottom: 1px solid #666;
+    padding-top: 15px;
     width: 100%;
 }
 .btn_wrap {
     position: absolute;
-    top: 0;
+    top: 15px;
     right: 0;
 }
 .preview_images {
@@ -230,6 +256,17 @@ select {
 .delete_btn {
     display: flex;
     align-items: center;
+}
+.details_images_container {
+    display: flex;
+    flex-direction: column;
+}
+.details_images_container img{
+    display: block;
+    width: 400px;
+    height: 400px;
+    object-fit: cover;
+    margin-bottom: 20px;
 }
 /*discount*/
 .discount_type {

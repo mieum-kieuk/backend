@@ -54,44 +54,47 @@
             <form id="addProductForm" novalidate>
                 <div class="form_wrap">
                 <div class="input_box_wrap">
-                    <label for="name">상품명</label>
+                    <label for="name" class="ess_tit">상품명</label>
                     <input type="text" id="name" name="name"  maxlength="50">
                 </div>
                 <div class="input_box_wrap">
-                    <label for="category">카테고리</label>
+                    <label for="category" class="ess_tit">카테고리</label>
+                    <div class="select_wrap">
                     <select id="category" name="category">
                         <option value="option0" selected>카테고리를 선택해 주세요.</option>
                         <option value="option1">Masking tape</option>
                         <option value="option2">Sticker</option>
                         <option value="option3">Memo</option>
                     </select>
+                    <span class="material-symbols-outlined">expand_more</span>
+                    </div>
                 </div>
                 <div class="input_box_wrap">
-                    <label for="price">상품 가격</label>
+                    <label for="price" class="ess_tit">상품 가격</label>
                     <input type="number" id="price" name="price" placeholder="숫자를 입력해 주세요.">
                 </div>
                 <div class="input_box_wrap">
-                    <label for="stockQuantity">재고</label>
+                    <label for="stockQuantity" class="ess_tit">재고</label>
                     <input type="number" id="stockQuantity" name="stockQuantity" placeholder="숫자를 입력해 주세요.">
                 </div>
                 <div class="input_box_wrap">
-                    <label for="details">상품 상세정보</label>
+                    <label for="details" class="ess_tit">상품 상세정보</label>
                     <textarea id="details" name="details" rows="4" cols="50"></textarea>
                 </div>
                 <div class="input_box_wrap">
-                    <label for="sizeGuide">상품 크기</label>
+                    <label for="sizeGuide" class="ess_tit">상품 크기</label>
                     <textarea  id="sizeGuide" name="sizeGuide" rows="4" cols="50"></textarea>
                 </div>
                 <div class="input_box_wrap">
-                    <label for="shipping">배송 정보</label>
+                    <label for="shipping" class="ess_tit">배송 정보</label>
                     <textarea id="shipping" name="shipping" rows="4" cols="50"></textarea>
                 </div>
                 <div class="input_box_wrap">
-                    <label for="notice">주의 사항</label>
+                    <label for="notice" class="ess_tit">주의 사항</label>
                     <textarea id="notice" name="notice" rows="4" cols="50"></textarea>
                 </div>
                 <div class="input_box_wrap desc">
-                    <label for="displayImage1">섬네일 사진1</label>
+                    <label for="displayImage1" class="ess_tit">섬네일 사진1</label>
                     <input type="file" id="displayImage1" name="displayImage1" >
                 </div>
                 <div id="previewContainer1" class="preview_container">
@@ -109,7 +112,7 @@
                 <div id="previewContainer2" class="preview_container">
                     <div class="preview_images">
                         <img src="" alt="" class="preview_image">
-                        <span class="file_name"></span>
+                        <span class="file_name">파일명: </span>
                     </div>
                     <button class="delete_btn"><span class="material-symbols-outlined">close</span></button>
                 </div>
@@ -122,7 +125,7 @@
                     <div class="preview_image_container">
                     <div class="preview_images">
                         <img src="" alt="" class="preview_image">
-                        <span class="file_name"></span>
+                        <span class="file_name">파일명: </span>
                     </div>
                     <div class="btn_wrap"><button class="delete_btn"><span class="material-symbols-outlined">close</span></button></div>
                     </div>
