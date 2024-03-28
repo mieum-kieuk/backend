@@ -176,7 +176,7 @@ select {
     display: flex;
 }
 
-#detailsImages, #displayImage1, #displayImage2, #editImageFiles, #editDisplayImage{
+#detailsImages, #displayImage1, #displayImage2, #editDisplayImage1, #editDisplayImage2, #editDetailsImages{
     width: 100%;
     border-left: none;
     border-right: none;
@@ -219,6 +219,7 @@ select {
     border-bottom: 1px solid #999;
     width: 100%;
     margin-top: 15px;
+    padding-bottom: 15px;
 }
 .preview_image_container:last-child {
     border-bottom: none;
@@ -337,31 +338,28 @@ th, td{
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    padding: 5px;
     font-size: 12px;
     font-weight: 400;
     width: 100%;
-    height: auto;
-    max-height: 150px;
+    height: 100%;
+    max-height: 100px;
+    padding: 10px;
+}
+th span, td span {
     overflow: hidden;
-    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 6;
+    -webkit-box-orient: vertical;
 }
 th {
     color: #999;
     white-space: nowrap;
 }
-td #details {
-    max-height: 150px;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 7;
-    -webkit-box-orient: vertical;
-}
 #discountList tr, #productList tr{
     display: flex;
     flex-direction: row;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
     border-bottom: 1px solid #d7d7d7;
 }
 thead .btn_cell {
@@ -370,7 +368,7 @@ thead .btn_cell {
 .checkbox_cell, .btn_cell {
     display: table-cell;
     width: 40px;
-    padding: 5px 10px 0 10px;
+    padding: 0 10px;
     overflow: visible;
 }
 .menu {

@@ -98,6 +98,9 @@ input:checked[type=checkbox] {
 input:focus {
   outline: none;
 }
+select:focus {
+  outline: none;
+}
 textarea:focus {
   outline: none;
 }
@@ -205,7 +208,7 @@ input[type=password] {
 .ir-pm {
   display: block;
   overflow: hidden;
-  font-size: 0px;
+  font-size: 0;
   line-height: 0;
   text-indent: -9999px;
 }
@@ -359,6 +362,9 @@ legend {
 #community .depth2 {
   margin-left: 34px;
 }
+.depth1_menu:hover{
+  color: #999;
+}
 .depth1_menu:hover > a{
   color: #999;
 }
@@ -381,6 +387,12 @@ legend {
 }
 .gnb_menu .account .depth2 {
   left: 30%;
+}
+.gnb_menu .cart a:hover{
+  color: #999;
+}
+.gnb_menu .search button:hover {
+  color: #999;
 }
 .depth2 li {
   padding-bottom: 5px;
@@ -544,4 +556,56 @@ legend {
 .field-error {
   color: #d94747;
   font-size: 11px;
+}
+.btn1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  padding: 8px;
+  border-radius: 2px;
+  border: solid 1px #666;
+  background: #fff;
+  color: #666;
+}
+.pagination {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+.pagination ul {
+  display: flex;
+  flex-direction: row;
+  gap: 3px;
+}
+.pagination li {
+  margin: 0 5px;
+}
+.pagination li a {
+  display: block;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  border: 1px solid #eee;
+  background: #fff;
+  text-align: center;
+  line-height: 25px;
+  font-size: 12px;
+}
+.pagination li a.selected {
+  background-color: #000000; /* 선택된 페이지네이션의 배경색 */
+  color: #fff; /* 선택된 페이지네이션의 글꼴 색상 */
+}
+.pagination .prev, .pagination .prev_first,
+.pagination .next, .pagination .next_last {
+  /*font-size: 16px;*/
+  border: none;
+  background: none;
+}
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-weight: 300;
+  font-size: 20px;
+  color: #666;
+  line-height: 25px;
 }
