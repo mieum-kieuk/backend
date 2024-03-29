@@ -7,6 +7,7 @@ import archivegarden.shop.entity.DiscountType;
 import archivegarden.shop.service.admin.promotion.discount.AdminDiscountService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -88,11 +89,10 @@ public class AdminDiscountController {
         return "redirect:/admin/promotion/discounts";
     }
 
-    @ResponseBody
+    @ResponseStatus(HttpStatus.OK)
     @PostMapping("/delete")
-    public boolean deleteDiscountsByAjax(@RequestBody List<Long> discountIds) {
+    public void deleteDiscountsByAjax(@RequestBody List<Long> discountIds) {
         discountService.deleteDiscounts(discountIds);
-        return true;
     }
 
     private void validateDiscountValueRange(DiscountType type, Integer value, BindingResult bindingResult) {

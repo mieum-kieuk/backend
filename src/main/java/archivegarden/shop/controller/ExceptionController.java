@@ -1,0 +1,16 @@
+package archivegarden.shop.controller;
+
+import archivegarden.shop.exception.NoSuchDiscountException;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+
+@Slf4j
+@ControllerAdvice
+public class ExceptionController {
+
+    @ExceptionHandler(NoSuchDiscountException.class)
+    public String noSuchDiscountException(NoSuchDiscountException e) {
+        return "error/no_such_discount_exception.html";
+    }
+}

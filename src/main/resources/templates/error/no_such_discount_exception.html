@@ -1,0 +1,39 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Tickers :: 할인 혜택이 존재하지 않습니다.</title>
+    <link rel="stylesheet" href="../../static/css/comm.css" th:href="@{/css/comm.css}">
+    <link rel="stylesheet" href="../../static/css/error.css" th:href="@{/css/error.css}">
+</head>
+<body>
+<div id="error">
+    <div class="error_wrap">
+        <h2 class="error_tit">
+            할인 혜택이 존재하지 않습니다.
+        </h2>
+        <div class="error_txt">
+            <p>할인혜택이 삭제되었거나 변경 혹은</p>
+            <p>삭제되어 요청하신 페이지를 찾을 수 없습니다.</p>
+            <p>입력하신 주소가 정확한지 다시 한번 확인해 주시기 바랍니다.</p>
+            <br/>
+            <p>관련 문의사항은 <a href="javascript:void(0)">티커스 고객센터</a>에 알려주시면 친절하게 안내해 드리겠습니다.</p>
+            <br/>
+            <p>감사합니다.</p>
+        </div>
+        <div class="input_box_wrap">
+        </div>
+        <div class="input_box_wrap">
+            <button id="qna" class="btn1 qna_btn">Q&A</button>
+            <button id="home" class="btn1 home_btn" onclick="location.href='../index.html'"
+                    th:onclick="|location.href='@{/}'|">홈
+            </button>
+        </div>
+    </div>
+</div>
+</div>
+</body>
+</html>

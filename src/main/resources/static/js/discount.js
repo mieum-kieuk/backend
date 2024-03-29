@@ -75,13 +75,15 @@ function deleteDiscount() {
                 url: '/admin/promotion/discounts/delete',
                 data: JSON.stringify(discountIds),
                 contentType: 'application/json',
-                success: function (result) {
+                success: function () {
                     window.location.href = '/admin/promotion/discounts';
+                },
+                error: function (result) {
+                    alert(result['message']);
                 }
             })
         }
     }
-
 }
 
 

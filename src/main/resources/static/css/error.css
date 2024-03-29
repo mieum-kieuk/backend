@@ -1,9 +1,9 @@
 #error {
     display: flex;
     justify-content: center;
-    margin: 0;
+    margin: 150px 0 0 0;
     color: #222;
-    margin-top: 200px;
+    line-height: 1.5;
 }
 .error_wrap {
     max-width: 500px;
@@ -27,6 +27,9 @@ input {
 .error_tit {
     display: flex;
     flex-direction: column;
+}
+.error_txt a {
+    text-decoration: underline;
 }
 .home_btn, .qna_btn {
     width: 48%;

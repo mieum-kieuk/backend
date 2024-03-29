@@ -405,4 +405,6 @@ thead .btn_cell {
     align-items: stretch;
 }
 
-
+.field-error {
+    margin: -15px 0 20px 140px;
+}
