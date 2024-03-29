@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>상품 목록 | Archivegarden</title>
+    <title>상품 목록 | Tickers</title>
 
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Archivegarden" />
+    <meta property="og:title" content="Tickers" />
     <meta property="og:description" content="" />
     <meta property="og:image" content="" />
     <meta property="og:url" content="" />
@@ -25,14 +25,14 @@
 </head>
 <body>
 <div class="wrap">
-    <div id="productList">
+    <div id="productList" class="wrapper">
         <div class="content">
             <div class="prd_category">
                 <ul class="category_tit">
-                    <li><a href="/product_list">All</a></li>
-                    <li><a href="/maskingtape_list">Masking tape</a></li>
-                    <li><a href="/sticker_list">Sticker</a></li>
-                    <li><a href="/memo_list">Memo</a></li>
+                    <li><a href="./product_list.html">All</a></li>
+                    <li><a href="./product_list.html">Masking tape</a></li>
+                    <li><a href="./product_list.html">Sticker</a></li>
+                    <li><a href="./product_list.html">Memo</a></li>
                 </ul>
             </div>
             <div class="prd_sort">
@@ -48,10 +48,10 @@
                 <ul class="prd_list">
                     <li>
                         <div class="thumb">
-                            <a href="/product"><img src="../../images/maskingtape1.jpeg" alt="제품1"></a>
+                            <a href="./product_details.html"><img src="../../images/maskingtape1.jpeg" alt="제품1"></a>
                         </div>
                         <div class="description">
-                            <div class="prd_name"><a href="/product"><span>Masking Tape01</span></a></div>
+                            <div class="prd_name"><a href="./product_details.html"><span>Masking Tape01</span></a></div>
                             <ul class="prd_price">
                                 <li>
                                     <span class="original_price">KRW 7,000</span>
@@ -61,10 +61,10 @@
                     </li>
                     <li>
                         <div class="thumb">
-                            <a href="/product"><img src="../../images/maskingtape1.jpeg" alt="제품1"></a>
+                            <a href="./product_details.html"><img src="../../images/maskingtape1.jpeg" alt="제품1"></a>
                         </div>
                         <div class="description">
-                            <div class="prd_name"><a href="/product"><span>Masking Tape01</span></a></div>
+                            <div class="prd_name"><a href="./product_details.html"><span>Masking Tape01</span></a></div>
                             <ul class="prd_price discount">
                                 <li>
                                      <span class="original_price">KRW 7,000</span>
@@ -77,10 +77,10 @@
                     </li>
                     <li>
                         <div class="thumb">
-                            <a href="/product"><img src="../../images/maskingtape1.jpeg" alt="제품1"></a>
+                            <a href="./product_details.html"><img src="../../images/maskingtape1.jpeg" alt="제품1"></a>
                         </div>
                         <div class="description">
-                            <div class="prd_name"><a href="/product"><span>Masking Tape01</span></a></div>
+                            <div class="prd_name"><a href="./product_details.html"><span>Masking Tape01</span></a></div>
                             <ul class="prd_price soldout">
                                 <li>
                                     <span class="original_price">KRW 7,000</span>
@@ -91,26 +91,39 @@
                             </ul>
                         </div>
                     </li>
-
+                    <li>
+                        <div class="thumb">
+                            <a href="./product_details.html"><img src="../../images/maskingtape1.jpeg" alt="제품1"></a>
+                        </div>
+                        <div class="description">
+                            <div class="prd_name"><a href="./"><span>Masking Tape01</span></a></div>
+                            <ul class="prd_price soldout">
+                                <li>
+                                    <span class="original_price">KRW 7,000</span>
+                                </li>
+                                <li>
+                                    <span class="sold_out">sold out</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
                 </ul>
             </div>
-            <div class="pagination">
-                <ul>
-                    <li><a href="#" class="prev_first"><span class="material-symbols-outlined">navigate_before</span></a></li>
-                    <li><a href="#" class="prev">Prev</a></li>
-                    <li><a href="#">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">4</a></li>
-                    <li><a href="#">5</a></li>
-                    <li><a href="#" class="next">Next</a></li>
-                    <li><a href="#" class="next_last"><span class="material-symbols-outlined">navigate_next</span></a></li>
-                </ul>
-            </div>
-
         </div>
     </div>
-
+    <div class="pagination">
+        <ul>
+            <li><a href="#" class="prev_first"><span class="material-symbols-outlined">navigate_before</span></a></li>
+            <li><a href="#" class="prev">Prev</a></li>
+            <li><a href="#">1</a></li>
+            <li><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+            <li><a href="#">4</a></li>
+            <li><a href="#">5</a></li>
+            <li><a href="#" class="next">Next</a></li>
+            <li><a href="#" class="next_last"><span class="material-symbols-outlined">navigate_next</span></a></li>
+        </ul>
+    </div>
 </div>
 </body>
 </html>
