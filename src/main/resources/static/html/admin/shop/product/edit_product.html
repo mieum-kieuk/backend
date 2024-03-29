@@ -52,51 +52,97 @@
             <h2 class="content_tit">상품 수정</h2>
             <form id="ProductForm">
                 <div class="form_wrap">
-                <div class="input_box_wrap">
-                    <label for="editName">상품명</label>
-                    <input type="text" id="editName" name="editName"  maxlength="50">
-                </div>
-                <div class="input_box_wrap">
-                    <label for="category">카테고리</label>
-                    <select id="category" name="category">
-                        <option value="option0" selected>카테고리를 선택해 주세요.</option>
-                        <option value="option1">Masking tape</option>
-                        <option value="option2">Sticker</option>
-                        <option value="option3">Memo</option>
-                    </select>
-                </div>
-                <div class="input_box_wrap">
-                    <label for="editPrice">상품 가격</label>
-                    <input type="number" id="editPrice" name="editPrice" >
-                </div>
-                <div class="input_box_wrap">
-                    <label for="editStockQuantity">재고</label>
-                    <input type="number" id="editStockQuantity" name="editStockQuantity" >
-                </div>
-                <div class="input_box_wrap">
-                    <label for="editDetails">상품 상세정보</label>
-                    <textarea id="editDetails" name="editDetails" rows="4" cols="50"></textarea>
-                </div>
-                <div class="input_box_wrap">
-                    <label for="editSizeGuide">상품 크기</label>
-                    <textarea  id="editSizeGuide" name="editSizeGuide" rows="4" cols="50"></textarea>
-                </div>
-                <div class="input_box_wrap">
-                    <label for="editShipping">배송 정보</label>
-                    <textarea id="editShipping" name="editShipping" rows="4" cols="50"></textarea>
-                </div>
-                <div class="input_box_wrap">
-                    <label for="editNotice">주의 사항</label>
-                    <textarea id="editNotice" name="editNotice" rows="4" cols="50"></textarea>
-                </div>
+                    <div class="input_box_wrap">
+                        <label for="name" class="ess_tit">상품명</label>
+                        <input type="text" id="name" name="name"  maxlength="50">
+                    </div>
+                    <div class="input_box_wrap">
+                        <label for="category" class="ess_tit">카테고리</label>
+                        <div class="select_wrap">
+                            <select id="category" name="category">
+                                <option value="option0" selected>카테고리를 선택해 주세요.</option>
+                                <option value="option1">Masking tape</option>
+                                <option value="option2">Sticker</option>
+                                <option value="option3">Memo</option>
+                            </select>
+                            <span class="material-symbols-outlined">expand_more</span>
+                        </div>
+                    </div>
+                    <div class="input_box_wrap">
+                        <label for="price" class="ess_tit">상품 가격</label>
+                        <input type="number" id="price" name="price" placeholder="숫자를 입력해 주세요.">
+                    </div>
+                    <div class="input_box_wrap">
+                        <label for="stockQuantity" class="ess_tit">재고</label>
+                        <input type="number" id="stockQuantity" name="stockQuantity" placeholder="숫자를 입력해 주세요.">
+                    </div>
+                    <div class="input_box_wrap">
+                        <label for="details" class="ess_tit">상품 상세정보</label>
+                        <textarea id="details" name="details" rows="4" cols="50"></textarea>
+                    </div>
+                    <div class="input_box_wrap">
+                        <label for="sizeGuide" class="ess_tit">상품 크기</label>
+                        <textarea  id="sizeGuide" name="sizeGuide" rows="4" cols="50"></textarea>
+                    </div>
+                    <div class="input_box_wrap">
+                        <label for="shipping" class="ess_tit">배송 정보</label>
+                        <textarea id="shipping" name="shipping" rows="4" cols="50"></textarea>
+                    </div>
+                    <div class="input_box_wrap">
+                        <label for="notice" class="ess_tit">주의 사항</label>
+                        <textarea id="notice" name="notice" rows="4" cols="50"></textarea>
+                    </div>
                 <div class="input_box_wrap desc" >
-                    <label for="editDisplayImage">섬네일 사진</label>
-                    <input type="file" id="editDisplayImage" name="editDisplayImage">
+                    <label for="displayImage1" class="ess_tit">섬네일 사진1</label>
+                    <input type="file" id="displayImage1" name="displayImage1">
+                </div>
+                <div id="previewContainer1" class="preview_container">
+                    <div class="preview_images">
+                        <img src="" alt="" class="preview_image">
+                        <div class="filename_container">
+                            <span>파일명: </span><span class="file_name"></span>
+                        </div>
+                    </div>
+                    <div class="btn_wrap">
+                        <button class="edit_btn"><span class="material-symbols-outlined">edit</span></button>
+                        <button class="delete_btn"><span class="material-symbols-outlined">close</span></button>
+                    </div>
                 </div>
                 <div class="text description"><span>상품 목록에서 보여질 사진입니다.</span></div>
+                <div class="input_box_wrap desc" >
+                    <label for="displayImage2">섬네일 사진2</label>
+                    <input type="file" id="displayImage2" name="displayImage2">
+                </div>
+                <div id="previewContainer2" class="preview_container">
+                    <div class="preview_images">
+                        <img src="" alt="" class="preview_image">
+                        <div class="filename_container">
+                            <span>파일명: </span><span class="file_name"></span>
+                        </div>
+                    </div>
+                    <div class="btn_wrap">
+                        <button class="edit_btn"><span class="material-symbols-outlined">edit</span></button>
+                        <button class="delete_btn"><span class="material-symbols-outlined">close</span></button>
+                    </div>
+                </div>
+                <div class="text description"><span>상품 목록에서 커서를 올리면 보여질 사진입니다.</span></div>
                 <div class="input_box_wrap desc">
-                    <label for="editImageFiles">사진 첨부</label>
-                    <input type="file" id="editImageFiles" name="editImageFiles" multiple>
+                    <label for="detailsImages">사진 첨부</label>
+                    <input type="file" id="detailsImages" name="detailImages" multiple>
+                </div>
+                <div id="previewContainer3" class="preview_container column">
+                    <div class="preview_image_container">
+                        <div class="preview_images">
+                            <img src="" alt="" class="preview_image">
+                            <div class="filename_container">
+                                <span>파일명: </span><span class="file_name"></span>
+                            </div>
+                        </div>
+                        <div class="btn_wrap">
+                            <button class="edit_btn"><span class="material-symbols-outlined">edit</span></button>
+                            <button class="delete_btn"><span class="material-symbols-outlined">close</span></button>
+                        </div>
+                    </div>
                 </div>
                 <div class="text description">
                     <ul >

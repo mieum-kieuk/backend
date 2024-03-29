@@ -64,84 +64,78 @@ function validateBeforeSubmit() {
     return true;
 }
 
-let deleteButton = $('<button>').addClass('delete_btn').click(function() {
-    $(this).closest('.preview_image_container').remove(); // 부모 요소 삭제
-});
+function updatePreviewContainer(input, containerId) {
+    let file = input[0].files[0];
 
-let container1 = $('#previewContainer1');
-let image1 = container1.find('.preview_image');
-let filename1 = container1.find('.file_name');
+    if (!file) return;
 
+    let reader = new FileReader();
+
+    reader.onload = function(e) {
+        let container = $('#' + containerId); // containerId로 jQuery 객체 생성
+        let previewImages = container.find('.preview_images');
+        let previewImage = previewImages.find('.preview_image');
+        let fileName = container.find('.file_name');
+
+        previewImage.attr('src', e.target.result);
+        fileName.text('파일명: ' + file.name);
+
+
+        container.css('display', 'flex');
+    };
+
+    reader.readAsDataURL(file);
+}
+
+function addImagePreview(container, file) {
+    let reader = new FileReader();
+
+    reader.onload = function(e) {
+
+        let containerDiv = $('<div>').addClass('preview_image_container');
+        let previewImages = $('<div>').addClass('preview_images');
+        let previewImage = $('<img>').addClass('preview_image').attr('src', e.target.result);
+        let fileName = $('<span>').addClass('file_name').text('파일명: ' + file.name);
+        let deleteButton = $('<button>').addClass('delete_btn').append($('<span>').addClass('material-symbols-outlined').text('close'));
+
+        deleteButton.click(function() {
+            containerDiv.remove();
+        });
+
+        containerDiv.append(previewImages.append(previewImage), fileName, $('<div>').addClass('btn_wrap').append(deleteButton));
+        container.append(containerDiv);
+    };
+
+    reader.readAsDataURL(file);
+}
+
+// displayImage1 변경 이벤트 핸들러
 $('#displayImage1').change(function() {
-    if (this.files && this.files[0]) {
-        let imageFile = this.files[0];
-        let reader = new FileReader();
-
-        reader.onload = function(e) {
-            image1.attr('src', e.target.result);
-            filename1.text(imageFile.name);
-        };
-
-        reader.readAsDataURL(this.files[0]);
-    }
-    container1.css('display', 'flex');
+    updatePreviewContainer($(this), 'previewContainer1');
 });
 
-let container2 = $('#previewContainer2');
-let image2 = container2.find('.preview_image');
-let filename2 = container2.find('.file_name');
-
+// displayImage2 변경 이벤트 핸들러
 $('#displayImage2').change(function() {
-    if (this.files && this.files[0]) {
-        let imageFile = this.files[0];
-        let reader = new FileReader();
-
-        reader.onload = function(e) {
-            image2.attr('src', e.target.result);
-            filename2.text(imageFile.name);
-        };
-
-        reader.readAsDataURL(this.files[0]);
-    }
-    container2.css('display', 'flex');
+    updatePreviewContainer($(this), 'previewContainer2');
 });
 
+// detailsImages 변경 이벤트 핸들러
 $('#detailsImages').change(function() {
-    let files = this.files; // 선택된 파일 목록 가져오기
+    let files = this.files;
     let previewContainer = $('#previewContainer3');
 
-    previewContainer.empty();
+    previewContainer.find('.preview_image_container').remove();
 
-    for (let i = 0; i < files.length; i++) {
-        let file = files[i];
-
-        // FileReader 객체 생성
-        let reader = new FileReader();
-
-        reader.onload = function(e) {
-            // 미리보기 이미지 및 파일명 생성
-            let previewImage = $('<img>').addClass('preview_image').attr('src', e.target.result);
-            let fileNameSpan = $('<span>').addClass('file_name').text(file.name);
-
-            // 삭제 버튼 생성 및 이벤트 핸들러 등록
-            let deleteButton = $('<button>').addClass('delete_btn').click(function() {
-                $(this).closest('.preview_image_container').remove(); // 부모 요소 삭제
-            });
-            let deleteSpan = $('<span>').addClass('material-symbols-outlined').text('close');
-            deleteButton.append(deleteSpan);
-
-            // 삭제 버튼을 감싸는 div 생성
-            let btnWrap = $('<div>').addClass('btn_wrap').append(deleteButton);
-
-            // 미리보기 컨테이너에 이미지, 파일명, 삭제 버튼 추가
-            let previewDiv = $('<div>').addClass('preview_image_container').append(previewImage, fileNameSpan, btnWrap);
-            previewContainer.append(previewDiv);
-        };
-
-        // 파일 읽기 요청
-        reader.readAsDataURL(file);
+    if (files.length === 0) {
+        previewContainer.css('display', 'none'); // 파일이 없으면 미리보기 숨기기
+        return;
     }
 
-    // 미리보기 컨테이너 표시
+    for (let i = 0; i < files.length; i++) {
+        let file = files[i]; // 현재 파일 가져오기
+
+        addImagePreview(previewContainer, file);
+    }
+
     previewContainer.css('display', 'flex');
 });
