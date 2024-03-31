@@ -13,11 +13,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="../../../../css/comm.css">
     <link rel="stylesheet" href="../../../../css/admin_form.css">
-    <script defer src="../../../../js/addDiscount.js"></script>
+    <link rel="stylesheet" type="text/css" media="screen" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
+    <script defer src="../../../../js/discount.js"></script>
 </head>
 <body>
 <div class="admin_wrap">
@@ -25,7 +26,7 @@
         <div class="side_menu top">
             <ul>
                 <li class="logo">
-                    <a href="index.html">
+                    <a href="../../../index.html">
                         <img src="../../../../images/tickers_logo.png" alt="로고">
                     </a>
                 </li>
@@ -51,25 +52,36 @@
         <form id="discountForm" novalidate>
             <div class="form_wrap">
             <div class="input_box_wrap">
-                <label for="name">할인명</label>
+                <label for="name">할인 혜택명</label>
                 <input type="text" id="name" name="name" maxlength="30">
             </div>
-            <div class="discount type">
-                <span>할인 방식</span>
-                <div class="discount_type">
-                <div class="input_box_wrap radio">
-                    <input type="radio" id="rate" name="options" value="option1" checked>
-                    <label for="rate">정률 할인</label>
-                </div>
-                <div class="input_box_wrap radio">
-                    <input type="radio" id="fix" name="options" value="option2">
-                    <label for="fix">정액 할인</label>
-                </div>
+            <div class="input_box_wrap">
+                <label for="value">할인율</label>
+                <input type="number" id="value" name="value"  placeholder="숫자를 입력해주세요.">
             </div>
+            <div class="discount period">
+            <span>할인 기간</span>
+            <div class="discount_cont period">
+            <div class="input_box_wrap">
+            <input type='text' id="startDatetime" class='datetimepicker' name='startDatetime' placeholder="시작일시">
             </div>
             <div class="input_box_wrap">
-                <label for="value">할인 설정</label>
-                <input type="number" id="value" name="value"  placeholder="숫자를 입력해주세요.">
+            <input type='text' id="endDatetime" class='datetimepicker' name='endDatetime' placeholder="종료일시">
+            </div>
+            </div>
+            </div>
+            <div class="discount type">
+                <span>중복할인 가능 여부</span>
+                <div class="discount_cont duplicate">
+                <div class="input_box_wrap radio">
+                    <input type="radio" id="enable" name="options" value="option1" checked>
+                    <label for="enable">가능</label>
+                </div>
+                <div class="input_box_wrap radio">
+                    <input type="radio" id="disable" name="options" value="option2">
+                    <label for="disable">불가능</label>
+                </div>
+                </div>
             </div>
             </div>
             <div class="input_box_wrap btn">

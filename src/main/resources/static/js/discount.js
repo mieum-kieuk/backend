@@ -4,7 +4,7 @@ function validateBeforeSubmit() {
     let discountType = $('input[name=type]:checked').val();
 
     if (discountName === '') {
-        alert('할인명을 입력해 주세요.');
+        alert('할인 혜택명을 입력해 주세요.');
         return false;
     }
 
@@ -13,17 +13,6 @@ function validateBeforeSubmit() {
         return false;
     }
 
-    if (discountType === 'RATE') {
-        if (!/^[1-9][0-9]?$|^100$/.test(discountValue)) {
-            alert('정률 할인의 경우, 1부터 100사이의 값을 입력해 주세요.');
-            return false;
-        }
-    } else if (discountType === 'FIX') {
-        if (parseInt(discountValue) < 1) {
-            alert('정액 할인의 경우, 1원 이상의 금액을 입력해 주세요.');
-            return false;
-        }
-    }
 
     return true;
 }
@@ -86,5 +75,8 @@ function deleteDiscount() {
     }
 }
 
-
-
+$(function() {
+    $(".datetimepicker").datetimepicker({
+        format: "Y-m-d H:i",
+    });
+});

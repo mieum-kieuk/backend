@@ -276,21 +276,24 @@ select {
     margin-bottom: 0;
 }
     /*discount*/
-.discount_type {
+.discount_cont {
     display: flex;
     flex-direction: row;
 }
-.discount.type .input_box_wrap{
+.discount_cont.period .input_box_wrap{
+    margin-right: 20px;
+}
+.discount .input_box_wrap{
     width: auto;
 }
-.discount_type label {
+.discount_cont label {
     display: block;
     width: 100% ;
 }
-#discountForm .discount.type, #editDiscountForm .discount.type {
+#discountForm .discount, #editDiscountForm .discount {
     display: flex;
 }
-#discountForm .discount.type span, #editDiscountForm .discount.type span{
+#discountForm .discount span, #editDiscountForm .discount span{
     display: block;
     margin-right: 20px;
     width: 120px;
