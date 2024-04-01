@@ -1,13 +1,15 @@
 package archivegarden.shop.service.admin.promotion.discount;
 
 import archivegarden.shop.dto.admin.promotion.AddDiscountForm;
-import archivegarden.shop.dto.admin.promotion.DiscountDto;
+import archivegarden.shop.dto.admin.promotion.DiscountDetailsDto;
 import archivegarden.shop.dto.admin.promotion.EditDiscountForm;
 import archivegarden.shop.entity.Discount;
 import archivegarden.shop.exception.NoSuchDiscountException;
 import archivegarden.shop.exception.ajax.NoSuchDiscountAjaxException;
 import archivegarden.shop.repository.admin.promotion.AdminDiscountRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,13 +24,13 @@ public class AdminDiscountService {
     private final AdminDiscountRepository discountRepository;
 
     /**
-     * 할인 혜택 등록
+     * 할인 혜택 저장
      */
-    public Long registerDiscount(AddDiscountForm form) {
+    public Long saveDiscount(AddDiscountForm form) {
         //엔티티 생성
         Discount discount = Discount.createDiscount(form);
 
-        //할인 저장
+        //할인 혜택 저장
         discountRepository.save(discount);
 
         return discount.getId();
@@ -40,20 +42,26 @@ public class AdminDiscountService {
      * @throws NoSuchDiscountException discountId로 DB에서 데이터 찾을 수 없을 때
      */
     @Transactional(readOnly = true)
-    public DiscountDto getDiscount(Long discountId) {
+    public DiscountDetailsDto getDiscount(Long discountId) {
         Discount discount = discountRepository.findById(discountId).orElseThrow(() -> new NoSuchDiscountException("존재하지 않는 할인 혜택입니다."));
-        return new DiscountDto(discount);
+        return new DiscountDetailsDto(discount);
     }
 
     /**
      * 할인 혜택 목록 조회
      */
     @Transactional(readOnly = true)
-    public List<DiscountDto> getDiscountList() {
-        return discountRepository.findAll()
-                .stream()
-                .map(d -> new DiscountDto(d))
-                .collect(Collectors.toList());
+    public Page<DiscountDetailsDto> getDiscountList(Pageable pageable) {
+        return discountRepository.findAll(pageable).map(d -> new DiscountDetailsDto(d));
+    }
+
+    /**
+     * 할인 혜택 수정 폼 조회
+     */
+    @Transactional(readOnly = true)
+    public EditDiscountForm getEditDiscountForm(Long discountId) {
+        Discount discount = discountRepository.findById(discountId).orElseThrow(() -> new NoSuchDiscountException("존재하지 않는 할인 혜택입니다."));
+        return new EditDiscountForm(discount);
     }
 
     /**

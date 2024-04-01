@@ -1,27 +1,48 @@
 package archivegarden.shop.dto.admin.promotion;
 
-import archivegarden.shop.entity.DiscountType;
+import archivegarden.shop.entity.Discount;
+import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class EditDiscountForm {
 
-    Long id;
+    private Long id;
 
-    @NotBlank(message = "할인명을 입력해 주세요.")
-    String name;
+    @NotBlank(message = "할인 혜택명을 입력해 주세요.")
+    @Size(max = 30, message = "30자까지 입력 가능합니다.")
+    private String name;
 
-    @NotNull(message = "할인 방식을 선택해 주세요.")
-    DiscountType type;
+    @NotNull(message = "할인율을 입력해 주세요.")
+    private Integer discountPercent;
 
-    @NotNull(message = "할인율 또는 할인 금액을 입력해 주세요.")
-    Integer value;
+    @NotNull(message = "시작일시를 입력해 주세요.")
+    @FutureOrPresent(message = "시작일시가 현재 또는 미래의 날짜여야 합니다.")
+    private LocalDateTime startDatetime;
+
+    @NotNull(message = "종료일시를 입력해 주세요.")
+    @FutureOrPresent(message = "종료일시가 현재 또는 미래의 날짜여야 합니다.")
+    private LocalDateTime endDatetime;
+
+    @NotNull(message = "중복 할인 가능 여부를 선택해 주세요.")
+    private String isDoubleDiscount;
+
+    public EditDiscountForm(Discount discount) {
+        this.id = discount.getId();
+        this.name = discount.getName();
+        this.discountPercent = discount.getDiscountPercent();
+        this.startDatetime = discount.getStartDatetime();
+        this.endDatetime = discount.getEndDatetime();
+        this.isDoubleDiscount = discount.getIsDoubleDiscount();
+    }
+
 }

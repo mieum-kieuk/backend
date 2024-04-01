@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>할인 혜택 확인 | Tickers</title>
+    <title>할인 혜택 상세정보 | Tickers</title>
 
     <meta property="og:type" content="website"/>
     <meta property="og:title" content="Tickers"/>
@@ -16,30 +16,46 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="../../../../static/css/comm.css" th:href="@{/css/comm.css}">
     <link rel="stylesheet" href="../../../../static/css/admin_form.css" th:href="@{/css/admin_form.css}">
-    <script defer src="../../../../static/js/discount.js" th:src="@{/js/discount.js}"></script>
+    <script defer src="../../../../static/js/adminDiscount.js" th:src="@{/js/adminDiscount.js}"></script>
 </head>
 <body>
 <div class="admin_wrap">
     <div th:replace="~{/layout/menu :: admin_menu}"></div>
     <div id="discountDetails">
         <div class="content">
-            <h2 class="content_tit">할인 혜택 확인</h2>
-            <div class="input_box_wrap">
-                <span class="input_tit">할인명</span>
-                <span id="name" th:text="${discount.name}">신상 할인</span>
-            </div>
-            <div class="input_box_wrap">
-                <span class="input_tit">할인 방식</span>
-                <span id="type" th:text="${discount.type.description}">정률 할인</span>
-            </div>
-            <div class="input_box_wrap">
-                <span class="input_tit">할인 설정</span>
-                <span id="value" th:text="${discount.type.name()} == 'RATE' ? ${discount.value} + '%' : ${discount.value} + '원'">10%</span>
+            <h2 class="content_tit">할인 혜택 상세정보</h2>
+            <div class="form_wrap">
+                <table>
+                    <tr>
+                        <th class="input_tit">할인 혜택명</th>
+                        <td id="name" th:text="*{discount.name}"></td>
+                    </tr>
+                    <tr>
+                        <th class="input_tit">할인율</th>
+                        <td id="discountPercent">[[${discount.discountPercent}]]%</td>
+                    </tr>
+                    <tr>
+                        <th class="input_tit">할인 기간</th>
+                        <td><span id="startDatetime" th:text="*{discount.startDatetime}"></span><span>&nbsp;~&nbsp;</span><span
+                                id="endDatetime" th:text="*{discount.endDatetime}"></span></td>
+                    </tr>
+                    <tr>
+                        <th class="input_tit">중복할인</th>
+                        <td id="isDoubleDiscount" th:text="*{discount.isDoubleDiscount}"></td>
+                    </tr>
+                </table>
             </div>
             <div class="input_box_wrap btn">
-                <button class="btn1" onclick="location.href='./edit_discount.html'" th:onclick="|location.href='@{/admin/promotion/discounts/{discountId}/edit(discountId=${discount.id})}'|">수정</button>
-                <button class="btn1" id="delete-btn" onclick="location.href='./discount_list.html'" th:onclick="|deleteOk(${discount.id})|">삭제</button>
-                <button class="btn1" onclick="location.href='./discount_list.html'" th:onclick="|location.href='@{/admin/promotion/discounts}'|">목록</button>
+                <button class="btn1" onclick="location.href='./edit_discount.html'"
+                        th:onclick="|location.href='@{/admin/promotion/discounts/{discountId}/edit(discountId=${discount.id})}'|">
+                    수정
+                </button>
+                <button class="btn1" id="delete-btn" onclick="location.href='./discount_list.html'"
+                        th:onclick="|deleteOk(${discount.id})|">삭제
+                </button>
+                <button class="btn1" onclick="location.href='./discount_list.html'"
+                        th:onclick="|location.href='@{/admin/promotion/discounts}'|">목록
+                </button>
             </div>
         </div>
     </div>

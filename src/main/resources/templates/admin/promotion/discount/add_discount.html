@@ -16,7 +16,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="../../../../static/css/comm.css" th:href="@{/css/comm.css}">
     <link rel="stylesheet" href="../../../../static/css/admin_form.css" th:href="@{/css/admin_form.css}">
-<!--    <script defer src="../../../../static/js/discount.js" th:src="@{/js/discount.js}"></script>-->
+    <script defer src="../../../../static/js/adminDiscount.js" th:src="@{/js/adminDiscount.js}"></script>
 </head>
 <body>
 <div class="admin_wrap">
@@ -28,38 +28,55 @@
                   th:onsubmit="return validateBeforeSubmit()" novalidate>
                 <div class="form_wrap">
                     <div class="input_box_wrap">
-                        <label for="value">할인 혜택명</label>
+                        <label for="name">할인 혜택명</label>
                         <input type="text" id="name" th:field="*{name}" maxlength="30">
                     </div>
                     <div class="field-error" th:errors="*{name}"></div>
                     <div class="input_box_wrap">
-                        <label for="value">할인율</label>
-                        <input type="number" id="value" th:field="*{value}" placeholder="숫자를 입력해주세요.">
+                        <label for="discountPercent">할인율</label>
+                        <input type="number" id="discountPercent" th:field="*{discountPercent}"
+                               placeholder="숫자를 입력해 주세요.">
                     </div>
+                    <div class="field-error" th:errors="*{discountPercent}"></div>
                     <div class="discount period">
                         <span>할인 기간</span>
                         <div class="discount_cont period">
                             <div class="input_box_wrap">
-                                <input type='text' id="startDatetime" class='datetimepicker' th:field="*{startDatetime}" placeholder="시작일시">
+                                <input type='datetime-local' id="startDatetime" class='datetimepicker'
+                                       th:field="*{startDatetime}" placeholder="시작일시">
                             </div>
                             <div class="input_box_wrap">
-                                <input type='text' id="endDatetime" class='datetimepicker' th:field="*{endDatetime}" placeholder="종료일시">
+                                <input type='datetime-local' id="endDatetime" class='datetimepicker'
+                                       th:field="*{endDatetime}" placeholder="종료일시">
                             </div>
                         </div>
+                    </div>
+                    <div class="text description">
+                        <ul>
+                            <li>
+                                <span>초는 0초로 설정됩니다.</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="field-error" th:errors="*{startDatetime}"></div>
+                    <div th:unless="${#fields.hasErrors('startDatetime')}">
+                        <p class="field-error" th:if="${#fields.hasErrors('endDatetime')}"
+                           th:text="${#fields.errors('endDatetime')[0]}"></p>
                     </div>
                     <div class="discount type">
-                        <span>중복할인 가능 여부</span>
+                        <span>중복할인</span>
                         <div class="discount_cont duplicate">
                             <div class="input_box_wrap radio">
-                                <input type="radio" id="enable" name="options" value="option1" checked>
-                                <label for="enable">가능</label>
+                                <input type="radio" id="enable" name="isDoubleDiscount" value="TRUE">
+                                <label for="enable">허용</label>
                             </div>
                             <div class="input_box_wrap radio">
-                                <input type="radio" id="disable" name="options" value="option2">
-                                <label for="disable">불가능</label>
+                                <input type="radio" id="disable" name="isDoubleDiscount" value="FALSE">
+                                <label for="disable">불가</label>
                             </div>
                         </div>
                     </div>
+                    <div class="field-error" th:errors="*{isDoubleDiscount}"></div>
                 </div>
                 <div class="input_box_wrap btn">
                     <button type="button" class="btn1" onclick="location.href='./discount_list.html'"
@@ -71,5 +88,26 @@
         </div>
     </div>
 </div>
+<script th:inline="javascript">
+    $(document).ready(function () {
+        let startDatetime = [[${discount.startDatetime}]];
+        let endDatetime = [[${discount.endDatetime}]];
+        if (startDatetime != null) {
+            let startDatetimeFormat = new Date(new Date(startDatetime).toString().split('GMT')[0] + ' UTC').toISOString().split('.')[0];
+            $('#startDatetime').val(startDatetimeFormat);
+        }
+        if (endDatetime != null) {
+            let endDatetimeFormat = new Date(new Date(endDatetime).toString().split('GMT')[0] + ' UTC').toISOString().split('.')[0];
+            $('#endDatetime').val(endDatetimeFormat);
+        }
+
+        let isDoubleDiscount = [[${discount.isDoubleDiscount}]];
+        if (isDoubleDiscount === null || isDoubleDiscount === "TRUE") {
+            $('#enable').attr('checked', 'true');
+        } else if (isDoubleDiscount === "FALSE") {
+            $('#disable').attr('checked', 'true');
+        }
+    })
+</script>
 </body>
 </html>

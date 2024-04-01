@@ -139,3 +139,59 @@ $('#detailsImages').change(function() {
 
     previewContainer.css('display', 'flex');
 });
+
+$(document).ready(function () {
+    $('.menu_toggle').click(function () {
+        var dropdownMenu = $(this).siblings('.dropdown_menu');
+        $('.dropdown_menu').not(dropdownMenu).removeClass('show');
+        dropdownMenu.toggleClass('show');
+    });
+
+    $('#selectAll').click(function () {
+        if ($(this).prop('checked')) {
+            $('.discount_table tbody input[type="checkbox"]').prop('checked', true);
+        } else {
+            $('.discount_table tbody input[type="checkbox"]').prop('checked', false);
+        }
+    });
+});
+
+
+function deleteOk(productId) {
+    if (!confirm('삭제하시면 복구할 수 없습니다. \n정말로 삭제하시겠습니까?')) {
+        return false;
+    } else {
+        window.location.href = '/admin/shop/products/' + productId + "/delete";
+        return true;
+    }
+}
+
+function deleteProducts() {
+
+    let productIds = [];
+    let checkboxes = $('input[name=checkbox]:checked');
+
+    if (checkboxes.length == 0) {
+        alert('삭제할 상품을 선택해 주세요.');
+        return false;
+    } else {
+        if(!confirm(checkboxes.length + '개 항목을 삭제하시겠습니까?')) {
+            return false;
+        } else {
+            $(checkboxes.each(function (v) {
+                let productId = checkboxes[v].id.split('checkbox')[1];
+                productIds.push(productId);
+            }))
+
+            $.ajax({
+                type: 'POST',
+                url: '/admin/shop/products/delete',
+                data: JSON.stringify(productIds),
+                contentType: 'application/json',
+                success: function (result) {
+                    window.location.href = '/admin/shop/products';
+                }
+            })
+        }
+    }
+}
