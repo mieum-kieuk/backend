@@ -52,7 +52,7 @@ body  {
     width: 100%;
     border: 1px solid #d7d7d7;
     padding: 30px 30px 10px 30px;
-    color: #666;
+    color: #222;
     margin-bottom: 20px;
     border-radius: 2px;
 }
@@ -85,9 +85,6 @@ body  {
     width: 100%;
     resize: vertical;
 }
-.datetimepicker {
-    color: #666;
-}
 
 input[type=radio] {
     margin-right: 5px;
@@ -96,7 +93,7 @@ input[type=radio] {
     height: 26px;
 }
 .input_box_wrap.radio label{
-    color: #666;
+    color: #222;
     font-weight: 400;
 }
 .input_box_wrap.radio input{
@@ -142,7 +139,7 @@ select {
     background: #fff;
     color: #666;
 }
-.submit_btn, .edit {
+.submit_btn {
     color: #fff;
     background: #000;
 }
@@ -414,8 +411,11 @@ thead .btn_cell {
 .menu_toggle {
     position: relative;
     z-index: 1;
+    height: 25px;
 }
-
+.menu_toggle .material-symbols-outlined {
+    color: #999;
+}
 .dropdown_menu.show {
     display: flex;
     flex-direction: column;

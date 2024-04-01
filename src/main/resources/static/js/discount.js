@@ -53,8 +53,18 @@ $(document).ready(function () {
         if (!validateBeforeSubmit()) {
             return false; // 제출 중지
         } else {
-            $('#discountForm').submit(); // 유효성 검사 통과 시 폼 제출
+            $('#discountForm').submit();
         }
+    });
+
+    $(document).on('click', function(event) {
+        var dropdownMenus = $('.dropdown_menu');
+
+        if ($(event.target).closest('.menu_toggle, .dropdown_menu').length) {
+            return;
+        }
+
+        dropdownMenus.removeClass('show');
     });
 
     $('.menu_toggle').click(function () {
@@ -62,6 +72,7 @@ $(document).ready(function () {
         $('.dropdown_menu').not(dropdownMenu).removeClass('show');
         dropdownMenu.toggleClass('show');
     });
+
 
     $('#selectAll').click(function () {
         if ($(this).prop('checked')) {
@@ -113,12 +124,6 @@ function deleteDiscount() {
         }
     }
 }
-
-// $(function() {
-//     $(".datetimepicker").datetimepicker({
-//         format: "Y-m-d H:i",
-//     });
-// });
 
 $(document).ready(function() {
     // 현재 날짜와 시간 가져오기
