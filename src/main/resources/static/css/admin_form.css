@@ -85,6 +85,10 @@ body  {
     width: 100%;
     resize: vertical;
 }
+.datetimepicker {
+    color: #666;
+}
+
 input[type=radio] {
     margin-right: 5px;
 }
@@ -282,6 +286,7 @@ select {
 }
 .discount_cont.period .input_box_wrap{
     margin-right: 20px;
+    margin-bottom: 5px;
 }
 .discount .input_box_wrap{
     width: auto;

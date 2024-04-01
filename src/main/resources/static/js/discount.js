@@ -1,23 +1,62 @@
 function validateBeforeSubmit() {
     let discountName = $('#name').val().trim();
-    let discountValue = $('#value').val().trim();
-    let discountType = $('input[name=type]:checked').val();
+    let discountPercent = $('#discountPercent').val().trim();
+    let startDatetime = $('#startDatetime').val().trim();
+    let endDatetime = $('#endDatetime').val().trim();
 
     if (discountName === '') {
         alert('할인 혜택명을 입력해 주세요.');
         return false;
     }
 
-    if (discountValue === '') {
-        alert('할인율 또는 할인 금액을 입력해 주세요.');
+    if (discountPercent === '') {
+        alert('할인율을 입력해 주세요.');
         return false;
     }
 
+    let discountPercentRegex = /^(?:1|[1-9]\d?|100)$/;
+    if (!discountPercentRegex.test(discountPercent)) {
+        alert('1부터 100 사이의 값을 입력해 주세요.');
+        return false;
+    }
+
+
+
+    if (startDatetime === '' && endDatetime === '') {
+        alert('할인 기간을 입력해 주세요.');
+        return false;
+    }
+    if (startDatetime === '' ) {
+        alert('시작일시를 입력해 주세요.');
+        return false;
+    }
+    if (endDatetime === '' ) {
+        alert('종료일시를 입력해 주세요.');
+        return false;
+    }
+
+    let startDate = new Date(startDatetime);
+    let endDate = new Date(endDatetime);
+
+    if (startDate >= endDate) {
+        alert('시작일시는 종료일시보다 이전이어야 합니다.');
+        return false;
+    }
 
     return true;
 }
 
 $(document).ready(function () {
+
+    $('.submit_btn').click(function () {
+        // 버튼 클릭 시 유효성 검사 함수 호출
+        if (!validateBeforeSubmit()) {
+            return false; // 제출 중지
+        } else {
+            $('#discountForm').submit(); // 유효성 검사 통과 시 폼 제출
+        }
+    });
+
     $('.menu_toggle').click(function () {
         var dropdownMenu = $(this).siblings('.dropdown_menu');
         $('.dropdown_menu').not(dropdownMenu).removeClass('show');
@@ -75,8 +114,18 @@ function deleteDiscount() {
     }
 }
 
-$(function() {
-    $(".datetimepicker").datetimepicker({
-        format: "Y-m-d H:i",
-    });
+// $(function() {
+//     $(".datetimepicker").datetimepicker({
+//         format: "Y-m-d H:i",
+//     });
+// });
+
+$(document).ready(function() {
+    // 현재 날짜와 시간 가져오기
+    let currentDate = new Date();
+
+    let minDate = currentDate.toISOString().slice(0,16);
+    $('#startDatetime').attr('min', minDate);
+    $('#endDatetime').attr('min', minDate);
+
 });
