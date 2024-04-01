@@ -80,6 +80,9 @@ body  {
 .input_box_wrap select {
     color: #666;
     height: 26px;
+    position: absolute;
+    z-index: 2;
+    background: transparent;
 }
 .input_box_wrap textarea {
     width: 100%;
@@ -127,6 +130,7 @@ select {
     appearance: none;
     -moz-appearance: none;
     -webkit-appearance: none;
+    cursor: default;
 }
 .btn1 {
     display: flex;
@@ -145,7 +149,7 @@ select {
 }
 .material-symbols-outlined {
     font-family: 'Material Symbols Outlined';
-    font-weight: 300;
+    font-weight: 200;
     font-size: 20px;
     color: #666;
 }
@@ -157,7 +161,7 @@ select {
     align-items: flex-start;
 }
 .input_box_wrap.desc {
-    margin-bottom: 15px;
+    margin-bottom: 5px;
 }
 .ess_tit::after {
     content: "*";
@@ -167,13 +171,15 @@ select {
 .select_wrap  {
     position: relative;
     width: 100%;
+    height: 26px;
 }
 .select_wrap .material-symbols-outlined {
     position: absolute;
     top: 0;
+    z-index: 1;
     right: 5px;
     line-height: 26px;
-    cursor: grab;
+    cursor: default;
 }
 .show_options {
     display: flex;
@@ -310,19 +316,19 @@ select {
     color: #999;
 }
 /*Details*/
-#discountDetails .form_wrap #productDetails .form_wrap {
+.details_wrap .form_wrap{
     padding: 30px;
 }
-#discountDetails tr, #productDetails tr{
+.details_wrap tr{
     display: flex;
 }
-#discountDetails tr:last-child td, #productDetails tr:last-child td, #discountDetails tr:last-child th, #productDetails tr:last-child th  {
+.details_wrap tr:last-child th, .details_wrap tr:last-child td  {
     border: none;
 }
-#discountDetails th, #productDetails th{
+.details_wrap th{
     width: 20%;
 }
-#discountDetails th, #discountDetails td, #productDetails th, #productDetails td{
+.details_wrap th, .details_wrap td{
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
@@ -369,7 +375,7 @@ th {
     color: #999;
     white-space: nowrap;
 }
-#discountList tr, #productList tr{
+.wrapper tr{
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -415,6 +421,7 @@ thead .btn_cell {
 }
 .menu_toggle .material-symbols-outlined {
     color: #999;
+    font-weight: 300;
 }
 .dropdown_menu.show {
     display: flex;
