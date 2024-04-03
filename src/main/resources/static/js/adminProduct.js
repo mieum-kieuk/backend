@@ -1,5 +1,6 @@
 function validateBeforeSubmit() {
     let nameValue = $('#name').val().trim();
+    let categoryValue = $('#category').val();
     let priceValue = $('#price').val().trim();
     let stockQuantityValue = $('#stockQuantity').val().trim();
     let detailsValue = $('#details').val().trim();
@@ -8,22 +9,38 @@ function validateBeforeSubmit() {
     let noticeValue = $('#notice').val().trim();
 
     // 파일 업로드 요소의 값을 가져오기 위해 해당 요소에 접근합니다.
-    let displayImageValue = $('#editDisplayImage')[0].files;
-    let imageFilesValue = $('#editImageFiles')[0].files;
+    let displayImageValue = $('#displayImage1')[0].files;
+    let imageFilesValue = $('#detailsImages')[0].files;
 
     let nameRegex = /^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9\s]+$/;
+    if (nameValue === '') {
+        alert('이름를 입력해 주세요.');
+        return false;
+    }
     if (!nameRegex.test(nameValue)) {
         alert('상품명은 한글, 영문, 숫자, 공백만 허용됩니다.');
         return false;
     }
 
-    if (parseFloat(priceValue) < 1) {
+    if(categoryValue === '') {
+        alert('카테고리를 선택해 주세요.');
+        return false;
+    }
+    if (priceValue === '') {
         alert('상품 가격을 입력해 주세요.');
         return false;
     }
+    if (parseInt(priceValue) < 0) {
+        alert('유효한 상품 가격을 입력해 주세요.');
+        return false;
+    }
 
-    if (isNaN(stockQuantityValue) || stockQuantityValue === '') {
+    if (stockQuantityValue === '') {
         alert('재고 수량을 입력해 주세요.');
+        return false;
+    }
+    if (parseInt(stockQuantityValue) < 0) {
+        alert('유효한 재고를 입력해 주세요.');
         return false;
     }
 
@@ -48,7 +65,7 @@ function validateBeforeSubmit() {
     }
 
     if (displayImageValue.length === 0) { // 파일이 선택되지 않았을 때
-        alert('섬네일 사진을 선택해주세요.');
+        alert('섬네일 사진을 첨부해 주세요.');
         return false;
     }
 
@@ -79,7 +96,6 @@ function updatePreviewContainer(input, containerId) {
 
         previewImage.attr('src', e.target.result);
         fileName.text('파일명: ' + file.name);
-
 
         container.css('display', 'flex');
     };

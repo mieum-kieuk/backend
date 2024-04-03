@@ -7,7 +7,7 @@ body  {
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: 100svh;
+    height: 100vh;
     padding: 0 50px ;
     margin-left: 200px;
 }
@@ -220,6 +220,12 @@ select {
     flex-direction: row;
     justify-content: space-between;
     align-items: flex-start;
+}
+#previewContainer1,
+#previewContainer2 {
+    margin: 15px 0 0 140px;
+}
+#previewContainer3 {
     margin-left: 140px;
 }
 .preview_container.column {
@@ -428,7 +434,10 @@ thead .btn_cell {
     flex-direction: column;
     align-items: stretch;
 }
-
+/*field error*/
 .field-error {
     margin: -15px 0 20px 140px;
+}
+.field-error.exc {
+    margin: 0 0 5px 140px;
 }
