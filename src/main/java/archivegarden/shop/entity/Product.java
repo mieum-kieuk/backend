@@ -1,6 +1,6 @@
 package archivegarden.shop.entity;
 
-import archivegarden.shop.dto.admin.shop.product.ProductSaveForm;
+import archivegarden.shop.dto.admin.shop.product.AddProductForm;
 import archivegarden.shop.exception.NotEnoughStockException;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -49,6 +49,10 @@ public class Product extends BaseTimeEntity {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<ProductImage> images = new ArrayList<>();
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "discount_id")
+    private Discount discount;
+
     //==비즈니스 로직==//
     /**
      * stock 증가
@@ -76,7 +80,7 @@ public class Product extends BaseTimeEntity {
     }
 
     //==생성자 메서드==//
-    public static Product createProduct(ProductSaveForm form, ProductImage displayImage, ProductImage hoverImage, List<ProductImage> detailsImages) {
+    public static Product createProduct(AddProductForm form, ProductImage displayImage, ProductImage hoverImage, List<ProductImage> detailsImages, Discount discount) {
         Product product = new Product();
         product.name = form.getName();
         product.category = form.getCategory();
@@ -91,6 +95,7 @@ public class Product extends BaseTimeEntity {
         for (ProductImage detailsImage : detailsImages) {
             product.addProductImage(detailsImage);
         }
+        product.discount = discount;
         return product;
     }
 }
