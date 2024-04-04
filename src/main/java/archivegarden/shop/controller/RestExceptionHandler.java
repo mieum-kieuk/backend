@@ -3,6 +3,7 @@ package archivegarden.shop.controller;
 import archivegarden.shop.dto.ErrorResult;
 import archivegarden.shop.exception.ajax.NoSuchDiscountAjaxException;
 import archivegarden.shop.exception.ajax.NoSuchProductAjaxException;
+import archivegarden.shop.exception.ajax.NoSuchImageAjaxException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -12,8 +13,20 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class RestExceptionHandler {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler({NoSuchDiscountAjaxException.class, NoSuchProductAjaxException.class})
+    @ExceptionHandler(NoSuchDiscountAjaxException.class)
     public ErrorResult noSuchDiscountException(NoSuchDiscountAjaxException e) {
-        return new ErrorResult("BAD_REQUEST", "삭제 도중 오류가 발생했습니다. 다시 시도해 주세요.");
+        return new ErrorResult("BAD_REQUEST", "존재하지 않는 할인 혜택입니다. 다시 시도해 주세요.");
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(NoSuchProductAjaxException.class)
+    public ErrorResult noSuchProductAjaxException(NoSuchProductAjaxException e) {
+        return new ErrorResult("BAD_REQUEST", "존재하지 않는 상품입니다. 다시 시도해 주세요.");
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(NoSuchImageAjaxException.class)
+    public ErrorResult noSuchImageAjaxException(NoSuchImageAjaxException e) {
+        return new ErrorResult("BAD_REQUEST", "존재하지 않는 첨부 파일입니다. 다시 시도해 주세요.");
     }
 }

@@ -7,8 +7,11 @@ import archivegarden.shop.dto.admin.shop.product.EditProductForm;
 import archivegarden.shop.entity.Category;
 import archivegarden.shop.service.admin.promotion.discount.AdminDiscountService;
 import archivegarden.shop.service.admin.shop.AdminProductService;
+import archivegarden.shop.service.upload.FileStore;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -19,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -31,6 +35,7 @@ public class AdminProductController {
 
     private final AdminProductService productService;
     private final AdminDiscountService discountService;
+    private final FileStore fileStore;
 
     @ModelAttribute("productCategories")
     public List<Category> productCategories() {
@@ -87,10 +92,19 @@ public class AdminProductController {
     }
 
     @PostMapping("/{productId}/edit")
-    public String editProduct(@PathVariable("productId") Long productId, @Valid @ModelAttribute("product") EditProductForm form, BindingResult bindingResult, Model model) {
+    public String editProduct(@PathVariable("productId") Long productId, @Valid @ModelAttribute("product") EditProductForm form, BindingResult bindingResult, Model model) throws IOException {
+        initModel(model);
 
+        //파일 업로드 검증
+        if ((form.getDisplayImage1() == null || form.getDisplayImage1().getOriginalFilename().equals("")) && form.getIsDisplayImageChanged()) {
+            bindingResult.rejectValue("displayImage1", "imageRequired", "상품 목록에 보일 이미지를 첨부해 주세요.");
+        }
 
-//        productService.updateProduct()
+        if(bindingResult.hasErrors()) {
+            return "admin/shop/product/edit_product";
+        }
+
+        productService.updateProduct(productId, form);
         return "redirect:/admin/shop/products/{productId}";
     }
 
@@ -105,6 +119,12 @@ public class AdminProductController {
     public boolean deleteProducts(@RequestBody List<Long> productIds) {
         productService.deleteProducts(productIds);
         return true;
+    }
+
+    @ResponseBody
+    @GetMapping("/images/{filename}")
+    public Resource downloadImage(@PathVariable String filename) throws MalformedURLException {
+        return new UrlResource("file:" + fileStore.getFullPath(filename));
     }
 
     private void initModel(Model model) {

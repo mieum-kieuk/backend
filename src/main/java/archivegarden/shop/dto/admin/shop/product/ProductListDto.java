@@ -23,7 +23,7 @@ public class ProductListDto {
         name = product.getName();
         categoryName = product.getCategory().getDisplayName();
         price = new DecimalFormat("###,###").format(product.getPrice());
-        salePrice =  new DecimalFormat("###,###").format(discount(product.getPrice(), product.getDiscount()));
+        salePrice = product.getDiscount() != null ? new DecimalFormat("###,###").format(discount(product.getPrice(), product.getDiscount())) : this.price;
         stockQuantity = new DecimalFormat("###,###").format(product.getStockQuantity());
         product.getImages().forEach(img -> {
             if(img.getImageType()  == ImageType.DISPLAY) {

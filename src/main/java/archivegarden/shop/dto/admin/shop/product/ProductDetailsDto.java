@@ -31,7 +31,8 @@ public class ProductDetailsDto {
         name = product.getName();
         categoryName = product.getCategory().getDisplayName();
         price = new DecimalFormat("###,###").format(product.getPrice());
-        discountName = "[" + product.getDiscount().getDiscountPercent() + "%] " + product.getDiscount().getName();
+
+        discountName = product.getDiscount() != null ? "[" + product.getDiscount().getDiscountPercent() + "%] " + product.getDiscount().getName() : null;
         stockQuantity = new DecimalFormat("###,###").format(product.getStockQuantity());
         details = product.getDetails();
         sizeGuide = product.getSizeGuide();

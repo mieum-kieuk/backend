@@ -1,9 +1,9 @@
 package archivegarden.shop.service.admin.shop;
 
 import archivegarden.shop.dto.admin.shop.product.AddProductForm;
+import archivegarden.shop.dto.admin.shop.product.EditProductForm;
 import archivegarden.shop.dto.admin.shop.product.ProductDetailsDto;
 import archivegarden.shop.dto.admin.shop.product.ProductListDto;
-import archivegarden.shop.dto.admin.shop.product.EditProductForm;
 import archivegarden.shop.entity.Discount;
 import archivegarden.shop.entity.ImageType;
 import archivegarden.shop.entity.Product;
@@ -12,7 +12,7 @@ import archivegarden.shop.exception.NoSuchDiscountException;
 import archivegarden.shop.exception.NoSuchProductException;
 import archivegarden.shop.exception.ajax.NoSuchProductAjaxException;
 import archivegarden.shop.repository.admin.promotion.AdminDiscountRepository;
-import archivegarden.shop.repository.admin.shop.AdminProductRepository;
+import archivegarden.shop.repository.shop.ProductRepository;
 import archivegarden.shop.service.upload.FileStore;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -23,14 +23,13 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class AdminProductService {
 
-    private final AdminProductRepository productRepository;
+    private final ProductRepository productRepository;
     private final AdminDiscountRepository discountRepository;
     private final FileStore fileStore;
 
@@ -51,7 +50,10 @@ public class AdminProductService {
         }
 
         //할인 엔티티 조회
-        Discount discount = discountRepository.findById(form.getDiscountId()).orElseThrow(() -> new NoSuchDiscountException("존재하지 않는 할인 혜택입니다."));
+        Discount discount = null;
+        if(form.getDiscountId() != null) {
+             discount = discountRepository.findById(form.getDiscountId()).orElseThrow(() -> new NoSuchDiscountException("존재하지 않는 할인 혜택입니다."));
+        }
 
         //상품 엔티티 생성
         Product product = Product.createProduct(form, displayImage, hoverImage, detailsImages, discount);
@@ -89,6 +91,34 @@ public class AdminProductService {
         Product product = productRepository.findById(productId).orElseThrow(() -> new NoSuchProductException("존재하지 않는 상품입니다."));
         return new EditProductForm(product);
     }
+
+    /**
+     * 상품 수정
+     */
+    public void updateProduct(Long productId, EditProductForm form) throws IOException {
+        //엔티티 조회
+        Product product = productRepository.findAllWithImages(productId).orElseThrow(() -> new NoSuchProductException("존재하지 않는 상품입니다."));
+
+        //첨부 파일 외 수정
+        product.update(form);
+
+        //첨부 파일 수정
+        if(!form.getDisplayImage1().getOriginalFilename().equals("")) {
+            ProductImage displayImage = fileStore.storeFile(form.getDisplayImage1(), ImageType.DISPLAY);
+            product.updateDisplayImage(displayImage);
+        }
+
+        if(!form.getDisplayImage2().getOriginalFilename().equals("")) {
+            ProductImage hoverImage = fileStore.storeFile(form.getDisplayImage2(), ImageType.HOVER);
+            product.updateHoverImage(hoverImage);
+        }
+
+        if(!form.getDetailsImages().isEmpty()) {
+            List<ProductImage> productImages = fileStore.storeFiles(form.getDetailsImages(), ImageType.DETAILS);
+            product.addDetailsImage(productImages);
+        }
+    }
+
 
     /**
      * 상품 단건 삭제

@@ -40,7 +40,7 @@
                     </tr>
                     <tr>
                         <th class="input_tit">할인</th>
-                        <td id="discountName" th:text="${product.discountName}"></td>
+                        <td id="discountName" th:text="${product.discountName}?:'할인 혜택이 없습니다.'"></td>
                     </tr>
                     <tr>
                         <th class="input_tit">재고</th>
@@ -70,12 +70,14 @@
                     </tr>
                     <tr>
                         <th class="input_tit">섬네일 사진2</th>
+                        <td th:if="${product.displayImage2} == null">첨부된 사진이 없습니다.</td>
                         <td class="details_images_container">
-                            <img th:src="|/productImages/${product.displayImage2}|">
+                            <img th:if="${product.displayImage2} != null" th:src="|/productImages/${product.displayImage2}|">
                         </td>
                     </tr>
                     <tr>
-                        <th class="input_tit">사진 첨부</th>
+                        <th class="input_tit">상세 페이지 첨부</th>
+                        <td th:if="${#lists.size(product.detailsImages)} == 0">첨부된 사진이 없습니다.</td>
                         <td class="details_images_container">
                             <img th:each="detailImage : ${product.detailsImages}"
                                  th:src="|/productImages/${detailImage}|">

@@ -13,8 +13,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
 
 @Service
 @Transactional
@@ -80,13 +81,13 @@ public class AdminDiscountService {
     /**
      * 할인 혜택 단건 삭제
      *
-     * throws NoSuchDiscountException discountId로 DB에서 데이터 찾을 수 없을 때
+     * @throws NoSuchDiscountException discountId로 DB에서 데이터 찾을 수 없을 때
      */
     public void deleteDiscount(Long discountId) {
         //엔티티 조회
         Discount discount = discountRepository.findById(discountId).orElseThrow(() -> new NoSuchDiscountException("존재하지 않는 할인 혜택입니다."));
 
-        //엔티티 삭제
+        //할인 삭제
         discountRepository.delete(discount);
     }
 
@@ -94,12 +95,28 @@ public class AdminDiscountService {
      * Ajax
      * 할인 혜택 여러개 삭제
      *
-     * throws NoSuchDiscountAjaxException discountId로 DB에서 데이터 찾을 수 없을 때
+     * @throws NoSuchDiscountAjaxException discountId로 DB에서 데이터 찾을 수 없을 때
      */
     public void deleteDiscounts(List<Long> discountIds) {
         discountIds.stream().forEach((discountId) -> {
             Discount discount = discountRepository.findById(discountId).orElseThrow(() -> new NoSuchDiscountAjaxException("존재하지 않는 할인 혜택입니다."));
             discountRepository.delete(discount);
         });
+    }
+
+    /**
+     * 상품 카테고리에 보여줄 할인 목록 조회
+     * ex) [20%] 봄 신상 할인
+     */
+    @Transactional(readOnly = true)
+    public Map<Long, String> getDiscountNames() {
+        Map<Long, String> result = new HashMap<>();
+        List<Discount> discounts = discountRepository.findAll();
+        for (Discount discount : discounts) {
+            String discountName = "[" + discount.getDiscountPercent() + "%] " + discount.getName();
+            result.put(discount.getId(), discountName);
+        }
+
+        return result;
     }
 }

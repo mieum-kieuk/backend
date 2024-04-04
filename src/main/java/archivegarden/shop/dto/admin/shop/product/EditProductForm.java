@@ -1,7 +1,6 @@
 package archivegarden.shop.dto.admin.shop.product;
 
 import archivegarden.shop.entity.Category;
-import archivegarden.shop.entity.ImageType;
 import archivegarden.shop.entity.Product;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -10,6 +9,7 @@ import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +18,6 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 public class EditProductForm {
-
-    private Long id;
 
     @NotBlank(message = "상품명을 입력해 주세요.")
     private String name;
@@ -49,12 +47,12 @@ public class EditProductForm {
     @NotBlank(message = "주의 사항을 입력해 주세요.")
     private String notice;
 
-    private String displayImage1;
-    private String displayImage2;
-    private List<String> detailsImages = new ArrayList<>();
+    private Boolean isDisplayImageChanged;
+    private MultipartFile displayImage1;
+    private MultipartFile displayImage2;
+    private List<MultipartFile> detailsImages = new ArrayList<>();
 
     public EditProductForm(Product product) {
-        id = product.getId();
         name = product.getName();
         category = product.getCategory();
         price = product.getPrice();
@@ -64,14 +62,6 @@ public class EditProductForm {
         sizeGuide = product.getSizeGuide();
         shipping = product.getShipping();
         notice = product.getNotice();
-        product.getImages().forEach(image -> {
-            if (image.getImageType() == ImageType.DISPLAY) {
-                displayImage1 = image.getStoreImageName();
-            } else if (image.getImageType() == ImageType.HOVER) {
-                displayImage2 = image.getStoreImageName();
-            } else {
-                detailsImages.add(image.getStoreImageName());
-            }
-        });
+        isDisplayImageChanged = false;
     }
 }

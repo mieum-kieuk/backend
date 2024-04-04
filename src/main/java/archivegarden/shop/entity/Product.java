@@ -1,12 +1,14 @@
 package archivegarden.shop.entity;
 
 import archivegarden.shop.dto.admin.shop.product.AddProductForm;
+import archivegarden.shop.dto.admin.shop.product.EditProductForm;
 import archivegarden.shop.exception.NotEnoughStockException;
 import jakarta.persistence.*;
 import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Entity
@@ -46,7 +48,7 @@ public class Product extends BaseTimeEntity {
     @Column(nullable = false)
     private String notice;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProductImage> images = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -54,6 +56,60 @@ public class Product extends BaseTimeEntity {
     private Discount discount;
 
     //==비즈니스 로직==//
+
+    /**
+     * 상품 수정
+     */
+    public void update(EditProductForm form) {
+        this.name = form.getName();
+        this.category = form.getCategory();
+        this.price = form.getPrice();
+        this.stockQuantity = form.getStockQuantity();
+        this.details = form.getDetails();
+        this.sizeGuide = form.getSizeGuide();
+        this.shipping = form.getShipping();
+        this.notice = form.getNotice();
+    }
+
+    /**
+     * 섬네일 사진 1 변경
+     * <p>
+     * 1. 수정: 기존에 존재하던 이미지 삭제 -> 추가
+     * 2. 삭제 -> 추가: Ajax 통신 통해 삭제 이미 이루어짐 -> 추가
+     */
+    public void updateDisplayImage(ProductImage displayImage) {
+        //1. 수정의 경우 기존에 존재하던 사진 제거
+        this.images.stream()
+                .filter(image -> image.getImageType() == ImageType.DISPLAY)
+                .collect(Collectors.toList())
+                .forEach(image -> images.remove(image));
+
+
+        addProductImage(displayImage);
+    }
+
+    /**
+     * 섬네일 사진 2 변경
+     * <p>
+     * 1. 수정: 기존에 존재하던 이미지 삭제 -> 추가
+     * 2. 삭제 -> 추가: Ajax 통신 통해 삭제 이미 이루어짐 -> 추가
+     */
+    public void updateHoverImage(ProductImage hoverImage) {
+        this.images.stream()
+                .filter(image -> image.getImageType() == ImageType.HOVER)
+                .collect(Collectors.toList())
+                .forEach(image -> images.remove(image));
+
+        addProductImage(hoverImage);
+    }
+
+    /**
+     * 상세 페이지 사진 추가
+     */
+    public void addDetailsImage(List<ProductImage> productImages) {
+        productImages.stream().forEach(image -> addProductImage(image));
+    }
+
     /**
      * stock 증가
      */
@@ -74,7 +130,7 @@ public class Product extends BaseTimeEntity {
     /**
      * 이미지 추가
      */
-    private void addProductImage(ProductImage image){
+    private void addProductImage(ProductImage image) {
         images.add(image);
         image.setProduct(this);
     }
@@ -91,7 +147,11 @@ public class Product extends BaseTimeEntity {
         product.shipping = form.getShipping();
         product.notice = form.getShipping();
         product.addProductImage(displayImage);
-        product.addProductImage(hoverImage);
+
+        if(hoverImage != null) {
+            product.addProductImage(hoverImage);
+        }
+
         for (ProductImage detailsImage : detailsImages) {
             product.addProductImage(detailsImage);
         }

@@ -1,16 +1,18 @@
-body  {
+body {
     font-size: 12px;
     display: flex;
 }
+
 /*공통*/
 .admin_wrap {
     display: flex;
     flex-direction: column;
     width: 100%;
     height: 100vh;
-    padding: 0 50px ;
+    padding: 0 50px;
     margin-left: 200px;
 }
+
 .sidebar {
     height: 100%;
     width: 200px;
@@ -22,32 +24,40 @@ body  {
     text-align: center;
     color: #eee;
 }
+
 .sidebar h2 {
     font-size: 18px;
     padding: 20px 0;
 }
+
 .sidebar ul li {
     padding: 10px;
 }
-.sidebar a{
+
+.sidebar a {
     color: #eee;
     font-size: 13px;
 }
+
 .sidebar ul li a:hover {
     color: #fff;
 }
-.side_menu.top .logo{
+
+.side_menu.top .logo {
     display: flex;
     justify-content: center;
 }
-.side_menu.top .logo img{
+
+.side_menu.top .logo img {
     filter: invert(100%);
     height: 28px;
     object-fit: cover;
 }
+
 .side_menu.top {
     padding-bottom: 20px;
 }
+
 .form_wrap {
     width: 100%;
     border: 1px solid #d7d7d7;
@@ -56,16 +66,20 @@ body  {
     margin-bottom: 20px;
     border-radius: 2px;
 }
+
 .content {
     padding: 20px 10px;
 }
+
 .content_tit {
     display: flex;
     padding: 20px 0 10px;
 }
-.content_tit h2{
+
+.content_tit h2 {
     width: 100%;
 }
+
 .input_box_wrap {
     display: flex;
     flex-direction: row;
@@ -73,10 +87,12 @@ body  {
     margin-bottom: 20px;
     width: 100%;
 }
+
 .input_box_wrap input, .input_box_wrap select {
     display: flex;
     width: 100%;
 }
+
 .input_box_wrap select {
     color: #666;
     height: 26px;
@@ -84,6 +100,7 @@ body  {
     z-index: 2;
     background: transparent;
 }
+
 .input_box_wrap textarea {
     width: 100%;
     resize: vertical;
@@ -92,21 +109,26 @@ body  {
 input[type=radio] {
     margin-right: 5px;
 }
+
 .input_box_wrap.radio {
     height: 26px;
 }
-.input_box_wrap.radio label{
+
+.input_box_wrap.radio label {
     color: #222;
     font-weight: 400;
 }
-.input_box_wrap.radio input{
+
+.input_box_wrap.radio input {
     width: auto;
 }
+
 .input_box_wrap.btn {
     justify-content: flex-end;
     width: 100%;
     gap: 8px;
 }
+
 label {
     display: block;
     max-width: 120px;
@@ -116,22 +138,20 @@ label {
     color: #999;
     font-weight: 600;
 }
-input, select, textarea{
-    border: 1px solid #999;
-    padding: 5px 5px;
-    border-radius: 2px;
-}
+
 input::-webkit-inner-spin-button {
     appearance: none;
     -moz-appearance: none;
     -webkit-appearance: none;
 }
+
 select {
     appearance: none;
     -moz-appearance: none;
     -webkit-appearance: none;
     cursor: default;
 }
+
 .btn1 {
     display: flex;
     justify-content: center;
@@ -143,10 +163,7 @@ select {
     background: #fff;
     color: #666;
 }
-.submit_btn {
-    color: #fff;
-    background: #000;
-}
+
 .material-symbols-outlined {
     font-family: 'Material Symbols Outlined';
     font-weight: 200;
@@ -160,19 +177,23 @@ select {
     flex-direction: column;
     align-items: flex-start;
 }
+
 .input_box_wrap.desc {
     margin-bottom: 5px;
 }
+
 .ess_tit::after {
     content: "*";
     color: #d94747;
     margin-left: 3px;
 }
-.select_wrap  {
+
+.select_wrap {
     position: relative;
     width: 100%;
     height: 26px;
 }
+
 .select_wrap .material-symbols-outlined {
     position: absolute;
     top: 0;
@@ -181,6 +202,7 @@ select {
     line-height: 26px;
     cursor: default;
 }
+
 .show_options {
     display: flex;
 }
@@ -189,31 +211,38 @@ select {
     display: flex;
 }
 
-#detailsImages, #displayImage1, #displayImage2, #editDisplayImage1, #editDisplayImage2, #editDetailsImages{
+#detailsImages, #displayImage1, #displayImage2, #editDisplayImage1, #editDisplayImage2, #editDetailsImages {
     width: 100%;
     border-left: none;
     border-right: none;
     border-radius: 0;
 }
+
 #preview {
     margin-left: 140px;
 }
+
 .description {
     padding: 0 0 15px 140px;
 }
+
 .description span {
     font-size: 11px;
     color: #666;
 }
-.description span::before{
+
+.description span::before {
     content: "• ";
 }
+
 #productDetails #imageFiles, #productDetails #displayImage {
     /*width: auto;*/
 }
+
 #productDetails .input_box_wrap.desc {
     margin-bottom: 20px;
 }
+
 .preview_container {
     position: relative;
     display: none;
@@ -221,16 +250,24 @@ select {
     justify-content: space-between;
     align-items: flex-start;
 }
+
 #previewContainer1,
 #previewContainer2 {
-    margin: 15px 0 0 140px;
+    margin-top: 15px;
+    margin-left: 140px;
+    width: 100%;
+    max-width: 928px;
 }
-#previewContainer3 {
+
+#previewContainer3,
+#newPreviewContainer3 {
     margin-left: 140px;
 }
+
 .preview_container.column {
     flex-direction: column;
 }
+
 .preview_image_container {
     position: relative;
     display: flex;
@@ -241,9 +278,11 @@ select {
     margin-top: 15px;
     padding-bottom: 15px;
 }
+
 .preview_image_container:last-child {
     border-bottom: none;
 }
+
 .btn_wrap {
     position: absolute;
     top: 0;
@@ -251,33 +290,40 @@ select {
     display: flex;
     align-items: flex-start;
 }
+
 .preview_images {
     display: flex;
     flex-direction: column;
 }
+
 .preview_image {
     margin-bottom: 10px;
     width: 400px;
     height: 400px;
     object-fit: cover;
 }
+
 .filename_container {
     margin-bottom: 10px;
 }
+
 .preview_container .material-symbols-outlined {
     font-size: 16px;
     line-height: 16px;
     margin-left: 10px;
     color: #222;
 }
+
 .delete_btn {
     display: flex;
     align-items: center;
 }
+
 .details_images_container {
     display: flex;
     flex-direction: column;
 }
+
 .details_images_container img {
     display: block;
     width: 400px;
@@ -285,35 +331,43 @@ select {
     object-fit: cover;
     margin-bottom: 20px;
 }
+
 .details_images_container img:last-child {
     margin-bottom: 0;
 }
-    /*discount*/
+
+/*discount*/
 .discount_cont {
     display: flex;
     flex-direction: row;
 }
-.discount_cont.period .input_box_wrap{
+
+.discount_cont.period .input_box_wrap {
     margin-right: 20px;
     margin-bottom: 5px;
 }
-.discount .input_box_wrap{
+
+.discount .input_box_wrap {
     width: auto;
 }
+
 .discount_cont label {
     display: block;
-    width: 100% ;
+    width: 100%;
 }
+
 #discountForm .discount, #editDiscountForm .discount {
     display: flex;
 }
-#discountForm .discount span, #editDiscountForm .discount span{
+
+#discountForm .discount span, #editDiscountForm .discount span {
     display: block;
     margin-right: 20px;
     width: 120px;
     font-weight: 600;
     color: #999;
 }
+
 .input_box_wrap .input_tit {
     display: block;
     margin-right: 20px;
@@ -321,20 +375,25 @@ select {
     font-weight: 600;
     color: #999;
 }
+
 /*Details*/
-.details_wrap .form_wrap{
+.details_wrap .form_wrap {
     padding: 30px;
 }
-.details_wrap tr{
+
+.details_wrap tr {
     display: flex;
 }
-.details_wrap tr:last-child th, .details_wrap tr:last-child td  {
+
+.details_wrap tr:last-child th, .details_wrap tr:last-child td {
     border: none;
 }
-.details_wrap th{
+
+.details_wrap th {
     width: 20%;
 }
-.details_wrap th, .details_wrap td{
+
+.details_wrap th, .details_wrap td {
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
@@ -342,11 +401,13 @@ select {
     padding: 10px;
     border-bottom: 1px solid #eee;
 }
+
 /*List*/
 table {
     width: 100%;
     margin-bottom: 20px;
 }
+
 table img {
     display: block;
     /*max-width: 100px;*/
@@ -355,11 +416,13 @@ table img {
     height: 100%;
     object-fit: cover;
 }
+
 #noDataMessage > td {
     text-align: center;
     white-space: nowrap;
 }
-th, td{
+
+th, td {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -371,32 +434,38 @@ th, td{
     /*max-height: 100px;*/
     padding: 10px;
 }
+
 th span, td span {
     overflow: hidden;
     display: -webkit-box;
     -webkit-line-clamp: 6;
     -webkit-box-orient: vertical;
 }
+
 th {
     color: #999;
     white-space: nowrap;
 }
-.wrapper tr{
+
+.wrapper tr {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
     border-bottom: 1px solid #d7d7d7;
 }
+
 thead .btn_cell {
     opacity: 0;
 }
+
 .checkbox_cell, .btn_cell {
     display: table-cell;
     width: 40px;
     padding: 0 10px;
     overflow: visible;
 }
+
 .menu {
     position: relative;
     display: inline-block;
@@ -415,6 +484,7 @@ thead .btn_cell {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     z-index: 2;
 }
+
 .dropdown_menu button {
     padding: 5px 10px;
     text-align: center;
@@ -425,19 +495,23 @@ thead .btn_cell {
     z-index: 1;
     height: 25px;
 }
+
 .menu_toggle .material-symbols-outlined {
     color: #999;
     font-weight: 300;
 }
+
 .dropdown_menu.show {
     display: flex;
     flex-direction: column;
     align-items: stretch;
 }
+
 /*field error*/
 .field-error {
     margin: -15px 0 20px 140px;
 }
+
 .field-error.exc {
     margin: 0 0 5px 140px;
 }
