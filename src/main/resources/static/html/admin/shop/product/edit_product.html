@@ -73,6 +73,18 @@
                         <input type="number" id="price" name="price" placeholder="숫자를 입력해 주세요.">
                     </div>
                     <div class="input_box_wrap">
+                        <label for="discount">상품 할인</label>
+                        <div class="select_wrap">
+                            <select id="discount" name="discount">
+                                <option value="" selected>상품 할인을 선택해 주세요.</option>
+                                <option value="discount1">할인 혜택 1</option>
+                                <option value="discount2">할인 혜택 2</option>
+                                <option value="discount3">할인 혜택 3</option>
+                            </select>
+                            <span class="material-symbols-outlined">expand_more</span>
+                        </div>
+                    </div>
+                    <div class="input_box_wrap">
                         <label for="stockQuantity" class="ess_tit">재고</label>
                         <input type="number" id="stockQuantity" name="stockQuantity" placeholder="숫자를 입력해 주세요.">
                     </div>
@@ -127,7 +139,7 @@
                 </div>
                 <div class="text description"><span>상품 목록에서 커서를 올리면 보여질 사진입니다.</span></div>
                 <div class="input_box_wrap desc">
-                    <label for="detailsImages">사진 첨부</label>
+                    <label for="detailsImages">상세 페이지 사진</label>
                     <input type="file" id="detailsImages" name="detailImages" multiple>
                 </div>
                 <div id="previewContainer3" class="preview_container column">
@@ -160,7 +172,7 @@
                 </div>
                 <div class="input_box_wrap btn">
                     <button type="button" class="btn1" onclick="location.href = 'product_list.html'">취소</button>
-                    <button type="submit" class="btn1 edit">수정</button>
+                    <button type="submit" id="submitBtn" class="btn1 submit_btn">완료</button>
                 </div>
             </form>
         </div>

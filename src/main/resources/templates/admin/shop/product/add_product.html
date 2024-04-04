@@ -97,7 +97,7 @@
                                 <span>파일명: </span><span class="file_name"></span>
                             </div>
                         </div>
-                        <button class="delete_btn"><span class="material-symbols-outlined">close</span></button>
+                        <button type="button" class="delete_btn"><span class="material-symbols-outlined">close</span></button>
                     </div>
                     <div class="text description"><span>상품 목록에서 보여질 사진입니다.</span></div>
                     <div class="input_box_wrap desc">
@@ -108,14 +108,14 @@
                         <div class="preview_images">
                             <img src="" alt="" class="preview_image">
                             <div class="filename_container">
-                                <span>파일명: </span><span class="file_name"></span>
+                                <span class="file_name"></span>
                             </div>
                         </div>
                         <button type="button" class="delete_btn"><span class="material-symbols-outlined">close</span></button>
                     </div>
                     <div class="text description"><span>상품 목록에서 커서를 올리면 보여질 사진입니다.</span></div>
                     <div class="input_box_wrap desc">
-                        <label for="detailsImages">사진 페이지 사진</label>
+                        <label for="detailsImages">상세 페이지 사진</label>
                         <input type="file" id="detailsImages" th:field="*{detailsImages}" multiple>
                     </div>
                     <div id="previewContainer3" class="preview_container column">
@@ -123,7 +123,7 @@
                             <div class="preview_images">
                                 <img src="" alt="" class="preview_image">
                                 <div class="filename_container">
-                                    <span>파일명: </span><span class="file_name"></span>
+                                    <span class="file_name"></span>
                                 </div>
                             </div>
                             <div class="btn_wrap">
@@ -134,7 +134,7 @@
                     <div class="text description">
                         <ul>
                             <li>
-                                <span>20MB 이하의 이미지만 업로드 가능합니다.</span>
+                                <span>첨부파일 한 개 1MB 이하의 이미지만 업로드 가능합니다.</span>
                             </li>
                             <li>
                                 <span>상품과 무관한 내용이거나 음란 및 불법적인 내용은 통보없이 삭제 될 수 있습니다.</span>
@@ -149,7 +149,7 @@
                     <button type="button" class="btn1" onclick="location.href = './product_list.html'"
                             th:onclick="|location.href='@{/admin/shop/products}'|">취소
                     </button>
-                    <button type="submit" class="btn1 submit_btn">등록</button>
+                    <button type="submit" id="submitBtn" class="btn1 submit_btn">등록</button>
                 </div>
             </form>
         </div>

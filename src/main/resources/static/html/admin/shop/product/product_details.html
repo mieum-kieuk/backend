@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>상품 등록 세부사항 | Tickers</title>
+    <title>상품 세부사항 | Tickers</title>
 
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Tickers" />
@@ -18,7 +18,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="../../../../css/comm.css">
     <link rel="stylesheet" href="../../../../css/admin_form.css">
-    <script defer src="../../../js/product.js"></script>
+    <script defer src="../../../../js/adminProduct.js"></script>
 </head>
 <body>
 <div class="admin_wrap">
@@ -46,9 +46,9 @@
             </ul>
         </div>
     </div>
-    <div id="productDetails">
+    <div id="productDetails" class="details_wrap">
         <div class="content">
-            <h2 class="content_tit">상품 등록 세부사항</h2>
+            <h2 class="content_tit">상품 세부사항</h2>
             <div class="form_wrap">
                 <table>
                     <tr>
@@ -84,15 +84,29 @@
                         <td id="notice">주의 사항</td>
                     </tr>
                     <tr>
-                        <th class="input_tit">섬네일 사진1</th>
-                        <td id="displayImage1"><div class="details_images_container">이미지</div></td>
+                        <td colspan="2" class="input_tit">
+                            <div class="input_tit details">섬네일 사진1</div>
+                            <div id="displayImage1">
+                                <div class="details_images_container">
+                                    <img src="../../../../images/display_thumb2.jpeg" alt="">
+                                </div>
+                            </div>
+
+                        </td>
                     </tr>
                     <tr>
-                        <th class="input_tit">섬네일 사진2</th>
-                        <td id="displayImage2"><div class="details_images_container">이미지</div></td>
+                        <td colspan="2" class="input_tit">
+                            <div class="input_tit details">섬네일 사진2</div>
+                            <div id="displayImage2">
+                                <div class="details_images_container">
+                                    <img src="../../../../images/display_thumb2.jpeg" alt="">
+                                </div>
+                            </div>
+
+                        </td>
                     </tr>
                     <tr>
-                        <th class="input_tit">사진 첨부</th>
+                        <th class="input_tit">상세 페이지 사진</th>
                         <td id="detailsImages"><div class="details_images_container">이미지</div>
                             </td>
                     </tr>
