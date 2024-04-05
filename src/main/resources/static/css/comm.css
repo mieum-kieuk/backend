@@ -464,43 +464,6 @@ legend {
 .main_product li {
   width: 100%;
 }
-.prd_list {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-}
-.prd_list > li {
-  display: flex;
-  flex-direction: column;
-}
-.prd_list .thumb img {
-  display: block;
-  width: 450px;
-  height: 450px;
-  object-fit: cover;
-}
-.prd_name {
-  font-size: 14px;
-  margin: 10px 0 5px 0;
-}
-.prd_price {
-  display: flex;
-  flex-direction: column;
-  font-size: 12px;
-  gap: 5px;
-}
-.prd_price.discount .discount_rate {
-  color: #d94747;
-}
-.prd_price.discount .original_price {
-  text-decoration: line-through;
-  color: #666;
-}
-.prd_price.discount .discounted_price {
-}
-.prd_price.soldout .sold_out{
-  color: #d94747;
-}
 .footer {
   position: relative;
   transform: translateY(0%);

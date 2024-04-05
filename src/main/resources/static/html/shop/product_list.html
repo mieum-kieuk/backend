@@ -25,6 +25,60 @@
 </head>
 <body>
 <div class="wrap">
+    <header id="header" class="header">
+        <nav id="gnb">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="../images/tickers_logo.png" alt="로고">
+                </a>
+            </div>
+            <div class="gnb_menu center">
+                <ul class="depth1">
+                    <li class="depth1_menu" id="shop">
+                        <a href="./shop/product_list.html">Shop</a>
+                        <ul class="depth2">
+                            <li><a href="./shop/product.html">Masking tape</a></li>
+                            <li><a href="./shop/product.html">Sticker</a></li>
+                            <li><a href="./shop/product.html">Memo</a></li>
+                        </ul>
+                    </li>
+                    <li class="depth1_menu" id="about"><a href="./about.html">About</a>
+                    </li>
+                    <li class="depth1_menu" id="community">Community
+                        <ul class="depth2">
+                            <li><a href="./notice.html">Notice</a></li>
+                            <li><a href="./qna.html">Q&amp;A</a></li>
+                            <li><a href="./review.html">Review</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="gnb_menu">
+                <div class="search">
+                    <form action="#" method="get">
+                        <button type="submit" >Search</button>
+                    </form>
+                </div>
+                <div class="account">
+                    <ul class="depth1">
+                        <li class="depth1_menu">Account
+                            <ul class="depth2">
+                                <li><a href="./members/login.html">Login</a></li>
+                                <li><a href="./members/join.html">Join</a></li>
+                                <li><a href="./members/order.html">Order</a></li>
+                                <li><a href="./members/mypage.html">Mypage</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                </div>
+                <div class="cart">
+                    <a href="./cart/cart.html" >Cart(0)
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
     <div id="productList" class="wrapper">
         <div class="content">
             <div class="prd_category">
@@ -65,11 +119,11 @@
                         </div>
                         <div class="description">
                             <div class="prd_name"><a href="./product_details.html"><span>Masking Tape01</span></a></div>
-                            <ul class="prd_price discount">
-                                <li>
-                                     <span class="original_price">KRW 7,000</span>
+                            <ul class="prd_price">
+                                <li class="discount">
+                                     <span class="line_through">KRW 7,000</span>
                                 </li>
-                                <li>
+                                <li class="discount">
                                     <span class="discount_rate">10%</span><span class="discounted_price"> KRW 6,300</span>
                                 </li>
                             </ul>
@@ -77,15 +131,18 @@
                     </li>
                     <li>
                         <div class="thumb">
-                            <a href="./product_details.html"><img src="../../images/maskingtape1.jpeg" alt="제품1"></a>
+                            <a href="./product_details.html">
+                                <img class="thumb1" src="../../images/maskingtape1.jpeg" alt="display썸네일1">
+                                <img class="thumb2"  src="../../images/display_thumb2.jpeg" alt="display썸네일2">
+                            </a>
                         </div>
                         <div class="description">
                             <div class="prd_name"><a href="./product_details.html"><span>Masking Tape01</span></a></div>
-                            <ul class="prd_price soldout">
-                                <li>
+                            <ul class="prd_price">
+                                <li class="soldout">
                                     <span class="original_price">KRW 7,000</span>
                                 </li>
-                                <li>
+                                <li class="soldout">
                                     <span class="sold_out">sold out</span>
                                 </li>
                             </ul>
@@ -97,11 +154,11 @@
                         </div>
                         <div class="description">
                             <div class="prd_name"><a href="./"><span>Masking Tape01</span></a></div>
-                            <ul class="prd_price soldout">
-                                <li>
+                            <ul class="prd_price">
+                                <li class="soldout">
                                     <span class="original_price">KRW 7,000</span>
                                 </li>
-                                <li>
+                                <li class="soldout">
                                     <span class="sold_out">sold out</span>
                                 </li>
                             </ul>
@@ -124,6 +181,43 @@
             <li><a href="#" class="next_last"><span class="material-symbols-outlined">navigate_next</span></a></li>
         </ul>
     </div>
+    <footer id="footer" class="footer">
+        <div class="footer_wrap">
+            <div class="footer_inner">
+                <ul>
+                    <li><a href="">Instagram</a></li>
+                </ul>
+            </div>
+            <div class="footer_inner">
+                <ul>
+                    <li><a href="">Terms of Use</a></li>
+                    <li><a href="">Privacy Policy</a></li>
+                    <li><a href="">Shop Guide</a></li>
+                </ul>
+            </div>
+            <div class="footer_inner">
+                <ul>
+                    <li>Company : 티커스</li>
+                    <li>전화번호 : 010-1234-5678</li>
+                    <li>이메일 : tickers@gmail.com</li>
+                </ul>
+            </div>
+            <div class="footer_inner">
+                <ul>
+                    <li>사업자 번호 : 070-61-01100</li>
+                    <li>주소 : 서울시 티커스구 티커스대로 123</li>
+                    <li>Copyright ©Tickers All rights reserved.</li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+</div>
+<div class="search_bg"></div>
+<div class="search_form_wrap">
+    <form action="./search/search_complete.html" method="get">
+        <input type="text" placeholder="검색어를 입력하세요.">
+        <button type="submit">Search</button>
+    </form>
 </div>
 </body>
 </html>

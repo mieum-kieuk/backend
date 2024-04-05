@@ -1,6 +1,8 @@
 #productList {
     max-width: 2800px;
     width: 100%;
+    margin-top: 150px;
+    font-size: 14px;
 }
 #productList .content {
     display: flex;
@@ -12,19 +14,19 @@
 .prd_category, .prd_sort {
     display: flex;
     justify-content: center;
-    font-size: 12px;
-    margin-bottom: 20px;
 }
 .prd_sort {
-    max-width: 1280px;
+    max-width: 1390px;
     width: 100%;
     justify-content: flex-end;
+    font-size: 12px;
 }
 .category_tit {
     display: flex;
     flex-direction: row;
     gap: 30px;
     margin: 10px 0;
+    font-size: 15px;
 }
 .sort_tit {
     display: flex;
@@ -47,8 +49,8 @@
     gap: 20px;
 }
 .thumb img {
-    width: 400px;
-    height: 400px;
+    width: 450px;
+    height: 450px;
     object-fit: cover;
 }
 .prd_name {
@@ -58,20 +60,28 @@
 .prd_price {
     display: flex;
     flex-direction: column;
-    font-size: 12px;
     gap: 5px;
+    font-size: 13px;
 }
 .prd_price.discount .discount_rate {
     color: #d94747;
-    /*font-size: 12px;*/
 }
-.prd_price.discount .original_price {
+.prd_price .discount .line_through {
     text-decoration: line-through;
     color: #666;
-    /*font-size: 12px;*/
 }
-.prd_price.discount .discounted_price {
-}
-.prd_price.soldout .sold_out{
+.prd_price .soldout .sold_out{
     color: #d94747;
+}
+.thumb {
+    position: relative;
+}
+.thumb:hover .thumb2 {
+    display: block;
+}
+.thumb2 {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
 }

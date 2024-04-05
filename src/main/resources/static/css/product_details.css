@@ -3,7 +3,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    font-size: 12px;
+    font-size: 14px;
     width: 100%;
 }
 
@@ -46,22 +46,48 @@
     width: 45%;
     margin-left: 50px;
 }
-.prd_right .prd_text {
+.prd_right .prd_text, .prd_right .prd_price {
+    font-size: 18px;
     padding: 3px 0;
 }
+.prd_right .prd_text.ctg {
+    color: #999;
+    font-size: 14px;
+}
 .prd_right .prd_text.tit {
-    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 30px;
     padding-top: 0;
 }
-
+.wish {
+    padding: 3px;
+    font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 48;
+}
+.filled {
+    font-variation-settings: 'FILL' 1, 'wght' 300, 'GRAD' 0, 'opsz' 48;
+}
+.prd_right .prd_price.point {
+    font-size: 14px;
+}
+.prd_price.discount .line_through {
+    text-decoration: line-through;
+    color: #666;
+    font-size: 16px;
+}
+.prd_price.discount .discount_rate {
+    color: #d94747;
+    margin-right: 3px;
+}
 .prd_quantity {
     display: flex;
     align-items: center;
     margin-top: 20px;
 }
 .prd_quantity .quant_input {
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
     text-align: center;
     border-radius: 0px;
     border: 1px solid #999;
@@ -76,10 +102,10 @@
 }
 .prd_quantity .btn3 {
     display: inline-block;
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
     text-align: center;
-    line-height: 30px;
+    line-height: 40px;
     border: 1px solid #999;
     background-color: #fff;
     cursor: pointer;
@@ -89,15 +115,18 @@
     border-top: 1px solid #222;
     padding: 10px 0 20px;
     margin-top: 20px;
+    font-size: 22px;
+    font-weight: 500;
 }
 
 .buy_btn {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
     gap: 10px;
 }
 .buy_btn .btn1 {
-    width: 48%;
+    width: 49%;
 }
 .buy_btn .buy {
     background: #222;
@@ -145,6 +174,7 @@
     position: absolute;
     top: 10px;
     right: 0;
+    color: #222;
 }
 .prd_info_tab .prd_info_list li .tab_wrap {
     display: none;
@@ -191,3 +221,21 @@
     font-size: 20px;
     color: #333;
 }
+/*.material-icons {*/
+/*    font-family: 'Material Icons';*/
+/*    font-weight: normal;*/
+/*    font-style: normal;*/
+/*    font-size: 24px;*/
+/*    display: inline-block;*/
+/*    line-height: 1;*/
+/*    text-transform: none;*/
+/*    letter-spacing: normal;*/
+/*    word-wrap: normal;*/
+/*    white-space: nowrap;*/
+/*    direction: ltr;*/
+
+/*    -webkit-font-smoothing: antialiased;*/
+/*    text-rendering: optimizeLegibility;*/
+/*    -moz-osx-font-smoothing: grayscale;*/
+/*    font-feature-settings: 'liga';*/
+/*}*/
