@@ -1,9 +1,6 @@
 package archivegarden.shop.dto.shop.product;
 
-import archivegarden.shop.entity.Discount;
-import archivegarden.shop.entity.ImageType;
-import archivegarden.shop.entity.Product;
-import archivegarden.shop.entity.ProductImage;
+import archivegarden.shop.entity.*;
 import lombok.Getter;
 import lombok.Setter;
 

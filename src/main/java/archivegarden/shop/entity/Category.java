@@ -24,4 +24,8 @@ public enum Category {
     public String getDisplayName() {
         return displayName;
     }
+
+    public String getPathVariable() {
+        return pathVariable;
+    }
 }

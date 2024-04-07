@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>상품 목록 | Tickers</title>
+
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="Tickers"/>
+    <meta property="og:description" content=""/>
+    <meta property="og:image" content=""/>
+    <meta property="og:url" content=""/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.min.js"
+            integrity="sha512-Ysw1DcK1P+uYLqprEAzNQJP+J4hTx4t/3X2nbVwszao8wD+9afLjBQYjz7Uk4ADP+Er++mJoScI42ueGtQOzEA=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
+    <link rel="stylesheet" href="../../static/css/comm.css" th:href="@{/css/comm.css}"/>
+    <link rel="stylesheet" href="../../static/css/product_list.css" th:href="@{/css/product_list.css}"/>
+    <script defer src="../../static/js/comm.js" th:src="@{/js/comm.js}"></script>
+</head>
+<body>
+<div class="wrap">
+    <div th:replace="~{/layout/header :: header}"></div>
+    <div id="productList" class="wrapper">
+        <div class="content">
+            <div class="prd_category">
+                <ul class="category_tit">
+                    <li><a href="./product_list.html" th:href="@{/shop/products}" class="category">All</a></li>
+                    <li><a href="./product_list.html" th:href="@{/shop/products/masking-tape}">Masking tape</a></li>
+                    <li><a href="./product_list.html" th:href="@{/shop/products/sticker}">Sticker</a></li>
+                    <li><a href="./product_list.html" th:href="@{/shop/products/memo}">Memo</a></li>
+                </ul>
+            </div>
+            <div class="prd_sort">
+                <ul class="sort_tit">
+                    <li><a href="/lowprice">Low price</a></li>
+                    <li><a href="/highprice">High price</a></li>
+                    <li><a href="/new">New</a></li>
+                    <li><a href="/popular">Hit</a></li>
+                    <li><a href="/alphabetical">Name</a></li>
+                </ul>
+            </div>
+            <div class="prd_list_wrap">
+                <ul class="prd_list">
+                    <div th:each="product : ${products}">
+                        <li>
+                            <div class="thumb">
+                                <a href="./product_details.html"
+                                   th:href="@{/shop/products/{productId}(productId=${product.id})}">
+                                    <img class="thumb1" th:src="|/productImages/${product.displayImage}|" alt="제품 이미지">
+                                    <img class="thumb2" th:if="${product.hoverImage} != null"
+                                         th:src="|/productImages/${product.hoverImage}|" alt="제품 이미지">
+                                </a>
+                            </div>
+                            <div class="description">
+                                <div class="prd_name">
+                                    <a href="./product_details.html"
+                                       th:href="@{/shop/products/{productId}(productId=${product.id})}">
+                                        <span th:text="${product.name}">Masking Tape01</span></a>
+                                </div>
+                                <ul class="prd_price">
+                                    <span class="original_price"
+                                          th:classappend="${product.isDiscounted} ? 'line_through'">KRW [[${product.price}]]</span>
+                                    <li th:if="${product.isDiscounted} and !${product.isSoldOut}" class="discount">
+                                        <span class="discount_rate">[[${product.discountPercent}]]%</span>
+                                        <span class="discounted_price">KRW [[${product.salePrice}]]</span>
+                                    </li>
+                                    <li th:if="${product.isSoldOut}" class="soldout">
+                                        <span class="sold_out">sold out</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </div>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="pagination" th:if="${products.totalPages} > 0">
+        <ul>
+            <li>
+                <a href="./product_list.html" th:if="${category} == null" th:href="@{/shop/products}" class="prev_first">
+                    <span class="material-symbols-outlined">navigate_before</span>
+                </a>
+                <a href="./product_list.html" th:unless="${category} == null" th:href="@{/shop/products/{category}(category=${category})}" class="prev_first">
+                    <span class="material-symbols-outlined">navigate_before</span>
+                </a>
+            </li>
+            <li>
+                <a href="./product_list.html" th:if="${category} == null" th:href="@{/shop/products(page=${products.number})}"
+                   class="prev" th:classappend="${!products.hasPrevious()} ? 'disabled'">Prev</a>
+                <a href="./product_list.html" th:unless="${category} == null" th:href="@{/shop/products/{category}(category=${category}, page=${products.number})}"
+                   class="prev" th:classappend="${!products.hasPrevious()} ? 'disabled'">Prev</a>
+            </li>
+            <li th:each="page : ${#numbers.sequence(1, products.totalPages)}">
+                <a href="./product_list.html" th:if="${category} == null" th:href="@{/shop/products(page=${page})}"
+                   th:text="${page}"  class="page" th:classappend="${page == products.number + 1} ? 'active'"></a>
+                <a href="./product_list.html" th:unless="${category} == null" th:href="@{/shop/products/{category}(category=${category}, page=${page})}"
+                   th:text="${page}" class="page" th:classappend="${page == products.number + 1} ? 'active'"></a>
+            </li>
+            <li>
+                <a href="./product_list.html" th:if="${category} == null" th:href="@{/shop/products(page=${products.number} + 2)}"
+                   class="next" th:classappend="${!products.hasNext()} ? 'disabled'">Next</a>
+                <a href="./product_list.html" th:unless="${category} == null" th:href="@{/shop/products/{category}(category=${category}, page=${products.number} + 2)}"
+                   class="next" th:classappend="${!products.hasNext()} ? 'disabled'">Next</a>
+            </li>
+            <li>
+                <a href="./product_list.html" th:if="${category} == null" th:href="@{/shop/products(page=${products.totalPages})}" class="next_last">
+                    <span class="material-symbols-outlined">navigate_next</span>
+                </a>
+                <a href="./product_list.html" th:unless="${category} == null" th:href="@{/shop/products/{category}(category=${category}, page=${products.totalPages})}" class="next_last">
+                    <span class="material-symbols-outlined">navigate_next</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div th:replace="~{/layout/footer :: basic_footer}"></div>
+</div>
+</body>
+</html>

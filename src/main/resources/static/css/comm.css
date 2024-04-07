@@ -596,3 +596,12 @@ legend {
   font-weight: 300;
   line-height: 25px;
 }
+.prev.disabled,
+.next.disabled {
+  pointer-events: none;
+  cursor: default;
+}
+.page.active {
+  color: #fff;
+  background-color: black;
+}
