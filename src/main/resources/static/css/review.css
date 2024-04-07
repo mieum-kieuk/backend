@@ -1,0 +1,230 @@
+.popup{
+    display: none;
+}
+.popup.show {
+    display: flex;
+}
+.popup_tit {
+    display: flex;
+}
+.popup_content {
+    display: flex;
+    flex-direction: column;
+}
+.popup_btn {
+    margin-left: 20px;
+    padding: 5px 10px;
+    border: 1px solid #222;
+    border-radius: 2px;
+}
+#review {
+    display: flex;
+    flex-direction: column;
+    max-width: 1100px;
+    width: 100%;
+    min-height: calc( 100svh - 150px) ;
+    margin-top: 250px;
+    margin-bottom: 100px;
+    font-size: 12px;
+}
+.review_wrap {
+    width: 100%;
+    height: 100%;
+    /*flex: 1;*/
+}
+.item_img {
+    display: block;
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+}
+.review_table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 10px;
+}
+.review_table input[type=file] {
+    border: none;
+}
+.review_table input, .review_table textarea {
+    border: 1px solid #eee;
+}
+.review_table tr {
+    border: 1px solid #d7d7d7 ;
+    /*padding: 10px;*/
+}
+.review_table tr:first-child {
+    border: none;
+}
+.review_table tr:first-child th{
+    padding: 5px 0;
+}
+.review_table th {
+    width: 80px;
+}
+.review_table td input {
+    width: 100%;
+}
+.review_table th label {
+    font-weight: 600;
+    color: #999;
+}
+.review_table td textarea {
+    width: 100%;
+    height: 450px;
+    resize: vertical;
+}
+.review_table th, .review_table td {
+    padding: 5px;
+    text-align: left;
+}
+.btn_wrap {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+.btn_wrap .btn1 {
+    width: 49%;
+}
+/*details*/
+.review_wrap.details {
+    border-bottom: 1px solid #eee;
+    padding-bottom: 30px;
+}
+.order_item {
+    display: flex;
+    align-items: center;
+    border: 1px solid #eee;
+    padding: 10px;
+    /*width: 50%;*/
+}
+.order_item .description {
+    display: flex;
+    flex-direction: column;
+}
+.order_item .description .item_name {
+    display: block;
+    font-size: 14px;
+    padding: 5px 10px;
+}
+.order_item .description .item_price {
+    display: block;
+    padding: 0 10px;
+}
+.btn_wrap.details {
+    justify-content: center;
+}
+.btn_wrap.details.right {
+    justify-content: flex-end;
+    gap: 8px;
+}
+.btn_wrap.details .btn1 {
+    width: 100px;
+}
+.list_btn {
+    margin-top: 30px;
+}
+.btn_wrap.cmt {
+    display: none;
+    justify-content: flex-end;
+}
+.review_tit {
+    padding: 10px;
+}
+.review_tit .description {
+    margin-top: 10px;
+}
+.review_cont {
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+    padding: 10px;
+}
+.review_text {
+    margin-bottom: 20px;
+}
+.review_img {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+}
+.review_file {
+    margin-top: 20px;
+}
+.cmt_wrap {
+    padding: 10px;
+}
+.cmt_tit h3{
+    font-size: 13px;
+    font-weight: 500;
+}
+.cmt_info {
+    display: flex;
+    margin-top: 20px;
+    white-space: nowrap;
+}
+.cmt_info .btn_wrap.details.right {
+    width: 100%;
+}
+.material-symbols-outlined.btn {
+    font-size: 14px;
+}
+.cmt_content {
+    margin: 10px 0;
+}
+.permission {
+    text-align: center;
+}
+.page {
+    display: flex;
+    padding: 10px;
+    width: 100%;
+}
+.page ul {
+    width: 100%;
+    border-bottom: 1px solid #eee;
+}
+.page li{
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid #eee;
+}
+/*list*/
+.review_wrap.list {
+    display: flex;
+    flex-direction: column;
+}
+.review_wrap.list .btn_wrap {
+    display: flex;
+    justify-content: flex-end;
+}
+.btn_wrap .write_btn {
+    width: 100px;
+}
+.review_items {
+    width: 100%;
+    margin-top: 20px;
+    border-bottom: 1px solid #999;
+}
+.review_items li{
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid #999;
+}
+.attach::before {
+    content: "\e226";
+    font-family: "Material Symbols Outlined";
+    color: #666;
+    font-weight: 300;
+}
+.review_tit h3 {
+    color: #333;
+    font-weight: 600;
+}
+.review_tit .description {
+    color: #666;
+}
+.review_tit .description .id::after {
+    content: " |";
+    margin: 3px;
+}
