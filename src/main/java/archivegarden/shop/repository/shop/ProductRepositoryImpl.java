@@ -31,7 +31,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                 .selectFrom(product)
                 .leftJoin(product.discount,discount).fetchJoin()
                 .orderBy(product.createdAt.desc())
-                .offset(1)
+                .offset(0)
                 .limit(9)
                 .fetch();
     }
