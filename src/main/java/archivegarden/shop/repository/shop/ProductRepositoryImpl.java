@@ -15,6 +15,7 @@ import java.util.List;
 
 import static archivegarden.shop.entity.QDiscount.discount;
 import static archivegarden.shop.entity.QProduct.product;
+import static org.springframework.util.StringUtils.hasText;
 
 public class ProductRepositoryImpl implements ProductRepositoryCustom {
 
@@ -40,7 +41,9 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
         List<Product> content = queryFactory
                 .selectFrom(product)
                 .leftJoin(product.discount,discount).fetchJoin()
-                .where(categoryEq(condition.getCategory()))
+                .where(
+                        keywordLike(condition.getKeyword()),
+                        categoryEq(condition.getCategory()))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
@@ -49,9 +52,16 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                 .select(product.count())
                 .from(product)
                 .leftJoin(product.discount,discount)
-                .where(categoryEq(condition.getCategory()));
+                .where(
+                        keywordLike(condition.getKeyword()),
+                        categoryEq(condition.getCategory())
+                );
 
         return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
+    }
+
+    private BooleanExpression keywordLike(String keyword) {
+        return hasText(keyword) ? product.name.contains(keyword) : null;
     }
 
     private BooleanExpression categoryEq(Category category) {

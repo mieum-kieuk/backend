@@ -26,8 +26,7 @@ public class ProductService {
                 .collect(Collectors.toList());
     }
 
-    public Page<ProductListDto> getProducts(Category category, Pageable pageable) {
-        ProductSearchCondition condition = new ProductSearchCondition(category);
+    public Page<ProductListDto> getProducts(ProductSearchCondition condition, Pageable pageable) {
         return productRepository.findAllByCategory(condition, pageable).map(ProductListDto::new);
     }
 }

@@ -2,16 +2,18 @@ package archivegarden.shop.dto.shop.product;
 
 import archivegarden.shop.entity.Category;
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
-@Setter
 public class ProductSearchCondition {
 
-    public String name;
+    public String keyword;
     private Category category;
 
-    public ProductSearchCondition(Category category) {
-        this.category = category;
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
+    }
+
+    public void setCategory(String category) {
+        this.category = Category.of(category);
     }
 }

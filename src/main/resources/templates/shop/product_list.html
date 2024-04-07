@@ -85,36 +85,36 @@
     <div class="pagination" th:if="${products.totalPages} > 0">
         <ul>
             <li>
-                <a href="./product_list.html" th:if="${category} == null" th:href="@{/shop/products}" class="prev_first">
+                <a href="./product_list.html" th:if="${condition.category} == null" th:href="@{/shop/products}" class="prev_first">
                     <span class="material-symbols-outlined">navigate_before</span>
                 </a>
-                <a href="./product_list.html" th:unless="${category} == null" th:href="@{/shop/products/{category}(category=${category})}" class="prev_first">
+                <a href="./product_list.html" th:unless="${condition.category} == null" th:href="@{/shop/products/{category}(category=${condition.category})}" class="prev_first">
                     <span class="material-symbols-outlined">navigate_before</span>
                 </a>
             </li>
             <li>
-                <a href="./product_list.html" th:if="${category} == null" th:href="@{/shop/products(page=${products.number})}"
+                <a href="./product_list.html" th:if="${condition.category} == null" th:href="@{/shop/products(page=${products.number})}"
                    class="prev" th:classappend="${!products.hasPrevious()} ? 'disabled'">Prev</a>
-                <a href="./product_list.html" th:unless="${category} == null" th:href="@{/shop/products/{category}(category=${category}, page=${products.number})}"
+                <a href="./product_list.html" th:unless="${condition.category} == null" th:href="@{/shop/products/{category}(category=${condition.category}, page=${products.number})}"
                    class="prev" th:classappend="${!products.hasPrevious()} ? 'disabled'">Prev</a>
             </li>
             <li th:each="page : ${#numbers.sequence(1, products.totalPages)}">
-                <a href="./product_list.html" th:if="${category} == null" th:href="@{/shop/products(page=${page})}"
+                <a href="./product_list.html" th:if="${condition.category} == null" th:href="@{/shop/products(page=${page})}"
                    th:text="${page}"  class="page" th:classappend="${page == products.number + 1} ? 'active'"></a>
-                <a href="./product_list.html" th:unless="${category} == null" th:href="@{/shop/products/{category}(category=${category}, page=${page})}"
+                <a href="./product_list.html" th:unless="${condition.category} == null" th:href="@{/shop/products/{category}(category=${condition.category}, page=${page})}"
                    th:text="${page}" class="page" th:classappend="${page == products.number + 1} ? 'active'"></a>
             </li>
             <li>
-                <a href="./product_list.html" th:if="${category} == null" th:href="@{/shop/products(page=${products.number} + 2)}"
+                <a href="./product_list.html" th:if="${condition.category} == null" th:href="@{/shop/products(page=${products.number} + 2)}"
                    class="next" th:classappend="${!products.hasNext()} ? 'disabled'">Next</a>
-                <a href="./product_list.html" th:unless="${category} == null" th:href="@{/shop/products/{category}(category=${category}, page=${products.number} + 2)}"
+                <a href="./product_list.html" th:unless="${condition.category} == null" th:href="@{/shop/products/{category}(category=${condition.category}, page=${products.number} + 2)}"
                    class="next" th:classappend="${!products.hasNext()} ? 'disabled'">Next</a>
             </li>
             <li>
-                <a href="./product_list.html" th:if="${category} == null" th:href="@{/shop/products(page=${products.totalPages})}" class="next_last">
+                <a href="./product_list.html" th:if="${condition.category} == null" th:href="@{/shop/products(page=${products.totalPages})}" class="next_last">
                     <span class="material-symbols-outlined">navigate_next</span>
                 </a>
-                <a href="./product_list.html" th:unless="${category} == null" th:href="@{/shop/products/{category}(category=${category}, page=${products.totalPages})}" class="next_last">
+                <a href="./product_list.html" th:unless="${condition.category} == null" th:href="@{/shop/products/{category}(category=${condition.category}, page=${products.totalPages})}" class="next_last">
                     <span class="material-symbols-outlined">navigate_next</span>
                 </a>
             </li>
