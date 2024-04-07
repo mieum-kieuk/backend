@@ -541,6 +541,7 @@ legend {
   justify-content: center;
   align-items: center;
   width: 100px;
+  height: 32px;
   padding: 8px;
   border-radius: 2px;
   border: solid 1px #666;
@@ -588,6 +589,10 @@ legend {
 }
 .material-symbols-outlined {
   font-family: 'Material Symbols Outlined';
+  font-weight: 300;
+  line-height: 25px;
+}
+.material-symbols-outlined.navigate {
   font-weight: 300;
   line-height: 25px;
 }
