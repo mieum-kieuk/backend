@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>홈 | Archivegarden</title>
+    <title>홈 | Tickers</title>
 
     <meta property="og:type" content="website"/>
     <meta property="og:title" content="Archivegarden"/>
@@ -20,38 +20,66 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
     <link rel="stylesheet" href="../static/css/comm.css" th:href="@{/css/comm.css}"/>
+    <link rel="stylesheet" href="../static/css/product_list.css" th:href="@{/css/product_list.css}"/>
     <script defer src="../static/js/comm.js" th:src="@{/js/comm.js}"></script>
-
 </head>
 <body>
 <div class="wrap">
     <div th:replace="~{/layout/header :: header}"></div>
     <main id="main">
         <div class="main_content">
-            <div class="swiper main_slide">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide"><a href=""><img src="../static/images/banner1.jpeg"
-                                                              th:src="@{/images/banner1.jpeg}" alt=""></a></div>
-                    <div class="swiper-slide"><a href=""><img src="../static/images/banner1.jpeg"
-                                                              th:src="@{/images/banner1.jpeg}" alt=""></a></div>
-                    <div class="swiper-slide"><a href=""><img src="../static/images/banner1.jpeg"
-                                                              th:src="@{/images/banner1.jpeg}" alt=""></a></div>
-                </div>
-                <div class="swiper-pagination"></div>
-            </div>
-            <div class="main_wrap">
-                <ul class="main_content_wrap">
-                    <li><a href=""><img src="../static/images/main_content1.jpeg" th:src="@{/images/main_content1.jpeg}"
-                                        alt="">
-                        <p>23 Holiday Collection</p></a></li>
-                    <li><a href=""><img src="../static/images/main_content2.jpeg" th:src="@{/images/main_content2.jpeg}"
-                                        alt="">
-                        <p>23 Holiday Collection</p></a></li>
+            <div class="main_slide">
+                <ul>
+                    <li><img src="../static/images/main.jpg" th:src="@{/images/main.jpg}" alt="메인이미지1"></li>
+                    <li><img src="../static/images/main_content1.jpeg" th:src="@{/images/main_content1.jpeg}" alt="메인이미지2"></li>
                 </ul>
+            </div>
+            <div>
+                <div class="main_product_wrap">
+                    <ul class="prd_list">
+                        <div th:each="product : ${products}">
+                            <li>
+                                <div class="thumb">
+                                    <a href="./product_details.html"
+                                       th:href="@{/shop/products/{productId}(productId=${product.id})}">
+                                        <img class="thumb1" th:src="|/productImages/${product.displayImage}|" alt="제품 이미지">
+                                        <img class="thumb2" th:if="${product.hoverImage} != null"
+                                             th:src="|/productImages/${product.hoverImage}|" alt="제품 이미지">
+                                    </a>
+                                </div>
+                                <div class="description">
+                                    <div class="prd_name">
+                                        <a href="./product_details.html"
+                                           th:href="@{/shop/products/{productId}(productId=${product.id})}">
+                                            <span th:text="${product.name}">Masking Tape01</span></a>
+                                    </div>
+                                    <ul class="prd_price">
+                                    <span class="original_price"
+                                          th:classappend="${product.isDiscounted} ? 'line_through'">KRW [[${product.price}]]</span>
+                                        <li th:if="${product.isDiscounted} and !${product.isSoldOut}" class="discount">
+                                            <span class="discount_rate">[[${product.discountPercent}]]%</span>
+                                            <span class="discounted_price">KRW [[${product.salePrice}]]</span>
+                                        </li>
+                                        <li th:if="${product.isSoldOut}" class="soldout">
+                                            <span class="sold_out">sold out</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </div>
+                    </ul>
+                </div>
             </div>
         </div>
     </main>
-    <div th:replace="~{/layout/footer :: footer}"></div>
+    <div th:replace="~{/layout/footer :: basic_footer}"></div>
+    <div class="search_bg"></div>
+    <div class="search_form_wrap">
+        <form action="./search/search_complete.html" method="get">
+            <input type="text" placeholder="검색어를 입력하세요">
+            <button type="submit">Search</button>
+        </form>
+    </div>
 </div>
 </body>
 </html>

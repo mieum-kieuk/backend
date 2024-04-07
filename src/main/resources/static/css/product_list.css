@@ -63,12 +63,12 @@
     gap: 5px;
     font-size: 13px;
 }
-.prd_price.discount .discount_rate {
-    color: #d94747;
-}
-.prd_price .discount .line_through {
+.prd_price .line_through {
     text-decoration: line-through;
     color: #666;
+}
+.prd_price .discount .discount_rate {
+    color: #d94747;
 }
 .prd_price .soldout .sold_out{
     color: #d94747;

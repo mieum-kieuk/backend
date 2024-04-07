@@ -3,73 +3,59 @@
 <body>
 <header th:fragment="header" id="header" class="header">
     <nav id="gnb">
-        <div class="gnb_menu">
-            <ul class="depth1">
-                <li class="depth1_menu">
-                    <a href="shop.html">Shop</a>
-                    <ul class="depth2">
-                        <li><a href="">New</a></li>
-                        <li><a href="">Outer</a></li>
-                        <li><a href="">Top</a></li>
-                        <li><a href="">Bottom</a></li>
-                        <li><a href="">Dress</a></li>
-                        <li><a href="">Shoes</a></li>
-                        <li><a href="">Accessories</a></li>
-                        <li><a href="">Season off</a></li>
-                    </ul>
-                </li>
-                <li class="depth1_menu">
-                    <a href="collection.html">Collection</a>
-                    <ul class="depth2">
-                        <li><a href="">23 Fall collection</a></li>
-                        <li><a href="">23 Winter collection</a></li>
-                        <li><a href="">23 Holiday collection</a></li>
-                        <li><a href="">24 Spring collection</a></li>
-
-                    </ul>
-                </li>
-                <li class="depth1_menu"><a href="about.html">About</a>
-                    <ul class="depth2">
-                        <li><a href="">Notice</a></li>
-                        <li><a href="">Q&amp;A</a></li>
-                        <li><a href="">Review</a></li>
-                    </ul>
-                </li>
-                <li class="depth1_menu"><a href="community.html">Community</a></li>
-            </ul>
-        </div>
         <div class="logo">
-            <a href="index.html" th:href="@{/}">
-                ArchiveGarden<img src="" alt="로고">
+            <a href="../index.html" th:href="@{/}">
+                <img src="../../static/images/tickers_logo.png" th:src="@{/images/tickers_logo.png}" alt="로고">
             </a>
+        </div>
+        <div class="gnb_menu center">
+            <ul class="depth1">
+                <li class="depth1_menu" id="shop">
+                    <a href="../shop/product_list.html" th:href="@{/shop/products}">Shop</a>
+                    <ul class="depth2">
+                        <li><a href="../shop/product_list.html" th:href="@{/shop/products/masking-tape}">Masking tape</a></li>
+                        <li><a href="../shop/product_list.html" th:href="@{/shop/products/sticker}">Sticker</a></li>
+                        <li><a href="../shop/product_list.html" th:href="@{/shop/products/memo}">Memo</a></li>
+                    </ul>
+                </li>
+                <li class="depth1_menu" id="about"><a href="javascript:void(0)">About</a>
+                </li>
+                <li class="depth1_menu" id="community">Community
+                    <ul class="depth2">
+                        <li><a href="javascript:void(0)">Notice</a></li>
+                        <li><a href="javascript:void(0)">Q&amp;A</a></li>
+                        <li><a href="javascript:void(0)">Review</a></li>
+                    </ul>
+                </li>
+            </ul>
         </div>
         <div class="gnb_menu">
             <div class="search">
                 <form action="#" method="get">
-                    <!-- <input type="text" placeholder="검색어를 입력하세요"> -->
                     <button type="submit">Search</button>
                 </form>
             </div>
             <div class="account">
                 <ul class="depth1">
-                    <li class="depth1_menu"><a href="">Account</a>
+                    <li class="depth1_menu">Account
                         <ul class="depth2">
-                            <li><a href="../login.html" sec:authorize="isAnonymous()" th:href="@{/login}">Login</a></li>
-                            <li><a href="../members/join.html" sec:authorize="isAnonymous()" th:href="@{/members/join}">Join</a></li>
-                            <li><a href="../index.html" sec:authorize="isAuthenticated()" th:href="@{/logout}">Logout</a></li>
-                            <li><a href="order.html">Order</a></li>
-                            <li><a href="mypage.html">Mypage</a></li>
+                            <li><a sec:authorize="isAnonymous()" href="../login.html" th:href="@{/login}">Login</a></li>
+                            <li><a sec:authorize="isAnonymous()" href="../members/join.html" th:href="@{/members/join}">Join</a>
+                            </li>
+                            <li sec:authorize="isAuthenticated()"><a href="../index.html" th:href="@{/logout}">Logout</a></li>
+                            <li><a href="javascript:void(0)">Order</a></li>
+                            <li><a href="javascript:void(0)">Mypage</a></li>
                         </ul>
                     </li>
                 </ul>
-
             </div>
             <div class="cart">
-                <a href="cart.html">Cart
-                </a>
+                <a sec:authorize="isAnonymous()" href="javascript:void(0)" id="cartLink">Cart</a>
+                <a sec:authorize="isAuthenticated()" href="javascript:void(0)" id="cartLink">Cart(0)</a>
             </div>
         </div>
     </nav>
 </header>
 </body>
 </html>
+

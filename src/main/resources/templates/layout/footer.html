@@ -1,32 +1,63 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
-<footer th:fragment="footer" id="footer">
+<footer th:fragment="basic_footer" id="footer" class="footer">
     <div class="footer_wrap">
         <div class="footer_inner">
             <ul>
-                <li><a href="">Instagram</a></li>
+                <li><a href="javascript:void(0)">Instagram</a></li>
             </ul>
         </div>
         <div class="footer_inner">
             <ul>
-                <li><a href="">Terms of Use</a></li>
-                <li><a href="">Privacy Policy</a></li>
-                <li><a href="">Shop Guide</a></li>
-            </ul>
-        </div>
-        <div class="footer_inner">
-            <ul>
-                <li><a href="">Company : 아카이브가든</a></li>
-                <li><a href="">전화번호</a></li>
-                <li><a href="">이메일</a></li>
+                <li><a href="javascript:void(0)">Terms of Use</a></li>
+                <li><a href="javascript:void(0)">Privacy Policy</a></li>
+                <li><a href="javascript:void(0)">Shop Guide</a></li>
             </ul>
         </div>
         <div class="footer_inner ">
             <ul>
-                <li><a href="">사업자 번호</a></li>
-                <li><a href="">주소</a></li>
-                <li><a href="">Copywight ©archive garden All rights reserved.</a></li>
+                <li>Company : 티커스</li>
+                <li>전화번호 : 010-1234-5678</li>
+                <li>이메일 : tickers@gmail.com</li>
+            </ul>
+        </div>
+        <div class="footer_inner">
+            <ul>
+                <li>사업자 번호 : 070-61-01100</li>
+                <li>주소 : 서울시 티커스구 티커스대로 123</li>
+                <li>Copyright ©Tickers All rights reserved.</li>
+            </ul>
+        </div>
+    </div>
+</footer>
+
+<footer th:fragment="fixed_footer" id="fixed_footer" class="footer fixed">
+    <div class="footer_wrap">
+        <div class="footer_inner">
+            <ul>
+                <li><a href="javascript:void(0)">Instagram</a></li>
+            </ul>
+        </div>
+        <div class="footer_inner">
+            <ul>
+                <li><a href="javascript:void(0)">Terms of Use</a></li>
+                <li><a href="javascript:void(0)">Privacy Policy</a></li>
+                <li><a href="javascript:void(0)">Shop Guide</a></li>
+            </ul>
+        </div>
+        <div class="footer_inner ">
+            <ul>
+                <li>Company : 티커스</li>
+                <li>전화번호 : 010-1234-5678</li>
+                <li>이메일 : tickers@gmail.com</li>
+            </ul>
+        </div>
+        <div class="footer_inner">
+            <ul>
+                <li>사업자 번호 : 070-61-01100</li>
+                <li>주소 : 서울시 티커스구 티커스대로 123</li>
+                <li>Copyright ©Tickers All rights reserved.</li>
             </ul>
         </div>
     </div>
