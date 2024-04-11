@@ -71,17 +71,17 @@
 .filled {
     font-variation-settings: 'FILL' 1, 'wght' 300, 'GRAD' 0, 'opsz' 48;
 }
-.prd_right .prd_price.point {
-    font-size: 13px;
-}
-.prd_price.discount .line_through {
+.prd_price .line_through {
     text-decoration: line-through;
     color: #666;
     font-size: 16px;
 }
-.prd_price.discount .discount_rate {
+.prd_price .discount .discount_rate {
     color: #d94747;
     margin-right: 3px;
+}
+.prd_price .point {
+    font-size: 13px;
 }
 .prd_quantity {
     display: flex;
@@ -233,4 +233,7 @@
     font-family: 'Material Symbols Outlined';
     font-size: 20px;
     color: #333;
+}
+#SoldOutBtn {
+    color: #d94747;
 }

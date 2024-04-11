@@ -1,8 +1,8 @@
 package archivegarden.shop.controller;
 
+import archivegarden.shop.dto.shop.product.ProductDetailsDto;
 import archivegarden.shop.dto.shop.product.ProductListDto;
 import archivegarden.shop.dto.shop.product.ProductSearchCondition;
-import archivegarden.shop.entity.Category;
 import archivegarden.shop.service.product.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -27,5 +27,12 @@ public class ProductController {
         Page<ProductListDto> pageProducts = productService.getProducts(condition, pageRequest);
         model.addAttribute("products", pageProducts);
         return "shop/product_list";
+    }
+
+    @GetMapping("/details/{productId}")
+    public String product(@PathVariable("productId") Long productId, Model model) {
+        ProductDetailsDto productDto = productService.getProduct(productId);
+        model.addAttribute("product", productDto);
+        return "shop/product_details";
     }
 }
