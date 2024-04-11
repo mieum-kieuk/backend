@@ -16,6 +16,7 @@
     /*left: 50%;*/
     transform: none;
     padding: 20px;
+    margin-top: 150px;
     border-radius: 0;
     width: 100%;
     z-index: 1000;
@@ -24,7 +25,7 @@
     display: flex;
     border-bottom: none;
     padding: 5px;
-    width: 30%;
+    width: 20%;
 }
 .search_form_wrap input {
     font-size: 14px;
@@ -44,6 +45,10 @@
     color: #ffffff;
     opacity: 1;
 }
+.search_btn {
+    color: #fff;
+    background: #000;
+}
 .search_result {
     display: flex;
     max-width: 1390px;
@@ -56,4 +61,7 @@
 }
 .no_data_msg {
     font-size: 12px;
+}
+#productList .content {
+    margin-top: 0;
 }

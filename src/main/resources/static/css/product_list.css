@@ -1,7 +1,7 @@
 #productList {
     max-width: 2800px;
     width: 100%;
-    margin-top: 150px;
+    /*margin-top: 150px;*/
     font-size: 14px;
 }
 #productList .content {
@@ -10,6 +10,7 @@
     align-items: center;
     flex-direction: column;
     width: 100%;
+    margin-top: 150px;
 }
 .prd_category, .prd_sort {
     display: flex;
@@ -27,6 +28,11 @@
     gap: 30px;
     margin: 10px 0;
     font-size: 15px;
+}
+.category_tit .selected {
+    text-decoration: underline;
+    /*color: #000;*/
+    font-weight: 500;
 }
 .sort_tit {
     display: flex;

@@ -69,7 +69,7 @@
     font-variation-settings: 'FILL' 1, 'wght' 300, 'GRAD' 0, 'opsz' 48;
 }
 .prd_right .prd_price.point {
-    font-size: 14px;
+    font-size: 13px;
 }
 .prd_price.discount .line_through {
     text-decoration: line-through;
@@ -86,8 +86,8 @@
     margin-top: 20px;
 }
 .prd_quantity .quant_input {
-    width: 40px;
-    height: 40px;
+    width: 35px;
+    height: 35px;
     text-align: center;
     border-radius: 0px;
     border: 1px solid #999;
@@ -102,10 +102,10 @@
 }
 .prd_quantity .btn3 {
     display: inline-block;
-    width: 40px;
-    height: 40px;
+    width: 35px;
+    height: 35px;
     text-align: center;
-    line-height: 40px;
+    line-height: 35px;
     border: 1px solid #999;
     background-color: #fff;
     cursor: pointer;
@@ -115,15 +115,24 @@
     border-top: 1px solid #222;
     padding: 10px 0 20px;
     margin-top: 20px;
-    font-size: 22px;
+    font-size: 16px;
+    line-height: 1.8;
     font-weight: 500;
 }
-
+.total_quant {
+    display: flex;
+    justify-content: space-between;
+}
+.total_price {
+    display: flex;
+    justify-content: space-between;
+}
 .buy_btn {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     gap: 10px;
+    font-size: 15px;
 }
 .buy_btn .btn1 {
     width: 49%;
@@ -164,11 +173,11 @@
     font-weight: 600;
 }
 .prd_info_tab .prd_info_list li a {
-
     display: flex;
     justify-content: space-between;
     align-items: center;
     line-height: 25px;
+    font-size: 15px;
 }
 .prd_info_tab .prd_info_list li .expand_icon {
     position: absolute;
@@ -215,6 +224,7 @@
     border-radius: 2px;
     border: solid 1px #333;
     background-color: #fff;
+    color: #222;
 }
 .material-symbols-outlined {
     font-family: 'Material Symbols Outlined';
