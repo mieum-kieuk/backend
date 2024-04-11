@@ -193,11 +193,11 @@
 .review_wrap.list {
     display: flex;
     flex-direction: column;
-    max-width: 800px;
     width: 100%;
 }
 .review_head {
     display: flex;
+    align-items: flex-end;
     padding: 10px;
     border-bottom: 1px solid #999;
 }
