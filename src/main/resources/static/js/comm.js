@@ -11,7 +11,6 @@ $(function () {
         now = next
     }, 10000)
 })
-
 $(document).ready(function() {
     $('.search_btn').click(function(event) {
         var keyword = $('.search_form_wrap input[type="text"]').val().trim();
@@ -21,22 +20,17 @@ $(document).ready(function() {
             alert('검색어를 입력해주세요.');
         }
     });
-    $('.search button').click(function(e) {
-        e.preventDefault();
-
-        $('.search_bg').fadeIn();
-        $('.search_form_wrap').fadeIn();
-
-        e.stopPropagation();
+    $('.search button').click(function() {
+        $('.search_popup').fadeIn();
     });
+
+    $('.search_bg').click(function() {
+        $('.search_popup').fadeOut();
+    });
+
     $('#search_complete').click(function(e) {
         e.stopPropagation();
     });
 
-    $(document).click(function(e) {
-        if (!$(e.target).closest('.search_form_wrap').length && !$(e.target).hasClass('search')) {
-            $('.search_bg').fadeOut();
-            $('.search_form_wrap').fadeOut();
-        }
-    });
+
 });
