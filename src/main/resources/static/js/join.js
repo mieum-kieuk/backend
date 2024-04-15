@@ -5,7 +5,6 @@ $(document).ready(function () {
 
     $('#password').on('focusout', function () {
         isPasswordValid();
-        isPwConfirmValid();
     });
 
     $('#passwordConfirm').on('focusout', function () {
@@ -38,6 +37,9 @@ $(document).ready(function () {
         toggleAgreement(this);
     });
 });
+
+let csrfToken = $("meta[name='_csrf']").attr("content");
+let csrfHeader = $("meta[name='_csrf_header']").attr("content");
 
 //아이디 검증
 function isLoginIdValid() {
@@ -98,10 +100,17 @@ function regexLoginId() {
 
 //비밀번호 검증
 function isPasswordValid() {
+    let password = $('#password').val();
+    let confirmPassword = $('#passwordConfirm').val();
+
     if (!isPasswordEmpty()) {
         return;
     } else if (!regexPassword()) {
         return;
+    }
+
+    if (password === confirmPassword) {
+        $('#pwconfirmMsg').text('');
     }
 
     $('#pwMsg').text('');
@@ -156,6 +165,7 @@ function isNameValid() {
     $('#nameMsg').text('');
     return;
 }
+
 function isNameEmpty() {
     let name = $("#name").val();
 
@@ -266,9 +276,9 @@ function regexPhone() {
     let phonenumber3 = $('#phonenumber3').val();
     let regex1 = /^[0-9]{3,4}$/;
     let regex2 = /^[0-9]{4}$/;
-    if ( regex1.test(phonenumber2) && regex2.test(phonenumber3)) {
+    if (regex1.test(phonenumber2) && regex2.test(phonenumber3)) {
         return true;
-    }else {
+    } else {
         $('#phoneNumberMsg').text('유효한 휴대전화번호를 입력해 주세요.');
         return false;
     }
@@ -305,6 +315,9 @@ function requestVerificationCode() {
         url: '/members/send/verificationNo',
         data: {phonenumber1: phonenumber1, phonenumber2: phonenumber2, phonenumber3: phonenumber3},
         dataType: 'json',
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader(csrfHeader, csrfToken);
+        },
         success: function (result) {
             if (result['success']) {
                 $('#phoneNumberMsg').text(result['message']);
@@ -323,18 +336,26 @@ function requestVerificationCode() {
 
 //인증번호 검증
 function verificationBtnState() {
-    let phonenumber1 = $('#phonenumber1').val();
     let phonenumber2 = $('#phonenumber2').val();
     let phonenumber3 = $('#phonenumber3').val();
     let regex1 = /^[0-9]{3,4}$/;
     let regex2 = /^[0-9]{4}$/;
-    let isValidPhoneNumber = regex1.test(phonenumber1) && regex1.test(phonenumber2) && regex2.test(phonenumber3);
+    let isValidPhoneNumber = regex1.test(phonenumber2) && regex2.test(phonenumber3);
 
     if (isValidPhoneNumber) {
         $('#btn_action_verify_mobile').removeClass('disabled');
     } else {
         $('#btn_action_verify_mobile').addClass('disabled');
     }
+
+    $('#verificationNo').val('');
+    $('#verificationNo').attr('placeholder', '');
+    $('#verificationNo').attr('disabled', false);
+    $('#verificationNo').css('background-color', '#FFF');
+    $('#verificationNo').css('cursor', 'pointer');
+    $('#btn_verify_mobile_confirm').attr('disabled', false);
+    $('#btn_verify_mobile_confirm').css('border', '1px solid #999');
+    $('#verificationNo').attr('complete', "false");
 
     $('#confirm_verify_mobile').hide();
     $('#phoneNumberMsg').text('');
@@ -358,6 +379,9 @@ function isVerificationValid() {
             phonenumber3: phonenumber3,
             verificationNo: verificationNo
         },
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader(csrfHeader, csrfToken);
+        },
         success: function (result) {
             if (result) {
                 $('#expiryTime').css('display', 'none');
@@ -365,24 +389,21 @@ function isVerificationValid() {
                 $('#verificationNo').attr('placeholder', '휴대전화 인증 완료');
                 $('#verificationNo').attr('disabled', true);
                 $('#verificationNo').css('background-color', '#EFEFEF');
+                $('#verificationNo').css('cursor', 'default');
                 $('#btn_verify_mobile_confirm').attr('disabled', true);
                 $('#btn_verify_mobile_confirm').css('border', '1px solid #999');
-                isValidVerificationCode = true;
+                $('#verificationNo').attr('complete', "true");
             } else {
                 $('#verificationNo').val('');
                 alert('인증번호가 일치하지 않습니다.\n확인 후 다시 시도해 주세요.');
-                isValidVerificationCode = false;
+                $('#verificationNo').attr('complete', "false");
             }
         }
     });
 }
 
-function isVerificationEmpty() {
-    let placeholderValue = $('#verificationNo').attr('placeholder');
-    if (placeholderValue !== '휴대전화 인증 완료') {
-        return false;
-    }
-    return true;
+function isVerificationCompelte() {
+    return $('#verificationNo').attr('complete') === "true";
 }
 
 //전체 선택
@@ -440,8 +461,8 @@ function validateBeforeSubmit() {
     }
 
     // 인증 번호 유효성 검사
-    if (!isVerificationEmpty()) {
-        alert("휴대전화번호 인증해 주세요.");
+    if (!isVerificationCompelte()) {
+        alert("휴대전화번호를 인증해 주세요.");
         return false;
     }
 

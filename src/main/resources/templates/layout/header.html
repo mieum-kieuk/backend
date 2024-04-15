@@ -13,7 +13,8 @@
                 <li class="depth1_menu" id="shop">
                     <a href="../shop/product_list.html" th:href="@{/shop/products}">Shop</a>
                     <ul class="depth2">
-                        <li><a href="../shop/product_list.html" th:href="@{/shop/products/masking-tape}">Masking tape</a></li>
+                        <li><a href="../shop/product_list.html" th:href="@{/shop/products/masking-tape}">Masking
+                            tape</a></li>
                         <li><a href="../shop/product_list.html" th:href="@{/shop/products/sticker}">Sticker</a></li>
                         <li><a href="../shop/product_list.html" th:href="@{/shop/products/memo}">Memo</a></li>
                     </ul>
@@ -42,7 +43,12 @@
                             <li><a sec:authorize="isAnonymous()" href="../login.html" th:href="@{/login}">Login</a></li>
                             <li><a sec:authorize="isAnonymous()" href="../members/join.html" th:href="@{/members/join}">Join</a>
                             </li>
-                            <li sec:authorize="isAuthenticated()"><a href="../index.html" th:href="@{/logout}">Logout</a></li>
+                            <li sec:authorize="isAuthenticated()">
+                                <form th:action="@{/logout}" method="post">
+                                    <button type="submit">Logout</button>
+                                    <input type="hidden" name="${ _csrf.parameterName }" value="${ _csrf.token }">
+                                </form>
+                            </li>
                             <li><a href="javascript:void(0)">Order</a></li>
                             <li><a href="javascript:void(0)">Mypage</a></li>
                         </ul>

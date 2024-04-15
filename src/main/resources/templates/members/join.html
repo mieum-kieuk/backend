@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>회원가입 | Archivegarden</title>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <title>회원가입 | Tickers</title>
 
     <meta property="og:type" content="website"/>
     <meta property="og:title" content="Archivegarden"/>
@@ -20,12 +22,6 @@
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script defer src="../../static/js/join.js" th:src="@{/js/join.js}"></script>
     <script defer src="../../static/js/findAddress.js" th:src="@{/js/findAddress.js}"></script>
-
-    <style>
-        .field-error {
-            color: #d94747;
-        }
-    </style>
 </head>
 <body>
 <div th:replace="~{/layout/header :: header}"></div>
@@ -53,7 +49,7 @@
                 </li>
             </ul>
         </div>
-        <form action="" th:action th:object="${form}" method="post" th:onsubmit="return signUp()">
+        <form action="" th:action th:object="${form}" method="post" th:onsubmit="return validateBeforeSubmit()">
             <div class="input_area">
                 <div class="input_wrap">
                     <ul>
@@ -147,8 +143,7 @@
                         </li>
                         <li class="verify_sec2">
                             <div class="verify">
-                                <input id="verificationNo" class="input_box inputTypeText" placeholder=""
-                                       maxlength="6" type="text"/>
+                                <input id="verificationNo" class="input_box inputTypeText" complete="false" maxlength="6" type="text"/>
                                 <span class="time" id="expiryTime"></span>
                             </div>
                             <button type="button" class="btn1" id="btn_verify_mobile_confirm">확인</button>
@@ -517,10 +512,11 @@
                 <button type="submit" class="btn1 join_btn">
                     가입하기
                 </button>
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
             </div>
         </form>
     </div>
 </div>
-<div th:replace="~{/layout/footer :: footer}"></div>
+<div th:replace="~{/layout/footer :: basic_footer}"></div>
 </body>
 </html>
