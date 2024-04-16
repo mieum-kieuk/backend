@@ -31,19 +31,19 @@
         <div class="content">
             <div class="prd_category">
                 <ul class="category_tit">
-                    <li><a href="./product_list.html" th:href="@{/shop/products}" class="category">All</a></li>
-                    <li><a href="./product_list.html" th:href="@{/shop/products/masking-tape}">Masking tape</a></li>
-                    <li><a href="./product_list.html" th:href="@{/shop/products/sticker}">Sticker</a></li>
-                    <li><a href="./product_list.html" th:href="@{/shop/products/memo}">Memo</a></li>
+                    <li><a href="./product_list.html" th:href="@{/shop/products}" class="all">All</a></li>
+                    <li><a href="./product_list.html" th:href="@{/shop/products(category='masking-tape')}" class="">Masking tape</a></li>
+                    <li><a href="./product_list.html" th:href="@{/shop/products(category='sticker')}">Sticker</a></li>
+                    <li><a href="./product_list.html" th:href="@{/shop/products(category='memo')}">Memo</a></li>
                 </ul>
             </div>
             <div class="prd_sort">
                 <ul class="sort_tit">
-                    <li><a href="/lowprice">Low price</a></li>
-                    <li><a href="/highprice">High price</a></li>
-                    <li><a href="/new">New</a></li>
-                    <li><a href="/popular">Hit</a></li>
-                    <li><a href="/alphabetical">Name</a></li>
+                    <li><a href="./product_list.html" th:href="@{/shop/products(category=${pathVariable}, sorted_type=0)}">신상품순</a></li>
+                    <li><a href="./product_list.html" th:href="@{/shop/products(category=${pathVariable}, sorted_type=1)}">판매량순</a></li>
+                    <li><a href="./product_list.html" th:href="@{/shop/products(category=${pathVariable}, sorted_type=2)}">가나다순</a></li>
+                    <li><a href="./product_list.html" th:href="@{/shop/products(category=${pathVariable}, sorted_type=3)}">낮은 가격순</a></li>
+                    <li><a href="./product_list.html" th:href="@{/shop/products(category=${pathVariable}, sorted_type=4)}">높은 가격순</a></li>
                 </ul>
             </div>
             <div class="prd_list_wrap">
@@ -66,10 +66,10 @@
                                 </div>
                                 <ul class="prd_price">
                                     <li class="original_price"
-                                          th:classappend="${product.isDiscounted} ? 'line_through'">KRW [[${product.price}]]</li>
+                                          th:classappend="${product.isDiscounted} ? 'line_through'">[[${product.price}]]원</li>
                                     <li th:if="${product.isDiscounted} and !${product.isSoldOut}" class="discount">
                                         <span class="discount_rate">[[${product.discountPercent}]]%</span>
-                                        <span class="discounted_price">KRW [[${product.salePrice}]]</span>
+                                        <span class="discounted_price">[[${product.salePrice}]]원</span>
                                     </li>
                                     <li th:if="${product.isSoldOut}" class="soldout">
                                         <span class="sold_out">sold out</span>
@@ -85,36 +85,24 @@
     <div class="pagination" th:if="${products.totalPages} > 0">
         <ul>
             <li>
-                <a href="./product_list.html" th:if="${condition.category} == null" th:href="@{/shop/products}" class="prev_first">
-                    <span class="material-symbols-outlined">navigate_before</span>
-                </a>
-                <a href="./product_list.html" th:unless="${condition.category} == null" th:href="@{/shop/products/{category}(category=${condition.category})}" class="prev_first">
+                <a href="./product_list.html" th:href="@{/shop/products(category=${pathVariable}, sorted_type=${sortedCode})}" class="prev_first">
                     <span class="material-symbols-outlined">navigate_before</span>
                 </a>
             </li>
             <li>
-                <a href="./product_list.html" th:if="${condition.category} == null" th:href="@{/shop/products(page=${products.number})}"
-                   class="prev" th:classappend="${!products.hasPrevious()} ? 'disabled'">Prev</a>
-                <a href="./product_list.html" th:unless="${condition.category} == null" th:href="@{/shop/products/{category}(category=${condition.category}, page=${products.number})}"
+                <a href="./product_list.html" th:href="@{/shop/products(category=${pathVariable}, sorted_type=${sortedCode}, page=${products.number})}"
                    class="prev" th:classappend="${!products.hasPrevious()} ? 'disabled'">Prev</a>
             </li>
             <li th:each="page : ${#numbers.sequence(1, products.totalPages)}">
-                <a href="./product_list.html" th:if="${condition.category} == null" th:href="@{/shop/products(page=${page})}"
-                   th:text="${page}"  class="page" th:classappend="${page == products.number + 1} ? 'active'"></a>
-                <a href="./product_list.html" th:unless="${condition.category} == null" th:href="@{/shop/products/{category}(category=${condition.category}, page=${page})}"
+                <a href="./product_list.html" th:href="@{/shop/products(category=${pathVariable}, sorted_type=${sortedCode}, page=${page})}"
                    th:text="${page}" class="page" th:classappend="${page == products.number + 1} ? 'active'"></a>
             </li>
             <li>
-                <a href="./product_list.html" th:if="${condition.category} == null" th:href="@{/shop/products(page=${products.number} + 2)}"
-                   class="next" th:classappend="${!products.hasNext()} ? 'disabled'">Next</a>
-                <a href="./product_list.html" th:unless="${condition.category} == null" th:href="@{/shop/products/{category}(category=${condition.category}, page=${products.number} + 2)}"
+                <a href="./product_list.html" th:href="@{/shop/products(category=${pathVariable}, sorted_type=${sortedCode}, page=${products.number} + 2)}"
                    class="next" th:classappend="${!products.hasNext()} ? 'disabled'">Next</a>
             </li>
             <li>
-                <a href="./product_list.html" th:if="${condition.category} == null" th:href="@{/shop/products(page=${products.totalPages})}" class="next_last">
-                    <span class="material-symbols-outlined">navigate_next</span>
-                </a>
-                <a href="./product_list.html" th:unless="${condition.category} == null" th:href="@{/shop/products/{category}(category=${condition.category}, page=${products.totalPages})}" class="next_last">
+                <a href="./product_list.html" th:href="@{/shop/products(category=${pathVariable}, sorted_type=${sortedCode}, page=${products.totalPages})}" class="next_last">
                     <span class="material-symbols-outlined">navigate_next</span>
                 </a>
             </li>

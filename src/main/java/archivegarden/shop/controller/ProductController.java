@@ -7,7 +7,6 @@ import archivegarden.shop.service.product.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,12 +18,17 @@ public class ProductController {
 
     private final ProductService productService;
 
-    @GetMapping(value = {"", "/{category}"})
+    @GetMapping
     public String products(@ModelAttribute("condition") ProductSearchCondition condition,
                            @RequestParam(value = "page", defaultValue = "1") Integer page, Model model) {
-        PageRequest pageRequest = PageRequest.of(page - 1, 3, Sort.by("id"));
 
+        PageRequest pageRequest = PageRequest.of(page - 1, 3);
         Page<ProductListDto> pageProducts = productService.getProducts(condition, pageRequest);
+
+        String pathVariable = condition.getCategory() != null ? condition.getCategory().getPathVariable() : null;
+        String sortedCode = condition.getSorted_type() != null ? condition.getSorted_type().getSortedCode() : null;
+        model.addAttribute("pathVariable", pathVariable);
+        model.addAttribute("sortedCode", sortedCode);
         model.addAttribute("products", pageProducts);
         return "shop/product_list";
     }
