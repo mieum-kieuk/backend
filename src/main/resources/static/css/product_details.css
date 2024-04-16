@@ -27,11 +27,17 @@
 
 .prd_left {
     display: flex;
+    flex-direction: column;
     width: 45%;
 }
-.prd_img {
-    width: 500px;
-    height: 500px;
+.prd_left .prd_img {
+    max-width: 500px;
+    max-height: 530px;
+}
+.prd_left .prd_img img {
+    width: 100%;
+    height: 530px;
+    object-fit: cover;
 }
 .prd_left img {
     display: block;
@@ -39,7 +45,17 @@
     height: 100%;
     object-fit: cover;
 }
-
+.prd_left .prd_display {
+    display: flex;
+    margin-top: 10px;
+}
+.prd_left .prd_display .display_img {
+    display: block;
+    border: 1px solid #666;
+    width: 90px;
+    object-fit: cover;
+    margin-right: 10px;
+}
 .prd_right {
     display: flex;
     flex-direction: column;
@@ -135,7 +151,7 @@
     flex-direction: row;
     justify-content: space-between;
     gap: 10px;
-    font-size: 15px;
+    font-size: 16px;
 }
 .buy_btn .btn1 {
     width: 49%;

@@ -31,7 +31,7 @@ button,
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Inter-regular", "Pretendard", "Noto Sans KR", "Malgun Gothic", "맑은 고딕", sans-serif;
+  font-family: "Inter", "Pretendard", "Noto Sans KR", "Malgun Gothic", "맑은 고딕", sans-serif;
 }
 
 fieldset,
@@ -69,7 +69,7 @@ textarea {
   vertical-align: middle;
   border: 1px solid #999;
   padding: 5px 5px;
-  border-radius: 2px;
+  /*border-radius: 2px;*/
 }
 button {
   font-size: 100%;

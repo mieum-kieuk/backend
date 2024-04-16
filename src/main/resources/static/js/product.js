@@ -1,4 +1,9 @@
 $(document).ready(function() {
+    $('.display_img').click(function() {
+        let imgUrl = $(this).find('img').attr('src');
+        $('.prd_img img').attr('src', imgUrl);
+    });
+
     $('#increaseBtn').click(function(event) {
         event.preventDefault();
         let input = $(this).siblings('.quant_input');
@@ -14,6 +19,8 @@ $(document).ready(function() {
         if (currentValue > 1) {
             input.val(currentValue - 1);
             updateTotal(); // 총 수량 및 가격 업데이트
+        }else {
+            alert("최소 주문 수량은 1개 입니다.");
         }
     });
 
