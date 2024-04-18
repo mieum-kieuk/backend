@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>공지 | Tickers</title>
+
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="Tickers"/>
+    <meta property="og:description" content=""/>
+    <meta property="og:image" content=""/>
+    <meta property="og:url" content=""/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="../../../static/css/comm.css" th:href="@{/css/comm.css}">
+    <link rel="stylesheet" href="../../../static/css/notice.css" th:href="@{/css/notice.css}">
+    <script defer src="../../../static/js/comm.js" th:src="@{/js/comm.js}"></script>
+</head>
+<body>
+<div class="wrap">
+    <div th:replace="~{/layout/header :: header}"></div>
+    <div id="notice">
+        <div class="notice_wrap details">
+            <h1 class="notice_tit">Notice</h1>
+            <div class="notice_content">
+                <div class="notice_head">
+                    <h3 id="title" class="title" th:text="${notice.title}">공지 제목</h3>
+                    <div class="description">
+                        <span class="id" th:text="${notice.writer}">작성자</span>
+                        <span class="date" th:text="${notice.createdAt}">작성일</span>
+                    </div>
+                </div>
+                <div class="notice_cont" id="content">
+                    <div class="notice_text" th:text="${notice.content}">
+                        공지 내용
+                    </div>
+                </div>
+            </div>
+            <div class="btn_wrap details right">
+                <button type="button" class="btn1" onclick="location.href = './edit_notice.html'"
+                        th:onclick="|location.href='@{/notices/{noticeId}/edit(noticeId=${notice.id})}'|"
+                        sec:authorize="hasRole('ROLE_ADMIN')">수정
+                </button>
+                <button type="button" class="btn1" onclick="location.href = './notice_list.html'"
+                        th:onclick="|location.href='@{/notices/{noticeId}/delete(noticeId=${notice.id})}'|"
+                        sec:authorize="hasRole('ROLE_ADMIN')">삭제
+                </button>
+                <button type="button" class="btn1" onclick="location.href = './notice_list.html'"
+                        th:onclick="|location.href='@{/notices}'|">목록
+                </button>
+            </div>
+        </div>
+    </div>
+    <div th:replace="~{/layout/footer :: basic_footer}"></div>
+</div>
+</body>

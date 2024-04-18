@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>공지 작성 | Tickers</title>
+
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="Tickers"/>
+    <meta property="og:description" content=""/>
+    <meta property="og:image" content=""/>
+    <meta property="og:url" content=""/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="../../../static/css/comm.css" th:href="@{/css/comm.css}">
+    <link rel="stylesheet" href="../../../static/css/notice.css" th:href="@{/css/notice.css}">
+    <script defer src="../../../static/js/comm.js" th:src="@{/js/comm.js}"></script>
+</head>
+<body>
+<div class="wrap">
+    <div th:replace="~{/layout/header :: header}"></div>
+    <div id="noticeList" class="wrapper">
+        <div class="notice_wrap">
+            <h1 class="notice_tit">Notice</h1>
+            <form id="noticeSearchForm">
+                <select id="searchDate">
+                    <option value="week">일주일</option>
+                    <option value="month">한달</option>
+                    <option value="3month">세달</option>
+                    <option value="all">전체</option>
+                </select>
+                <select id="searchKey">
+                    <option value="subject">제목</option>
+                    <option value="content">내용</option>
+                    <option value="writer">작성자</option>
+                </select>
+                <input type="text" id="searchKeyword" name="searchKeyword">
+                <button type="submit" class="btn1">검색</button>
+            </form>
+            <table class="notice_table">
+                <thead>
+                <tr>
+                    <th class="title">제목</th>
+                    <th>작성일</th>
+                    <th>조회수</th>
+                    <th>작성자</th>
+                </tr>
+                </thead>
+                <tr id="noDataMessage" th:if="${notices.content.size() == 0}">
+                    <td colspan="4">등록된 공지사항이 없습니다.</td>
+                </tr>
+                <tr th:each="notice : ${notices}">
+                    <td><a href="./notice_details.html"
+                           th:href="@{/notices/{noticeId}(noticeId=${notice.id})}"><span id="title" class="title"
+                                                                                         th:text="${notice.title}"></span></a>
+                    </td>
+                    <td><span id="date" th:text="${notice.createdAt}">2024.04.08</span></td>
+                    <td><span id="views" th:text="${notice.hit}">10</span></td>
+                    <td><span id="writer" th:text="${notice.writer}">Tickers</span></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="btn_wrap">
+        <button type="button" id="writeBtn" class="btn1 write_btn" onclick="location.href = './add_notice.html'"
+                th:onclick="|location.href='@{/notices/add}'|" sec:authorize="hasRole('ROLE_ADMIN')">작성
+        </button>
+    </div>
+    <div class="pagination" th:if="${notices.totalPages > 0}">
+        <ul>
+            <li><a href="./notice_list.html" th:href="@{/notices}" class="prev_first"><span
+                    class="material-symbols-outlined navigate">navigate_before</span></a></li>
+            <li><a href="./notice_list.html" th:href="@{/notices(page=${notices.number})}" class="prev"
+                   th:classappend="${!notices.hasPrevious()} ? 'disabled'">Prev</a></li>
+            <li th:each="page : ${#numbers.sequence(1, notices.totalPages)}">
+                <a href="./notice_list.html" th:href="@{/notices(page=${page})}">1</a>
+            </li>
+            <li><a href="./notice_list.html" th:href="@{/notices(page=${notices.number} + 2)}" class="next"
+                   th:classappend="${!notices.hasNext()} ? 'disabled'">Next</a>
+            </li>
+            <li><a href="./notice_list.html" th:href="@{/notices(page=${notices.totalPages})}"
+                   th:class="next_last"><span class="material-symbols-outlined navigate">navigate_next</span></a>
+            </li>
+        </ul>
+    </div>
+    <div th:replace="~{/layout/footer :: basic_footer}"></div>
+</div>
+</body>
