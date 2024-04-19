@@ -20,7 +20,7 @@
     max-width: 1390px;
     width: 100%;
     justify-content: flex-end;
-    font-size: 12px;
+    font-size: 13px;
 }
 .category_tit {
     display: flex;
@@ -30,15 +30,36 @@
     font-size: 15px;
 }
 .category_tit .selected {
-    text-decoration: underline;
-    /*color: #000;*/
     font-weight: 500;
 }
+.category_tit a {
+    text-decoration: none;
+    position: relative;
+}
+
+.category_tit a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 0;
+    height: 1.5px;
+    background: #000;
+    transition: width 0.2s ease-in-out;
+}
+
+.category_tit a.selected::after {
+    width: 100%;
+}
+
 .sort_tit {
     display: flex;
     flex-direction: row;
     gap: 15px;
     margin: 10px 0;
+}
+.sort_tit li.selected a {
+    font-weight: 700;
 }
 .prd_category {
     display: flex;
@@ -54,20 +75,23 @@
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
 }
+.prd_list > li{
+    margin-bottom: 60px;
+}
 .thumb img {
     width: 450px;
     height: 450px;
     object-fit: cover;
 }
 .prd_name {
-    font-size: 14px;
+    font-size: 16px;
     margin: 5px 0;
 }
 .prd_price {
     display: flex;
     flex-direction: column;
     gap: 5px;
-    font-size: 13px;
+    font-size: 14px;
 }
 .prd_price .line_through {
     text-decoration: line-through;
@@ -78,9 +102,11 @@
 }
 .prd_price .soldout .sold_out{
     color: #d94747;
+    font-size: 16px;
 }
 .thumb {
     position: relative;
+    margin-bottom: 15px;
 }
 .thumb:hover .thumb2 {
     display: block;

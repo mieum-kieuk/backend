@@ -17,6 +17,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <link rel="stylesheet" href="../../css/join.css" />
+    <link rel="stylesheet" href="../../css/comm.css" />
     <script defer src="../../js/join.js"></script>
     <script defer src="../../js/findAddress.js"></script>
 
@@ -45,7 +46,7 @@
                 </li>
             </ul>
         </div>
-        <form action=""  method="post">
+        <form action=""  method="post" id="joinForm">
             <div class="input_area">
                 <div class="input_wrap">
                     <ul>
@@ -123,7 +124,7 @@
                                 <p>-</p><input id="phonenumber3" class="input_box" placeholder="" value="" type="text"/>
                             </div>
                             <button type="button" id="btn_action_verify_mobile" class="btn1 disabled"
-                                    onclick="userVerifyMobile.joinSendVerificationNumber(); return true;">인증번호받기
+                                    onclick="userVerifyMobile.joinSendVerificationNumber(); return true;">인증번호 받기
                             </button>
                         </li>
                         <span id="phoneNumberMsg"></span>
@@ -413,12 +414,12 @@
                     </li>
                 </div>
             </div>
-            <div class="submit_btn">
-                <button type="submit" class="btn1 cancel_btn">
+            <div class="btn_wrap">
+                <button type="button" class="btn1 cancel_btn">
                     취소
                 </button>
-                <button type="submit" id="submitBtn" class="btn1 join_btn">
-                    가입하기
+                <button type="submit" id="submitBtn" class="btn1 submit_btn">
+                    가입
                 </button>
             </div>
         </form>

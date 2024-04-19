@@ -3,8 +3,8 @@
   justify-content: center;
   padding-top: 240px;
   margin: 0;
-  font-size: 11px;
   color: #222;
+  margin-bottom: 120px;
 }
 .join_wrap {
   max-width: 450px;
@@ -14,7 +14,7 @@
   justify-content: center;
 }
 .join_wrap .join_tit, .join_wrap .addinfo {
-  margin: 4px 0 5px;
+  margin: 4px 0 8px;
 }
 /*.join_wrap .join_tit.btn_included {*/
 /*  margin: 4px 0;*/
@@ -26,7 +26,7 @@
 }
 .join_wrap .addinfo {
   color: #999;
-  font-size: 11px;
+  font-size: 12px;
 }
 
 .auth_wrap {
@@ -43,10 +43,12 @@
   align-items: center;
 }
 .auth_wrap #personal_type_wrap label {
-  font-size: 12px;
+  font-size: 13px;
   margin-left: 4px;
 }
-
+.auth_wrap #email_auth {
+  font-size: 12px;
+}
 .input_area {
   width: 100%;
   display: flex;
@@ -76,7 +78,7 @@
   color: #999;
 }
 .input_wrap .input_box_wrap {
-  margin-bottom: 20px;
+  margin-bottom: 30px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -101,7 +103,7 @@
   width: 70%;
 }
 .input_wrap .address, .input_wrap .phone_number {
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 }
 .input_wrap .phone_number .join_tit {
   margin: 4px 0 4px 0;
@@ -194,10 +196,15 @@
   padding: 10px;
   height: 35px;
 }
+#btn_action_verify_mobile {
+  color: #000;
+  font-weight: 500;
+}
 #btn_action_verify_mobile.disabled {
   color: #999;
   border-color: #999;
   pointer-events: none;
+  font-weight: 400;
 }
 .agree_all {
   display: flex;
@@ -224,7 +231,7 @@
   padding: 20px;
   border: 1px solid #999;
   color: #333;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 }
 .agree_area_wrap .agree_area.opt .content {
   height: 100px;
@@ -251,20 +258,15 @@
   margin-left: 4px;
 }
 
-.submit_btn {
+.btn_wrap {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
-.submit_btn .btn1 {
+.btn_wrap .btn1 {
   width: 48%;
 }
-.submit_btn .join_btn {
-  background: #222;
-  color: #fff;
-}
-
-.btn1 {
+.btn_wrap .btn1 {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -272,7 +274,7 @@
   padding: 20px;
   border-radius: 2px;
   border: solid 1px #333;
-  background-color: #fff;
+  /*background-color: #fff;*/
 }
 
 #join_succ {
@@ -285,9 +287,8 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  max-width: 450px;
+  max-width: 500px;
   width: 100%;
-  font-size: 11px;
 }
 .join_succ_wrap .success_message {
   margin-bottom: 20px;
@@ -296,23 +297,21 @@
   text-align: center;
 }
 .join_succ_wrap .success_message h1 {
-  font-size: 16px;
+  font-size: 18px;
   margin-bottom: 10px;
 }
-.join_succ_wrap .success_message p {
-  font-size: 14px;
-}
-.join_succ_wrap .submit_btn {
+.join_succ_wrap .btn_wrap {
   display: flex;
   justify-content: center;
 }
-.join_succ_wrap .submit_btn .home_btn {
-  background: #222;
+.join_succ_wrap .btn_wrap .submit_btn {
+  background: #000;
   color: #fff;
+  width: 100%;
 }
 .join_succ_wrap .user_info {
   padding: 20px;
-  margin: 30px;
+  margin: 30px 0;
   border-top: 1px solid #222;
   border-bottom: 1px solid #222;
 }
@@ -322,7 +321,7 @@
   padding: 2px;
 }
 .join_succ_wrap .user_info li p {
-  width: 30px;
+  width: 50px;
   text-align: start;
 }
 .join_succ_wrap .user_info li span {

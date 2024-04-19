@@ -2,7 +2,7 @@
     display: flex;
     justify-content: center;
     padding-top: 120px;
-    font-size: 12px;
+    font-size: 14px;
     color: #222;
 }
 
@@ -19,6 +19,8 @@ form .auth_select {
 }
 form .auth_select p {
     padding: 10px 0;
+    font-size: 16px;
+    font-weight: 500;
 }
 form .radio_wrap {
     display: flex;
@@ -63,24 +65,20 @@ form input::placeholder {
     color: #999;
 }
 
-.submit_btn {
+.btn_wrap {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
 }
-.submit_btn .login_btn {
-    background: #222;
-    color: #fff;
-    width: 380px;
-}
-.submit_btn .ok_btn {
-    background: #222;
+
+.btn_wrap .btn1.submit_btn {
+    background: #000;
     color: #fff;
     width: 380px;
     margin-top: 15px;
 }
 
-.btn1 {
+.btn_wrap .btn1 {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -106,9 +104,9 @@ form input::placeholder {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
     max-width: 550px;
     width: 100%;
-    font-size: 11px;
 }
 
 .find_wrap .success_message h1, .find_wrap .success_message p, .find_wrap .success_message a {
@@ -116,35 +114,39 @@ form input::placeholder {
 }
 
 .find_wrap .success_message h1 {
-    font-size: 16px;
+    font-size: 18px;
     margin-bottom: 10px;
 }
 
 .find_wrap .success_message p {
     font-size: 14px;
 }
-
-.find_wrap .submit_btn {
+.find_wrap .btn_wrap {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    width: 100%;
+}
+.find_wrap .btn1.submit_btn.login_btn {
     display: flex;
     justify-content: center;
-    gap: 10px;
     padding: 0 30px;
-}
-
-.find_wrap .submit_btn .login_btn {
-    background: #222;
+    margin-top: 0;
+    background: #000;
     color: #fff;
     width: 50%;
 }
 
-.find_wrap .submit_btn .find_btn {
+.find_wrap .btn_wrap .find_btn {
     width: 50%;
 }
-
-.find_wrap .submit_btn #sendPwBtn {
-    background: #222;
+.find_wrap .btn_wrap.send {
+    justify-content: center;
+}
+.find_wrap .btn_wrap #sendPwBtn {
+    background: #000;
     color: #fff;
-    width: 80%;
+    width: 100%;
 }
 
 .find_wrap .user_info {
@@ -152,6 +154,7 @@ form input::placeholder {
     margin: 30px;
     border: 1px solid #999;
     border-radius: 2px;
+    width: 100%;
 }
 
 .find_wrap .user_info li {
@@ -162,7 +165,7 @@ form input::placeholder {
 }
 
 .find_wrap .user_info li p {
-    width: 30px;
+    /*width: 70px;*/
     text-align: start;
     margin: 7px 50px 7px 0;
 }
@@ -181,16 +184,18 @@ form input::placeholder {
     justify-content: center;
     max-width: 450px;
     width: 100%;
-    font-size: 11px;
 }
 #find_pw .find_wrap .success_message {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    width: 100%;
 }
 #find_pw .find_wrap .success_message span {
-    font-size: 16px;
-    padding: 0 30px;
+    display: block;
+    font-size: 18px;
+    /*padding: 0 30px;*/
+    width: 100%;
 }
 #find_pw .find_wrap .user_info {
     padding: 10px 20px;
@@ -198,13 +203,18 @@ form input::placeholder {
     border: 1px solid #999;
     border-radius: 2px;
 }
-#find_pw .find_wrap .submit_btn .login_btn {
+#find_pw .find_wrap .btn_wrap {
+    display: flex;
+    justify-content: center;
     width: 100%;
 }
+#find_pw .find_wrap .btn_wrap .btn1 {
+     width: 100%;
+ }
 #find_pw p {
     width: 70px;
     margin-right: 10px;
 }
-#find_pw .find_wrap .submit_btn #sendPwBtn {
+#find_pw .find_wrap #sendPwBtn {
     width: 100%;
 }

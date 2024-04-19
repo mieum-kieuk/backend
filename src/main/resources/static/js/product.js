@@ -1,4 +1,16 @@
 $(document).ready(function() {
+
+    $('.sort_tit li a').click(function() {
+        event.preventDefault();
+        $(this).parent('li').addClass('selected');
+        $(this).parent('li').siblings().removeClass('selected');
+    });
+    $('.category_tit li:first-child a').addClass('selected');
+    $('.category_tit li a').click(function(e) {
+        e.preventDefault();
+        $('.category_tit a.selected').removeClass('selected');
+        $(this).addClass('selected');
+    });
     $('.display_img').click(function() {
         let imgUrl = $(this).find('img').attr('src');
         $('.prd_img img').attr('src', imgUrl);

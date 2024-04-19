@@ -12,12 +12,21 @@ $(function () {
     }, 10000)
 })
 $(document).ready(function() {
+    $('input[type="text"]').on('input', function (e) {
+        let maxLength = $(this).attr('maxlength');
+        let textLength = e.target.value.length;
+
+        if (textLength > maxLength) {
+            let trimmedValue = e.target.value.substring(0, maxLength);
+            $(this).val(trimmedValue);
+        }
+    });
     $('.search_btn').click(function(event) {
         var keyword = $('.search_form_wrap input[type="text"]').val().trim();
 
         if (keyword === '') {
             event.preventDefault();
-            alert('검색어를 입력해주세요.');
+            alert('검색어를 입력해 주세요.');
         }
     });
     $('.search button').click(function() {

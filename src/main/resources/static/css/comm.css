@@ -31,7 +31,7 @@ button,
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Inter", "Pretendard", "Noto Sans KR", "Malgun Gothic", "맑은 고딕", sans-serif;
+  font-family: "Aleo", "SUITE", "Noto Sans KR", "Malgun Gothic", "맑은 고딕", sans-serif;
 }
 
 fieldset,
@@ -133,10 +133,31 @@ input:-webkit-autofill:active {
   -webkit-box-shadow: 0 0 0 1000px transparent inset;
 }
 /* 기본 폰트 설정 */
+@font-face {
+  font-family: 'SUITE';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  unicode-range: U+AC00-D7A3, U+0030-0039, U+0020-002F, U+003A-0040, U+005B-0060, U+007B-007E;
+}
+@font-face {
+  font-family: 'SUITE';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Extrabold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  unicode-range: U+AC00-D7A3, U+0030-0039, U+0020-002F, U+003A-0040, U+005B-0060, U+007B-007E;
+}
+@font-face {
+  font-family: "Aleo", serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  unicode-range: U+0041-005A ,U+0061-007A ;
+}
 /* mobile */
 body {
-  font-size: 16px;
-  font-family: "Inter", "Pretendard", "Noto Sans KR", "Malgun Gothic", "맑은 고딕", sans-serif;
+  font-size: 14px;
+  font-family: "SUITE", "Aleo", "Noto Sans KR", "Malgun Gothic", "맑은 고딕", sans-serif;
   color: #222;
   height: 100%;
   width: 100%;
@@ -145,7 +166,7 @@ body {
 /* desktop */
 @media screen and (min-width: 1280px) {
   body {
-    font-size: 16px;
+    /*font-size: 16px;*/
   }
 }
 a {
@@ -174,7 +195,7 @@ hr {
 }
 
 input[type=password] {
-  font-family: "Inter", "Pretendard", "Noto Sans KR", "Malgun Gothic", "맑은 고딕", sans-serif;
+  font-family: "SUITE", "Aleo", "Noto Sans KR", "Malgun Gothic", "맑은 고딕", sans-serif;
 }
 
 #skip {
@@ -278,16 +299,6 @@ legend {
   clear: both;
   content: "";
 }
-.inter-regular {
-    font-family: "Inter", sans-serif;
-    font-optical-sizing: auto;
-    font-weight: 400;
-    font-style: normal;
-    font-variation-settings:
-            "slnt" 0;
-}
-
-
 .wrap {
   display: flex;
   justify-content: center;
@@ -329,8 +340,9 @@ legend {
 
 .gnb_menu {
   display: flex;
-  font-size: 16px;
+  font-size: 18px;
   align-items: center;
+  font-weight: 500;
 }
 .gnb_menu.center {
   position: absolute;
@@ -374,7 +386,8 @@ legend {
   justify-content: flex-end;
 }
 #community .depth2 {
-  margin-left: 34px;
+  /*margin-left: 34px;*/
+  margin-left: calc(33.333% - 24px);
 }
 .depth1_menu:hover{
   color: #999;
@@ -400,7 +413,8 @@ legend {
   transition: all 0.3s ease-in-out;
 }
 .gnb_menu .account .depth2 {
-  left: 30%;
+  /*left: 30%;*/
+  left: calc(33.333% - 10px);
 }
 .gnb_menu .cart a:hover{
   color: #999;
