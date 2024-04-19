@@ -5,7 +5,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>로그인 | Archivegarden</title>
+    <title>로그인 | 미음키읔</title>
 
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Archivegarden" />
@@ -14,10 +14,12 @@
     <meta property="og:url" content="" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="../static/css/comm.css" th:href="@{/css/comm.css}"/>
     <link rel="stylesheet" href="../static/css/login.css" th:href="@{/css/login.css}"/>
+    <script defer src="../static/js/comm.js" th:src="@{/js/comm.js}"></script>
     <script defer src="../static/js/login.js" th:src="@{/js/login.js}"></script>
 </head>
 <body>
@@ -33,7 +35,7 @@
             <div class="input_wrap">
                 <ul>
                     <li>
-                        <p class="login_tit">ID</p>
+                        <p class="login_tit">아이디</p>
                     </li>
                     <li class="input_box_wrap">
                         <input id="loginId" name="loginId" class="inputTypeText" placeholder="" maxlength="20" type="text"/>
@@ -41,27 +43,27 @@
                 </ul>
                 <ul>
                     <li>
-                        <p class="login_tit">PASSWORD</p>
+                        <p class="login_tit">비밀번호</p>
                     </li>
                     <li class="input_box_wrap">
                         <input id="password" name="password" class="input_box" autocomplete="off" maxlength="16" 0="disabled" type="password"/>
                     </li>
                 </ul>
             </div>
-            <div class="submit_btn">
-                <button type="submit" id="loginBtn" class="btn1 login_btn">
-                    Sign in
+            <div class="btn_wrap">
+                <button type="submit" id="loginBtn" class="btn1 submit_btn">
+                    로그인
                 </button>
             </div>
             <div class="account_btns">
                 <ul class="find_btn">
-                    <li class="btn2"> <a href="./members/find_id.html" th:href="@{/members/find-id}">Forgot your id?</a>
+                    <li class="btn2"> <a href="./members/find_id.html" th:href="@{/members/find-id}">아이디 찾기</a>
                     </li>
-                    <li class="btn2"><a href="./members/find_pw.html" th:href="@{/members/find-password}">or password?</a>
+                    <li class="btn2"><a href="./members/find_pw.html" th:href="@{/members/find-password}">/ 비밀번호 찾기</a>
                     </li>
                 </ul>
                 <ul class="create_btn">
-                    <li class="btn2"><a href="./members/join.html" th:href="@{/members/join}">Create account</a></li>
+                    <li class="btn2"><a href="./members/join.html" th:href="@{/members/join}">회원가입</a></li>
                 </ul>
             </div>
         </form>

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
-    <title>회원가입 | Tickers</title>
+    <title>회원가입 | 미음키읔</title>
 
     <meta property="og:type" content="website"/>
     <meta property="og:title" content="Archivegarden"/>
@@ -14,12 +14,13 @@
     <meta property="og:url" content=""/>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
     <link rel="stylesheet" href="../../static/css/comm.css" th:href="@{/css/comm.css}"/>
     <link rel="stylesheet" href="../../static/css/join.css" th:href="@{/css/join.css}"/>
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script defer src="../../static/js/comm.js" th:src="@{/js/comm.js}"></script>
     <script defer src="../../static/js/join.js" th:src="@{/js/join.js}"></script>
     <script defer src="../../static/js/findAddress.js" th:src="@{/js/findAddress.js}"></script>
 </head>
@@ -132,7 +133,7 @@
                                 <p>-</p><input th:field="*{phonenumber2}" class="input_box" placeholder="" maxlength="4" type="text"/>
                                 <p>-</p><input th:field="*{phonenumber3}" class="input_box" placeholder="" maxlength="4" type="text"/>
                             </div>
-                            <button type="button" id="btn_action_verify_mobile" class="btn1 disabled">인증번호받기</button>
+                            <button type="button" id="btn_action_verify_mobile" class="btn1 disabled">인증번호 받기</button>
                         </li>
                         <span id="phoneNumberMsg"></span>
                         <div class="field-error" th:errors="*{phonenumber1}"></div>
@@ -504,12 +505,12 @@
                     </li>
                 </div>
             </div>
-            <div class="submit_btn">
+            <div class="btn_wrap">
                 <button type="button" class="btn1 cancel_btn"
                         onclick="location.href='../index.html'" th:onclick="|location.href='@{/}'|">
                     취소
                 </button>
-                <button type="submit" class="btn1 join_btn">
+                <button type="submit" class="btn1 submit_btn">
                     가입하기
                 </button>
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">

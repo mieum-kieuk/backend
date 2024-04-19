@@ -5,7 +5,8 @@
     <nav id="gnb">
         <div class="logo">
             <a href="../index.html" th:href="@{/}">
-                <img src="../../static/images/tickers_logo.png" th:src="@{/images/tickers_logo.png}" alt="로고">
+                미음키읔
+<!--                <img src="../../static/images/tickers_logo.png" th:src="@{/images/tickers_logo.png}" alt="로고">-->
             </a>
         </div>
         <div class="gnb_menu center">
@@ -13,9 +14,12 @@
                 <li class="depth1_menu" id="shop">
                     <a href="../shop/product_list.html" th:href="@{/shop/products}">Shop</a>
                     <ul class="depth2">
-                        <li><a href="../shop/product_list.html" th:href="@{/shop/products(category='masking-tape')}">Masking tape</a></li>
-                        <li><a href="../shop/product_list.html" th:href="@{/shop/products(category='sticker')}">Sticker</a></li>
-                        <li><a href="../shop/product_list.html" th:href="@{/shop/products(category='memo')}">Memo</a></li>
+                        <li><a href="../shop/product_list.html" th:href="@{/shop/products(category='masking-tape')}">Masking
+                            tape</a></li>
+                        <li><a href="../shop/product_list.html"
+                               th:href="@{/shop/products(category='sticker')}">Sticker</a></li>
+                        <li><a href="../shop/product_list.html" th:href="@{/shop/products(category='memo')}">Memo</a>
+                        </li>
                     </ul>
                 </li>
                 <li class="depth1_menu" id="about"><a href="javascript:void(0)">About</a>
@@ -31,16 +35,24 @@
         </div>
         <div class="gnb_menu">
             <div class="search">
-                <form action="#" method="get">
-                    <button type="submit">Search</button>
-                </form>
+                <button type="button">Search</button>
+                <div class="search_popup">
+                    <div class="search_bg"></div>
+                    <div class="search_form_wrap">
+                        <form action="../search/search_complete.html" th:action="@{/search}" method="get">
+                            <input type="text" placeholder="검색어를 입력해 주세요." name="keyword">
+                            <button type="submit" class="search_btn"><span class="material-symbols-outlined">search</span></button>
+                        </form>
+                    </div>
+                </div>
             </div>
             <div class="account">
                 <ul class="depth1">
                     <li class="depth1_menu">Account
                         <ul class="depth2">
                             <li><a sec:authorize="isAnonymous()" href="../login.html" th:href="@{/login}">Login</a></li>
-                            <li><a sec:authorize="isAnonymous()" href="../members/join.html" th:href="@{/members/join}">Join</a>
+                            <li><a sec:authorize="isAnonymous()" href="../members/join.html"
+                                   th:href="@{/members/join}">Join</a>
                             </li>
                             <li sec:authorize="isAuthenticated()">
                                 <form th:action="@{/logout}" method="post">

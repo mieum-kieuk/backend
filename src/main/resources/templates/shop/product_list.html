@@ -12,7 +12,8 @@
     <meta property="og:url" content=""/>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.min.js"
@@ -23,6 +24,7 @@
     <link rel="stylesheet" href="../../static/css/comm.css" th:href="@{/css/comm.css}"/>
     <link rel="stylesheet" href="../../static/css/product_list.css" th:href="@{/css/product_list.css}"/>
     <script defer src="../../static/js/comm.js" th:src="@{/js/comm.js}"></script>
+<!--    <script defer src="../../static/js/product.js" th:src="@{/js/product.js}"></script>-->
 </head>
 <body>
 <div class="wrap">
@@ -32,52 +34,57 @@
             <div class="prd_category">
                 <ul class="category_tit">
                     <li><a href="./product_list.html" th:href="@{/shop/products}" class="all">All</a></li>
-                    <li><a href="./product_list.html" th:href="@{/shop/products(category='masking-tape')}" class="">Masking tape</a></li>
+                    <li><a href="./product_list.html" th:href="@{/shop/products(category='masking-tape')}" class="">Masking
+                        tape</a></li>
                     <li><a href="./product_list.html" th:href="@{/shop/products(category='sticker')}">Sticker</a></li>
                     <li><a href="./product_list.html" th:href="@{/shop/products(category='memo')}">Memo</a></li>
                 </ul>
             </div>
             <div class="prd_sort">
                 <ul class="sort_tit">
-                    <li><a href="./product_list.html" th:href="@{/shop/products(category=${pathVariable}, sorted_type=0)}">신상품순</a></li>
-                    <li><a href="./product_list.html" th:href="@{/shop/products(category=${pathVariable}, sorted_type=1)}">판매량순</a></li>
-                    <li><a href="./product_list.html" th:href="@{/shop/products(category=${pathVariable}, sorted_type=2)}">가나다순</a></li>
-                    <li><a href="./product_list.html" th:href="@{/shop/products(category=${pathVariable}, sorted_type=3)}">낮은 가격순</a></li>
-                    <li><a href="./product_list.html" th:href="@{/shop/products(category=${pathVariable}, sorted_type=4)}">높은 가격순</a></li>
+                    <li><a href="./product_list.html"
+                           th:href="@{/shop/products(category=${pathVariable}, sorted_type=0)}">신상품순</a></li>
+                    <li><a href="./product_list.html"
+                           th:href="@{/shop/products(category=${pathVariable}, sorted_type=1)}">판매량순</a></li>
+                    <li><a href="./product_list.html"
+                           th:href="@{/shop/products(category=${pathVariable}, sorted_type=2)}">가나다순</a></li>
+                    <li><a href="./product_list.html"
+                           th:href="@{/shop/products(category=${pathVariable}, sorted_type=3)}">낮은 가격순</a></li>
+                    <li><a href="./product_list.html"
+                           th:href="@{/shop/products(category=${pathVariable}, sorted_type=4)}">높은 가격순</a></li>
                 </ul>
             </div>
             <div class="prd_list_wrap">
                 <ul class="prd_list">
-                    <div th:each="product : ${products}">
-                        <li>
-                            <div class="thumb">
+                    <li th:each="product : ${products}">
+                        <div class="thumb">
+                            <a href="./product_details.html"
+                               th:href="@{/shop/products/details/{productId}(productId=${product.id})}">
+                                <img class="thumb1" th:src="|/productImages/${product.displayImage}|" alt="제품 이미지">
+                                <img class="thumb2" th:if="${product.hoverImage} != null"
+                                     th:src="|/productImages/${product.hoverImage}|" alt="제품 이미지">
+                            </a>
+                        </div>
+                        <div class="description">
+                            <div class="prd_name">
                                 <a href="./product_details.html"
                                    th:href="@{/shop/products/details/{productId}(productId=${product.id})}">
-                                    <img class="thumb1" th:src="|/productImages/${product.displayImage}|" alt="제품 이미지">
-                                    <img class="thumb2" th:if="${product.hoverImage} != null"
-                                         th:src="|/productImages/${product.hoverImage}|" alt="제품 이미지">
-                                </a>
+                                    <span th:text="${product.name}">Masking Tape01</span></a>
                             </div>
-                            <div class="description">
-                                <div class="prd_name">
-                                    <a href="./product_details.html"
-                                       th:href="@{/shop/products/details/{productId}(productId=${product.id})}">
-                                        <span th:text="${product.name}">Masking Tape01</span></a>
-                                </div>
-                                <ul class="prd_price">
-                                    <li class="original_price"
-                                          th:classappend="${product.isDiscounted} ? 'line_through'">[[${product.price}]]원</li>
-                                    <li th:if="${product.isDiscounted} and !${product.isSoldOut}" class="discount">
-                                        <span class="discount_rate">[[${product.discountPercent}]]%</span>
-                                        <span class="discounted_price">[[${product.salePrice}]]원</span>
-                                    </li>
-                                    <li th:if="${product.isSoldOut}" class="soldout">
-                                        <span class="sold_out">sold out</span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                    </div>
+                            <ul class="prd_price">
+                                <li class="original_price"
+                                    th:classappend="${product.isDiscounted} ? 'line_through'">[[${product.price}]]원
+                                </li>
+                                <li th:if="${product.isDiscounted} and !${product.isSoldOut}" class="discount">
+                                    <span class="discount_rate">[[${product.discountPercent}]]%</span>
+                                    <span class="discounted_price">[[${product.salePrice}]]원</span>
+                                </li>
+                                <li th:if="${product.isSoldOut}" class="soldout">
+                                    <span class="sold_out">sold out</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -85,24 +92,30 @@
     <div class="pagination" th:if="${products.totalPages} > 0">
         <ul>
             <li>
-                <a href="./product_list.html" th:href="@{/shop/products(category=${pathVariable}, sorted_type=${sortedCode})}" class="prev_first">
+                <a href="./product_list.html"
+                   th:href="@{/shop/products(category=${pathVariable}, sorted_type=${sortedCode})}" class="prev_first">
                     <span class="material-symbols-outlined">navigate_before</span>
                 </a>
             </li>
             <li>
-                <a href="./product_list.html" th:href="@{/shop/products(category=${pathVariable}, sorted_type=${sortedCode}, page=${products.number})}"
+                <a href="./product_list.html"
+                   th:href="@{/shop/products(category=${pathVariable}, sorted_type=${sortedCode}, page=${products.number})}"
                    class="prev" th:classappend="${!products.hasPrevious()} ? 'disabled'">Prev</a>
             </li>
             <li th:each="page : ${#numbers.sequence(1, products.totalPages)}">
-                <a href="./product_list.html" th:href="@{/shop/products(category=${pathVariable}, sorted_type=${sortedCode}, page=${page})}"
+                <a href="./product_list.html"
+                   th:href="@{/shop/products(category=${pathVariable}, sorted_type=${sortedCode}, page=${page})}"
                    th:text="${page}" class="page" th:classappend="${page == products.number + 1} ? 'active'"></a>
             </li>
             <li>
-                <a href="./product_list.html" th:href="@{/shop/products(category=${pathVariable}, sorted_type=${sortedCode}, page=${products.number} + 2)}"
+                <a href="./product_list.html"
+                   th:href="@{/shop/products(category=${pathVariable}, sorted_type=${sortedCode}, page=${products.number} + 2)}"
                    class="next" th:classappend="${!products.hasNext()} ? 'disabled'">Next</a>
             </li>
             <li>
-                <a href="./product_list.html" th:href="@{/shop/products(category=${pathVariable}, sorted_type=${sortedCode}, page=${products.totalPages})}" class="next_last">
+                <a href="./product_list.html"
+                   th:href="@{/shop/products(category=${pathVariable}, sorted_type=${sortedCode}, page=${products.totalPages})}"
+                   class="next_last">
                     <span class="material-symbols-outlined">navigate_next</span>
                 </a>
             </li>

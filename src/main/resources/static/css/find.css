@@ -165,7 +165,7 @@ form input::placeholder {
 }
 
 .find_wrap .user_info li p {
-    /*width: 70px;*/
+    width: 70px;
     text-align: start;
     margin: 7px 50px 7px 0;
 }
@@ -212,7 +212,7 @@ form input::placeholder {
      width: 100%;
  }
 #find_pw p {
-    width: 70px;
+    width: 80px;
     margin-right: 10px;
 }
 #find_pw .find_wrap #sendPwBtn {

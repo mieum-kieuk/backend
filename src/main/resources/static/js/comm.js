@@ -29,6 +29,14 @@ $(document).ready(function() {
             alert('검색어를 입력해 주세요.');
         }
     });
+    $('.search_btn2').click(function(event) {
+        var keyword = $('#search_complete input[type="text"]').val().trim();
+
+        if (keyword === '') {
+            event.preventDefault();
+            alert('검색어를 입력해 주세요.');
+        }
+    });
     $('.search button').click(function() {
         $('.search_popup').fadeIn();
     });
