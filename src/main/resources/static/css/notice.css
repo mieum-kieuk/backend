@@ -89,9 +89,10 @@
     justify-content: flex-end;
 }
 .notice_cont {
-    border-top: 1px solid #eee;
-    border-bottom: 1px solid #eee;
+    border-top: 1px solid #333;
+    border-bottom: 1px solid #333;
     padding: 10px;
+    min-height: 400px;
 }
 .notice_text {
     margin-bottom: 20px;
@@ -111,19 +112,10 @@
 .permission {
     text-align: center;
 }
-.page {
-    display: flex;
-    padding: 10px;
-    width: 100%;
-}
-.page ul {
-    width: 100%;
-    border-bottom: 1px solid #eee;
-}
-.page li{
-    display: flex;
-    padding: 10px;
-    border-top: 1px solid #eee;
+.id::after {
+    content: " |";
+    margin: 3px;
+    color: #999;
 }
 /*list*/
 #noticeList {
@@ -133,17 +125,16 @@
     width: 100%;
     min-height: calc( 100svh - 255px) ;
     margin-top: 150px;
-    font-size: 12px;
 }
 .notice_tit {
     display: block;
     text-align: center;
     font-size: 18px;
-    font-weight: 500;
+    font-weight: 400;
     margin-bottom: 20px;
 }
 .notice_table td {
-    padding: 10px;
+    padding: 20px 10px;
 }
 .notice_table {
     border-collapse: collapse;
@@ -182,6 +173,10 @@
     width: 100%;
     min-width: 100px;
     text-align: center;
+    padding: 10px;
+}
+#noticeList .notice_table .title_td {
+    min-width: 700px;
 }
 .notice_table td input {
     width: 100%;
@@ -199,12 +194,16 @@
     /*display: flex;*/
     padding: 10px;
     /*text-align: left;*/
-
 }
 .notice_table tbody .title {
     display: block;
     width: 100%;
     text-align: left;
+}
+.notice_foot {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
 }
 #noticeSearchForm {
     display: flex;
@@ -217,4 +216,18 @@
 }
 #noticeSearchForm .btn1{
     height: 30px;
+}
+#noticeList .btn_wrap {
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+.btn_wrap .write_btn {
+    width: 100px;
+    height: 30px;
+    background: #222;
+    color: #fff;
+}
+.field-error {
+    text-align: left;
+    margin-top: 3px;
 }

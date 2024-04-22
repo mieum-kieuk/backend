@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>공지 | Tickers</title>
+    <title>공지 | 미음키읔</title>
 
     <meta property="og:type" content="website"/>
     <meta property="og:title" content="Tickers"/>
@@ -12,7 +12,8 @@
     <meta property="og:url" content=""/>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
@@ -43,19 +44,22 @@
             </div>
             <div class="btn_wrap details right">
                 <button type="button" class="btn1" onclick="location.href = './edit_notice.html'"
-                        th:onclick="|location.href='@{/notices/{noticeId}/edit(noticeId=${notice.id})}'|"
+                        th:onclick="|location.href='@{/community/notice/{noticeId}/edit(noticeId=${notice.id})}'|"
                         sec:authorize="hasRole('ROLE_ADMIN')">수정
                 </button>
                 <button type="button" class="btn1" onclick="location.href = './notice_list.html'"
-                        th:onclick="|location.href='@{/notices/{noticeId}/delete(noticeId=${notice.id})}'|"
+                        th:onclick="|location.href='@{/community/notice/{noticeId}/delete(noticeId=${notice.id})}'|"
                         sec:authorize="hasRole('ROLE_ADMIN')">삭제
                 </button>
                 <button type="button" class="btn1" onclick="location.href = './notice_list.html'"
-                        th:onclick="|location.href='@{/notices}'|">목록
+                        th:onclick="|location.href='@{/community/notice}'|">목록
                 </button>
             </div>
         </div>
     </div>
     <div th:replace="~{/layout/footer :: basic_footer}"></div>
 </div>
+<script>
+
+</script>
 </body>

@@ -1,6 +1,6 @@
 package archivegarden.shop.dto.community.notice;
 
-import archivegarden.shop.entity.Notice;
+import archivegarden.shop.entity.Board;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,11 +16,11 @@ public class NoticeDetailsDto {
     private String writer;
     private String createdAt;
 
-    public NoticeDetailsDto(Notice notice) {
-        this.id = notice.getId();
-        this.title = notice.getTitle();
-        this.content = notice.getContent();
-        this.writer = notice.getMember().getName();
-        this.createdAt = DateTimeFormatter.ofPattern("yyyy.MM.dd").format(notice.getCreatedAt());
+    public NoticeDetailsDto(Board board) {
+        this.id = board.getId();
+        this.title = board.getTitle();
+        this.content = board.getContent();
+        this.writer = board.getMember().getName();
+        this.createdAt = DateTimeFormatter.ofPattern("yyyy.MM.dd").format(board.getCreatedAt());
     }
 }

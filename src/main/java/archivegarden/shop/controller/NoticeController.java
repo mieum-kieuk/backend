@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping("/notices")
+@RequestMapping("/community/notice")
 @RequiredArgsConstructor
 public class NoticeController {
 
@@ -28,7 +28,7 @@ public class NoticeController {
 
     @GetMapping
     public String notices(@RequestParam(name = "page", defaultValue = "1") int page, Model model) {
-        PageRequest pageRequest = PageRequest.of(page - 1, 12, Sort.by("id"));
+        PageRequest pageRequest = PageRequest.of(page - 1, 10);
         Page<NoticeListDto> noticeDtos = noticeService.getNotices(pageRequest);
         model.addAttribute("notices", noticeDtos);
         return "community/notice/notice_list";
@@ -50,7 +50,7 @@ public class NoticeController {
 
         Long noticeId = noticeService.saveNotice(form, loginMember);
         redirectAttributes.addAttribute("noticeId", noticeId);
-        return "redirect:/notices/{noticeId}";
+        return "redirect:/community/notice/{noticeId}";
     }
 
     @GetMapping("/{noticeId}")
@@ -70,19 +70,19 @@ public class NoticeController {
 
     @PostMapping("/{noticeId}/edit")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public String editNotice(@ModelAttribute("notice") EditNoticeForm form, BindingResult bindingResult, @PathVariable("noticeId") Long noticeId) {
+    public String editNotice(@Valid @ModelAttribute("notice") EditNoticeForm form, BindingResult bindingResult, @PathVariable("noticeId") Long noticeId) {
         if (bindingResult.hasErrors()) {
             return "community/notice/edit_notice";
         }
 
         noticeService.editNotice(noticeId, form);
-        return "redirect:/notices/{noticeId}";
+        return "redirect:/community/notice/{noticeId}";
     }
 
     @GetMapping("/{noticeId}/delete")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String deleteNotice(@PathVariable("noticeId") Long noticeId) {
         noticeService.deleteNotice(noticeId);
-        return "redirect:/notices";
+        return "redirect:/community/notice";
     }
 }

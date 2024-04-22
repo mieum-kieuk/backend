@@ -4,10 +4,11 @@ import archivegarden.shop.dto.community.notice.AddNoticeForm;
 import archivegarden.shop.dto.community.notice.EditNoticeForm;
 import archivegarden.shop.dto.community.notice.NoticeDetailsDto;
 import archivegarden.shop.dto.community.notice.NoticeListDto;
+import archivegarden.shop.entity.Board;
 import archivegarden.shop.entity.Member;
 import archivegarden.shop.entity.Notice;
-import archivegarden.shop.exception.NoSuchNoticeException;
-import archivegarden.shop.repository.community.NoticeRepository;
+import archivegarden.shop.exception.NoSuchBoardException;
+import archivegarden.shop.repository.community.BoardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,80 +20,85 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class NoticeService {
 
-    private final NoticeRepository noticeRepository;
+    private final BoardRepository boardRepository;
 
     /**
      * 공지사항 저장
      */
     public Long saveNotice(AddNoticeForm form, Member member) {
         //엔티티 생성
-        Notice notice = Notice.createNotice(form, member);
+        Board board = Notice.builder()
+                .form(form)
+                .member(member)
+                .build();
 
         //공지사항 저장
-        noticeRepository.save(notice);
+        boardRepository.save(board);
 
-        return notice.getId();
+        return board.getId();
     }
 
     /**
      * 공지사항 단건 조회
      *
      * @return NoticeDetailsDto
-     * @throws NoSuchNoticeException
+     * @throws NoSuchBoardException
      */
     public NoticeDetailsDto getNotice(Long noticeId) {
         //공지사항 조회
-        Notice notice = noticeRepository.findById(noticeId).orElseThrow(() -> new NoSuchNoticeException("존재하지 않는 공지사항 입니다."));
+        Board board = boardRepository.findByIdWithMember(noticeId).orElseThrow(() -> new NoSuchBoardException("존재하지 않는 공지사항 입니다."));
 
         //조회수 증가
-        notice.addHit();
+        board.addHit();
 
-        return new NoticeDetailsDto(notice);
+        return new NoticeDetailsDto(board);
     }
 
     /**
      * 공지사항 목록 조회 + 페이지네이션
      */
+    @Transactional(readOnly = true)
     public Page<NoticeListDto> getNotices(Pageable pageable) {
-        return noticeRepository.findAll(pageable).map(n -> new NoticeListDto(n));
+        return boardRepository.findNoticeAll(pageable).map(n -> new NoticeListDto(n));
     }
 
     /**
      * 공지사항 단건 삭제
      *
-     * @throws NoSuchNoticeException
+     * @throws NoSuchBoardException
      */
     public void deleteNotice(Long noticeId) {
         //엔티티 조회
-        Notice notice = noticeRepository.findById(noticeId).orElseThrow(() -> new NoSuchNoticeException("존재하지 않는 공지사항 입니다."));
+        Board board = boardRepository.findById(noticeId).orElseThrow(() -> new NoSuchBoardException("존재하지 않는 공지사항 입니다."));
 
         //공지사항 삭제
-        noticeRepository.delete(notice);
+        boardRepository.delete(board);
     }
 
     /**
      * 공지사항 수정 폼 조회
      *
      * @return EditNoticeForm
-     * @throws NoSuchNoticeException
+     * @throws NoSuchBoardException
      */
+    @Transactional(readOnly = true)
     public EditNoticeForm getEditNoticeForm(Long noticeId) {
         //공지사항 조회
-        Notice notice = noticeRepository.findById(noticeId).orElseThrow(() -> new NoSuchNoticeException("존재하지 않는 공지사항입니다."));
+        Board board = boardRepository.findById(noticeId).orElseThrow(() -> new NoSuchBoardException("존재하지 않는 공지사항입니다."));
 
-        return new EditNoticeForm(notice);
+        return new EditNoticeForm(board);
     }
 
     /**
      * 공지사항 수정
      *
-     * @throws NoSuchNoticeException
+     * @throws NoSuchBoardException
      */
-     public void editNotice(Long noticeId, EditNoticeForm form) {
-         //엔티티 조회
-         Notice notice = noticeRepository.findById(noticeId).orElseThrow(() -> new NoSuchNoticeException("존재하지 않는 공지사항입니다."));
+    public void editNotice(Long noticeId, EditNoticeForm form) {
+        //엔티티 조회
+        Board board = boardRepository.findById(noticeId).orElseThrow(() -> new NoSuchBoardException("존재하지 않는 공지사항입니다."));
 
-         //공지사항 수정
-         notice.update(form.getTitle(), form.getContent());
-     }
+        //공지사항 수정
+        board.update(form.getTitle(), form.getContent());
+    }
 }

@@ -1,6 +1,6 @@
 package archivegarden.shop.dto.community.notice;
 
-import archivegarden.shop.entity.Notice;
+import archivegarden.shop.entity.Board;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,9 +19,9 @@ public class EditNoticeForm {
     @NotBlank(message = "내용을 입력해 주세요.")
     private String content;
 
-    public EditNoticeForm(Notice notice) {
-        this.id = notice.getId();
-        this.title = notice.getTitle();
-        this.content = notice.getContent();
+    public EditNoticeForm(Board board) {
+        this.id = board.getId();
+        this.title = board.getTitle();
+        this.content = board.getContent();
     }
 }

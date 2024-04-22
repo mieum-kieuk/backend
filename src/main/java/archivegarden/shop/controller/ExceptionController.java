@@ -1,8 +1,8 @@
 package archivegarden.shop.controller;
 
+import archivegarden.shop.exception.NoSuchBoardException;
 import archivegarden.shop.exception.NoSuchDiscountException;
 import archivegarden.shop.exception.NoSuchMemberException;
-import archivegarden.shop.exception.NoSuchNoticeException;
 import archivegarden.shop.exception.NoSuchProductException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -27,8 +27,8 @@ public class ExceptionController {
         return "error/no_such_member_exception";
     }
 
-    @ExceptionHandler(NoSuchNoticeException.class)
-    public String noSuchNoticeException(NoSuchNoticeException e) {
-        return "error/no_such_notice_exception";
+    @ExceptionHandler(NoSuchBoardException.class)
+    public String noSuchNoticeException(NoSuchBoardException e) {
+        return "error/no_such_board_exception";
     }
 }
