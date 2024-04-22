@@ -11,24 +11,38 @@ $(document).ready(function() {
             $('#password').prop('required', false);
         }
     });
-    $('#submitBtn').click(function () {
 
+    $('#submitBtn').click(function () {
         if (!validateBeforeSubmit()) {
             return false;
         } else {
             $('#addQnaForm').submit();
         }
     });
+
     $('#qnaPw .submit_btn').click(function(event) {
         var password = $('#password').val().trim();
-
         if (password === '') {
-            event.preventDefault();
             alert('비밀번호를 입력해 주세요.');
+            return false;
         }
     });
+
+    $('input[type="file"]').on('click', function(event) {
+        var currentInput = $(this);
+        var currentIndex = parseInt(currentInput.attr('id').replace('image', ''));
+
+        for (var i = 1; i < currentIndex; i++) {
+            var previousInput = $('#image' + i);
+            if (previousInput.val() === '') {
+                alert('첨부 파일' + i + '을(를) 먼저 선택해 주세요.');
+                event.preventDefault();
+                return;
+            }
+        }
+    });
+
     function validateBeforeSubmit() {
-        // let titleValue = $('#title').val().trim();
         let contentValue = $('#content').val().trim();
 
         if (contentValue === '') {
@@ -55,11 +69,13 @@ $(document).ready(function() {
                 }
             }
         }
+
         let isSecret = $('input[name="isSecret"]:checked').val();
         if (isSecret === 'true') {
             let password = $('#password').val();
             if (password === '') {
                 alert('비밀번호를 입력해 주세요.');
+                return false;
             }
         }
         return true;

@@ -31,12 +31,7 @@
             <form id="popupSearchForm" name="" action="/product/search_board_list.html" method="get" target="_self" >
                 <fieldset>
                     <legend>상품검색</legend>
-                    <select id="search_type" name="search_type" >
-                        <option value="prd_name">상품명</option>
-                        <option value="prd_code">상품코드</option>
-                        <option value="prd_brand">브랜드명</option>
-                    </select>
-                    <input id="keyword" name="keyword" class="keyword" placeholder="" size="15" value="" type="text">
+                    <input id="keyword" name="keyword" class="keyword" placeholder="상품명을 입력해 주세요." value="" type="text" maxlength="50">
                     <div class="btn_wrap">
                         <button type="submit" id="prdSearchBtn" class="btn1">검색</button>
                     </div>

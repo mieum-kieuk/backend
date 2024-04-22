@@ -173,7 +173,7 @@
     width: 100%;
     min-width: 100px;
     text-align: center;
-    padding: 10px;
+    padding: 20px 10px;
 }
 #noticeList .notice_table .title_td {
     min-width: 700px;

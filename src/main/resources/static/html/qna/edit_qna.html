@@ -159,16 +159,15 @@
                         <th><label>비밀글 여부</label></th>
                         <td class="isSecret_cell">
                             <div class="isSecret public">
-                                <input id="public" name="isSecret" value="false" type="radio" checked="checked"><label for="public">공개글</label>
+                                <input id="public" name="isSecret" value="false" type="radio" checked="checked" disabled><label for="public">공개글</label>
                             </div>
                             <div class="isSecret secret">
-                                <input id="secret" name="isSecret" value="true" type="radio"><label for="secret">비밀글</label>
+                                <input id="secret" name="isSecret" value="true" type="radio" disabled><label for="secret">비밀글</label>
                             </div>
                         </td>
                     </tr>
                 </table>
                 <div class="btn_wrap">
-                    <button type="button" class="btn1 delete_btn">삭제</button>
                     <button type="button" class="btn1" onclick="location.href = './qna_list.html'">취소</button>
                     <button type="submit" id="submitBtn" class="btn1 submit_btn">완료</button>
                 </div>

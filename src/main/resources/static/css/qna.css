@@ -12,18 +12,23 @@
 }
 #popupSearchForm fieldset {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    gap: 10px;
 }
 #popupSearchForm fieldset select,#popupSearchForm fieldset input {
     padding: 10px;
     margin-bottom: 10px;
+    width: 100%;
+    height: 38px;
 }
 #popupSearchForm fieldset .btn_wrap {
     display: flex;
     justify-content: center;
+    width: auto;
 }
 #popupSearchForm fieldset .btn_wrap .btn1{
     width: 100px;
+    height: 38px;
 }
 #popupSearchForm .result {
     display: flex;
@@ -62,10 +67,12 @@
     margin: 0;
 }
 .popup_btn {
-    margin-left: 20px;
     padding: 5px 10px;
     border: 1px solid #222;
     border-radius: 2px;
+}
+.popup .pagination li a {
+    border: none;
 }
 #qna {
     display: flex;
@@ -242,6 +249,10 @@
     font-size: 13px;
     font-weight: 500;
 }
+.comment {
+    border-bottom: 1px solid #eee;
+    margin-bottom: 10px;
+}
 .cmt_info {
     display: flex;
     margin-top: 20px;
@@ -256,6 +267,29 @@
 }
 .cmt_content {
     margin: 10px 0;
+}
+.cmt_input {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: 10px;
+    border: 1px solid #999;
+    border-collapse: collapse;
+}
+.cmt_input textarea{
+    width: 100%;
+    height: 80px;
+    resize: vertical;
+    border: none;
+}
+.cmt_input .btn1{
+    position: absolute;
+    /*bottom: -32px;*/
+    right: 0;
+    bottom: 0;
+    width: 60px;
+    border: none;
 }
 .permission {
     text-align: center;
@@ -314,7 +348,6 @@
 .qna_head {
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
     margin-bottom: 20px;
     /*border-bottom: 1px solid #999;*/
 }
@@ -328,9 +361,6 @@
     height: 30px;
     background: #222;
     color: #fff;
-}
-.qna_table td {
-    padding: 10px;
 }
 .qna_table {
     border-collapse: collapse;
@@ -380,12 +410,6 @@
     height: 450px;
     resize: vertical;
 }
-.qna_table th, .qna_table td {
-    /*display: flex;*/
-    padding: 10px;
-    /*text-align: left;*/
-
-}
 .qna_table tbody .title_td {
     /*min-width: 690px;*/
     min-width: 600px;
@@ -427,4 +451,46 @@
 }
 .qna_wrap.list .pagination li a {
     border: none;
+}
+#product .review_wrap .review_head {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+#product .review_wrap .review_title {
+    text-align: left;
+    width: auto ;
+}
+#product .review_wrap .btn_wrap {
+    justify-content: flex-end;
+    text-align: left;
+    width: auto ;
+}
+#product .review_wrap .review_items {
+    border-bottom: 1px solid #d7d7d7;
+}
+#product .review_wrap .review_items li {
+    border-top: 1px solid #d7d7d7;
+}
+#product .qna_wrap .qna_head {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+#product .qna_wrap .qna_title {
+    text-align: left;
+    width: auto ;
+}
+#product .qna_wrap .btn_wrap {
+    justify-content: flex-end;
+    text-align: left;
+    width: auto ;
+}
+#product .qna_wrap .qna_list {
+    border-bottom: 1px solid #d7d7d7;
+}
+#product .qna_wrap .qna_list li {
+    border-top: 1px solid #d7d7d7;
 }
