@@ -1,9 +1,7 @@
 package archivegarden.shop.repository.shop;
 
 import archivegarden.shop.dto.shop.product.ProductSearchCondition;
-import archivegarden.shop.entity.Category;
-import archivegarden.shop.entity.Product;
-import archivegarden.shop.entity.SortedType;
+import archivegarden.shop.entity.*;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -19,6 +17,7 @@ import java.util.List;
 
 import static archivegarden.shop.entity.QDiscount.discount;
 import static archivegarden.shop.entity.QProduct.product;
+import static archivegarden.shop.entity.QProductImage.productImage;
 import static org.springframework.util.StringUtils.hasText;
 
 public class ProductRepositoryImpl implements ProductRepositoryCustom {
@@ -42,7 +41,6 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 
     @Override
     public Page<Product> findAllByCategory(ProductSearchCondition condition, Pageable pageable) {
-
         List<Product> content = queryFactory
                 .selectFrom(product)
                 .leftJoin(product.discount, discount).fetchJoin()
@@ -66,6 +64,25 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
         return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
     }
 
+    @Override
+    public Page<Product> findAllPopup(Pageable pageable, String keyword) {
+        List<Product> content = queryFactory
+                .selectFrom(product)
+                .leftJoin(product.images, productImage)
+                .on(product.id.eq(productImage.product.id), productImage.imageType.eq(ImageType.DISPLAY))
+                .where(keywordLike(keyword))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        JPAQuery<Long> countQuery = queryFactory
+                .select(product.count())
+                .from(product)
+                .where(keywordLike(keyword));
+
+        return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
+    }
+
     /**
      * OrderSpecifier 리스트 객체 생성
      */
@@ -73,7 +90,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 
         List<OrderSpecifier> orderSpecifiers = new ArrayList<>();
 
-        if(sortedType != null) {
+        if (sortedType != null) {
             switch (sortedType) {
                 case NEW:
                     orderSpecifiers.add(new OrderSpecifier<>(Order.ASC, product.createdAt));
@@ -94,11 +111,11 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
         return orderSpecifiers;
     }
 
-        private BooleanExpression keywordLike (String keyword){
-            return hasText(keyword) ? product.name.contains(keyword) : null;
-        }
-
-        private BooleanExpression categoryEq (Category category){
-            return category != null ? product.category.eq(category) : null;
-        }
+    private BooleanExpression keywordLike(String keyword) {
+        return hasText(keyword) ? product.name.contains(keyword) : null;
     }
+
+    private BooleanExpression categoryEq(Category category) {
+        return category != null ? product.category.eq(category) : null;
+    }
+}

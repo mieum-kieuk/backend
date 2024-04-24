@@ -318,20 +318,6 @@
 .permission {
     text-align: center;
 }
-.page {
-    display: flex;
-    padding: 10px;
-    width: 100%;
-}
-.page ul {
-    width: 100%;
-    border-bottom: 1px solid #eee;
-}
-.page li{
-    display: flex;
-    padding: 10px;
-    border-top: 1px solid #eee;
-}
 /*pw*/
 .qna_wrap.pw {
     width: 100%;
@@ -517,4 +503,11 @@
 }
 #product .qna_wrap .qna_list li {
     border-top: 1px solid #d7d7d7;
+}
+#product_info_o {
+    display: none;
+}
+.field-error {
+    text-align: left;
+    margin-top: 3px;
 }

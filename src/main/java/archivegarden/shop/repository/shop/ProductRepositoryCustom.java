@@ -12,4 +12,6 @@ public interface ProductRepositoryCustom {
     List<Product> findLatestProducts();
 
     Page<Product> findAllByCategory(ProductSearchCondition condition, Pageable pageable);
+
+    Page<Product> findAllPopup(Pageable pageable, String keyword);
 }

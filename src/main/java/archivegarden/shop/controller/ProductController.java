@@ -1,14 +1,20 @@
 package archivegarden.shop.controller;
 
+import archivegarden.shop.dto.community.qna.QnaPopupDto;
+import archivegarden.shop.dto.community.qna.QnaPopupSearchCondition;
 import archivegarden.shop.dto.shop.product.ProductDetailsDto;
 import archivegarden.shop.dto.shop.product.ProductListDto;
 import archivegarden.shop.dto.shop.product.ProductSearchCondition;
 import archivegarden.shop.service.product.ProductService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -38,5 +44,19 @@ public class ProductController {
         ProductDetailsDto productDto = productService.getProduct(productId);
         model.addAttribute("product", productDto);
         return "shop/product_details";
+    }
+
+    @GetMapping("/search")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public String searchPopupProducts(@ModelAttribute("condition") QnaPopupSearchCondition condition, Model model) {
+        if (condition.getKeyword() != null) {
+            PageRequest pageRequest = PageRequest.of(condition.getPage() - 1, condition.getLimit());
+            Page<QnaPopupDto> qnaPopupDtos = productService.getPopupProducts(pageRequest, condition.getKeyword());
+            model.addAttribute("products", qnaPopupDtos);
+        } else {
+            model.addAttribute("products", null);
+        }
+
+        return "community/qna/qna_popup";
     }
 }

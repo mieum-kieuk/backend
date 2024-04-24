@@ -1,5 +1,6 @@
 package archivegarden.shop.service.product;
 
+import archivegarden.shop.dto.community.qna.QnaPopupDto;
 import archivegarden.shop.dto.shop.product.ProductDetailsDto;
 import archivegarden.shop.dto.shop.product.ProductListDto;
 import archivegarden.shop.dto.shop.product.ProductSearchCondition;
@@ -48,5 +49,13 @@ public class ProductService {
         Product product = productRepository.findById(productId).orElseThrow(() -> new NoSuchProductException("존재하지 않는 상품입니다."));
 
         return new ProductDetailsDto(product);
+    }
+
+    /**
+     * 팝업창
+     * 상품 목록 조회 + 페이지네이션
+     */
+    public Page<QnaPopupDto> getPopupProducts(Pageable pageable, String keyword) {
+        return productRepository.findAllPopup(pageable, keyword).map(QnaPopupDto::new);
     }
 }
