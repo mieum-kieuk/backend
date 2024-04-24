@@ -92,31 +92,34 @@
             <form id="addQnaForm" action="#" method="post" novalidate>
                 <table class="qna_table">
                     <tr>
-                        <th>
-                            <div id="qnaItem">
+                        <th colspan="2">
+                            <div id="qnaItem" class="qna_item">
+                                <div class="item_wrap">
                                 <div class="thumbnail">
-                                    <a href=""><img id="qnaItemImg" class="item_img" src="../../images/img_no.png" alt="상품 이미지"></a>
+                                    <a href=""><img id="productImg" class="item_img" src="../../images/img_no.png" alt="상품 이미지"></a>
                                 </div>
                                 <div class="description">
-                                    <a href=""><span id="qnaItemName"></span></a>
-                                    <a href=""><span id="qnaItemPrice"></span></a>
+                                    <a href=""><span id="productName" class="item_name"></span></a>
+                                    <a href=""><span id="productPrice" class="item_price"></span></a>
+                                <div class="btn_wrap">
+                                <button type="button" class="popup_btn info">상품 상세 정보</button>
+                                <button type="button" id="popupBtn" class="popup_btn">상품 선택</button>
+                                </div>
+                                </div>
                                 </div>
                             </div>
                         </th>
-                        <td>
-                            <button type="button" class="popup_btn" onclick="window.open('qna_popup.html', '_blank', 'width=600,height=450')">상품 선택</button>
-                        </td>
                     </tr>
                     <tr>
                         <th>
-                            <label for="qna_category">제목</label>
+                            <label for="qnaType">제목</label>
                         </th>
                         <td>
-                            <select id="qna_category" name="qna_category">
-                                <option value="1">상품 및 기타 문의</option>
-                                <option value="2">배송 전 취소 및 변경</option>
-                                <option value="3">배송 후 반품</option>
-                                <option value="4">적립금 문의 / 리뷰 </option>
+                            <select id="qnaType" name="qnaType">
+                                <option value="0">상품 및 기타 문의</option>
+                                <option value="1">배송 전 취소 및 변경</option>
+                                <option value="2">배송 후 반품</option>
+                                <option value="3">적립금 문의 / 리뷰 </option>
                             </select>
                         </td>
                     </tr>

@@ -1,5 +1,28 @@
 $(document).ready(function() {
 
+    $('#popupBtn').click(function() {
+        window.open("./qna_popup.html", "", "width=600px,height=450px");
+    });
+
+    $('.btn1.select').click(function() {
+
+        var productName = $('#prd_name').text();
+        var productPrice = $('#prd_price').text();
+        var productImg = '';
+
+        window.opener.selectProduct(productName, productPrice, productImg);
+
+        window.close();
+    });
+
+    window.selectProduct = function(productName, productPrice, productImg) {
+        $('#productName').text(productName);
+        $('#productPrice').text(productPrice);
+        $('#productImg').attr('src', productImg);
+
+        $('.btn_wrap .popup_btn.info').show();
+    };
+
     $('#secret').change(function() {
         if ($(this).is(':checked')) {
             $('#password').prop('required', true);

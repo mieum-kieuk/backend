@@ -53,6 +53,16 @@
 .search_result .result_table td {
     border-bottom: 1px solid #d7d7d7;
 }
+.search_result .result_table .prd_info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 20px 10px;
+}
+.search_result .result_table #prd_price {
+    font-weight: 600;
+}
 .search_result .result_table .btn1{
     width: 60px;
 }
@@ -70,6 +80,9 @@
     padding: 5px 10px;
     border: 1px solid #222;
     border-radius: 2px;
+}
+.popup_btn.info {
+    display: none;
 }
 .popup .pagination li a {
     border: none;
@@ -97,11 +110,21 @@
     margin-bottom: 20px;
     width: 100%;
 }
+.item_wrap {
+    display: flex;
+}
 .item_img {
     display: block;
     width: 80px;
     height: 80px;
     object-fit: cover;
+}
+.qna_item .item_wrap .description .item_name {
+    display: flex;
+    padding: 0 10px 5px 10px;
+}
+.qna_item .item_wrap .description .btn_wrap {
+    padding: 10px;
 }
 .qna_table {
     border-collapse: collapse;
@@ -190,6 +213,7 @@
 .qna_item .description {
     display: flex;
     flex-direction: column;
+    justify-content: center;
 }
 .qna_item .description .item_name {
     display: block;
