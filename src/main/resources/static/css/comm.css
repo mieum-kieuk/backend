@@ -154,6 +154,11 @@ input:-webkit-autofill:active {
   font-style: normal;
   unicode-range: U+0041-005A ,U+0061-007A ;
 }
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-weight: 300;
+  line-height: 25px;
+}
 /* mobile */
 body {
   font-size: 14px;
@@ -331,13 +336,11 @@ legend {
 .logo {
   display: flex;
   /*justify-content: center;*/
-
 }
 .logo img {
-  height: 28px;
+  width: 28px;
   object-fit: cover;
 }
-
 .gnb_menu {
   display: flex;
   font-size: 18px;
@@ -403,7 +406,7 @@ legend {
   position: relative;
   padding: 0 40px;
 }
-.depth2 {
+.gnb_menu .depth2 {
   position: absolute;
   top: 100%;
   left: 0;
@@ -422,10 +425,10 @@ legend {
 .gnb_menu .search button:hover {
   color: #999;
 }
-.depth2 li {
+.gnb_menu .depth2 li {
   padding-bottom: 5px;
 }
-.depth2 li :hover {
+.gnb_menu .depth2 li :hover {
   color: #999;
 }
 .gnb_menu li {
