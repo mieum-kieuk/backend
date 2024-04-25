@@ -33,6 +33,8 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
         return queryFactory
                 .selectFrom(product)
                 .leftJoin(product.discount, discount).fetchJoin()
+                .leftJoin(product.images, productImage).fetchJoin()
+                .where(productImage.imageType.ne(ImageType.DETAILS))
                 .orderBy(product.createdAt.desc())
                 .offset(0)
                 .limit(9)
