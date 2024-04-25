@@ -24,7 +24,7 @@
     <link rel="stylesheet" href="../../static/css/comm.css" th:href="@{/css/comm.css}"/>
     <link rel="stylesheet" href="../../static/css/product_list.css" th:href="@{/css/product_list.css}"/>
     <script defer src="../../static/js/comm.js" th:src="@{/js/comm.js}"></script>
-<!--    <script defer src="../../static/js/product.js" th:src="@{/js/product.js}"></script>-->
+    <script defer src="../../static/js/product.js" th:src="@{/js/product.js}"></script>
 </head>
 <body>
 <div class="wrap">
@@ -33,24 +33,23 @@
         <div class="content">
             <div class="prd_category">
                 <ul class="category_tit">
-                    <li><a href="./product_list.html" th:href="@{/shop/products}" class="all">All</a></li>
-                    <li><a href="./product_list.html" th:href="@{/shop/products(category='masking-tape')}" class="">Masking
-                        tape</a></li>
-                    <li><a href="./product_list.html" th:href="@{/shop/products(category='sticker')}">Sticker</a></li>
-                    <li><a href="./product_list.html" th:href="@{/shop/products(category='memo')}">Memo</a></li>
+                    <li><a href="./product_list.html" th:href="@{/shop/products}" id="all">All</a></li>
+                    <li><a href="./product_list.html" th:href="@{/shop/products(category='masking-tape')}" id="maskingTape">Masking tape</a></li>
+                    <li><a href="./product_list.html" th:href="@{/shop/products(category='sticker')}" id="sticker">Sticker</a></li>
+                    <li><a href="./product_list.html" th:href="@{/shop/products(category='memo')}" id="memo">Memo</a></li>
                 </ul>
             </div>
             <div class="prd_sort">
                 <ul class="sort_tit">
-                    <li><a href="./product_list.html"
+                    <li id="sortedType0"><a href="./product_list.html"
                            th:href="@{/shop/products(category=${pathVariable}, sorted_type=0)}">신상품순</a></li>
-                    <li><a href="./product_list.html"
+                    <li id="sortedType1"><a href="./product_list.html"
                            th:href="@{/shop/products(category=${pathVariable}, sorted_type=1)}">판매량순</a></li>
-                    <li><a href="./product_list.html"
+                    <li id="sortedType2"><a href="./product_list.html"
                            th:href="@{/shop/products(category=${pathVariable}, sorted_type=2)}">가나다순</a></li>
-                    <li><a href="./product_list.html"
+                    <li id="sortedType3"><a href="./product_list.html"
                            th:href="@{/shop/products(category=${pathVariable}, sorted_type=3)}">낮은 가격순</a></li>
-                    <li><a href="./product_list.html"
+                    <li id="sortedType4"><a href="./product_list.html"
                            th:href="@{/shop/products(category=${pathVariable}, sorted_type=4)}">높은 가격순</a></li>
                 </ul>
             </div>
