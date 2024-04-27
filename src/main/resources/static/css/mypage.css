@@ -11,9 +11,9 @@
     flex-direction: column;
     height: 360px;
     width: 200px;
-    position: fixed;
-    top: 150px;
-    left: 200px;
+    position: absolute;
+    top: 0px;
+    left: 0px;
     text-align: left;
     padding: 20px;
 }
@@ -190,3 +190,163 @@ h3 {
 /*    width: 100%;*/
 /*    padding: 0 20px;*/
 /*}*/
+
+/*address*/
+#addressList {
+    display: flex;
+    flex-wrap: wrap;
+    width:  100%;
+    margin-left: 200px;
+}
+.address_head {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #666;
+    color: #999;
+}
+.address_head h3 {
+    text-align: center;
+    font-size: 16px;
+    color: #333;
+    font-weight: 500;
+}
+.address_content {
+    margin-bottom: 20px;
+}
+.address_item  {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    border-bottom: 1px solid #999;
+}
+.address_wrap .item {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    padding: 20px 10px;
+}
+.address_wrap .title, .address_wrap .name  {
+    display: inline-block;
+    width: 10%;
+}
+.address_wrap .phone {
+    display: inline-block;
+    width: 20%;
+}
+.address_wrap .adr {
+    display: inline-block;
+    width: 50%;
+}
+.address_wrap .btn {
+    display: inline-block;
+    width: 10%;
+}
+.address_item .adr {
+    text-align: left;
+}
+.btn .btn_wrap {
+    display: flex;
+    justify-content: center;
+}
+.btn .btn1 {
+    width: 60px;
+}
+.address_foot .btn_wrap {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+.address_foot .btn1 {
+    width: 120px;
+}
+/*wish*/
+#wishList {
+    display: flex;
+    flex-wrap: wrap;
+    width:  100%;
+    margin-left: 200px;
+}
+.wish_head {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #666;
+    color: #999;
+}
+.wish_wrap h3 {
+    text-align: center;
+    font-size: 16px;
+    color: #333;
+    font-weight: 500;
+}
+.wish_content {
+    margin-bottom: 20px;
+}
+.wish_item  {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    border: 1px solid #999;
+    border-right: none;
+    border-left: none;
+}
+.wish_wrap .item {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    padding: 20px 10px;
+}
+.wish_wrap .img img{
+    display: block;
+    width: 80px;
+    height: 80px;
+}
+.wish_wrap .info{
+    display: inline-block;
+    width: 70%;
+    text-align: left;
+}
+.wish_wrap .wish_item .info{
+    text-align: left;
+}
+.wish_item .info .name {
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+.wish_item .info .remove_btn {
+    font-size: 12px;
+    color: #999;
+}
+.wish_item .btn_wrap {
+    position: absolute;
+    display: flex;
+    gap: 10px;
+    bottom: 10px;
+    right: 0;
+}
+.wish_item .btn_wrap .btn1 {
+    width: 120px;
+}
+.wish_wrap .price{
+    display: inline-block;
+    width: 20%;
+}
+.wish_foot .btn_wrap {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+.wish_foot .btn1 {
+    width: 120px;
+}
+.wish_foot #orderAllBtn {
+    margin-top: 10px;
+    width: 250px;
+}
+.add_cart .btn_wrap .btn1 {
+    width: 120px;
+}
