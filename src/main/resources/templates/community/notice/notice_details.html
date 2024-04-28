@@ -20,6 +20,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="../../../static/css/comm.css" th:href="@{/css/comm.css}">
     <link rel="stylesheet" href="../../../static/css/notice.css" th:href="@{/css/notice.css}">
+    <script defer src="../../../static/js/notice.js" th:src="@{/js/notice.js}"></script>
     <script defer src="../../../static/js/comm.js" th:src="@{/js/comm.js}"></script>
 </head>
 <body>
@@ -47,8 +48,8 @@
                         th:onclick="|location.href='@{/community/notice/{noticeId}/edit(noticeId=${notice.id})}'|"
                         sec:authorize="hasRole('ROLE_ADMIN')">수정
                 </button>
-                <button type="button" class="btn1" onclick="location.href = './notice_list.html'"
-                        th:onclick="|location.href='@{/community/notice/{noticeId}/delete(noticeId=${notice.id})}'|"
+                <button type="button" class="btn1 delete_btn" onclick="location.href = './notice_list.html'"
+                        th:onclick="|deleteOk(${notice.id})|"
                         sec:authorize="hasRole('ROLE_ADMIN')">삭제
                 </button>
                 <button type="button" class="btn1" onclick="location.href = './notice_list.html'"

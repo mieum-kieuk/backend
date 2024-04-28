@@ -1,9 +1,6 @@
 package archivegarden.shop.controller;
 
-import archivegarden.shop.dto.community.notice.AddNoticeForm;
-import archivegarden.shop.dto.community.notice.EditNoticeForm;
-import archivegarden.shop.dto.community.notice.NoticeDetailsDto;
-import archivegarden.shop.dto.community.notice.NoticeListDto;
+import archivegarden.shop.dto.community.notice.*;
 import archivegarden.shop.entity.Member;
 import archivegarden.shop.service.community.NoticeService;
 import archivegarden.shop.web.annotation.CurrentUser;
@@ -11,7 +8,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,9 +23,9 @@ public class NoticeController {
     private final NoticeService noticeService;
 
     @GetMapping
-    public String notices(@RequestParam(name = "page", defaultValue = "1") int page, Model model) {
+    public String notices(@RequestParam(name = "page", defaultValue = "1") int page, @ModelAttribute("form") NoticeSearchForm form, Model model) {
         PageRequest pageRequest = PageRequest.of(page - 1, 10);
-        Page<NoticeListDto> noticeDtos = noticeService.getNotices(pageRequest);
+        Page<NoticeListDto> noticeDtos = noticeService.getNotices(form, pageRequest);
         model.addAttribute("notices", noticeDtos);
         return "community/notice/notice_list";
     }

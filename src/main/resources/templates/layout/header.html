@@ -5,8 +5,8 @@
     <nav id="gnb">
         <div class="logo">
             <a href="../index.html" th:href="@{/}">
+                <img src="../../static/images/meek2.png" th:src="@{/images/meek2.png}" alt="로고">
                 미음키읔
-<!--                <img src="../../static/images/tickers_logo.png" th:src="@{/images/tickers_logo.png}" alt="로고">-->
             </a>
         </div>
         <div class="gnb_menu center">
@@ -27,7 +27,7 @@
                 <li class="depth1_menu" id="community">Community
                     <ul class="depth2">
                         <li><a href="../community/notice/notice_list.html" th:href="@{/community/notice}">Notice</a></li>
-                        <li><a href="javascript:void(0)">Q&amp;A</a></li>
+                        <li><a href="../community/qna/qna_list.html" th:href="@{/community/qna}">Q&amp;A</a></li>
                         <li><a href="javascript:void(0)">Review</a></li>
                     </ul>
                 </li>
@@ -50,10 +50,8 @@
                 <ul class="depth1">
                     <li class="depth1_menu">Account
                         <ul class="depth2">
-                            <li><a sec:authorize="isAnonymous()" href="../login.html" th:href="@{/login}">Login</a></li>
-                            <li><a sec:authorize="isAnonymous()" href="../members/join.html"
-                                   th:href="@{/members/join}">Join</a>
-                            </li>
+                            <li sec:authorize="isAnonymous()"><a href="../login.html" th:href="@{/login}">Login</a></li>
+                            <li sec:authorize="isAnonymous()"><a href="../members/join.html" th:href="@{/members/join}">Join</a></li>
                             <li sec:authorize="isAuthenticated()">
                                 <form th:action="@{/logout}" method="post">
                                     <button type="submit">Logout</button>

@@ -1,9 +1,6 @@
 package archivegarden.shop.service.community;
 
-import archivegarden.shop.dto.community.notice.AddNoticeForm;
-import archivegarden.shop.dto.community.notice.EditNoticeForm;
-import archivegarden.shop.dto.community.notice.NoticeDetailsDto;
-import archivegarden.shop.dto.community.notice.NoticeListDto;
+import archivegarden.shop.dto.community.notice.*;
 import archivegarden.shop.entity.Board;
 import archivegarden.shop.entity.Member;
 import archivegarden.shop.entity.Notice;
@@ -55,11 +52,13 @@ public class NoticeService {
     }
 
     /**
-     * 공지사항 목록 조회 + 페이지네이션
+     * 공지사항 목록 조회
+     * 검색
+     * 페이지네이션
      */
     @Transactional(readOnly = true)
-    public Page<NoticeListDto> getNotices(Pageable pageable) {
-        return boardRepository.findNoticeAll(pageable).map(n -> new NoticeListDto(n));
+    public Page<NoticeListDto> getNotices(NoticeSearchForm form, Pageable pageable) {
+        return boardRepository.findNoticeAll(form, pageable).map(n -> new NoticeListDto(n));
     }
 
     /**
