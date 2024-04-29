@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>이메일 인증 실패 | Archivegarden</title>
+    <title>이메일 인증 실패 | 미음키읔</title>
     <meta property="og:type" content="website"/>
     <meta property="og:title" content="Archivegarden"/>
     <meta property="og:description" content=""/>
@@ -13,23 +13,25 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../../static/css/comm.css" th:href="@{/css/comm.css}"/>
-    <link rel="stylesheet" href="../../static/css/join.css" th:href="@{/css/join.css}"/>
+    <link rel="stylesheet" href="../../static/css/verification.css" th:href="@{/css/verification.css}"/>
 </head>
 <body>
 <div th:replace="~{/layout/header :: header}"></div>
-<div id="join_succ">
-    <div class="join_succ_wrap">
-        <h1>이메일 인증 실패</h1>
-        <p>인증 유효 시간이 만료되었습니다.
-            <br/>인증 메일을 받은 후 유효 시간 내에 인증하셔야 합니다.
-            <br/>이메일 인증메일 재발송을 원하시는 경우, 로그인후 마이페이지에서 이용하실 수 있습니다.</p>
+<div id="verification">
+    <div class="verification_wrap">
+        <h1 class="verification_tit">이메일 인증 실패</h1>
+        <div class="verification_txt">
+            <p>인증 유효 시간이 만료되었습니다.
+                <br/>인증 메일을 받은 후 유효 시간 내에 인증하셔야 합니다.
+                <br/>이메일 인증 메일 재발송을 원하시는 경우, 로그인 후 마이페이지에서 이용하실 수 있습니다.</p>
 
-        <p> 이메일 인증에 문제가 있으시다면 ArchiveGarden 고객센터를 통해 연락해주시면, 빠른 시일내에 해결해드리겠습니다.
-            <a href="javascript:void(0)">문의하기</a>
-        </p>
-        <p>감사합니다.</p>
+            <p> 이메일 인증에 문제가 있으시다면 <a href="../community/qna/qna_list.html" th:href="@{/community/qna}">미음키읔 고객센터</a>를 통해
+                연락해주시면, 빠른 시일 내에 해결해드리겠습니다.
+            </p>
+            <p>감사합니다.</p>
+        </div>
     </div>
 </div>
-<div th:replace="~{/layout/footer :: footer}"></div>
+<div th:replace="~{/layout/footer :: fixed_footer}"></div>
 </body>
 </html>

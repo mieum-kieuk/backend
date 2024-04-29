@@ -71,6 +71,8 @@ public class MemberServiceImpl implements MemberService {
 
     /**
      * 중복 회원 검증
+     *
+     * @throws IllegalStateException 이미 존재하는 회원일 경우
      */
     private void validateDuplicateMember(MemberSaveForm form) {
         String phonenumber = form.getPhonenumber1() + form.getPhonenumber2() + form.getPhonenumber3();
@@ -162,7 +164,7 @@ public class MemberServiceImpl implements MemberService {
     /**
      * 비밀번호 찾기
      *
-     * @return: 회원 이메일 또는 휴대전화번호
+     * @return 회원 이메일 또는 휴대전화번호
      */
     @Override
     public String findPassword(FindPasswordForm form) {

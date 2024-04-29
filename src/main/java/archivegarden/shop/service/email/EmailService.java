@@ -1,11 +1,9 @@
 package archivegarden.shop.service.email;
 
 import archivegarden.shop.entity.Member;
+import archivegarden.shop.exception.NoSuchMemberException;
 import archivegarden.shop.repository.MemberRepository;
 import archivegarden.shop.util.RedisUtil;
-import jakarta.mail.Message;
-import jakarta.mail.MessagingException;
-import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -56,7 +54,7 @@ public class EmailService {
 
             helper.setTo(to);
             helper.setFrom(from);
-            helper.setSubject("[ArchiveGarden] 회원가입을 축하드립니다.");
+            helper.setSubject("[미음키읔] 회원가입을 축하드립니다.");
             helper.setText(content, true);
         };
 
@@ -67,10 +65,12 @@ public class EmailService {
 
     /**
      * 이메일 검증
+     *
+     * @throws NoSuchMemberException
      */
     public String verifyEmailLink(String email, String uuid) {
 
-        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NoSuchElementException("존재하지 않는 이메일입니다."));
+        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NoSuchMemberException("존재하지 않는 회원입니다."));
 
         if(redisUtil.existData(email)) {
             if(Boolean.valueOf(member.getIsEmailVerified())) {    //이미 인증 완료
@@ -101,9 +101,9 @@ public class EmailService {
     /**
      * 임시 비밀번호 발급
      */
-    public Long sendTempPassword(String to) throws MessagingException {
+    public Long sendTempPassword(String to) {
 
-        //엔티티조회
+        //엔티티 조회
         Member member = memberRepository.findByEmail(to).orElseThrow(() -> new NoSuchElementException("존재하지 않는 회원입니다."));
 
         //임시 비밀번호 발급
@@ -122,7 +122,7 @@ public class EmailService {
 
             helper.setTo(to);
             helper.setFrom(from);
-            helper.setSubject("[ArchiveGarden] 임시 비밀번호가 발급되었습니다.");
+            helper.setSubject("[미음키읔] 임시 비밀번호가 발급되었습니다.");
             helper.setText(content, true);
         };
 
@@ -133,14 +133,6 @@ public class EmailService {
         member.updatePassword(encodedPassword);
 
         return member.getId();
-    }
-
-    private String setTempPasswordContext(String name, String tempPassword) {
-        String body = "";
-        body += "<p>" + "안녕하세요. " + name + "님" + "</p>";
-        body += "<p>" + "발급된 임시 비밀번호는 " + tempPassword + " 입니다." + "</p>";
-        body += "<p>" + "로그인 후 비밀번호를 변경해주세요." + "</p>";
-        return body;
     }
 
     /**

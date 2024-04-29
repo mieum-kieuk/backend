@@ -168,7 +168,6 @@ public class MemberController {
         } else {
             FindPasswordDto findPasswordDto = new FindPasswordDto(form.getFindType(), findTypeValue);
             model.addAttribute("dto", findPasswordDto);
-
             return "members/find_pw_send";
         }
     }

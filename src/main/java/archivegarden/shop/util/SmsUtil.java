@@ -41,7 +41,7 @@ public class SmsUtil {
         // 발신번호 및 수신번호는 반드시 01012345678 형태로 입력되어야 합니다.
         message.setFrom(from);
         message.setTo(to);
-        message.setText("[ArchiveGarden] 인증번호 [" + verificationCode + "]입니다. 정확하게 입력해 주세요.");
+        message.setText("[미음키읔] 인증번호 [" + verificationCode + "] 을 입력해 주세요.");
 
         SingleMessageSentResponse response = messageService.sendOne(new SingleMessageSendingRequest(message));
         log.info("sms response={}", response);
@@ -57,7 +57,7 @@ public class SmsUtil {
         Message message = new Message();
         message.setFrom(from);
         message.setTo(to);
-        message.setText("[ArchiveGarden] 인증번호 [" + getTempPassword() + "]입니다. 정확하게 입력해 주세요.");
+        message.setText("[미음키읔] 임시 비밀번호는 [" + getTempPassword() + "] 입니다. 로그인 후 비밀번호를 변경해 주세요.");
 
         SingleMessageSentResponse response = messageService.sendOne(new SingleMessageSendingRequest(message));
         log.info("sms response={}", response);
