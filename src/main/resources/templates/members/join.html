@@ -61,7 +61,7 @@
                         <li class="input_box_wrap">
                             <input th:field="*{loginId}" class="inputTypeText" placeholder="" maxlength="20"
                                    type="text"/>
-                            <span id="idMsg"></span>
+                            <span id="idMsg" class="error_message"></span>
                             <div class="field-error" th:errors="*{loginId}"></div>
                         </li>
                     </ul>
@@ -73,7 +73,7 @@
                         <li class="input_box_wrap">
                             <input th:field="*{password}" class="input_box" autocomplete="off" maxlength="16"
                                    0="disabled" type="password"/>
-                            <span id="pwMsg"></span>
+                            <span id="pwMsg" class="error_message"></span>
                             <div class="field-error" th:errors="*{password}"></div>
                         </li>
                     </ul>
@@ -84,7 +84,7 @@
                         <li class="input_box_wrap">
                             <input th:field="*{passwordConfirm}" class="input_box" autocomplete="off" maxlength="16"
                                    0="disabled" type="password"/>
-                            <span id="pwconfirmMsg"></span>
+                            <span id="pwconfirmMsg" class="error_message"></span>
                             <div class="field-error" th:errors="*{passwordConfirm}"></div>
                         </li>
                     </ul>
@@ -95,7 +95,7 @@
                         <li>
                         <span id="name_content" class="input_box_wrap">
                             <input th:field="*{name}" class="input_box ec-user-name" placeholder="" maxlength="12" type="text"/>
-                            <span id="nameMsg"></span>
+                            <span id="nameMsg" class="error_message"></span>
                             <div class="field-error" th:errors="*{name}"></div>
                         </span>
                         </li>
@@ -135,7 +135,7 @@
                             </div>
                             <button type="button" id="btn_action_verify_mobile" class="btn1 disabled">인증번호 받기</button>
                         </li>
-                        <span id="phoneNumberMsg"></span>
+                        <span id="phoneNumberMsg" class="error_message"></span>
                         <div class="field-error" th:errors="*{phonenumber1}"></div>
                     </ul>
                     <ul class="displaynone" id="confirm_verify_mobile">
@@ -148,7 +148,7 @@
                                 <span class="time" id="expiryTime"></span>
                             </div>
                             <button type="button" class="btn1" id="btn_verify_mobile_confirm">확인</button>
-                            <span id="verificationMsg"></span>
+                            <span id="verificationMsg" class="error_message"></span>
                         </li>
                     </ul>
                     <ul>
@@ -157,7 +157,7 @@
                         </li>
                         <li class="input_box_wrap">
                             <input th:field="*{email}" class="input_box" placeholder="" maxlength="45" type="text"/>
-                            <span id="emailMsg"></span>
+                            <span id="emailMsg" class="error_message"></span>
                             <div class="field-error" th:errors="*{email}"></div>
                         </li>
                     </ul>

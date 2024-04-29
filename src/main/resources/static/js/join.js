@@ -205,6 +205,9 @@ function isEmailValid() {
         type: 'POST',
         url: '/members/verification/email',
         data: {email: email},
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader(csrfHeader, csrfToken);
+        },
         success: function (result) {
             if (result) {
                 $('#emailMsg').text('사용 가능한 이메일입니다.');
@@ -486,6 +489,8 @@ function validateBeforeSubmit() {
         alert("개인정보 수집 및 이용 동의를 확인해 주세요.");
         return false;
     }
+
+    $('.submit_btn').prop('disabled', true);
 
     return true;
 }

@@ -74,7 +74,8 @@ public class MemberServiceImpl implements MemberService {
      */
     private void validateDuplicateMember(MemberSaveForm form) {
         String phonenumber = form.getPhonenumber1() + form.getPhonenumber2() + form.getPhonenumber3();
-        memberRepository.findDuplicateMember(form.getLoginId(), phonenumber, form.getEmail()).orElseThrow(() -> new IllegalStateException("이미 존재하는 회원입니다."));
+        memberRepository.findDuplicateMember(form.getLoginId(), phonenumber, form.getEmail())
+                .ifPresent(m -> {throw new IllegalStateException("이미 존재하는 회원입니다.");});
     }
 
     /**
