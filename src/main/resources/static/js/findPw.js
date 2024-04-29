@@ -19,7 +19,16 @@ function isNamePresent() {
     let result = name.trim() === '' ? false : true;
     return result;
 }
+function regexName() {
+    let name = $('#name').val();
+    let regex = /^[가-힣a-zA-Z]{2,12}$/;
+    if (!regex.test(name)) {
+        $('#nameMsg').text('한글, 영문 대/소문자를 사용해 주세요. (특수기호, 공백 사용 불가)');
+        return false;
+    }
 
+    return true;
+}
 // 이메일 입력란 유효성 검사
 function isEmailPresent() {
     let email = $('#email').val();
@@ -40,7 +49,7 @@ function isPhonenumberPresent() {
     let phonenumber2 = $('#phonenumber2').val();
     let phonenumber3 = $('#phonenumber3').val();
 
-    let result = phonenumber2.trim() === '' || phonenumber3.trim() === '' ? false : true;
+    let result = phonenumber2.trim() === '' && phonenumber3.trim() === '' ? false : true;
     return result;
 }
 
@@ -65,12 +74,16 @@ function validationCheck() {
     }
 
     if (!regexId()) {
-        alert("아이디 형식이 잘못되었습니다.");
+        alert("유효한 아이디를 입력해 주세요.");
         return false;
     }
 
     if (!isNamePresent()) {
         alert("이름을 입력해 주세요.");
+        return false;
+    }
+    if (!regexName()) {
+        alert("한글, 영문 대/소문자를 사용해 주세요. (특수기호, 공백 사용 불가)")
         return false;
     }
 
@@ -81,7 +94,7 @@ function validationCheck() {
         }
 
         if (!regexEmail()) {
-            alert("이메일 형식이 잘못되었습니다.");
+            alert("유효한 이메일을 입력해 주세요.");
             return false;
         }
     }
@@ -93,7 +106,7 @@ function validationCheck() {
         }
 
         if (!regexPhonenumber()) {
-            alert("휴대전화번호 형식에 맞게 입력해 주세요.");
+            alert("유효한 휴대전화번호를 입력해 주세요.");
             return false;
         }
     }
