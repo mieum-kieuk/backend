@@ -33,10 +33,17 @@ public class ProductService {
     }
 
     /**
+     * 검색 + 페이지네이션
+     */
+    public Page<ProductListDto> searchProducts(String keyword, Pageable pageable) {
+        return productRepository.search(keyword, pageable).map(ProductListDto::new);
+    }
+
+    /**
      * 상품 목록 조회 + 페이지네이션
      */
     public Page<ProductListDto> getProducts(ProductSearchCondition condition, Pageable pageable) {
-        return productRepository.findAllByCategory(condition, pageable).map(ProductListDto::new);
+        return productRepository.findAllByCategory(condition, pageable).map(p -> new ProductListDto(p));
     }
 
     /**

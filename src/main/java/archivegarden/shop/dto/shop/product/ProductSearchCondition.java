@@ -3,17 +3,14 @@ package archivegarden.shop.dto.shop.product;
 import archivegarden.shop.entity.Category;
 import archivegarden.shop.entity.SortedType;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class ProductSearchCondition {
 
-    private String keyword;
     private Category category;
     private SortedType sorted_type;
-
-    public void setKeyword(String keyword) {
-        this.keyword = keyword;
-    }
 
     public void setCategory(String category) {
         this.category = Category.of(category);

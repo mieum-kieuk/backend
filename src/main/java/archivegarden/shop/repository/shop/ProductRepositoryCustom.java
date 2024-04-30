@@ -13,5 +13,7 @@ public interface ProductRepositoryCustom {
 
     Page<Product> findAllByCategory(ProductSearchCondition condition, Pageable pageable);
 
+    Page<Product> search(String keyword, Pageable pageable);
+
     Page<Product> findAllPopup(Pageable pageable, String keyword);
 }

@@ -5,6 +5,9 @@ import archivegarden.shop.entity.*;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.CaseBuilder;
+import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
@@ -22,9 +25,11 @@ import static org.springframework.util.StringUtils.hasText;
 
 public class ProductRepositoryImpl implements ProductRepositoryCustom {
 
+    private final EntityManager em;
     private final JPAQueryFactory queryFactory;
 
     public ProductRepositoryImpl(EntityManager em) {
+        this.em = em;
         this.queryFactory = new JPAQueryFactory(em);
     }
 
@@ -34,7 +39,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                 .selectFrom(product)
                 .leftJoin(product.discount, discount).fetchJoin()
                 .leftJoin(product.images, productImage).fetchJoin()
-                .where(productImage.imageType.ne(ImageType.DETAILS))
+                .where(imageTypeNe())
                 .orderBy(product.createdAt.desc())
                 .offset(0)
                 .limit(9)
@@ -43,12 +48,15 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 
     @Override
     public Page<Product> findAllByCategory(ProductSearchCondition condition, Pageable pageable) {
+
         List<Product> content = queryFactory
                 .selectFrom(product)
                 .leftJoin(product.discount, discount).fetchJoin()
+                .leftJoin(product.images, productImage).fetchJoin()
                 .where(
-                        keywordLike(condition.getKeyword()),
-                        categoryEq(condition.getCategory()))
+                        categoryEq(condition.getCategory()),
+                        imageTypeNe()
+                )
                 .orderBy(getOrderSpecifier(condition.getSorted_type()).stream().toArray(OrderSpecifier[]::new))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -58,10 +66,27 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                 .select(product.count())
                 .from(product)
                 .leftJoin(product.discount, discount)
-                .where(
-                        keywordLike(condition.getKeyword()),
-                        categoryEq(condition.getCategory())
-                );
+                .where(categoryEq(condition.getCategory()));
+
+        return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
+    }
+
+    @Override
+    public Page<Product> search(String keyword, Pageable pageable) {
+        List<Product> content = queryFactory
+                .selectFrom(product)
+                .leftJoin(product.discount, discount).fetchJoin()
+                .leftJoin(product.images, productImage).fetchJoin()
+                .where(keywordLike(keyword))
+                .orderBy(orderSoldOutLast())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        JPAQuery<Long> countQuery = queryFactory
+                .select(product.count())
+                .from(product)
+                .where(keywordLike(keyword));
 
         return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
     }
@@ -92,6 +117,8 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 
         List<OrderSpecifier> orderSpecifiers = new ArrayList<>();
 
+        orderSpecifiers.add(orderSoldOutLast());
+
         if (sortedType != null) {
             switch (sortedType) {
                 case NEW:
@@ -101,10 +128,10 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                     orderSpecifiers.add(new OrderSpecifier<>(Order.ASC, product.name));
                     break;
                 case LOW_PRICE:
-                    orderSpecifiers.add(new OrderSpecifier<>(Order.ASC, product.price));
+                    orderSpecifiers.add(new OrderSpecifier<>(Order.ASC, calcDiscountPrice()));
                     break;
                 case HIGH_PRICE:
-                    orderSpecifiers.add(new OrderSpecifier<>(Order.DESC, product.price));
+                    orderSpecifiers.add(new OrderSpecifier<>(Order.DESC, calcDiscountPrice()));
                     break;
             }
         }
@@ -113,11 +140,32 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
         return orderSpecifiers;
     }
 
+    /**
+     * sold out 상품 정렬에서 맨 뒤로
+     */
+    private OrderSpecifier<?> orderSoldOutLast() {
+        return Expressions.stringTemplate("decode({0}, {1}, {2})", product.stockQuantity, 0, 1)
+                .asc();
+    }
+
+    /**
+     * 낮은 가격순, 높은 가격순 - 할인가로 정렬
+     */
+    private NumberExpression<Integer> calcDiscountPrice() {
+        return new CaseBuilder()
+                .when(product.discount.isNull()).then(product.price)
+                .otherwise(product.price.subtract((product.price.multiply(discount.discountPercent).divide(100))));
+    }
+
     private BooleanExpression keywordLike(String keyword) {
         return hasText(keyword) ? product.name.contains(keyword) : null;
     }
 
     private BooleanExpression categoryEq(Category category) {
         return category != null ? product.category.eq(category) : null;
+    }
+
+    private BooleanExpression imageTypeNe() {
+        return productImage != null ? productImage.imageType.ne(ImageType.DETAILS) : null;
     }
 }

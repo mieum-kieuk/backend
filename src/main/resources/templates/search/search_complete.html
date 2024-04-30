@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>검색 결과 | Tickers</title>
+    <title>검색 결과 | 미음키읔</title>
 
     <meta property="og:type" content="website"/>
     <meta property="og:title" content="Tickers"/>
@@ -14,6 +14,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="../../static/css/comm.css" th:href="@{/css/comm.css}">
     <link rel="stylesheet" href="../../static/css/product_list.css" th:href="@{/css/product_list.css}"/>
@@ -26,7 +27,7 @@
     <div id="search_complete">
         <div class="search_form_wrap">
             <form action="./search_complete.html" th:action="@{/search}" method="get">
-                <input type="text" placeholder="검색어를 입력해 주세요." name="keyword" th:value="${condition.keyword}">
+                <input type="text" placeholder="검색어를 입력해 주세요." name="keyword" th:value="${keyword}">
                 <button type="submit" class="search_btn2"><span class="material-symbols-outlined">search</span></button>
             </form>
         </div>
@@ -69,21 +70,21 @@
                         </div>
                     </ul>
                 </div>
-                <div th:if="${products.totalElements} == 0" class="no_data_msg"><p>"[[${condition.keyword}]]"에 해당하는 상품 검색 결과가 없습니다.</p></div>
+                <div th:if="${products.totalElements} == 0" class="no_data_msg"><p>"[[${keyword}]]"에 해당하는 상품 검색 결과가 없습니다.</p></div>
             </div>
         </div>
         <div class="pagination" th:if="${products.totalPages} > 0">
             <ul>
-                <li><a href="./search_complete.html" th:href="@{/search(keyword=${condition.keyword})}" class="prev_first"><span class="material-symbols-outlined">navigate_before</span></a></li>
-                <li><a href="./search_complete.html" th:href="@{/search(keyword=${condition.keyword}, page=${products.number})}"
+                <li><a href="./search_complete.html" th:href="@{/search(keyword=${keyword})}" class="prev_first"><span class="material-symbols-outlined">navigate_before</span></a></li>
+                <li><a href="./search_complete.html" th:href="@{/search(keyword=${keyword}, page=${products.number})}"
                        class="prev" th:classappend="${!products.hasPrevious()} ? 'disabled'">Prev</a></li>
                 <li th:each="page : ${#numbers.sequence(1, products.totalPages)}">
-                    <a href="./search_complete.html" th:href="@{/search(keyword=${condition.keyword}, page=${page})}"
+                    <a href="./search_complete.html" th:href="@{/search(keyword=${keyword}, page=${page})}"
                        class="page" th:classappend="${page == products.number + 1} ? 'active'" th:text="${page}">1</a>
                 </li>
-                <li><a href="./search_complete.html" th:href="@{/search(keyword=${condition.keyword}, page=${products.number} + 2)}"
+                <li><a href="./search_complete.html" th:href="@{/search(keyword=${keyword}, page=${products.number} + 2)}"
                        class="next" th:classappend="${!products.hasNext()} ? 'disabled'">Next</a></li>
-                <li><a href="./search_complete.html" th:href="@{/search(keyword=${condition.keyword}, page=${products.totalPages})}" class="next_last"><span class="material-symbols-outlined">navigate_next</span></a></li>
+                <li><a href="./search_complete.html" th:href="@{/search(keyword=${keyword}, page=${products.totalPages})}" class="next_last"><span class="material-symbols-outlined">navigate_next</span></a></li>
             </ul>
         </div>
     </div>
