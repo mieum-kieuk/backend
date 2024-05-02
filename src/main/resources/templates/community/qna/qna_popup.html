@@ -52,7 +52,7 @@
                     </select>
                 </p>
             </div>
-            <div class="search_result" th:if="${products != null and #lists.size(products) > 0} ">
+            <div class="search_result" th:if="${products != null and products.totalElements > 0} ">
                 <table class="result_table">
                     <colgroup>
                         <col style="width:100px">

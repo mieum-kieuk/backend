@@ -86,3 +86,13 @@ $(document).ready(function() {
         return true;
     }
 });
+
+function deleteOk(qnaId) {
+    if (confirm("정말 삭제하시겠습니까?\n한번 삭제한 게시글은 복구할 수 없습니다.")) {
+        window.location.href = '/community/qna/' + qnaId + "/delete";
+        alert("Q&A가 삭제되었습니다.");
+        return true;
+    } else {
+        return false;
+    }
+}

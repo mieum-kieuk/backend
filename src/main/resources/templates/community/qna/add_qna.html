@@ -30,18 +30,20 @@
     <div id="qna">
         <div class="qna_wrap">
             <h1 class="qna_title">Q&A</h1>
-            <form id="addQnaForm" action="" th:action th:object="${qna}" method="get" novalidate>
+            <form id="addQnaForm" action="" th:action th:object="${qna}" method="post" enctype="multipart/form-data"
+                  novalidate>
                 <table class="qna_table">
                     <tr>
                         <th colspan="2">
                             <div id="qnaItem" class="qna_item">
                                 <div class="item_wrap">
                                     <div class="thumbnail">
-                                        <a href=""><img id="productImage" class="item_img" src="../../images/img_no.png" alt="상품 이미지"></a>
+                                        <a href=""><img id="productImage" class="item_img" src="../../images/img_no.png"
+                                                        alt="상품 이미지"></a>
                                     </div>
                                     <div class="description">
                                         <span id="productName" class="item_name"></span>
-                                       <span id="productPrice" class="item_price"></span>
+                                        <span id="productPrice" class="item_price"></span>
                                         <input type="hidden" id="productId" th:field="*{productId}">
                                         <div class="btn_wrap">
                                             <button type="button" class="popup_btn info">상품상세정보</button>
@@ -58,10 +60,10 @@
                         </th>
                         <td>
                             <select id="qnaType" th:field="*{title}">
-                                <option value="0">상품 및 기타 문의</option>
-                                <option value="1">배송 전 취소 및 변경</option>
-                                <option value="2">배송 후 반품</option>
-                                <option value="3">적립금 문의 / 리뷰</option>
+                                <option value="상품 및 기타 문의">상품 및 기타 문의</option>
+                                <option value="배송 전 취소 및 변경">배송 전 취소 및 변경</option>
+                                <option value="배송 후 반품">배송 후 반품</option>
+                                <option value="적립금 문의 / 리뷰">적립금 문의 / 리뷰</option>
                             </select>
                             <div class="field-error" th:errors="*{title}"></div>
                         </td>
@@ -103,26 +105,14 @@
                         </td>
                     </tr>
                     <tr>
-                        <th><label>비밀글 여부</label></th>
                         <td class="isSecret_cell">
-                            <div class="isSecret public">
-                                <input id="public" name="isSecret" value="false" type="radio" checked="checked"><label
-                                    for="public">공개글</label>
-                            </div>
-                            <div class="isSecret secret">
-                                <input id="secret" name="isSecret" value="true" type="radio"><label
-                                    for="secret">비밀글</label>
-                            </div>
+                            <input type="checkbox" id="isSecret" name="isSecret">비밀글로 문의하기
                         </td>
-                    </tr>
-                    <tr class="pw_cell">
-                        <th><label for="password">비밀번호</label></th>
-                        <td><input type="password" id="password" th:field="*{password}"></td>
                     </tr>
                 </table>
                 <div class="btn_wrap">
                     <button type="button" class="btn1" onclick="location.href = './qna_list.html'"
-                            th:onclick="|location.href='@{/qna}'|">취소
+                            th:onclick="|location.href='@{/community/qna}'|">취소
                     </button>
                     <button type="submit" id="submitBtn" class="btn1 submit_btn">등록</button>
                 </div>
@@ -134,7 +124,6 @@
 <script th:inline="javascript">
     //팝업창에서 보낸 데이터 채우기
     function setProductInfo(id, name, price, image) {
-        // $('#productId').value(id);
         $('#productName').text(name);
         $('#productPrice').text(price);
         $('#productImage').attr('src', '/productImages/' + image);

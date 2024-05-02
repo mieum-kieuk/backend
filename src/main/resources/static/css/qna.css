@@ -84,9 +84,6 @@
 .popup_btn.info {
     display: none;
 }
-.popup .pagination li a {
-    border: none;
-}
 #qna {
     display: flex;
     align-items: center;
@@ -456,12 +453,12 @@
     content: " |";
     margin: 3px;
 }
-.qna_wrap.list .pagination {
-    margin: 20px 0;
-}
-.qna_wrap.list .pagination li a {
-    border: none;
-}
+/*.qna_wrap.list .pagination {*/
+/*    margin: 20px 0;*/
+/*}*/
+/*.qna_wrap.list .pagination li a {*/
+/*    border: none;*/
+/*}*/
 #product .review_wrap .review_head {
     display: flex;
     flex-direction: row;
