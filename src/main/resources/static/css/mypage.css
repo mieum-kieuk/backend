@@ -15,7 +15,7 @@
     top: 0px;
     left: 0px;
     text-align: left;
-    padding: 20px;
+    padding: 0 20px;
 }
 .mypage_content {
     flex: 1;
@@ -114,6 +114,11 @@
     flex-direction: column;
 }
 h3 {
+    display: block;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 400;
+    width: 100%;
     margin-bottom: 20px;
 }
 .order_status.result {
@@ -191,7 +196,7 @@ h3 {
 /*    padding: 0 20px;*/
 /*}*/
 
-/*address*/
+/*address_list*/
 #addressList {
     display: flex;
     flex-wrap: wrap;
@@ -227,23 +232,37 @@ h3 {
     text-align: center;
     padding: 20px 10px;
 }
-.address_wrap .title, .address_wrap .name  {
-    display: inline-block;
+.address_wrap .addressName {
+    width: 15%;
+}
+.address_wrap .recipientName  {
     width: 10%;
 }
-.address_wrap .phone {
-    display: inline-block;
-    width: 20%;
+.address_wrap .addressName .default_address {
+    display: flex;
+    align-items: center;
 }
-.address_wrap .adr {
-    display: inline-block;
+.address_wrap .addressName .default_address::before {
+    content: "기본";
+    color: #fff; /* 표시 색상을 원하는 색상으로 변경하세요 */
+    padding: 2px;
+    background: #3273F6;
+    border-radius: 2px;
+    font-size: 12px;
+    font-weight: bold; /* 텍스트를 굵게 표시합니다 */
+    margin-right: 5px; /* "기본" 텍스트와 배송지명 사이의 간격을 조절합니다 */
+}
+
+.address_wrap .phonenumber {
+    width: 15%;
+}
+.address_wrap .address {
     width: 50%;
 }
 .address_wrap .btn {
-    display: inline-block;
     width: 10%;
 }
-.address_item .adr {
+.address_item .address {
     text-align: left;
 }
 .btn .btn_wrap {
@@ -260,6 +279,80 @@ h3 {
 }
 .address_foot .btn1 {
     width: 120px;
+}
+/*add_address*/
+#address {
+    display: flex;
+    flex-wrap: wrap;
+    width:  100%;
+    max-width: 550px;
+    /*margin-left: 200px;*/
+    margin-bottom: 120px;
+}
+#address .input_wrap .input_box_wrap {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+#address .input_wrap li {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+#address .input_wrap input {
+    border: 1px solid #999;
+    padding: 5px 5px;
+    width: 100%;
+    height: 35px;
+}
+#address .input_wrap .input_tit.ess::after {
+    content: "*"; /* 가상 요소에 별표 내용 추가 */
+    color: #d94747; /* 별표 색상 지정 */
+    margin-left: 3px; /* 별표와 텍스트 사이의 간격 조정 */
+}
+.address {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.address div:nth-child(2) {
+    display: flex;
+    gap: 10px;
+}
+.address div:last-child {
+    margin-bottom: 20px;
+}
+.address .btn1 {
+    height: 35px;
+}
+.phone_number {
+    display: flex;
+}
+.phone_number .number_sec{
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+.phone_number .number_sec select {
+    height: 35px;
+}
+.default_address div{
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+#address .default_address div input{
+    width: auto;
+    margin-right: 5px;
+}
+#address .btn_wrap {
+    display: flex;
+    justify-content: space-between;
+}
+#address .btn_wrap .btn1 {
+    width: 48%;
+    height: 45px;
 }
 /*wish*/
 #wishList {
@@ -349,4 +442,51 @@ h3 {
 }
 .add_cart .btn_wrap .btn1 {
     width: 120px;
+}
+/*board*/
+#boardList {
+    display: flex;
+    flex-wrap: wrap;
+    width:  100%;
+    margin-left: 200px;
+}
+.board_head {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #666;
+    color: #999;
+}
+.board_content {
+    margin-bottom: 20px;
+}
+.board_item  {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    border-bottom: 1px solid #999;
+}
+.board_wrap .item {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    padding: 20px 10px;
+}
+.board_wrap .number {
+    width: 5%;
+}
+.board_wrap .type, .board_wrap .writer, .board_wrap .views, .board_wrap .date {
+    width: 10%;
+}
+.board_wrap .board_head .title {
+    justify-content: center;
+}
+.board_wrap .title {
+    width: 55%;
+    justify-content: flex-start;
+}
+.board_foot form {
+    display: flex;
+    gap: 10px;
 }

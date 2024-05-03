@@ -54,7 +54,7 @@
         <div class="input_wrap">
           <ul>
             <li>
-              <p class="join_tit ess">아이디</p>
+              <label for="loginId" class="join_tit ess">아이디</label>
             </li>
             <li class="input_box_wrap">
               <span id="loginId" class="input_text inputTypeText">mary706</span>
@@ -63,7 +63,7 @@
           </ul>
           <ul>
             <li>
-              <p class="join_tit ess">비밀번호</p>
+              <label for="password" class="join_tit ess">비밀번호</label>
               <span class="addinfo">(영문 대소문자/숫자/특수문자 조합, 8자~16자)</span>
             </li>
             <li class="input_box_wrap">
@@ -73,7 +73,7 @@
           </ul>
           <ul>
             <li>
-              <p class="join_tit ess">비밀번호 확인</p>
+              <label for="passwordConfirm" class="join_tit ess">비밀번호 확인</label>
             </li>
             <li class="input_box_wrap">
               <input id="passwordConfirm" class="input_box" autocomplete="off" maxlength="16" 0="disabled" type="password"/>
@@ -82,7 +82,7 @@
           </ul>
           <ul>
             <li id="name_title">
-              <p class="join_tit ess">이름</p>
+              <label for="name" class="join_tit ess">이름</label>
             </li>
             <li>
             <li id="name_content" class="input_box_wrap">
@@ -93,7 +93,7 @@
           </ul>
           <ul class="address">
             <li>
-              <p class="join_tit btn_included">주소</p>
+              <label class="join_tit btn_included">주소</label>
             </li>
             <li>
               <input class="input_box" id="zipCode" name="zipCode" placeholder="우편번호" maxlength="10" type="text" disabled/>
@@ -109,7 +109,7 @@
 
           <ul class="phone_number">
             <li class="">
-              <p class="join_tit ess btn_included">휴대전화번호</p>
+              <label class="join_tit ess btn_included">휴대전화번호</label>
             </li>
             <li class="phone_number select">
               <div class="number_sec">
@@ -132,9 +132,9 @@
           </ul>
           <ul class="displaynone" id="confirm_verify_mobile">
             <li class="verify_sec">
-              <p class="join_tit ess">인증번호</p>
+              <label for="verificationNo" class="join_tit ess">인증번호</label>
               <div class="verify">
-                <input class="input_box inputTypeText" placeholder=""
+                <input id="verificationNo" class="input_box inputTypeText" placeholder=""
                        maxlength="6" type="text"/>
                 <span class="time" id="expiryTime"></span>
               </div>
