@@ -1,12 +1,6 @@
 $(document).ready(function () {
-    // add, edit
-    $('input').on('focus', function() {
-        var input = $(this);
-        var len = input.val().length;
-        input[0].setSelectionRange(len, len);
-    });
 
-    $('#detailAddress').focus(function() {
+    $('#detailAddress').focus(function () {
         let zipCode = $('#zipCode').val().trim();
         let basicAddress = $('#basicAddress').val().trim();
 
@@ -21,35 +15,21 @@ $(document).ready(function () {
     });
 
     // list
-    $('#checkAll').change(function() {
+    $('#checkAll').change(function () {
         var isChecked = $(this).prop('checked');
         $('.checkbox').prop('checked', isChecked);
-        updateTotalPrice();
-    });
-
-
-
-    $("#deleteBtn").click(function() {
-        var checkedItems = $("input[name='addressCheckBox']:checked");
-        if (checkedItems.length === 0) {
-            alert("삭제할 항목을 선택해 주세요.");
-        } else {
-            if (confirm("정말 삭제하시겠습니까?")) {
-                z
-                checkedItems.closest('.address_item').remove();
-                alert("선택된 주소가 삭제되었습니다.");
-            }
-        }
     });
 });
+
 function isAddressNameEmpty() {
     let addressName = $("#addressName").val();
 
-    if (addressName.trim() === ''){
+    if (addressName.trim() === '') {
         return false;
     }
     return true;
 }
+
 //이름 검증
 function isNameValid() {
     if (!isNameEmpty()) {
@@ -62,11 +42,9 @@ function isNameValid() {
 }
 
 function isNameEmpty() {
-    let name = $("#name").val();
+    let name = $("#recipientName").val();
 
     if (name.trim() === '') {
-        $('#nameMsg').text('이름을 입력해 주세요.');
-        $('#nameMsg').removeClass('success error').addClass('error');
         return false;
     }
 
@@ -74,10 +52,9 @@ function isNameEmpty() {
 }
 
 function regexName() {
-    let name = $('#name').val();
+    let name = $('#recipientName').val();
     let regex = /^[가-힣a-zA-Z]{2,12}$/;
     if (!regex.test(name)) {
-        $('#nameMsg').text('한글, 영문 대/소문자를 사용해 주세요. (특수기호, 공백 사용 불가)');
         return false;
     }
 
@@ -86,23 +63,19 @@ function regexName() {
 
 function isAddressEmpty() {
 
-// 우편번호 검사
-let zipCode = $('#zipCode').val().trim();
-if (zipCode === '') {
-    return false;
-}
+    // 우편번호 검사
+    let zipCode = $('#zipCode').val().trim();
+    if (zipCode === '') {
+        return false;
+    }
 
-// 기본주소 검사
-let basicAddress = $('#basicAddress').val().trim();
-if (basicAddress === '') {
-    return false;
-}
+    // 기본주소 검사
+    let basicAddress = $('#basicAddress').val().trim();
+    if (basicAddress === '') {
+        return false;
+    }
 
-// 상세주소 검사
-let detailAddress = $('#detailAddress').val().trim();
-if (detailAddress === '') {
-    return false;
-}
+    return true;
 }
 
 
@@ -123,7 +96,6 @@ function isPhoneEmpty() {
     let phonenumber3 = $('#phonenumber3').val();
 
     if (phonenumber2.trim() === '' && phonenumber3.trim() === '') {
-        $('#phoneNumberMsg').text('휴대전화번호를 입력해 주세요.');
         return false;
     }
 
@@ -138,7 +110,6 @@ function regexPhone() {
     if (regex1.test(phonenumber2) && regex2.test(phonenumber3)) {
         return true;
     } else {
-        $('#phoneNumberMsg').text('유효한 휴대전화번호를 입력해 주세요.');
         return false;
     }
 }
@@ -151,20 +122,62 @@ function validateBeforeSubmit(ㅓ) {
         return false;
     }
 
-    // 이름 유효성 검사
+    // 수령인 유효성 검사
     if (!isNameEmpty()) {
-        alert("이름을 입력해 주세요.");
+        alert("수령인을 입력해 주세요.");
         return false;
     } else if (!regexName()) {
-        alert("유효한 이름을 입력해 주세요.");
+        alert("유효한 수령인을 입력해 주세요.");
         return false;
     }
+
+    // 주소 유효성 검사
     if (!isAddressEmpty()) {
         alert("주소를 입력해 주세요.");
+        return false;
+    }
+
+    // 휴대전화번호 유효성 검사
+    if (!isPhoneEmpty()) {
+        alert("휴대전화번호를 입력해 주세요.");
+        return false;
+    } else if (!regexPhone()) {
+        alert("유효한 휴대전화번호를 입력해 주세요.");
+        return false;
     }
 
     $('.submit_btn').prop('disabled', true);
 
     return true;
+}
+
+function deleteAddresses() {
+
+    let addressIds = [];
+    let checkboxes = $('input[name=checkbox]:checked');
+
+    if (checkboxes.length == 0) {
+        alert('삭제할 상품을 선택해 주세요.');
+        return false;
+    } else {
+        if(!confirm(checkboxes.length + '개 항목을 삭제하시겠습니까?')) {
+            return false;
+        } else {
+            $(checkboxes.each(function (v) {
+                let addressId = checkboxes[v].id.split('checkbox')[1];
+                addressIds.push(addressId);
+            }))
+
+            $.ajax({
+                type: 'POST',
+                url: '/mypage/address/delete',
+                data: JSON.stringify(addressIds),
+                contentType: 'application/json',
+                success: function () {
+                    window.location.href = '/mypage/address';
+                }
+            })
+        }
+    }
 }
 

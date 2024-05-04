@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>배송지 수정 | 미음키읔</title>
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="미음키읔" />
+    <meta property="og:description" content="" />
+    <meta property="og:image" content="" />
+    <meta property="og:url" content="" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="../../../static/css/comm.css" th:href="@{/css/comm.css}"/>
+    <link rel="stylesheet" href="../../../static/css/mypage.css" th:href="@{/css/mypage.css}"/>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script src="../../../static/js/findAddress.js" th:src="@{/js/findAddress.js}"></script>
+    <script src="../../../static/js/addressList.js" th:src="@{/js/addressList.js}"></script>
+</head>
+<body>
+<div class="wrap">
+    <div th:replace="~{/layout/header :: header}"></div>
+    <div class="mypage" id="mypage">
+        <div th:replace="~{/layout/menu :: mypage_menu}"></div>
+        <div id="address">
+            <div class="address_wrap wrapper">
+                <h3 class="address_title">배송지 수정</h3>
+                <form action="" th:action method="post" th:object="${address}" th:onsubmit="return validateBeforeSubmit()" id="joinForm">
+                    <div class="input_area">
+                        <ul class="input_wrap">
+                            <li>
+                                <div>
+                                    <label for="addressName" class="input_tit ess">배송지명</label>
+                                </div>
+                                <div class="input_box_wrap">
+                                    <input id="addressName" th:field="*{addressName}" class="input_box" maxlength="50" type="text"/>
+                                </div>
+                            </li>
+                            <li>
+                                <div id="name_title">
+                                    <label for="recipientName" class="input_tit ess">이름</label>
+                                </div>
+                                <div id="name_content" class="input_box_wrap">
+                                    <input id="recipientName" th:field="*{recipientName}" class="input_box" maxlength="30" type="text"/>
+                                </div>
+                            </li>
+                            <li class="address">
+                                <div>
+                                    <label class="input_tit ess">주소</label>
+                                </div>
+                                <div>
+                                    <input class="input_box" id="zipCode" th:field="*{zipCode}" placeholder="우편번호" maxlength="10" type="text"/>
+                                    <button id="searchZipCodeBtn" class="btn1" type="button" onclick="findPostCode()">주소검색</button>
+                                </div>
+                                <div>
+                                    <input class="input_box" id="basicAddress" th:field="*{basicAddress}" placeholder="기본주소" maxlength="40" type="text"/>
+                                </div>
+                                <div>
+                                    <input class="input_box" id="detailAddress" th:field="*{detailAddress}" placeholder="상세주소(선택 가능)" maxlength="40" type="text"/>
+                                </div>
+                            </li>
+                            <li class="phone_number">
+                                <div class="">
+                                    <label class="input_tit ess">휴대전화번호</label>
+                                </div>
+                                <div class="phone_number select">
+                                    <div class="number_sec">
+                                        <select id="phonenumber1" th:field="*{phonenumber1}">
+                                            <option value="010" th:selected="${address.phonenumber1} == '010'">010</option>
+                                            <option value="011" th:selected="${address.phonenumber1} == '011'">011</option>
+                                            <option value="016" th:selected="${address.phonenumber1} == '016'">016</option>
+                                            <option value="017" th:selected="${address.phonenumber1} == '017'">017</option>
+                                            <option value="018" th:selected="${address.phonenumber1} == '018'">018</option>
+                                            <option value="019" th:selected="${address.phonenumber1} == '019'">019</option>
+                                        </select>
+                                        <p>-</p><input id="phonenumber2" th:field="*{phonenumber2}" class="input_box" type="text"/>
+                                        <p>-</p><input id="phonenumber3" th:field="*{phonenumber3}" class="input_box" type="text"/>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="default_address">
+                                <div>
+                                    <input id="isDefaultAddress" th:field="*{isDefaultAddress}" class="normal" type="checkbox"/>
+                                    <label for="isDefaultAddress">기본 배송지로 저장</label>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="btn_wrap">
+                        <button type="button" class="btn1 cancel_btn" onclick="location.href='./address_list.html'"
+                            th:onclick="|location.href='@{/mypage/address}'|">취소
+                        </button>
+                        <button type="submit" id="submitBtn" class="btn1 submit_btn">
+                            완료
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div th:replace="~{/layout/footer :: basic_footer}"></div>
+</div>
+<script th:inline="javascript">
+    let isDefaultAddress = [[${address.isDefaultAddress}]];
+    if(isDefaultAddress) {
+        $("#isDefaultAddress").attr("onclick", "return false;");
+    }
+</script>
+</body>
+</html>

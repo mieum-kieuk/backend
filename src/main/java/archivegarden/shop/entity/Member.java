@@ -76,7 +76,7 @@ public class Member extends BaseTimeEntity {
         member.loginId = form.getLoginId();
         member.password = form.getPassword();
         member.name = form.getName();
-        member.phonenumber = form.getPhonenumber1() + form.getPhonenumber2() + form.getPhonenumber3();
+        member.phonenumber = form.getPhonenumber1() + "-" + form.getPhonenumber2() + "-" + form.getPhonenumber3();
         member.email = form.getEmail();
         member.grade = Grade.WHITE;
         member.authority = Authority.ROLE_USER;

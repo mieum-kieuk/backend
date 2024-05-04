@@ -19,4 +19,8 @@ public class Address {
         this.basicAddress = basicAddress;
         this.detailAddress = detailAddress;
     }
+
+    public String fullAddress() {
+        return "(" + getZipCode() + ") " + getBasicAddress() + " " + getDetailAddress();
+    }
 }
