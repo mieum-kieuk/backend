@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>장바구니 | Tickers</title>
+    <title>장바구니 | 미음키읔</title>
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Tickers" />
     <meta property="og:description" content="" />
@@ -27,6 +27,8 @@
     <div id="cart">
         <div class="cart_wrap cart">
             <h1 class="cart_title">Cart</h1>
+            <div class="cart_inner">
+            <div class="cart_cont">
             <div class="cart_head">
                 <div class="item check">
                     <input type="checkbox" name="cartCheckBox" id="checkAll" class="cart_checkbox" checked="checked">
@@ -34,8 +36,8 @@
                 <div class="item info">상품 정보</div>
                 <div class="item img"></div>
                 <div class="item quantity">수량</div>
-                <div class="item price">가격</div>
-                <div class="item shipping">배송비</div>
+                <div class="item price">주문금액</div>
+                <div class="item delete"></div>
             </div>
             <div class="cart_content">
                 <!-- 장바구니에 담긴 각 상품 -->
@@ -50,7 +52,10 @@
                         <div class="name">
                             <a href="">Gzy</a>
                         </div>
-                        <button type="button" class="remove_btn">삭제</button>
+                        <div class="price">
+                            <div class="original_price"><span id="productPrice">3,000원</span></div>
+                            <div class="sale_price discount_rate">[<span>10</span>%] <span class="discount_price">2,700원</span></div>
+                        </div>
                     </div>
                     <div class="item quantity">
                         <a href="#" id="decreaseBtn" class="btn3 decrease">-</a>
@@ -58,14 +63,12 @@
                         <a href="#" id="increaseBtn" class="btn3 increase">+</a>
                     </div>
                     <div class="item price">
-                        3,000원
+                        <span class="sale_price">2,700원</span>
                     </div>
-                    <div class="item shipping">
-                        3,000원
-                    </div>
+                    <div class="item delete"><button type="button" class="remove_btn"><span class="material-symbols-outlined">close</span></button></div>
                 </div>
                 <div class="cart_item">
-                    <div class="item check">
+                    <div class="item check" >
                         <input type="checkbox" name="cartCheckBox" class="cart_checkbox" checked="checked">
                     </div>
                     <div class="item img">
@@ -75,7 +78,10 @@
                         <div class="name">
                             <a href="">Gzy</a>
                         </div>
-                        <button type="button" class="remove_btn">삭제</button>
+                        <div class="price">
+                            <div class="original_price"><span id="productPrice">6,000원</span></div>
+                            <div class="sale_price discount_rate">[<span>10</span>%] <span class="discount_price">5,400원</span></div>
+                        </div>
                     </div>
                     <div class="item quantity">
                         <a href="#" id="decreaseBtn" class="btn3 decrease">-</a>
@@ -83,31 +89,39 @@
                         <a href="#" id="increaseBtn" class="btn3 increase">+</a>
                     </div>
                     <div class="item price">
-                        3,000원
+                        <span class="sale_price">5,400원</span>
                     </div>
-                    <div class="item shipping">
-                        3,000원
-                    </div>
+                    <div class="item delete"><button type="button" class="remove_btn"><span class="material-symbols-outlined">close</span></button></div>
                 </div>
             </div>
+            <div class="btn_wrap">
+                <button type="button" id="deleteBtn" class="btn1" >선택 상품 삭제</button>
+                <button type="button" id="deleteAllBtn" class="btn1" >전체 상품 삭제</button>
+            </div>
+            </div>
             <div class="cart_total">
-                <div class="total_details">
-                <div class="total price">
-                    <div class="title">상품 합계</div>
+                <ul class="total_details">
+                <li class="total price">
+                    <div class="title">상품 금액</div>
                     <div class="content">3,000원</div>
-                </div>
-                <div class="total shipping">
+                </li>
+                <li class="total discount">
+                    <div class="title">상품할인금액</div>
+                    <div class="content">-300원</div>
+                </li>
+                <li class="total shipping">
                     <div class="title">배송비</div>
                     <div class="content">3,000원</div>
-                </div>
-                </div>
-                <div class="total_price">
-                    <div class="title">합계</div>
-                    <div class="content">6,000원</div>
-                </div>
+                </li>
+                <li class="total_price">
+                    <div class="title">결제예정금액</div>
+                    <div class="content">5,700원</div>
+                </li>
+                </ul>
                 <div class="btn_wrap">
-                <button type="button" class="btn1 submit_btn">구매하기</button>
+                <button type="submit" class="btn1 submit_btn">구매하기</button>
                 </div>
+            </div>
             </div>
         </div>
     </div>

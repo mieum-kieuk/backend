@@ -50,6 +50,7 @@
 .cart_item .name a{
     display: block;
     padding: 3px 0;
+    font-weight: 600;
 }
 .cart_item .option li{
     padding-bottom: 3px;
@@ -102,8 +103,21 @@
     margin-bottom: 40px;
     width: 100%;
 }
+#cart .cart_inner {
+    display: flex;
+    justify-content: space-between;
+}
+#cart .cart_cont {
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+}
+#cart .cart_cont .btn_wrap {
+    display: flex;
+    gap: 10px;
+}
 #cart .cart_content {
-    margin-top: 0;
+    margin-bottom: 20px;
 }
 .cart_wrap.cart {
     display: flex;
@@ -124,6 +138,12 @@
 .cart_wrap.cart .cart_head .item.quantity{
     display: inline-block;
 }
+.cart_wrap.cart .cart_head .item.info {
+    width: 65%;
+}
+.cart_wrap.cart .cart_head .item.img {
+    width: 0;
+}
 .cart_wrap.cart .cart_item {
     display: flex;
     align-items: center;
@@ -135,11 +155,9 @@
     text-align: center;
 }
 .cart_wrap.cart .check{
-    /*display: inline-block;*/
     padding-right: 10px;
 }
 .cart_wrap.cart .img{
-    display: inline-block;
     width: 15%;
 }
 .cart_wrap.cart .img img{
@@ -148,32 +166,56 @@
     height: 80px;
 }
 .cart_wrap.cart .info{
-    display: inline-block;
-    width: 70%;
-    text-align: left;
+    width: 50%;
+    /*text-align: left;*/
 }
 .cart_wrap.cart .cart_item .info{
     text-align: left;
+    height: 100%;
 }
 .cart_item .info .name {
-    margin-bottom: 10px;
-    font-size: 16px;
+    margin-bottom: 5px;
+    font-size: 18px;
+}
+.cart_item .info .name a{
+    padding: 0;
+}
+.cart_item .info .price {
+    display: flex;
+    flex-direction: column;
+    font-size: 13px;
+    width: 100%;
+    gap: 5px;
 }
 .cart_item .info .remove_btn {
+    display: flex;
     font-size: 12px;
     color: #999;
 }
 .cart_wrap.cart .quantity{
-    /*display: inline-block;*/
-    width: 25%;
-}
-.cart_wrap.cart .price{
-    display: inline-block;
     width: 20%;
 }
-.cart_wrap.cart .shipping{
-    display: inline-block;
+.cart_wrap.cart .item.price{
+    display: flex;
+    flex-direction: column;
     width: 20%;
+}
+.price .sale_price.discount_rate {
+    color: #d94747;
+}
+.cart_wrap.cart .delete{
+    display: flex;
+    width: 20%;
+    justify-content: center;
+
+}
+.cart_wrap.cart .delete .remove_btn{
+    display: flex;
+    align-items: center;
+}
+.material-symbols-outlined {
+    font-size: 20px;
+    line-height: 20px;
 }
 .quantity {
     display: flex;
@@ -209,53 +251,61 @@
     display: flex;
     flex-direction: column;
     align-items: flex-end;
+    max-width: 300px;
     width: 100%;
+    border: 1px solid #eee;
 }
 .cart_total .total_details {
     display: flex;
     flex-direction: column;
-    width: 40%;
-    border-bottom: 1px solid #333;
+    width: 100%;
+    font-size: 16px;
 }
 .cart_total .total_details .total{
     justify-content: space-between;
     padding: 20px;
 }
-.cart_total .total.price, .cart_total .total.shipping {
+.cart_total .total.price, .cart_total .total.discount, .cart_total .total.shipping {
     display: flex;
+    flex-direction: row;
     width: 100%;
 }
 .total .title {
     display: block;
-    text-align: center;
-    width: 20%;
-    padding-left: calc(20% - 70px);
+    /*text-align: center;*/
+    width: 100%;
 }
 .total .content {
-    width: 25%;
+    width: 100%;
     text-align: right;
-    padding-right: calc(25% - 75px);
 }
 .cart_total .total_price {
     display: flex;
     justify-content: space-between;
     padding: 20px;
-    width: 40%;
+    width: 100%;
+    border-top: 1px solid #333;
 }
 .total_price .title {
     display: block;
-    width: 20%;
-    text-align: center;
-    padding-left: calc(20% - 70px);
+    width: 100%;
+    /*text-align: center;*/
 }
 .total_price .content {
-    width: 25%;
+    width: 100%;
     text-align: right;
-    padding-right: calc(25% - 75px);
+    font-size: 18px;
+    font-weight: 800;
 }
 .cart_total .btn_wrap {
-    padding-right: 20px;
+    padding: 20px;
+    width: 100%;
 }
 .cart_total .btn1 {
-    margin-top: 20px;
+    width: 100%;
+    height: 45px;
+}
+.submit_btn.disabled {
+    background: #d7d7d7;
+    border: 1px solid #d7d7d7;
 }
