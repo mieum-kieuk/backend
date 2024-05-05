@@ -26,5 +26,36 @@
         </ul>
     </div>
 </div>
+
+<nav id="snb" th:fragment="mypage_menu">
+    <ul class="depth1">
+        <li>
+            <ul class="depth2">
+                <li><a href="">주문 내역 조회</a></li>
+                <li><a href="">적립금 내역</a></li>
+                <li><a href="">쿠폰 내역</a></li>
+            </ul>
+        </li>
+        <li>
+            <ul class="depth2">
+                <li><a href="">위시리스트</a></li>
+                <li><a href="">상품 후기</a></li>
+                <li><a href="../mypage/board/qna_list.html" th:href="@{/mypage/qna}">상품 문의</a></li>
+            </ul>
+        </li>
+        <li>
+            <ul class="depth2">
+                <li><a href="../mypage/mypage_home.html">회원 정보 수정</a></li>
+                <li><a href="../mypage/address/address_list.html" th:href="@{/mypage/address}">배송지 관리</a></li>
+                <li>
+                    <form action="../login.html" th:action="@{/logout}" method="post">
+                        <button type="submit">로그아웃</button>
+                        <input type="hidden" name="${ _csrf.parameterName }" value="${ _csrf.token }">
+                    </form>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</nav>
 </body>
 </html>

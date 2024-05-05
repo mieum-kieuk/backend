@@ -4,6 +4,7 @@ import archivegarden.shop.dto.community.qna.AddQnaForm;
 import archivegarden.shop.dto.community.qna.EditQnaForm;
 import archivegarden.shop.dto.community.qna.QnaDetailsDto;
 import archivegarden.shop.dto.community.qna.QnaListDto;
+import archivegarden.shop.dto.mypage.MyQnaListDto;
 import archivegarden.shop.entity.*;
 import archivegarden.shop.exception.NoSuchBoardException;
 import archivegarden.shop.exception.NoSuchProductException;
@@ -78,6 +79,15 @@ public class QnaService {
      */
     public Page<QnaListDto> getQnas(Pageable pageable) {
         return qnaRepository.findAll(pageable).map(QnaListDto::new);
+    }
+
+
+    /**
+     * 내가 작성한 Qna 목록 조회
+     * @return
+     */
+    public Page<MyQnaListDto> getMyQnas(Long memberId, Pageable pageable) {
+       return  qnaRepository.findByMemberId(memberId, pageable).map(MyQnaListDto::new);
     }
 
     /**
