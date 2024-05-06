@@ -17,7 +17,7 @@ $(document).ready(function () {
 
     if (url.includes('sorted_type')) {
         let sortedType = url.split('sorted_type=')[1];
-        if(sortedType.includes('&')) {
+        if (sortedType.includes('&')) {
             sortedType = sortedType.split('&page')[0];
         }
         if (sortedType === '0') {
@@ -86,12 +86,44 @@ $(document).ready(function () {
         return false;
     });
 
+    let csrfToken = $("meta[name='_csrf']").attr("content");
+    let csrfHeader = $("meta[name='_csrf_header']").attr("content");
+
     $('.wish').click(function () {
-        $(this).toggleClass('filled');
-        if ($(this).hasClass('filled')) {
-            $(this).text('favorite');
+
+        let heart = $(this);
+        let productId = heart.attr('id');
+
+        if (heart.hasClass('filled')) {
+            $.ajax({
+                url: '/wish/remove',
+                type: 'POST',
+                data: {productId: productId},
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader(csrfHeader, csrfToken);
+                },
+                success: function () {
+                    heart.removeClass('filled');
+                },
+                error: function (errorResult) {
+                    alert(errorResult['message']);
+                }
+            })
         } else {
-            $(this).hasClass('wish');
+            $.ajax({
+                type: 'POST',
+                url: '/wish/add',
+                data: {productId: productId},
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader(csrfHeader, csrfToken);
+                },
+                success: function () {
+                    heart.addClass('filled')
+                },
+                error: function (errorResult) {
+                    alert(errorResult['message']);
+                }
+            })
         }
     });
 });

@@ -58,7 +58,7 @@
                     <li th:each="product : ${products}">
                         <div class="thumb">
                             <a href="./product_details.html"
-                               th:href="@{/shop/products/details/{productId}(productId=${product.id})}">
+                               th:href="@{/shop/products/{productId}(productId=${product.id})}">
                                 <img class="thumb1" th:src="|/productImages/${product.displayImage}|" alt="제품 이미지">
                                 <img class="thumb2" th:if="${product.hoverImage} != null"
                                      th:src="|/productImages/${product.hoverImage}|" alt="제품 이미지">
@@ -67,7 +67,7 @@
                         <div class="description">
                             <div class="prd_name">
                                 <a href="./product_details.html"
-                                   th:href="@{/shop/products/details/{productId}(productId=${product.id})}">
+                                   th:href="@{/shop/products/{productId}(productId=${product.id})}">
                                     <span th:text="${product.name}">Masking Tape01</span></a>
                             </div>
                             <ul class="prd_price">

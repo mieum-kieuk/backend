@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>상품 | Tickers</title>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <title>상품 | 미음키읔</title>
     <meta property="og:type" content="website"/>
     <meta property="og:title" content="Tickers"/>
     <meta property="og:description" content=""/>
@@ -19,9 +21,12 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="../../static/css/comm.css" th:href="@{/css/comm.css}"/>
     <link rel="stylesheet" href="../../static/css/product_details.css" th:href="@{/css/product_details.css}"/>
+    <link rel="stylesheet" href="../../static/css/cart.css" th:href="@{/css/cart.css}"/>
     <link rel="stylesheet" href="../../static/css/review.css" th:href="@{/css/review.css}"/>
     <link rel="stylesheet" href="../../static/css/qna.css" th:href="@{/css/qna.css}"/>
+    <script defer src="../../static/js/comm.js" th:src="@{/js/comm.js}"></script>
     <script defer src="../../static/js/product.js" th:src="@{/js/product.js}"></script>
+    <script defer src="../../static/js/cart.js" th:src="@{/js/cart.js}"></script>
 </head>
 <body>
 <div class="wrap">
@@ -31,15 +36,22 @@
             <div class="prd_desc">
                 <div class="prd_left">
                     <div class="prd_img">
-                        <img src="../../static/images/maskingtape1.jpeg"
-                             th:src="|/productImages/${product.displayImage}|" alt="제품 이미지">
+                        <img th:src="|/productImages/${product.displayImage}|" alt="제품 이미지">
+                    </div>
+                    <div class="prd_display">
+                        <div class="display_img">
+                            <img th:src="|/productImages/${product.displayImage}|" alt="제품 이미지">
+                        </div>
+                        <div class="display_img" th:if="${product.hoverImage} != null">
+                            <img th:src="|/productImages/${product.hoverImage}|" alt="제품 이미지">
+                        </div>
                     </div>
                 </div>
                 <div class="prd_right">
                     <div class="prd_info">
                         <div class="prd_text ctg"><span th:text="${product.categoryName}">Masking tape</span></div>
                         <div class="prd_text tit"><span th:text="${product.name}">display</span>
-                            <a href="javascript:void(0)" class="wish_btn"><span class="material-symbols-rounded wish">favorite</span></a>
+                            <div class="wish_btn"><span class="material-symbols-rounded wish" th:id="${product.id}">favorite</span></div>
                         </div>
                         <ul class="prd_price">
                             <li class="original_price" id="price"
@@ -64,16 +76,49 @@
                     </div>
                     <div class="buy_btn" th:unless="${product.isSoldOut}">
                         <button type="button" id="CartBtn" class="btn1 cart">
-                            Add To Cart
+                            장바구니에 담기
                         </button>
                         <button type="button" id="BuyBtn" class="btn1 buy">
-                            Buy Now
+                            구매하기
                         </button>
                     </div>
-                    <div class="sold_out_btn" th:if="${product.isSoldOut}">
-                        <button type="button" id="SoldOutBtn" class="btn1 buy">
-                            SOLD OUT
-                        </button>
+<!--                    <div class="sold_out_btn" th:if="${product.isSoldOut}">-->
+<!--                        <button type="button" id="SoldOutBtn" class="btn1 buy">-->
+<!--                            SOLD OUT-->
+<!--                        </button>-->
+<!--                    </div>-->
+                    <div class="add_cart" id="addCart">
+                        <div class="cart_head">
+                            <h3>장바구니에 담기</h3>
+                        </div>
+                        <div class="cart_content">
+                            <ul class="cart_list">
+                                <li>
+                                    <div class="cart_item">
+                                        <a href="" class="cart_display">
+                                            <img src="../../images/maskingtape1.jpeg" alt="제품1">
+                                        </a>
+                                        <span class="name"><a href="">Gzy</a></span>
+                                        <ul class="option">
+                                            <li class="price">3,000원</li>
+                                            <li class="qaunt">1개</li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="pagination">
+                            <ul>
+                                <li><a href="#" class="prev_first"><span class="material-symbols-outlined">navigate_before</span></a></li>
+                                <li><a href="#">1</a></li>
+                                <li><a href="#" class="next_last"><span class="material-symbols-outlined">navigate_next</span></a></li>
+                            </ul>
+                        </div>
+                        <div class="btn_wrap">
+                            <a href="../cart/cart.html">장바구니 보기</a>
+                            <a href="">계속 쇼핑하기</a>
+                        </div>
+                        <button type="button" class="close_btn"><span class="material-symbols-outlined">close</span></button>
                     </div>
                     <div class="prd_info_tab">
                         <ul class="prd_info_list">
