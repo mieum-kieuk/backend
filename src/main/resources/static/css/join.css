@@ -60,8 +60,11 @@
 }
 .input_wrap li {
   display: flex;
-  justify-content: space-between;
+  /*justify-content: space-between;*/
   align-items: flex-end;
+}
+.input_wrap .phone_number li {
+  justify-content: unset;
 }
 .input_wrap input {
   border: 1px solid #999;
@@ -182,7 +185,11 @@
   font-size: 12px;
   color: #888;
 }
-
+.verify_sec2 #btn_verify_mobile_confirm.disabled {
+  cursor: default;
+  border: 1px solid #999;
+  color: #999;
+}
 #verificationMsg {
   margin-bottom: 20px;
 }
@@ -194,15 +201,16 @@
   margin-left: 12px;
   padding: 10px;
   height: 35px;
+  color: #000;
 }
 #btn_action_verify_mobile {
-  color: #000;
-  font-weight: 500;
+  /*font-weight: 400;*/
 }
 #btn_action_verify_mobile.disabled {
   color: #999;
   border-color: #999;
   pointer-events: none;
+  cursor: default;
   font-weight: 400;
 }
 .agree_all {

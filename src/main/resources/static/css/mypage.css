@@ -12,7 +12,7 @@
     height: 360px;
     width: 200px;
     position: absolute;
-    top: 0px;
+    top: 43.5px;
     left: 0px;
     text-align: left;
     padding: 0 20px;
@@ -115,11 +115,12 @@
 }
 h3 {
     display: block;
-    text-align: center;
+    text-align: left;
     font-size: 18px;
-    font-weight: 400;
+    font-weight: 600;
     width: 100%;
-    margin-bottom: 20px;
+    padding: 10px 0;
+    border-bottom: 1px solid #333;
 }
 .order_status.result {
     border: none;
@@ -187,15 +188,9 @@ h3 {
 #noDataMessage {
     display: block;
     width: 100%;
-    padding: 60px 0 40px;
+    padding: 40px;
     text-align: center;
 }
-/*.order_items li p{*/
-/*    display: block;*/
-/*    width: 100%;*/
-/*    padding: 0 20px;*/
-/*}*/
-
 /*address_list*/
 #addressList {
     display: flex;
@@ -256,7 +251,7 @@ h3 {
 .address_wrap .phonenumber {
     width: 15%;
 }
-.address_wrap .address {
+.address_wrap .item.address {
     width: 50%;
 }
 .address_wrap .btn {
@@ -274,7 +269,7 @@ h3 {
 }
 .address_foot .btn_wrap {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     gap: 10px;
 }
 .address_foot .btn1 {
@@ -319,6 +314,10 @@ h3 {
 .address div:nth-child(2) {
     display: flex;
     gap: 10px;
+    width: 70%;
+}
+#address .input_wrap #zipCode{
+    width: 70%;
 }
 .address div:last-child {
     margin-bottom: 20px;
@@ -332,7 +331,8 @@ h3 {
 .phone_number .number_sec{
     display: flex;
     align-items: center;
-    width: 100%;
+    width: 70%;
+    margin-bottom: 20px;
 }
 .phone_number .number_sec select {
     height: 35px;
@@ -476,7 +476,7 @@ h3 {
 .board_wrap .number {
     width: 5%;
 }
-.board_wrap .type, .board_wrap .writer, .board_wrap .views, .board_wrap .date {
+.board_wrap .type, .board_wrap .status, .board_wrap .views, .board_wrap .date {
     width: 10%;
 }
 .board_wrap .board_head .title {
@@ -489,4 +489,7 @@ h3 {
 .board_foot form {
     display: flex;
     gap: 10px;
+}
+.field-error {
+    margin-top: 3px;
 }

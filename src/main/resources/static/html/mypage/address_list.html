@@ -123,7 +123,7 @@
                     <div class="item recipientName">수령인</div>
                     <div class="item phonenumber">휴대전화</div>
                     <div class="item address">주소</div>
-                    <div class="item btn">수정</div>
+                    <div class="item btn"></div>
                 </div>
                 <div class="address_list">
                     <div class="address_item">
@@ -146,6 +146,11 @@
                             <div class="btn_wrap"><button type="button" onclick="location.href = './edit_address.html'" class="btn1">수정</button></div>
                         </div>
                     </div>
+                    <div class="address_item">
+                        <div id="noDataMessage">
+                            <span>등록된 배송지가 없습니다.</span>
+                        </div>
+                    </div>
                 </div>
                 </div>
                 <div class="address_foot">
@@ -154,13 +159,6 @@
                         <button type="button" id="" class="btn1 write_btn" onclick="location.href = './add_address.html'">배송지 등록</button>
                     </div>
                 </div>
-            </div>
-            <div class="pagination">
-                <ul>
-                    <li><a href="#" class="prev_first"><span class="material-symbols-outlined">navigate_before</span></a></li>
-                    <li><a href="#">1</a></li>
-                    <li><a href="#" class="next_last"><span class="material-symbols-outlined">navigate_next</span></a></li>
-                </ul>
             </div>
         </div>
     </div>

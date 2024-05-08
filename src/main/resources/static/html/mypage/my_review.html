@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My page | 미음키읔</title>
+    <title>상품 후기 | 미음키읔</title>
 
     <meta property="og:type" content="website" />
     <meta property="og:title" content="미음키읔" />
@@ -15,11 +15,10 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="../../css/comm.css" />
     <link rel="stylesheet" href="../../css/mypage.css" />
+    <script src="../../js/boardList.js"></script>
 
 </head>
 <body>
@@ -92,123 +91,88 @@
             <ul class="depth1">
                 <li>
                     <ul class="depth2">
-                    <li><a href="">주문 내역 조회</a></li>
-                    <li><a href="">적립금 내역</a></li>
-                    <li><a href="">쿠폰 내역</a></li>
+                        <li><a href="">주문 내역 조회</a></li>
+                        <li><a href="">적립금 내역</a></li>
+                        <li><a href="">쿠폰 내역</a></li>
                     </ul>
                 </li>
                 <li>
                     <ul class="depth2">
-                    <li><a href="./wish_list.html">위시리스트</a></li>
-                    <li><a href="">상품 후기</a></li>
-                    <li><a href="">상품 문의</a></li>
+                        <li><a href="./wish_list.html">위시리스트</a></li>
+                        <li><a href="./my_review.html">상품 후기</a></li>
+                        <li><a href="./my_qna.html">상품 문의</a></li>
                     </ul>
                 </li>
                 <li>
                     <ul class="depth2">
-                    <li><a href="./member_info_modify.html">회원 정보 수정</a></li>
-                    <li><a href="./address_list.html">배송지 관리</a></li>
-                    <li><a href="">로그아웃</a></li>
+                        <li><a href="./member_info_modify.html">회원 정보 수정</a></li>
+                        <li><a href="./address_list.html">배송지 관리</a></li>
+                        <li><a href="">로그아웃</a></li>
                     </ul>
                 </li>
             </ul>
         </nav>
-        <div class="mypage_content">
-            <div id="benefit">
-                <ul class="member_benefit">
-                    <li>
-                        <a href="">
-                            <span class="title">쿠폰</span>
-                            <span class="content" id="coupon">1</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="">
-                            <span class="title">적립금</span>
-                            <span class="content" id="mileage">100</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="">
-                            <span class="title">총주문</span>
-                            <span class="content" id="orderPrice">0원(<span id="orderCount">0</span>회)</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <div id="orderStatus">
-                <h3>주문 처리 현황</h3>
-                <div class="order_status_wrap">
-                <ul class="order_status">
-                    <li>
-                        <a href=""><span id="pendingCount" class="content">0</span></a>
-                        <span class="title">입금전</span>
-                    </li>
-                    <li>
-                        <a href=""><span id="preparingCount" class="content">0</span></a>
-                        <span class="title">배송준비중</span>
-                    </li>
-                    <li>
-                        <a href=""><span id="shippingCount" class="content">0</span></a>
-                        <span class="title">배송중</span>
-                    </li>
-                    <li>
-                        <a href=""><span id="completedCount" class="content">1</span></a>
-                        <span class="title">배송완료</span>
-                    </li>
-                </ul>
-                <ul class="order_status result">
-                    <li>
-                        <a href=""><span id="cancel" class="content">0</span></a>
-                        <span class="title">취소</span>
-                    </li>
-                    <li>
-                        <a href=""><span id="exchange" class="content">0</span></a>
-                        <span class="title">교환</span>
-                    </li>
-                    <li>
-                        <a href=""><span id="return" class="content">0</span></a>
-                        <span class="title">반품</span>
-                    </li>
-                </ul>
-                </div>
-            </div>
-            <div id="orderHistory">
-                <h3>주문 내역 조회</h3>
-                <div class="order_history">
-                    <ul class="order_items">
-                        <li>
-                            <div class="order_item_head">
-                                <h4><a href="">2024-04-25 (123456-123456)</a></h4>
-                                <a href="">상세보기</a>
+        <div id="boardList">
+            <div class="board_wrap wrapper">
+                <h3 class="board_title">게시글 관리</h3>
+                <div class="board_content">
+                    <div class="board_head">
+                        <div class="item number">
+                            <span>No.</span>
+                        </div>
+                        <div class="item title">
+                            <span>제목</span>
+                        </div>
+                        <div class="item views">
+                            <span>조회수</span>
+                        </div>
+                        <div class="item date">
+                            <span>작성일</span>
+                        </div>
+                    </div>
+                    <div class="board_list">
+                        <div class="board_item">
+                            <div class="item number">
+                                <span>2</span>
                             </div>
-                            <div id="orderItem" class="order_item">
-                                <div class="thumbnail">
-                                    <a href=""><img id="productImg" class="item_img" src="../../images/display_thumb2.jpeg" alt="상품 이미지"></a>
-                                </div>
-                                <div class="description">
-                                    <a href=""><span id="productName" class="item_name">Display masking tape</span></a>
-                                    <a href=""><span id="productPrice" class="item_price">3,000원</span></a>
-                                </div>
+                            <div class="item title">
+                                <a href="../review/review_details.html"><span>너무 이뻐요</span></a>
                             </div>
-                            <p>구매확정</p>
-                        </li>
-                        <li>
-                            <p id="noDataMessage">주문 내역이 없습니다.</p>
-                        </li>
-                    </ul>
+                            <div class="item views">
+                                <span>조회수</span>
+                            </div>
+                            <div class="item date">
+                                <span>작성일</span>
+                            </div>
+                        </div>
+                        <div class="board_item">
+                            <div class="item number">
+                                <span>1</span>
+                            </div>
+                            <div class="item title">
+                                <a href="../review/review_details.html"><span>너무 이뻐요</span></a>
+                            </div>
+                            <div class="item views">
+                                <span>조회수</span>
+                            </div>
+                            <div class="item date">
+                                <span>작성일</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="pagination">
-                    <ul>
-                        <li><a href="#" class="prev_first"><span class="material-symbols-outlined">navigate_before</span></a></li>
-                        <li><a href="#">1</a></li>
-                        <li><a href="#" class="next_last"><span class="material-symbols-outlined">navigate_next</span></a></li>
-                    </ul>
-                </div>
+
+            </div>
+            <div class="pagination">
+                <ul>
+                    <li><a href="#" class="prev_first"><span class="material-symbols-outlined">navigate_before</span></a></li>
+                    <li><a href="#">1</a></li>
+                    <li><a href="#" class="next_last"><span class="material-symbols-outlined">navigate_next</span></a></li>
+                </ul>
             </div>
         </div>
     </div>
-    <footer id="footer" class="footer">
+    <footer id="footer" class="footer fixed">
         <div class="footer_wrap">
             <div class="footer_inner">
                 <ul>
