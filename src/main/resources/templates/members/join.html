@@ -7,11 +7,6 @@
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title>회원가입 | 미음키읔</title>
 
-    <meta property="og:type" content="website"/>
-    <meta property="og:title" content="Archivegarden"/>
-    <meta property="og:description" content=""/>
-    <meta property="og:image" content=""/>
-    <meta property="og:url" content=""/>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
@@ -36,8 +31,7 @@
                 <li>
                     <div id="person_auth">
                         <div id="personal_type_wrap">
-                            <input id="personal_type0" name="personal_type" label="회원인증" type="checkbox"
-                                   checked="checked"/>
+                            <input id="personal_type0" name="personal_type" label="회원인증" type="checkbox" checked="checked"/>
                             <label for="personal_type0">이메일인증</label>
                         </div>
                         <div id="email_auth">
@@ -59,8 +53,7 @@
                             <span class="addinfo">(영문 소문자/숫자 조합, 5~20자)</span>
                         </li>
                         <li class="input_box_wrap">
-                            <input th:field="*{loginId}" class="inputTypeText" placeholder="" maxlength="20"
-                                   type="text"/>
+                            <input th:field="*{loginId}" class="inputTypeText" maxlength="20" type="text"/>
                             <span id="idMsg" class="error_message"></span>
                             <div class="field-error" th:errors="*{loginId}"></div>
                         </li>
@@ -71,8 +64,7 @@
                             <span class="addinfo">(영문 대소문자/숫자/특수문자 조합, 8자~16자)</span>
                         </li>
                         <li class="input_box_wrap">
-                            <input th:field="*{password}" class="input_box" autocomplete="off" maxlength="16"
-                                   0="disabled" type="password"/>
+                            <input th:field="*{password}" class="input_box" autocomplete="off" maxlength="16" 0="disabled" type="password"/>
                             <span id="pwMsg" class="error_message"></span>
                             <div class="field-error" th:errors="*{password}"></div>
                         </li>
@@ -82,8 +74,7 @@
                             <p class="join_tit ess">비밀번호 확인</p>
                         </li>
                         <li class="input_box_wrap">
-                            <input th:field="*{passwordConfirm}" class="input_box" autocomplete="off" maxlength="16"
-                                   0="disabled" type="password"/>
+                            <input th:field="*{passwordConfirm}" class="input_box" autocomplete="off" maxlength="16" 0="disabled" type="password"/>
                             <span id="pwconfirmMsg" class="error_message"></span>
                             <div class="field-error" th:errors="*{passwordConfirm}"></div>
                         </li>
@@ -94,7 +85,7 @@
                         </li>
                         <li>
                         <span id="name_content" class="input_box_wrap">
-                            <input th:field="*{name}" class="input_box ec-user-name" placeholder="" maxlength="12" type="text"/>
+                            <input th:field="*{name}" class="input_box ec-user-name" maxlength="12" type="text"/>
                             <span id="nameMsg" class="error_message"></span>
                             <div class="field-error" th:errors="*{name}"></div>
                         </span>
@@ -112,12 +103,11 @@
                             <input class="input_box" th:field="*{basicAddress}" placeholder="기본주소" type="text" readonly/>
                         </li>
                         <li>
-                            <input class="input_box" th:field="*{detailAddress}" placeholder="상세주소(선택 가능)"
-                                   maxlength="60" type="text"/>
+                            <input class="input_box" th:field="*{detailAddress}" placeholder="상세주소(선택 가능)" maxlength="40" type="text"/>
                         </li>
                     </ul>
                     <ul class="phone_number">
-                        <li class="" scope="row">
+                        <li scope="row">
                             <p class="join_tit ess">휴대전화번호</p>
                         </li>
                         <li class="phone_number select">

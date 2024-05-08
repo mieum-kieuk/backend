@@ -5,6 +5,9 @@ $(document).ready(function () {
 
     $('#password').on('focusout', function () {
         isPasswordValid();
+        if($('#passwordConfirm').val().trim() != '') {
+            isPwConfirmValid();
+        }
     });
 
     $('#passwordConfirm').on('focusout', function () {
@@ -13,6 +16,16 @@ $(document).ready(function () {
 
     $('#name').on('focusout', function () {
         isNameValid();
+    });
+
+    $('#detailAddress').focus(function() {
+        let zipCode = $('#zipCode').val().trim();
+        let basicAddress = $('#basicAddress').val().trim();
+
+        if (zipCode === '' || basicAddress === '') {
+            alert("주소 검색을 통해 우편번호와 기본주소를 먼저 입력해 주세요.");
+            $('#searchZipCodeBtn').focus();
+        }
     });
 
     $('#phonenumber2, #phonenumber3').on('focusout', function () {
@@ -68,6 +81,10 @@ function isLoginIdValid() {
                 $('#idMsg').text('이미 사용 중인 아이디입니다.');
                 $('#idMsg').removeClass('success').addClass('error');
             }
+        },
+        error: function () {
+            $('#idMsg').text('아이디 중복 확인을 다시 시도해 주세요.');
+            $('#idMsg').removeClass('success').addClass('error');
         }
     });
 
@@ -182,7 +199,7 @@ function regexName() {
     let name = $('#name').val();
     let regex = /^[가-힣a-zA-Z]{2,12}$/;
     if (!regex.test(name)) {
-        $('#nameMsg').text('한글, 영문 대/소문자를 사용해 주세요. (특수기호, 공백 사용 불가)');
+        $('#nameMsg').text('2~12자의 한글, 영문 대/소문자를 사용해 주세요. (특수기호, 공백 사용 불가)');
         return false;
     }
 
@@ -218,8 +235,7 @@ function isEmailValid() {
             }
         },
         error: function () {
-            // 오류 발생 시 처리
-            $('#emailMsg').text('유효한 이메일을 입력해 주세요.');
+            $('#emailMsg').text('이메일 중복 확인을 다시 시도해 주세요.');
             $('#emailMsg').removeClass('success').addClass('error');
         }
     });
@@ -291,7 +307,11 @@ function regexPhone() {
 let interval;
 
 function startTimer() {
-    let timer = 180; // 3분 = 180초
+    clearInterval(interval);
+    $('#expiryTime').css('display', 'block');
+    $('#expiryTime').text('3:00');
+    let timer = 179; // 2분 59초 = 179초
+
     interval = setInterval(function () {
         let minutes = Math.floor(timer / 60);
         let seconds = timer % 60;
@@ -326,13 +346,15 @@ function requestVerificationCode() {
                 $('#phoneNumberMsg').text(result['message']);
                 $('#confirm_verify_mobile').css('display', 'flex');
                 $('#btn_action_verify_mobile').text('재전송');
-                $('#expiryTime').text('3:00');
                 $('#verificationNo').val('');
                 startTimer();
             } else {
                 $('#confirm_verify_mobile').css('display', 'none');
                 $('#phoneNumberMsg').text(result['message']);
             }
+        },
+        error: function () {
+            $('#phoneNumberMsg').text('휴대전화번호 인증을 다시 시도해 주세요.');
         }
     });
 }
@@ -348,23 +370,21 @@ function verificationBtnState() {
     if (isValidPhoneNumber) {
         $('#btn_action_verify_mobile').removeClass('disabled');
     } else {
+        $('#verificationNo').val('');
+        $('#verificationNo').attr('placeholder', '');
+        $('#verificationNo').attr('disabled', false);
+        $('#verificationNo').css('background-color', '#FFF');
         $('#btn_action_verify_mobile').addClass('disabled');
+        $('#btn_action_verify_mobile').attr('disabled', false);
+        $('#btn_verify_mobile_confirm').removeClass('disabled');
+        $('#btn_verify_mobile_confirm').attr('disabled', false);
+        $('#verificationNo').attr('complete', "false");
+
+        clearInterval(interval);
+        $('#confirm_verify_mobile').css('display', 'none');
+        $('#phoneNumberMsg').text('');
+        $('#btn_action_verify_mobile').text('인증번호 받기');
     }
-
-    $('#verificationNo').val('');
-    $('#verificationNo').attr('placeholder', '');
-    $('#verificationNo').attr('disabled', false);
-    $('#verificationNo').css('background-color', '#FFF');
-    $('#verificationNo').css('cursor', 'pointer');
-    $('#btn_verify_mobile_confirm').attr('disabled', false);
-    $('#btn_verify_mobile_confirm').css('border', '1px solid #999');
-    $('#verificationNo').attr('complete', "false");
-
-    $('#confirm_verify_mobile').hide();
-    $('#phoneNumberMsg').text('');
-    $('#btn_action_verify_mobile').text('인증번호 받기');
-    clearInterval(interval);
-    $('#expiryTime').text('');
 }
 
 function isVerificationValid() {
@@ -387,20 +407,26 @@ function isVerificationValid() {
         },
         success: function (result) {
             if (result) {
-                $('#expiryTime').css('display', 'none');
                 $('#verificationNo').val('');
                 $('#verificationNo').attr('placeholder', '휴대전화 인증 완료');
                 $('#verificationNo').attr('disabled', true);
                 $('#verificationNo').css('background-color', '#EFEFEF');
                 $('#verificationNo').css('cursor', 'default');
+                $('#btn_action_verify_mobile').attr('disabled', true);
+                $('#btn_action_verify_mobile').addClass('disabled');
                 $('#btn_verify_mobile_confirm').attr('disabled', true);
-                $('#btn_verify_mobile_confirm').css('border', '1px solid #999');
+                $('#btn_verify_mobile_confirm').addClass('disabled');
+                clearInterval(interval);
+                $('#expiryTime').css('display', 'none');
                 $('#verificationNo').attr('complete', "true");
             } else {
                 $('#verificationNo').val('');
                 alert('인증번호가 일치하지 않습니다.\n확인 후 다시 시도해 주세요.');
                 $('#verificationNo').attr('complete', "false");
             }
+        },
+        error: function () {
+            $('verificationMsg').text('인증번호 인증을 다시 시도해 주세요.');
         }
     });
 }

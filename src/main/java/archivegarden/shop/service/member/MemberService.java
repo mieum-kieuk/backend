@@ -8,11 +8,11 @@ public interface MemberService {
 
     Long join(MemberSaveForm dto);
 
-    boolean duplicateLoginId(String loginId);
+    boolean isAvailableLoginId(String loginId);
 
-    boolean duplicateEmail(String email);
+    boolean isAvailableEmail(String email);
 
-    boolean duplicatePhonenumber(String phonenumber);
+    boolean isAvailablePhonenumber(String phonenumber);
 
     void sendVerificationNo(String phonenumber);
 

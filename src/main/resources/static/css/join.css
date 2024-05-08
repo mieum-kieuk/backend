@@ -60,7 +60,7 @@
 }
 .input_wrap li {
   display: flex;
-  /*justify-content: space-between;*/
+  justify-content: space-between;
   align-items: flex-end;
 }
 .input_wrap .phone_number li {
@@ -177,13 +177,18 @@
 
 .input_wrap #confirm_verify_mobile .verify {
   display: flex;
-  flex: 1;
+  width: 70%;
   flex-direction: column;
 }
 .input_wrap #confirm_verify_mobile .verify .time {
   margin-top: 5px;
   font-size: 12px;
   color: #888;
+}
+.verify_sec2 #btn_action_verify_mobile.disabled {
+  cursor: default;
+  border: 1px solid #999;
+  color: #999;
 }
 .verify_sec2 #btn_verify_mobile_confirm.disabled {
   cursor: default;

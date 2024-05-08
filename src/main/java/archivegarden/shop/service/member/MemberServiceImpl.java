@@ -85,7 +85,7 @@ public class MemberServiceImpl implements MemberService {
      * 이미 존재하는 아이디 -> false
      */
     @Override
-    public boolean duplicateLoginId(String loginId) {
+    public boolean isAvailableLoginId(String loginId) {
         return memberRepository.findByLoginId(loginId).isEmpty();
     }
 
@@ -94,7 +94,7 @@ public class MemberServiceImpl implements MemberService {
      * 이미 존재하는 이메일 -> false
      */
     @Override
-    public boolean duplicateEmail(String email) {
+    public boolean isAvailableEmail(String email) {
         return memberRepository.findByEmail(email).isEmpty();
     }
 
@@ -103,7 +103,7 @@ public class MemberServiceImpl implements MemberService {
      * 이미 존재하는 핸드폰 번호 -> false
      */
     @Override
-    public boolean duplicatePhonenumber(String phonenumber) {
+    public boolean isAvailablePhonenumber(String phonenumber) {
         return memberRepository.findByPhonenumber(phonenumber).isEmpty();
     }
 

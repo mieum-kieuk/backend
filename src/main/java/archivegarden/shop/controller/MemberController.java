@@ -82,13 +82,13 @@ public class MemberController {
     @ResponseBody
     @PostMapping("/verification/loginId")
     public boolean checkLoginId(@RequestParam(name = "loginId") String loginId) {
-        return memberService.duplicateLoginId(loginId);
+        return memberService.isAvailableLoginId(loginId);
     }
 
     @ResponseBody
     @PostMapping("/verification/email")
     public boolean checkEmail(@RequestParam(name = "email") String email) {
-        return memberService.duplicateEmail(email);
+        return memberService.isAvailableEmail(email);
     }
 
     @ResponseBody
@@ -102,7 +102,7 @@ public class MemberController {
 
         //중복 검증
         String phonenumber = requestDto.getPhonenumber1() + requestDto.getPhonenumber2() + requestDto.getPhonenumber3();
-        boolean isAvailable = memberService.duplicatePhonenumber(phonenumber);
+        boolean isAvailable = memberService.isAvailablePhonenumber(phonenumber);
         if (!isAvailable) {
             return new PhonenumberResponseDto(false, "사용하려는 휴대전화번호는 이미 다른 계정에 등록되어 있습니다.");
         }
