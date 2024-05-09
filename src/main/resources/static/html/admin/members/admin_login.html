@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>관리자 회원가입| 미음키읔</title>
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Archivegarden" />
+    <meta property="og:description" content="" />
+    <meta property="og:image" content="" />
+    <meta property="og:url" content="" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../../css/login.css" />
+    <link rel="stylesheet" href="../../../css/comm.css" />
+    <link rel="stylesheet" href="../../../css/admin_form.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script defer src="../../../js/login.js"></script>
+
+</head>
+<body>
+<div class="admin_wrap">
+    <div class="sidebar">
+        <div class="side_menu top">
+            <ul>
+                <li class="logo">
+                    <a href="../index.html">
+                        <img src="../../images/meek1.png" alt="로고">
+                    </a>
+                </li>
+                <li><a href="#">기본 설정</a></li>
+                <li><a href="../index.html">사이트 바로가기</a></li>
+            </ul>
+            <hr>
+        </div>
+        <div class="side_menu">
+            <h2>메뉴</h2>
+            <ul>
+                <li><a href="#">상품 관리</a></li>
+                <li><a href="#">할인 혜택 관리</a></li>
+                <li><a href="#">주문 관리</a></li>
+                <li><a href="#">고객 관리</a></li>
+            </ul>
+            <ul>
+                <li><a href="">로그인</a></li>
+                <li><a href="">회원가입</a></li>
+                <li><a href="">로그아웃</a></li>
+            </ul>
+        </div>
+    </div>
+    <div id="login" class="admin_member">
+        <div class="content">
+            <h2 class="content_tit">로그인</h2>
+            <form action=""  method="post">
+                <div class="input_wrap">
+                    <ul>
+                        <li>
+                            <label for="loginId" class="login_tit">아이디</label>
+                        </li>
+                        <li class="input_box_wrap">
+                            <input id="loginId" class="inputTypeText" placeholder="" maxlength="20" type="text"/>
+                        </li>
+                    </ul>
+                    <ul>
+                        <li>
+                            <label for="password" class="login_tit">비밀번호</label>
+                        </li>
+                        <li class="input_box_wrap">
+                            <input id="password" class="input_box" autocomplete="off" maxlength="16" 0="disabled" type="password"/>
+                        </li>
+                    </ul>
+                </div>
+                <div class="btn_wrap">
+                    <button type="submit" id="loginBtn" class="btn1 submit_btn">
+                        로그인
+                    </button>
+                </div>
+                <div class="account_btns">
+                    <ul class="find_btn">
+                        <li class="btn2"> <a href="../members/admin_find_id.html">아이디 찾기</a>
+                        </li>
+                        <li class="btn2"><a href="../members/admin_find_pw.html">/ 비밀번호 찾기</a>
+                        </li>
+                    </ul>
+                    <ul class="create_btn">
+                        <li class="btn2"><a href="../members/admin_join.html">회원가입</a></li>
+                    </ul>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

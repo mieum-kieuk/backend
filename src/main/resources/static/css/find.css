@@ -5,7 +5,6 @@
     font-size: 14px;
     color: #222;
 }
-
 form {
     max-width: 380px;
     width: 100%;
@@ -93,11 +92,6 @@ form input::placeholder {
 .find_btn {
     display: flex;
     gap: 10px;
-}
-
-#find {
-    display: flex;
-    justify-content: center;
 }
 
 .find_wrap {

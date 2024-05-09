@@ -57,7 +57,12 @@ body {
 .side_menu.top {
     padding-bottom: 20px;
 }
-
+.side_menu ul:nth-child(3) {
+    display: flex;
+    justify-content: center;
+    margin-top:20px;
+    padding: 20px;
+}
 .form_wrap {
     width: 100%;
     border: 1px solid #d7d7d7;
@@ -73,6 +78,7 @@ body {
 
 .content_tit {
     display: flex;
+    font-size: 18px;
     padding: 20px 0 10px;
 }
 
@@ -284,7 +290,7 @@ select {
     border-bottom: none;
 }
 
-.btn_wrap {
+.admin_wrap #addProduct .btn_wrap, .admin_wrap #editProduct .btn_wrap{
     position: absolute;
     top: 0;
     right: 0;
@@ -522,4 +528,42 @@ thead .btn_cell {
 
 .field-error.exc {
     margin: 0 0 5px 140px;
+}
+.admin_wrap .admin_member label {
+    font-size: 14px;
+    margin: 4px 0 8px;
+}
+/*admin_join*/
+.admin_wrap #join, .admin_wrap #login, .admin_wrap #find {
+    padding-top: 0;
+    justify-content: flex-start;
+}
+.admin_wrap .join_tit, .admin_wrap .addinfo {
+    margin: 4px 0 8px;
+}
+.admin_wrap .join_tit.ess::after {
+    content: "*"; /* 가상 요소에 별표 내용 추가 */
+    color: #d94747; /* 별표 색상 지정 */
+    margin-left: 3px; /* 별표와 텍스트 사이의 간격 조정 */
+}
+.admin_wrap #join #name {
+    background: #eee;
+    cursor: default;
+}
+/*admin_login*/
+.admin_wrap #login .content{
+    width: 50%;
+}
+.admin_wrap #login form {
+    max-width: 380px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.admin_wrap #login .input_wrap input{
+    height: 35px;
+}
+.admin_wrap #login .btn_wrap .btn1 {
+    width: 100%;
 }
