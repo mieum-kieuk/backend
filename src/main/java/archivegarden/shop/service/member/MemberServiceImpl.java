@@ -4,6 +4,7 @@ import archivegarden.shop.dto.member.*;
 import archivegarden.shop.entity.FindAccountType;
 import archivegarden.shop.entity.Member;
 import archivegarden.shop.entity.ShippingAddress;
+import archivegarden.shop.exception.NoSuchMemberException;
 import archivegarden.shop.repository.MemberRepository;
 import archivegarden.shop.service.email.EmailService;
 import archivegarden.shop.util.RedisUtil;
@@ -152,12 +153,11 @@ public class MemberServiceImpl implements MemberService {
      */
     @Override
     public Optional<FindIdResultDto> findId(FindIdForm form) {
-
         if (form.getFindType() == FindAccountType.EMAIL) {
-            return memberRepository.findByNameAndEmail(form.getName(), form.getEmail()).map(FindIdResultDto::new);
+            return memberRepository.findLoginIdByEmail(form.getName(), form.getEmail()).map(FindIdResultDto::new);
         } else {
-            String phonenumber = form.getPhonenumber1() + form.getPhonenumber2() + form.getPhonenumber3();
-            return memberRepository.findByNameAndPhonenumber(form.getName(), phonenumber).map(FindIdResultDto::new);
+            String phonenumber = form.getPhonenumber1() + "-" + form.getPhonenumber2() + "-" + form.getPhonenumber3();
+            return memberRepository.findLoginIdByPhonenumber(form.getName(), phonenumber).map(FindIdResultDto::new);
         }
     }
 
@@ -168,11 +168,10 @@ public class MemberServiceImpl implements MemberService {
      */
     @Override
     public String findPassword(FindPasswordForm form) {
-
         if (form.getFindType() == FindAccountType.EMAIL) {
             return memberRepository.findPasswordByEmail(form.getLoginId(), form.getName(), form.getEmail());
         } else {
-            String phonenumber = form.getPhonenumber1() + form.getPhonenumber2() + form.getPhonenumber3();
+            String phonenumber = form.getPhonenumber1() + "-" + form.getPhonenumber2() + "-" + form.getPhonenumber3();
             return memberRepository.findPasswordByPhonenumber(form.getLoginId(), form.getName(), phonenumber);
         }
     }

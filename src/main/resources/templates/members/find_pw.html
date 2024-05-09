@@ -4,32 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>비밀번호 찾기 | 미음키읔</title>
-    <meta property="og:type" content="website"/>
-    <meta property="og:title" content="Archivegarden"/>
-    <meta property="og:description" content=""/>
-    <meta property="og:image" content=""/>
-    <meta property="og:url" content=""/>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="../../static/css/find.css" th:href="@{/css/find.css}"/>
     <link rel="stylesheet" href="../../static/css/comm.css" th:href="@{/css/comm.css}"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script defer src="../../static/js/findPw.js" th:src="@{/js/findPw.js}"></script>
-
-    <style>
-        .field-error {
-            margin-top: 3px;
-        }
-    </style>
 </head>
 <body>
 <div th:replace="~{/layout/header :: header}"></div>
 <div id="find" class="find">
-    <form id="findPwForm" action="" th:action th:object="${findPasswordForm}" method="post"
-          onsubmit="return validationCheck()">
+    <form id="findPwForm" action="" th:action th:object="${findPasswordForm}" method="post" onsubmit="return validationCheck()">
         <div th:if="${#fields.hasGlobalErrors()}">
             <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">전체 오류 메세지</p>
         </div>
@@ -85,10 +73,8 @@
                             <option value="018">018</option>
                             <option value="019">019</option>
                         </select>
-                        <p>-</p><input th:field="*{phonenumber2}" class="input_box" placeholder="" value=""
-                                       maxlength="4" type="text"/>
-                        <p>-</p><input th:field="*{phonenumber3}" class="input_box" placeholder="" value=""
-                                       maxlength="4" type="text"/>
+                        <p>-</p><input th:field="*{phonenumber2}" class="input_box" placeholder="" value="" maxlength="4" type="text"/>
+                        <p>-</p><input th:field="*{phonenumber3}" class="input_box" placeholder="" value="" maxlength="4" type="text"/>
                     </div>
                 </li>
                 <div class="field-error" th:errors="*{phonenumber1}"></div>
@@ -100,7 +86,6 @@
     </form>
 </div>
 <div th:replace="~{/layout/footer :: fixed_footer}"></div>
-
 <script th:inline="javascript">
     $(document).ready(function () {
         let findType = [[${findPasswordForm.findType}]]

@@ -4,31 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>아이디 찾기 | 미음키읔</title>
-    <meta property="og:type" content="website"/>
-    <meta property="og:title" content="Archivegarden"/>
-    <meta property="og:description" content=""/>
-    <meta property="og:image" content=""/>
-    <meta property="og:url" content=""/>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="../../static/css/find.css" th:href="@{/css/find.css}"/>
     <link rel="stylesheet" href="../../static/css/comm.css" th:href="@{/css/comm.css}"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script defer src="../../static/js/findId.js" th:src="@{/js/findId.js}"></script>
-
-    <style>
-        .field-error {
-            margin-top: 3px;
-        }
-    </style>
 </head>
 <body>
 <div th:replace="~{/layout/header :: header}"></div>
 <div id="find" class="find">
-    <form id="findIdForm" action="" th:action th:object="${findIdForm}" method="post"
-          th:onsubmit="return validationCheck()">
+    <form id="findIdForm" action="" th:action th:object="${findIdForm}" method="post" th:onsubmit="return validationCheck()">
         <div th:if="${#fields.hasGlobalErrors()}">
             <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">전체 오류 메세지</p>
         </div>
@@ -50,8 +39,7 @@
                     <p>이름</p>
                 </li>
                 <li id="name_content" class="input_box_wrap">
-                    <input th:field="*{name}" class="input_box ec-user-name" placeholder="" maxlength="12"
-                           type="text"/>
+                    <input th:field="*{name}" class="input_box ec-user-name" maxlength="12" type="text"/>
                 </li>
                 <div class="field-error" th:errors="*{name}"></div>
             </ul>
@@ -60,7 +48,7 @@
                     <p>이메일</p>
                 </li>
                 <li class="input_box_wrap">
-                    <input th:field="*{email}" class="input_box" placeholder="" maxlength="45" type="text"/>
+                    <input th:field="*{email}" class="input_box" maxlength="45" type="text"/>
                 </li>
                 <div class="field-error" th:errors="*{email}"></div>
             </ul>
@@ -78,10 +66,8 @@
                             <option value="018">018</option>
                             <option value="019">019</option>
                         </select>
-                        <p>-</p><input th:field="*{phonenumber2}" class="input_box" placeholder="" maxlength="4"
-                                       type="text"/>
-                        <p>-</p><input th:field="*{phonenumber3}" class="input_box" placeholder="" maxlength="4"
-                                       type="text"/>
+                        <p>-</p><input th:field="*{phonenumber2}" class="input_box" maxlength="4" type="text"/>
+                        <p>-</p><input th:field="*{phonenumber3}" class="input_box" maxlength="4" type="text"/>
                     </div>
                     <div class="field-error" th:errors="*{phonenumber1}"></div>
                 </li>
@@ -100,7 +86,7 @@
             $('#findType1').attr('checked', 'checked');
             $('#phonenumber_view').hide();
             $('#email_view').show();
-        } else if (findType === 'PHONENUMBER') {
+        } else if (findType === 'SMS') {
             $('#findType2').attr('checked', 'checked');
             $('#phonenumber_view').show();
             $('#email_view').hide();

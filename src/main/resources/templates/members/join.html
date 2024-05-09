@@ -31,7 +31,7 @@
                 <li>
                     <div id="person_auth">
                         <div id="personal_type_wrap">
-                            <input id="personal_type0" name="personal_type" label="회원인증" type="checkbox" checked="checked"/>
+                            <input id="personal_type0" name="personal_type" label="회원인증" type="checkbox" checked="checked" readonly/>
                             <label for="personal_type0">이메일인증</label>
                         </div>
                         <div id="email_auth">
@@ -47,6 +47,7 @@
         <form action="" th:action th:object="${form}" method="post" th:onsubmit="return validateBeforeSubmit()">
             <div class="input_area">
                 <div class="input_wrap">
+
                     <ul>
                         <li scope="row">
                             <p class="join_tit ess">아이디</p>

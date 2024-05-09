@@ -218,3 +218,6 @@ form input::placeholder {
 #find_pw .find_wrap #sendPwBtn {
     width: 100%;
 }
+.field-error {
+    margin-top: 3px;
+}
