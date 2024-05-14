@@ -6,11 +6,7 @@
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title>상품 | 미음키읔</title>
-    <meta property="og:type" content="website"/>
-    <meta property="og:title" content="Tickers"/>
-    <meta property="og:description" content=""/>
-    <meta property=" :image" content=""/>
-    <meta property="og:url" content=""/>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
@@ -18,15 +14,14 @@
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="../../static/css/comm.css" th:href="@{/css/comm.css}"/>
     <link rel="stylesheet" href="../../static/css/product_details.css" th:href="@{/css/product_details.css}"/>
     <link rel="stylesheet" href="../../static/css/cart.css" th:href="@{/css/cart.css}"/>
     <link rel="stylesheet" href="../../static/css/review.css" th:href="@{/css/review.css}"/>
     <link rel="stylesheet" href="../../static/css/qna.css" th:href="@{/css/qna.css}"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script defer src="../../static/js/comm.js" th:src="@{/js/comm.js}"></script>
     <script defer src="../../static/js/product.js" th:src="@{/js/product.js}"></script>
-    <script defer src="../../static/js/cart.js" th:src="@{/js/cart.js}"></script>
 </head>
 <body>
 <div class="wrap">
@@ -51,7 +46,8 @@
                     <div class="prd_info">
                         <div class="prd_text ctg"><span th:text="${product.categoryName}">Masking tape</span></div>
                         <div class="prd_text tit"><span th:text="${product.name}">display</span>
-                            <div class="wish_btn"><span class="material-symbols-rounded wish" th:id="${product.id}">favorite</span></div>
+                            <div class="wish_btn"><span class="material-symbols-rounded wish" th:id="${product.id}">favorite</span>
+                            </div>
                         </div>
                         <ul class="prd_price">
                             <li class="original_price" id="price"
@@ -78,15 +74,17 @@
                         <button type="button" id="CartBtn" class="btn1 cart">
                             장바구니에 담기
                         </button>
-                        <button type="button" id="BuyBtn" class="btn1 buy">
+                        <button type="button" id="BuyBtn" class="btn1 buy"
+                                onclick="location.href='../order/cart.html'"
+                                th:onclick="|location.href='@{/order/cart}'|">
                             구매하기
                         </button>
                     </div>
-<!--                    <div class="sold_out_btn" th:if="${product.isSoldOut}">-->
-<!--                        <button type="button" id="SoldOutBtn" class="btn1 buy">-->
-<!--                            SOLD OUT-->
-<!--                        </button>-->
-<!--                    </div>-->
+                    <!--                    <div class="sold_out_btn" th:if="${product.isSoldOut}">-->
+                    <!--                        <button type="button" id="SoldOutBtn" class="btn1 buy">-->
+                    <!--                            SOLD OUT-->
+                    <!--                        </button>-->
+                    <!--                    </div>-->
                     <div class="add_cart" id="addCart">
                         <div class="cart_head">
                             <h3>장바구니에 담기</h3>
@@ -109,16 +107,19 @@
                         </div>
                         <div class="pagination">
                             <ul>
-                                <li><a href="#" class="prev_first"><span class="material-symbols-outlined">navigate_before</span></a></li>
+                                <li><a href="#" class="prev_first"><span class="material-symbols-outlined">navigate_before</span></a>
+                                </li>
                                 <li><a href="#">1</a></li>
-                                <li><a href="#" class="next_last"><span class="material-symbols-outlined">navigate_next</span></a></li>
+                                <li><a href="#" class="next_last"><span
+                                        class="material-symbols-outlined">navigate_next</span></a></li>
                             </ul>
                         </div>
                         <div class="btn_wrap">
                             <a href="../cart/cart.html">장바구니 보기</a>
                             <a href="">계속 쇼핑하기</a>
                         </div>
-                        <button type="button" class="close_btn"><span class="material-symbols-outlined">close</span></button>
+                        <button type="button" class="close_btn"><span class="material-symbols-outlined">close</span>
+                        </button>
                     </div>
                     <div class="prd_info_tab">
                         <ul class="prd_info_list">
@@ -237,5 +238,31 @@
         </div>
     </div>
 </div>
+<script th:inline="javascript">
+    let csrfToken = $("meta[name='_csrf']").attr("content");
+    let csrfHeader = $("meta[name='_csrf_header']").attr("content");
+
+    //장바구니 담기
+    $('#CartBtn').click(function () {
+        let productId = [[${product.id}]];
+        let count = $('.quant_input').val();
+
+        $.ajax({
+            type: 'POST',
+            url: '/api/cart/add',
+            data: {productId: productId, count: count},
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(csrfHeader, csrfToken);
+                xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest")
+            },
+            success: function () {
+                alert('장바구니에 상품이 담겼습니다.');
+            },
+            error: function() {
+                window.location.href = '/login';
+            }
+        })
+    });
+</script>
 </body>
 </html>
