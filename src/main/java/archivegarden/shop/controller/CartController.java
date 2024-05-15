@@ -10,6 +10,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -25,6 +26,12 @@ public class CartController {
         List<CartListDto> products = cartService.getCart(loginMember);
         model.addAttribute("products", products);
         return "order/cart";
+    }
+
+    @GetMapping("/cart/checkout")
+    public String checkout(@RequestParam List<Long> productIds, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("productIds", productIds);
+        return "redirect:/order/checkout";
     }
 
     @ResponseStatus(HttpStatus.OK)

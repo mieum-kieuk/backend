@@ -102,7 +102,8 @@
                            </li>
                         </ul>
                         <div class="btn_wrap">
-                            <button type="submit" class="btn1 submit_btn" th:onclick="|location.href='@{/order/checkout}'|" >구매하기</button>
+                            <button type="button" class="btn1 submit_btn" onclick="location.href='./checkout.html'"
+                                    th:onclick="checkout()">구매하기</button>
                       </div>
                     </div>
                 </div>

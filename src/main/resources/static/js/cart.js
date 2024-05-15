@@ -154,7 +154,7 @@ function decreaseCount(productId) {
                 updateTotalPrice();
             },
             error: function () {
-                alert('수량 변경 중에 문제가 발생하였습니다.\n다시 시도해주세요.');
+                alert('수량 변경 중에 문제가 발생했습니다.\n다시 시도해주세요.');
             }
         })
     } else {
@@ -185,7 +185,7 @@ function increaseCount(productId) {
                 updateTotalPrice();
             },
             error: function () {
-                alert('수량 변경 중에 문제가 발생하였습니다.\n다시 시도해주세요.');
+                alert('수량 변경 중에 문제가 발생했습니다.\n다시 시도해주세요.');
             }
         })
     } else {
@@ -243,7 +243,7 @@ function deleteProducts() {
                     window.location.href = '/cart';
                 },
                 error: function () {
-                    alert('삭제하는 동안 문제가 발생하였습니다.\n다시 시도해주세요.');
+                    alert('삭제하는 동안 문제가 발생했습니다.\n다시 시도해주세요.');
                 }
             })
         }
@@ -279,9 +279,21 @@ function deleteSoldOutProducts() {
                     window.location.href = '/cart';
                 },
                 error: function () {
-                    alert('삭제하는 동안 문제가 발생하였습니다.\n다시 시도해주세요.');
+                    alert('삭제하는 동안 문제가 발생했습니다.\n다시 시도해주세요.');
                 }
             })
         }
     }
+}
+
+function checkout() {
+    let productIds = [];
+    let checkboxes = $('.cart_content input[type=checkbox]:checked');
+
+    checkboxes.each(function (v) {
+        let productId = checkboxes[v].id.split('checkbox')[1];
+        productIds.push(productId);
+    })
+
+    window.location.href = '/cart/checkout?productIds=' + productIds.join(',');
 }
