@@ -1,12 +1,17 @@
 $(document).ready(function () {
 
     updateTotalPrice();
+    updateShippingFee();
 
     // 전체 선택 체크박스 변경 시
     $('#checkAll').change(function () {
         var isChecked = $(this).prop('checked');
         $('.cart_checkbox').prop('checked', isChecked);
         updateTotalPrice();
+
+        if (!isChecked) {
+            updateShippingFee(0);
+        }
     });
     // 체크박스 변경 시
     $('.cart_checkbox').change(function () {
@@ -45,6 +50,7 @@ $(document).ready(function () {
 
 // 가격 업데이트 함수
 function updateTotalPrice() {
+
     var totalPrice = 0;
     var cartProductPrice = 0;
     var cartDiscountPrice = 0;
@@ -77,19 +83,45 @@ function updateTotalPrice() {
             cartProductPrice += itemOriginalPrice; // 할인 적용 전 가격 합계
             cartDiscountPrice += itemDiscountPrice;
         }
+
     });
 
     // 상품 합계 업데이트
     $('.total.price .content').text(addCommas(cartProductPrice) + '원');
-
     // 상품 할인 금액 업데이트
     $('.total.discount .content').text('-' + addCommas(cartDiscountPrice) + '원');
+    if (cartDiscountPrice === 0) {
+        $('.total.discount .content').text('0원');
+    } else {
+        $('.total.discount .content').text('-' + addCommas(cartDiscountPrice) + '원');
+    }
 
     // 결제 예정 금액 계산 및 업데이트
     var paymentAmount = cartProductPrice - cartDiscountPrice;
-    var shippingFee = parseInt($('.total.shipping .content').text().replace('원', '').replace(',', ''));
-    paymentAmount += shippingFee;
+    paymentAmount += updateShippingFee();
     $('.total_price .content').text(addCommas(paymentAmount) + '원');
+}
+
+function updateShippingFee() {
+    let shippingFee = 3000; // 기본 배송비는 3000원으로 설정
+
+    let cartProductPrice = parseInt($('#cartProductPrice').text().replace('원', '').replace(',', ''));
+    let cartDiscountPrice = parseInt($('#cartDiscountPrice').text().replace('원', '').replace(',', ''));
+
+    // 아무 상품도 선택되지 않았을 때 배송비는 0원
+    if (cartProductPrice === 0) {
+        shippingFee = 0;
+    }
+
+    // 장바구니 총 가격에서 배송비를 제외한 금액이 50000원 이상이면 배송비는 0원
+    else if (cartProductPrice + cartDiscountPrice >= 50000) {
+        shippingFee = 0;
+    }
+
+    // 배송비를 HTML에 반영
+    $('#shippingFee').text(addCommas(shippingFee) + '원');
+
+    return shippingFee; // 배송비 반환
 }
 
 // 콤마 추가 함수
