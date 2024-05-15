@@ -26,7 +26,7 @@
 <div class="wrap">
     <div id="cart">
         <div class="cart_wrap cart">
-            <h1 class="cart_title">Cart</h1>
+            <h1 class="cart_title">장바구니</h1>
             <div class="cart_inner">
             <div class="cart_cont">
             <div class="cart_head">
@@ -54,20 +54,20 @@
                         </div>
                         <div class="price">
                             <div class="original_price"><span id="productPrice">3,000원</span></div>
-                            <div class="sale_price discount_rate">[<span>10</span>%] <span class="discount_price">2,700원</span></div>
+                            <div class="sale_price discount_rate">[<span>10</span>%] <span id="productDiscountPrice" class="discount_price">2,700원</span></div>
                         </div>
                     </div>
                     <div class="item quantity">
                         <a href="#" id="decreaseBtn" class="btn3 decrease">-</a>
-                        <input name="quantity" value="1" type="number" class="quant_input">
+                        <input name="quantity" value="1" type="number" class="quant_input" readonly>
                         <a href="#" id="increaseBtn" class="btn3 increase">+</a>
                     </div>
                     <div class="item price">
-                        <span class="sale_price">2,700원</span>
+                        <span id="productSalePrice" class="sale_price">2,700원</span>
                     </div>
                     <div class="item delete"><button type="button" class="remove_btn"><span class="material-symbols-outlined">close</span></button></div>
                 </div>
-                <div class="cart_item">
+                <div class="cart_item soldout">
                     <div class="item check" >
                         <input type="checkbox" name="cartCheckBox" class="cart_checkbox" checked="checked">
                     </div>
@@ -80,16 +80,15 @@
                         </div>
                         <div class="price">
                             <div class="original_price"><span id="productPrice">6,000원</span></div>
-                            <div class="sale_price discount_rate">[<span>10</span>%] <span class="discount_price">5,400원</span></div>
                         </div>
                     </div>
                     <div class="item quantity">
                         <a href="#" id="decreaseBtn" class="btn3 decrease">-</a>
-                        <input name="quantity" value="1" type="number" class="quant_input">
+                        <input name="quantity" value="1" type="number" class="quant_input" readonly>
                         <a href="#" id="increaseBtn" class="btn3 increase">+</a>
                     </div>
                     <div class="item price">
-                        <span class="sale_price">5,400원</span>
+                        <span id="productSalePrice" class="sale_price">6,000원</span>
                     </div>
                     <div class="item delete"><button type="button" class="remove_btn"><span class="material-symbols-outlined">close</span></button></div>
                 </div>
@@ -99,29 +98,31 @@
                 <button type="button" id="deleteAllBtn" class="btn1" >전체 상품 삭제</button>
             </div>
             </div>
-            <div class="cart_total">
-                <ul class="total_details">
-                <li class="total price">
-                    <div class="title">상품 금액</div>
-                    <div class="content">3,000원</div>
-                </li>
-                <li class="total discount">
-                    <div class="title">상품할인금액</div>
-                    <div class="content">-300원</div>
-                </li>
-                <li class="total shipping">
-                    <div class="title">배송비</div>
-                    <div class="content">3,000원</div>
-                </li>
-                <li class="total_price">
-                    <div class="title">결제예정금액</div>
-                    <div class="content">5,700원</div>
-                </li>
-                </ul>
-                <div class="btn_wrap">
-                <button type="submit" class="btn1 submit_btn">구매하기</button>
+                <div class="cart_total_wrap">
+                <div class="cart_total">
+                    <ul class="total_details">
+                    <li class="total price">
+                        <div class="title">상품 금액</div>
+                        <div id="cartProductPrice" class="content">9,000원</div>
+                    </li>
+                    <li class="total discount">
+                        <div class="title">상품할인금액</div>
+                        <div id="cartDiscountPrice" class="content">-300원</div>
+                    </li>
+                    <li class="total shipping">
+                        <div class="title">배송비</div>
+                        <div id="shippingFee" class="content">3,000원</div>
+                    </li>
+                    <li class="total_price">
+                        <div class="title">결제예정금액</div>
+                        <div id="cartTotalPrice" class="content">11,700원</div>
+                    </li>
+                    </ul>
+                    <div class="btn_wrap">
+                    <button type="submit" class="btn1 submit_btn">구매하기</button>
+                    </div>
                 </div>
-            </div>
+                </div>
             </div>
         </div>
     </div>
