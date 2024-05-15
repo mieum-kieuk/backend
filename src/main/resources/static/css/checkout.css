@@ -1,0 +1,456 @@
+
+/*order*/
+#order{
+    display: flex;
+    justify-content: center;
+    max-width: 1100px;
+    width: 100%;
+    margin-top: 80px;
+    font-size: 14px;
+}
+.order_title {
+    display: block;
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 40px;
+    width: 100%;
+}
+#order .order_inner {
+    display: flex;
+    justify-content: space-between;
+}
+#order .order_cont {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    max-width: 55%;
+    width: 100%;
+    gap: 20px;
+}
+#order .order_cont .btn_wrap {
+    display: flex;
+    gap: 10px;
+}
+#order .order_content {
+    margin-bottom: 20px;
+}
+.order_wrap {
+    width: 100%;
+}
+.content_title {
+    padding: 10px 0;
+    font-weight: 600;
+    font-size: 16px;
+}
+.order_cont section:first-child {
+    border-top: 2px solid #333;
+}
+section {
+    padding-bottom: 20px;
+    border-bottom: 2px solid #333;
+}
+/*cart*/
+.cart_wrap {
+    display: flex;
+    flex-direction: column;
+    /*align-items: center;*/
+    width: 100%;
+}
+.cart_wrap .cart_content {
+    display: flex;
+    flex-direction: column;
+}
+.cart_wrap .cart_head {
+    display: flex;
+    border-bottom: 1px solid #333;
+    padding: 10px 0;
+    text-align: center;
+}
+.cart_wrap .cart_head .item.quantity{
+    display: inline-block;
+}
+.cart_wrap .cart_head .item.info {
+    width: 65%;
+}
+.cart_wrap .cart_head .item.img {
+    width: 0;
+}
+.cart_wrap .cart_item {
+    display: flex;
+    align-items: center;
+    padding: 20px 0;
+    width: 100%;
+    border-bottom: 1px solid #999;
+}
+.cart_wrap .cart_item .item{
+    text-align: center;
+}
+
+.cart_wrap .img{
+    width: 15%;
+}
+.cart_wrap .img img{
+    display: block;
+    width: 80px;
+    height: 80px;
+}
+.cart_wrap .info{
+    width: 50%;
+    /*text-align: left;*/
+}
+.cart_wrap .cart_item .info{
+    text-align: left;
+    height: 100%;
+}
+.cart_item .info .name {
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+.cart_item .info .name a{
+    padding: 0;
+}
+.cart_item .info .price {
+    display: flex;
+    flex-direction: column;
+    font-size: 13px;
+    width: 100%;
+}
+.cart_wrap .quantity{
+    width: 20%;
+}
+.cart_wrap .item.price{
+    display: flex;
+    flex-direction: column;
+    width: 20%;
+}
+.price .sale_price.discount_rate {
+    color: #d94747;
+}
+/*address_wrap*/
+.address_tabs {
+    display: flex;
+    /*max-width: 550px;*/
+    width: 100%;
+    border-bottom: 1px solid #d7d7d7;
+}
+.address_tabs li {
+    position: relative;
+    padding: 10px;
+    border: 1px solid #d7d7d7;
+    width: 100px;
+    text-align: center;
+    background: #eee;
+    border-bottom: none;
+}
+.address_tabs li.active::after {
+    content: "";
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    display: block;
+    width: 100%;
+    height: 4px;
+    background: rgb(255, 255, 255);
+}
+.address_tabs li.active {
+    padding: 10px;
+    width: 100px;
+    text-align: center;
+    background: #fff;
+}
+.address_tabs .default_address {
+    border-right: 0px;
+}
+.input_area {
+    /*max-width: 550px;*/
+    width: 100%;
+    display: none;
+    border: 1px solid #d7d7d7;
+    border-top: none;
+    padding: 20px;
+}
+.input_area.active {
+    display: flex;
+}
+.input_area .input_wrap {
+    width: 100%;
+}
+.address_wrap {
+    display: flex;
+    flex-wrap: wrap;
+    width:  100%;
+    /*margin-left: 200px;*/
+}
+.address_wrap .input_wrap .input_box_wrap {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.address_wrap .input_wrap li {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.address_wrap .input_wrap input {
+    border: 1px solid #999;
+    padding: 5px 5px;
+    width: 100%;
+    height: 35px;
+}
+.address_wrap .input_wrap .input_tit.ess::after {
+    content: "*"; /* 가상 요소에 별표 내용 추가 */
+    color: #d94747; /* 별표 색상 지정 */
+    margin-left: 3px; /* 별표와 텍스트 사이의 간격 조정 */
+}
+.address {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.address div:nth-child(2) {
+    display: flex;
+    gap: 10px;
+    width: 70%;
+}
+.address div:nth-child(2) input{
+    width: 70%;
+}
+.address div:last-child {
+    margin-bottom: 20px;
+}
+.address .btn1 {
+    height: 35px;
+}
+.phone_number {
+    display: flex;
+    flex-direction: column;
+}
+.phone_number.select {
+    width: 70%;
+}
+.phone_number .number_sec{
+    display: flex;
+    align-items: center;
+    width: 70%;
+    margin-bottom: 20px;
+}
+.phone_number .number_sec select {
+    height: 35px;
+}
+.default_address div{
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.address_wrap .default_address div input{
+    width: auto;
+    margin-right: 5px;
+}
+.address_wrap .input_area .shipping_message {
+    gap: 0;
+}
+.address_wrap .input_wrap .direct_input_wrap textarea {
+    border-top: none;
+    width: 100%;
+    height: 150px;
+    resize: vertical;
+}
+.address_wrap .btn_wrap {
+    display: flex;
+    justify-content: space-between;
+}
+.address_wrap .btn_wrap .btn1 {
+    width: 48%;
+    height: 45px;
+}
+/*coupon*/
+.coupon_cont {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+.coupon_cont label {
+    width: 100%;
+    line-height: 32px;
+}
+.coupon_select {
+    width: 80%;
+}
+.coupon_cont .coupon {
+    display: flex;
+    padding: 5px;
+    border: 1px solid #999;
+    border-top: none;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+}
+.coupon_cont .coupon.none .coupon_name{
+    margin-bottom: 0;
+}
+.coupon_cont  .coupon.selected {
+    border-top: 1px solid #999;
+    height: 32px;
+}
+.coupon_value {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0 10px;
+}
+.coupon_select .material-symbols-outlined {
+    cursor: pointer;
+}
+.coupon_list {
+    display: none; /* 목록을 초기에 숨김 */
+}
+.coupon_details {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 10px;
+}
+.coupon_details .discount_price {
+    font-size: 18px;
+    font-weight: 600;
+    color: #d94747;
+}
+.coupon_details .coupon_name {
+    margin-bottom: 15px;
+}
+.coupon_details .coupon_date {
+    font-size: 12px;
+}
+/*mileage*/
+.mileage_cont {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+.mileage_input {
+    display: flex;
+    gap: 10px;
+    width: 80%;
+}
+.mileage_input .btn1 {
+    width: 80px;
+}
+.mileage_details span {
+    line-height: 32px;
+}
+/*pay*/
+.payment_method {
+    display: flex;
+    gap: 10px;
+}
+.pay_btn {
+    padding: 10px;
+    border: 1px solid #666;
+    width: 100px;
+}
+.card_select {
+    margin-top: 10px;
+}
+.card.selected {
+    border-top: 1px solid #999;
+    height: 32px;
+}
+.card {
+    display: flex;
+    padding: 5px;
+    border: 1px solid #999;
+    border-top: none;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+}
+.card_list {
+    display: none;
+}
+.order_summary_wrap {
+    position: sticky;
+    top: 0;
+    /*top: 183px;*/
+    display: flex;
+    width: 100%;
+    max-width: 40%;
+    height: 100%;
+}
+.order_summary {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    border: 1px solid #d7d7d7;
+    padding: 0 20px;
+}
+.order_summary .content_title {
+    padding: 20px 10px;
+}
+.order_summary .total_details {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+.order_summary .total_details .total{
+    justify-content: space-between;
+    padding: 10px;
+}
+.order_summary .total{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+.order_summary .total.discount .coupon {
+    display: flex;
+    margin: 5px 0 5px 10px ;
+}
+.total .title {
+    display: block;
+    /*text-align: center;*/
+    width: 100%;
+}
+.total .content {
+    width: 100%;
+    text-align: right;
+}
+.order_summary .total_price {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    width: 100%;
+    border-top: 1px solid #333;
+}
+.total_price .title {
+    display: block;
+    width: 100%;
+    /*text-align: center;*/
+}
+.total_price .content {
+    width: 100%;
+    text-align: right;
+    font-size: 18px;
+    font-weight: 800;
+}
+.order_agree_wrap {
+    padding: 0 10px;
+}
+.order_agree {
+    display: flex;
+    align-items: center;
+    padding: 5px 0;
+    gap: 5px;
+}
+.order_summary .btn_wrap {
+    padding: 20px 0;
+    width: 100%;
+}
+.order_summary .btn1 {
+    width: 100%;
+    height: 45px;
+}

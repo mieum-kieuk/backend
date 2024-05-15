@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>주문하기 | 미음키읔</title>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Tickers" />
+    <meta property="og:description" content="" />
+    <meta property="og:image" content="" />
+    <meta property="og:url" content="" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.min.js" integrity="sha512-Ysw1DcK1P+uYLqprEAzNQJP+J4hTx4t/3X2nbVwszao8wD+9afLjBQYjz7Uk4ADP+Er++mJoScI42ueGtQOzEA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
+    <link rel="stylesheet" href="../../css/comm.css" />
+    <link rel="stylesheet" href="../../css/checkout.css" />
+    <link rel="stylesheet" href="../../css/search_complete.css" />
+    <script defer src="../../js/comm.js"></script>
+    <script src="../../js/findAddress.js"></script>
+    <script defer src="../../js/checkout.js"></script>
+</head>
+<body>
+<div class="wrap">
+    <div id="order">
+        <div class="order_wrap">
+            <h1 class="order_title">주문서</h1>
+            <div class="order_inner">
+                <div class="order_cont">
+                    <section class="address_wrap">
+                        <h3 class="content_title">배송정보</h3>
+                        <ul class="address_tabs">
+                            <li class="default_address">기본 배송지</li>
+                            <li class="new_address">신규 입력</li>
+                        </ul>
+                        <div class="input_area default">
+                            <ul class="input_wrap">
+                                    <li>
+                                        <div >
+                                            <label for="addressName" class="input_tit">배송지명</label>
+                                        </div>
+                                        <div class="input_box_wrap">
+<!--                                            <input id="addressName" class="input_box" placeholder="" maxlength="30" type="text"/>-->
+                                            <span class="input_box">우리집</span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div id="name_title">
+                                            <label for="name" class="input_tit ">이름</label>
+                                        </div>
+                                        <div id="name_content" class="input_box_wrap">
+                                            <input id="name" class="input_box" placeholder="" maxlength="30" type="text"/>
+                                        </div>
+                                    </li>
+                                    <li class="address">
+                                        <div>
+                                            <label class="input_tit ">주소</label>
+                                        </div>
+                                        <div>
+                                            <input class="input_box" id="zipCode" name="zipCode" placeholder="우편번호" maxlength="10" type="text" />
+                                            <button id="searchZipCodeBtn" class="btn1">주소검색</button>
+                                        </div>
+                                        <div>
+                                            <input class="input_box" id="basicAddress" name="basicAddress" placeholder="기본주소" maxlength="100" type="text" />
+                                        </div>
+                                        <div>
+                                            <input class="input_box" id="detailAddress" name="detailAddress" placeholder="상세주소(선택 가능)" maxlength="100" type="text"/>
+                                        </div>
+                                    </li>
+                                    <li class="phone_number">
+                                        <div class="">
+                                            <label class="input_tit">휴대전화번호</label>
+                                        </div>
+                                        <div class="phone_number select">
+                                            <div class="number_sec">
+                                                <select id="phonenumber1" >
+                                                    <option value="010">010</option>
+                                                    <option value="011">011</option>
+                                                    <option value="016">016</option>
+                                                    <option value="017">017</option>
+                                                    <option value="018">018</option>
+                                                    <option value="019">019</option>
+                                                </select>
+                                                <p>-</p><input id="phonenumber2" class="input_box" placeholder="" value="" type="text"/>
+                                                <p>-</p><input id="phonenumber3" class="input_box" placeholder="" value="" type="text"/>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="default_address">
+                                        <div>
+                                           <span>기본 배송지입니다. 주문 시 변경하신 내용으로 기본 배송지 주소가 수정됩니다.</span>
+                                        </div>
+                                    </li>
+                                <li class="shipping_message">
+                                    <select id="shippingMsg">
+                                        <option value="0">배송시 요청사항을 선택해 주세요.</option>
+                                        <option value="1">부재시 문앞에 놓아주세요.</option>
+                                        <option value="2">부재시 경비실에 맡겨 주세요.</option>
+                                        <option value="3">부재시 전화 또는 문자 주세요.</option>
+                                        <option value="4">택배함에 넣어 주세요.</option>
+                                        <option value="5">파손위험상품입니다. 배송시 주의해 주세요.</option>
+                                        <option value="6">배송전에 연락 주세요.</option>
+                                        <option value="direct_input">직접입력</option>
+                                    </select>
+                                    <div id="directInputContainer" class="direct_input_wrap" style="display: none;">
+                                        <textarea id="directInput" name="directInput" placeholder="내용을 작성해 주세요."></textarea>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="input_area" id="newAddress">
+                            <ul class="input_wrap">
+                                <li>
+                                    <div >
+                                        <label for="addressName" class="input_tit ess">배송지명</label>
+                                    </div>
+                                    <div class="input_box_wrap">
+                                        <input id="addressName" class="input_box" placeholder="" maxlength="30" type="text"/>
+                                        <span id="Msg"></span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div id="name_title">
+                                        <label for="name" class="input_tit ess">이름</label>
+                                    </div>
+                                    <div id="name_content" class="input_box_wrap">
+                                        <input id="name" class="input_box" placeholder="" maxlength="30" type="text"/>
+                                        <span id="nameMsg"></span>
+                                    </div>
+                                </li>
+                                <li class="address">
+                                    <div>
+                                        <label class="input_tit ess">주소</label>
+                                    </div>
+                                    <div>
+                                        <input class="input_box" id="zipCode" name="zipCode" placeholder="우편번호" maxlength="10" type="text" />
+                                        <button id="searchZipCodeBtn" class="btn1">주소검색</button>
+                                    </div>
+                                    <div>
+                                        <input class="input_box" id="basicAddress" name="basicAddress" placeholder="기본주소" maxlength="100" type="text" />
+                                    </div>
+                                    <div>
+                                        <input class="input_box" id="detailAddress" name="detailAddress" placeholder="상세주소(선택 가능)" maxlength="100" type="text"/>
+                                    </div>
+                                </li>
+                                <li class="phone_number">
+                                    <div class="">
+                                        <label class="input_tit ess">휴대전화번호</label>
+                                    </div>
+                                    <div class="phone_number select">
+                                        <div class="number_sec">
+                                            <select id="phonenumber1" >
+                                                <option value="010">010</option>
+                                                <option value="011">011</option>
+                                                <option value="016">016</option>
+                                                <option value="017">017</option>
+                                                <option value="018">018</option>
+                                                <option value="019">019</option>
+                                            </select>
+                                            <p>-</p><input id="phonenumber2" class="input_box" placeholder="" value="" type="text"/>
+                                            <p>-</p><input id="phonenumber3" class="input_box" placeholder="" value="" type="text"/>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="default_address">
+                                    <div>
+                                        <input id="" class="normal" value="1" type="checkbox"/>
+                                        <label for="">기본 배송지로 저장</label>
+                                    </div>
+                                </li>
+                                <li class="shipping_message">
+                                <select id="shippingMsg">
+                                    <option value="0">배송시 요청사항을 선택해 주세요.</option>
+                                    <option value="1">부재시 문앞에 놓아주세요.</option>
+                                    <option value="2">부재시 경비실에 맡겨 주세요.</option>
+                                    <option value="3">부재시 전화 또는 문자 주세요.</option>
+                                    <option value="4">택배함에 넣어 주세요.</option>
+                                    <option value="5">파손위험상품입니다. 배송시 주의해 주세요.</option>
+                                    <option value="6">배송전에 연락 주세요.</option>
+                                    <option value="direct_input">직접입력</option>
+                                </select>
+                                <div id="directInputContainer" class="direct_input_wrap" style="display: none;">
+                                    <textarea id="directInput" name="directInput" placeholder="내용을 작성해 주세요."></textarea>
+                                </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </section>
+                    <section class="cart_wrap">
+                    <h3 class="content_title">주문상품</h3>
+                    <div class="cart_head">
+                        <div class="item info">상품 정보</div>
+                        <div class="item img"></div>
+                        <div class="item quantity">수량</div>
+                        <div class="item price">주문금액</div>
+                    </div>
+                    <div class="cart_content">
+                        <div class="cart_item">
+                            <div class="item img">
+                                <img src="../../images/maskingtape1.jpeg" alt="제품1">
+                            </div>
+                            <div class="item info">
+                                <div class="name">
+                                    <a href="">Gzy</a>
+                                </div>
+                                <div class="price">
+                                    <div class="original_price"><span id="productPrice">3,000원</span></div>
+                                    <div class="sale_price discount_rate">[<span>10</span>%] <span class="discount_price">2,700원</span></div>
+                                </div>
+                            </div>
+                            <div class="item quantity">
+                                <span>1</span>
+                            </div>
+                            <div class="item price">
+                                <span class="sale_price">2,700원</span>
+                            </div>
+                        </div>
+                        <div class="cart_item">
+                            <div class="item img">
+                                <img src="../../images/maskingtape1.jpeg" alt="제품1">
+                            </div>
+                            <div class="item info">
+                                <div class="name">
+                                    <a href="">Gzy</a>
+                                </div>
+                                <div class="price">
+                                    <div class="original_price"><span id="productPrice">3,000원</span></div>
+                                    <div class="sale_price discount_rate">[<span>10</span>%] <span class="discount_price">2,700원</span></div>
+                                </div>
+                            </div>
+                            <div class="item quantity">
+                                <span>1</span>
+                            </div>
+                            <div class="item price">
+                                <span class="sale_price">2,700원</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    </section>
+                    <section class="coupon_wrap">
+                        <h3 class="content_title">쿠폰</h3>
+                        <div class="coupon_cont">
+                            <div>
+                                <label>쿠폰 적용</label>
+                            </div>
+                            <div class="coupon_select">
+                                <div class="coupon selected">
+                                    <div class="coupon_value">
+                                    <span>선택 안함</span>
+                                    <span></span>
+                                    </div>
+                                    <span class="material-symbols-outlined">expand_more</span>
+                                </div>
+                                <ul class="coupon_list">
+                                    <li class="coupon none">
+                                        <div class="coupon_details">
+                                            <span class="coupon_name">선택 안함</span>
+                                        </div>
+                                    </li>
+                                    <li class="coupon">
+                                        <div class="coupon_details">
+                                        <span class="discount_price">-600원</span>
+                                        <span class="coupon_name">10% 할인 쿠폰</span>
+                                        <span class="coupon_date">5일 3시간 20분 남음</span>
+                                        </div>
+                                    </li>
+                                    <li class="coupon">
+                                        <div class="coupon_details">
+                                            <span class="discount_price">-1200원</span>
+                                            <span class="coupon_name">20% 할인 쿠폰</span>
+                                            <span class="coupon_date">5일 3시간 20분 남음</span>
+                                        </div>
+                                    </li>
+                                    <li class="coupon">
+                                    <div class="coupon_details">
+                                        <span class="discount_price">-1800원</span>
+                                        <span class="coupon_name">30% 할인 쿠폰</span>
+                                        <span class="coupon_date">5일 3시간 20분 남음</span>
+                                    </div>
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </div>
+                    </section>
+                    <section class="mileage_wrap">
+                        <h3 class="content_title">적립금</h3>
+                        <div class="mileage_cont">
+                            <div>
+                            <label for="mileage">사용 금액 입력</label>
+                            </div>
+                            <div class="mileage_input">
+                            <input type="text" id="mileage">
+                            <button type="button" class="btn1" id="useAll">모두 사용</button>
+                            <div class="mileage_details">
+                            <span>사용가능 <em id="availableMileage"></em>P / <span>보유 <em id="ownedMileage">2,450</em>P</span></span>
+                            </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="pay_wrap">
+                        <h3 class="content_title">결제방법</h3>
+                        <div>
+
+                        </div>
+                        <ul class="payment_method">
+                            <li>
+                                <button type="button" class="pay_btn">신용/체크카드</button>
+                            </li>
+                            <li>
+                                <button type="button" class="pay_btn">카카오페이</button>
+                            </li>
+                            <li>
+                                <button type="button" class="pay_btn">토스페이</button>
+                            </li>
+                        </ul>
+                        <div class="card_select">
+                                <div class="card selected">
+                                    <div class="card_value">
+                                        <span>카드사를 선택해 주세요.</span>
+                                    </div>
+                                    <span class="material-symbols-outlined">expand_more</span>
+                                </div>
+                                <ul class="card_list">
+                                    <li class="card">
+                                        <span class="card_name">KB국민카드</span>
+                                    </li>
+                                    <li class="card">
+                                        <span class="card_name">신한카드</span>
+                                    </li>
+                                    <li class="card">
+                                        <span class="card_name">삼성카드</span>
+                                    </li>
+                                    <li class="card">
+                                        <span class="card_name">현대카드</span>
+                                    </li>
+                                    <li class="card">
+                                        <span class="card_name">BC카드</span>
+                                    </li>
+                                    <li class="card">
+                                        <span class="card_name">롯데카드</span>
+                                    </li>
+                                    <li class="card">
+                                        <span class="card_name">KEB하나카드</span>
+                                    </li>
+                                    <li class="card">
+                                        <span class="card_name">우리카드</span>
+                                    </li>
+                                    <li class="card">
+                                        <span class="card_name">NH카드</span>
+                                    </li>
+                                    <li class="card">
+                                        <span class="card_name">씨티카드</span>
+                                    </li>
+                                    <li class="card">
+                                        <span class="card_name">카카오뱅크카드</span>
+                                    </li>
+                                    <li class="card">
+                                        <span class="card_name">전북카드</span>
+                                    </li>
+                                    <li class="card">
+                                        <span class="card_name">광주카드</span>
+                                    </li>
+                                    <li class="card">
+                                        <span class="card_name">수협카드</span>
+                                    </li>
+                                    <li class="card">
+                                        <span class="card_name">우체국카드</span>
+                                    </li>
+                                    <li class="card">
+                                        <span class="card_name">제주카드</span>
+                                    </li>
+                                    <li class="card">
+                                        <span class="card_name">신협카드</span>
+                                    </li>
+                                    <li class="card">
+                                        <span class="card_name">새마을카드</span>
+                                    </li>
+                                </ul>
+                            </div>
+                    </section>
+                </div>
+                <div class="order_summary_wrap">
+                <div class="order_summary">
+                    <h3 class="content_title">결제금액</h3>
+                    <ul class="total_details">
+                        <li class="total price">
+                            <div class="title">총 상품 금액</div>
+                            <div class="content"></div>
+                        </li>
+                        <li class="total discount">
+                            <ul class="title">총 할인금액
+                                <li class="product coupon">
+                                    <div class="title">상품 할인</div>
+                                    <div class="content"></div>
+                                </li>
+                                <li class="member coupon">
+                                    <div class="title">회원 쿠폰</div>
+                                    <div class="content"></div>
+                                </li>
+                            <li class="content"></li>
+                            </ul>
+                        </li>
+                        <li class="total mileage">
+                            <div class="title">적립금 사용</div>
+                            <div class="content"></div>
+                        </li>
+                        <li class="total shipping">
+                            <div class="title">배송비</div>
+                            <div class="content">3,000원</div>
+                        </li>
+                        <li class="total_price">
+                            <div class="title">총 결제 금액</div>
+                            <div class="content"></div>
+                        </li>
+                    </ul>
+                    <div class="order_agree_wrap">
+                        <div class="order_agree all">
+                            <input id=agreeAll type="checkbox">
+                            <label for="agreeAll"><span>주문 내용을 확인했으며, 아래 내용에 모두 동의합니다.</span></label>
+                        </div>
+                        <ul>
+                            <li>
+                                <div class="order_agree">
+                                    <input id="agree1" type="checkbox">
+                                    <label for="agree1">(필수) 개인정보 수집/이용 동의</label>
+                                    <button type="button" >보기</button>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="order_agree">
+                                    <input id="agree2" type="checkbox">
+                                    <label for="agree2">(필수) 개인정보 제3자 제공 동의 </label>
+                                    <button type="button">보기</button>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="order_agree">
+                                    <input id="agree3" type="checkbox">
+                                    <label for="agree3">(필수) 결제대행 서비스 이용약관 </label>
+                                    <a target="_blank" href="https://www.inicis.com/terms">(주)KG이니시스</a>
+                                </div>
+                            </li>
+                        </ul>
+                        <p>결제 및 계좌 안내 시 상호명은 <em>[미음키읔]</em>으로 표기되니 참고 부탁드립니다.</p></div>
+                    <div class="btn_wrap">
+                        <button type="submit" class="btn1 submit_btn">결제하기</button>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
