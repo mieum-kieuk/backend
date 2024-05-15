@@ -26,7 +26,7 @@ public class CartService {
     private final CartRepository cartRepository;
 
     /**
-     * 카트 목록 조회
+     * 장바구니 조회
      */
     @Transactional(readOnly = true)
     public List<CartListDto> getCart(Member member) {
@@ -37,7 +37,7 @@ public class CartService {
     }
 
     /**
-     * 카트에 상품 추가
+     * 장바구니에 상품 추가
      *
      * @throws NoSuchMemberAjaxException
      * @throws NoSuchProductAjaxException
@@ -75,27 +75,55 @@ public class CartService {
     }
 
     /**
-     * 카트에 담긴 상품 단 삭제
+     * 장바구니에 담긴 상품 수량 1개 증가
+     */
+    public void increaseCount(Long productId, Member loginMember) {
+        //Product 엔티티 조회
+        Product product = productRepository.findById(productId).orElseThrow(() -> new NoSuchProductAjaxException("존재하지 않는 상품입니다."));
+
+        //Cart 엔티티 조회
+        Cart cart = cartRepository.findByMemberAndProduct(loginMember, product);
+
+        //수량 1개 증가
+        cart.addCount(1);
+    }
+
+    /**
+     * 장바구니에 담긴 상품 수량 1개 감소
+     */
+    public void decreaseCount(Long productId, Member loginMember) {
+        //Product 엔티티 조회
+        Product product = productRepository.findById(productId).orElseThrow(() -> new NoSuchProductAjaxException("존재하지 않는 상품입니다."));
+
+        //Cart 엔티티 조회
+        Cart cart = cartRepository.findByMemberAndProduct(loginMember, product);
+
+        //수량 1개 감소
+        cart.addCount(-1);
+    }
+
+    /**
+     * 장바구니에 담긴 상품 단 삭제
      *
      * @throws NoSuchProductAjaxException
      */
     public void deleteCart(Long productId, Member loginMember) {
         //Product 엔티티 조회
-        Product product = productRepository.findById(productId).orElseThrow(() -> new NoSuchProductAjaxException("존재하지 않는 상품입니다.."));
+        Product product = productRepository.findById(productId).orElseThrow(() -> new NoSuchProductAjaxException("존재하지 않는 상품입니다."));
 
         //Cart 엔티티 삭제
         cartRepository.deleteByMemberAndProduct(loginMember, product);
     }
 
     /**
-     * 카트에 담긴 상품 여러개 삭제
+     * 장바구니에 담긴 상품 여러개 삭제
      *
      * @throws NoSuchProductAjaxException
      */
     public void deleteCarts(List<Long> productIds, Member loginMember) {
         productIds.stream().forEach(productId -> {
             //Product 엔티티 조회
-            Product product = productRepository.findById(productId).orElseThrow(() -> new NoSuchProductAjaxException("존재하지 않는 상품입니다.."));
+            Product product = productRepository.findById(productId).orElseThrow(() -> new NoSuchProductAjaxException("존재하지 않는 상품입니다."));
 
             //Cart 엔티티 삭제
             cartRepository.deleteByMemberAndProduct(loginMember, product);

@@ -1,13 +1,11 @@
 package archivegarden.shop.controller;
 
 import archivegarden.shop.dto.order.CartListDto;
-import archivegarden.shop.dto.shop.product.ProductListDto;
 import archivegarden.shop.entity.Member;
 import archivegarden.shop.service.order.CartService;
 import archivegarden.shop.web.annotation.CurrentUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,6 +25,20 @@ public class CartController {
         List<CartListDto> products = cartService.getCart(loginMember);
         model.addAttribute("products", products);
         return "order/cart";
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping("/api/cart/increase")
+    @PreAuthorize("hasRole('ROLE_USER') and #loginMember.loginId == principal.username")
+    public void increaseCount(@RequestParam("productId") Long productId, @CurrentUser Member loginMember) {
+        cartService.increaseCount(productId, loginMember);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping("/api/cart/decrease")
+    @PreAuthorize("hasRole('ROLE_USER') and #loginMember.loginId == principal.username")
+    public void decreaseCount(@RequestParam("productId") Long productId, @CurrentUser Member loginMember) {
+        cartService.decreaseCount(productId, loginMember);
     }
 
     @ResponseBody
