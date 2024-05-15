@@ -4,8 +4,8 @@ $(document).ready(function () {
     if (!url.includes('category')) {
         $('#all').addClass('selected');
     } else {
-        if (url.includes('maskingTape')) {
-            $('#masking-tape').addClass('selected');
+        if (url.includes('masking-tape')) {
+            $('#maskingTape').addClass('selected');
         } else if (url.includes('sticker')) {
             $('#sticker').addClass('selected');
         } else if (url.includes('memo')) {

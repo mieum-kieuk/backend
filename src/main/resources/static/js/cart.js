@@ -1,12 +1,12 @@
-$(document).ready(function() {
+$(document).ready(function () {
     // 전체 선택 체크박스 변경 시
-    $('#checkAll').change(function() {
+    $('#checkAll').change(function () {
         var isChecked = $(this).prop('checked');
         $('.cart_checkbox').prop('checked', isChecked);
         updateTotalPrice();
     });
 // 체크박스 변경 시
-    $('.cart_checkbox').change(function() {
+    $('.cart_checkbox').change(function () {
         updateTotalPrice();
         updatePurchaseButton();
     });
@@ -15,7 +15,7 @@ $(document).ready(function() {
     function updatePurchaseButton() {
         var isChecked = false;
 
-        $('.cart_checkbox').each(function() {
+        $('.cart_checkbox').each(function () {
             if ($(this).prop('checked')) {
                 isChecked = true;
                 return false; // 반복문 종료
@@ -32,7 +32,7 @@ $(document).ready(function() {
     }
 
 
-    $('.increase').click(function(event) {
+    $('.increase').click(function (event) {
         event.preventDefault();
         let input = $(this).siblings('.quant_input');
         let currentValue = parseInt(input.val());
@@ -40,7 +40,7 @@ $(document).ready(function() {
         updateTotalPrice();
     });
 
-    $('.decrease').click(function(event) {
+    $('.decrease').click(function (event) {
         event.preventDefault();
         let input = $(this).siblings('.quant_input');
         let currentValue = parseInt(input.val());
@@ -53,35 +53,10 @@ $(document).ready(function() {
     });
 
     // 수량 변경 시
-    $('.quant_input').change(function() {
+    $('.quant_input').change(function () {
         updateTotalPrice();
     });
 
-    // 삭제 버튼 클릭 시
-    $('.remove_btn').click(function() {
-        $(this).closest('.cart_item').remove();
-        updateTotalPrice();
-    });
-    $("#deleteAllBtn").click(function() {
-        if (confirm("정말 삭제하시겠습니까?")) {
-
-            $(".cart_item").remove();
-            alert("전체 삭제되었습니다.");
-        }
-    });
-
-    $("#deleteBtn").click(function() {
-        var checkedItems = $("input[name='cartCheckBox']:checked");
-        if (checkedItems.length === 0) {
-            alert("상품을 선택해 주세요.");
-        } else {
-            if (confirm("정말 삭제하시겠습니까?")) {
-
-                checkedItems.closest('.cart_item').remove();
-                alert("선택된 상품이 삭제되었습니다.");
-            }
-        }
-    });
     // 가격 업데이트 함수
     function updateTotalPrice() {
         var totalPrice = 0;
@@ -89,7 +64,7 @@ $(document).ready(function() {
         var totalDiscountPrice = 0;
 
         // 선택된 상품의 가격 합계 및 할인 금액 계산
-        $('.cart_item').each(function() {
+        $('.cart_item').each(function () {
             if ($(this).find('.cart_checkbox').prop('checked')) {
                 var quantity = parseInt($(this).find('.quant_input').val());
                 var originalPrice = parseFloat($(this).find('.item.info .original_price #productPrice').text().replace('원', '').replace(',', ''));
@@ -124,3 +99,100 @@ $(document).ready(function() {
         return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
 });
+
+
+let csrfToken = $("meta[name='_csrf']").attr("content");
+let csrfHeader = $("meta[name='_csrf_header']").attr("content");
+
+function deleteProduct(productId) {
+
+    if (!confirm('상품을 삭제하시겠습니까?')) {
+        return false;
+    } else {
+        $.ajax({
+            type: 'POST',
+            url: '/api/cart/' + productId + '/delete',
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(csrfHeader, csrfToken);
+            },
+            success: function () {
+                window.location.href = '/cart';
+            },
+            error: function () {
+                alert('삭제하는 동안 문제가 발생하였습니다.\n다시 시도해주세요.');
+            }
+        })
+    }
+}
+
+function deleteProducts() {
+
+    let productIds = [];
+    let checkboxes = $('.cart_content input[type=checkbox]:checked');
+
+    if (checkboxes.length == 0) {
+        alert('삭제할 상품을 선택해 주세요.');
+        return false;
+    } else {
+        if (!confirm(checkboxes.length + '개의 상품을 삭제하시겠습니까?')) {
+            return false;
+        } else {
+            checkboxes.each(function (v) {
+                let productId = checkboxes[v].id.split('checkbox')[1];
+                productIds.push(productId);
+            })
+
+            $.ajax({
+                type: 'POST',
+                url: '/api/cart/delete',
+                contentType: 'application/json',
+                data: JSON.stringify(productIds),
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader(csrfHeader, csrfToken);
+                },
+                success: function () {
+                    window.location.href = '/cart';
+                },
+                error: function () {
+                    alert('삭제하는 동안 문제가 발생하였습니다.\n다시 시도해주세요.');
+                }
+            })
+        }
+    }
+}
+
+function deleteSoldOutProducts() {
+
+    let productIds = [];
+    let checkboxes = $('.cart_checkbox.sold_out');
+
+    if (checkboxes.length == 0) {
+        alert('품절 상품이 없습니다.');
+        return false;
+    } else {
+        if (!confirm('품절 상품을 삭제하시겠습니까?')) {
+            return false;
+        } else {
+            checkboxes.each(function (v) {
+                let productId = checkboxes[v].id.split('checkbox')[1];
+                productIds.push(productId);
+            })
+
+            $.ajax({
+                type: 'POST',
+                url: '/api/cart/delete',
+                contentType: 'application/json',
+                data: JSON.stringify(productIds),
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader(csrfHeader, csrfToken);
+                },
+                success: function () {
+                    window.location.href = '/cart';
+                },
+                error: function () {
+                    alert('삭제하는 동안 문제가 발생하였습니다.\n다시 시도해주세요.');
+                }
+            })
+        }
+    }
+}

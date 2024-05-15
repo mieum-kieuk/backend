@@ -65,8 +65,8 @@
                 </ul>
             </div>
             <div class="cart">
-                <a sec:authorize="isAnonymous()" href="javascript:void(0)" id="cartLink">Cart</a>
-                <a sec:authorize="isAuthenticated()" href="javascript:void(0)" id="cartLink">Cart(0)</a>
+                <a sec:authorize="isAnonymous()" href="../order/cart.html" th:href="@{/cart}"id="cartLink">Cart</a>
+                <a sec:authorize="isAuthenticated()" href="../order/cart.html" th:href="@{/cart}" id="cartLink">Cart(0)</a>
             </div>
         </div>
     </nav>
