@@ -123,8 +123,9 @@ section {
     flex-direction: column;
     width: 20%;
 }
-.price .sale_price.discount_rate {
-    color: #d94747;
+.line_through {
+    text-decoration: line-through;
+    color: #666;
 }
 /*address_wrap*/
 .address_tabs {
@@ -192,7 +193,9 @@ section {
     flex-direction: column;
     gap: 10px;
 }
-.address_wrap .input_wrap input {
+.address_wrap .input_wrap .input_box {
+    display: flex;
+    align-items: center;
     border: 1px solid #999;
     padding: 5px 5px;
     width: 100%;
@@ -203,7 +206,7 @@ section {
     color: #d94747; /* 별표 색상 지정 */
     margin-left: 3px; /* 별표와 텍스트 사이의 간격 조정 */
 }
-.address {
+.address_wrap .address {
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -434,7 +437,7 @@ section {
 .total_price .content {
     width: 100%;
     text-align: right;
-    font-size: 18px;
+    font-size: 22px;
     font-weight: 800;
 }
 .order_agree_wrap {
@@ -453,4 +456,87 @@ section {
 .order_summary .btn1 {
     width: 100%;
     height: 45px;
+}
+.submit_btn.disabled {
+    background: #d7d7d7;
+    border: 1px solid #d7d7d7;
+}
+/*popup*/
+.popup {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background: rgba(0,0,0,0.4);
+    padding-top: 60px;
+}
+.popup_content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    padding: 20px;
+    width: 100%;
+    max-width: 600px;
+    min-height: 400px;
+}
+.popup_tit h2{
+    display: block;
+    text-align: left;
+    font-size: 18px;
+    font-weight: 600;
+    width: 100%;
+    padding: 10px 0;
+    border-bottom: 1px solid #333;
+}
+
+.close_btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    border: none;
+    cursor: pointer;
+}
+.close_btn span {
+    line-height: 22.5px;
+    padding: 10px 0;
+}
+
+.popup .address_list li {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #999;
+    padding: 10px;
+}
+.popup .address_list li:first-child {
+    border-top: none;
+}
+.popup .address_item {
+    display: flex;
+    flex-direction: column;
+    padding: 10px 0;
+    gap: 5px;
+}
+.popup .address_item .address_name {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    font-weight: 600;
+}
+.popup .address_name.default_address::before {
+    content: "기본";
+    color: #fff;
+    padding: 2px;
+    background: #3273F6;
+    border-radius: 2px;
+    font-size: 12px;
+    font-weight: bold;
+    margin-right: 5px;
 }
