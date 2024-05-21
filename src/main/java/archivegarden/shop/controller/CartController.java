@@ -69,4 +69,11 @@ public class CartController {
     public void deleteCarts(@RequestBody List<Long> productIds, @CurrentUser Member loginMember) {
         cartService.deleteCarts(productIds, loginMember);
     }
+
+    @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("#loginMember.loginId == principal.username")
+    @GetMapping("/api/cart/validate")
+    public void validateCheckout(@RequestParam("productIds") List<Long> productIds, @CurrentUser Member loginMember) {
+        cartService.validateStockQuantity(productIds, loginMember);
+    }
 }

@@ -1,10 +1,7 @@
 package archivegarden.shop.controller;
 
 import archivegarden.shop.dto.ErrorResult;
-import archivegarden.shop.exception.ajax.NoSuchDiscountAjaxException;
-import archivegarden.shop.exception.ajax.NoSuchImageAjaxException;
-import archivegarden.shop.exception.ajax.NoSuchMemberAjaxException;
-import archivegarden.shop.exception.ajax.NoSuchProductAjaxException;
+import archivegarden.shop.exception.ajax.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -35,5 +32,11 @@ public class RestExceptionHandler {
     @ExceptionHandler(NoSuchImageAjaxException.class)
     public ErrorResult noSuchImageAjaxException(NoSuchImageAjaxException e) {
         return new ErrorResult("BAD_REQUEST", "존재하지 않는 첨부 파일입니다. 다시 시도해 주세요.");
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(NotEnoughStockAjaxException.class)
+    public ErrorResult notEnoughStockAjaxException(NotEnoughStockAjaxException e) {
+        return new ErrorResult("BAD_REQUEST", e.getMessage());
     }
 }

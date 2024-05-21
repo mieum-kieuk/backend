@@ -1,11 +1,13 @@
 package archivegarden.shop.service.order;
 
+import archivegarden.shop.dto.order.CartCheckoutListDto;
 import archivegarden.shop.dto.order.CartListDto;
 import archivegarden.shop.entity.Cart;
 import archivegarden.shop.entity.Member;
 import archivegarden.shop.entity.Product;
 import archivegarden.shop.exception.ajax.NoSuchMemberAjaxException;
 import archivegarden.shop.exception.ajax.NoSuchProductAjaxException;
+import archivegarden.shop.exception.ajax.NotEnoughStockAjaxException;
 import archivegarden.shop.repository.MemberRepository;
 import archivegarden.shop.repository.order.CartRepository;
 import archivegarden.shop.repository.shop.ProductRepository;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -128,5 +131,18 @@ public class CartService {
             //Cart 엔티티 삭제
             cartRepository.deleteByMemberAndProduct(loginMember, product);
         });
+    }
+
+    /**
+     * 주문서로 넘어가기 전 재고 검사
+     */
+    public void validateStockQuantity(List<Long> productIds, Member loginMember) {
+        for (Long productId : productIds) {
+            Product product = productRepository.findById(productId).orElseThrow(() -> new NoSuchProductAjaxException("존재하지 않는 상품입니다."));
+            Cart cart = cartRepository.findByMemberAndProduct(loginMember, product);
+            if(cart.getCount() > product.getStockQuantity()) {
+                throw new NotEnoughStockAjaxException(product.getName() + "의 재고가 부족합니다.");
+            }
+        }
     }
 }

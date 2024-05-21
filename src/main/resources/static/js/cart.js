@@ -286,7 +286,7 @@ function deleteSoldOutProducts() {
     }
 }
 
-function checkout() {
+async function checkout() {
     let productIds = [];
     let checkboxes = $('.cart_content input[type=checkbox]:checked');
 
@@ -295,5 +295,27 @@ function checkout() {
         productIds.push(productId);
     })
 
-    window.location.href = '/cart/checkout?productIds=' + productIds.join(',');
+    $.ajax({
+        type: 'GET',
+        url: '/api/cart/validate?productIds=' + productIds,
+        dataType: 'json',
+        async: false,
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader(csrfHeader, csrfToken);
+        },
+        statusCode: {
+            200: function () {
+                console.log("??");
+                window.location.href = '/cart/checkout?productIds=' + productIds.join(',');
+            },
+            400: function (xhr) {
+                alert(xhr.responseJSON.message);
+            }
+        },
+        error: function (error) {
+           if(error.status !== 200 && error.status !== 400) {
+               alert("요청 사항 진행 중 문제가 발생했습니다.\n다시 시도해 주세요.");
+           }
+        }
+    })
 }
