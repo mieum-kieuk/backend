@@ -5,7 +5,7 @@
     justify-content: center;
     max-width: 1100px;
     width: 100%;
-    margin-top: 80px;
+    margin: 80px;
     font-size: 14px;
 }
 .order_title {
@@ -133,6 +133,7 @@ section {
     /*max-width: 550px;*/
     width: 100%;
     border-bottom: 1px solid #d7d7d7;
+    cursor: pointer;
 }
 .address_tabs li {
     position: relative;
@@ -353,14 +354,18 @@ section {
     border: 1px solid #666;
     width: 100px;
 }
+.pay_btn.selected {
+    border: 1.5px solid #333;
+}
 .card_select {
+    display: none;
     margin-top: 10px;
 }
-.card.selected {
+.card_select .card.selected {
     border-top: 1px solid #999;
     height: 32px;
 }
-.card {
+.card_select .card {
     display: flex;
     padding: 5px;
     border: 1px solid #999;
@@ -371,6 +376,19 @@ section {
 }
 .card_list {
     display: none;
+}
+.easy_select {
+    display: none;
+    margin-top: 10px;
+}
+.easy_options {
+    display: flex;
+    gap: 10px;
+}
+.easy_options .payment_option{
+    padding: 10px;
+    border: 1px solid #666;
+    width: 100px;
 }
 .order_summary_wrap {
     position: sticky;
@@ -514,6 +532,7 @@ section {
     align-items: center;
     border-top: 1px solid #999;
     padding: 10px;
+    cursor: pointer;
 }
 .popup .address_list li:first-child {
     border-top: none;
@@ -527,8 +546,6 @@ section {
 .popup .address_item .address_name {
     display: flex;
     align-items: center;
-    font-size: 16px;
-    font-weight: 600;
 }
 .popup .address_name.default_address::before {
     content: "기본";
@@ -539,4 +556,15 @@ section {
     font-size: 12px;
     font-weight: bold;
     margin-right: 5px;
+}
+.popup .address_item .address_details {
+    display: flex;
+    font-size: 16px;
+    font-weight: 600;
+    gap: 3px;
+}
+.popup .address_item .recipient_info span:first-child::after {
+    content: "|";
+    margin: 0 3px;
+    color: #999;
 }

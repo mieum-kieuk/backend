@@ -26,8 +26,7 @@ $(document).ready(function(){
             $('#searchZipCodeBtn').focus();
         }
     });
-    // 직접 입력 옵션 선택 시 입력란 표시
-    $(".shipping_message select").change(function() {
+       $(".shipping_message select").change(function() {
         let directInputContainer = $(this).closest('.shipping_message').find(".direct_input_wrap");
         if ($(this).val() === "direct_input") {
             directInputContainer.show();
@@ -35,29 +34,30 @@ $(document).ready(function(){
             directInputContainer.hide();
         }
     });
-    function toggleIcon() {
-        let icon = $(this).find(".material-symbols-outlined");
-        if (icon.text() === "expand_more") {
-            icon.text("expand_less");
-        } else {
-            icon.text("expand_more");
-        }
-    }
+
     $(".coupon_select").click(function() {
         $(this).find(".coupon_list").slideToggle();
         toggleIcon.call(this); // 아이콘 토글 함수 호출
 
     });
 
-    $('.pay_btn').click(function() {
+    $('.pay_btn.card').click(function() {
         $('.card_select').show();
+        $('.pay_btn.card').addClass("selected");
+        $('.easy_select').hide();
+        $('.pay_btn.easy').removeClass("selected");
     });
-
     $('.card_select').click(function() {
         $('.card_list').slideToggle();
         toggleIcon.call(this);
-
     });
+    $('.pay_btn.easy').click(function() {
+        $('.easy_select').show();
+        $('.pay_btn.easy').addClass("selected");
+        $('.card_select').hide();
+        $('.pay_btn.card').removeClass("selected");
+    });
+
     $('.card_list .card').click(function() {
         let selectedCard = $(this).find('.card_name').text();
         $('.card_value span').text(selectedCard);
@@ -77,8 +77,42 @@ $(document).ready(function(){
         updateSubmitButtonState();
     });
 
+    $('#addressList').on('click', 'li .address_item', function() {
+        let addressName = $(this).find('#addressName').text().trim();
+        let recipient = $(this).find('#recipientName').text().trim();
+        let zipCode = $(this).find('#zipCode').text().trim().replace(/[()]/g, '');
+        let basicAddress = $(this).find('#basicAddress').text().trim();
+        let detailAddress = $(this).find('#detailAddress').text().trim();
+        let phoneNumber = $(this).find('#phonenumber').text().trim().split('-');
+
+        let phoneNumber1 = phoneNumber[0];
+        let phoneNumber2 = phoneNumber[1];
+        let phoneNumber3 = phoneNumber[2];
+
+        $('#defaultAddress .input_wrap #addressName').text(addressName);
+
+        $('#defaultAddress .input_wrap #recipientName').text(recipient);
+
+        $('#defaultAddress .input_wrap #zipCode').text(zipCode);
+        $('#defaultAddress .input_wrap #basicAddress').text(basicAddress);
+        $('#defaultAddress .input_wrap #detailAddress').text(detailAddress);
+
+        $('#defaultAddress .input_wrap #phonenumber1').text(phoneNumber1);
+        $('#defaultAddress .input_wrap #phonenumber2').text(phoneNumber2);
+        $('#defaultAddress .input_wrap #phonenumber3').text(phoneNumber3);
+
+        $('#addressPopup').css('display', 'none');
+    });
 
 });
+function toggleIcon() {
+    let icon = $(this).find(".material-symbols-outlined");
+    if (icon.text() === "expand_more") {
+        icon.text("expand_less");
+    } else {
+        icon.text("expand_more");
+    }
+}
 function updateSubmitButtonState() {
         let checked = $(".order_agree input[type='checkbox']:checked").length;
         if (checked === 4) {
@@ -114,7 +148,17 @@ function initPopup() {
         }
     });
 }
-
+// function loadAddresses() {
+//     $.ajax({
+//         type: 'GET',
+//         url: '',
+//         data:
+//         success: function() {
+//             updateAddressList();
+//         },
+//
+//     });
+// }
 function isOrderAgree() {
     if (!$('#agreeAll').prop('checked')) {
         alert("주문 내용을 확인하고 모두 동의해주세요.");
@@ -177,17 +221,6 @@ function isAddressEmpty() {
         return false;
     }
 
-    return true;
-}
-
-
-//휴대전화번호 검증
-function isPhoneValid() {
-    if (!isPhoneEmpty()) {
-        return false;
-    } else if (!regexPhone()) {
-        return false;
-    }
     return true;
 }
 
@@ -268,7 +301,7 @@ function updateDiscount() {
     let productCouponDiscount = 0;
     $(".cart_item").each(function() {
         let originalPrice = parseInt($(this).find(".original_price span").first().text().replace(/[^0-9]/g, ""));
-        let salePrice = parseInt($(this).find(".sale_price").text().replace(/[^0-9]/g, ""));
+        let salePrice = $(this).find(".sale_price").length > 0 ? parseInt($(this).find(".sale_price").text().replace(/[^0-9]/g, "")) : originalPrice;
         let itemDiscount = originalPrice - salePrice;
         productCouponDiscount += itemDiscount;
     });
@@ -307,16 +340,17 @@ function handleMileage() {
         if ($(this).text() === "모두 사용") {
             // 입력란에 사용 가능한 마일리지 값 설정
             $("#mileage").val(availableMileage.toLocaleString());
+            $("#ownedMileage").text("0");
             // "사용 안함" 버튼 텍스트 변경
             $(this).text("사용 안함");
         } else {
             // 입력란에 0으로 설정
             $("#mileage").val("0");
+            // 보유 마일리지 값 원래대로 설정
+            $("#ownedMileage").text(availableMileage.toLocaleString());
             // "모두 사용" 버튼 텍스트 변경
             $(this).text("모두 사용");
         }
-        // 보유 마일리지 값 변경
-        $("#ownedMileage").text(availableMileage.toLocaleString());
         // 마일리지가 변경되었을 때는 할인 내역과 회원 쿠폰 내역을 유지한 채로 주문 요약 업데이트
         updateOrderSummary(updateDiscount(), parseInt($(".total.discount .member.coupon .content").text().replace(/[^0-9]/g, "")));
     });
@@ -348,22 +382,21 @@ function updateOrderSummary(productCouponDiscount, memberCouponDiscount) {
     $(".cart_item").each(function() {
         let productPrice = parseInt($(this).find(".original_price span").first().text().replace(/[^0-9]/g, ""));
         totalProductPrice += productPrice;
-        console.log(totalProductPrice);
     });
 
     let usedMileage = parseInt($("#mileage").val().replace(/[^0-9]/g, "") || 0);
 
     let discountedTotalProductPrice = totalProductPrice - productCouponDiscount;
-
-    let shippingFee = parseInt($(".total.shipping .content").text().replace(/[^0-9]/g, ""));
-    let totalPrice = discountedTotalProductPrice + shippingFee - usedMileage - memberCouponDiscount;
     let totalDiscount = productCouponDiscount + memberCouponDiscount;
+    let shippingFee = (totalProductPrice - totalDiscount - usedMileage >= 50000) ? 0 : 3000;
+    let totalPrice = discountedTotalProductPrice + shippingFee - usedMileage - memberCouponDiscount;
 
     $(".total.price .content").text(totalProductPrice.toLocaleString() + "원");
-    $(".total.discount .product.coupon .content").text("-" + productCouponDiscount.toLocaleString() + "원");
-    $(".total.discount .member.coupon .content").text("-" + memberCouponDiscount.toLocaleString() + "원");
-    $(".total.discount > ul >  .content").text("-" + totalDiscount.toLocaleString() + "원");
-    $(".total.mileage .content").text("-" + usedMileage.toLocaleString() + "원");
+    $(".total.discount .product.coupon .content").text(productCouponDiscount > 0 ? "-" + productCouponDiscount.toLocaleString() + "원" : "0원");
+    $(".total.discount .member.coupon .content").text(memberCouponDiscount > 0 ? "-" + memberCouponDiscount.toLocaleString() + "원" : "0원");
+    $(".total.discount > ul >  .content").text(totalDiscount > 0 ? "-" + totalDiscount.toLocaleString() + "원" : "0원");
+    $(".total.mileage .content").text(usedMileage > 0 ? "-" + usedMileage.toLocaleString() + "원" : "0원");
     $(".total_price .content").text(totalPrice.toLocaleString() + "원");
+    $(".total.shipping .content").text(shippingFee.toLocaleString() + "원");
 }
 updateOrderSummary(updateDiscount());

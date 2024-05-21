@@ -36,84 +36,51 @@
                             <li class="default_address">기본 배송지</li>
                             <li class="new_address">신규 입력</li>
                         </ul>
-                        <div class="input_area default">
+                        <div class="input_area default" id="defaultAddress">
                             <ul class="input_wrap">
-                                    <li>
-                                        <div style="display: flex; justify-content: space-between;">
-                                            <label for="addressName" class="input_tit ess">배송지명</label>
-                                            <a href="" class="address_popup_btn">이전 배송지 목록</a>
-                                        </div>
-                                        <div class="input_box_wrap">
-                                            <span class="input_box">우리집</span>
-                                        </div>
-                                    </li>
-                                    <div id="addressPopup" class="popup">
-                                        <div class="popup_content">
-                                            <button type="button" class="close_btn"><span class="material-symbols-outlined">close</span></button>
-                                            <div class="popup_tit">
-                                                <h2>배송지 목록</h2>
-                                            </div>
-                                            <div class="content">
-                                                <ul class="address_list" id="addressList">
-                                                    <li>
-                                                    <div class="address_item">
-                                                        <div class="address_name default_address"><span>우리집1</span>/<span>김지우</span></div>
-                                                        <span>서울시 송파구 양재대로 1218 245-1801</span>
-                                                        <span>01043401954</span>
-                                                    </div>
-                                                        <a href="../mypage/edit_address.html">수정</a>
-                                                    </li>
-                                                    <li>
-                                                        <div class="address_item">
-                                                            <div class="address_name"><span>우리집2</span>/<span>김지우</span></div>
-                                                            <span>서울시 송파구 양재대로 1218 245-1801</span>
-                                                            <span>01043401954</span>
-                                                        </div>
-                                                        <a href="../mypage/edit_address.html">수정</a>
-                                                    </li>
-                                                </ul>
-                                            </div>
+                                <li>
+                                    <div style="display: flex; justify-content: space-between;">
+                                        <label for="addressName" class="input_tit ess">배송지명</label>
+                                        <a href="" class="address_popup_btn">이전 배송지 목록</a>
+                                    </div>
+                                    <div class="input_box_wrap">
+                                        <span id="addressName" class="input_box">우리집</span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div id="name_title">
+                                        <label class="input_tit ess ">수령인</label>
+                                    </div>
+                                    <div id="name_content" class="input_box_wrap">
+                                        <span id="recipientName" class="input_box">김지우</span>
+                                    </div>
+                                </li>
+                                <li class="address">
+                                    <div>
+                                        <label class="input_tit ess ">주소</label>
+                                    </div>
+                                    <div>
+                                        <span id="zipCode" class="input_box">05649</span>
+                                    </div>
+                                    <div>
+                                        <span id="basicAddress" class="input_box">서울시 송파구 양재대로 1222</span>
+                                    </div>
+                                    <div>
+                                        <span id="detailAddress" class="input_box">245-1901</span>
+                                    </div>
+                                </li>
+                                <li class="phone_number">
+                                    <div class="">
+                                        <label class="input_tit ess">휴대전화번호</label>
+                                    </div>
+                                    <div class="phone_number select">
+                                        <div class="number_sec">
+                                            <span id="phonenumber1" class="input_box">010</span>
+                                            <p>-</p><span id="phonenumber2" class="input_box">4340</span>
+                                            <p>-</p><span id="phonenumber3" class="input_box">1954</span>
                                         </div>
                                     </div>
-                                    <li>
-                                        <div id="name_title">
-                                            <label class="input_tit ess ">수령인</label>
-                                        </div>
-                                        <div id="name_content" class="input_box_wrap">
-                                            <span class="input_box">김지우</span>
-                                        </div>
-                                    </li>
-                                    <li class="address">
-                                        <div>
-                                            <label class="input_tit ess ">주소</label>
-                                        </div>
-                                        <div>
-                                            <span class="input_box">05649</span>
-                                        </div>
-                                        <div>
-                                            <span class="input_box">서울시 송파구 양재대로 1218</span>
-                                        </div>
-                                        <div>
-                                            <span class="input_box">245-1801</span>
-                                        </div>
-                                    </li>
-                                    <li class="phone_number">
-                                        <div class="">
-                                            <label class="input_tit ess">휴대전화번호</label>
-                                        </div>
-                                        <div class="phone_number select">
-                                            <div class="number_sec">
-                                                <span class="input_box">010</span>
-                                                <p>-</p><span class="input_box">4340</span>
-                                                <p>-</p><span class="input_box">1954</span>
-                                            </div>
-                                        </div>
-                                    </li>
-<!--                                    <li class="default_address">-->
-<!--                                        <div>-->
-<!--                                           <span>기본 배송지입니다. 주문 시 변경하신 내용으로 기본 배송지 주소가 수정됩니다.</span>-->
-<!--                                        </div>-->
-<!--                                    </li>-->
+                                </li>
                                 <li class="shipping_message">
                                     <select id="shippingMsg">
                                         <option value="0">배송시 요청사항을 선택해 주세요.</option>
@@ -130,6 +97,35 @@
                                     </div>
                                 </li>
                             </ul>
+                            <div id="addressPopup" class="popup">
+                                <div class="popup_content">
+                                    <button type="button" class="close_btn"><span class="material-symbols-outlined">close</span></button>
+                                    <div class="popup_tit">
+                                        <h2>배송지 목록</h2>
+                                    </div>
+                                    <div class="content">
+                                        <ul class="address_list" id="addressList">
+                                            <li>
+                                                <div class="address_item">
+                                                    <div class="address_name default_address"><span id="addressName">우리집1</span></div>
+                                                    <div class="address_details"><span id="zipCode">(05649)</span><span id="basicAddress">서울시 송파구 양재대로 1218</span><span id="detailAddress">245-1801</span></div>
+                                                    <div class="recipient_info"><span id="recipientName">김지우</span><span id="phonenumber">010-1111-1111</span></div>
+                                                </div>
+                                                <a href="../mypage/edit_address.html">수정</a>
+                                            </li>
+                                            <li>
+                                                <div class="address_item">
+                                                    <div class="address_name"><span id="addressName">우리집2</span></div>
+                                                    <div class="address_details"><span id="zipCode">(05649)</span><span id="basicAddress">서울시 송파구 양재대로 1218</span><span id="detailAddress">245-1801</span></div>
+                                                    <div class="recipient_info"><span id="recipientName">김지우</span><span id="phonenumber">010-2222-2222</span></div>
+                                                </div>
+                                                <a href="../mypage/edit_address.html">수정</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                         <div class="input_area" id="newAddress">
                             <ul class="input_wrap">
@@ -245,6 +241,26 @@
                                     <a href="">Gzy</a>
                                 </div>
                                 <div class="price">
+                                    <div class="original_price"><span id="productPrice">44,000원</span></div>
+                                </div>
+                            </div>
+                            <div class="item quantity">
+                                <span>1</span>
+                            </div>
+                            <div class="item price">
+                                <div class="original_price"><span class="">44,000원</span></div>
+<!--                                <span class="sale_price">2,700원</span>-->
+                            </div>
+                        </div>
+                        <div class="cart_item">
+                            <div class="item img">
+                                <img src="../../images/maskingtape1.jpeg" alt="제품1">
+                            </div>
+                            <div class="item info">
+                                <div class="name">
+                                    <a href="">Gzy</a>
+                                </div>
+                                <div class="price">
                                     <div class="original_price"><span id="productPrice">3,000원</span></div>
                                 </div>
                             </div>
@@ -327,14 +343,12 @@
                         </div>
                         <ul class="payment_method">
                             <li>
-                                <button type="button" class="pay_btn">신용/체크카드</button>
+                                <button type="button" class="pay_btn card">신용/체크카드</button>
                             </li>
                             <li>
-                                <button type="button" class="pay_btn">카카오페이</button>
+                                <button type="button" class="pay_btn easy">간편결제</button>
                             </li>
-                            <li>
-                                <button type="button" class="pay_btn">토스페이</button>
-                            </li>
+
                         </ul>
                         <div class="card_select">
                                 <div class="card selected">
@@ -400,6 +414,20 @@
                                     </li>
                                 </ul>
                             </div>
+                        <div class="easy_select">
+                            <ul class="easy_options">
+                                <li>
+                                    <button type="button" class="payment_option">카카오페이</button>
+                                </li>
+                                <li>
+                                    <button type="button" class="payment_option">토스페이</button>
+                                </li>
+                                <li>
+                                    <button type="button" class="payment_option">페이코</button>
+                                </li>
+
+                            </ul>
+                        </div>
                     </section>
                 </div>
                 <div class="order_summary_wrap">
@@ -429,7 +457,7 @@
                         </li>
                         <li class="total shipping">
                             <div class="title">배송비</div>
-                            <div class="content">3,000원</div>
+                            <div class="content"></div>
                         </li>
                         <li class="total_price">
                             <div class="title">총 결제 금액</div>
@@ -460,7 +488,7 @@
                                 <div class="order_agree">
                                     <input id="agree3" type="checkbox">
                                     <label for="agree3">(필수) 결제대행 서비스 이용약관 </label>
-                                    <a target="_blank" href="https://www.inicis.com/terms">(주)KG이니시스</a>
+                                    <a target="_blank" href="https://www.inicis.com/terms">(주)토스페이먼츠</a>
                                 </div>
                             </li>
                         </ul>
