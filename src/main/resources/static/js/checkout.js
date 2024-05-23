@@ -1,6 +1,5 @@
 $(document).ready(function(){
     initPopup();
-
     $(".submit_btn").addClass("disabled");
 
     // 기본 배송지 탭 클릭 시
@@ -421,7 +420,8 @@ function updateOrderSummary(productCouponDiscount, memberCouponDiscount) {
     let totalProductPrice = 0;
     $(".cart_item").each(function() {
         let productPrice = parseInt($(this).find("#productPrice").text().replace(/[^0-9]/g, ""));
-        totalProductPrice += productPrice;
+        let quantity = parseInt($(this).find(".item.quantity span").text());
+        totalProductPrice += productPrice * quantity;
     });
 
     let usedMileage = parseInt($("#mileage").val().replace(/[^0-9]/g, "") || 0);

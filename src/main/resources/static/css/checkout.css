@@ -70,7 +70,7 @@ section {
     display: inline-block;
 }
 .cart_wrap .cart_head .item.info {
-    width: 65%;
+    width: 70%;
 }
 .cart_wrap .cart_head .item.img {
     width: 0;
@@ -87,7 +87,7 @@ section {
 }
 
 .cart_wrap .img{
-    width: 15%;
+    width: 20%;
 }
 .cart_wrap .img img{
     display: block;
@@ -647,24 +647,19 @@ section {
 .shipping_info .shipping_details {
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    font-size: 16px;
 }
 .shipping_info .shipping_details li {
     display: flex;
+    padding: 5px 10px;
 }
 .shipping_info .shipping_details li > span:first-child {
-    width: 30%;
+    width: 20%;
     display: flex;
     align-items: flex-end;
 }
-.order_details table, .payment_info table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-}
-.order_details table th, .order_details table td, .payment_info table th, .payment_info table td {
-    padding: 8px;
-    text-align: left;
+#orderComplete .order_summary {
+    padding: 0;
 }
 #orderComplete .btn1 {
     width: 100%;
