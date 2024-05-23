@@ -48,7 +48,7 @@ $(document).ready(function(){
         $('.pay_btn.easy').removeClass("selected");
     });
     $('.card_select').click(function() {
-        $('.card_list').slideToggle();
+        $('.card_list').toggle();
         toggleIcon.call(this);
     });
     $('.pay_btn.easy').click(function() {
@@ -78,32 +78,26 @@ $(document).ready(function(){
     });
 
     $('#addressList').on('click', 'li .address_item', function() {
-        let addressName = $(this).find('#addressName').text().trim();
-        let recipient = $(this).find('#recipientName').text().trim();
-        let zipCode = $(this).find('#zipCode').text().trim().replace(/[()]/g, '');
-        let basicAddress = $(this).find('#basicAddress').text().trim();
-        let detailAddress = $(this).find('#detailAddress').text().trim();
-        let phoneNumber = $(this).find('#phonenumber').text().trim().split('-');
+        let addressName = $(this).find('.address_name .popup_address_name').text().trim();
+        let recipient = $(this).find('.recipient_info .popup_recipient_name').text().trim();
+        let zipCode = $(this).find('.address_details .popup_zip_code').text().trim().replace(/[()]/g, '');
+        let basicAddress = $(this).find('.address_details .popup_basic_address').text().trim();
+        let detailAddress = $(this).find('.address_details .popup_detail_address').text().trim();
+        let phoneNumber = $(this).find('.recipient_info .popup_phonenumber').text().trim();
 
-        let phoneNumber1 = phoneNumber[0];
-        let phoneNumber2 = phoneNumber[1];
-        let phoneNumber3 = phoneNumber[2];
+        // 부모 창의 주소 입력란 업데이트
+        window.opener.$('#defaultAddress .input_wrap #defaultAddressName').text(addressName);
+        window.opener.$('#defaultAddress .input_wrap #defaultRecipientName').text(recipient);
+        window.opener.$('#defaultAddress .input_wrap #defaultZipCode').text(zipCode);
+        window.opener.$('#defaultAddress .input_wrap #defaultBasicAddress').text(basicAddress);
+        window.opener.$('#defaultAddress .input_wrap #defaultDetailAddress').text(detailAddress);
+        window.opener.$('#defaultAddress .input_wrap #defaultPhonenumber1').text(phoneNumber.split('-')[0]);
+        window.opener.$('#defaultAddress .input_wrap #defaultPhonenumber2').text(phoneNumber.split('-')[1]);
+        window.opener.$('#defaultAddress .input_wrap #defaultPhonenumber3').text(phoneNumber.split('-')[2]);
 
-        $('#defaultAddress .input_wrap #addressName').text(addressName);
-
-        $('#defaultAddress .input_wrap #recipientName').text(recipient);
-
-        $('#defaultAddress .input_wrap #zipCode').text(zipCode);
-        $('#defaultAddress .input_wrap #basicAddress').text(basicAddress);
-        $('#defaultAddress .input_wrap #detailAddress').text(detailAddress);
-
-        $('#defaultAddress .input_wrap #phonenumber1').text(phoneNumber1);
-        $('#defaultAddress .input_wrap #phonenumber2').text(phoneNumber2);
-        $('#defaultAddress .input_wrap #phonenumber3').text(phoneNumber3);
-
-        $('#addressPopup').css('display', 'none');
+        // 팝업 창 닫기
+        window.close();
     });
-
 });
 function toggleIcon() {
     let icon = $(this).find(".material-symbols-outlined");
@@ -129,25 +123,22 @@ function updateSubmitButtonState() {
         }
     }
 function initPopup() {
-    let popup = $('#addressPopup');
+    let width = 450;
+    let height = 500;
+    let left = (window.screen.width / 2) - (width / 2);
+    let top = (window.screen.height / 2) - (height / 2);
+    let popupUrl = 'checkout_address_popup.html'; // 팝업으로 열 페이지의 URL
+    let popupName = '주소 입력'; // 팝업 창의 이름
+    let popupOptions =  `width=${width},height=${height},top=${top},left=${left}`; // 팝업 창의 옵션
+
     let popupBtn = $('.address_popup_btn');
-    let closeBtn = $('.close_btn');
 
     popupBtn.on('click', function (event) {
         event.preventDefault();
-        popup.css('display', 'block');
-    });
-
-    closeBtn.on('click', function () {
-        popup.css('display', 'none');
-    });
-
-    $(window).on('click', function (event) {
-        if ($(event.target).is(popup)) {
-            popup.css('display', 'none');
-        }
+        window.open(popupUrl, popupName, popupOptions);
     });
 }
+
 // function loadAddresses() {
 //     $.ajax({
 //         type: 'GET',
@@ -281,7 +272,48 @@ function validateNewAddress() {
 
     return true;
 }
+function validateEditPopup() {
+    // 필드 값 가져오기
+    let detailAddress = $('#detailAddress').val().trim();
+    let recipientName = $('#recipientName').val().trim();
+    let phoneNumber2 = $('#phonenumber2').val().trim();
+    let phoneNumber3 = $('#phonenumber3').val().trim();
 
+    // 유효성 검사
+    if (detailAddress === '') {
+        alert('상세주소를 입력해 주세요.');
+        $('#detailAddress').focus();
+        return false;
+    }
+
+    if (recipientName === '') {
+        alert('수령인을 입력해 주세요.');
+        $('#recipientName').focus();
+        return false;
+    }
+
+    if (phoneNumber2 === '' || phoneNumber3 === '') {
+        alert('휴대전화번호를 입력해 주세요.');
+        if (phoneNumber2 === '') {
+            $('#phonenumber2').focus();
+        } else {
+            $('#phonenumber3').focus();
+        }
+        return false;
+    }
+
+    if (!/^\d{3,4}$/.test(phoneNumber2) || !/^\d{4}$/.test(phoneNumber3)) {
+        alert('유효한 휴대전화번호를 입력해 주세요.');
+        if (!/^\d{3,4}$/.test(phoneNumber2)) {
+            $('#phonenumber2').focus();
+        } else {
+            $('#phonenumber3').focus();
+        }
+        return false;
+    }
+
+    return true;
+}
 // 전체 유효성 검사 함수
 function validateBeforeSubmit() {
     if (!isOrderAgree()) {
@@ -300,7 +332,7 @@ function validateBeforeSubmit() {
 function updateDiscount() {
     let productCouponDiscount = 0;
     $(".cart_item").each(function() {
-        let originalPrice = parseInt($(this).find(".original_price span").first().text().replace(/[^0-9]/g, ""));
+        let originalPrice = parseInt($(this).find("#productPrice").text().replace(/[^0-9]/g, ""));
         let salePrice = $(this).find(".sale_price").length > 0 ? parseInt($(this).find(".sale_price").text().replace(/[^0-9]/g, "")) : originalPrice;
         let itemDiscount = originalPrice - salePrice;
         productCouponDiscount += itemDiscount;
@@ -317,7 +349,14 @@ function handleCouponSelect() {
             updateOrderSummary(updateDiscount(), 0); // 할인 없음을 전달하여 업데이트
         } else {
             let couponValue = parseInt($(this).find(".coupon_name").text().match(/\d+/)[0]); // 쿠폰 이름에서 숫자 추출
-            let discount = couponValue/100 * parseInt($(".total.price .content").text().replace(/[^0-9]/g, "")); // 할인 가격 계산
+            let totalProductPrice = 0;
+            $(".cart_item").each(function() {
+                let productPrice = parseInt($(this).find("#productPrice").text().replace(/[^0-9]/g, ""));
+                totalProductPrice += productPrice;
+            });
+            let productCouponDiscount = updateDiscount();
+            let discountedTotalProductPrice = totalProductPrice - productCouponDiscount;
+            let discount = discountedTotalProductPrice * couponValue / 100; // 할인 가격 계산
             let couponName = $(this).find(".coupon_name").text();
             $(".coupon_select .coupon_value span:first-child").text(couponName);
             $(".coupon_select .coupon_value span:last-child").text("-" + discount.toLocaleString() + "원");
@@ -326,11 +365,12 @@ function handleCouponSelect() {
             let memberCouponDiscount = discount;
 
             // 주문서 업데이트 함수 호출
-            updateOrderSummary(updateDiscount(), memberCouponDiscount);
+            updateOrderSummary(productCouponDiscount, memberCouponDiscount);
         }
     });
 }
 handleCouponSelect();
+
 function handleMileage() {
     let availableMileageText = $("#ownedMileage").text().replace(",", "");
     let availableMileage = parseInt(availableMileageText);
@@ -380,7 +420,7 @@ function updateOrderSummary(productCouponDiscount, memberCouponDiscount) {
 
     let totalProductPrice = 0;
     $(".cart_item").each(function() {
-        let productPrice = parseInt($(this).find(".original_price span").first().text().replace(/[^0-9]/g, ""));
+        let productPrice = parseInt($(this).find("#productPrice").text().replace(/[^0-9]/g, ""));
         totalProductPrice += productPrice;
     });
 

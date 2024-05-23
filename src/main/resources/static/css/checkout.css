@@ -177,6 +177,10 @@ section {
 .input_area .input_wrap {
     width: 100%;
 }
+.input_area.default .input_wrap li:first-child div:first-child {
+    display: flex;
+    justify-content: space-between;
+}
 .address_wrap {
     display: flex;
     flex-wrap: wrap;
@@ -188,6 +192,9 @@ section {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+}
+.address_wrap .input_wrap #defaultZipCode, .address_wrap .input_wrap #zipCode{
+    width: 70%;
 }
 .address_wrap .input_wrap li {
     display: flex;
@@ -253,6 +260,9 @@ section {
 }
 .address_wrap .input_area .shipping_message {
     gap: 0;
+}
+.address_wrap .input_wrap .direct_input_wrap {
+    display: none;
 }
 .address_wrap .input_wrap .direct_input_wrap textarea {
     border-top: none;
@@ -481,27 +491,17 @@ section {
 }
 /*popup*/
 .popup {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
+    display: flex;
     width: 100%;
     height: 100%;
     overflow: auto;
-    background: rgba(0,0,0,0.4);
-    padding-top: 60px;
 }
 .popup_content {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     background: #fff;
     padding: 20px;
     width: 100%;
-    max-width: 600px;
-    min-height: 400px;
+    max-width: 450px;
+    min-height: 500px;
 }
 .popup_tit h2{
     display: block;
@@ -567,4 +567,110 @@ section {
     content: "|";
     margin: 0 3px;
     color: #999;
+}
+#addressEditPopup {
+    display: flex;
+}
+#addressEditPopup .content {
+    margin-top: 20px;
+}
+#addressEditPopup .address_list li {
+    flex-direction: column;
+    align-items: flex-start;
+    border-top: none;
+}
+#addressEditPopup label {
+    margin-bottom: 5px;
+}
+#addressEditPopup .input_box {
+    width: 100%;
+    height: 35px;
+}
+#addressEditPopup .phone_number .number_sec {
+    width: 100%;
+}
+#addressEditPopup .btn_wrap {
+    padding: 0 10px;
+}
+#addressEditPopup .btn1 {
+    width: 100%;
+    height: 45px;
+    background: #000;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+/*complete*/
+#orderComplete {
+    display: flex;
+    justify-content: center;
+    max-width: 600px;
+    width: 100%;
+    margin: 80px;
+    font-size: 14px;
+}
+#orderComplete .order_inner {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+.complete_title {
+    text-align: center;
+    margin-bottom: 20px;
+}
+.complete_title h1 {
+    font-size: 24px;
+    color: #333;
+}
+.order_info {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+.order_info span {
+    display: flex;
+    align-items: flex-end;
+    gap: 3px;
+}
+#orderComplete .content_title {
+    border-bottom: 2px solid #333;
+    margin-bottom: 10px;
+}
+#orderComplete section {
+    border: none;
+    margin-bottom: 20px;
+}
+#orderComplete span:nth-child(2) {
+    font-weight: 600;
+}
+.shipping_info .shipping_details {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.shipping_info .shipping_details li {
+    display: flex;
+}
+.shipping_info .shipping_details li > span:first-child {
+    width: 30%;
+    display: flex;
+    align-items: flex-end;
+}
+.order_details table, .payment_info table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+.order_details table th, .order_details table td, .payment_info table th, .payment_info table td {
+    padding: 8px;
+    text-align: left;
+}
+#orderComplete .btn1 {
+    width: 100%;
+    height: 45px;
+    background: #000;
+    color: white;
+    border: none;
+    cursor: pointer;
 }

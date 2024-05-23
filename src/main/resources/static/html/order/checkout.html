@@ -39,20 +39,20 @@
                         <div class="input_area default" id="defaultAddress">
                             <ul class="input_wrap">
                                 <li>
-                                    <div style="display: flex; justify-content: space-between;">
-                                        <label for="addressName" class="input_tit ess">배송지명</label>
-                                        <a href="" class="address_popup_btn">이전 배송지 목록</a>
+                                    <div>
+                                        <label for="defaultAddressName" class="input_tit ess">배송지명</label>
+                                        <a href="" class="address_popup_btn">배송지 목록</a>
                                     </div>
                                     <div class="input_box_wrap">
-                                        <span id="addressName" class="input_box">우리집</span>
+                                        <span id="defaultAddressName" class="input_box">우리집</span>
                                     </div>
                                 </li>
                                 <li>
                                     <div id="name_title">
-                                        <label class="input_tit ess ">수령인</label>
+                                        <label for="defaultRecipientName" class="input_tit ess">수령인</label>
                                     </div>
                                     <div id="name_content" class="input_box_wrap">
-                                        <span id="recipientName" class="input_box">김지우</span>
+                                        <span id="defaultRecipientName" class="input_box">김지우</span>
                                     </div>
                                 </li>
                                 <li class="address">
@@ -60,13 +60,13 @@
                                         <label class="input_tit ess ">주소</label>
                                     </div>
                                     <div>
-                                        <span id="zipCode" class="input_box">05649</span>
+                                        <span id="defaultZipCode" class="input_box">05649</span>
                                     </div>
                                     <div>
-                                        <span id="basicAddress" class="input_box">서울시 송파구 양재대로 1222</span>
+                                        <span id="defaultBasicAddress" class="input_box">서울시 송파구 양재대로 1222</span>
                                     </div>
                                     <div>
-                                        <span id="detailAddress" class="input_box">245-1901</span>
+                                        <span id="defaultDetailAddress" class="input_box">245-1901</span>
                                     </div>
                                 </li>
                                 <li class="phone_number">
@@ -75,14 +75,14 @@
                                     </div>
                                     <div class="phone_number select">
                                         <div class="number_sec">
-                                            <span id="phonenumber1" class="input_box">010</span>
-                                            <p>-</p><span id="phonenumber2" class="input_box">4340</span>
-                                            <p>-</p><span id="phonenumber3" class="input_box">1954</span>
+                                            <span id="defaultPhonenumber1" class="input_box">010</span>
+                                            <p>-</p><span id="defaultPhonenumber2" class="input_box">4340</span>
+                                            <p>-</p><span id="defaultPhonenumber3" class="input_box">1954</span>
                                         </div>
                                     </div>
                                 </li>
                                 <li class="shipping_message">
-                                    <select id="shippingMsg">
+                                    <select id="defaultShippingMsg">
                                         <option value="0">배송시 요청사항을 선택해 주세요.</option>
                                         <option value="1">부재시 문앞에 놓아주세요.</option>
                                         <option value="2">부재시 경비실에 맡겨 주세요.</option>
@@ -92,40 +92,11 @@
                                         <option value="6">배송전에 연락 주세요.</option>
                                         <option value="direct_input">직접입력</option>
                                     </select>
-                                    <div id="directInputContainer" class="direct_input_wrap" style="display: none;">
-                                        <textarea id="directInput" name="directInput" placeholder="내용을 작성해 주세요."></textarea>
+                                    <div id="defaultDirectInputContainer" class="direct_input_wrap">
+                                        <textarea id="defaultDirectInput" name="directInput" placeholder="내용을 작성해 주세요."></textarea>
                                     </div>
                                 </li>
                             </ul>
-                            <div id="addressPopup" class="popup">
-                                <div class="popup_content">
-                                    <button type="button" class="close_btn"><span class="material-symbols-outlined">close</span></button>
-                                    <div class="popup_tit">
-                                        <h2>배송지 목록</h2>
-                                    </div>
-                                    <div class="content">
-                                        <ul class="address_list" id="addressList">
-                                            <li>
-                                                <div class="address_item">
-                                                    <div class="address_name default_address"><span id="addressName">우리집1</span></div>
-                                                    <div class="address_details"><span id="zipCode">(05649)</span><span id="basicAddress">서울시 송파구 양재대로 1218</span><span id="detailAddress">245-1801</span></div>
-                                                    <div class="recipient_info"><span id="recipientName">김지우</span><span id="phonenumber">010-1111-1111</span></div>
-                                                </div>
-                                                <a href="../mypage/edit_address.html">수정</a>
-                                            </li>
-                                            <li>
-                                                <div class="address_item">
-                                                    <div class="address_name"><span id="addressName">우리집2</span></div>
-                                                    <div class="address_details"><span id="zipCode">(05649)</span><span id="basicAddress">서울시 송파구 양재대로 1218</span><span id="detailAddress">245-1801</span></div>
-                                                    <div class="recipient_info"><span id="recipientName">김지우</span><span id="phonenumber">010-2222-2222</span></div>
-                                                </div>
-                                                <a href="../mypage/edit_address.html">수정</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-
                         </div>
                         <div class="input_area" id="newAddress">
                             <ul class="input_wrap">
@@ -150,14 +121,14 @@
                                         <label class="input_tit ess">주소</label>
                                     </div>
                                     <div>
-                                        <input class="input_box" id="zipCode" name="zipCode" placeholder="우편번호" maxlength="10" type="text" />
+                                        <input class="input_box" id="zipCode" name="zipCode" placeholder="우편번호" type="text" />
                                         <button id="searchZipCodeBtn" class="btn1">주소검색</button>
                                     </div>
                                     <div>
-                                        <input class="input_box" id="basicAddress" name="basicAddress" placeholder="기본주소" maxlength="100" type="text" />
+                                        <input class="input_box" id="basicAddress" name="basicAddress" placeholder="기본주소" type="text" />
                                     </div>
                                     <div>
-                                        <input class="input_box" id="detailAddress" name="detailAddress" placeholder="상세주소(선택 가능)" maxlength="100" type="text"/>
+                                        <input class="input_box" id="detailAddress" name="detailAddress" placeholder="상세주소" maxlength="40" type="text"/>
                                     </div>
                                 </li>
                                 <li class="phone_number">
@@ -196,7 +167,7 @@
                                     <option value="6">배송전에 연락 주세요.</option>
                                     <option value="direct_input">직접입력</option>
                                 </select>
-                                <div id="directInputContainer" class="direct_input_wrap" style="display: none;">
+                                <div id="directInputContainer" class="direct_input_wrap">
                                     <textarea id="directInput" name="directInput" placeholder="내용을 작성해 주세요."></textarea>
                                 </div>
                                 </li>
@@ -250,6 +221,26 @@
                             <div class="item price">
                                 <div class="original_price"><span class="">44,000원</span></div>
 <!--                                <span class="sale_price">2,700원</span>-->
+                            </div>
+                        </div>
+                        <div class="cart_item">
+                            <div class="item img">
+                                <img src="../../images/maskingtape1.jpeg" alt="제품1">
+                            </div>
+                            <div class="item info">
+                                <div class="name">
+                                    <a href="">Gzy</a>
+                                </div>
+                                <div class="price">
+                                    <div class="original_price"><span id="productPrice">3,000원</span></div>
+                                </div>
+                            </div>
+                            <div class="item quantity">
+                                <span>1</span>
+                            </div>
+                            <div class="item price">
+                                <div class="original_price"><span class="line_through">3,000원</span></div>
+                                <span class="sale_price">2,700원</span>
                             </div>
                         </div>
                         <div class="cart_item">
@@ -494,7 +485,7 @@
                         </ul>
                         <p>결제 및 계좌 안내 시 상호명은 <em>[미음키읔]</em>으로 표기되니 참고 부탁드립니다.</p></div>
                     <div class="btn_wrap">
-                        <button type="submit" class="btn1 submit_btn" onclick="validateBeforeSubmit()">결제하기</button>
+                        <button type="submit" class="btn1 submit_btn" id="checkoutBtn" onclick="validateBeforeSubmit()">결제하기</button>
                     </div>
                 </div>
                 </div>
