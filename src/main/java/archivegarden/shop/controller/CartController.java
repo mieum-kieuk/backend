@@ -29,7 +29,8 @@ public class CartController {
     }
 
     @GetMapping("/cart/checkout")
-    public String checkout(@RequestParam List<Long> productIds, RedirectAttributes redirectAttributes) {
+    @PreAuthorize("hasRole('ROLE_USER') and #loginMember.loginId == principal.username")
+    public String checkout(@RequestParam List<Long> productIds, @CurrentUser Member loginMember, RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("productIds", productIds);
         return "redirect:/order/checkout";
     }

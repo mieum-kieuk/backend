@@ -305,11 +305,11 @@ async function checkout() {
         },
         statusCode: {
             200: function () {
-                console.log("??");
                 window.location.href = '/cart/checkout?productIds=' + productIds.join(',');
             },
             400: function (xhr) {
                 alert(xhr.responseJSON.message);
+                window.location.href = '/cart';
             }
         },
         error: function (error) {

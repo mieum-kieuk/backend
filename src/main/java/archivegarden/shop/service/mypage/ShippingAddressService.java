@@ -3,6 +3,7 @@ package archivegarden.shop.service.mypage;
 import archivegarden.shop.dto.mypage.address.AddAddressForm;
 import archivegarden.shop.dto.mypage.address.AddressListDto;
 import archivegarden.shop.dto.mypage.address.EditAddressForm;
+import archivegarden.shop.dto.order.ShippingAddressDto;
 import archivegarden.shop.entity.Member;
 import archivegarden.shop.entity.ShippingAddress;
 import archivegarden.shop.exception.NoSuchMemberException;
@@ -90,11 +91,25 @@ public class ShippingAddressService {
     }
 
     /**
+     * 기본 배송지 조회
+     *
+     * @throws NoSuchShippingAddressException
+     */
+    @Transactional(readOnly = true)
+    public ShippingAddressDto getDefaultShippingAddress(Long memberId) {
+        ShippingAddress shippingAddress = shippingAddressRepository.findDefaultShippingAddress(memberId);
+        return new ShippingAddressDto(shippingAddress);
+    }
+
+    /**
      * 기본 배송지 변경
+     *
+     *      * @throws NoSuchShippingAddressException
      */
     private void changeDefaultShippingAddress(Boolean form, Long memberId) {
         if(form) {
-            ShippingAddress defaultShippingAddress = shippingAddressRepository.removeDefaultAddress(memberId);
+            ShippingAddress defaultShippingAddress = shippingAddressRepository.findDefaultShippingAddress(memberId);
+
             defaultShippingAddress.removeDefault();
         }
     }

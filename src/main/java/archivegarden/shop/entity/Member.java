@@ -55,6 +55,9 @@ public class Member extends BaseTimeEntity {
     @OneToMany(mappedBy = "member", cascade = ALL)
     private List<ShippingAddress> shippingAddressList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "member")
+    private List<Order> orders = new ArrayList<>();
+
     //==비즈니스 로직==//
     /**
      * 이메일 인증 완료

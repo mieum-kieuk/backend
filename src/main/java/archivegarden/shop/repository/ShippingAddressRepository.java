@@ -13,5 +13,5 @@ public interface ShippingAddressRepository extends JpaRepository<ShippingAddress
     List<ShippingAddress> findAllByMemberId(@Param("memberId") Long memberId);
 
     @Query("select s from ShippingAddress s where s.member.id = :memberId and s.isDefaultAddress = 'TRUE'")
-    ShippingAddress removeDefaultAddress(@Param("memberId") Long memberId);
+    ShippingAddress findDefaultShippingAddress(@Param("memberId") Long memberId);
 }

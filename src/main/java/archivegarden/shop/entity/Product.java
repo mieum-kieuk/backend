@@ -2,7 +2,7 @@ package archivegarden.shop.entity;
 
 import archivegarden.shop.dto.admin.shop.product.AddProductForm;
 import archivegarden.shop.dto.admin.shop.product.EditProductForm;
-import archivegarden.shop.exception.NotEnoughStockException;
+import archivegarden.shop.exception.ajax.NotEnoughStockAjaxException;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -126,7 +126,7 @@ public class Product extends BaseTimeEntity {
     public void removeStock(int quantity) {
         int restStock = this.stockQuantity - quantity;
         if (restStock < 0) {
-            throw new NotEnoughStockException("재고가 부족합니다.");
+            throw new NotEnoughStockAjaxException("재고가 부족합니다.");
         }
     }
 
