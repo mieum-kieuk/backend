@@ -26,13 +26,8 @@ public class MemberSaveForm {
     private String basicAddress;    //기본주소
     private String detailAddress;    //상세주소
 
-    @Pattern(regexp = "^01(0|1|[6-9])$")
     private String phonenumber1;
-
-    @Pattern(regexp = "^(\\d){3,4}$")
     private String phonenumber2;
-
-    @Pattern(regexp = "^(\\d){4}$")
     private String phonenumber3;
 
     @Pattern(regexp = "^[A-Za-z0-9_\\.\\-]+@[A-Za-z0-9\\-]+\\.[A-Za-z0-9\\-]+$", message = "유효한 이메일을 입력해 주세요.")

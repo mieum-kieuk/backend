@@ -400,3 +400,6 @@
 .error_message {
   font-size: 12px;
 }
+.address .field-error {
+  margin-top: -7px;
+}

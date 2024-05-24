@@ -1,10 +1,10 @@
 package archivegarden.shop.service.member;
 
 import archivegarden.shop.dto.member.*;
+import archivegarden.shop.entity.Delivery;
 import archivegarden.shop.entity.FindAccountType;
 import archivegarden.shop.entity.Member;
-import archivegarden.shop.entity.ShippingAddress;
-import archivegarden.shop.exception.NoSuchMemberException;
+import archivegarden.shop.repository.DeliveryRepository;
 import archivegarden.shop.repository.MemberRepository;
 import archivegarden.shop.service.email.EmailService;
 import archivegarden.shop.util.RedisUtil;
@@ -14,7 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -26,11 +25,12 @@ import java.util.Random;
 @Transactional(readOnly = true)
 public class MemberServiceImpl implements MemberService {
 
-    private final MemberRepository memberRepository;
+    private final SmsUtil smsUtil;
+    private final RedisUtil redisUtil;
     private final EmailService emailService;
     private final PasswordEncoder passwordEncoder;
-    private final RedisUtil redisUtil;
-    private final SmsUtil smsUtil;
+    private final MemberRepository memberRepository;
+    private final DeliveryRepository deliveryRepository;
 
     /**
      * 회원가입
@@ -48,13 +48,14 @@ public class MemberServiceImpl implements MemberService {
         //멤버 생성
         Member member = Member.createMember(form);
 
-        //배송주소 생성
-        if (StringUtils.hasText(form.getZipCode()) && StringUtils.hasText(form.getBasicAddress())) {
-            ShippingAddress.createShippingAddressWhenJoin(member, form.getZipCode(), form.getBasicAddress(), form.getDetailAddress());
-        }
-
         //멤버 저장
         memberRepository.save(member);
+
+        //배송지 생성
+        Delivery delivery = Delivery.createDeliveryWhenJoin(member, form.getZipCode(), form.getBasicAddress(), form.getDetailAddress());
+
+        //배송지 저장
+        deliveryRepository.save(delivery);
 
         //인증 이메일 전송
         emailService.sendValidationRequestEmail(member.getEmail(), member.getCreatedAt());
@@ -78,7 +79,9 @@ public class MemberServiceImpl implements MemberService {
     private void validateDuplicateMember(MemberSaveForm form) {
         String phonenumber = form.getPhonenumber1() + form.getPhonenumber2() + form.getPhonenumber3();
         memberRepository.findDuplicateMember(form.getLoginId(), phonenumber, form.getEmail())
-                .ifPresent(m -> {throw new IllegalStateException("이미 존재하는 회원입니다.");});
+                .ifPresent(m -> {
+                    throw new IllegalStateException("이미 존재하는 회원입니다.");
+                });
     }
 
     /**

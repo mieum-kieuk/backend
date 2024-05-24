@@ -6,17 +6,13 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static jakarta.persistence.CascadeType.ALL;
-
-@Getter
 @Entity
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member extends BaseTimeEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
     private Long id;
 
@@ -29,7 +25,7 @@ public class Member extends BaseTimeEntity {
     @Column(length = 12, nullable = false)
     private String name;
 
-    @Column(name = "phone_number", length = 11, nullable = false)
+    @Column(name = "phone_number", length = 13, nullable = false)
     private String phonenumber;
 
     @Column(length = 45, nullable = false)
@@ -52,11 +48,11 @@ public class Member extends BaseTimeEntity {
     @Column(length = 10, nullable = false)
     private String isEmailVerified;
 
-    @OneToMany(mappedBy = "member", cascade = ALL)
-    private List<ShippingAddress> shippingAddressList = new ArrayList<>();
+//    @OneToMany(mappedBy = "member", cascade = ALL)
+//    private List<Delivery> shippingAddressList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member")
-    private List<Order> orders = new ArrayList<>();
+//    @OneToMany(mappedBy = "member")
+//    private List<Order> orders = new ArrayList<>();
 
     //==비즈니스 로직==//
     /**

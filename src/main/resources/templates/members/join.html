@@ -94,7 +94,7 @@
                     </ul>
                     <ul class="address">
                         <li>
-                            <p class="join_tit btn_included">주소</p>
+                            <p class="join_tit btn_included ess">주소</p>
                         </li>
                         <li>
                             <input class="input_box" th:field="*{zipCode}" placeholder="우편번호" type="text" readonly/>
@@ -106,6 +106,7 @@
                         <li>
                             <input class="input_box" th:field="*{detailAddress}" placeholder="상세주소(선택 가능)" maxlength="40" type="text"/>
                         </li>
+                        <div class="field-error" th:errors="*{zipCode}"></div>
                     </ul>
                     <ul class="phone_number">
                         <li scope="row">

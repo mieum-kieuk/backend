@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 @Controller
 @RequiredArgsConstructor
@@ -50,17 +51,8 @@ public class MemberController {
     @PostMapping("/join")
     public String join(@Valid @ModelAttribute("form") MemberSaveForm form, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
-        //휴대전화번호 검증
-        if (bindingResult.hasFieldErrors("phonenumber1") || bindingResult.hasFieldErrors("phonenumber2") || bindingResult.hasFieldErrors("phonenumber3")) {
-            bindingResult.rejectValue("phonenumber1", "phonenumberInvalid");
-        }
-
-        //비밀번호 == 비밀번호 확인 검증
-        if (StringUtils.hasText(form.getPassword())) {
-            if (!form.getPassword().equals(form.getPasswordConfirm())) {
-                bindingResult.rejectValue("passwordConfirm", "passwordNotMatch");
-            }
-        }
+        //복합 룰 검증
+        validateObjectError(form, bindingResult);
 
         if (bindingResult.hasErrors()) {
             return "members/join";
@@ -176,5 +168,32 @@ public class MemberController {
     public String findPasswordResult(@ModelAttribute("dto") FindPasswordDto dto, Model model) {
         model.addAttribute("dto", dto);
         return "members/find_pw_complete";
+    }
+
+    private void validateObjectError(MemberSaveForm form, BindingResult bindingResult) {
+        //주소 검증
+        if (StringUtils.hasText(form.getZipCode()) && StringUtils.hasText(form.getBasicAddress())) {
+            if(!Pattern.matches("^[\\d]{5}$", form.getZipCode()) || !Pattern.matches("^[가-힣\\d\\W]{1,40}$", form.getBasicAddress())) {
+                bindingResult.rejectValue("zipCode", "addressInvalid");
+            }
+        } else {
+            bindingResult.rejectValue("zipCode", "requiredAddress", "주소를 입력해 주세요.");
+        }
+
+        //휴대전화번호 검증
+        if (StringUtils.hasText(form.getPhonenumber1()) &&  StringUtils.hasText(form.getPhonenumber2()) && StringUtils.hasText(form.getPhonenumber3())) {
+            if(!Pattern.matches("^01(0|1|[6-9])$", form.getPhonenumber1()) || !Pattern.matches("^[\\d]{3,4}$", form.getPhonenumber2()) || !Pattern.matches("^[\\d]{4}$", form.getPhonenumber3())) {
+                bindingResult.rejectValue("phonenumber1", "phonenumberInvalid");
+            }
+        } else {
+            bindingResult.rejectValue("phonenumber1", "requiredPhonenumber", "휴대전화번호를 입력해 주세요.");
+        }
+
+        //비밀번호 == 비밀번호 확인 검증
+        if (StringUtils.hasText(form.getPassword())) {
+            if (!form.getPassword().equals(form.getPasswordConfirm())) {
+                bindingResult.rejectValue("passwordConfirm", "passwordNotMatch");
+            }
+        }
     }
 }
