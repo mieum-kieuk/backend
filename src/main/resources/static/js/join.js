@@ -302,7 +302,16 @@ function regexPhone() {
         return false;
     }
 }
+function isAddressEmpty() {
+    let zipCode = $('#zipCode').val().trim();
+    let basicAddress = $('#basicAddress').val().trim();
 
+    if (zipCode === '' || basicAddress === '') {
+        return false;
+    }
+
+    return true;
+}
 //타이머 설정
 let interval;
 
@@ -479,6 +488,9 @@ function validateBeforeSubmit() {
         alert("유효한 이름을 입력해 주세요.");
         return false;
     }
+    if (!isAddressEmpty()) {
+        alert("주소를 입력해 주세요.");
+    }return  false;
 
     // 휴대전화번호 유효성 검사
     if (!isPhoneEmpty()) {

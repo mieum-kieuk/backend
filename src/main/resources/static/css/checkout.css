@@ -127,15 +127,15 @@ section {
     text-decoration: line-through;
     color: #666;
 }
-/*address_wrap*/
-.address_tabs {
+/*delivery_wrap*/
+.delivery_tabs {
     display: flex;
     /*max-width: 550px;*/
     width: 100%;
     border-bottom: 1px solid #d7d7d7;
     cursor: pointer;
 }
-.address_tabs li {
+.delivery_tabs li {
     position: relative;
     padding: 10px;
     border: 1px solid #d7d7d7;
@@ -144,7 +144,7 @@ section {
     background: #eee;
     border-bottom: none;
 }
-.address_tabs li.active::after {
+.delivery_tabs li.active::after {
     content: "";
     position: absolute;
     bottom: -3px;
@@ -154,13 +154,13 @@ section {
     height: 4px;
     background: rgb(255, 255, 255);
 }
-.address_tabs li.active {
+.delivery_tabs li.active {
     padding: 10px;
     width: 100px;
     text-align: center;
     background: #fff;
 }
-.address_tabs .default_address {
+.delivery_tabs .default_delivery {
     border-right: 0px;
 }
 .input_area {
@@ -181,27 +181,27 @@ section {
     display: flex;
     justify-content: space-between;
 }
-.address_wrap {
+.delivery_wrap {
     display: flex;
     flex-wrap: wrap;
     width:  100%;
     /*margin-left: 200px;*/
 }
-.address_wrap .input_wrap .input_box_wrap {
+.delivery_wrap .input_wrap .input_box_wrap {
     margin-bottom: 20px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
 }
-.address_wrap .input_wrap #defaultZipCode, .address_wrap .input_wrap #zipCode{
+.delivery_wrap .input_wrap #defaultZipCode, .delivery_wrap .input_wrap #zipCode{
     width: 70%;
 }
-.address_wrap .input_wrap li {
+.delivery_wrap .input_wrap li {
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
-.address_wrap .input_wrap .input_box {
+.delivery_wrap .input_wrap .input_box {
     display: flex;
     align-items: center;
     border: 1px solid #999;
@@ -209,12 +209,12 @@ section {
     width: 100%;
     height: 35px;
 }
-.address_wrap .input_wrap .input_tit.ess::after {
+.delivery_wrap .input_wrap .input_tit.ess::after {
     content: "*"; /* 가상 요소에 별표 내용 추가 */
     color: #d94747; /* 별표 색상 지정 */
     margin-left: 3px; /* 별표와 텍스트 사이의 간격 조정 */
 }
-.address_wrap .address {
+.delivery_wrap .address {
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -246,35 +246,43 @@ section {
     width: 70%;
     margin-bottom: 20px;
 }
+.phone_number .number_sec .input_box:first-child{
+    width: 57px;
+    flex: none;
+    padding: 5px 9px;
+}
+.phone_number .number_sec .input_box{
+    flex: 1;
+}
 .phone_number .number_sec select {
     height: 35px;
 }
-.default_address div{
+.default_delivery div{
     display: flex;
     align-items: center;
     margin-bottom: 20px;
 }
-.address_wrap .default_address div input{
+.delivery_wrap .default_delivery div input{
     width: auto;
     margin-right: 5px;
 }
-.address_wrap .input_area .shipping_message {
+.delivery_wrap .input_area .shipping_message {
     gap: 0;
 }
-.address_wrap .input_wrap .direct_input_wrap {
+.delivery_wrap .input_wrap .direct_input_wrap {
     display: none;
 }
-.address_wrap .input_wrap .direct_input_wrap textarea {
+.delivery_wrap .input_wrap .direct_input_wrap textarea {
     border-top: none;
     width: 100%;
     height: 150px;
     resize: vertical;
 }
-.address_wrap .btn_wrap {
+.delivery_wrap .btn_wrap {
     display: flex;
     justify-content: space-between;
 }
-.address_wrap .btn_wrap .btn1 {
+.delivery_wrap .btn_wrap .btn1 {
     width: 48%;
     height: 45px;
 }
@@ -525,7 +533,7 @@ section {
     padding: 10px 0;
 }
 
-.popup .address_list li {
+.popup .delivery_list li {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -534,20 +542,20 @@ section {
     padding: 10px;
     cursor: pointer;
 }
-.popup .address_list li:first-child {
+.popup .delivery_list li:first-child {
     border-top: none;
 }
-.popup .address_item {
+.popup .delivery_item {
     display: flex;
     flex-direction: column;
     padding: 10px 0;
     gap: 5px;
 }
-.popup .address_item .address_name {
+.popup .delivery_item .delivery_name {
     display: flex;
     align-items: center;
 }
-.popup .address_name.default_address::before {
+.popup .delivery_name.default_delivery::before {
     content: "기본";
     color: #fff;
     padding: 2px;
@@ -557,42 +565,42 @@ section {
     font-weight: bold;
     margin-right: 5px;
 }
-.popup .address_item .address_details {
+.popup .delivery_item .delivery_details {
     display: flex;
     font-size: 16px;
     font-weight: 600;
     gap: 3px;
 }
-.popup .address_item .recipient_info span:first-child::after {
+.popup .delivery_item .recipient_info span:first-child::after {
     content: "|";
     margin: 0 3px;
     color: #999;
 }
-#addressEditPopup {
+#deliveryEditPopup {
     display: flex;
 }
-#addressEditPopup .content {
+#deliveryEditPopup .content {
     margin-top: 20px;
 }
-#addressEditPopup .address_list li {
+#deliveryEditPopup .delivery_list li {
     flex-direction: column;
     align-items: flex-start;
     border-top: none;
 }
-#addressEditPopup label {
+#deliveryEditPopup label {
     margin-bottom: 5px;
 }
-#addressEditPopup .input_box {
+#deliveryEditPopup .input_box {
     width: 100%;
     height: 35px;
 }
-#addressEditPopup .phone_number .number_sec {
+#deliveryEditPopup .phone_number .number_sec {
     width: 100%;
 }
-#addressEditPopup .btn_wrap {
+#deliveryEditPopup .btn_wrap {
     padding: 0 10px;
 }
-#addressEditPopup .btn1 {
+#deliveryEditPopup .btn1 {
     width: 100%;
     height: 45px;
     background: #000;

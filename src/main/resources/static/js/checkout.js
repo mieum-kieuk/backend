@@ -1,18 +1,20 @@
 $(document).ready(function(){
     initPopup();
+    updateCoupon();
+
     $(".submit_btn").addClass("disabled");
 
     // 기본 배송지 탭 클릭 시
-    $('.address_tabs li:first-child').addClass('active'); // 처음에 기본 배송지 탭을 활성화
+    $('.delivery_tabs li:first-child').addClass('active'); // 처음에 기본 배송지 탭을 활성화
     $('.input_area.default').addClass('active'); // 처음에 기본 배송지 입력 영역을 활성화
 
-    $('.address_tabs li:first-child').click(function(){
+    $('.delivery_tabs li:first-child').click(function(){
         $(this).addClass('active').siblings().removeClass('active');
         $('.input_area.default').addClass('active').siblings('.input_area').removeClass('active');
     });
 
     // 신규 입력 탭 클릭 시
-    $('.address_tabs li:last-child').click(function(){
+    $('.delivery_tabs li:last-child').click(function(){
         $(this).addClass('active').siblings().removeClass('active');
         $('.input_area:last-child').addClass('active').siblings('.input_area').removeClass('active');
     });
@@ -76,23 +78,23 @@ $(document).ready(function(){
         updateSubmitButtonState();
     });
 
-    $('#addressList').on('click', 'li .address_item', function() {
-        let addressName = $(this).find('.address_name .popup_address_name').text().trim();
+    $('#deliveryList').on('click', 'li .delivery_item', function() {
+        let deliveryName = $(this).find('.delivery_name .popup_delivery_name').text().trim();
         let recipient = $(this).find('.recipient_info .popup_recipient_name').text().trim();
-        let zipCode = $(this).find('.address_details .popup_zip_code').text().trim().replace(/[()]/g, '');
-        let basicAddress = $(this).find('.address_details .popup_basic_address').text().trim();
-        let detailAddress = $(this).find('.address_details .popup_detail_address').text().trim();
+        let zipCode = $(this).find('.delivery_details .popup_zip_code').text().trim().replace(/[()]/g, '');
+        let basicAddress = $(this).find('.delivery_details .popup_basic_address').text().trim();
+        let detailAddress = $(this).find('.delivery_details .popup_detail_address').text().trim();
         let phoneNumber = $(this).find('.recipient_info .popup_phonenumber').text().trim();
 
         // 부모 창의 주소 입력란 업데이트
-        window.opener.$('#defaultAddress .input_wrap #defaultAddressName').text(addressName);
-        window.opener.$('#defaultAddress .input_wrap #defaultRecipientName').text(recipient);
-        window.opener.$('#defaultAddress .input_wrap #defaultZipCode').text(zipCode);
-        window.opener.$('#defaultAddress .input_wrap #defaultBasicAddress').text(basicAddress);
-        window.opener.$('#defaultAddress .input_wrap #defaultDetailAddress').text(detailAddress);
-        window.opener.$('#defaultAddress .input_wrap #defaultPhonenumber1').text(phoneNumber.split('-')[0]);
-        window.opener.$('#defaultAddress .input_wrap #defaultPhonenumber2').text(phoneNumber.split('-')[1]);
-        window.opener.$('#defaultAddress .input_wrap #defaultPhonenumber3').text(phoneNumber.split('-')[2]);
+        window.opener.$('#defaultDelivery .input_wrap #defaultDeliveryName').text(deliveryName);
+        window.opener.$('#defaultDelivery .input_wrap #defaultRecipientName').text(recipient);
+        window.opener.$('#defaultDelivery .input_wrap #defaultZipCode').text(zipCode);
+        window.opener.$('#defaultDelivery .input_wrap #defaultBasicAddress').text(basicAddress);
+        window.opener.$('#defaultDelivery .input_wrap #defaultDetailAddress').text(detailAddress);
+        window.opener.$('#defaultDelivery .input_wrap #defaultPhonenumber1').text(phoneNumber.split('-')[0]);
+        window.opener.$('#defaultDelivery .input_wrap #defaultPhonenumber2').text(phoneNumber.split('-')[1]);
+        window.opener.$('#defaultDelivery .input_wrap #defaultPhonenumber3').text(phoneNumber.split('-')[2]);
 
         // 팝업 창 닫기
         window.close();
@@ -126,11 +128,11 @@ function initPopup() {
     let height = 500;
     let left = (window.screen.width / 2) - (width / 2);
     let top = (window.screen.height / 2) - (height / 2);
-    let popupUrl = 'checkout_address_popup.html'; // 팝업으로 열 페이지의 URL
+    let popupUrl = 'checkout_delivery_popup.html'; // 팝업으로 열 페이지의 URL
     let popupName = '주소 입력'; // 팝업 창의 이름
     let popupOptions =  `width=${width},height=${height},top=${top},left=${left}`; // 팝업 창의 옵션
 
-    let popupBtn = $('.address_popup_btn');
+    let popupBtn = $('.delivery_popup_btn');
 
     popupBtn.on('click', function (event) {
         event.preventDefault();
@@ -157,10 +159,10 @@ function isOrderAgree() {
     return true;
 }
 
-function isAddressNameEmpty() {
-    let addressName = $("#addressName").val();
+function isDeliveryNameEmpty() {
+    let deliveryName = $("#deliveryName").val();
 
-    if (addressName.trim() === '') {
+    if (deliveryName.trim() === '') {
         return false;
     }
     return true;
@@ -197,7 +199,7 @@ function regexName() {
     return true;
 }
 
-function isAddressEmpty() {
+function isDeliveryEmpty() {
 
     // 우편번호 검사
     let zipCode = $('#zipCode').val().trim();
@@ -238,9 +240,9 @@ function regexPhone() {
 }
 
 // 주문서 신규 배송지 유효성 검사
-function validateNewAddress() {
+function validateNewDelivery() {
     // 배송지명 검사
-    if (!isAddressNameEmpty()) {
+    if (!isDeliveryNameEmpty()) {
         alert("배송지명을 입력해 주세요.");
         return false;
     }
@@ -255,7 +257,7 @@ function validateNewAddress() {
     }
 
     // 주소 검사
-    if (!isAddressEmpty()) {
+    if (!isDeliveryEmpty()) {
         alert("주소를 입력해 주세요.");
         return false;
     }
@@ -319,8 +321,8 @@ function validateBeforeSubmit() {
         return false;
     }
 
-    if ($('#newAddress').hasClass('active')) {
-        if (!validateNewAddress()) {
+    if ($('#newDelivery').hasClass('active')) {
+        if (!validateNewDelivery()) {
             return false;
         }
     }
@@ -332,13 +334,34 @@ function updateDiscount() {
     let productCouponDiscount = 0;
     $(".cart_item").each(function() {
         let originalPrice = parseInt($(this).find("#productPrice").text().replace(/[^0-9]/g, ""));
-        let salePrice = $(this).find(".sale_price").length > 0 ? parseInt($(this).find(".sale_price").text().replace(/[^0-9]/g, "")) : originalPrice;
+        let salePrice = $(this).find("#productSalePrice").length > 0 ? parseInt($(this).find("#productSalePrice").text().replace(/[^0-9]/g, "")) : originalPrice;
         let itemDiscount = originalPrice - salePrice;
         productCouponDiscount += itemDiscount;
     });
 
     return productCouponDiscount;
 }
+function updateCoupon() {
+    $('.coupon').each(function(index) {
+        if (index > 0) { // 첫 번째 쿠폰(선택 안함)은 건너뛰기
+            let couponName = $(this).find(".coupon_name").text().trim();
+            let couponValueMatch = couponName.match(/\d+/);
+            if (couponValueMatch) {
+                let couponValue = parseInt(couponValueMatch[0]); // 쿠폰 이름에서 숫자 추출
+                let totalProductPrice = 0;
+                $(".cart_item").each(function() {
+                    let productPrice = parseInt($(this).find("#productPrice").text().replace(/[^0-9]/g, ""));
+                    totalProductPrice += productPrice;
+                });
+                let productCouponDiscount = updateDiscount();
+                let discountedTotalProductPrice = totalProductPrice - productCouponDiscount;
+                let discount = discountedTotalProductPrice * couponValue / 100; // 할인 가격 계산
+                $(this).find(".coupon_details .discount_price").text("-" + discount.toLocaleString() + "원");
+            }
+        }
+    });
+}
+
 function handleCouponSelect() {
     $(".coupon_list .coupon").click(function() {
         if ($(this).hasClass("none")) {
@@ -359,6 +382,7 @@ function handleCouponSelect() {
             let couponName = $(this).find(".coupon_name").text();
             $(".coupon_select .coupon_value span:first-child").text(couponName);
             $(".coupon_select .coupon_value span:last-child").text("-" + discount.toLocaleString() + "원");
+            // $(this).find(".coupon_details .discount_price").text("-" + discount.toLocaleString() + "원");
 
             // 회원 쿠폰 할인은 회원 쿠폰 하나만 선택 가능하다고 가정합니다.
             let memberCouponDiscount = discount;

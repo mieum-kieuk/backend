@@ -5,6 +5,7 @@
     max-width: 1100px;
     width: 100%;
     margin-top: 150px;
+    min-height: calc( 100svh - 282px);
 }
 #snb {
     display: flex;
@@ -120,7 +121,6 @@ h3 {
     font-weight: 600;
     width: 100%;
     padding: 10px 0;
-    border-bottom: 1px solid #333;
 }
 .order_status.result {
     border: none;
@@ -191,29 +191,32 @@ h3 {
     padding: 40px;
     text-align: center;
 }
-/*address_list*/
-#addressList {
+/*delivery_list*/
+#deliveryList {
     display: flex;
     flex-wrap: wrap;
     width:  100%;
     margin-left: 200px;
 }
-.address_head {
+#deliveryList h3 {
+    margin-bottom: 0;
+}
+.delivery_head {
     display: flex;
     justify-content: space-between;
     border-bottom: 1px solid #666;
     color: #999;
 }
-.address_head h3 {
+.delivery_head h3 {
     text-align: center;
     font-size: 16px;
     color: #333;
     font-weight: 500;
 }
-.address_content {
+.delivery_content {
     margin-bottom: 20px;
 }
-.address_item  {
+.delivery_item  {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -221,43 +224,46 @@ h3 {
     width: 100%;
     border-bottom: 1px solid #999;
 }
-.address_wrap .item {
+.delivery_wrap .item {
     display: flex;
     justify-content: center;
     text-align: center;
     padding: 20px 10px;
 }
-.address_wrap .addressName {
+.delivery_wrap .deliveryName {
     width: 15%;
 }
-.address_wrap .recipientName  {
+.delivery_wrap .recipientName  {
     width: 10%;
 }
-.address_wrap .addressName .default_address {
+.delivery_wrap .deliveryName .default_delivery {
     display: flex;
     align-items: center;
 }
-.address_wrap .addressName .default_address::before {
+.delivery_wrap .deliveryName .default_delivery::before {
     content: "기본";
-    color: #fff; /* 표시 색상을 원하는 색상으로 변경하세요 */
+    color: #fff;
     padding: 2px;
     background: #3273F6;
     border-radius: 2px;
     font-size: 12px;
-    font-weight: bold; /* 텍스트를 굵게 표시합니다 */
-    margin-right: 5px; /* "기본" 텍스트와 배송지명 사이의 간격을 조절합니다 */
+    font-weight: bold;
+    margin-right: 5px;
 }
-
-.address_wrap .phonenumber {
+.delivery_wrap .phonenumber {
     width: 15%;
 }
-.address_wrap .item.address {
+.delivery_wrap .item.address {
     width: 50%;
 }
-.address_wrap .btn {
-    width: 10%;
+.delivery_wrap .btn {
+    width: 20%;
 }
-.address_item .address {
+.delivery_wrap .btn .btn_wrap{
+    width: 90%;
+    justify-content: space-between;
+}
+.delivery_item .address {
     text-align: left;
 }
 .btn .btn_wrap {
@@ -267,16 +273,16 @@ h3 {
 .btn .btn1 {
     width: 60px;
 }
-.address_foot .btn_wrap {
+.delivery_foot .btn_wrap {
     display: flex;
-    justify-content: flex-start;
+    justify-content: flex-end;
     gap: 10px;
 }
-.address_foot .btn1 {
+.delivery_foot .btn1 {
     width: 120px;
 }
-/*add_address*/
-#address {
+/*add_delivery*/
+#delivery {
     display: flex;
     flex-wrap: wrap;
     width:  100%;
@@ -284,24 +290,28 @@ h3 {
     /*margin-left: 200px;*/
     margin-bottom: 120px;
 }
-#address .input_wrap .input_box_wrap {
+.delivery_title {
+    border-bottom: 1px solid #333;
+    margin-bottom: 10px;
+}
+#delivery .input_wrap .input_box_wrap {
     margin-bottom: 20px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
 }
-#address .input_wrap li {
+#delivery .input_wrap li {
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
-#address .input_wrap input {
+#delivery .input_wrap input {
     border: 1px solid #999;
     padding: 5px 5px;
     width: 100%;
     height: 35px;
 }
-#address .input_wrap .input_tit.ess::after {
+#delivery .input_wrap .input_tit.ess::after {
     content: "*"; /* 가상 요소에 별표 내용 추가 */
     color: #d94747; /* 별표 색상 지정 */
     margin-left: 3px; /* 별표와 텍스트 사이의 간격 조정 */
@@ -316,7 +326,7 @@ h3 {
     gap: 10px;
     width: 70%;
 }
-#address .input_wrap #zipCode{
+#delivery .input_wrap #zipCode{
     width: 70%;
 }
 .address div:last-child {
@@ -327,6 +337,10 @@ h3 {
 }
 .phone_number {
     display: flex;
+    width: 70%;
+}
+.phone_number.select {
+    width: 100%;
 }
 .phone_number .number_sec{
     display: flex;
@@ -337,22 +351,31 @@ h3 {
 .phone_number .number_sec select {
     height: 35px;
 }
-.default_address div{
+.default_delivery div{
     display: flex;
     align-items: center;
     margin-bottom: 20px;
 }
-#address .default_address div input{
+#delivery .default_delivery div input{
     width: auto;
     margin-right: 5px;
 }
-#address .btn_wrap {
+#delivery .btn_wrap {
     display: flex;
     justify-content: space-between;
 }
-#address .btn_wrap .btn1 {
+#delivery .btn_wrap .btn1 {
     width: 48%;
     height: 45px;
+}
+#delivery .field-error {
+    margin-top: 3px;
+}
+#delivery .address .field-error {
+    margin-top: -7px;
+}
+#delivery .phone_number .field-error {
+    margin-top: -27px;
 }
 /*wish*/
 #wishList {

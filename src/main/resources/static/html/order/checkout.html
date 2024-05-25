@@ -30,21 +30,21 @@
             <h1 class="order_title">주문서</h1>
             <div class="order_inner">
                 <div class="order_cont">
-                    <section class="address_wrap">
+                    <section class="delivery_wrap">
                         <h3 class="content_title">배송정보</h3>
-                        <ul class="address_tabs">
-                            <li class="default_address">기본 배송지</li>
-                            <li class="new_address">신규 입력</li>
+                        <ul class="delivery_tabs">
+                            <li class="default_delivery">기본 배송지</li>
+                            <li class="new_delivery">신규 입력</li>
                         </ul>
-                        <div class="input_area default" id="defaultAddress">
+                        <div class="input_area default" id="defaultDelivery">
                             <ul class="input_wrap">
                                 <li>
                                     <div>
-                                        <label for="defaultAddressName" class="input_tit ess">배송지명</label>
-                                        <a href="" class="address_popup_btn">배송지 목록</a>
+                                        <label for="defaultDeliveryName" class="input_tit ess">배송지명</label>
+                                        <a href="" class="delivery_popup_btn">배송지 목록</a>
                                     </div>
                                     <div class="input_box_wrap">
-                                        <span id="defaultAddressName" class="input_box">우리집</span>
+                                        <span id="defaultDeliveryName" class="input_box">우리집</span>
                                     </div>
                                 </li>
                                 <li>
@@ -98,14 +98,14 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="input_area" id="newAddress">
+                        <div class="input_area" id="newDelivery">
                             <ul class="input_wrap">
                                 <li>
                                     <div >
-                                        <label for="addressName" class="input_tit ess">배송지명</label>
+                                        <label for="deliveryName" class="input_tit ess">배송지명</label>
                                     </div>
                                     <div class="input_box_wrap">
-                                        <input id="addressName" class="input_box" placeholder="" maxlength="30" type="text"/>
+                                        <input id="deliveryName" class="input_box" placeholder="" maxlength="30" type="text"/>
                                     </div>
                                 </li>
                                 <li>
@@ -150,7 +150,7 @@
                                         </div>
                                     </div>
                                 </li>
-                                <li class="default_address">
+                                <li class="default_delivery">
                                     <div>
                                         <input id="" class="normal" value="1" type="checkbox"/>
                                         <label for="">기본 배송지로 저장</label>
@@ -196,11 +196,11 @@
                                 </div>
                             </div>
                             <div class="item quantity">
-                                <span>1</span>
+                                <span>1 </span>
                             </div>
                             <div class="item price">
                                 <div class="original_price"><span class="line_through">3,000원</span></div>
-                                <span class="sale_price">2,700원</span>
+                                <span class="sale_price" id="productSalePrice">2,700원</span>
                             </div>
                         </div>
                         <div class="cart_item">
@@ -220,7 +220,6 @@
                             </div>
                             <div class="item price">
                                 <div class="original_price"><span class="">44,000원</span></div>
-<!--                                <span class="sale_price">2,700원</span>-->
                             </div>
                         </div>
                         <div class="cart_item">
@@ -240,7 +239,7 @@
                             </div>
                             <div class="item price">
                                 <div class="original_price"><span class="line_through">3,000원</span></div>
-                                <span class="sale_price">2,700원</span>
+                                <span class="sale_price" id="productSalePrice">2,700원</span>
                             </div>
                         </div>
                         <div class="cart_item">
@@ -260,7 +259,7 @@
                             </div>
                             <div class="item price">
                                 <div class="original_price"><span class="line_through">3,000원</span></div>
-                                <span class="sale_price">2,700원</span>
+                                <span class="sale_price" id="productSalePrice">2,700원</span>
                             </div>
                         </div>
 
@@ -288,21 +287,21 @@
                                     </li>
                                     <li class="coupon">
                                         <div class="coupon_details">
-                                        <span class="discount_price">-600원</span>
+                                        <span class="discount_price"></span>
                                         <span class="coupon_name">10% 할인 쿠폰</span>
                                         <span class="coupon_date">5일 3시간 20분 남음</span>
                                         </div>
                                     </li>
                                     <li class="coupon">
                                         <div class="coupon_details">
-                                            <span class="discount_price">-1200원</span>
+                                            <span class="discount_price"></span>
                                             <span class="coupon_name">20% 할인 쿠폰</span>
                                             <span class="coupon_date">5일 3시간 20분 남음</span>
                                         </div>
                                     </li>
                                     <li class="coupon">
                                     <div class="coupon_details">
-                                        <span class="discount_price">-1800원</span>
+                                        <span class="discount_price"></span>
                                         <span class="coupon_name">30% 할인 쿠폰</span>
                                         <span class="coupon_date">5일 3시간 20분 남음</span>
                                     </div>
