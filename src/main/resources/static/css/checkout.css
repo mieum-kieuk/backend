@@ -1,4 +1,3 @@
-
 /*order*/
 #order{
     display: flex;
@@ -101,6 +100,8 @@ section {
 .cart_wrap .cart_item .info{
     text-align: left;
     height: 100%;
+    align-items: center;
+    display: flex;
 }
 .cart_item .info .name {
     margin-bottom: 10px;
@@ -108,12 +109,6 @@ section {
 }
 .cart_item .info .name a{
     padding: 0;
-}
-.cart_item .info .price {
-    display: flex;
-    flex-direction: column;
-    font-size: 13px;
-    width: 100%;
 }
 .cart_wrap .quantity{
     width: 20%;
@@ -518,7 +513,7 @@ section {
     font-weight: 600;
     width: 100%;
     padding: 10px 0;
-    border-bottom: 1px solid #333;
+    border-bottom: 2px solid #333;
 }
 
 .close_btn {

@@ -280,13 +280,6 @@ function validateEditPopup() {
     let phoneNumber2 = $('#phonenumber2').val().trim();
     let phoneNumber3 = $('#phonenumber3').val().trim();
 
-    // 유효성 검사
-    if (detailAddress === '') {
-        alert('상세주소를 입력해 주세요.');
-        $('#detailAddress').focus();
-        return false;
-    }
-
     if (recipientName === '') {
         alert('수령인을 입력해 주세요.');
         $('#recipientName').focus();

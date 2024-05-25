@@ -574,9 +574,9 @@ legend {
   height: 32px;
   padding: 8px;
   border-radius: 2px;
-  border: solid 1px #666;
+  border: solid 1px #222;
   background: #fff;
-  color: #666;
+  color: #222;
 }
 .submit_btn {
   color: #fff;
