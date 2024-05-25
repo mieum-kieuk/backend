@@ -1,4 +1,6 @@
 $(document).ready(function() {
+
+
      $('#submitBtn').click(function () {
 
          if (!validateBeforeSubmit()) {
@@ -20,9 +22,9 @@ $(document).ready(function() {
          let noticeValue = $('#notice').val().trim();
 
 
-         let displayImageValue1 = $('#displayImage1')[0].files;
-         let displayImageValue2 = $('#displayImage2')[0].files;
-         let imageFilesValue = $('#detailsImages')[0].files;
+         let displayImageValue = $('#displayImage')[0].files;
+         let hoverImageValue = $('#hoverImage')[0].files;
+         let detailsImagesValue = $('#detailsImages')[0].files;
 
 
          let nameRegex = /^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9\s]+$/;
@@ -78,29 +80,29 @@ $(document).ready(function() {
              return false;
          }
 
-         if (displayImageValue1.length === 0) {
+         if (displayImageValue.length === 0) {
              alert('섬네일 사진1을 첨부해 주세요.');
              return false;
          }
 
          let maxSizePerFile = 1 * 1024 * 1024;
-         for (let i = 0; i < displayImageValue1.length; i++) {
-             let fileSize = displayImageValue1[i].size;
+         for (let i = 0; i < displayImageValue.length; i++) {
+             let fileSize = displayImageValue[i].size;
              if (fileSize > maxSizePerFile) {
-                 alert('섬네일 사진의 크기가 1MB 이하여야 합니다.');
+                 alert('섬네일 사진1의 크기가 1MB 이하여야 합니다.');
                  return false;
              }
          }
 
-         for (let i = 0; i < displayImageValue2.length; i++) {
-             let fileSize = displayImageValue2[i].size;
+         for (let i = 0; i < hoverImageValue.length; i++) {
+             let fileSize = hoverImageValue[i].size;
              if (fileSize > maxSizePerFile) {
-                 alert('섬네일 사진의 크기가 1MB 이하여야 합니다.');
+                 alert('섬네일 사진2의 크기가 1MB 이하여야 합니다.');
                  return false;
              }
          }
-         for (let i = 0; i < imageFilesValue.length; i++) {
-             let fileSize = imageFilesValue[i].size;
+         for (let i = 0; i < detailsImagesValue.length; i++) {
+             let fileSize = detailsImagesValue[i].size;
              if (fileSize > maxSizePerFile) {
                  alert('첨부파일 하나의 크기가 1MB 이하여야 합니다.');
                  return false;
@@ -109,8 +111,8 @@ $(document).ready(function() {
 
          let totalSizeLimit = 20 * 1024 * 1024;
          let totalSize = 0;
-         for (let i = 0; i < imageFilesValue.length; i++) {
-             totalSize += imageFilesValue[i].size;
+         for (let i = 0; i < detailsImagesValue.length; i++) {
+             totalSize += detailsImagesValue[i].size;
          }
          if (totalSize > totalSizeLimit) {
              alert('첨부파일 전체의 크기가 20MB 이하여야 합니다.');
@@ -175,14 +177,14 @@ $('.delete_btn').click(function() {
     previewContainer.hide();
 });
 
-// displayImage1 변경 이벤트 핸들러
-$('#displayImage1').change(function() {
+// displayImage 변경 이벤트 핸들러
+$('#displayImage').change(function() {
     updatePreviewContainer($(this), 'previewContainer1');
 
 });
 
-// displayImage2 변경 이벤트 핸들러
-$('#displayImage2').change(function() {
+// hoverImage 변경 이벤트 핸들러
+$('#hoverImage').change(function() {
     updatePreviewContainer($(this), 'previewContainer2');
 
 

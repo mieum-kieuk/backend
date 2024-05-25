@@ -13,7 +13,7 @@ import archivegarden.shop.exception.NoSuchProductException;
 import archivegarden.shop.exception.ajax.NoSuchProductAjaxException;
 import archivegarden.shop.repository.admin.promotion.AdminDiscountRepository;
 import archivegarden.shop.repository.shop.ProductRepository;
-import archivegarden.shop.service.upload.FileStore;
+import archivegarden.shop.service.upload.AdminFileStore;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,19 +31,19 @@ public class AdminProductService {
 
     private final ProductRepository productRepository;
     private final AdminDiscountRepository discountRepository;
-    private final FileStore fileStore;
+    private final AdminFileStore fileStore;
 
     /**
      * 상품 저장
      */
     public Long saveProduct(AddProductForm form) throws IOException {
         //상품 이미지 엔티티 생성
-        ProductImage displayImage = fileStore.storeFile(form.getDisplayImage1(), ImageType.DISPLAY);
+        ProductImage displayImage = fileStore.storeFile(form.getDisplayImage(), ImageType.DISPLAY);
         ProductImage hoverImage = null;
         List<ProductImage> detailsImages = new ArrayList<>();
 
-        if(!form.getDisplayImage2().isEmpty()) {
-            hoverImage = fileStore.storeFile(form.getDisplayImage2(), ImageType.HOVER);
+        if(!form.getHoverImage().isEmpty()) {
+            hoverImage = fileStore.storeFile(form.getHoverImage(), ImageType.HOVER);
         }
         if(!form.getDetailsImages().isEmpty()) {
             detailsImages = fileStore.storeFiles(form.getDetailsImages(), ImageType.DETAILS);
@@ -103,13 +103,13 @@ public class AdminProductService {
         product.update(form);
 
         //첨부 파일 수정
-        if(!form.getDisplayImage1().getOriginalFilename().equals("")) {
-            ProductImage displayImage = fileStore.storeFile(form.getDisplayImage1(), ImageType.DISPLAY);
+        if(!form.getDisplayImage().getOriginalFilename().equals("")) {
+            ProductImage displayImage = fileStore.storeFile(form.getDisplayImage(), ImageType.DISPLAY);
             product.updateDisplayImage(displayImage);
         }
 
-        if(!form.getDisplayImage2().getOriginalFilename().equals("")) {
-            ProductImage hoverImage = fileStore.storeFile(form.getDisplayImage2(), ImageType.HOVER);
+        if(!form.getHoverImage().getOriginalFilename().equals("")) {
+            ProductImage hoverImage = fileStore.storeFile(form.getHoverImage(), ImageType.HOVER);
             product.updateHoverImage(hoverImage);
         }
 

@@ -4,7 +4,9 @@ import archivegarden.shop.dto.admin.shop.product.AddProductForm;
 import archivegarden.shop.dto.admin.shop.product.EditProductForm;
 import archivegarden.shop.exception.ajax.NotEnoughStockAjaxException;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +14,7 @@ import java.util.stream.Collectors;
 
 @Getter
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Product extends BaseTimeEntity {
 
     @Id
@@ -22,7 +25,7 @@ public class Product extends BaseTimeEntity {
     @Column(length = 50, nullable = false)
     private String name;
 
-    @Column(nullable = false)
+    @Column(length = 20, nullable = false)
     @Enumerated(value = EnumType.STRING)
     private Category category;
 
@@ -51,15 +54,14 @@ public class Product extends BaseTimeEntity {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProductImage> images = new ArrayList<>();
 
-    @OneToMany(mappedBy = "product")
-    private List<Qna> qnas = new ArrayList<>();
+//    @OneToMany(mappedBy = "product")
+//    private List<Qna> qnas = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "discount_id")
-    private Discount discount;
+    private Discount discount;  //다대일 단방향
 
     //==비즈니스 로직==//
-
     /**
      * 상품 수정
      */
@@ -148,7 +150,7 @@ public class Product extends BaseTimeEntity {
         product.details = form.getDetails();
         product.sizeGuide = form.getSizeGuide();
         product.shipping = form.getShipping();
-        product.notice = form.getShipping();
+        product.notice = form.getNotice();
         product.addProductImage(displayImage);
 
         if(hoverImage != null) {

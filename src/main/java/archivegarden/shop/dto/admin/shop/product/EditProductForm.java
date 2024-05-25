@@ -48,8 +48,8 @@ public class EditProductForm {
     private String notice;
 
     private Boolean isDisplayImageChanged;
-    private MultipartFile displayImage1;
-    private MultipartFile displayImage2;
+    private MultipartFile displayImage;
+    private MultipartFile hoverImage;
     private List<MultipartFile> detailsImages = new ArrayList<>();
 
     public EditProductForm(Product product) {
