@@ -29,8 +29,8 @@ public class ExceptionController {
         return "error/no_such_board_exception";
     }
 
-    @ExceptionHandler(NoSuchShippingAddressException.class)
-    public String noSuchShippingAddressException(NoSuchShippingAddressException e) {
-        return "error/no_such_address_exception";
+    @ExceptionHandler(NoSuchDeliveryException.class)
+    public String noSuchDeliveryException(NoSuchDeliveryException e) {
+        return "error/no_such_delivery_exception";
     }
 }

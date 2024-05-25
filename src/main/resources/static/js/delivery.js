@@ -155,4 +155,12 @@ function validateBeforeSubmit() {
     return true;
 }
 
+function deleteOk(deliveryId) {
+    if (confirm("배송지를 삭제하시겠습니까?")) {
+        window.location.href = '/mypage/delivery/' + deliveryId + '/delete';
+        return true;
+    } else {
+        return false;
+    }
+}
 

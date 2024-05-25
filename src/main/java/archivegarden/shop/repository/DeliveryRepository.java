@@ -9,9 +9,9 @@ import java.util.List;
 
 public interface DeliveryRepository extends JpaRepository<Delivery, Long> {
 
-    @Query("select s from Delivery s where s.member.id = :memberId order by s.isDefaultAddress desc")
+    @Query("select d from Delivery d where d.member.id = :memberId order by d.isDefaultDelivery desc")
     List<Delivery> findAllByMemberId(@Param("memberId") Long memberId);
 
-    @Query("select s from Delivery s where s.member.id = :memberId and s.isDefaultAddress = 'TRUE'")
-    Delivery findDefaultShippingAddress(@Param("memberId") Long memberId);
+    @Query("select d from Delivery d where d.member.id = :memberId and d.isDefaultDelivery = 'TRUE'")
+    Delivery findDefaultDelivery(@Param("memberId") Long memberId);
 }

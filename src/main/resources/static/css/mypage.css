@@ -259,9 +259,12 @@ h3 {
 .delivery_wrap .btn {
     width: 20%;
 }
+.delivery_wrap .item.btn{
+    justify-content: flex-end;
+}
 .delivery_wrap .btn .btn_wrap{
     width: 90%;
-    justify-content: space-between;
+    justify-content: flex-end;
 }
 .delivery_item .address {
     text-align: left;
@@ -273,10 +276,14 @@ h3 {
 .btn .btn1 {
     width: 60px;
 }
+.btn .btn1.delete {
+    margin-right: 5px;
+}
 .delivery_foot .btn_wrap {
     display: flex;
     justify-content: flex-end;
     gap: 10px;
+    padding-right: 10px;
 }
 .delivery_foot .btn1 {
     width: 120px;

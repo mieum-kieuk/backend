@@ -5,11 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>배송지 등록 | 미음키읔</title>
 
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="미음키읔" />
-    <meta property="og:description" content="" />
-    <meta property="og:image" content="" />
-    <meta property="og:url" content="" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
@@ -20,26 +15,26 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script src="../../../static/js/findAddress.js" th:src="@{/js/findAddress.js}"></script>
-    <script src="../../../static/js/addressList.js" th:src="@{/js/addressList.js}"></script>
+    <script src="../../../static/js/delivery.js.js" th:src="@{/js/delivery.js}"></script>
 </head>
 <body>
 <div class="wrap">
     <div th:replace="~{/layout/header :: header}"></div>
     <div class="mypage" id="mypage">
         <div th:replace="~{/layout/menu :: mypage_menu}"></div>
-        <div id="address">
-            <div class="address_wrap wrapper">
-                <h3 class="address_title">배송지 등록</h3>
-                <form action="" th:action th:object="${address}" th:method="post" th:onsubmit="return validateBeforeSubmit()" id="joinForm">
+        <div id="delivery">
+            <div class="delivery_wrap wrapper">
+                <h3 class="delivery_title">배송지 등록</h3>
+                <form action="" th:action th:object="${delivery}" th:method="post" th:onsubmit="return validateBeforeSubmit()" id="joinForm">
                     <div class="input_area">
                         <ul class="input_wrap">
                             <li>
                                 <div >
-                                    <label for="addressName" class="input_tit ess">배송지명</label>
+                                    <label for="deliveryName" class="input_tit ess">배송지명</label>
                                 </div>
                                 <div class="input_box_wrap">
-                                    <input id="addressName" th:field="*{addressName}" class="input_box" maxlength="50" type="text"/>
-                                    <div class="field-error" th:errors="*{addressName}"></div>
+                                    <input id="deliveryName" th:field="*{deliveryName}" class="input_box" maxlength="50" type="text"/>
+                                    <div class="field-error" th:errors="*{deliveryName}"></div>
                                 </div>
                             </li>
                             <li>
@@ -47,7 +42,7 @@
                                     <label for="recipientName" class="input_tit ess">수령인</label>
                                 </div>
                                 <div id="name_content" class="input_box_wrap">
-                                    <input id="recipientName" th:field="*{recipientName}" class="input_box" placeholder="" maxlength="30" type="text"/>
+                                    <input id="recipientName" th:field="*{recipientName}" class="input_box" maxlength="12" type="text"/>
                                     <div class="field-error" th:errors="*{recipientName}"></div>
                                 </div>
                             </li>
@@ -56,11 +51,11 @@
                                     <label class="input_tit ess">주소</label>
                                 </div>
                                 <div>
-                                    <input class="input_box" id="zipCode" th:field="*{zipCode}" placeholder="우편번호" maxlength="10" type="text"/>
+                                    <input class="input_box" id="zipCode" th:field="*{zipCode}" placeholder="우편번호" type="text"/>
                                     <button type="button" id="searchZipCodeBtn" class="btn1" onclick="findPostCode()">주소검색</button>
                                 </div>
                                 <div>
-                                    <input class="input_box" id="basicAddress" th:field="*{basicAddress}" placeholder="기본주소" maxlength="40" type="text"/>
+                                    <input class="input_box" id="basicAddress" th:field="*{basicAddress}" placeholder="기본주소" type="text"/>
                                 </div>
                                 <div>
                                     <input class="input_box" id="detailAddress" th:field="*{detailAddress}" placeholder="상세주소(선택 가능)" maxlength="40" type="text"/>
@@ -87,17 +82,17 @@
                                 </div>
                                 <div class="field-error" th:errors="*{phonenumber1}"></div>
                             </li>
-                            <li class="default_address">
+                            <li class="default_delivery">
                                 <div>
-                                    <input id="isDefaultAddress" th:field="*{isDefaultAddress}" class="normal" type="checkbox"/>
-                                    <label for="isDefaultAddress">기본 배송지로 저장</label>
+                                    <input id="isDefaultDelivery" th:field="*{isDefaultDelivery}" class="normal" type="checkbox"/>
+                                    <label for="isDefaultDelivery">기본 배송지로 저장</label>
                                 </div>
                             </li>
                         </ul>
                     </div>
                     <div class="btn_wrap">
-                        <button type="button" class="btn1 cancel_btn" onclick="location.href='../mypage/address_list.html'"
-                                th:onclick="|location.href='@{/mypage/address}'|">
+                        <button type="button" class="btn1 cancel_btn" onclick="location.href='./delivery_list.html'"
+                                th:onclick="|location.href='@{/mypage/delivery}'|">
                             취소
                         </button>
                         <button type="submit" id="submitBtn" class="btn1 submit_btn">

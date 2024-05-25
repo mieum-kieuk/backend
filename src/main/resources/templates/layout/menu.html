@@ -46,11 +46,11 @@
         <li>
             <ul class="depth2">
                 <li><a href="../mypage/mypage_home.html">회원 정보 수정</a></li>
-                <li><a href="../mypage/address/address_list.html" th:href="@{/mypage/address}">배송지 관리</a></li>
+                <li><a href="../mypage/delivery/delivery_list.html" th:href="@{/mypage/delivery}">배송지 관리</a></li>
                 <li>
                     <form action="../login.html" th:action="@{/logout}" method="post">
                         <button type="submit">로그아웃</button>
-                        <input type="hidden" name="${ _csrf.parameterName }" value="${ _csrf.token }">
+                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
                     </form>
                 </li>
             </ul>
