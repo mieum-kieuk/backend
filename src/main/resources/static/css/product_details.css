@@ -209,8 +209,9 @@
 }
 .prd_info_tab .prd_info_list li .tab_wrap p {
     margin: 0;
-    padding: 10px;
+    padding: 10px 0;
     background-color: #fff;
+    white-space: pre-line;
 }
 .prd_detail{
     display: flex;

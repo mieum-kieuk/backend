@@ -1,215 +1,247 @@
 $(document).ready(function() {
 
+    $('#submitBtn').click(async function () {
+        if (!validateBeforeSubmit()) {
+            return false;
+        } else {
+            $('#addProductForm').submit();
+        }
+    });
 
-     $('#submitBtn').click(function () {
+    $('.select_wrap select').on('change', function() {
+        if ($(this).val() === '') {
+            $(this).removeClass('selected');
+        } else {
+            $(this).addClass('selected');
+        }
+    });
 
-         if (!validateBeforeSubmit()) {
-             return false;
-         } else {
-             $('#addProductForm').submit();
-         }
-     });
+    $('.delete_btn').click(function() {
+        let previewContainer = $(this).closest('.preview_container');
+        previewContainer.find('.preview_image').attr('src', '');
 
-     // 유효성 검사 함수
-     function validateBeforeSubmit() {
-         let nameValue = $('#name').val().trim();
-         let categoryValue = $('#category').val();
-         let priceValue = $('#price').val().trim();
-         let stockQuantityValue = $('#stockQuantity').val().trim();
-         let detailsValue = $('#details').val().trim();
-         let sizeGuideValue = $('#sizeGuide').val().trim();
-         let shippingValue = $('#shipping').val().trim();
-         let noticeValue = $('#notice').val().trim();
+        let fileInput = previewContainer.prev('.input_box_wrap').find('input[type="file"]');
+        fileInput.val('');
 
+        previewContainer.hide();
+    });
 
-         let displayImageValue = $('#displayImage')[0].files;
-         let hoverImageValue = $('#hoverImage')[0].files;
-         let detailsImagesValue = $('#detailsImages')[0].files;
+    $('#displayImage').change(async function() {
+        await updatePreviewContainer($(this), 'previewContainer1');
+    });
 
+    $('#hoverImage').change(async function() {
+        await updatePreviewContainer($(this), 'previewContainer2');
+    });
 
-         let nameRegex = /^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9\s]+$/;
-         if (nameValue === '') {
-             alert('상품명을 입력해 주세요.');
-             return false;
-         }
-         if (!nameRegex.test(nameValue)) {
-             alert('상품명은 한글, 영문, 숫자, 공백만 허용됩니다.');
-             return false;
-         }
+    $('#detailsImages').change(async function() {
+        await handleDetailsImagesChange(this.files);
+    });
+});
 
-         if (categoryValue === '') {
-             alert('카테고리를 선택해 주세요.');
-             return false;
-         }
+async function handleDetailsImagesChange(files) {
+    let previewContainer = $('#previewContainer3');
+    previewContainer.find('.preview_image_container').remove();
 
-         if (priceValue === '') {
-             alert('상품 가격을 입력해 주세요.');
-             return false;
-         }
-         if (parseInt(priceValue) < 0) {
-             alert('유효한 상품 가격을 입력해 주세요.');
-             return false;
-         }
+    if (files.length === 0) {
+        previewContainer.css('display', 'none');
+        return;
+    }
 
-         if (stockQuantityValue === '') {
-             alert('재고 수량을 입력해 주세요.');
-             return false;
-         }
-         if (parseInt(stockQuantityValue) < 0) {
-             alert('유효한 재고를 입력해 주세요.');
-             return false;
-         }
+    for (let i = 0; i < files.length; i++) {
+        await addImagePreview(previewContainer, files[i]);
+    }
 
-         if (detailsValue === '') {
-             alert('상세 정보를 입력해 주세요.');
-             return false;
-         }
+    previewContainer.css('display', 'flex');
+}
 
-         if (sizeGuideValue === '') {
-             alert('상품 크기를 입력해 주세요.');
-             return false;
-         }
-
-         if (shippingValue === '') {
-             alert('배송 정보를 입력해 주세요.');
-             return false;
-         }
-
-         if (noticeValue === '') {
-             alert('주의 사항을 입력해 주세요.');
-             return false;
-         }
-
-         if (displayImageValue.length === 0) {
-             alert('섬네일 사진1을 첨부해 주세요.');
-             return false;
-         }
-
-         let maxSizePerFile = 1 * 1024 * 1024;
-         for (let i = 0; i < displayImageValue.length; i++) {
-             let fileSize = displayImageValue[i].size;
-             if (fileSize > maxSizePerFile) {
-                 alert('섬네일 사진1의 크기가 1MB 이하여야 합니다.');
-                 return false;
-             }
-         }
-
-         for (let i = 0; i < hoverImageValue.length; i++) {
-             let fileSize = hoverImageValue[i].size;
-             if (fileSize > maxSizePerFile) {
-                 alert('섬네일 사진2의 크기가 1MB 이하여야 합니다.');
-                 return false;
-             }
-         }
-         for (let i = 0; i < detailsImagesValue.length; i++) {
-             let fileSize = detailsImagesValue[i].size;
-             if (fileSize > maxSizePerFile) {
-                 alert('첨부파일 하나의 크기가 1MB 이하여야 합니다.');
-                 return false;
-             }
-         }
-
-         let totalSizeLimit = 20 * 1024 * 1024;
-         let totalSize = 0;
-         for (let i = 0; i < detailsImagesValue.length; i++) {
-             totalSize += detailsImagesValue[i].size;
-         }
-         if (totalSize > totalSizeLimit) {
-             alert('첨부파일 전체의 크기가 20MB 이하여야 합니다.');
-             return false;
-         }
-
-         return true;
-     }
- });
-
-function updatePreviewContainer(input, containerId) {
+async function updatePreviewContainer(input, containerId) {
     let file = input[0].files[0];
 
     if (!file) return;
 
     let reader = new FileReader();
 
-    reader.onload = function(e) {
-        let container = $('#' + containerId); // containerId로 jQuery 객체 생성
-        let previewImages = container.find('.preview_images');
-        let previewImage = previewImages.find('.preview_image');
-        let fileName = container.find('.file_name');
+    return new Promise((resolve, reject) => {
+        reader.onload = function(e) {
+            let container = $('#' + containerId); // containerId로 jQuery 객체 생성
+            let previewImages = container.find('.preview_images');
+            let previewImage = $('<img>').addClass('preview_image').attr('src', e.target.result); // 이미지 엘리먼트 생성
+            let filenameContainer = $('<div>').addClass('filename_container');
+            let fileName = $('<div>').addClass('file_name').text('파일명: ' + file.name); // 파일명 엘리먼트 생성
 
-        previewImage.attr('src', e.target.result);
-        fileName.text('파일명: ' + file.name);
+            // 기존에 존재하는 이미지와 파일명 엘리먼트를 삭제합니다.
+            container.find('.preview_image').remove();
+            container.find('.file_name').remove();
 
-        container.css('display', 'flex');
-    };
+            // 새로운 이미지와 파일명 엘리먼트를 추가합니다.
+            filenameContainer.append(fileName);
+            previewImages.append(previewImage);
+            container.append(filenameContainer);
 
-    reader.readAsDataURL(file);
+            container.css('display', 'flex');
+            resolve();
+        };
+
+        reader.readAsDataURL(file);
+    });
 }
 
-function addImagePreview(container, file) {
+async function addImagePreview(container, file) {
     let reader = new FileReader();
 
-    reader.onload = function(e) {
+    return new Promise((resolve, reject) => {
+        reader.onload = function(e) {
+            let containerDiv = $('<div>').addClass('preview_image_container');
+            let previewImages = $('<div>').addClass('preview_images');
+            let previewImage = $('<img>').addClass('preview_image').attr('src', e.target.result);
+            let filenameContainer = $('<div>').addClass('filename_container');
+            let fileName = $('<span>').addClass('file_name').text('파일명: ' + file.name);
+            let deleteButton = $('<button>').addClass('delete_btn').append($('<span>').addClass('material-symbols-outlined').text('close'));
 
-        let containerDiv = $('<div>').addClass('preview_image_container');
-        let previewImages = $('<div>').addClass('preview_images');
-        let previewImage = $('<img>').addClass('preview_image').attr('src', e.target.result);
-        let fileName = $('<span>').addClass('file_name').text('파일명: ' + file.name);
-        let deleteButton = $('<button>').addClass('delete_btn').append($('<span>').addClass('material-symbols-outlined').text('close'));
+            deleteButton.click(function() {
+                containerDiv.remove();
+                updateFileCount();
+            });
 
-        deleteButton.click(function() {
-            containerDiv.remove();
-        });
+            filenameContainer.append($('<span>').text('파일명: '), fileName);
+            containerDiv.append(previewImages.append(previewImage), fileName, $('<div>').addClass('btn_wrap').append(deleteButton));
+            container.append(containerDiv);
 
-        containerDiv.append(previewImages.append(previewImage), fileName, $('<div>').addClass('btn_wrap').append(deleteButton));
-        container.append(containerDiv);
-    };
+            updateFileCount();
+            resolve();
+        };
 
-    reader.readAsDataURL(file);
+        reader.readAsDataURL(file);
+    });
 }
-$('.delete_btn').click(function() {
-    let previewContainer = $(this).closest('.preview_container');
 
-    previewContainer.find('.preview_image').attr('src', '');
+function updateFileCount() {
+    let fileCount = $('#previewContainer3 .preview_image_container').length;
+    $('#detailsImages').prop('files', createFileList());
+    console.log('첨부된 파일 개수:', fileCount);
+}
 
-    let fileInput = previewContainer.prev('.input_box_wrap').find('input[type="file"]');
-    fileInput.val('');
+function createFileList() {
+    let fileList = new DataTransfer();
+    $('#previewContainer3 .preview_image_container .file_name').each(function() {
+        let file = new File([], $(this).text());
+        fileList.items.add(file);
+    });
+    return fileList.files;
+}
 
-    previewContainer.hide();
-});
-
-// displayImage 변경 이벤트 핸들러
-$('#displayImage').change(function() {
-    updatePreviewContainer($(this), 'previewContainer1');
-
-});
-
-// hoverImage 변경 이벤트 핸들러
-$('#hoverImage').change(function() {
-    updatePreviewContainer($(this), 'previewContainer2');
+// 유효성 검사 함수
+function validateBeforeSubmit() {
+    let nameValue = $('#name').val().trim();
+    let categoryValue = $('#category').val();
+    let priceValue = $('#price').val().trim();
+    let stockQuantityValue = $('#stockQuantity').val().trim();
+    let detailsValue = $('#details').val().trim();
+    let sizeGuideValue = $('#sizeGuide').val().trim();
+    let shippingValue = $('#shipping').val().trim();
+    let noticeValue = $('#notice').val().trim();
 
 
-});
+    let displayImageValue = $('#displayImage')[0].files;
+    let hoverImageValue = $('#hoverImage')[0].files;
+    let detailsImagesValue = $('#detailsImages')[0].files;
 
-// detailsImages 변경 이벤트 핸들러
-$('#detailsImages').change(function() {
-    let files = this.files;
-    let previewContainer = $('#previewContainer3');
 
-    previewContainer.find('.preview_image_container').remove();
-
-    if (files.length === 0) {
-        previewContainer.css('display', 'none'); // 파일이 없으면 미리보기 숨기기
-        return;
+    let nameRegex = /^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9\s]+$/;
+    if (nameValue === '') {
+        alert('상품명을 입력해 주세요.');
+        return false;
+    }
+    if (!nameRegex.test(nameValue)) {
+        alert('상품명은 한글, 영문, 숫자, 공백만 허용됩니다.');
+        return false;
     }
 
-    for (let i = 0; i < files.length; i++) {
-        let file = files[i]; // 현재 파일 가져오기
-
-        addImagePreview(previewContainer, file);
+    if (categoryValue === '') {
+        alert('카테고리를 선택해 주세요.');
+        return false;
     }
 
-    previewContainer.css('display', 'flex');
-});
+    if (priceValue === '') {
+        alert('상품 가격을 입력해 주세요.');
+        return false;
+    }
+    if (parseInt(priceValue) < 0) {
+        alert('유효한 상품 가격을 입력해 주세요.');
+        return false;
+    }
+
+    if (stockQuantityValue === '') {
+        alert('재고 수량을 입력해 주세요.');
+        return false;
+    }
+    if (parseInt(stockQuantityValue) < 0) {
+        alert('유효한 재고를 입력해 주세요.');
+        return false;
+    }
+
+    if (detailsValue === '') {
+        alert('상세 정보를 입력해 주세요.');
+        return false;
+    }
+
+    if (sizeGuideValue === '') {
+        alert('상품 크기를 입력해 주세요.');
+        return false;
+    }
+
+    if (shippingValue === '') {
+        alert('배송 정보를 입력해 주세요.');
+        return false;
+    }
+
+    if (noticeValue === '') {
+        alert('주의 사항을 입력해 주세요.');
+        return false;
+    }
+
+    if (displayImageValue.length === 0) {
+        alert('섬네일 사진1을 첨부해 주세요.');
+        return false;
+    }
+
+    let maxSizePerFile = 1 * 1024 * 1024;
+    for (let i = 0; i < displayImageValue.length; i++) {
+        let fileSize = displayImageValue[i].size;
+        if (fileSize > maxSizePerFile) {
+            alert('섬네일 사진1의 크기가 1MB 이하여야 합니다.');
+            return false;
+        }
+    }
+
+    for (let i = 0; i < hoverImageValue.length; i++) {
+        let fileSize = hoverImageValue[i].size;
+        if (fileSize > maxSizePerFile) {
+            alert('섬네일 사진2의 크기가 1MB 이하여야 합니다.');
+            return false;
+        }
+    }
+    for (let i = 0; i < detailsImagesValue.length; i++) {
+        let fileSize = detailsImagesValue[i].size;
+        if (fileSize > maxSizePerFile) {
+            alert('첨부파일 하나의 크기가 1MB 이하여야 합니다.');
+            return false;
+        }
+    }
+
+    let totalSizeLimit = 20 * 1024 * 1024;
+    let totalSize = 0;
+    for (let i = 0; i < detailsImagesValue.length; i++) {
+        totalSize += detailsImagesValue[i].size;
+    }
+    if (totalSize > totalSizeLimit) {
+        alert('첨부파일 전체의 크기가 20MB 이하여야 합니다.');
+        return false;
+    }
+
+    return true;
+}
 
 $(document).ready(function () {
     $(document).on('click', function(event) {

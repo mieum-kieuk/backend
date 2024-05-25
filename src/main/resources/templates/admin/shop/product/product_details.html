@@ -73,28 +73,37 @@
 <!--                        </td>-->
 <!--                    </tr>-->
                     <tr>
-                        <td colspan="2" class="input_tit">
+                        <th class="input_tit">
                             <div class="input_tit details">섬네일 사진1</div>
+                        </th>
+                        <td>
                             <div class="details_images_container">
                                 <img th:src="|/productImages/${product.displayImage1}|">
                             </div>
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="2" class="input_tit">
+                        <th class="input_tit">
                             <div class="input_tit details">섬네일 사진2</div>
+                        </th>
+                        <td>
+                            <span th:if="${product.displayImage2} == null">첨부파일이 없습니다.</span>
                             <div class="details_images_container">
-                                <div th:if="${product.displayImage2} == null">첨부파일이 없습니다.</div>
                                 <img th:if="${product.displayImage2} != null" th:src="|/productImages/${product.displayImage2}|">
                             </div>
                         </td>
+
                     </tr>
                     <tr>
-                        <th class="input_tit">상세 페이지 사진</th>
-                        <td th:if="${#lists.size(product.detailsImages)} == 0">첨부된 사진이 없습니다.</td>
-                        <td class="details_images_container">
-                            <img th:each="detailImage : ${product.detailsImages}"
-                                 th:src="|/productImages/${detailImage}|">
+                        <th class="input_tit">
+                            <div class="input_tit details">상세 페이지 사진</div>
+                        </th>
+                        <td>
+                            <span th:if="${#lists.size(product.detailsImages)} == 0">첨부파일이 없습니다.</span>
+                            <div class="details_images_container">
+                                <img th:each="detailImage : ${product.detailsImages}"
+                                     th:src="|/productImages/${detailImage}|">
+                            </div>
                         </td>
                     </tr>
                 </table>
