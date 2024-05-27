@@ -22,18 +22,18 @@ public class ProductDetailsDto {
     private String sizeGuide;
     private String shipping;
     private String notice;
-    private String displayImage1;
-    private String displayImage2;
+    private String displayImage;
+    private String hoverImage;
     private List<String> detailsImages = new ArrayList<>();
 
     public ProductDetailsDto(Product product) {
         id = product.getId();
         name = product.getName();
         categoryName = product.getCategory().getDisplayName();
-        price = new DecimalFormat("###,###").format(product.getPrice());
+        price = new DecimalFormat("###,###원").format(product.getPrice());
 
-        discountName = product.getDiscount() != null ? "[" + product.getDiscount().getDiscountPercent() + "%] " + product.getDiscount().getName() : null;
-        stockQuantity = new DecimalFormat("###,###").format(product.getStockQuantity());
+        discountName = product.getDiscount() != null ? "[" + product.getDiscount().getDiscountPercent() + "%] " + product.getDiscount().getName() : "할인 혜택이 없습니다.";
+        stockQuantity = new DecimalFormat("###,###개").format(product.getStockQuantity());
         details = product.getDetails();
         sizeGuide = product.getSizeGuide();
         shipping = product.getShipping();
@@ -42,9 +42,9 @@ public class ProductDetailsDto {
         List<ProductImage> images = product.getImages();
         for (ProductImage image : images) {
             if (image.getImageType() == ImageType.DISPLAY) {
-                displayImage1 = image.getStoreImageName();
+                displayImage = image.getStoreImageName();
             } else if (image.getImageType() == ImageType.HOVER) {
-                displayImage2 = image.getStoreImageName();
+                hoverImage = image.getStoreImageName();
             } else {
                 detailsImages.add(image.getStoreImageName());
             }

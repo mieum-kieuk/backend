@@ -1,7 +1,12 @@
 package archivegarden.shop.repository.shop;
 
+import archivegarden.shop.dto.admin.shop.product.ProductListDto;
+import archivegarden.shop.dto.admin.shop.product.QProductListDto;
 import archivegarden.shop.dto.shop.product.ProductSearchCondition;
-import archivegarden.shop.entity.*;
+import archivegarden.shop.entity.Category;
+import archivegarden.shop.entity.ImageType;
+import archivegarden.shop.entity.Product;
+import archivegarden.shop.entity.SortedType;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -31,6 +36,33 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
     public ProductRepositoryImpl(EntityManager em) {
         this.em = em;
         this.queryFactory = new JPAQueryFactory(em);
+    }
+
+    @Override
+    public Page<ProductListDto> findDtoAll(Pageable pageable) {
+        List<ProductListDto> content = queryFactory
+                .select(new QProductListDto(
+                        product.id,
+                        product.name,
+                        product.category,
+                        product.price,
+                        product.stockQuantity,
+                        discount.discountPercent,
+                        productImage.storeImageName
+                ))
+                .from(product)
+                .leftJoin(product.discount, discount)
+                .leftJoin(product.images, productImage)
+                .where(productImage.imageType.eq(ImageType.DISPLAY))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        JPAQuery<Long> countQuery = queryFactory
+                .select(product.count())
+                .from(product);
+
+        return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
     }
 
     @Override

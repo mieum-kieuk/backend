@@ -39,24 +39,23 @@ public class AdminProductService {
     public Long saveProduct(AddProductForm form) throws IOException {
         //상품 이미지 엔티티 생성
         ProductImage displayImage = fileStore.storeFile(form.getDisplayImage(), ImageType.DISPLAY);
-        ProductImage hoverImage = null;
-        List<ProductImage> detailsImages = new ArrayList<>();
-
-        if(!form.getHoverImage().isEmpty()) {
-            hoverImage = fileStore.storeFile(form.getHoverImage(), ImageType.HOVER);
-        }
-        if(!form.getDetailsImages().isEmpty()) {
-            detailsImages = fileStore.storeFiles(form.getDetailsImages(), ImageType.DETAILS);
-        }
+        ProductImage hoverImage = !form.getHoverImage().isEmpty() ? fileStore.storeFile(form.getHoverImage(), ImageType.HOVER) : null;
+        List<ProductImage> detailsImages = !form.getDetailsImages().isEmpty() ? fileStore.storeFiles(form.getDetailsImages(), ImageType.DETAILS) :  new ArrayList<>();
 
         //할인 엔티티 조회
         Discount discount = null;
-        if(form.getDiscountId() != null) {
-             discount = discountRepository.findById(form.getDiscountId()).orElseThrow(() -> new NoSuchDiscountException("존재하지 않는 할인 혜택입니다."));
+        if (form.getDiscountId() != null) {
+            discount = discountRepository.findById(form.getDiscountId()).orElseThrow(() -> new NoSuchDiscountException("존재하지 않는 할인 혜택입니다."));
         }
 
         //상품 엔티티 생성
-        Product product = Product.createProduct(form, displayImage, hoverImage, detailsImages, discount);
+        Product product = Product.builder()
+                .form(form)
+                .displayImage(displayImage)
+                .hoverImage(hoverImage)
+                .detailsImages(detailsImages)
+                .discount(discount)
+                .build();
 
         //상품 저장
         productRepository.save(product);
@@ -71,6 +70,7 @@ public class AdminProductService {
      */
     @Transactional(readOnly = true)
     public ProductDetailsDto getProduct(Long productId) {
+        //상품 조회
         Product product = productRepository.findById(productId).orElseThrow(() -> new NoSuchProductException("존재하지 않는 상품입니다."));
         return new ProductDetailsDto(product);
     }
@@ -79,7 +79,7 @@ public class AdminProductService {
      * 상품 목록 조회
      */
     public Page<ProductListDto> getProducts(Pageable pageable) {
-        return productRepository.findAll(pageable).map(ProductListDto::new);
+        return productRepository.findDtoAll(pageable);
     }
 
     /**
@@ -96,29 +96,28 @@ public class AdminProductService {
      * 상품 수정
      */
     public void updateProduct(Long productId, EditProductForm form) throws IOException {
-        //엔티티 조회
+        //상품 조회
         Product product = productRepository.findAllWithImages(productId).orElseThrow(() -> new NoSuchProductException("존재하지 않는 상품입니다."));
 
         //첨부 파일 외 수정
         product.update(form);
 
         //첨부 파일 수정
-        if(!form.getDisplayImage().getOriginalFilename().equals("")) {
+        if (!form.getDisplayImage().getOriginalFilename().equals("")) {
             ProductImage displayImage = fileStore.storeFile(form.getDisplayImage(), ImageType.DISPLAY);
             product.updateDisplayImage(displayImage);
         }
 
-        if(!form.getHoverImage().getOriginalFilename().equals("")) {
+        if (!form.getHoverImage().getOriginalFilename().equals("")) {
             ProductImage hoverImage = fileStore.storeFile(form.getHoverImage(), ImageType.HOVER);
             product.updateHoverImage(hoverImage);
         }
 
-        if(!form.getDetailsImages().isEmpty()) {
+        if (!form.getDetailsImages().isEmpty()) {
             List<ProductImage> productImages = fileStore.storeFiles(form.getDetailsImages(), ImageType.DETAILS);
             product.addDetailsImage(productImages);
         }
     }
-
 
     /**
      * 상품 단건 삭제
@@ -126,7 +125,7 @@ public class AdminProductService {
      * @throws NoSuchProductException productId로 DB에서 데이터 찾을 수 없을 때
      */
     public void deleteProduct(Long productId) {
-        //엔티티 조회
+        //상품 조회
         Product product = productRepository.findById(productId).orElseThrow(() -> new NoSuchProductException("존재하지 않는 상품입니다."));
 
         //상품 삭제
@@ -141,7 +140,10 @@ public class AdminProductService {
      */
     public void deleteProducts(List<Long> productIds) {
         productIds.stream().forEach(productId -> {
+            //상품 조회
             Product product = productRepository.findById(productId).orElseThrow(() -> new NoSuchProductAjaxException("존재하지 않는 상품입니다."));
+
+            //상품 삭제
             productRepository.delete(product);
         });
     }

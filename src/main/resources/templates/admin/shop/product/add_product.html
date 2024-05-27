@@ -111,6 +111,7 @@
                         <label for="detailsImages">상세 페이지 사진</label>
                         <input type="file" id="detailsImages" th:field="*{detailsImages}" multiple>
                     </div>
+                    <div class="field-error exc" th:errors="*{detailsImages}"></div>
                     <div id="previewContainer3" class="preview_container column">
                         <div class="preview_image_container">
                             <div class="preview_images">

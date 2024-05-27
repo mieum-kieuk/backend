@@ -32,7 +32,7 @@
                         <label for="category" class="ess_tit">카테고리</label>
                         <div class="select_wrap">
                             <select id="category" name="category">
-                                <option th:each="category : ${productCategories}" th:text="${category.displayName}" th:value="${category}"></option>
+                                <option th:each="category : ${categories}" th:text="${category.displayName}" th:value="${category}"></option>
                             </select>
                         </div>
                     </div>
@@ -47,8 +47,7 @@
                         <div class="select_wrap">
                             <select id="discount" th:field="*{discountId}">
                                 <option value="" selected>상품 할인을 선택해 주세요.</option>
-                                <option th:each="discount : ${discounts}" th:value="${discount.key}"
-                                        th:text="${discount.value}"></option>
+                                <option th:each="discount : ${discounts}" th:value="${discount.key}" th:text="${discount.value}"></option>
                             </select>
                             <span class="material-symbols-outlined">expand_more</span>
                         </div>
@@ -79,10 +78,10 @@
                     </div>
                     <div class="field-error" th:errors="*{notice}"></div>
                     <div class="input_box_wrap desc">
-                        <label for="displayImage1" class="ess_tit">섬네일 사진1</label>
-                        <input type="file" id="displayImage1" th:field="*{displayImage1}">
+                        <label for="displayImage" class="ess_tit">섬네일 사진1</label>
+                        <input type="file" id="displayImage" th:field="*{displayImage}">
                     </div>
-                    <div class="field-error exc" th:errors="*{displayImage1}"></div>
+                    <div class="field-error exc" th:errors="*{displayImage}"></div>
                     <input type="hidden" id="isDisplayImageChanged" th:field="*{isDisplayImageChanged}">
                     <div id="previewContainer1" class="preview_container">
                         <div class="preview_images">
@@ -96,8 +95,8 @@
                     </div>
                     <div class="text description"><span>상품 목록에서 보여질 사진입니다.</span></div>
                     <div class="input_box_wrap desc">
-                        <label for="displayImage2">섬네일 사진2</label>
-                        <input type="file" id="displayImage2" th:field="*{displayImage2}">
+                        <label for="hoverImage">섬네일 사진2</label>
+                        <input type="file" id="hoverImage" th:field="*{hoverImage}">
                     </div>
                     <div id="previewContainer2" class="preview_container">
                         <div class="preview_images">
@@ -115,6 +114,7 @@
                         <label for="detailsImages">상세 페이지 사진</label>
                         <input type="file" id="detailsImages" th:field="*{detailsImages}" multiple>
                     </div>
+                    <div class="field-error exc" th:errors="*{detailsImages}"></div>
                     <div id="previewContainer3" class="preview_container column"></div>
                     <div id="newPreviewContainer3" class="preview_container column"></div>
                     <div class="text description">

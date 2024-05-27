@@ -1,8 +1,7 @@
 package archivegarden.shop.dto.admin.shop.product;
 
-import archivegarden.shop.entity.Discount;
-import archivegarden.shop.entity.ImageType;
-import archivegarden.shop.entity.Product;
+import archivegarden.shop.entity.*;
+import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
 
 import java.text.DecimalFormat;
@@ -12,28 +11,24 @@ public class ProductListDto {
 
     private Long id;
     private String name;
-    private String categoryName;
+    private String category;
     private String price;
     private String salePrice;
     private String stockQuantity;
-    private String displayImage1;
+    private String displayImage;
 
-    public ProductListDto(Product product) {
-        id = product.getId();
-        name = product.getName();
-        categoryName = product.getCategory().getDisplayName();
-        price = new DecimalFormat("###,###").format(product.getPrice());
-        salePrice = product.getDiscount() != null ? new DecimalFormat("###,###").format(discount(product.getPrice(), product.getDiscount())) : this.price;
-        stockQuantity = new DecimalFormat("###,###").format(product.getStockQuantity());
-        product.getImages().forEach(img -> {
-            if(img.getImageType()  == ImageType.DISPLAY) {
-                displayImage1 = img.getStoreImageName();
-            }
-        });
+    @QueryProjection
+    public ProductListDto(Long productId, String productName, Category category, int productPrice, int stockQuantity, Integer discountPercent, String displayImage) {
+        this.id = productId;
+        this.name = productName;
+        this.category = category.getDisplayName();
+        this.price = new DecimalFormat("###,###원").format(productPrice);
+        this.salePrice = discountPercent != null ? new DecimalFormat("###,###원").format(discount(productPrice, discountPercent)) : this.price;
+        this.stockQuantity = stockQuantity <= 0 ? "SOLD OUT" : new DecimalFormat("###,###").format(stockQuantity);
+        this.displayImage = displayImage;
     }
 
-    private int discount(int price, Discount discount) {
-        int discountPercent = discount.getDiscountPercent();
+    private int discount(int price, int discountPercent) {
         int discountPrice = price * discountPercent / 100;
         return price - discountPrice;
     }

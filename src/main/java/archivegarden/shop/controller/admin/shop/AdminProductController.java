@@ -13,8 +13,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -44,32 +44,35 @@ public class AdminProductController {
         return categories;
     }
 
-    @ModelAttribute("discounts")
-    public Map<Long, String> discounts() {
-        return discountService.getDiscountNames();
-    }
-
     @GetMapping
-    public String products(@PageableDefault(size = 12, sort = "id") Pageable pageable, Model model) {
-        Page<ProductListDto> products = productService.getProducts(pageable);
+    public String products(@RequestParam(name = "page", defaultValue = "1") int page, Model model) {
+        PageRequest pageRequest = PageRequest.of(page - 1, 12, Sort.Direction.ASC, "id");
+        Page<ProductListDto> products = productService.getProducts(pageRequest);
         model.addAttribute("products", products);
         return "admin/shop/product/product_list";
     }
 
     @GetMapping("/add")
-    public String addProductForm(@ModelAttribute("product") AddProductForm form) {
+    public String addProductForm(@ModelAttribute("product") AddProductForm form, Model model) {
+        model.addAttribute("discounts", discountSelectBox());
         return "admin/shop/product/add_product";
     }
 
     @PostMapping("/add")
-    public String addProduct(@Valid @ModelAttribute("product") AddProductForm form, BindingResult bindingResult, RedirectAttributes redirectAttributes) throws IOException {
+    public String addProduct(@Valid @ModelAttribute("product") AddProductForm form, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) throws IOException {
 
-        //파일 업로드 검증
+        //섬네일 사진1 검증
         if (form.getDisplayImage() == null || form.getDisplayImage().getOriginalFilename().equals("")) {
-            bindingResult.rejectValue("displayImage", "imageRequired", "상품 목록에 보일 이미지를 첨부해 주세요.");
+            bindingResult.rejectValue("displayImage", "imageRequired", "섬네일 사진1을 첨부해 주세요.");
+        }
+
+        //상세 페이지 사진 검증
+        if(form.getDetailsImages().size() > 20) {
+            bindingResult.rejectValue("detailsImages", "imageCountLimit", "상세 페이지 사진은 20장까지 첨부가능합니다.");
         }
 
         if (bindingResult.hasErrors()) {
+            model.addAttribute("discounts", discountSelectBox());
             return "admin/shop/product/add_product";
         }
 
@@ -89,17 +92,24 @@ public class AdminProductController {
     public String editProductForm(@PathVariable("productId") Long productId, Model model) {
         EditProductForm product = productService.getEditProductForm(productId);
         model.addAttribute("product", product);
+        model.addAttribute("discounts", discountSelectBox());
         return "admin/shop/product/edit_product";
     }
 
     @PostMapping("/{productId}/edit")
     public String editProduct(@PathVariable("productId") Long productId, @Valid @ModelAttribute("product") EditProductForm form, BindingResult bindingResult, Model model) throws IOException {
-        //파일 업로드 검증
+        //섬네일 사진1 검증
         if ((form.getDisplayImage() == null || form.getDisplayImage().getOriginalFilename().equals("")) && form.getIsDisplayImageChanged()) {
-            bindingResult.rejectValue("displayImage1", "imageRequired", "상품 목록에 보일 이미지를 첨부해 주세요.");
+            bindingResult.rejectValue("displayImage", "imageRequired", "상품 목록에 보일 이미지를 첨부해 주세요.");
+        }
+
+        //상세 페이지 사진 검증
+        if(form.getDetailsImages().size() > 20) {
+            bindingResult.rejectValue("detailsImages", "imageCountLimit", "상세 페이지 사진은 20장까지 첨부가능합니다.");
         }
 
         if(bindingResult.hasErrors()) {
+            model.addAttribute("discounts", discountSelectBox());
             return "admin/shop/product/edit_product";
         }
 
@@ -125,4 +135,12 @@ public class AdminProductController {
     public Resource downloadImage(@PathVariable String filename) throws MalformedURLException {
         return new UrlResource("file:" + fileStore.getFullPath(filename));
     }
+
+    /**
+     * 할인 혜택 셀렉트 박스
+     */
+    public Map<Long, String> discountSelectBox() {
+        return discountService.getDiscountNames();
+    }
 }
+

@@ -5,6 +5,7 @@ import archivegarden.shop.dto.admin.shop.product.EditProductForm;
 import archivegarden.shop.exception.ajax.NotEnoughStockAjaxException;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -53,9 +54,6 @@ public class Product extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProductImage> images = new ArrayList<>();
-
-//    @OneToMany(mappedBy = "product")
-//    private List<Qna> qnas = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "discount_id")
@@ -140,27 +138,26 @@ public class Product extends BaseTimeEntity {
         image.setProduct(this);
     }
 
-    //==생성자 메서드==//
-    public static Product createProduct(AddProductForm form, ProductImage displayImage, ProductImage hoverImage, List<ProductImage> detailsImages, Discount discount) {
-        Product product = new Product();
-        product.name = form.getName();
-        product.category = form.getCategory();
-        product.price = form.getPrice();
-        product.stockQuantity = form.getStockQuantity();
-        product.details = form.getDetails();
-        product.sizeGuide = form.getSizeGuide();
-        product.shipping = form.getShipping();
-        product.notice = form.getNotice();
-        product.addProductImage(displayImage);
+    //==생성자==//
+    @Builder
+    public Product(AddProductForm form, ProductImage displayImage, ProductImage hoverImage, List<ProductImage> detailsImages, Discount discount) {
+        this.name = form.getName();
+        this.category = form.getCategory();
+        this.price = form.getPrice();
+        this.stockQuantity = form.getStockQuantity();
+        this.details = form.getDetails();
+        this.sizeGuide = form.getSizeGuide();
+        this.shipping = form.getShipping();
+        this.notice = form.getNotice();
+        this.addProductImage(displayImage);
 
         if(hoverImage != null) {
-            product.addProductImage(hoverImage);
+            this.addProductImage(hoverImage);
         }
 
         for (ProductImage detailsImage : detailsImages) {
-            product.addProductImage(detailsImage);
+            this.addProductImage(detailsImage);
         }
-        product.discount = discount;
-        return product;
+        this.discount = discount;
     }
 }

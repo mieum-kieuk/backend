@@ -56,7 +56,7 @@ public class EditProductForm {
         name = product.getName();
         category = product.getCategory();
         price = product.getPrice();
-        discountId = product.getDiscount().getId();
+        discountId = product.getDiscount() != null ? product.getDiscount().getId() : null;
         stockQuantity = product.getStockQuantity();
         details = product.getDetails();
         sizeGuide = product.getSizeGuide();
