@@ -29,3 +29,12 @@ $(document).ready(function() {
         $('#addCart').fadeOut();
     });
 });
+
+function deleteOk(wishId) {
+    if (!confirm('선택한 상품을 삭제하시겠습니까?')) {
+        return false;
+    } else {
+        window.location.href = '/mypage/wish/' + wishId + "/delete";
+        return true;
+    }
+}

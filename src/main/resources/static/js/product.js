@@ -96,7 +96,7 @@ $(document).ready(function () {
 
         if (heart.hasClass('filled')) {
             $.ajax({
-                url: '/wish/remove',
+                url: '/api/wish/remove',
                 type: 'POST',
                 data: {productId: productId},
                 beforeSend: function (xhr) {
@@ -112,7 +112,7 @@ $(document).ready(function () {
         } else {
             $.ajax({
                 type: 'POST',
-                url: '/wish/add',
+                url: '/api/wish/add',
                 data: {productId: productId},
                 beforeSend: function (xhr) {
                     xhr.setRequestHeader(csrfHeader, csrfToken);
