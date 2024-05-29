@@ -28,15 +28,16 @@ public class Cart {
     @JoinColumn(name = "product_id")
     private Product product;    //다대일 단방향
 
+    //==비즈니스 로직==//
+    public void addCount(int count) {
+        this.count += count;
+    }
+
+    //==생성자==//
     @Builder
     public Cart(int count, Member member, Product product) {
         this.count = count;
         this.member = member;
         this.product = product;
-    }
-
-    //==비즈니스 로직==//
-    public void addCount(int count) {
-        this.count += count;
     }
 }
