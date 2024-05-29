@@ -106,7 +106,7 @@
                 <li>
                     <ul class="depth2">
                         <li><a href="./member_info_modify.html">회원 정보 수정</a></li>
-                        <li><a href="./address_list.html">배송지 관리</a></li>
+                        <li><a href="delivery_list.html">배송지 관리</a></li>
                         <li><a href="">로그아웃</a></li>
                     </ul>
                 </li>
@@ -118,9 +118,6 @@
                 <div class="wish_content">
                     <div class="wish_list">
                         <div class="wish_item">
-                            <div class="item check">
-                                <input type="checkbox" name="wishCheckBox" class="checkbox" >
-                            </div>
                             <div class="item img">
                                 <img src="../../images/maskingtape1.jpeg" alt="제품1">
                             </div>
@@ -129,13 +126,19 @@
                                     <a href="">Gzy</a>
                                 </div>
                                 <div class="price">
-                                    3,000원
+                                    <div class="original_price"><span id="productPrice">3,000원</span></div>
+                                    <div class="sale_price discount_rate">[<span>10</span>%] <span id="productDiscountPrice" class="discount_price">2,700원</span></div>
                                 </div>
                             </div>
-                            <button type="button" class="item remove_btn">삭제</button>
+<!--                            <button type="button" class="item remove_btn">삭제</button>-->
                             <div class="btn_wrap">
+                                <button type="button" id="deleteBtn" class="btn1" >삭제</button>
                                 <button type="button" id="cartBtn" class="btn1" >장바구니에 담기</button>
-                                <button type="button" id="orderBtn" class="btn1 submit_btn" >주문하기</button>
+                            </div>
+                        </div>
+                        <div class="wish_item">
+                            <div id="noDataMessage">
+                                <span>관심있는 상품이 없습니다.</span>
                             </div>
                         </div>
                     </div>
@@ -168,19 +171,10 @@
                         </ul>
                     </div>
                     <div class="btn_wrap">
+                        <button type="button" id="orderBtn" class="btn1 submit_btn" >삭제</button>
                         <button type="button" id="cartBtn" class="btn1" >장바구니에 담기</button>
-                        <button type="button" id="orderBtn" class="btn1 submit_btn" >주문하기</button>
                     </div>
                     <button type="button" class="close_btn"><span class="material-symbols-outlined">close</span></button>
-                </div>
-                <div class="wish_foot">
-                    <div class="btn_wrap">
-                        <button type="button" id="deleteBtn" class="btn1" >선택 삭제</button>
-                        <button type="button" id="deleteAllBtn" class="btn1" >전체 삭제</button>
-                    </div>
-                    <div class="btn_wrap">
-                        <button type="button" id="orderAllBtn" class="btn1 submit_btn" >전체상품주문</button>
-                    </div>
                 </div>
             </div>
             <div class="pagination">
