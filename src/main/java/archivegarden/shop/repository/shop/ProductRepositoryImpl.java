@@ -9,16 +9,14 @@ import archivegarden.shop.entity.Product;
 import archivegarden.shop.entity.SortedType;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
-import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.core.types.dsl.CaseBuilder;
-import com.querydsl.core.types.dsl.Expressions;
-import com.querydsl.core.types.dsl.NumberExpression;
+import com.querydsl.core.types.dsl.*;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -190,7 +188,10 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
     }
 
     private BooleanExpression keywordLike(String keyword) {
-        return hasText(keyword) ? product.name.contains(keyword) : null;
+        //공백 제거
+        String replaceKeyword = StringUtils.replace(keyword, " ", "");
+        StringTemplate replaceProductName = Expressions.stringTemplate("function('replace',{0},{1},{2})", product.name, " ", "");
+        return hasText(keyword) ? replaceProductName.containsIgnoreCase(replaceKeyword) : null;
     }
 
     private BooleanExpression categoryEq(Category category) {

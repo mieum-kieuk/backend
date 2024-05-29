@@ -39,7 +39,7 @@
                     <div class="search_bg"></div>
                     <div class="search_form_wrap">
                         <form action="../search/search_complete.html" th:action="@{/search}" method="get">
-                            <input type="text" placeholder="검색어를 입력해 주세요." name="keyword">
+                            <input type="text" placeholder="검색어를 입력해 주세요." name="keyword" maxlength="50">
                             <button type="submit" class="search_btn"><span class="material-symbols-outlined">search</span></button>
                         </form>
                     </div>

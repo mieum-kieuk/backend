@@ -28,7 +28,7 @@ public class HomeController {
     @GetMapping("/search")
     public String search(@RequestParam(name = "keyword") String keyword,
                          @RequestParam(value = "page", defaultValue = "1") Integer page, Model model) {
-        PageRequest pageRequest = PageRequest.of(page - 1, 3);
+        PageRequest pageRequest = PageRequest.of(page - 1, 12);
 
         Page<ProductListDto> products = productService.searchProducts(keyword, pageRequest);
         model.addAttribute("products", products);
