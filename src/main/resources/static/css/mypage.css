@@ -121,6 +121,7 @@ h3 {
     font-weight: 600;
     width: 100%;
     padding: 10px 0;
+    border-bottom: 1px solid #333;
 }
 .order_status.result {
     border: none;
@@ -298,7 +299,6 @@ h3 {
     margin-bottom: 120px;
 }
 .delivery_title {
-    border-bottom: 1px solid #333;
     margin-bottom: 10px;
 }
 #delivery .input_wrap .input_box_wrap {
@@ -387,6 +387,7 @@ h3 {
 /*wish*/
 #wishList {
     display: flex;
+    align-content: space-between;
     flex-wrap: wrap;
     width:  100%;
     margin-left: 200px;

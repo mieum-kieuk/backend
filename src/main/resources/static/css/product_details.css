@@ -87,6 +87,9 @@
 .filled {
     font-variation-settings: 'FILL' 1, 'wght' 300, 'GRAD' 0, 'opsz' 48;
 }
+.wish_btn {
+    cursor: pointer;
+}
 .prd_price .line_through {
     text-decoration: line-through;
     color: #666;
