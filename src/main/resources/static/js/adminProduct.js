@@ -1,13 +1,5 @@
 $(document).ready(function() {
 
-    $('#submitBtn').click(async function () {
-        if (!validateBeforeSubmit()) {
-            return false;
-        } else {
-            $('#addProductForm').submit();
-        }
-    });
-
     $('.select_wrap select').on('change', function() {
         if ($(this).val() === '') {
             $(this).removeClass('selected');
@@ -16,6 +8,46 @@ $(document).ready(function() {
         }
     });
 
+    $(document).on('click', function(event) {
+        var dropdownMenus = $('.dropdown_menu');
+
+        if ($(event.target).closest('.menu_toggle, .dropdown_menu').length) {
+            return;
+        }
+
+        dropdownMenus.removeClass('show');
+    });
+
+    $('.menu_toggle').click(function () {
+        var dropdownMenu = $(this).siblings('.dropdown_menu');
+        $('.dropdown_menu').not(dropdownMenu).removeClass('show');
+        dropdownMenu.toggleClass('show');
+    });
+
+    $('#selectAll').click(function () {
+        if ($(this).prop('checked')) {
+            $('.product_table tbody input[type="checkbox"]').prop('checked', true);
+        } else {
+            $('.product_table tbody input[type="checkbox"]').prop('checked', false);
+        }
+    });
+
+    // 썸네일 사진1 수정
+    $('#displayImage').change(async function() {
+        await updatePreviewContainer($(this), 'previewContainer1', '섬네일 사진1');
+    });
+
+    // 썸네일 사진2 수정
+    $('#hoverImage').change(async function() {
+        await updatePreviewContainer($(this), 'previewContainer2', '섬네일 사진2');
+    });
+
+    // 상세 페이지 사진 변경 시 처리
+    $('#detailsImages').change(async function() {
+        await handleDetailsImagesChange(this.files);
+    });
+
+    // 삭제 버튼 클릭 시 동작
     $('.delete_btn').click(function() {
         let previewContainer = $(this).closest('.preview_container');
         previewContainer.find('.preview_image').attr('src', '');
@@ -26,17 +58,6 @@ $(document).ready(function() {
         previewContainer.hide();
     });
 
-    $('#displayImage').change(async function() {
-        await updatePreviewContainer($(this), 'previewContainer1');
-    });
-
-    $('#hoverImage').change(async function() {
-        await updatePreviewContainer($(this), 'previewContainer2');
-    });
-
-    $('#detailsImages').change(async function() {
-        await handleDetailsImagesChange(this.files);
-    });
 });
 
 async function handleDetailsImagesChange(files) {
@@ -48,6 +69,34 @@ async function handleDetailsImagesChange(files) {
         return;
     }
 
+    let totalSize = 0;
+    let maxSizePerFile = 1 * 1024 * 1024;
+
+    let exceedsMaxSize = false;
+    let exceedsMaxFiles = files.length > 20;
+
+    for (let i = 0; i < files.length; i++) {
+        let fileSize = files[i].size;
+        totalSize += fileSize;
+
+        if (fileSize > maxSizePerFile) {
+            exceedsMaxSize = true;
+        }
+
+    }
+
+    if (exceedsMaxSize) {
+        alert('상세 페이지 사진 한 장의 크기가 3MB 이하여야 합니다.');
+        $('#detailsImages').val('');
+        return false;
+    }
+
+    if (exceedsMaxFiles) {
+        alert('상세 페이지 사진은 최대 20장까지 가능합니다.');
+        $('#detailsImages').val('');
+        return false;
+    }
+
     for (let i = 0; i < files.length; i++) {
         await addImagePreview(previewContainer, files[i]);
     }
@@ -55,26 +104,32 @@ async function handleDetailsImagesChange(files) {
     previewContainer.css('display', 'flex');
 }
 
-async function updatePreviewContainer(input, containerId) {
+async function updatePreviewContainer(input, containerId, thumbnailType) {
     let file = input[0].files[0];
 
     if (!file) return;
+
+    let maxSizePerFile = 3 * 1024 * 1024; // 3MB
+
+    if (file.size > maxSizePerFile) {
+        alert(thumbnailType + `의 크기가 3MB 이하여야 합니다.`);
+        input.val('');
+        return false;
+    }
 
     let reader = new FileReader();
 
     return new Promise((resolve, reject) => {
         reader.onload = function(e) {
-            let container = $('#' + containerId); // containerId로 jQuery 객체 생성
+            let container = $('#' + containerId);
             let previewImages = container.find('.preview_images');
-            let previewImage = $('<img>').addClass('preview_image').attr('src', e.target.result); // 이미지 엘리먼트 생성
+            let previewImage = $('<img>').addClass('preview_image').attr('src', e.target.result);
             let filenameContainer = $('<div>').addClass('filename_container');
-            let fileName = $('<div>').addClass('file_name').text('파일명: ' + file.name); // 파일명 엘리먼트 생성
+            let fileName = $('<div>').addClass('file_name').text('파일명: ' + file.name);
 
-            // 기존에 존재하는 이미지와 파일명 엘리먼트를 삭제합니다.
             container.find('.preview_image').remove();
             container.find('.file_name').remove();
 
-            // 새로운 이미지와 파일명 엘리먼트를 추가합니다.
             filenameContainer.append(fileName);
             previewImages.append(previewImage);
             container.append(filenameContainer);
@@ -119,7 +174,6 @@ async function addImagePreview(container, file) {
 function updateFileCount() {
     let fileCount = $('#previewContainer3 .preview_image_container').length;
     $('#detailsImages').prop('files', createFileList());
-    console.log('첨부된 파일 개수:', fileCount);
 }
 
 function createFileList() {
@@ -130,7 +184,6 @@ function createFileList() {
     });
     return fileList.files;
 }
-
 // 유효성 검사 함수
 function validateBeforeSubmit() {
     let nameValue = $('#name').val().trim();
@@ -206,11 +259,12 @@ function validateBeforeSubmit() {
         return false;
     }
 
-    let maxSizePerFile = 1 * 1024 * 1024;
+    let maxSizePerFile = 3 * 1024 * 1024;
     for (let i = 0; i < displayImageValue.length; i++) {
         let fileSize = displayImageValue[i].size;
         if (fileSize > maxSizePerFile) {
-            alert('섬네일 사진1의 크기가 1MB 이하여야 합니다.');
+            alert('섬네일 사진1의 크기가 3MB 이하여야 합니다.');
+            $('#displayImage').val('');
             return false;
         }
     }
@@ -218,57 +272,27 @@ function validateBeforeSubmit() {
     for (let i = 0; i < hoverImageValue.length; i++) {
         let fileSize = hoverImageValue[i].size;
         if (fileSize > maxSizePerFile) {
-            alert('섬네일 사진2의 크기가 1MB 이하여야 합니다.');
+            alert('섬네일 사진2의 크기가 3MB 이하여야 합니다.');
+            $('#hoverImage').val('');
             return false;
         }
     }
     for (let i = 0; i < detailsImagesValue.length; i++) {
         let fileSize = detailsImagesValue[i].size;
         if (fileSize > maxSizePerFile) {
-            alert('첨부파일 하나의 크기가 1MB 이하여야 합니다.');
+            alert('상세 페이지 사진 한 장의 크기가 3MB 이하여야 합니다.');
+            $('#detailsImages').val('');
             return false;
         }
     }
 
-    let totalSizeLimit = 20 * 1024 * 1024;
-    let totalSize = 0;
-    for (let i = 0; i < detailsImagesValue.length; i++) {
-        totalSize += detailsImagesValue[i].size;
-    }
-    if (totalSize > totalSizeLimit) {
-        alert('첨부파일 전체의 크기가 20MB 이하여야 합니다.');
+    if (detailsImagesValue.length > 20) {
+        alert('상세 페이지 사진은 최대 20장까지 가능합니다.');
+        $('#detailsImages').val('');
         return false;
     }
-
     return true;
 }
-
-$(document).ready(function () {
-    $(document).on('click', function(event) {
-        var dropdownMenus = $('.dropdown_menu');
-
-        if ($(event.target).closest('.menu_toggle, .dropdown_menu').length) {
-            return;
-        }
-
-        dropdownMenus.removeClass('show');
-    });
-
-    $('.menu_toggle').click(function () {
-        var dropdownMenu = $(this).siblings('.dropdown_menu');
-        $('.dropdown_menu').not(dropdownMenu).removeClass('show');
-        dropdownMenu.toggleClass('show');
-    });
-
-
-    $('#selectAll').click(function () {
-        if ($(this).prop('checked')) {
-            $('.product_table tbody input[type="checkbox"]').prop('checked', true);
-        } else {
-            $('.product_table tbody input[type="checkbox"]').prop('checked', false);
-        }
-    });
-});
 
 function deleteOk(productId) {
     if (!confirm('삭제하시면 복구할 수 없습니다. \n정말로 삭제하시겠습니까?')) {
@@ -283,6 +307,8 @@ function deleteProducts() {
 
     let productIds = [];
     let checkboxes = $('input[name=checkbox]:checked');
+    let csrfToken = $("meta[name='_csrf']").attr("content");
+    let csrfHeader = $("meta[name='_csrf_header']").attr("content");
 
     if (checkboxes.length == 0) {
         alert('삭제할 상품을 선택해 주세요.');
@@ -301,6 +327,9 @@ function deleteProducts() {
                 url: '/admin/shop/products/delete',
                 data: JSON.stringify(productIds),
                 contentType: 'application/json',
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader(csrfHeader, csrfToken);
+                },
                 success: function (result) {
                     window.location.href = '/admin/shop/products';
                 }
