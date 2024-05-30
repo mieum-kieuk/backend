@@ -1,0 +1,31 @@
+#aboutUs {
+    max-width: 2800px;
+    width: 100%;
+    margin: 200px 0;
+}
+.about_content {
+    display: flex;
+    flex-direction: column;
+}
+.about_video {
+    display: flex;
+    justify-content: center;
+}
+.about_video video{
+    width: 960px;
+}
+.about_details .title {
+    padding: 15px 0 ;
+    font-size: 22px;
+    text-align: center;
+}
+.about_details .subtitle {
+    padding: 5px;
+    font-size: 18px;
+    text-align: center;
+ }
+.about_details .content {
+    padding-bottom: 5px;
+    font-size: 14px;
+    text-align: center;
+}
