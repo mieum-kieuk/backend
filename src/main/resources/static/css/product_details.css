@@ -55,6 +55,10 @@
     width: 90px;
     object-fit: cover;
     margin-right: 10px;
+    cursor: pointer;
+}
+.prd_left .prd_display .display_img.selected {
+    border: 2px solid #333;
 }
 .prd_right {
     display: flex;
@@ -95,7 +99,7 @@
     color: #666;
     font-size: 16px;
 }
-.prd_price .discount .discount_rate {
+.prd_price.discount .discount_rate {
     color: #d94747;
     margin-right: 3px;
 }
@@ -157,13 +161,22 @@
     font-size: 16px;
 }
 .buy_btn .btn1 {
+    display: none;
     width: 49%;
+}
+.buy_btn .btn1.active {
+    display: flex;
 }
 .buy_btn .buy {
     background: #222;
     color: #fff;
 }
-
+.buy_btn .soldout {
+    display: none;
+}
+.buy_btn .soldout.active {
+    display: flex;
+}
 .prd_info_tab {
     margin: 30px 0;
     border-top: 1px solid #222;
@@ -215,6 +228,7 @@
     padding: 10px 0;
     background-color: #fff;
     white-space: pre-line;
+    line-height: 1.5;
 }
 .prd_detail{
     display: flex;
@@ -256,4 +270,8 @@
 }
 #SoldOutBtn {
     color: #d94747;
+    border: solid 1.5px #333;
+    width: 100% ;
+    margin-top: 163.59px;
 }
+

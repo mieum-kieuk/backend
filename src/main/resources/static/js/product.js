@@ -34,9 +34,14 @@ $(document).ready(function () {
     }
 
     $('.display_img').click(function () {
+        $('.display_img.selected').removeClass('selected');
+
+        $(this).addClass('selected');
+
         let imgUrl = $(this).find('img').attr('src');
         $('.prd_img img').attr('src', imgUrl);
     });
+
 
     $('#increaseBtn').click(function (event) {
         event.preventDefault();
@@ -58,19 +63,47 @@ $(document).ready(function () {
         }
     });
 
+    function setProductState() {
+        // 초기화
+        $('.prd_price.price, .prd_price.discount, .prd_price.soldout').removeClass('active');
+        $('.buy_btn .btn1').addClass('active');
+        $('.buy_btn .soldout').removeClass('active');
+
+        // 상태 설정
+        if ($('.prd_price.discount').length) {
+            $('.prd_price.discount').addClass('active');
+        } else if ($('.prd_price.soldout').length) {
+            $('.prd_price.soldout').addClass('active');
+            $('.buy_btn .btn1').removeClass('active');
+            $('.buy_btn .soldout').addClass('active');
+
+        } else {
+            $('.prd_price.price').addClass('active');
+            $('#CartBtn, #BuyBtn').addClass('active');
+        }
+
+        updateTotal();
+    }
+    setProductState();
+
     function updateTotal() {
-        let totalQuantity = 0;
-        let totalPrice = 0;
-        $('.prd_quantity').each(function () {
-            let quantity = parseInt($(this).find('.quant_input').val());
-            let price = parseFloat($(this).siblings('.prd_info').find('#price').text().replace('KRW', '').replace(',', '').trim());
-            let subtotalPrice = quantity * price;
-            totalPrice += subtotalPrice;
-            totalQuantity += quantity;
-        });
-        $('#totalQuantity').text(totalQuantity + '개');
+        let quantity = parseInt($('.quant_input').val());
+        let isDiscount = $('.prd_price.discount').hasClass('active');
+        let isSoldOut = $('.prd_price.soldout').hasClass('active');
+        let currentPrice = isDiscount ? parseInt($('#salePrice').text().replace(/[^0-9]/g, '')) : parseInt($('#productPrice').text().replace(/[^0-9]/g, ''));
+        let totalPrice = quantity * currentPrice;
+        if (isSoldOut) {
+            $('.prd_total').hide();
+            $('.prd_quantity').hide();
+            return;
+        } else {
+            $('.prd_total').show();
+            $('.prd_quantity').show();
+        }
+        $('#totalQuantity').text(quantity + '개');
         $('#totalPrice').text(totalPrice.toLocaleString() + '원');
     }
+
 
     $('.tab_tit').click(function () {
         let tabWrap = $(this).siblings('.tab_wrap');
