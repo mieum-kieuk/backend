@@ -21,7 +21,7 @@ public class WishController {
     private final WishService wishService;
 
     @GetMapping("/mypage/wish")
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('ROLE_USER') and #loginMember.loginId == principal.username")
     public String wishlist(@RequestParam(name = "page", defaultValue = "1") int page, @CurrentUser Member loginMember, Model model) {
         PageRequest pageRequest = PageRequest.of(page - 1, 10, Sort.Direction.ASC, "id");
         Page<MyWishDto> wishlist = wishService.getWishList(loginMember.getId(), pageRequest);
@@ -30,7 +30,7 @@ public class WishController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('ROLE_USER') and #loginMember.loginId == principal.username")
     @ResponseBody
     @PostMapping("/api/wish/add")
     public void addWish(@RequestParam("productId") Long productId, @CurrentUser Member loginMember) {
@@ -38,7 +38,7 @@ public class WishController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('ROLE_USER') and #loginMember.loginId == principal.username")
     @ResponseBody
     @PostMapping("/api/wish/remove")
     public void removeWish(@RequestParam("productId") Long productId, @CurrentUser Member loginMember) {

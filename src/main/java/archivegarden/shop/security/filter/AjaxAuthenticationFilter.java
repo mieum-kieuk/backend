@@ -23,7 +23,6 @@ public class AjaxAuthenticationFilter extends AbstractAuthenticationProcessingFi
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException {
-        System.out.println("AjaxAuthenticationFilter.attemptAuthentication");
         if(!isAjax(request)) {
             throw new IllegalStateException("Authentication is not supported");
         }

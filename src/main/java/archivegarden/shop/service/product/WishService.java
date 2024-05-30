@@ -16,6 +16,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.NoSuchElementException;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -26,7 +28,19 @@ public class WishService {
     private final WishRepository wishRepository;
 
     /**
-     * 마이페이지에서 위리리스트 목록 조회
+     * 좋아요한 상품인지 아닌지
+     */
+    public boolean isWish(Long productId, Member member) {
+        //로그인 하지 않은 경우
+        if(member == null) {
+            return false;
+        }
+
+        return wishRepository.findWish(productId, member.getId()).isPresent();
+    }
+
+    /**
+     * 마이페이지에서 위시리스트 목록 조회
      */
     @Transactional(readOnly = true)
     public Page<MyWishDto> getWishList(Long memberId, Pageable pageable) {
@@ -59,11 +73,11 @@ public class WishService {
     /**
      * 위시 삭제
      *
-     * @param productId
+     * @throws NoSuchElementException
      */
     public void remove(Long productId, Long memberId) {
         //위시 조회
-        Wish wish = wishRepository.findWish(productId, memberId);
+        Wish wish = wishRepository.findWish(productId, memberId).orElseThrow(() -> new NoSuchElementException("존재하지 않는 위시입니다."));
 
         //위시 삭제
         wishRepository.delete(wish);
@@ -76,7 +90,7 @@ public class WishService {
      */
     public void delete(Long wishId) {
         //위시 조회
-        Wish wish = wishRepository.findById(wishId).orElseThrow(() -> new NoSuchWishException("존재하지 않는 위시입니다."));
+        Wish wish = wishRepository.findById(wishId).orElseThrow(() -> new NoSuchElementException("존재하지 않는 위시입니다."));
 
         //위시 삭제
         wishRepository.delete(wish);

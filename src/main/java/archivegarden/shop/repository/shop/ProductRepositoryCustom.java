@@ -10,6 +10,8 @@ import java.util.List;
 
 public interface ProductRepositoryCustom {
 
+    Product findProductFetch(Long productId);
+
     Page<ProductListDto> findDtoAll(Pageable pageable);
 
     List<Product> findLatestProducts();
