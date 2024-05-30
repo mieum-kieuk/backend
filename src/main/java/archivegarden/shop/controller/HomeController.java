@@ -25,6 +25,11 @@ public class HomeController {
         return "index";
     }
 
+    @GetMapping("/about")
+    public String about() {
+        return "about/about";
+    }
+
     @GetMapping("/search")
     public String search(@RequestParam(name = "keyword") String keyword,
                          @RequestParam(value = "page", defaultValue = "1") Integer page, Model model) {
