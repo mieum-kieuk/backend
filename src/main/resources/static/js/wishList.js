@@ -1,34 +1,26 @@
-$(document).ready(function() {
-    $(".remove_btn").click(function() {
-        if (confirm("정말 삭제하시겠습니까?")) {
-            $(this).closest('.wish_item').remove();
-            alert("상품이 삭제되었습니다.");
+function addCart(productId) {
+
+    let csrfToken = $("meta[name='_csrf']").attr("content");
+    let csrfHeader = $("meta[name='_csrf_header']").attr("content");
+
+    $.ajax({
+        type: 'POST',
+        url: '/api/cart/add',
+        data: {productId: productId, count: 1},
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader(csrfHeader, csrfToken);
+            xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+        },
+        success: function (message) {
+            alert(message);
+        },
+        error: function() {
+            window.location.href = '/login';
         }
-    });
-    $("#deleteAllBtn").click(function() {
-        if (confirm("정말 삭제하시겠습니까?")) {
+    })
 
-            $(".wish_item").remove();
-            alert("전체 삭제되었습니다.");
-        }
-    });
 
-    $("#deleteBtn").click(function() {
-        var wishItem = $(this).closest('.wish_item');
-        if (confirm("정말 삭제하시겠습니까?")) {
-            wishItem.remove();
-            alert("상품이 삭제되었습니다.");
-        }
-    });
-
-    $('#orderBtn').click(function() {
-        $('#addCart').fadeIn();
-    });
-
-    $('.close_btn').click(function() {
-        $('#addCart').fadeOut();
-    });
-});
+}
 
 function deleteOk(wishId) {
     if (!confirm('선택한 상품을 삭제하시겠습니까?')) {
