@@ -3,8 +3,8 @@ package archivegarden.shop;
 import archivegarden.shop.security.common.AjaxAuthenticationEntryPoint;
 import archivegarden.shop.security.filter.AjaxAuthenticationFilter;
 import archivegarden.shop.security.handler.AjaxAccessDeniedHandler;
-import archivegarden.shop.security.handler.CustomAuthenticationFailureHandler;
-import archivegarden.shop.security.handler.CustomAuthenticationSuccessHandler;
+import archivegarden.shop.security.handler.FormAuthenticationFailureHandler;
+import archivegarden.shop.security.handler.FormAuthenticationSuccessHandler;
 import archivegarden.shop.security.provider.AjaxAuthenticationProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -32,8 +32,8 @@ import org.springframework.security.web.context.SecurityContextRepository;
 @RequiredArgsConstructor
 public class AjaxSecurityConfig {
 
-    private final CustomAuthenticationSuccessHandler authenticationSuccessHandler;
-    private final CustomAuthenticationFailureHandler authenticationFailureHandler;
+    private final FormAuthenticationSuccessHandler authenticationSuccessHandler;
+    private final FormAuthenticationFailureHandler authenticationFailureHandler;
     private final AuthenticationConfiguration authenticationConfiguration;
 
     @Bean

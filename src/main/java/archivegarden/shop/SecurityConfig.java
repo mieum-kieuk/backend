@@ -1,5 +1,6 @@
 package archivegarden.shop;
 
+import archivegarden.shop.security.handler.FormAccessDeniedHandler;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
@@ -13,6 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
@@ -74,6 +76,18 @@ public class SecurityConfig {
                         .deleteCookies("remember-me")
                 );
 
+        http
+                .exceptionHandling(exception -> exception
+                        .accessDeniedHandler(accessDeniedHandler())
+                );
+
         return http.build();
+    }
+
+    @Bean
+    public AccessDeniedHandler accessDeniedHandler() {
+        FormAccessDeniedHandler accessDeniedHandler = new FormAccessDeniedHandler();
+        accessDeniedHandler.setErrorPage("/");
+        return accessDeniedHandler;
     }
 }
