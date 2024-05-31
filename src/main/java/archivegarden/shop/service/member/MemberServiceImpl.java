@@ -133,7 +133,7 @@ public class MemberServiceImpl implements MemberService {
      */
     @Override
     public boolean validateVerificationNo(VerificationRequestDto requestDto) {
-        String phonenumber = requestDto.getPhonenumber1() + requestDto.getPhonenumber2() + requestDto.getPhonenumber3();
+        String phonenumber = requestDto.getPhonenumber1() + "-" + requestDto.getPhonenumber2() + "-" + requestDto.getPhonenumber3();
 
         if (redisUtil.existData(phonenumber)) {
             return redisUtil.getData(phonenumber).equals(requestDto.getVerificationNo());
@@ -148,7 +148,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public NewMemberInfo getNewMemberInfo(Long memberId) {
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new NoSuchElementException("존재하지 않는 회원입니다."));
-        return new NewMemberInfo(member);
+        return new NewMemberInfo(member.getLoginId(), member.getName(), member.getEmail());
     }
 
     /**

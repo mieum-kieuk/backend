@@ -11,10 +11,10 @@ import lombok.Setter;
 @NoArgsConstructor
 public class MemberSaveForm {
 
-    @Pattern(regexp = "(?=.*[a-z])(?=.*\\d)[a-z\\d]{5,20}+$", message = "5~20자의 영문 소문자, 숫자 조합을 사용해 주세요.")
+    @Pattern(regexp = "^(?=.*[a-z])(?=.*\\d)[a-z\\d]{5,20}+$", message = "5~20자의 영문 소문자, 숫자 조합을 사용해 주세요.")
     private String loginId;
 
-    @Pattern(regexp = "^(?=.*[a-zA-z])(?=.*\\d)(?=.*\\W)[a-zA-Z\\d\\W]{8,16}$", message = "8~16자의 영문 대/소문자, 숫자, 특수문자 조합을 사용해 주세요.")
+    @Pattern(regexp = "^(?=.*[a-zA-z])(?=.*\\d)(?=.*\\W)[a-zA-Z\\d\\W]{8,16}+$", message = "8~16자의 영문 대/소문자, 숫자, 특수문자 조합을 사용해 주세요.")
     private String password;
 
     private String passwordConfirm;
@@ -30,7 +30,7 @@ public class MemberSaveForm {
     private String phonenumber2;
     private String phonenumber3;
 
-    @Pattern(regexp = "^[A-Za-z0-9_\\.\\-]+@[A-Za-z0-9\\-]+\\.[A-Za-z0-9\\-]+$", message = "유효한 이메일을 입력해 주세요.")
+    @Pattern(regexp = "^[a-zA-Z\\d]([-_.]?[a-zA-Z\\d])*@[a-zA-Z\\d]*\\.[a-zA-Z]{2,3}$", message = "유효한 이메일을 입력해 주세요.")
     private String email;
 
     @AssertTrue(message = "이용약관에 동의해 주세요.")

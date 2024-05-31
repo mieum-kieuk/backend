@@ -1,16 +1,17 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
 <div class="sidebar" th:fragment="admin_menu">
     <div class="side_menu top">
         <ul>
             <li class="logo">
-                <a href="index.html">
-                    <img src="../../../../images/tickers_logo.png" th:src="@{/images/tickers_logo.png}" alt="로고">
+                <a href="">
+                    <img src="../../static/images/meek2.png" th:src="@{/images/meek2.png}" alt="로고">
                 </a>
             </li>
             <li><a href="#">기본 설정</a></li>
-            <li><a href="#">사이트 바로가기</a></li>
+            <li><a href="../index.html" th:href="@{/}">사이트 바로가기</a></li>
         </ul>
         <hr>
     </div>
@@ -22,7 +23,11 @@
                 관리</a></li>
             <li><a href="#">주문 관리</a></li>
             <li><a href="#">고객 관리</a></li>
-
+        </ul>
+        <ul>
+            <li><a sec:authorize="isAnonymous()" href="">로그인</a></li>
+            <li><a sec:authorize="isAnonymous()" href="../admin/members/admin_join.html" th:href="@{/admin/members/join}">회원가입</a></li>
+            <li><a sec:authorize="isAuthenticated()" href="">로그아웃</a></li>
         </ul>
     </div>
 </div>

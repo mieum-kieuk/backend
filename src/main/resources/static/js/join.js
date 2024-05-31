@@ -1,3 +1,6 @@
+let isAvailableLoginId = false;
+let isAvailableEmail = false;
+
 $(document).ready(function () {
     $('#loginId').on('focusout', function () {
         isLoginIdValid();
@@ -75,9 +78,11 @@ function isLoginIdValid() {
         },
         success: function (result) {
             if (result) {
+                isAvailableLoginId = true;
                 $('#idMsg').text('사용 가능한 아이디입니다.');
                 $('#idMsg').removeClass('error').addClass('success');
             } else {
+                isAvailableLoginId = false;
                 $('#idMsg').text('이미 사용 중인 아이디입니다.');
                 $('#idMsg').removeClass('success').addClass('error');
             }
@@ -227,9 +232,11 @@ function isEmailValid() {
         },
         success: function (result) {
             if (result) {
+                isAvailableEmail = true;
                 $('#emailMsg').text('사용 가능한 이메일입니다.');
                 $('#emailMsg').removeClass('error').addClass('success');
             } else {
+                isAvailableEmail = false;
                 $('#emailMsg').text('이미 사용 중인 이메일입니다.');
                 $('#emailMsg').removeClass('success').addClass('error');
             }
@@ -463,6 +470,9 @@ function validateBeforeSubmit() {
     } else if (!regexLoginId()) {
         alert("유효한 아이디를 입력해 주세요.");
         return false;
+    } else if (!isAvailableLoginId) {
+        alert("이미 사용중인 아이디입니다.");
+        return false;
     }
 
     // 비밀번호 유효성 검사
@@ -490,7 +500,8 @@ function validateBeforeSubmit() {
     }
     if (!isAddressEmpty()) {
         alert("주소를 입력해 주세요.");
-    }return  false;
+        return false;
+    }
 
     // 휴대전화번호 유효성 검사
     if (!isPhoneEmpty()) {
@@ -513,6 +524,9 @@ function validateBeforeSubmit() {
         return false;
     } else if (!regexEmail()) {
         alert("유효한 이메일을 입력해 주세요.");
+        return false;
+    } else if (!isAvailableEmail) {
+        alert("이미 사용중인 이메일입니다.");
         return false;
     }
 

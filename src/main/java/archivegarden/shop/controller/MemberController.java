@@ -93,7 +93,7 @@ public class MemberController {
         }
 
         //중복 검증
-        String phonenumber = requestDto.getPhonenumber1() + requestDto.getPhonenumber2() + requestDto.getPhonenumber3();
+        String phonenumber = requestDto.getPhonenumber1() + "-" + requestDto.getPhonenumber2() + "-" + requestDto.getPhonenumber3();
         boolean isAvailable = memberService.isAvailablePhonenumber(phonenumber);
         if (!isAvailable) {
             return new PhonenumberResponseDto(false, "사용하려는 휴대전화번호는 이미 다른 계정에 등록되어 있습니다.");

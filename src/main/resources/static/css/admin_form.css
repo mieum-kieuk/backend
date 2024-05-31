@@ -571,7 +571,9 @@ thead .btn_cell {
 .field-error {
     margin: -20px 0 20px 140px;
 }
-
+.admin_member .field-error {
+    margin: 0;
+}
 .field-error.exc {
     margin: 0 0 5px 140px;
 }

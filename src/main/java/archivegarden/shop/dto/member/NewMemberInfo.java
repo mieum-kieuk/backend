@@ -1,6 +1,5 @@
 package archivegarden.shop.dto.member;
 
-import archivegarden.shop.entity.Member;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,9 +11,9 @@ public class NewMemberInfo {
     private String name;
     private String email;
 
-    public NewMemberInfo(Member member) {
-        this.loginId = member.getLoginId();
-        this.name = member.getName();
-        this.email = member.getEmail();
+    public NewMemberInfo(String loginId, String name, String email) {
+        this.loginId = loginId;
+        this.name = name;
+        this.email = email;
     }
 }

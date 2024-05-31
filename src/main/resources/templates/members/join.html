@@ -62,7 +62,7 @@
                     <ul>
                         <li scope="row">
                             <p class="join_tit ess">비밀번호</p>
-                            <span class="addinfo">(영문 대소문자/숫자/특수문자 조합, 8자~16자)</span>
+                            <span class="addinfo">(영문 대소문자/숫자/특수문자 조합, 8~16자)</span>
                         </li>
                         <li class="input_box_wrap">
                             <input th:field="*{password}" class="input_box" autocomplete="off" maxlength="16" 0="disabled" type="password"/>
@@ -503,7 +503,7 @@
                     취소
                 </button>
                 <button type="submit" class="btn1 submit_btn">
-                    가입하기
+                    가입
                 </button>
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
             </div>
