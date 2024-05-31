@@ -493,13 +493,13 @@ table img {
 
 .admin_wrap th,
 .admin_wrap td {
-    display: flex;
+    /*display: flex;*/
     flex-direction: row;
     justify-content: center;
     align-items: center;
     font-size: 12px;
     font-weight: 400;
-    width: 100%;
+    /*width: 100%;*/
     height: 100%;
     /*max-height: 100px;*/
     padding: 10px;
@@ -510,6 +510,7 @@ th span, td span {
     display: -webkit-box;
     -webkit-line-clamp: 6;
     -webkit-box-orient: vertical;
+    text-align: center;
 }
 
 th {
@@ -633,16 +634,47 @@ thead .btn_cell {
 .admin_wrap #login .btn_wrap .btn1 {
     width: 100%;
 }
+/*admin_list*/
+#adminsSearchForm {
+    display: flex;
+    margin-top: 10px;
+    gap: 10px;
+    padding: 10px 0;
+    border: 1px solid #333;
+    border-left: none;
+    border-right: none;
+    margin-bottom: 40px;
+}
+.admins_wrap .btn_wrap {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+.admins_wrap .btn1 {
+    width: 60px;
+}
+.admins_table {
+    border-bottom: 1px solid #d7d7d7;
+}
+.admins_table tr {
+    border-top: 1px solid #d7d7d7;
+}
+.admins_table th, .admins_table td {
+    border-left: 1px solid #d7d7d7;
+}
+.admins_table th:first-child, .admins_table td:first-child {
+    border-left: none;
+}
 /*admin_notice*/
 .admin_wrap #noticeList {
     margin-top: 0;
 }
-.admin_wrap .notice_wrap .form_title {
+.admin_wrap .form_title {
     position: relative;
     padding-left: 10px;
     line-height: 16px;
 }
-.admin_wrap .notice_wrap .form_title::before {
+.admin_wrap .form_title::before {
     display: inline-block;
     position: absolute;
     left: 0;
@@ -659,7 +691,7 @@ thead .btn_cell {
     border-right: none;
     margin-bottom: 40px;
 }
-#admin #noticeSearchForm select {
+#admin select {
     appearance: auto;
 }
 #admin #noticeList th, #admin #noticeList td {

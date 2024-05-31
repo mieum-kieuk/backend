@@ -80,7 +80,7 @@
                         </li>
                         <li class="input_box_wrap">
                             <input id="loginId" class="inputTypeText" placeholder="" maxlength="20" type="text"/>
-                            <span id="idMsg"></span>
+                            <span id="idMsg" class="error_message"></span>
                         </li>
                     </ul>
                     <ul>
@@ -90,7 +90,7 @@
                         </li>
                         <li class="input_box_wrap">
                             <input id="password" class="input_box" autocomplete="off" maxlength="16" 0="disabled" type="password"/>
-                            <span id="pwMsg"></span>
+                            <span id="pwMsg" class="error_message"></span>
                         </li>
                     </ul>
                     <ul>
@@ -99,7 +99,7 @@
                         </li>
                         <li class="input_box_wrap">
                             <input id="passwordConfirm" class="input_box" autocomplete="off" maxlength="16" 0="disabled" type="password"/>
-                            <span id="pwconfirmMsg"></span>
+                            <span id="pwconfirmMsg" class="error_message"></span>
                         </li>
                     </ul>
 
@@ -110,7 +110,7 @@
                         <li>
                         <li id="name_content" class="input_box_wrap">
                             <input id="name" class="input_box" placeholder="" maxlength="30" type="text" value="관리자" readonly/>
-                            <span id="nameMsg"></span>
+                            <span id="nameMsg" class="error_message"></span>
                         </li>
                         </li>
                     </ul>
@@ -120,21 +120,21 @@
                         </li>
                         <li class="input_box_wrap">
                             <input id="email" class="input_box" placeholder="" maxlength="45" type="text"/>
-                            <span id="emailMsg"></span>
+                            <span id="emailMsg" class="error_message"></span>
                         </li>
                     </ul>
 
                 </div>
             </div>
             <div class="btn_wrap">
-                <button type="button" class="btn1 cancel_btn">
-                    취소
-                </button>
                 <button type="submit" id="submitBtn" class="btn1 submit_btn" onclick="validateBeforeSubmit()">
                     가입
                 </button>
             </div>
         </form>
+        <div class="loader_wrap">
+            <div class="loader"></div>
+        </div>
         </div>
     </div>
 </div>
