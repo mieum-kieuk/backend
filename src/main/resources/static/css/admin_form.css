@@ -1,5 +1,4 @@
 body {
-    font-size: 12px;
     display: flex;
 }
 
@@ -581,7 +580,7 @@ thead .btn_cell {
     margin: 4px 0 8px;
 }
 /*admin_join*/
-.admin_wrap #join, .admin_wrap #login, .admin_wrap #find {
+.admin_wrap #join, .admin_wrap #join_succ, .admin_wrap #login, .admin_wrap #find {
     padding-top: 0;
     justify-content: flex-start;
 }
@@ -596,6 +595,11 @@ thead .btn_cell {
 .admin_wrap #join #name {
     background: #eee;
     cursor: default;
+}
+/*admin_join_complete*/
+.admin_wrap #join_succ .join_succ_wrap {
+    max-width: none;
+    margin-top: 50px;
 }
 /*admin_login*/
 .admin_wrap #login .content{

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>관리자 회원가입 완료 | 미음키읔</title>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="미음키읔" />
+    <meta property="og:description" content="" />
+    <meta property="og:image" content="" />
+    <meta property="og:url" content="" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+    <link rel="stylesheet" href="../../../css/join.css" />
+    <link rel="stylesheet" href="../../../css/comm.css" />
+    <link rel="stylesheet" href="../../../css/admin_form.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
+    <script defer src="../../../js/adminJoin.js"></script>
+</head>
+<body>
+<div class="admin_wrap">
+    <div class="sidebar">
+        <div class="side_menu top">
+            <ul>
+                <li class="logo">
+                    <a href="../index.html">
+                        <img src="../../images/meek1.png" alt="로고">
+                    </a>
+                </li>
+                <li><a href="#">기본 설정</a></li>
+                <li><a href="../index.html">사이트 바로가기</a></li>
+            </ul>
+            <hr>
+        </div>
+        <div class="side_menu">
+            <h2>메뉴</h2>
+            <ul>
+                <li><a href="#">상품 관리</a></li>
+                <li><a href="#">할인 혜택 관리</a></li>
+                <li><a href="#">주문 관리</a></li>
+                <li><a href="#">고객 관리</a></li>
+            </ul>
+            <ul>
+                <li><a href="">로그인</a></li>
+                <li><a href="">회원가입</a></li>
+                <li><a href="">로그아웃</a></li>
+            </ul>
+        </div>
+    </div>
+    <div id="join_succ" class="admin_member">
+        <div class="content">
+            <div class="join_succ_wrap">
+                <div class="success_message">
+                    <h1>관리자 회원가입이 완료되었습니다.</h1>
+                    <span>관리자 인증이 완료되면 입력하신 이메일 주소로 인증완료 메일이 발송되오니, 확인해 주시기 바랍니다.</span>
+                </div>
+                <ul class="user_info">
+                    <li><p>아이디</p>  <span id="userId">mary706</span></li>
+                    <li><p>이름</p>  <span id="userName">김지우</span></li>
+                    <li><p>이메일</p>  <span id="userEmail"></span></li>
+                </ul>
+                <div class="btn_wrap">
+                    <a class="btn1 submit_btn" href="../../index.html" >홈으로 이동</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
