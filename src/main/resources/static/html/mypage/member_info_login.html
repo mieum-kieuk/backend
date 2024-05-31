@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>회원 정보 수정 | 미음키읔</title>
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="미음키읔" />
+  <meta property="og:description" content="" />
+  <meta property="og:image" content="" />
+  <meta property="og:url" content="" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+  <link rel="stylesheet" href="../../css/join.css" />
+  <link rel="stylesheet" href="../../css/login.css" />
+  <link rel="stylesheet" href="../../css/comm.css" />
+  <link rel="stylesheet" href="../../css/mypage.css" />
+  <script defer src="../../js/modify.js"></script>
+  <script defer src="../../js/findAddress.js"></script>
+</head>
+<body>
+<div class="mypage" id="mypage">
+  <nav id="snb">
+    <ul class="depth1">
+      <li>
+        <ul class="depth2">
+          <li><a href="">주문 내역 조회</a></li>
+          <li><a href="">적립금 내역</a></li>
+          <li><a href="">쿠폰 내역</a></li>
+        </ul>
+      </li>
+      <li>
+        <ul class="depth2">
+          <li><a href="./wish_list.html">위시리스트</a></li>
+          <li><a href="">나의 게시글</a></li>
+        </ul>
+      </li>
+      <li>
+        <ul class="depth2">
+          <li><a href="./member_info_modify.html">회원 정보 수정</a></li>
+          <li><a href="./delivery_list.html">배송지 관리</a></li>
+          <li><a href="">로그아웃</a></li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+  <div id="memberInfoLogin">
+    <div class="join_wrap modify">
+      <h3 class="modify_title">비밀번호 재확인</h3>
+      <form action="#">
+        <div class="input_wrap">
+          <ul>
+            <li>
+              <label for="loginId" class="join_tit">아이디</label>
+            </li>
+            <li class="input_box_wrap">
+              <input id="loginId" class="inputTypeText" placeholder="" maxlength="20" type="text" readonly/>
+            </li>
+          </ul>
+          <ul>
+            <li>
+              <label for="password" class="join_tit">비밀번호</label>
+            </li>
+            <li class="input_box_wrap">
+              <input id="password" class="input_box" placeholder="현재 비밀번호를 입력해 주세요." autocomplete="off" maxlength="16" 0="disabled" type="password"/>
+            </li>
+          </ul>
+        </div>
+        <div class="btn_wrap">
+          <button type="submit" id="loginBtn" class="btn1 submit_btn">
+            확인
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+</body>
+</html>

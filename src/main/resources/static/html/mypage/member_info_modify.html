@@ -18,182 +18,297 @@
   <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
   <link rel="stylesheet" href="../../css/join.css" />
   <link rel="stylesheet" href="../../css/comm.css" />
+  <link rel="stylesheet" href="../../css/mypage.css" />
   <script defer src="../../js/modify.js"></script>
   <script defer src="../../js/findAddress.js"></script>
 </head>
 <body>
-<div id="memberInfoModify">
-  <div class="join_wrap modify">
-    <h1 class="modify_title">회원 정보 수정</h1>
-    <div class="auth_wrap">
-      <ul id="user_auth">
-        <li>
-          <p class="join_tit ess">회원인증</p>
-        </li>
-        <li>
-          <div id="person_auth">
-            <div id="personal_type_wrap">
-              <input id="personal_type0" name="personal_type" label="회원인증" type="checkbox" checked="checked"/>
-              <label for="personal_type0">이메일인증</label>
-            </div>
-            <div id="email_auth">
-              <ul>
-                <li>기본정보 &gt; 이메일 항목에 입력하신 정보로 본인인증을 진행합니다.</li>
-                <li>회원가입 후에 입력하신 이메일 주소로 인증 메일이 발송되오니, 확인해 주시기 바랍니다.</li>
-              </ul>
+<div class="wrap">
+  <header id="header" class="header">
+    <nav id="gnb">
+      <div class="logo">
+        <a href="../index.html">
+          <img src="../../images/meek2.png" alt="로고">
+          미음키읔
+        </a>
+      </div>
+      <div class="gnb_menu center">
+        <ul class="depth1">
+          <li class="depth1_menu" id="shop">
+            <a href="../shop/product_list.html">Shop</a>
+            <ul class="depth2">
+              <li><a href="../shop/product_list.html">Masking tape</a></li>
+              <li><a href="../shop/product_list.html">Sticker</a></li>
+              <li><a href="../shop/product_list.html">Memo</a></li>
+            </ul>
+          </li>
+          <li class="depth1_menu" id="about"><a href="../about.html">About</a>
+          </li>
+          <li class="depth1_menu" id="community">Community
+            <ul class="depth2">
+              <li><a href="../notice/notice_list.html">Notice</a></li>
+              <li><a href="../qna/qna_list.html">Q&amp;A</a></li>
+              <li><a href="../review/review_list.html">Review</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div class="gnb_menu">
+        <div class="search">
+          <form action="#" method="get">
+            <button type="submit" >Search</button>
+          </form>
+          <div class="search_popup">
+            <div class="search_bg"></div>
+            <div class="search_form_wrap">
+              <form action="../search/search_complete.html" method="get">
+                <input type="text" placeholder="검색어를 입력해 주세요.">
+                <button type="submit" class="search_btn"><span class="material-symbols-outlined">search</span></button>
+              </form>
             </div>
           </div>
-        </li>
-<!--          <li class="isAuth">-->
-<!--            <p class="join_tit">인증 여부</p><strong class="join_tit">미인증</strong>-->
-<!--          </li>-->
-      </ul>
-    </div>
-    <form action=""  method="post" id="joinForm">
-      <div class="input_area">
-        <div class="input_wrap">
-          <ul>
-            <li>
-              <label for="loginId" class="join_tit ess">아이디</label>
-            </li>
-            <li class="input_box_wrap">
-              <span id="loginId" class="input_text inputTypeText">mary706</span>
-              <span id="idMsg"></span>
-            </li>
-          </ul>
-          <ul>
-            <li>
-              <label for="password" class="join_tit ess">비밀번호</label>
-              <span class="addinfo">(영문 대소문자/숫자/특수문자 조합, 8자~16자)</span>
-            </li>
-            <li class="input_box_wrap">
-              <input id="password" class="input_box" autocomplete="off" maxlength="16" 0="disabled" type="password"/>
-              <span id="pwMsg"></span>
-            </li>
-          </ul>
-          <ul>
-            <li>
-              <label for="passwordConfirm" class="join_tit ess">비밀번호 확인</label>
-            </li>
-            <li class="input_box_wrap">
-              <input id="passwordConfirm" class="input_box" autocomplete="off" maxlength="16" 0="disabled" type="password"/>
-              <span id="pwconfirmMsg"></span>
-            </li>
-          </ul>
-          <ul>
-            <li id="name_title">
-              <label for="name" class="join_tit ess">이름</label>
-            </li>
-            <li>
-            <li id="name_content" class="input_box_wrap">
-              <span id="name" class="input_text inputTypeText">김지우</span>
-              <span id="nameMsg"></span>
-            </li>
-            </li>
-          </ul>
-          <ul class="address">
-            <li>
-              <label class="join_tit btn_included">주소</label>
-            </li>
-            <li>
-              <input class="input_box" id="zipCode" name="zipCode" placeholder="우편번호" maxlength="10" type="text" disabled/>
-              <button id="searchZipCodeBtn" class="btn1">주소검색</button>
-            </li>
-            <li>
-              <input class="input_box" id="basicAddress" name="basicAddress" placeholder="기본주소" maxlength="100" type="text" disabled/>
-            </li>
-            <li>
-              <input class="i번nput_box" id="detailAddress" name="detailAddress" placeholder="상세주소(선택 가능)" maxlength="100" type="text"/>
-            </li>
-          </ul>
-
-          <ul class="phone_number">
-            <li class="">
-              <label class="join_tit ess btn_included">휴대전화번호</label>
-            </li>
-            <li class="phone_number select">
-              <div class="number_sec">
-                <select id="phonenumber1" >
-                  <option value="010">010</option>
-                  <option value="011">011</option>
-                  <option value="016">016</option>
-                  <option value="017">017</option>
-                  <option value="018">018</option>
-                  <option value="019">019</option>
-                </select>
-                <p>-</p><input id="phonenumber2" class="input_box" placeholder="" value="" type="text"/>
-                <p>-</p><input id="phonenumber3" class="input_box" placeholder="" value="" type="text"/>
-              </div>
-              <button type="button" id="btn_action_verify_mobile" class="btn1 disabled"
-                      onclick="userVerifyMobile.joinSendVerificationNumber(); return true;">인증번호 받기
-              </button>
-            </li>
-            <span id="phoneNumberMsg"></span>
-          </ul>
-          <ul class="displaynone" id="confirm_verify_mobile">
-            <li class="verify_sec">
-              <label for="verificationNo" class="join_tit ess">인증번호</label>
-              <div class="verify">
-                <input id="verificationNo" class="input_box inputTypeText" placeholder=""
-                       maxlength="6" type="text"/>
-                <span class="time" id="expiryTime"></span>
-              </div>
-            </li>
-            <button type="button" class="btn1" id="btn_verify_mobile_confirm"
-                    onclick="userVerifyMobile.joinVerifySmsNumberConfirm(); return false;">확인
-            </button>
-          </ul>
-          <span id="verificationMsg"></span>
-          <ul class="sms option">
-            <li>
-              <p class="join_tit">SMS 수신여부</p>
-            </li>
-            <li class="input_box_wrap">
-              <input id="rcvSmsT" name="rcvSms" class="input_box" type="radio" value="yes"/>
-              <label for="rcvSmsT">수신함</label>
-              <input id="rcvSmsF" name="rcvSms" class="input_box" type="radio" value="no"/>
-              <label for="rcvSmsF">수신안함</label>
-            </li>
-          </ul>
-          <ul>
-            <li>
-              <p class="join_tit ess ">이메일</p>
-            </li>
-            <li class="input_box_wrap">
-              <input id="email" class="input_box" placeholder="" maxlength="45" type="text"/>
-              <span id="emailMsg"></span>
-            </li>
-          </ul>
-          <ul class="email option">
-            <li>
-              <p class="join_tit">이메일 수신여부</p>
-            </li>
-            <li class="input_box_wrap">
-              <input id="rcvEmailT" name="rcvEmail" class="input_box" type="radio" value="yes"/>
-              <label for="rcvEmailT">수신함</label>
-              <input id="rcvEmailF" name="rcvEmail" class="input_box" type="radio" value="no"/>
-              <label for="rcvEmailF">수신안함</label>
-            </li>
-          </ul>
-          <ul>
-            <li>
-              <button type="button" class="btn1">
-                회원 탈퇴
-              </button>
+        </div>
+        <div class="account">
+          <ul class="depth1">
+            <li class="depth1_menu">Account
+              <ul class="depth2">
+                <li><a href="../members/login.html">Login</a></li>
+                <li><a href="../members/join.html">Join</a></li>
+                <li><a href="../members/order.html">Order</a></li>
+                <li><a href="../mypage/mypage_home.html">Mypage</a></li>
+              </ul>
             </li>
           </ul>
         </div>
+        <div class="cart">
+          <a href="../cart/cart.html" >Cart(0)
+          </a>
+        </div>
       </div>
-      <div class="btn_wrap">
-        <button type="button" class="btn1 cancel_btn" onclick="location.href='../index.html'">
-          취소
-        </button>
-        <button type="submit" id="submitBtn" onclick="" class="btn1 submit_btn">
-          회원 정보 수정
-        </button>
+    </nav>
+  </header>
+  <div class="mypage" id="mypage">
+    <nav id="snb">
+      <ul class="depth1">
+        <li>
+          <ul class="depth2">
+            <li><a href="">주문 내역 조회</a></li>
+            <li><a href="">적립금 내역</a></li>
+            <li><a href="">쿠폰 내역</a></li>
+          </ul>
+        </li>
+        <li>
+          <ul class="depth2">
+            <li><a href="./wish_list.html">위시리스트</a></li>
+            <li><a href="">나의 게시글</a></li>
+          </ul>
+        </li>
+        <li>
+          <ul class="depth2">
+            <li><a href="./member_info_modify.html">회원 정보 수정</a></li>
+            <li><a href="./delivery_list.html">배송지 관리</a></li>
+            <li><a href="">로그아웃</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+    <div id="memberInfoModify">
+      <div class="join_wrap modify">
+        <h3 class="modify_title">회원 정보 수정</h3>
+        <div class="auth_wrap">
+          <ul id="user_auth">
+            <li>
+              <p class="join_tit ess">회원인증</p>
+            </li>
+            <li>
+              <div id="person_auth">
+                <div id="personal_type_wrap">
+                  <input id="personal_type0" name="personal_type" label="회원인증" type="checkbox" checked="checked"/>
+                  <label for="personal_type0">이메일인증</label>
+                </div>
+                <div id="email_auth">
+                  <ul>
+                    <li>기본정보 &gt; 이메일 항목에 입력하신 정보로 본인인증을 진행합니다.</li>
+                    <li>회원가입 후에 입력하신 이메일 주소로 인증 메일이 발송되오니, 확인해 주시기 바랍니다.</li>
+                  </ul>
+                </div>
+              </div>
+            </li>
+            <!--          <li class="isAuth">-->
+            <!--            <p class="join_tit">인증 여부</p><strong class="join_tit">미인증</strong>-->
+            <!--          </li>-->
+          </ul>
+        </div>
+        <form action=""  method="post" id="joinForm">
+          <div class="input_area">
+            <div class="input_wrap">
+              <ul>
+                <li>
+                  <label for="loginId" class="join_tit ess">아이디</label>
+                </li>
+                <li class="input_box_wrap">
+                  <span id="loginId" class="input_text inputTypeText">mary706</span>
+                  <span id="idMsg"></span>
+                </li>
+              </ul>
+              <ul>
+                <li>
+                  <label for="password" class="join_tit ess">비밀번호</label>
+                  <span class="addinfo">(영문 대소문자/숫자/특수문자 조합, 8~16자)</span>
+                </li>
+                <li class="input_box_wrap">
+                  <input id="password" class="input_box" autocomplete="off" maxlength="16" 0="disabled" type="password"/>
+                  <span id="pwMsg"></span>
+                </li>
+              </ul>
+              <ul>
+                <li>
+                  <label for="passwordConfirm" class="join_tit ess">비밀번호 확인</label>
+                </li>
+                <li class="input_box_wrap">
+                  <input id="passwordConfirm" class="input_box" autocomplete="off" maxlength="16" 0="disabled" type="password"/>
+                  <span id="pwconfirmMsg"></span>
+                </li>
+              </ul>
+              <ul>
+                <li id="name_title">
+                  <label for="name" class="join_tit ess">이름</label>
+                </li>
+                <li>
+                <li id="name_content" class="input_box_wrap">
+                  <span id="name" class="input_text inputTypeText">김지우</span>
+                  <span id="nameMsg"></span>
+                </li>
+                </li>
+              </ul>
+              <ul class="address">
+                <li>
+                  <label class="join_tit btn_included">주소</label>
+                </li>
+                <li>
+                  <input class="input_box" id="zipCode" name="zipCode" placeholder="우편번호" maxlength="10" type="text" disabled/>
+                  <button id="searchZipCodeBtn" class="btn1">주소검색</button>
+                </li>
+                <li>
+                  <input class="input_box" id="basicAddress" name="basicAddress" placeholder="기본주소" maxlength="100" type="text" disabled/>
+                </li>
+                <li>
+                  <input class="input_box" id="detailAddress" name="detailAddress" placeholder="상세주소(선택 가능)" maxlength="100" type="text"/>
+                </li>
+              </ul>
+
+              <ul class="phone_number">
+                <li class="">
+                  <label class="join_tit ess btn_included">휴대전화번호</label>
+                </li>
+                <li class="phone_number select">
+                  <div class="number_sec">
+                    <select id="phonenumber1" disabled>
+                      <option value="010">010</option>
+                      <option value="011">011</option>
+                      <option value="016">016</option>
+                      <option value="017">017</option>
+                      <option value="018">018</option>
+                      <option value="019">019</option>
+                    </select>
+                    <p>-</p><input id="phonenumber2" class="input_box" placeholder="" value="" type="text" readonly/>
+                    <p>-</p><input id="phonenumber3" class="input_box" placeholder="" value="" type="text" readonly/>
+                  </div>
+                  <button type="button" id="newNumberBtn" class="btn1"
+                          onclick="">다른번호 인증
+                  </button>
+                </li>
+                <span id="phoneNumberMsg"></span>
+              </ul>
+              <ul class="displaynone" id="confirm_verify_mobile">
+                <li class="verify_sec">
+                  <label for="verificationNo" class="join_tit ess">인증번호</label>
+                  <div class="verify">
+                    <input id="verificationNo" class="input_box inputTypeText" placeholder=""
+                           maxlength="6" type="text"/>
+                    <span class="time" id="expiryTime"></span>
+                  </div>
+                </li>
+                <button type="button" class="btn1" id="btn_verify_mobile_confirm"
+                        onclick="userVerifyMobile.joinVerifySmsNumberConfirm(); return false;">확인
+                </button>
+              </ul>
+              <span id="verificationMsg"></span>
+              <ul>
+                <li>
+                  <p class="join_tit ess ">이메일</p>
+                </li>
+                <li class="input_box_wrap">
+                  <input id="email" class="input_box" placeholder="" maxlength="45" type="text"/>
+                  <span id="emailMsg"></span>
+                </li>
+              </ul>
+              <ul class="sms option">
+                <li>
+                  <p class="join_tit">SMS 수신여부</p>
+                </li>
+                <li class="input_box_wrap">
+                  <input id="rcvSmsT" name="rcvSms" class="input_box" type="radio" value="yes"/>
+                  <label for="rcvSmsT">수신함</label>
+                  <input id="rcvSmsF" name="rcvSms" class="input_box" type="radio" value="no"/>
+                  <label for="rcvSmsF">수신안함</label>
+                </li>
+              </ul>
+              <ul class="email option">
+                <li>
+                  <p class="join_tit">이메일 수신여부</p>
+                </li>
+                <li class="input_box_wrap">
+                  <input id="rcvEmailT" name="rcvEmail" class="input_box" type="radio" value="yes"/>
+                  <label for="rcvEmailT">수신함</label>
+                  <input id="rcvEmailF" name="rcvEmail" class="input_box" type="radio" value="no"/>
+                  <label for="rcvEmailF">수신안함</label>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="btn_wrap">
+            <button type="button" class="btn1">
+              탈퇴하기
+            </button>
+            <button type="submit" id="submitBtn" onclick="" class="btn1 submit_btn">
+              회원 정보 수정
+            </button>
+          </div>
+        </form>
       </div>
-    </form>
+    </div>
   </div>
+  <footer id="footer" class="footer">
+    <div class="footer_wrap">
+      <div class="footer_inner">
+        <ul>
+          <li><a href="">Instagram</a></li>
+        </ul>
+      </div>
+      <div class="footer_inner">
+        <ul>
+          <li><a href="">Terms of Use</a></li>
+          <li><a href="">Privacy Policy</a></li>
+          <li><a href="">Shop Guide</a></li>
+        </ul>
+      </div>
+      <div class="footer_inner">
+        <ul>
+          <li>Company : 티커스</li>
+          <li>전화번호 : 010-1234-5678</li>
+          <li>이메일 : tickers@gmail.com</li>
+        </ul>
+      </div>
+      <div class="footer_inner">
+        <ul>
+          <li>사업자 번호 : 070-61-01100</li>
+          <li>주소 : 서울시 티커스구 티커스대로 123</li>
+          <li>Copyright ©Tickers All rights reserved.</li>
+        </ul>
+      </div>
+    </div>
+  </footer>
 </div>
 </body>
 </html>

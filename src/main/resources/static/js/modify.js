@@ -15,7 +15,22 @@ $(document).ready(function () {
         isNameValid();
     });
 
-    $('#phonenumber2, #phonenumber3').on('focusout', function () {
+    $('#newNumberBtn').on('click', function() {
+        $(this).attr('id', 'btn_action_verify_mobile');
+
+        $(this).addClass('disabled');
+
+        $(this).attr('onclick', 'userVerifyMobile.joinSendVerificationNumber(); return true;');
+
+        $('#phonenumber1').val('010');
+        $('#phonenumber2').val('');
+        $('#phonenumber3').val('');
+        $('#phonenumber1').removeAttr('disabled');
+        $('#phonenumber2').removeAttr('readonly');
+        $('#phonenumber3').removeAttr('readonly');
+        $(this).text('인증번호 받기');
+    });
+        $('#phonenumber2, #phonenumber3').on('focusout', function () {
         isPhoneValid();
     });
 

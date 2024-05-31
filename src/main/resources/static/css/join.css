@@ -85,6 +85,7 @@
   align-items: flex-start;
 }
 .input_wrap .input_box_wrap span {
+  height: 15.5px;
   margin-top: 3px;
 }
 .input_wrap #name_content {
@@ -201,7 +202,7 @@
 #searchZipCodeBtn {
   margin-bottom: 10px;
 }
-#searchZipCodeBtn, #btn_action_verify_mobile, #btn_verify_mobile_confirm {
+#searchZipCodeBtn, #btn_action_verify_mobile, #btn_verify_mobile_confirm, #newNumberBtn {
   width: 100px;
   margin-left: 12px;
   padding: 10px;
@@ -285,7 +286,6 @@
   height: 45px;
   padding: 20px;
   border-radius: 2px;
-  border: solid 1px #333;
   /*background-color: #fff;*/
 }
 
@@ -340,15 +340,15 @@
   margin-left: 50px;
 }
 
-#memberInfoModify {
+#memberInfoModify,#memberInfoLogin {
   display: flex;
   justify-content: center;
   margin: 0 0 120px 0;
   color: #222;
+  width: 100%;
 }
 .modify_title {
   display: block;
-  text-align: center;
   font-size: 18px;
   font-weight: 400;
   margin-bottom: 20px;
@@ -376,13 +376,25 @@
 #memberInfoModify .input_wrap .address {
   gap: 0;
 }
+#memberInfoModify .input_wrap .input_box {
+  display: flex;
+  align-items: center;
+  border: 1px solid #999;
+  padding: 5px 5px;
+  height: 35px;
+}
 #memberInfoModify .input_wrap .phone_number {
-  /*display: flex;*/
-  /*flex-direction: row;*/
-  /*width: 100%;*/
+  flex-wrap: wrap;
+}
+#memberInfoModify .input_wrap .phone_number.select{
+  width: 100%;
+  margin-bottom: 0;
 }
 #memberInfoModify .input_wrap .phone_number .number_sec {
   margin-bottom: 0;
+}
+#memberInfoModify #phoneNumberMsg {
+  margin-top: 3px;
 }
 #memberInfoModify .option li{
   display: flex;
@@ -406,6 +418,9 @@
   padding: 5px 5px;
   width: 100%;
   height: 35px;
+}
+#memberInfoLogin .btn_wrap .btn1.submit_btn {
+  width: 100%;
 }
 .error_message {
   font-size: 12px;
