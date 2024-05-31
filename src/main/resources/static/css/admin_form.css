@@ -13,6 +13,9 @@ body {
 }
 
 .sidebar {
+    display: flex;
+    flex-direction: column;
+
     height: 100%;
     width: 200px;
     position: fixed;
@@ -56,8 +59,12 @@ body {
 .side_menu.top {
     padding-bottom: 20px;
 }
-.side_menu ul:nth-child(3) {
+.side_menu.menu {
+    height: 100%;
+}
+.side_menu.account {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     margin-top:20px;
     padding: 20px;
@@ -78,8 +85,10 @@ body {
 
 .content_tit {
     display: flex;
-    /*font-size: 18px;*/
-    padding: 20px 0 10px;
+    font-size: 18px;
+    padding: 10px 0;
+    border-bottom: 2px solid #333;
+    margin-bottom: 20px;
 }
 
 .content_tit h2 {
@@ -103,7 +112,7 @@ body {
 }
 .input_box_wrap select {
     color: #666;
-    height: 26px;
+    /*height: 26px;*/
     position: absolute;
     z-index: 2;
     background: transparent;
@@ -153,7 +162,7 @@ input::-webkit-inner-spin-button {
     -webkit-appearance: none;
 }
 
-select {
+.admin_wrap select {
     appearance: none;
     -moz-appearance: none;
     -webkit-appearance: none;
@@ -482,7 +491,8 @@ table img {
     white-space: nowrap;
 }
 
-th, td {
+.admin_wrap th,
+.admin_wrap td {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -598,6 +608,9 @@ thead .btn_cell {
     background: #eee;
     cursor: default;
 }
+.admin_wrap #join .submit_btn {
+    width: 100%;
+}
 /*admin_join_complete*/
 .admin_wrap #join_succ .join_succ_wrap {
     max-width: none;
@@ -619,4 +632,50 @@ thead .btn_cell {
 }
 .admin_wrap #login .btn_wrap .btn1 {
     width: 100%;
+}
+/*admin_notice*/
+.admin_wrap #noticeList {
+    margin-top: 0;
+}
+.admin_wrap .notice_wrap .form_title {
+    position: relative;
+    padding-left: 10px;
+    line-height: 16px;
+}
+.admin_wrap .notice_wrap .form_title::before {
+    display: inline-block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 4px;
+    height: 16px;
+    background: #1a4e99;
+    content: '';
+}
+#admin #noticeSearchForm {
+    padding: 10px 0;
+    border: 1px solid #333;
+    border-left: none;
+    border-right: none;
+    margin-bottom: 40px;
+}
+#admin #noticeSearchForm select {
+    appearance: auto;
+}
+#admin #noticeList th, #admin #noticeList td {
+    width: 80px;
+    text-align: center;
+}
+#admin #noticeList .title, #admin #noticeList .title a{
+    width: 100%;
+}
+.admin_wrap .notice_wrap .btn_wrap {
+    justify-content: flex-end;
+    gap: 8px;
+}
+.admin_wrap .notice_wrap .btn_wrap .btn1 {
+    width: 100px;
+}
+.admin_wrap .notice_wrap .btn_wrap.details.right {
+    margin-top: 10px;
 }

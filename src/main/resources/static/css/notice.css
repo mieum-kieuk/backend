@@ -66,12 +66,15 @@
     padding-bottom: 30px;
 }
 .notice_head .title {
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 500;
-    padding: 5px 10px;
+    padding: 5px 0;
 }
 .notice_head .description {
-    padding: 5px 10px;
+    padding: 5px 0;
+}
+.description span::before {
+    content: "";
 }
 .btn_wrap.details {
     justify-content: center;
@@ -91,8 +94,8 @@
 .notice_cont {
     border-top: 1px solid #333;
     border-bottom: 1px solid #333;
-    padding: 10px;
-    min-height: 400px;
+    padding: 10px 0;
+    min-height:  calc(100vh - 550px);
 }
 .notice_text {
     margin-bottom: 20px;
@@ -170,7 +173,7 @@
 /*}*/
 #noticeList .notice_table th, #noticeList .notice_table td {
     display: table-cell;
-    width: 100%;
+    /*width: 100%;*/
     min-width: 100px;
     text-align: center;
     padding: 20px 10px;
@@ -191,7 +194,7 @@
     resize: vertical;
 }
 .notice_table th, .notice_table td {
-    /*display: flex;*/
+    display: table-cell;
     padding: 10px;
     /*text-align: left;*/
 }
@@ -223,7 +226,6 @@
 }
 .btn_wrap .write_btn {
     width: 100px;
-    height: 30px;
     background: #222;
     color: #fff;
 }
