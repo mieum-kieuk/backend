@@ -27,7 +27,7 @@
 <div th:replace="~{/layout/header :: header}"></div>
 <div id="login">
     <div class="login_wrap">
-        <form action="" th:action method="post" th:onsubmit="return validationCheck()">
+        <form action="" th:action method="post" th:onsubmit="return validateBeforeSubmit()">
 
             <div class="field-error" th:if="${error}">
                 <p th:text="${errorMessage}"></p>
@@ -74,19 +74,4 @@
 </div>
 <div th:replace="~{/layout/footer :: fixed_footer}"></div>
 </body>
-<!--<script>-->
-<!--    let referrer = document.referrer.split('http://localhost:8080')[1];-->
-<!--    console.log(referrer);-->
-<!--    // window.addEventListener('pageshow', (event) => {-->
-<!--    window.addEventListener('beforeunload', function (e) {-->
-<!--        if (referrer == '/members/find-id/complete') {-->
-<!--            console.log('hi');-->
-<!--            location.href='/members/find-id';-->
-<!--        }-->
-<!--    });-->
-
-<!--    // if (referrer === '/members/find-id/complete') {-->
-<!--    //     window.history.go(-2);-->
-
-<!--</script>-->
 </html>

@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 @Component
-public class FormAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
+public class MemberAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     private RequestCache requestCache = new HttpSessionRequestCache();
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
