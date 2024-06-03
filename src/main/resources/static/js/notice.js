@@ -21,7 +21,8 @@ $(document).ready(function () {
             alert('내용을 작성해 주세요.');
             return false;
         }
-
+        $('.submit_btn').prop('disabled', true);
+        $('.submit_btn').addClass('disabled');
         return true;
     }
 });

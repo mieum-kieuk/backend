@@ -25,7 +25,6 @@
     min-height: calc( 100svh - 250px) ;
     margin-top: 150px;
     margin-bottom: 100px;
-    font-size: 12px;
 }
 
 .notice_wrap {
@@ -72,6 +71,7 @@
 }
 .notice_head .description {
     padding: 5px 0;
+    font-size: 12px;
 }
 .description span::before {
     content: "";
@@ -102,6 +102,7 @@
 }
 .notice_text {
     margin-bottom: 20px;
+    font-size: 12px;
 }
 .notice_img {
     display: flex;
