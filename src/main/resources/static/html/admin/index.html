@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>관리자 홈 | 미음키읔</title>
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Archivegarden" />
+    <meta property="og:description" content="" />
+    <meta property="og:image" content="" />
+    <meta property="og:url" content="" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/join.css" />
+    <link rel="stylesheet" href="../../css/comm.css" />
+    <link rel="stylesheet" href="../../css/admin_form.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script defer src="../../js/comm.js"></script>
+    <script defer src="../../js/adminJoin.js"></script>
+
+</head>
+<body>
+<div class="admin_wrap">
+    <div class="sidebar">
+        <div class="side_menu top">
+            <ul>
+                <li class="logo">
+                    <a href="../index.html">
+                        <img src="../../images/meek1.png" alt="로고">
+                    </a>
+                </li>
+                <li><a href="#">기본 설정</a></li>
+                <li><a href="../index.html">사이트 바로가기</a></li>
+            </ul>
+            <hr>
+        </div>
+        <div class="side_menu menu">
+            <h2>메뉴</h2>
+            <ul class="depth1">
+                <li>
+                    <a href="#">상품 관리</a>
+                    <ul class="depth2">
+                        <li><a href="#">상품 등록</a></li>
+                        <li><a href="#">상품 목록</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">할인 혜택 관리</a>
+                    <ul class="depth2">
+                        <li><a href="#">할인 등록</a></li>
+                        <li><a href="#">할인 목록</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">주문 관리</a>
+                    <ul class="depth2">
+                        <li><a href="#"></a></li>
+                        <li><a href="#"></a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">고객 관리</a>
+                    <ul class="depth2">
+                        <li><a href="#">고객 목록</a></li>
+                        <li><a href="#">고객 문의</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="./admins/admins_list.html">관리자 관리</a>
+                </li>
+            </ul>
+        </div>
+        <div class="side_menu account">
+            <ul>
+                <li><a href="../admin/admins/admin_login.html">로그인</a></li>
+                <li><a href="../admin/admins/admin_join.html">회원가입</a></li>
+                <li><a href="">로그아웃</a></li>
+            </ul>
+        </div>
+    </div>
+    <div id="admin">
+        <div class="content">
+            <h2 class="content_tit">관리자 홈</h2>
+            <div class="home_wrap">
+                <section>
+                    <div class="home_head">
+                        <h3 class="table_title">전체 주문 현황</h3>
+                        <a class="btn1" href="">주문내역 바로가기</a>
+                    </div>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>주문 번호</th>
+                            <th>주문 일자</th>
+                            <th>주문자</th>
+                            <th>주문 금액</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>2024-05-04</td>
+                            <td>김지우</td>
+                            <td>3,000원</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </section>
+                <section>
+                    <div class="home_head">
+                        <h3 class="table_title">최근 주문 내역</h3>
+                        <a class="btn1" href="">주문내역 바로가기</a>
+                    </div>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>주문 번호</th>
+                            <th>주문 일자</th>
+                            <th>주문 금액</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>123456789</td>
+                            <td>2024-05-04</td>
+                            <td>3,000원</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </section>
+                <section>
+                    <div class="home_head">
+                        <h3 class="table_title">최근 회원 가입</h3>
+                        <a class="btn1" href="">회원관리 바로가기</a>
+                    </div>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>회원 아이디</th>
+                            <th>이름</th>
+                            <th>회원등급</th>
+                            <th>이메일</th>
+                            <th>휴대전화번호</th>
+                            <th>적립금</th>
+                            <th>가입일</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>mary706</td>
+                            <td>김지우</td>
+                            <td>일반</td>
+                            <td>mary706@example.com</td>
+                            <td>010-4340-1954</td>
+                            <td>1,000p</td>
+                            <td>2024-05-04</td>
+                        </tr>
+                        </tbody>
+                        <tbody>
+                        <tr>
+                            <td>mary706</td>
+                            <td>김지우</td>
+                            <td>일반</td>
+                            <td>mary706@example.com</td>
+                            <td>010-4340-1954</td>
+                            <td>1,000p</td>
+                            <td>2024-05-04</td>
+                        </tr>
+                        </tbody>
+                        <tbody>
+                        <tr>
+                            <td>mary706</td>
+                            <td>김지우</td>
+                            <td>일반</td>
+                            <td>mary706@example.com</td>
+                            <td>010-4340-1954</td>
+                            <td>1,000p</td>
+                            <td>2024-05-04</td>
+                        </tr>
+                        </tbody>
+
+                    </table>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</body>
+</html>
