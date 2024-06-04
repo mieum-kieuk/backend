@@ -52,8 +52,7 @@ public class SecurityConfig {
 
         http
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/productImages/**").permitAll()
-                        .requestMatchers("/**").permitAll()
+                        .requestMatchers("/productImages/**", "/", "/members/**", "/shop/products/**").permitAll()
                         .anyRequest().authenticated()
                 );
 
@@ -66,6 +65,7 @@ public class SecurityConfig {
                         .loginProcessingUrl("/login")
                         .successHandler(authenticationSuccessHandler)
                         .failureHandler(authenticationFailureHandler)
+                        .permitAll()
                 );
 
         http

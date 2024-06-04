@@ -1,4 +1,4 @@
-package archivegarden.shop.controller.admin.member;
+package archivegarden.shop.controller.admin.admin;
 
 import archivegarden.shop.dto.admin.member.AddAdminForm;
 import archivegarden.shop.dto.member.NewMemberInfo;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping("/admin/members")
+@RequestMapping("/admin/admins")
 @RequiredArgsConstructor
 public class AdminAdminController {
 
@@ -21,7 +21,7 @@ public class AdminAdminController {
 
     @GetMapping("/join")
     public String addAdminForm(@ModelAttribute("form") AddAdminForm form) {
-        return "admin/members/admin_join";
+        return "admin/admins/join";
     }
 
     @PostMapping("/join")
@@ -35,19 +35,19 @@ public class AdminAdminController {
         }
 
         if(bindingResult.hasErrors()) {
-            return "admin/members/admin_join";
+            return "admin/admins/join";
         }
 
         Integer adminId = adminService.join(form);
         redirectAttributes.addFlashAttribute("adminId", adminId);
-        return "redirect:/admin/members/join/complete";
+        return "redirect:/admin/admins/join/complete";
     }
 
     @GetMapping("/join/complete")
     public String joinComplete(@ModelAttribute(name = "adminId") Integer adminId, Model model) {
         NewMemberInfo newAdminInfo = adminService.getNewAdminInfo(adminId);
         model.addAttribute("admin", newAdminInfo);
-        return "admin/members/admin_join_complete";
+        return "admin/admins/join_complete";
     }
 
     @ResponseBody

@@ -28,6 +28,7 @@ public class AdminAdminService {
         validateDuplicateAdmin(form);
 
         //비밀번호 암호화
+        encodePassword(form);
         passwordEncoder.encode(form.getPassword());
 
         //관리자 생성
@@ -37,6 +38,11 @@ public class AdminAdminService {
         adminRepository.save(admin);
 
         return admin.getId();
+    }
+
+    private void encodePassword(AddAdminForm form) {
+        String encodedPassword = passwordEncoder.encode(form.getPassword());
+        form.setPassword(encodedPassword);
     }
 
     /**

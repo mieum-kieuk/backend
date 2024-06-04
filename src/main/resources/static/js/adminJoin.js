@@ -40,7 +40,7 @@ function isLoginIdValid() {
 
     $.ajax({
         type: 'POST',
-        url: '/admin/members/verification/loginId',
+        url: '/admin/admins/verification/loginId',
         data: {loginId: loginId},
         beforeSend: function (xhr) {
             xhr.setRequestHeader(csrfHeader, csrfToken);
@@ -57,7 +57,7 @@ function isLoginIdValid() {
             }
         },
         error: function () {
-            $('#idMsg').text('아이디 중복 확인을 다시 시도해 주세요.');
+            $('#idMsg').text('아이디 중복 확인 중 오류가 발생했습니다. 다시 시도해 주세요.');
             $('#idMsg').removeClass('success').addClass('error');
         }
     });
@@ -161,7 +161,7 @@ function isEmailValid() {
 
     $.ajax({
         type: 'POST',
-        url: '/admin/members/verification/email',
+        url: '/admin/admins/verification/email',
         data: {email: email},
         beforeSend: function (xhr) {
             xhr.setRequestHeader(csrfHeader, csrfToken);
@@ -178,7 +178,7 @@ function isEmailValid() {
             }
         },
         error: function () {
-            $('#emailMsg').text('이메일 중복 확인을 다시 시도해 주세요.');
+            $('#emailMsg').text('이메일 중복 확인 중 오류가 발생했습니다. 다시 시도해 주세요.');
             $('#emailMsg').removeClass('success').addClass('error');
         }
     });

@@ -48,9 +48,9 @@
                 <ul class="depth1">
                     <li class="depth1_menu">Account
                         <ul class="depth2">
-                            <li sec:authorize="isAnonymous()"><a href="../login.html" th:href="@{/login}">Login</a></li>
-                            <li sec:authorize="isAnonymous()"><a href="../members/join.html" th:href="@{/members/join}">Join</a></li>
-                            <li sec:authorize="isAuthenticated()">
+                            <li sec:authorize="!hasRole('USER')"><a href="../login.html" th:href="@{/login}">Login</a></li>
+                            <li sec:authorize="!hasRole('USER')"><a href="../members/join.html" th:href="@{/members/join}">Join</a></li>
+                            <li sec:authorize="hasRole('USER')">
                                 <form th:action="@{/logout}" method="post">
                                     <button type="submit">Logout</button>
                                     <input type="hidden" name="${ _csrf.parameterName }" value="${ _csrf.token }">
