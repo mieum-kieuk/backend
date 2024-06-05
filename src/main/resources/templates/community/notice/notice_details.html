@@ -1,25 +1,19 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>공지 | 미음키읔</title>
 
-    <meta property="og:type" content="website"/>
-    <meta property="og:title" content="Tickers"/>
-    <meta property="og:description" content=""/>
-    <meta property="og:image" content=""/>
-    <meta property="og:url" content=""/>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
     <link rel="stylesheet" href="../../../static/css/comm.css" th:href="@{/css/comm.css}">
     <link rel="stylesheet" href="../../../static/css/notice.css" th:href="@{/css/notice.css}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script defer src="../../../static/js/notice.js" th:src="@{/js/notice.js}"></script>
     <script defer src="../../../static/js/comm.js" th:src="@{/js/comm.js}"></script>
 </head>
@@ -33,7 +27,7 @@
                 <div class="notice_head">
                     <h3 id="title" class="title" th:text="${notice.title}">공지 제목</h3>
                     <div class="description">
-                        <span class="id" th:text="${notice.writer}">작성자</span>
+                        <span class="id">관리자</span>
                         <span class="date" th:text="${notice.createdAt}">작성일</span>
                     </div>
                 </div>
@@ -44,14 +38,6 @@
                 </div>
             </div>
             <div class="btn_wrap details right">
-                <button type="button" class="btn1" onclick="location.href = './edit_notice.html'"
-                        th:onclick="|location.href='@{/community/notice/{noticeId}/edit(noticeId=${notice.id})}'|"
-                        sec:authorize="hasRole('ROLE_ADMIN')">수정
-                </button>
-                <button type="button" class="btn1 delete_btn" onclick="location.href = './notice_list.html'"
-                        th:onclick="|deleteOk(${notice.id})|"
-                        sec:authorize="hasRole('ROLE_ADMIN')">삭제
-                </button>
                 <button type="button" class="btn1" onclick="location.href = './notice_list.html'"
                         th:onclick="|location.href='@{/community/notice}'|">목록
                 </button>

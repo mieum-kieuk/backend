@@ -52,7 +52,8 @@ public class SecurityConfig {
 
         http
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/productImages/**", "/", "/members/**", "/shop/products/**").permitAll()
+                        .requestMatchers("/productImages/**", "/", "/members/**",
+                                "/shop/products/**", "/community/notice/**").permitAll()
                         .anyRequest().authenticated()
                 );
 
