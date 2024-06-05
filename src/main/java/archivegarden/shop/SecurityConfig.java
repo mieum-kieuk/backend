@@ -53,7 +53,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/productImages/**", "/", "/members/**",
-                                "/shop/products/**", "/community/notice/**").permitAll()
+                                "/shop/products/**", "/about/**", "/community/notice/**").permitAll()
                         .anyRequest().authenticated()
                 );
 

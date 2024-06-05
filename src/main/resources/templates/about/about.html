@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | 미음키읔</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../static/css/comm.css" th:href="@{/css/comm.css}"/>
+    <link rel="stylesheet" href="../../static/css/about.css" th:href="@{/css/about.css}"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+<div class="wrap">
+    <div th:replace="~{layout/header :: header}"></div>
+    <div id="aboutUs">
+        <div class="about_content">
+            <div class="about_video">
+                <video src="../../static/images/about.mov" th:src="@{/images/about.mov}" autoplay muted loop></video>
+            </div>
+            <div class="about_details">
+                <p class="title">
+                    Mieum Kieuk
+                </p>
+                <p class="subtitle" >메밀꽃 : 파도가 일 때 하얗게 부서지는 물보라를 비유적으로 이르는 말</p><br>
+                <p class="content">메밀꽃 단어에서 미음(ㅁ)과 키읔(ㅋ)을 조합하여 '미음키읔'이라는 이름을 만들었습니다. <p class="content">'미음키읔'은 자연의 본질을 담고, 파도의 물보라와 같은 생동감과 청량함을 추구합니다.</p>
+            </div>
+        </div>
+    </div>
+    <div th:replace="~{/layout/footer :: basic_footer}"></div>
+</div>
+</body>
+</html>
