@@ -44,7 +44,7 @@ public class AdminAuthenticationProvider implements AuthenticationProvider {
             throw new BadCredentialsException("비밀번호가 일치하지 않습니다.");
         }
 
-        return new AdminAuthenticationToken(adminContext.getAdmin(), null, adminContext.getAuthorities());
+        return new AdminAuthenticationToken(adminContext, null, adminContext.getAuthorities());
     }
 
     @Override

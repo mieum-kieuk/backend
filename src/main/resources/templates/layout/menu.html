@@ -1,33 +1,68 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org">
 <body>
-<div class="sidebar" th:fragment="admin_menu">
-    <div class="side_menu top">
-        <ul>
-            <li class="logo">
-                <a href="">
-                    <img src="../../static/images/meek2.png" th:src="@{/images/meek2.png}" alt="로고">
-                </a>
-            </li>
-            <li><a href="#">기본 설정</a></li>
-            <li><a href="../index.html" th:href="@{/}">사이트 바로가기</a></li>
-        </ul>
-        <hr>
+<div class="sidebar" th:fragment="admin_menu_authenticated">
+    <div class="sidebar">
+        <div class="side_menu top">
+            <ul>
+                <li class="logo">
+                    <a href="../index.html">
+                        <img src="../../static/images/meek2.png" th:src="@{/images/meek2.png}" alt="로고">
+                    </a>
+                </li>
+                <li><a href="../index.html" th:href="@{/}">사이트 바로가기</a></li>
+            </ul>
+            <hr>
+        </div>
+        <div class="side_menu menu">
+            <h2>메뉴</h2>
+            <ul class="depth1">
+                <li>
+                    <a href="#">상품 관리</a>
+                    <ul class="depth2">
+                        <li><a href="#">상품 등록</a></li>
+                        <li><a href="#">상품 목록</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">할인 혜택 관리</a>
+                    <ul class="depth2">
+                        <li><a href="#">할인 등록</a></li>
+                        <li><a href="#">할인 목록</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">주문 관리</a>
+                    <ul class="depth2">
+                        <li><a href="#"></a></li>
+                        <li><a href="#"></a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">고객 관리</a>
+                    <ul class="depth2">
+                        <li><a href="#">고객 목록</a></li>
+                        <li><a href="#">고객 문의</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="./admins/admins_list.html">관리자 관리</a>
+                </li>
+            </ul>
+        </div>
+        <div class="side_menu account">
+            <ul>
+                <li><a th:href="@{/admin/logout}">로그아웃</a></li>
+            </ul>
+        </div>
     </div>
-    <div class="side_menu">
-        <h2>메뉴</h2>
-        <ul>
-            <li><a href="../admin/shop/product/product_list.html" th:href="@{/admin/shop/products}">상품 관리</a></li>
-            <li><a href="../admin/promotion/discount/discount_list.html" th:href="@{/admin/promotion/discounts}">할인 혜택
-                관리</a></li>
-            <li><a href="#">주문 관리</a></li>
-            <li><a href="#">고객 관리</a></li>
-        </ul>
+</div>
+
+<div class="sidebar account" th:fragment="admin_menu_anonymous">
+    <div class="side_menu account">
         <ul>
             <li><a href="../admin/login.html" th:href="@{/admin/login}">로그인</a></li>
             <li><a href="../admin/admins/join.html" th:href="@{/admin/admins/join}">회원가입</a></li>
-            <li><a th:href="@{/admin/logout}">로그아웃</a></li>
         </ul>
     </div>
 </div>

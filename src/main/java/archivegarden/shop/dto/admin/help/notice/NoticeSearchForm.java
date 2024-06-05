@@ -1,4 +1,4 @@
-package archivegarden.shop.dto.community.notice;
+package archivegarden.shop.dto.admin.help.notice;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

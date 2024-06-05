@@ -620,15 +620,16 @@ thead .btn_cell {
 }
 
 /*field error*/
-.field-error {
-    margin: -20px 0 20px 140px;
-}
-.admin_member .field-error {
-    margin: 0;
-}
-.field-error.exc {
-    margin: 0 0 5px 140px;
-}
+/*.field-error {*/
+/*    margin: -20px 0 20px 140px;*/
+/*}*/
+/*#admin .field-error,*/
+/*.admin_member .field-error {*/
+/*    margin: 0;*/
+/*}*/
+/*.field-error.exc {*/
+/*    margin: 0 0 5px 140px;*/
+/*}*/
 /*admin member 공통*/
 .admin_wrap #join, .admin_wrap #join_succ, .admin_wrap #login, .admin_wrap #find {
     padding-top: 0;

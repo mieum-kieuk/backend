@@ -5,9 +5,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.util.NoSuchElementException;
+
 @Slf4j
 @ControllerAdvice
 public class ExceptionController {
+
+    @ExceptionHandler(NoSuchElementException.class)
+    public String noSuchElementException(NoSuchElementException e) {
+        return "error/no_such_element_exception.html";
+    }
 
     @ExceptionHandler(NoSuchDiscountException.class)
     public String noSuchDiscountException(NoSuchDiscountException e) {

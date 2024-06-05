@@ -3,56 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>공지 수정 | 미음키읔</title>
+    <title>공지사항 | 미음키읔</title>
 
-    <meta property="og:type" content="website"/>
-    <meta property="og:title" content="Tickers"/>
-    <meta property="og:description" content=""/>
-    <meta property="og:image" content=""/>
-    <meta property="og:url" content=""/>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../../../static/css/comm.css" th:href="@{/css/comm.css}"/>
+    <link rel="stylesheet" href="../../../../static/css/admin_form.css" th:href="@{/css/admin_form.css}">
+    <link rel="stylesheet" href="../../../../static/css/notice.css" th:href="@{/css/notice.css}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="../../../static/css/comm.css" th:href="@{/css/comm.css}">
-    <link rel="stylesheet" href="../../../static/css/notice.css" th:href="@{/css/notice.css}">
-    <script defer src="../../../static/js/comm.js" th:src="@{/js/comm.js}"></script>
-    <script defer src="../../../static/js/notice.js" th:src="@{/js/notice.js}"></script>
+    <script defer src="../../../../static/js/notice.js" th:src="@{/js/notice.js}"></script>
 </head>
 <body>
-<div class="wrap">
-    <div th:replace="~{/layout/header :: header }"></div>
-    <div id="notice">
-        <div class="notice_wrap">
-            <h1 class="notice_tit">Notice</h1>
-            <form id="noticeForm" action="" th:action th:object="${notice}" method="post">
-                <table class="notice_table">
-                    <tr>
-                        <th><label for="title">제목</label></th>
-                        <td><input type="text" id="title" th:field="*{title}" placeholder="제목을 입력해 주세요." maxlength="50"></td>
-                        <div class="field-error" th:errors="*{title}"></div>
-                    </tr>
-                    <tr>
-                        <td colspan="2">
-                            <textarea id="content" th:field="*{content}" rows="30" placeholder="내용을 작성해 주세요."></textarea>
-                            <div class="field-error" th:errors="*{content}"></div>
-                        </td>
-                    </tr>
-                </table>
-                <div class="btn_wrap">
-                    <button type="button" class="btn1" onclick="location.href='./notice_details.html'"
-                            th:onclick="|location.href='@{/community/notice/{noticeId}(noticeId=${notice.id})}'|">
-                        취소
-                    </button>
-                    <button type="submit" id="submitBtn" class="btn1 submit_btn">완료</button>
-                </div>
-            </form>
+<div class="admin_wrap">
+    <div th:replace="~{/layout/menu :: admin_menu_authenticated}"></div>
+    <div id="admin">
+        <div class="content">
+            <h2 class="content_tit">공지사항</h2>
+            <div class="notice_wrap">
+                <form id="noticeForm" action="" th:action th:object="${form}" method="post" th:onsubmit="return validateBeforeSubmit()">
+                    <table class="notice_table">
+                        <tr>
+                            <th><label for="title">제목</label></th>
+                            <td>
+                                <input type="text" id="title" th:field="*{title}" placeholder="제목을 작성해 주세요." maxlength="50">
+                                <div class="field-error" th:errors="*{title}"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <textarea id="content" th:field="*{content}" rows="30" placeholder="내용을 작성해 주세요."></textarea>
+                                <div class="field-error" th:errors="*{content}"></div>
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="btn_wrap">
+                        <button type="button" class="btn1" onclick="location.href ='./notice_list.html'"
+                                th:onclick="|location.href='@{/admin/notice/{noticeId}(noticeId=${form.id})}'|">취소</button>
+                        <button type="submit" id="submitBtn" class="btn1 submit_btn">완료</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-    <div th:replace="~{/layout/footer :: basic_footer}"></div>
 </div>
 </body>
+</html>
