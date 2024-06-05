@@ -17,7 +17,6 @@ body {
 .sidebar {
     display: flex;
     flex-direction: column;
-
     height: 100%;
     width: 200px;
     position: fixed;
@@ -28,7 +27,9 @@ body {
     text-align: center;
     color: #eee;
 }
-
+.sidebar.account {
+    justify-content: flex-end;
+}
 .sidebar h2 {
     font-size: 18px;
     padding: 20px 0;
@@ -628,13 +629,7 @@ thead .btn_cell {
 .field-error.exc {
     margin: 0 0 5px 140px;
 }
-.admin_wrap .admin_member label {
-    font-size: 14px;
-    margin: 4px 0 8px;
-    color: #222;
-    font-weight: 400;
-}
-/*admin_join*/
+/*admin member 공통*/
 .admin_wrap #join, .admin_wrap #join_succ, .admin_wrap #login, .admin_wrap #find {
     padding-top: 0;
     justify-content: center;
@@ -643,6 +638,31 @@ thead .btn_cell {
     max-width: 450px;
     width: 100%;
 }
+.admin_wrap .admin_member .content form {
+    max-width: none;
+    width: 100%;
+}
+.admin_wrap .admin_member label {
+    font-size: 14px;
+    margin: 4px 0 8px;
+    color: #222;
+    font-weight: 400;
+}
+.admin_wrap .admin_member .find_wrap {
+    margin-top: 50px;
+}
+.admin_wrap .admin_member .success_message span {
+    display: block;
+    text-align: center;
+    width: 100%;
+}
+.admin_wrap .admin_member .btn_wrap .btn1.submit_btn {
+    width: 100%;
+}
+.admin_wrap .admin_member .find_wrap .btn_wrap .btn1.login_btn {
+    width: 50%;
+}
+/*admin_join*/
 .admin_wrap .join_tit, .admin_wrap .addinfo {
     margin: 4px 0 8px;
 }
@@ -658,9 +678,6 @@ thead .btn_cell {
 .admin_wrap #join #name {
     background: #eee;
     cursor: default;
-}
-.admin_wrap #join .submit_btn {
-    width: 100%;
 }
 /*admin_join_complete*/
 .admin_wrap #join_succ .join_succ_wrap {
