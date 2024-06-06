@@ -12,6 +12,7 @@ $(function () {
     }, 10000)
 })
 $(document).ready(function() {
+
     $('input[type="text"]').on('input', function (e) {
         let maxLength = $(this).attr('maxlength');
         let textLength = e.target.value.length;
@@ -49,5 +50,12 @@ $(document).ready(function() {
         e.stopPropagation();
     });
 
+    // $(window).load(function(){
+    //     $('.loader').delay('1000').fadeOut();
+    // });
+    $('.side_menu.menu .depth1 > li > a').click(function(event) {
+        let depth1 = $(this).parent('li');
 
+        depth1.find('.depth2').slideToggle();
+    });
 });

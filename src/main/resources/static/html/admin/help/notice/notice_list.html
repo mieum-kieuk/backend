@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="../../../../css/admin_form.css">
     <link rel="stylesheet" href="../../../../css/notice.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script defer src="../../../../js/notice.js"></script>
+    <script defer src="../../../../js/comm.js"></script>
 
 </head>
 <body>
@@ -28,28 +28,58 @@
         <div class="side_menu top">
             <ul>
                 <li class="logo">
-                    <a href="../index.html">
-                        <img src="../../images/meek1.png" alt="로고">
+                    <a href="../../../index.html">
+                        <img src="../../../../images/meek1.png" alt="로고">
                     </a>
                 </li>
-                <li><a href="#">기본 설정</a></li>
-                <li><a href="../index.html">사이트 바로가기</a></li>
+                <li><a href="../../../index.html">사이트 바로가기</a></li>
             </ul>
             <hr>
         </div>
         <div class="side_menu menu">
             <h2>메뉴</h2>
-            <ul>
-                <li><a href="#">상품 관리</a></li>
-                <li><a href="#">할인 혜택 관리</a></li>
-                <li><a href="#">주문 관리</a></li>
-                <li><a href="#">고객 관리</a></li>
+            <ul class="depth1">
+                <li>
+                    <a href="#">상품 관리</a>
+                    <ul class="depth2">
+                        <li><a href="../../../admin/shop/product/add_product.html">상품 등록</a></li>
+                        <li><a href="../../../admin/shop/product/product_list.html">상품 목록</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">할인 혜택 관리</a>
+                    <ul class="depth2">
+                        <li><a href="../../../admin/promotion/discount/add_discount.html">할인 등록</a></li>
+                        <li><a href="../../../admin/promotion/discount/discount_list.html">할인 목록</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">주문 관리</a>
+                    <ul class="depth2">
+                        <li><a href="#"></a></li>
+                        <li><a href="#"></a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="../../../admin/member/member_list.html">고객 관리</a>
+                </li>
+                <li>
+                    <a href="#">고객 지원</a>
+                    <ul class="depth2">
+                        <li><a href="../../../admin/help/notice/notice_list.html">공지사항</a></li>
+                        <li><a href="../../../admin/help/inquiry/qna_list.html">상품 문의</a></li>
+                        <li><a href="../../../admin/help/inquiry/personal_inquiry_list.html">1:1 문의</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="../../../admin/admins/admins_list.html">관리자 관리</a>
+                </li>
             </ul>
         </div>
         <div class="side_menu account">
             <ul>
-                <li><a href="">로그인</a></li>
-                <li><a href="">회원가입</a></li>
+                <li><a href="../../../admin/admins/admin_login.html">로그인</a></li>
+                <li><a href="../../../admin/admins/admin_join.html">회원가입</a></li>
                 <li><a href="">로그아웃</a></li>
             </ul>
         </div>
@@ -84,6 +114,7 @@
                             <th>작성일</th>
                         </tr>
                         </thead>
+                        <tbody>
                         <tr id="noDataMessage">
                             <td colspan="3">등록된 공지가 없습니다.</td>
                         </tr>
@@ -92,6 +123,12 @@
                             <td class="title"><span id="title" ><a href="./notice_details.html">[notice] 게시판 고객 상담 센터 운영 시간 변경 안내 (4.8 기준)</a></span></td>
                             <td><span id="date">2024.04.08</span></td>
                         </tr>
+                        <tr>
+                            <td><span>3</span></td>
+                            <td class="title"><span id="title" ><a href="./notice_details.html">[notice] 게시판 고객 상담 센터 운영 시간 변경 안내 (4.8 기준)</a></span></td>
+                            <td><span id="date">2024.04.08</span></td>
+                        </tr>
+                        </tbody>
                     </table>
                     <div class="btn_wrap">
                         <button type="button" class="btn1 write_btn" onclick="location.href = '../../../admin/help/notice/edit_notice.html'"> 작성</button>

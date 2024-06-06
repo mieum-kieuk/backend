@@ -249,7 +249,6 @@ function validateBeforeSubmit() {
         return false;
     }
 
-    $('.submit_btn').addClass('disabled');
     $('.submit_btn').prop('disabled', true);
 
     return true;
