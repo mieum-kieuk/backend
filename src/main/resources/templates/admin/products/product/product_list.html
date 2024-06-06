@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title>상품 관리 | 미음키읔</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -10,15 +12,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
     <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"/>
-    <link rel="stylesheet" href="../../../../static/css/comm.css" th:href="@{/css/comm.css}">
-    <link rel="stylesheet" href="../../../../static/css/admin_form.css" th:href="@{/css/admin_form.css}">
+    <link rel="stylesheet" href="../../../static/css/comm.css" th:href="@{/css/comm.css}">
+    <link rel="stylesheet" href="../../../static/css/admin_form.css" th:href="@{/css/admin_form.css}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script defer src="../../../../static/js/adminProduct.js" th:src="@{/js/adminProduct.js}"></script>
+    <script defer src="../../../static/js/comm.js" th:src="@{/js/comm.js}"></script>
+    <script defer src="../../../static/js/adminProduct.js" th:src="@{/js/adminProduct.js}"></script>
 </head>
 <body>
 <div class="admin_wrap">
-    <div th:replace="~{/layout/menu :: admin_menu}"></div>
-    <div id="productList" class="wrapper">
+    <div th:replace="~{/layout/menu :: admin_menu_authenticated}"></div>
+    <div id="admin">
         <div class="content">
             <div class="content_tit">
                 <h2>상품 목록</h2>
@@ -52,17 +55,17 @@
                         <input type="checkbox" name="checkbox" th:id="'checkbox' + ${product.id}">
                     </td>
                     <td>
-                        <a href="./product_details.html"
+                        <a href="product_details.html"
                            th:href="@{/admin/shop/products/{productId}(productId=${product.id})}">
-                            <img id="displayImage1" th:src="|/productImages/${product.displayImage1}|"></a>
+                            <img id="displayImage" th:src="|/productImages/${product.displayImage}|"></a>
                     </td>
-                    <td><a href="./product_details.html"
+                    <td><a href="product_details.html"
                            th:href="@{/admin/shop/products/{productId}(productId=${product.id})}" id="name"
                            th:text="${product.name}"></a></td>
-                    <td><span id="category" th:text="${product.categoryName}"></span></td>
-                    <td><span id="price">[[${product.price}]]원</span></td>
-                    <td><span id="salePrice">[[${product.salePrice}]]원</span></td>
-                    <td><span id="stockQuantity">[[${product.stockQuantity}]]개</span></td>
+                    <td><span id="category" th:text="${product.category}"></span></td>
+                    <td><span id="price" th:text="${product.price}"></span></td>
+                    <td><span id="salePrice" th:text="${product.salePrice}"></span></td>
+                    <td><span id="stockQuantity" th:text="${product.stockQuantity}"></span></td>
                     <td class="btn_cell">
                         <div class="menu">
                             <button class="menu_toggle">
@@ -71,7 +74,7 @@
                             <div class="dropdown_menu">
                                 <ul>
                                     <li>
-                                        <button class="edit_btn" onclick="location.href = './edit_product.html'"
+                                        <button class="edit_btn" onclick="location.href = 'edit_product.html'"
                                                 th:onclick="|location.href='@{/admin/shop/products/{productId}/edit(productId=${product.id})}'|">
                                             수정
                                         </button>
@@ -92,16 +95,28 @@
     </div>
     <div class="pagination" th:if="${products.totalPages} > 0">
         <ul>
-            <li><a href="./product_list.html" th:href="@{/admin/shop/products}" class="prev_first"><span
-                    class="material-symbols-outlined">navigate_before</span></a></li>
-            <li><a class="prev">Prev</a></li>
-            <li th:each="page : ${#numbers.sequence(1, products.totalPages)}">
-                <a href="./product_list.html" th:href="@{/admin/shop/products(page=${page})}" th:id="${page}"
-                   th:text="${page}"></a>
+            <li>
+                <a href="./product_list.html" th:href="@{/admin/shop/products}" class="prev_first">
+                    <span class="material-symbols-outlined">navigate_before</span>
+                </a>
             </li>
-            <li><a href="#" class="next">Next</a></li>
-            <li><a href="./product_list.html" th:href="@{/admin/shop/products(page=${products.totalPages})}"
-                   class="next_last"><span class="material-symbols-outlined">navigate_next</span></a></li>
+            <li>
+                <a href="./product_list.html" th:href="@{/admin/shop/products(page=${products.number})}"
+                   class="prev" th:classappend="${!products.hasPrevious()} ? 'disabled'">Prev</a>
+            </li>
+            <li th:each="page : ${#numbers.sequence(1, products.totalPages)}">
+                <a href="./product_list.html" th:href="@{/admin/shop/products(page=${page})}"
+                   class="page" th:classappend="${page == products.number + 1} ? 'active'" th:text="${page}">1</a>
+            </li>
+            <li>
+                <a href="./product_list.html" th:href="@{/admin/shop/products(page=${products.number + 2})}"
+                   class="next" th:classappend="${!products.hasNext()} ? 'disabled'">Next</a>
+            </li>
+            <li>
+                <a href="./product_list.html" th:href="@{/admin/shop/products(page=${products.totalPages})}" class="next_last">
+                    <span class="material-symbols-outlined">navigate_next</span>
+                </a>
+            </li>
         </ul>
     </div>
 </div>

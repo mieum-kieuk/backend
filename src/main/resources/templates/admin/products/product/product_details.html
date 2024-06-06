@@ -10,14 +10,15 @@
     <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"/>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../../../../static/css/comm.css" th:href="@{/css/comm.css}">
-    <link rel="stylesheet" href="../../../../static/css/admin_form.css" th:href="@{/css/admin_form.css}">
+    <link rel="stylesheet" href="../../../static/css/comm.css" th:href="@{/css/comm.css}">
+    <link rel="stylesheet" href="../../../static/css/admin_form.css" th:href="@{/css/admin_form.css}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script defer src="../../../../static/js/adminProduct.js" th:src="@{/js/adminProduct.js}"></script>
+    <script defer src="../../../static/js/comm.js" th:src="@{/js/comm.js}"></script>
+    <script defer src="../../../static/js/adminProduct.js" th:src="@{/js/adminProduct.js}"></script>
 </head>
 <body>
 <div class="admin_wrap">
-    <div th:replace="~{/layout/menu :: admin_menu}"></div>
+    <div th:replace="~{/layout/menu :: admin_menu_authenticated}"></div>
     <div id="productDetails" class="details_wrap">
         <div class="content">
             <h2 class="content_tit">상품 상세정보</h2>
@@ -33,15 +34,15 @@
                     </tr>
                     <tr>
                         <th class="input_tit">상품 가격</th>
-                        <td id="price">[[${product.price}]]원</td>
+                        <td id="price" th:text="${product.price}"></td>
                     </tr>
                     <tr>
                         <th class="input_tit">할인</th>
-                        <td id="discountName" th:text="${product.discountName}?:'할인 혜택이 없습니다.'"></td>
+                        <td id="discountName" th:text="${product.discountName}"></td>
                     </tr>
                     <tr>
                         <th class="input_tit">재고</th>
-                        <td id="stockQuantity">[[${product.stockQuantity}]]개</td>
+                        <td id="stockQuantity" th:text="${product.stockQuantity}"></td>
                     </tr>
                     <tr>
                         <th class="input_tit">상품 상세정보</th>
@@ -59,26 +60,13 @@
                         <th class="input_tit">주의 사항</th>
                         <td id="notice" th:text="${product.notice}">주의 사항</td>
                     </tr>
-<!--                    <tr>-->
-<!--                        <th class="input_tit">섬네일 사진1</th>-->
-<!--                        <td class="details_images_container">-->
-<!--                            <img th:src="|/productImages/${product.displayImage1}|">-->
-<!--                        </td>-->
-<!--                    </tr>-->
-<!--                    <tr>-->
-<!--                        <th class="input_tit">섬네일 사진2</th>-->
-<!--                        <td class="details_images_container">-->
-<!--                            <div th:if="${product.displayImage2} == null">첨부된 사진이 없습니다.</div>-->
-<!--                            <img th:if="${product.displayImage2} != null" th:src="|/productImages/${product.displayImage2}|">-->
-<!--                        </td>-->
-<!--                    </tr>-->
                     <tr>
                         <th class="input_tit">
                             <div class="input_tit details">섬네일 사진1</div>
                         </th>
                         <td>
                             <div class="details_images_container">
-                                <img th:src="|/productImages/${product.displayImage1}|">
+                                <img th:src="|/productImages/${product.displayImage}|">
                             </div>
                         </td>
                     </tr>
@@ -87,9 +75,9 @@
                             <div class="input_tit details">섬네일 사진2</div>
                         </th>
                         <td>
-                            <span th:if="${product.displayImage2} == null">첨부파일이 없습니다.</span>
+                            <span th:if="${product.hoverImage} == null">첨부파일이 없습니다.</span>
                             <div class="details_images_container">
-                                <img th:if="${product.displayImage2} != null" th:src="|/productImages/${product.displayImage2}|">
+                                <img th:if="${product.hoverImage} != null" th:src="|/productImages/${product.hoverImage}|">
                             </div>
                         </td>
 
@@ -109,13 +97,13 @@
                 </table>
             </div>
             <div class="input_box_wrap btn">
-                <button class="btn1" onclick="location.href='./edit_product.html'"
+                <button class="btn1" onclick="location.href='edit_product.html'"
                         th:onclick="|location.href='@{/admin/shop/products/{productId}/edit(productId=${product.id})}'|">수정
                 </button>
-                <button class="btn1" onclick="location.href='./product_list.html'"
+                <button class="btn1" onclick="location.href='product_list.html'"
                         th:onclick="|deleteOk(${product.id})|">삭제
                 </button>
-                <button class="btn1" onclick="location.href='./product_list.html'"
+                <button class="btn1" onclick="location.href='product_list.html'"
                         th:onclick="|location.href='@{/admin/shop/products}'|">목록
                 </button>
             </div>
