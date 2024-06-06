@@ -35,18 +35,21 @@ body {
     padding: 20px 0;
 }
 
-.sidebar ul > li {
-    /*padding: 10px;*/
-}
-
 .sidebar a {
     color: #eee;
-    font-size: 13px;
-    padding: 10px;
+    font-size: 14px;
+    padding: 14px;
     display: block;
     width: 100%;
 }
-
+.sidebar .depth1 > li {
+    margin: 0 20px;
+    border-bottom: 1px solid #666;
+}
+.sidebar .depth2 {
+    border-top: 1px solid #666;
+    background: #333;
+}
 .sidebar ul li a:hover {
     color: #fff;
 }
@@ -70,10 +73,12 @@ body {
 .side_menu.menu .depth2 {
     display: none;
 }
-.side_menu.menu li.active .depth2 {
-    display: block;
+/*.side_menu.menu li.active .depth2 {*/
+/*    display: block;*/
+/*}*/
+.side_menu .active {
+    background: #666;
 }
-
 .side_menu.account {
     display: flex;
     flex-direction: column;
@@ -318,7 +323,7 @@ input::-webkit-inner-spin-button {
 }
 
 .text.description span {
-    font-size: 11px;
+    font-size: 12px;
     color: #666;
 }
 
@@ -635,6 +640,7 @@ thead .btn_cell {
 .admin_wrap .admin_member .content {
     max-width: 450px;
     width: 100%;
+    padding: 20px 0;
 }
 .admin_wrap .admin_member .content form {
     max-width: none;
@@ -661,6 +667,12 @@ thead .btn_cell {
     width: 50%;
 }
 /*admin_join*/
+.admin_wrap #join .content {
+    max-width: 550px;
+}
+.admin_wrap #join .input_wrap {
+    margin-bottom: 20px;
+}
 .admin_wrap .join_tit, .admin_wrap .addinfo {
     margin: 4px 0 8px;
 }
@@ -684,7 +696,7 @@ thead .btn_cell {
 }
 /*admin_login*/
 .admin_wrap #login .content{
-    max-width: 400px;
+    max-width: 380px;
     width: 100%;
 }
 .admin_wrap #login .content_tit{
@@ -780,6 +792,9 @@ thead .btn_cell {
     border-right: none;
     margin-bottom: 40px;
 }
+.admin_wrap .search_form select {
+    appearance: auto;
+}
 #admin select {
     appearance: auto;
 }
@@ -808,13 +823,6 @@ thead .btn_cell {
 }
 .admin_wrap .qna_wrap.list .qna_table .title_td a{
     display: flex;
-}
-.admin_wrap .qna_wrap .qna_table .answer.complete {
-    color: #43972a;
-    /*color: #3273F6;*/
-}
-.admin_wrap .qna_wrap .qna_table .answer.pending {
-    color: #999999;
 }
 .admin_wrap .qna_wrap.details {
     border-bottom: none;
