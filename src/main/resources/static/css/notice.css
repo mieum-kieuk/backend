@@ -41,10 +41,7 @@
 .notice_table th {
     width: 80px;
     text-align: left;
-}
-.notice_table tr:first-child {
-    /*border-bottom: 1px solid #333;*/
-}
+}s
 .item_img {
     display: block;
     width: 80px;
@@ -71,6 +68,7 @@
 .notice_head .description {
     padding: 5px 0;
     font-size: 13px;
+    color: #666;
 }
 .description span::before {
     content: "";
@@ -161,6 +159,9 @@
 .notice_table thead th{
     font-weight: 500;
 }
+#noticeList .notice_table thead tr{
+    border-bottom: 1px solid #333;
+}
 #noticeList .notice_table tr {
     border: none;
     border-bottom: 1px solid #d7d7d7 ;
@@ -189,7 +190,7 @@
 .notice_table td textarea {
     width: 100%;
     height: 450px;
-    resize: vertical;
+    resize: none;
 }
 .notice_table th, .notice_table td {
     display: table-cell;

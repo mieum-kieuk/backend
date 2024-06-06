@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Q&A 상세 | 미음키읔</title>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="미음키읔" />
+    <meta property="og:description" content="" />
+    <meta property="og:image" content="" />
+    <meta property="og:url" content="" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="../../../css/comm.css">
+    <link rel="stylesheet" href="../../../css/qna.css">
+    <script defer src="../../../js/comm.js"></script>
+    <script defer src="../../../js/qna.js"></script>
+</head>
+<body>
+<div class="wrap">
+    <header id="header" class="header">
+        <nav id="gnb">
+            <div class="logo">
+                <a href="../../index.html">
+                    <img src="../../images/tickers_logo.png" alt="로고">
+                </a>
+            </div>
+            <div class="gnb_menu center">
+                <ul class="depth1">
+                    <li class="depth1_menu" id="shop">
+                        <a href="../../shop/product_list.html">Shop</a>
+                        <ul class="depth2">
+                            <li><a href="../../shop/product_list.html">Masking tape</a></li>
+                            <li><a href="../../shop/product_list.html">Sticker</a></li>
+                            <li><a href="../../shop/product_list.html">Memo</a></li>
+                        </ul>
+                    </li>
+                    <li class="depth1_menu" id="about"><a href="../about.html">About</a>
+                    </li>
+                    <li class="depth1_menu" id="community">Community
+                        <ul class="depth2">
+                            <li><a href="../help/notice/notice.html">Notice</a></li>
+                            <li><a href="/qna.html">Q&amp;A</a></li>
+                            <li><a href="../review/review.html">Review</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="gnb_menu">
+                <div class="search">
+                    <form action="#" method="get">
+                        <button type="button" >Search</button>
+                    </form>
+                    <div class="search_popup">
+                        <div class="search_bg"></div>
+                        <div class="search_form_wrap">
+                            <form action="../../search/search_complete.html" method="get">
+                                <input type="text" placeholder="검색어를 입력하세요.">
+                                <button type="submit" class="search_btn">Search</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="account">
+                    <ul class="depth1">
+                        <li class="depth1_menu">Account
+                            <ul class="depth2">
+                                <li><a href="../../members/login.html">Login</a></li>
+                                <li><a href="../../members/join.html">Join</a></li>
+                                <li><a href="../members/order.html">Order</a></li>
+                                <li><a href="../members/mypage.html">Mypage</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div class="cart">
+                    <a href="../../cart/cart.html" >Cart(0)
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div id="qna">
+        <div class="qna_wrap details">
+            <h1 class="qna_title">Q&A</h1>
+            <div class="qna_content">
+                <div class="qna_info">
+                    <div id="qnaItem" class="qna_item">
+                        <div class="thumbnail">
+                            <a href=""><img id="productImg" class="item_img" src="../../../images/display_thumb2.jpeg" alt="상품 이미지"></a>
+                        </div>
+                        <div class="description">
+                            <a href=""><span id="productName" class="item_name">Display masking tape</span></a>
+                            <a href=""><span id="productPrice" class="item_price">3,000원</span></a>
+                        </div>
+                    </div>
+                    <div class="qna_tit" >
+                        <h3 id="title">재입고 문의</h3>
+                        <div class="description">
+                            <span class="id">작성자</span>
+                            <span class="date">작성일</span>
+                        </div>
+                    </div>
+                    <div class="qna_cont" id="content">
+                        <div class="qna_text">
+                            재입고 언제 되나요?
+                        </div>
+                        <div class="qna_img">
+                            <img id="image1" src="" alt="첨부 파일1">
+                            <img id="image2" src="" alt="첨부 파일2">
+                            <img id="image3" src="" alt="첨부 파일3">
+                            <img id="image4" src="" alt="첨부 파일4">
+                            <img id="image5" src="" alt="첨부 파일5">
+                        </div>
+                        <div class="qna_file">
+                            <a href="#" onclick="">첨부파일 : </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="btn_wrap details right">
+                <button type="button" class="btn1" onclick="location.href = 'edit_qna.html'"> 수정</button>
+                <button type="button" class="btn1">삭제</button>
+                <button type="button" class="btn1 list_btn" onclick="location.href = 'qna_list.html'">목록</button>
+            </div>
+        </div>
+        <div class="cmt_wrap">
+            <div class="cmt_tit"><h3>답변</h3></div>
+
+            <div class="comment">
+                <div class="cmt_info">
+                    <span class="id">관리자</span>
+                    <span class="date">작성일</span>
+                </div>
+                <div class="cmt_content">
+                <span>안녕하세요 :)
+                <br><br>
+                받아보신 상품 마음에 드셨다니 정말 다행이에요 ! ㅎㅎ<br>
+                앞으로도 더 예쁜 상품들 많이 보여드릴 수 있도록 하겠습니다.<br>
+                소중한 후기 감사드려요 !<br>
+                <br>
+                행복한 하루 보내세요 ~!
+                </span>
+                </div>
+            </div>
+        </div>
+        <div class="page">
+            <ul>
+                <li class="prev"><a href="#"><span class="label">이전 글</span></a></li>
+                <li class="next"><a href="#"><span class="label">다음 글</span></a></li>
+            </ul>
+        </div>
+    </div>
+    <footer id="footer" class="footer">
+        <div class="footer_wrap">
+            <div class="footer_inner">
+                <ul>
+                    <li><a href="">Instagram</a></li>
+                </ul>
+            </div>
+            <div class="footer_inner">
+                <ul>
+                    <li><a href="">Terms of Use</a></li>
+                    <li><a href="">Privacy Policy</a></li>
+                    <li><a href="">Shop Guide</a></li>
+                </ul>
+            </div>
+            <div class="footer_inner">
+                <ul>
+                    <li>Company : 티커스</li>
+                    <li>전화번호 : 010-1234-5678</li>
+                    <li>이메일 : tickers@gmail.com</li>
+                </ul>
+            </div>
+            <div class="footer_inner">
+                <ul>
+                    <li>사업자 번호 : 070-61-01100</li>
+                    <li>주소 : 서울시 티커스구 티커스대로 123</li>
+                    <li>Copyright ©Tickers All rights reserved.</li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+</div>
+</body>
+</html>

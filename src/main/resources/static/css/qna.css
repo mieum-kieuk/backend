@@ -379,7 +379,17 @@
     margin-bottom: 20px;
     /*border-bottom: 1px solid #999;*/
 }
-
+.text.description span{
+    font-size: 12px;
+    color: #666;
+}
+.text.description .link {
+    color: #666;
+}
+.text.description span::before {
+    content: "• ";
+    font-size: 10px;
+}
 .qna_wrap.list .btn_wrap {
     display: flex;
     justify-content: flex-end;
@@ -439,13 +449,20 @@
 .qna_table td textarea {
     width: 100%;
     height: 450px;
-    resize: vertical;
+    resize: none;
 }
 .qna_table tbody .title_td {
     /*min-width: 690px;*/
     /*min-width: 600px;*/
     width: 100%;
     text-align: left;
+}
+.qna_table .answer.complete {
+    /*color: #43972a;*/
+    color: #3273F6;
+}
+.qna_table .answer.pending {
+    color: #999;
 }
 .qna_foot {
     display: flex;
@@ -509,13 +526,6 @@
     text-align: left;
     width: auto ;
     margin-bottom: 10px;
-}
-#product .qna_wrap .qna_guide {
-    font-size: 12px;
-    color: #666;
-}
-#product .qna_wrap .qna_guide .link {
-    color: #666;
 }
 #product .qna_wrap .btn_wrap {
     justify-content: flex-end;
