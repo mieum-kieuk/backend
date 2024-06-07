@@ -3,23 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Q&A 상세 | 미음키읔</title>
-    <meta property="og:type" content="website"/>
-    <meta property="og:title" content="미음키읔"/>
-    <meta property="og:description" content=""/>
-    <meta property="og:image" content=""/>
-    <meta property="og:url" content=""/>
+    <title>상품문의 | 미음키읔</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap"
-          rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
     <link rel="stylesheet" href="../../../static/css/comm.css" th:href="@{/css/comm.css}">
     <link rel="stylesheet" href="../../../static/css/qna.css" th:href="@{/css/qna.css}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script defer src="../../../static/js/comm.js" th:src="@{/js/comm.js}"></script>
     <script defer src="../../../static/js/qna.js" th:src="@{/js/qna.js}"></script>
 </head>
@@ -28,57 +22,51 @@
     <div th:replace="~{/layout/header :: header}"></div>
     <div id="qna">
         <div class="qna_wrap details">
-            <h1 class="qna_title">Q&A</h1>
+            <h1 class="qna_title">상품문의</h1>
             <div class="qna_content">
                 <div class="qna_info">
-                    <div id="qnaItem" class="qna_item" th:if="${qna.hasProduct}">
-                        <a href="../../shop/product_details.html" th:href="@{/shop/products/{productId}(productId=${qna.productId})}">
+                    <a href="../../shop/product_details.html" th:href="@{/shop/products/{productId}(productId=${inquiry.productId})}">
+                        <div id="qnaItem" class="qna_item">
                             <div class="thumbnail">
-                                <img id="productImg" class="item_img" th:src="|/productImages/${qna.productImage}|"
+                                <img id="productImg" class="item_img" th:src="|/productImages/${inquiry.productImage}|"
                                      alt="상품 이미지">
                             </div>
                             <div class="description">
-                                <span id="productName" class="item_name" th:text="${qna.productName}">Display masking tape</span>
-                                <span id="productPrice" class="item_price">[[${qna.productPrice}]]원</span>
+                                <span id="productName" class="item_name" th:text="${inquiry.productName}"></span>
+                                <span id="productPrice" class="item_price" th:text="${inquiry.productPrice}"></span>
                             </div>
-                        </a>
-                    </div>
+
+                        </div>
+                    </a>
                     <div class="qna_tit">
-                        <h3 id="title" th:text="${qna.title}">제목</h3>
+                        <h3 id="title" th:text="${inquiry.title}">제목</h3>
                         <div class="description">
-                            <span class="id" th:text="${qna.writer}">작성자</span>
-                            <span class="date" th:text="${qna.createdAt}">작성일</span>
+                            <span class="id" th:text="${inquiry.writer}">작성자</span>
+                            <span class="date" th:text="${inquiry.createdAt}">작성일</span>
                         </div>
                     </div>
                     <div class="qna_cont" id="content">
-                        <div class="qna_text" th:text="${qna.content}">
+                        <div class="qna_text" th:text="${inquiry.content}">
                             재입고 언제 되나요?
-                        </div>
-                        <div class="qna_img">
-                            <tr th:if="${qna.images != null}" th:each="imageFilename, imageStat : ${qna.images}">
-                                <img id="|'image'+imageStat|" th:src="|/productImages/${imageFilename}|" alt="첨부 파일">
-                            </tr>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="btn_wrap details right">
-                <button type="button" class="btn1" onclick="location.href = './edit_qna.html'"
-                        th:onclick="|location.href='@{/community/qna/{qnaId}/edit(qnaId=${qna.id})}'|"
-                        sec:authorize="isAuthenticated()"
-                        th:if="${#authentication.principal.username} == ${qna.writerLoginId}">수정
+                <button type="button" class="btn1" onclick="location.href='./edit_inquiry.html'"
+                        th:onclick="|location.href='@{/community/inquiry/{inquiryId}/edit(inquiryId=${inquiry.id})}'|"
+                        sec:authorize="hasRole('USER')" th:if="${#authentication.principal.username} == ${inquiry.writerLoginId}">수정
                 </button>
-                <button type="button" class="btn1" onclick="location.href= './qna_list.html'"
-                        th:onclick="|deleteOk(${qna.id})|"
-                        sec:authorize="isAuthenticated()"
-                        th:if="${#authentication.principal.username} == ${qna.writerLoginId}">삭제
+                <button type="button" class="btn1" onclick="location.href='./inquiry_list.html'"
+                        th:onclick="|deleteOk(${inquiry.id})|"
+                        sec:authorize="hasRole('USER')" th:if="${#authentication.principal.username} == ${inquiry.writerLoginId}">삭제
                 </button>
-                <button type="button" class="btn1 list_btn" onclick="location.href = './qna_list.html'"
-                        th:onclick="|location.href='@{/community/qna}'|">목록
+                <button type="button" class="btn1 list_btn" onclick="location.href ='./inquiry_list.html'"
+                        th:onclick="|location.href='@{/community/inquiry}'|">목록
                 </button>
             </div>
         </div>
-        <div class="cmt_wrap">
+<!--        <div class="cmt_wrap">-->
             <!--            <div class="cmt_tit"><h3>댓글 목록</h3></div>-->
             <!--            <div class="comment">-->
             <!--                <div class="cmt_info">-->
@@ -107,8 +95,7 @@
             <!--                <button type="button">삭제</button>-->
             <!--            </div>-->
             <!--        </div>-->
-            <div class="permission">관리자에게만 댓글 작성 권한이 있습니다.</div>
-        </div>
+<!--        </div>-->
     </div>
     <div th:replace="~{/layout/footer :: basic_footer}"></div>
 </div>
