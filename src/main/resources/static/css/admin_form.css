@@ -14,6 +14,9 @@ body {
 #admin {
     height: 100%;
 }
+#admin select {
+    appearance: auto;
+}
 .sidebar {
     display: flex;
     flex-direction: column;
@@ -49,6 +52,7 @@ body {
 .sidebar .depth2 {
     border-top: 1px solid #666;
     background: #333;
+    font-size: 13px;
 }
 .sidebar ul li a:hover {
     color: #fff;
@@ -730,13 +734,9 @@ thead .btn_cell {
 /*admin_list*/
 #adminsSearchForm {
     display: flex;
-    margin-top: 10px;
     gap: 10px;
     padding: 10px 0;
-    border: 1px solid #333;
-    border-left: none;
-    border-right: none;
-    margin-bottom: 40px;
+    /*margin-bottom: 40px;*/
 }
 .admins_wrap .btn_wrap {
     display: flex;
@@ -763,6 +763,23 @@ thead .btn_cell {
     margin-top: 0;
     max-width: none;
 }
+#admin #noticeList th, #admin #noticeList td {
+    text-align: center;
+}
+#admin #noticeList .title, #admin #noticeList .title a{
+    width: 100%;
+}
+#admin #noticeList .title span {
+    text-align: left;
+}
+.admin_wrap .notice_wrap .btn_wrap {
+    justify-content: flex-end;
+    gap: 8px;
+}
+.admin_wrap .notice_wrap .btn_wrap.details.right {
+    margin-top: 10px;
+}
+/*search_form*/
 .admin_wrap .form_title {
     position: relative;
     padding-left: 10px;
@@ -807,6 +824,15 @@ thead .btn_cell {
 .admin_wrap .search_form select {
     appearance: auto;
 }
+.admin_wrap .form_wrap.search.date .date_option {
+    display: flex;
+    gap: 3px;
+}
+.admin_wrap .form_wrap.search.date .date_option .btn1 {
+    width: 45px;
+    height: 30px;
+    padding: 0;
+}
 #admin .search_form .btn_wrap {
     display: flex;
     justify-content: center;
@@ -815,25 +841,18 @@ thead .btn_cell {
 .admin_wrap .search_form .btn_wrap .btn1{
     width: 80px;
 }
-#admin select {
-    appearance: auto;
+
+/*member_list*/
+.admins_wrap.member .form_wrap.search:first-child {
+    border-bottom: none;
 }
-#admin #noticeList th, #admin #noticeList td {
-    text-align: center;
+.admins_wrap.member .form_wrap.search:last-child {
+    border-top: 1px solid #d7d7d7;
 }
-#admin #noticeList .title, #admin #noticeList .title a{
-    width: 100%;
+.admins_wrap.member .search_form {
+    margin-bottom: 22px;
 }
-#admin #noticeList .title span {
-    text-align: left;
-}
-.admin_wrap .notice_wrap .btn_wrap {
-    justify-content: flex-end;
-    gap: 8px;
-}
-.admin_wrap .notice_wrap .btn_wrap.details.right {
-    margin-top: 10px;
-}
+
 /*admin_qna*/
 .admin_wrap .qna_wrap.list .qna_table .title_td span{
     display: flex;
