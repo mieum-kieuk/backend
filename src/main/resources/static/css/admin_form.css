@@ -620,19 +620,12 @@ thead .btn_cell {
     flex-direction: column;
     align-items: stretch;
 }
-
-/*field error*/
-/*.field-error {*/
-/*    margin: -20px 0 20px 140px;*/
-/*}*/
-/*#admin .field-error,*/
-/*.admin_member .field-error {*/
-/*    margin: 0;*/
-/*}*/
-/*.field-error.exc {*/
-/*    margin: 0 0 5px 140px;*/
-/*}*/
-/*admin member 공통*/
+#addProduct .field-error {
+    margin: -17px 0 20px 140px;
+}
+#addProduct .field-error.exc {
+    margin: 2px 0 5px 140px;
+}
 .admin_wrap #join, .admin_wrap #join_succ, .admin_wrap #login, .admin_wrap #find {
     padding-top: 0;
     justify-content: center;
@@ -785,15 +778,42 @@ thead .btn_cell {
     background: #1a4e99;
     content: '';
 }
-#admin #noticeSearchForm, #admin #qnaSearchForm {
-    padding: 10px 0;
+.admin_wrap .form_wrap.search {
+    display: flex;
+    gap: 10px;
     border: 1px solid #333;
     border-left: none;
     border-right: none;
-    margin-bottom: 40px;
+    padding: 0;
+    width: 100%;
+    margin: 0;
+}
+.admin_wrap .search_form {
+    display: flex;
+    flex-direction: column;
+}
+.admin_wrap .search_form label {
+    display: flex;
+    align-items: center;
+    color: #222;
+    background: #eee;
+    padding-left: 10px;
+    margin-right: 0;
+    width: 100px;
+}
+.admin_wrap .search_form input, .admin_wrap .search_form select {
+    margin: 10px 0;
 }
 .admin_wrap .search_form select {
     appearance: auto;
+}
+#admin .search_form .btn_wrap {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+.admin_wrap .search_form .btn_wrap .btn1{
+    width: 80px;
 }
 #admin select {
     appearance: auto;
@@ -810,9 +830,6 @@ thead .btn_cell {
 .admin_wrap .notice_wrap .btn_wrap {
     justify-content: flex-end;
     gap: 8px;
-}
-.admin_wrap .notice_wrap .btn_wrap .btn1 {
-    width: 100px;
 }
 .admin_wrap .notice_wrap .btn_wrap.details.right {
     margin-top: 10px;
