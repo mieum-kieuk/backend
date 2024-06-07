@@ -88,7 +88,7 @@
     </header>
     <div id="qna">
         <div class="qna_wrap">
-            <h1 class="qna_title">Q&A</h1>
+            <h1 class="qna_title">상품문의</h1>
             <form id="addQnaForm" action="#" method="post" novalidate>
                 <table class="qna_table">
                     <tr>
@@ -111,16 +111,9 @@
                         </th>
                     </tr>
                     <tr>
-                        <th>
-                            <label for="qna_category">제목</label>
-                        </th>
-                        <td>
-                            <select id="qna_category" name="qna_category">
-                                <option value="1">상품 및 기타 문의</option>
-                                <option value="2">배송 전 취소 및 변경</option>
-                                <option value="3">배송 후 반품</option>
-                                <option value="4">적립금 문의 / 리뷰 </option>
-                            </select>
+                        <td colspan="2">
+                            <label for="title">제목</label>
+                            <input id="title" type="text"  placeholder="제목을 작성해 주세요.">
                         </td>
                     </tr>
                     <tr>
@@ -129,43 +122,9 @@
                         </td>
                     </tr>
                     <tr>
-                        <th><label for="image1">첨부 파일1</label></th>
-                        <td>
-                            <input type="file" id="image1" name="image">
-                        </td>
-                    </tr>
-                    <tr>
-                        <th><label for="image2">첨부 파일2</label></th>
-                        <td>
-                            <input type="file" id="image2" name="image">
-                        </td>
-                    </tr>
-                    <tr>
-                        <th><label for="image3">첨부 파일3</label></th>
-                        <td>
-                            <input type="file" id="image3" name="image">
-                        </td>
-                    </tr>
-                    <tr>
-                        <th><label for="image4">첨부 파일4</label></th>
-                        <td>
-                            <input type="file" id="image4" name="image">
-                        </td>
-                    </tr>
-                    <tr>
-                        <th><label for="image5">첨부 파일5</label></th>
-                        <td>
-                            <input type="file" id="image5" name="image">
-                        </td>
-                    </tr>
-                    <tr>
-                        <th><label>비밀글 여부</label></th>
-                        <td class="isSecret_cell">
-                            <div class="isSecret public">
-                                <input id="public" name="isSecret" value="false" type="radio" checked="checked" disabled><label for="public">공개글</label>
-                            </div>
+                        <td colspan="2" class="isSecret_cell">
                             <div class="isSecret secret">
-                                <input id="secret" name="isSecret" value="true" type="radio" disabled><label for="secret">비밀글</label>
+                                <input id="secret" name="isSecret" value="true" type="checkbox" disabled><label for="secret">비밀글로 문의하기</label>
                             </div>
                         </td>
                     </tr>

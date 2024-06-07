@@ -91,7 +91,7 @@
     max-width: 1100px;
     width: 100%;
     min-height: calc( 100svh - 150px) ;
-    margin-top: 150px;
+    margin-top: 120px;
     margin-bottom: 100px;
 }
 .qna_wrap {
@@ -102,7 +102,7 @@
 .qna_title {
     display: block;
     text-align: center;
-    font-size: 18px;
+    font-size: 22px;
     font-weight: 400;
     margin-bottom: 20px;
     width: 100%;
@@ -125,6 +125,20 @@
 }
 .qna_item .item_wrap .description .btn_wrap {
     padding: 10px;
+}
+#addQnaForm .qna_item {
+    border: none;
+}
+#addQnaForm .qna_table tr:nth-child(2) td{
+    display: flex;
+    align-items: center;
+}
+#addQnaForm .qna_table tr:nth-child(2) label{
+    font-weight: 600;
+    color: #999;
+    max-width: 100px;
+    width: 100%;
+    padding-left: 10px;
 }
 .qna_table {
     border-collapse: collapse;
@@ -154,6 +168,7 @@
 .qna_table th label {
     font-weight: 600;
     color: #999;
+    padding-left: 10px;
 }
 .qna_table td textarea {
     width: 100%;
@@ -184,6 +199,9 @@
 /*.qna_table .isSecret.selected .pw_cell {*/
 /*    display: block;*/
 /*}*/
+.qna_table .isSecret label {
+    white-space: nowrap;
+}
 .qna_table .isSecret input {
     margin-right: 5px;
     width: auto;
@@ -253,6 +271,7 @@
     border-top: 1px solid #eee;
     border-bottom: 1px solid #eee;
     padding: 10px;
+    min-height:  calc(100vh - 550px);
 }
 .qna_text {
     margin-bottom: 20px;
@@ -397,9 +416,6 @@
 }
 .btn_wrap .write_btn {
     width: 100px;
-    height: 30px;
-    background: #222;
-    color: #fff;
 }
 .qna_table {
     border-collapse: collapse;
@@ -415,10 +431,14 @@
 }
 .qna_table thead {
     border: none;
-    border-bottom: 1px solid #333;
+    /*border-bottom: 1px solid #333;*/
 }
 .qna_table thead th{
     font-weight: 500;
+}
+.list .qna_table thead tr {
+    border-bottom: 1px solid #333;
+    border-top: 1px solid #333;
 }
 .list .qna_table tr {
     border-top: none;
