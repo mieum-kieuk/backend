@@ -206,6 +206,11 @@ input::-webkit-inner-spin-button {
     color: #fff;
     background: #000;
 }
+.btn_wrap.right {
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 10px;
+}
 .material-symbols-outlined {
     font-family: 'Material Symbols Outlined';
     font-weight: 200;
@@ -255,22 +260,17 @@ input::-webkit-inner-spin-button {
     width: 100%;
     border-collapse: collapse;
 }
-.home_wrap table thead tr, .home_wrap table tbody tr {
-}
 .home_wrap table th, .home_wrap table td {
     padding: 8px;
-    border: 1px solid #ddd;
+    border: 1px solid #d7d7d7;
     text-align: center;
 }
 
 .home_wrap table th {
-    background-color: #f4f4f4;
-    font-weight: bold;
+    background-color: #eee;
+    font-weight: 500;
 }
 
-.home_wrap table tbody tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
 /*addProduct*/
 #addProductForm {
     display: flex;
@@ -735,7 +735,6 @@ thead .btn_cell {
 #adminsSearchForm {
     display: flex;
     gap: 10px;
-    padding: 10px 0;
     /*margin-bottom: 40px;*/
 }
 .admins_wrap .btn_wrap {
@@ -747,16 +746,20 @@ thead .btn_cell {
     width: 60px;
 }
 .admins_table {
-    border-bottom: 1px solid #d7d7d7;
+    border-collapse: collapse;
+    /*border-bottom: 1px solid #d7d7d7;*/
 }
-.admins_table tr {
-    border-top: 1px solid #d7d7d7;
+.admins_table th {
+    background: #eee;
+    font-weight: 500;
 }
 .admins_table th, .admins_table td {
-    border-left: 1px solid #d7d7d7;
+    padding: 8px;
+    border: 1px solid #d7d7d7;
+    text-align: center;
 }
 .admins_table th:first-child, .admins_table td:first-child {
-    border-left: none;
+    /*border-left: none;*/
 }
 /*admin_notice*/
 .admin_wrap #noticeList {
@@ -779,11 +782,15 @@ thead .btn_cell {
 .admin_wrap .notice_wrap .btn_wrap.details.right {
     margin-top: 10px;
 }
+.admin_wrap #noticeSearchForm {
+    margin-top: 0;
+}
 /*search_form*/
 .admin_wrap .form_title {
     position: relative;
     padding-left: 10px;
     line-height: 16px;
+    margin-bottom: 10px;
 }
 .admin_wrap .form_title::before {
     display: inline-block;
@@ -808,6 +815,7 @@ thead .btn_cell {
 .admin_wrap .search_form {
     display: flex;
     flex-direction: column;
+    margin-top: 0;
 }
 .admin_wrap .search_form label {
     display: flex;
@@ -832,6 +840,7 @@ thead .btn_cell {
     width: 45px;
     height: 30px;
     padding: 0;
+    border: 1px solid #999;
 }
 #admin .search_form .btn_wrap {
     display: flex;
@@ -849,11 +858,13 @@ thead .btn_cell {
 .admins_wrap.member .form_wrap.search:last-child {
     border-top: 1px solid #d7d7d7;
 }
-.admins_wrap.member .search_form {
+.admins_wrap .search_form {
     margin-bottom: 22px;
 }
-
 /*admin_qna*/
+.admin_wrap .qna_wrap.list .search_form {
+    margin-bottom: 22px;
+}
 .admin_wrap .qna_wrap.list .qna_table .title_td span{
     display: flex;
 }

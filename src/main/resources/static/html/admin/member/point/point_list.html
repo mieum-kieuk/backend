@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>적립금 관리| 미음키읔</title>
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Archivegarden" />
+    <meta property="og:description" content="" />
+    <meta property="og:image" content="" />
+    <meta property="og:url" content="" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="../../../../css/comm.css" />
+    <link rel="stylesheet" href="../../../../css/admin_form.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
+    <script defer src="../../../../js/comm.js"></script>
+
+</head>
+<body>
+<div class="admin_wrap">
+    <div class="sidebar">
+        <div class="side_menu top">
+            <ul>
+                <li class="logo">
+                    <a href="../../index.html">
+                        <img src="../../../../images/meek1.png" alt="로고">
+                    </a>
+                </li>
+                <li><a href="../../../index.html">사이트 바로가기</a></li>
+            </ul>
+            <hr>
+        </div>
+        <div class="side_menu menu">
+            <h2>메뉴</h2>
+            <ul class="depth1">
+                <li>
+                    <a href="#">상품 관리</a>
+                    <ul class="depth2">
+                        <li><a href="../../products/product/add_product.html">상품 등록</a></li>
+                        <li><a href="../../products/product/product_list.html">상품 목록</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">할인 혜택 관리</a>
+                    <ul class="depth2">
+                        <li><a href="../../promotion/discount/add_discount.html">할인 등록</a></li>
+                        <li><a href="../../promotion/discount/discount_list.html">할인 목록</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">주문 관리</a>
+                    <ul class="depth2">
+                        <li><a href="#"></a></li>
+                        <li><a href="#"></a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="../member_list.html">고객 관리</a>
+                </li>
+                <li>
+                    <a href="#">고객 지원</a>
+                    <ul class="depth2">
+                        <li><a href="../../help/notice/notice_list.html">공지사항</a></li>
+                        <li><a href="../../admin/help/inquiry/qna_list.html">상품 문의</a></li>
+                        <li><a href="../../admin/help/inquiry/personal_inquiry_list.html">1:1 문의</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="../../admins/admins_list.html">관리자 관리</a>
+                </li>
+            </ul>
+        </div>
+        <div class="side_menu account">
+            <ul>
+                <li><a href="../../admins/admin_login.html">로그인</a></li>
+                <li><a href="../../admins/admin_join.html">회원가입</a></li>
+                <li><a href="">로그아웃</a></li>
+            </ul>
+        </div>
+    </div>
+    <div id="admin">
+        <div class="content " >
+            <h2 class="content_tit">적립금 지급</h2>
+            <div class="admins_wrap member">
+                <form action="">
+                <table class="admins_table">
+                    <thead>
+                    <tr>
+                        <th>회원명</th>
+                        <th>아이디</th>
+                        <th>이메일</th>
+                        <th>휴대전화번호</th>
+                        <th>적립금잔액</th>
+                        <th>적립금지급</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr id="noDataMessage">
+                        <td colspan="6">등록된 회원 없습니다.</td>
+                    </tr>
+                    </tbody>
+                    <tbody>
+                    <tr>
+                        <td><span>관리자</span></td>
+                        <td><span>admin03</span></td>
+                        <td><span>admin03@example.com</span></td>
+                        <td><span>010-1234-1234</span></td>
+                        <td><span>1,000p</span></td>
+                        <td><span>500p</span></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="btn_wrap right">
+                    <button type="button" class="btn1" onclick="location.href = 'add_point.html'">취소</button>
+                    <button type="submit" class="btn1 submit_btn">지급</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
