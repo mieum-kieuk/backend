@@ -29,6 +29,7 @@ body {
     padding-top: 20px;
     text-align: center;
     color: #eee;
+    overflow: scroll;
 }
 .sidebar.account {
     justify-content: flex-end;
@@ -38,7 +39,7 @@ body {
     padding: 20px 0;
 }
 
-.sidebar a {
+.sidebar a, .sidebar button {
     color: #eee;
     font-size: 14px;
     padding: 14px;
@@ -692,6 +693,9 @@ thead .btn_cell {
     margin-top: 50px;
 }
 /*admin_login*/
+.admin_wrap.ml0 {
+    margin-left: 0;
+}
 .admin_wrap #login .content{
     max-width: 380px;
     width: 100%;

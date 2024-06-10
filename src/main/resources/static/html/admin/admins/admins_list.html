@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>관리자 회원가입| 미음키읔</title>
+    <title>관리자 관리| 미음키읔</title>
 
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Archivegarden" />
@@ -14,10 +14,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="../../../css/comm.css" />
     <link rel="stylesheet" href="../../../css/admin_form.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script defer src="../../../js/adminJoin.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
+    <script defer src="../../../js/comm.js/"></script>
 
 </head>
 <body>
@@ -26,54 +28,105 @@
         <div class="side_menu top">
             <ul>
                 <li class="logo">
-                    <a href="../index.html">
-                        <img src="../../images/meek1.png" alt="로고">
+                    <a href="#">
+                        <img src="../../../images/meek1.png" alt="로고">
                     </a>
                 </li>
-                <li><a href="#">기본 설정</a></li>
                 <li><a href="../index.html">사이트 바로가기</a></li>
             </ul>
             <hr>
         </div>
         <div class="side_menu menu">
             <h2>메뉴</h2>
-            <ul>
-                <li><a href="#">상품 관리</a></li>
-                <li><a href="#">할인 혜택 관리</a></li>
-                <li><a href="#">주문 관리</a></li>
-                <li><a href="#">고객 관리</a></li>
+            <ul class="depth1">
+                <li>
+                    <a href="#">상품 관리</a>
+                    <ul class="depth2">
+                        <li><a href="../products/product/add_product.html">전체 상품 관리</a></li>
+                        <li><a href="../products/inquiry/inquiry_list.html">상품 문의 관리</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">할인 혜택 관리</a>
+                    <ul class="depth2">
+                        <li><a href="../../admin/promotion/discount/add_discount.html">할인 등록</a></li>
+                        <li><a href="../../admin/promotion/discount/discount_list.html">할인 목록</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">주문 관리</a>
+                    <ul class="depth2">
+                        <li><a href="#"></a></li>
+                        <li><a href="#"></a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">고객 관리</a>
+                    <ul class="depth2">
+                        <li><a href="../../admin/member/member_list.html">고객 정보 관리</a></li>
+                        <li><a href="../../admin/member/point/add_point.html">적립금 관리</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">고객 지원</a>
+                    <ul class="depth2">
+                        <li><a href="../../admin/help/notice/notice_list.html">공지사항 관리</a></li>
+                        <li><a href="../../admin/help/inquiry/inquiry_list.html">1:1 문의 관리</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">관리자 관리</a>
+                    <ul class="depth2">
+                        <li><a href="../../admin/admins/admins_list.html">전체 관리자 관리</a></li>
+                        <li><a href="../../admin/admins/admin_join.html">관리자 신규 등록</a></li>
+                    </ul>
+                </li>
             </ul>
         </div>
         <div class="side_menu account">
             <ul>
-                <li><a href="">로그인</a></li>
-                <li><a href="">회원가입</a></li>
-                <li><a href="">로그아웃</a></li>
+                <li><a href="../../admin/admins/admin_login.html">로그인</a></li>
+                <li><button type="button">로그아웃</button></li>
             </ul>
         </div>
     </div>
-    <div id="admin" class="admin_member">
-        <div class="content">
+    <div id="admin">
+        <div class="content " >
             <h2 class="content_tit">관리자</h2>
-            <div class="admins_wrap">
+            <div class="admins_wrap member">
                 <h3 class="form_title">기본검색</h3>
-                <form id="adminsSearchForm">
-                    <select id="searchDate">
-                        <option value="week">일주일</option>
-                        <option value="month">한달</option>
-                        <option value="3month">세달</option>
-                        <option value="all">전체</option>
-                    </select>
-                    <select id="searchKey">
-                        <option value="subject">이름</option>
-                        <option value="subject">아이디</option>
-                        <option value="content">이메일</option>
-                    </select>
-                    <input type="text" id="searchKeyword" name="searchKeyword">
-                    <button type="submit" class="btn1">검색</button>
+                <form id="adminsSearchForm" class="search_form">
+                    <div class="form_container">
+                        <div class="form_wrap search">
+                            <label for="searchKeyword">검색어</label>
+                            <select id="searchKey">
+                                <option value="">전체</option>
+                                <option value="userId">아이디</option>
+                                <option value="userEmail">이메일</option>
+                            </select>
+                            <input type="text" id="searchKeyword" name="searchKeyword">
+                        </div>
+                        <div class="form_wrap search date">
+                            <label>기간검색</label>
+                            <input type="text" name="startDate" id="startDate" maxlength="10">
+                            <span style="display: flex; align-items: center;">~</span>
+                            <input type="text" name="endDate" id="endDate" maxlength="10">
+                            <div class="date_option">
+                                <input type="button" onclick="setSearchDate(0);" class="btn1" value="오늘">
+                                <input type="button" onclick="setSearchDate(7);" class="btn1" value="일주일">
+                                <input type="button" onclick="setSearchDate(30);" class="btn1" value="1개월">
+                                <input type="button" onclick="setSearchDate(90);" class="btn1" value="3개월">
+                                <input type="button" onclick="setSearchDate(180);" class="btn1" value="6개월">
+                                <input type="button" onclick="setSearchDate('all');" class="btn1" value="전체">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="btn_wrap">
+                        <button type="button" class="btn1">초기화</button>
+                        <button type="submit" class="btn1 submit_btn">검색</button>
+                    </div>
                 </form>
                 <div class="btn_wrap">
-                    <button type="button" class="btn1 approval">승인</button>
                     <button type="button" class="btn1 delete">삭제</button>
                 </div>
                 <table class="admins_table">
