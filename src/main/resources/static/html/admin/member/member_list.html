@@ -13,13 +13,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="../../../css/comm.css" />
     <link rel="stylesheet" href="../../../css/admin_form.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
-    <script defer src="../../../js/adminJoin.js"></script>
+    <script defer src="../../../js/memberList.js"></script>
     <script defer src="../../../js/comm.js"></script>
 
 </head>
@@ -90,7 +91,7 @@
             <h2 class="content_tit">회원 관리</h2>
             <div class="admins_wrap member">
                 <h3 class="form_title">기본검색</h3>
-                <form id="adminsSearchForm" class="search_form">
+                <form id="adminsSearchForm" class="search_form" onsubmit="validateBeforeSubmit()">
                     <div class="form_container">
                         <div class="form_wrap search">
                         <label for="searchKeyword">검색어</label>
@@ -104,9 +105,9 @@
                         </div>
                         <div class="form_wrap search date">
                         <label>기간검색</label>
-                        <input type="text" name="startDate" id="startDate" maxlength="10">
+                        <input type="text" name="startDate" id="startDate" readonly>
                         <span style="display: flex; align-items: center;">~</span>
-                        <input type="text" name="endDate" id="endDate" maxlength="10">
+                        <input type="text" name="endDate" id="endDate" readonly>
                         <div class="date_option">
                             <input type="button" onclick="setSearchDate(0);" class="btn1" value="오늘">
                             <input type="button" onclick="setSearchDate(7);" class="btn1" value="일주일">
@@ -118,44 +119,57 @@
                         </div>
                     </div>
                     <div class="btn_wrap">
-                        <button type="button" class="btn1">초기화</button>
+                        <button type="button" class="btn1 reset_btn">초기화</button>
                         <button type="submit" class="btn1 submit_btn">검색</button>
                     </div>
                 </form>
+                <div class="member_list wrapper">
                 <table class="admins_table">
                     <thead>
                     <tr>
-                        <th><input type="checkbox"></th>
                         <th>번호</th>
                         <th>회원명</th>
                         <th>아이디</th>
+                        <th>등급</th>
                         <th>이메일</th>
                         <th>휴대전화번호</th>
                         <th>가입일시</th>
-                        <th>적립금</th>
                         <th>구매수</th>
+                        <th>적립금</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr id="noDataMessage">
-                        <td colspan="8">등록된 회원 없습니다.</td>
+                        <td colspan="9">등록된 회원이 없습니다.</td>
                     </tr>
                     </tbody>
                     <tbody>
                     <tr>
-                        <td align="center"><input type="checkbox"></td>
                         <td><span>1</span></td>
-                        <td><span>관리자</span></td>
-                        <td><span>admin03</span></td>
-                        <td><span>admin03@example.com</span></td>
+                        <td><span>김지우</span></td>
+                        <td><span>mary706</span></td>
+                        <td><span>일반</span></td>
+                        <td><span>mary706@example.com</span></td>
                         <td><span>010-1234-1234</span></td>
                         <td><span >2024.04.08</span></td>
-                        <td><span>1,000p</span></td>
                         <td><span>2</span></td>
+                        <td><span>1,000</span></td>
                     </tr>
                     </tbody>
                 </table>
-                <div class="btn_wrap">
+                </div>
+                <div class="pagination">
+                    <ul>
+                        <li><a href="#" class="prev_first"><span class="material-symbols-outlined navigate">navigate_before</span></a></li>
+                        <li><a href="#" class="prev">Prev</a></li>
+                        <li><a href="#">1</a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">4</a></li>
+                        <li><a href="#">5</a></li>
+                        <li><a href="#" class="next">Next</a></li>
+                        <li><a href="#" class="next_last"><span class="material-symbols-outlined navigate">navigate_next</span></a></li>
+                    </ul>
                 </div>
             </div>
         </div>
