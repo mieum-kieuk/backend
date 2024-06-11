@@ -82,7 +82,7 @@
     border-radius: 2px;
 }
 .popup_btn.info {
-    display: none;
+    /*display: none;*/
 }
 #qna {
     display: flex;
@@ -124,13 +124,16 @@
     padding: 0 10px 5px 10px;
 }
 .qna_item .item_wrap .description .btn_wrap {
-    padding: 10px;
+    /*padding: 10px;*/
+    margin-left: 10px;
+    justify-content: flex-start;
 }
 #addQnaForm .qna_item {
     border: none;
 }
 #addQnaForm .qna_table tr:nth-child(2) td{
     display: flex;
+    flex-direction: column;
     align-items: center;
 }
 #addQnaForm .qna_table tr:nth-child(2) label{
@@ -179,6 +182,11 @@
     padding: 5px;
     text-align: left;
 }
+.qna_table td .title_wrap {
+    display: flex;
+    width: 100%;
+    align-items: center;
+}
 .qna_table input[type=radio] {
     width: auto;
 }
@@ -193,12 +201,7 @@
     align-items: center;
     padding: 5px;
 }
-/*.qna_table .pw_cell {*/
-/*    display: none;*/
-/*}*/
-/*.qna_table .isSecret.selected .pw_cell {*/
-/*    display: block;*/
-/*}*/
+
 .qna_table .isSecret label {
     white-space: nowrap;
 }
@@ -231,6 +234,8 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    height: 80px;
+    font-weight: normal;
 }
 .qna_item .description .item_name {
     display: block;
@@ -239,7 +244,7 @@
 }
 .qna_item .description .item_price {
     display: block;
-    padding: 0 10px;
+    padding: 0 10px 5px;
 }
 .btn_wrap.details {
     justify-content: center;
@@ -314,8 +319,7 @@
     font-size: 14px;
 }
 .cmt_content {
-    border-bottom: 1px solid #eee;
-    border-top: 1px solid #eee;
+    border-bottom: 1px solid #d7d7d7;
     padding: 10px 0;
     margin: 10px 0;
 }
@@ -325,22 +329,22 @@
     justify-content: space-between;
     width: 100%;
     gap: 10px;
-    border: 1px solid #999;
     border-collapse: collapse;
+    background: #eee;
+    padding: 10px;
 }
 .cmt_input textarea{
     width: 100%;
     height: 80px;
     resize: vertical;
-    border: none;
 }
 .cmt_input .btn1{
     position: absolute;
-    /*bottom: -32px;*/
-    right: 0;
-    bottom: 0;
+    right: 10px;
+    bottom: 10px;
     width: 60px;
-    border: none;
+    border-radius: 0;
+    border: 1px solid #999;
 }
 .permission {
     text-align: center;
@@ -491,7 +495,6 @@
 }
 #qnaSearchForm {
     display: flex;
-    margin-top: 10px;
     gap: 10px;
 }
 #qnaSearchForm select, #qnaSearchForm input{

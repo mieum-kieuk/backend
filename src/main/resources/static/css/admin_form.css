@@ -618,6 +618,7 @@ thead .btn_cell {
 .menu_toggle .material-symbols-outlined {
     color: #999;
     font-weight: 300;
+    rotate: 90deg;
 }
 
 .dropdown_menu.show {
