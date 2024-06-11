@@ -44,7 +44,7 @@ public class AdminSecurityConfig {
         http
                 .securityMatcher("/admin/**")
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/admin/admins/**", "/admin/login").permitAll()
+                        .requestMatchers("/admin", "/admin/login").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 );

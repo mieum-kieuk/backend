@@ -59,7 +59,12 @@
         </div>
         <div class="side_menu account">
             <ul>
-                <li><a th:href="@{/admin/logout}">로그아웃</a></li>
+                <li>
+                    <form action="../admin/login.html" th:action="@{/admin/logout}" method="post">
+                        <button type="submit">로그아웃</button>
+                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+                    </form>
+                </li>
             </ul>
         </div>
     </div>
