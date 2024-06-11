@@ -1,6 +1,6 @@
 package archivegarden.shop.entity;
 
-import archivegarden.shop.dto.admin.member.AddAdminForm;
+import archivegarden.shop.dto.admin.admins.AddAdminForm;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -22,11 +22,14 @@ public class Admin extends BaseTimeEntity {
     @Column(length = 100, nullable = false)
     private String password;
 
-    @Column(length = 3, nullable = false)
+    @Column(length = 5, nullable = false)
     private String name;
 
     @Column(length = 45, nullable = false)
     private String email;
+
+    @Column(name = "is_authorized", nullable = false)
+    private String isAuthorized;
 
     @Column(length = 30, nullable = false)
     @Enumerated(value = EnumType.STRING)
@@ -37,8 +40,9 @@ public class Admin extends BaseTimeEntity {
         Admin admin = new Admin();
         admin.loginId = form.getLoginId();
         admin.password = form.getPassword();
-        admin.name = "관리자";
+        admin.name = form.getName();
         admin.email = form.getEmail();
+        admin.isAuthorized = Boolean.FALSE.toString().toUpperCase();
         admin.authority = Authority.ROLE_ANONYMOUS;
         return admin;
     }

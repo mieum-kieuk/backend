@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
-    <title>관리자 회원가입| 미음키읔</title>
+    <title>관리자 회원가입 | 미음키읔</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,21 +18,20 @@
     <script defer src="../../../static/js/adminJoin.js" th:src="@{/js/adminJoin.js}"></script>
 </head>
 <body>
-<div class="admin_wrap">
-   <div th:replace="~{/layout/menu :: admin_menu}"></div>
+<div class="admin_wrap ml0">
     <div id="join" class="admin_member">
         <div class="content">
-            <h2 class="content_tit">회원 가입</h2>
+            <h2 class="content_tit">관리자 회원가입</h2>
             <form action="" th:action th:object="${form}" method="post" id="joinForm" th:onsubmit="return validateBeforeSubmit()">
             <div class="auth_wrap">
                 <ul id="user_auth">
-                    <li >
+                    <li>
                         <p class="join_tit ess">관리자인증</p>
                     </li>
                     <li>
                         <div id="admin_auth">
                             <div id="personal_type_wrap">
-                                <input id="personal_type0" name="personal_type" label="회원인증" type="checkbox" checked="checked" readonly/>
+                                <input id="personal_type0" name="personal_type" label="회원인증" type="checkbox" checked="checked" onclick="return false"/>
                                 <label for="personal_type0">관리자인증</label>
                             </div>
                             <span>관리자 인증이 완료되면 입력하신 이메일 주소로 인증완료 메일이 발송되오니, 확인해 주시기 바랍니다.</span>
@@ -78,11 +77,10 @@
                         <li id="name_title">
                             <label for="name" class="join_tit ess">이름</label>
                         </li>
-                        <li>
                         <li id="name_content" class="input_box_wrap">
-                            <input id="name" class="input_box" type="text" value="관리자" readonly/>
+                            <input type="text" id="name" th:field="*{name}" class="input_box"/>
                             <span id="nameMsg"></span>
-                        </li>
+                            <div class="field-error" th:errors="*{name}"></div>
                         </li>
                     </ul>
                     <ul>

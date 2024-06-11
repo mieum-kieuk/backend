@@ -17,10 +17,14 @@ $(document).ready(function () {
         isPwConfirmValid();
     });
 
+    $('#name').on('focusout', function () {
+        isNameValid();
+    });
+
+
     $('#email').on('focusout', function () {
         isEmailValid();
     });
-
 });
 
 let csrfToken = $("meta[name='_csrf']").attr("content");
@@ -40,7 +44,7 @@ function isLoginIdValid() {
 
     $.ajax({
         type: 'POST',
-        url: '/admin/admins/verification/loginId',
+        url: '/admin/join/loginId/check',
         data: {loginId: loginId},
         beforeSend: function (xhr) {
             xhr.setRequestHeader(csrfHeader, csrfToken);
@@ -146,6 +150,39 @@ function isPwConfirmValid() {
     }
 }
 
+//이름 검증
+function isNameValid() {
+    if (!isNameEmpty()) {
+        return;
+    } else if (!regexName()) {
+        return;
+    }
+    $('#nameMsg').text('');
+    return;
+}
+
+function isNameEmpty() {
+    let name = $("#name").val();
+
+    if (name.trim() === '') {
+        $('#nameMsg').text('이름을 입력해 주세요.');
+        $('#nameMsg').removeClass('success error').addClass('error');
+        return false;
+    }
+
+    return true;
+}
+
+function regexName() {
+    let name = $('#name').val();
+    let regex = /^[가-힣]{2,5}$/;
+    if (!regex.test(name)) {
+        $('#nameMsg').text('2~5자의 한글을 사용해 주세요. (특수기호, 공백 사용 불가)');
+        return false;
+    }
+
+    return true;
+}
 
 //이메일 검증
 function isEmailValid() {
@@ -161,7 +198,7 @@ function isEmailValid() {
 
     $.ajax({
         type: 'POST',
-        url: '/admin/admins/verification/email',
+        url: '/admin/join/email/check',
         data: {email: email},
         beforeSend: function (xhr) {
             xhr.setRequestHeader(csrfHeader, csrfToken);
@@ -234,6 +271,15 @@ function validateBeforeSubmit() {
     // 비밀번호 확인 유효성 검사
     if (!isPwConfirmValid()) {
         alert("비밀번호가 일치하지 않습니다.");
+        return false;
+    }
+
+    // 이름 유효성 검사
+    if (!isNameEmpty()) {
+        alert("이름을 입력해 주세요.");
+        return false;
+    } else if (!regexName()) {
+        alert("유효한 이름을 입력해 주세요.");
         return false;
     }
 

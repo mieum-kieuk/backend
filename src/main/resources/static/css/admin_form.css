@@ -684,10 +684,6 @@ thead .btn_cell {
     color: #d94747; /* 별표 색상 지정 */
     margin-left: 3px; /* 별표와 텍스트 사이의 간격 조정 */
 }
-.admin_wrap #join #name {
-    background: #eee;
-    cursor: default;
-}
 /*admin_join_complete*/
 .admin_wrap #join_succ .join_succ_wrap {
     max-width: none;

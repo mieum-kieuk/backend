@@ -1,8 +1,8 @@
 package archivegarden.shop.controller.admin.admin;
 
-import archivegarden.shop.dto.admin.member.AddAdminForm;
+import archivegarden.shop.dto.admin.admins.AddAdminForm;
 import archivegarden.shop.dto.member.NewMemberInfo;
-import archivegarden.shop.service.admin.member.AdminAdminService;
+import archivegarden.shop.service.admin.member.AdminJoinService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -13,18 +13,18 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping("/admin/admins")
+@RequestMapping("/admin/join")
 @RequiredArgsConstructor
-public class AdminAdminController {
+public class AdminJoinController {
 
-    private final AdminAdminService adminService;
+    private final AdminJoinService adminService;
 
-    @GetMapping("/join")
+    @GetMapping
     public String addAdminForm(@ModelAttribute("form") AddAdminForm form) {
         return "admin/admins/join";
     }
 
-    @PostMapping("/join")
+    @PostMapping
     public String join(@Valid @ModelAttribute("form") AddAdminForm form, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
         //비밀번호 == 비밀번호 확인 검증
@@ -40,10 +40,10 @@ public class AdminAdminController {
 
         Integer adminId = adminService.join(form);
         redirectAttributes.addFlashAttribute("adminId", adminId);
-        return "redirect:/admin/admins/join/complete";
+        return "redirect:/admin/join/complete";
     }
 
-    @GetMapping("/join/complete")
+    @GetMapping("/complete")
     public String joinComplete(@ModelAttribute(name = "adminId") Integer adminId, Model model) {
         NewMemberInfo newAdminInfo = adminService.getNewAdminInfo(adminId);
         model.addAttribute("admin", newAdminInfo);
@@ -51,13 +51,13 @@ public class AdminAdminController {
     }
 
     @ResponseBody
-    @PostMapping("/verification/loginId")
+    @PostMapping("/loginId/check")
     public boolean checkLoginId(@RequestParam(name = "loginId") String loginId) {
         return adminService.isAvailableLoginId(loginId);
     }
 
     @ResponseBody
-    @PostMapping("/verification/email")
+    @PostMapping("/email/check")
     public boolean checkEmail(@RequestParam(name = "email") String email) {
         return adminService.isAvailableEmail(email);
     }

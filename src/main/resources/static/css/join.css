@@ -428,3 +428,6 @@
 .address .field-error {
   margin-top: -7px;
 }
+.admin_member .field-error {
+  margin-top: -15px;
+}

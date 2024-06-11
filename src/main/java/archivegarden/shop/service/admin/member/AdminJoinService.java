@@ -1,6 +1,6 @@
 package archivegarden.shop.service.admin.member;
 
-import archivegarden.shop.dto.admin.member.AddAdminForm;
+import archivegarden.shop.dto.admin.admins.AddAdminForm;
 import archivegarden.shop.dto.member.NewMemberInfo;
 import archivegarden.shop.entity.Admin;
 import archivegarden.shop.repository.admin.member.AdminAdminRepository;
@@ -14,7 +14,7 @@ import java.util.NoSuchElementException;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class AdminAdminService {
+public class AdminJoinService {
 
     private final PasswordEncoder passwordEncoder;
     private final AdminAdminRepository adminRepository;
@@ -29,7 +29,6 @@ public class AdminAdminService {
 
         //비밀번호 암호화
         encodePassword(form);
-        passwordEncoder.encode(form.getPassword());
 
         //관리자 생성
         Admin admin = Admin.createAdmin(form);
@@ -40,11 +39,6 @@ public class AdminAdminService {
         return admin.getId();
     }
 
-    private void encodePassword(AddAdminForm form) {
-        String encodedPassword = passwordEncoder.encode(form.getPassword());
-        form.setPassword(encodedPassword);
-    }
-
     /**
      * 회원 가입 완료페이지에서 필요한 정보 조회
      *
@@ -53,18 +47,6 @@ public class AdminAdminService {
     public NewMemberInfo getNewAdminInfo(Integer adminId) {
         Admin admin = adminRepository.findById(adminId).orElseThrow(() -> new NoSuchElementException("존재하지 않는 관리자입니다."));
         return new NewMemberInfo(admin.getLoginId(), admin.getName(), admin.getEmail());
-    }
-
-    /**
-     * 중복 관리자 검증
-     *
-     * @throws IllegalStateException
-     */
-    private void validateDuplicateAdmin(AddAdminForm form) {
-        adminRepository.findDuplicateAdmin(form.getLoginId(), form.getEmail())
-                .ifPresent(a -> {
-                    throw new IllegalStateException("이미 존재하는 관리자입니다.");
-                });
     }
 
     /**
@@ -79,5 +61,25 @@ public class AdminAdminService {
      */
     public boolean isAvailableEmail(String email) {
         return adminRepository.findByEmail(email).isEmpty();
+    }
+
+    /**
+     * 비밀번호 암호화
+     */
+    private void encodePassword(AddAdminForm form) {
+        String encodedPassword = passwordEncoder.encode(form.getPassword());
+        form.setPassword(encodedPassword);
+    }
+
+    /**
+     * 중복 관리자 검증
+     *
+     * @throws IllegalStateException
+     */
+    private void validateDuplicateAdmin(AddAdminForm form) {
+        adminRepository.findDuplicateAdmin(form.getLoginId(), form.getEmail())
+                .ifPresent(a -> {
+                    throw new IllegalStateException("이미 존재하는 관리자입니다.");
+                });
     }
 }
