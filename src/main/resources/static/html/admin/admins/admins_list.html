@@ -106,9 +106,9 @@
                         </div>
                         <div class="form_wrap search date">
                             <label>기간검색</label>
-                            <input type="text" name="startDate" id="startDate" maxlength="10">
+                            <input type="text" name="startDate" id="startDate" readonly>
                             <span style="display: flex; align-items: center;">~</span>
-                            <input type="text" name="endDate" id="endDate" maxlength="10">
+                            <input type="text" name="endDate" id="endDate" readonly>
                             <div class="date_option">
                                 <input type="button" onclick="setSearchDate(0);" class="btn1" value="오늘">
                                 <input type="button" onclick="setSearchDate(7);" class="btn1" value="일주일">
@@ -132,7 +132,7 @@
                 <table class="admins_table">
                     <thead>
                     <tr>
-                        <th><input type="checkbox" id="selectAll"></th>
+                        <th><input type="checkbox" onclick="return false"></th>
                         <th>승인</th>
                         <th>이름</th>
                         <th>아이디</th>

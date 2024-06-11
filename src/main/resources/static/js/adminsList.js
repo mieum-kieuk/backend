@@ -1,10 +1,10 @@
 $(document).ready(function() {
-    // 전체 선택 체크박스 클릭 이벤트
-    $('#selectAll').click(function () {
+    $('tbody input[type="checkbox"]').click(function () {
         let isChecked = $(this).prop('checked');
-        $('tbody input[type="checkbox"]').prop('checked', isChecked);
+        if (isChecked) {
+            $('tbody input[type="checkbox"]').not(this).prop('checked', false);
+        }
     });
-
 });
 // 폼 제출 전 유효성 검사 함수
 function validateBeforeSubmit() {
