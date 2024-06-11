@@ -1,8 +1,8 @@
 package archivegarden.shop.controller.admin.admin;
 
-import archivegarden.shop.dto.admin.admins.AddAdminForm;
+import archivegarden.shop.dto.admin.admin.AddAdminForm;
 import archivegarden.shop.dto.member.NewMemberInfo;
-import archivegarden.shop.service.admin.member.AdminJoinService;
+import archivegarden.shop.service.admin.admins.AdminJoinService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;

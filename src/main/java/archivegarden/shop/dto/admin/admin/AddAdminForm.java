@@ -1,4 +1,4 @@
-package archivegarden.shop.dto.admin.admins;
+package archivegarden.shop.dto.admin.admin;
 
 import jakarta.validation.constraints.Pattern;
 import lombok.Getter;

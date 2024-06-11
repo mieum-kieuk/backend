@@ -1,7 +1,7 @@
 package archivegarden.shop.security.service;
 
 import archivegarden.shop.entity.Admin;
-import archivegarden.shop.repository.admin.member.AdminAdminRepository;
+import archivegarden.shop.repository.admin.admin.AdminAdminRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

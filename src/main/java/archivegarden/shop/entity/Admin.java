@@ -1,6 +1,6 @@
 package archivegarden.shop.entity;
 
-import archivegarden.shop.dto.admin.admins.AddAdminForm;
+import archivegarden.shop.dto.admin.admin.AddAdminForm;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
