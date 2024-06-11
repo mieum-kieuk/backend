@@ -91,7 +91,9 @@ $(document).ready(function() {
 
 
     $('#startDate, #endDate').datepicker({
-        dateFormat: 'yy-mm-dd'
+        dateFormat: 'yy-mm-dd',
+        maxDate: 0
+
     });
 
     // 초기화 버튼 클릭 시 검색폼 초기화

@@ -55,6 +55,9 @@ body {
     background: #333;
     font-size: 13px;
 }
+.sidebar .depth2 a {
+    font-size: 13px;
+}
 .sidebar ul li a:hover {
     color: #fff;
 }
@@ -741,6 +744,11 @@ thead .btn_cell {
     gap: 10px;
     /*margin-bottom: 40px;*/
 }
+.admins_wrap {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+}
 .admins_wrap .btn_wrap {
     display: flex;
     gap: 8px;
@@ -748,7 +756,7 @@ thead .btn_cell {
     justify-content: flex-end;
 }
 .admins_wrap .btn1 {
-    width: 60px;
+    width: 80px;
 }
 .admins_table {
     border-collapse: collapse;
@@ -846,6 +854,7 @@ thead .btn_cell {
     height: 30px;
     padding: 0;
     border: 1px solid #999;
+    cursor: pointer;
 }
 #admin .search_form .btn_wrap {
     display: flex;
