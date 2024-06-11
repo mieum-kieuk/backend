@@ -228,6 +228,7 @@ function isEmailEmpty() {
 
     if (email.trim() === '') {
         $('#emailMsg').text('이메일을 입력해 주세요.');
+        $('#emailMsg').removeClass('success').addClass('error');
         return false;
     }
 

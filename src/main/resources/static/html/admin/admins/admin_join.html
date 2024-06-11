@@ -22,15 +22,7 @@
 
 </head>
 <body>
-<div class="admin_wrap">
-    <div class="sidebar account">
-        <div class="side_menu account">
-            <ul>
-                <li><a href="../admins/admin_login.html">로그인</a></li>
-                <li><a href="../admins/admin_join.html">회원가입</a></li>
-            </ul>
-        </div>
-    </div>
+<div class="admin_wrap ml0">
     <div id="join" class="admin_member">
         <div class="content">
             <h2 class="content_tit">회원 가입</h2>
@@ -43,7 +35,7 @@
                     <li>
                         <div id="admin_auth">
                             <div id="personal_type_wrap">
-                                <input id="personal_type0" name="personal_type" label="회원인증" type="checkbox" checked="checked" readonly/>
+                                <input id="personal_type0" name="personal_type" label="회원인증" type="checkbox" checked="checked" onclick="return false"/>
                                 <label for="personal_type0">관리자인증</label>
                             </div>
                             <span>관리자 인증이 완료되면 입력하신 이메일 주소로 인증완료 메일이 발송되오니, 확인해 주시기 바랍니다.</span>
@@ -60,7 +52,7 @@
                         </li>
                         <li class="input_box_wrap">
                             <input id="loginId" class="inputTypeText" placeholder="" maxlength="20" type="text"/>
-                            <span id="idMsg" class="error_message"></span>
+                            <span id="idMsg" ></span>
                         </li>
                     </ul>
                     <ul>
@@ -70,7 +62,7 @@
                         </li>
                         <li class="input_box_wrap">
                             <input id="password" class="input_box" autocomplete="off" maxlength="16" 0="disabled" type="password"/>
-                            <span id="pwMsg" class="error_message"></span>
+                            <span id="pwMsg" ></span>
                         </li>
                     </ul>
                     <ul>
@@ -79,7 +71,7 @@
                         </li>
                         <li class="input_box_wrap">
                             <input id="passwordConfirm" class="input_box" autocomplete="off" maxlength="16" 0="disabled" type="password"/>
-                            <span id="pwconfirmMsg" class="error_message"></span>
+                            <span id="pwconfirmMsg" ></span>
                         </li>
                     </ul>
 
@@ -89,8 +81,8 @@
                         </li>
                         <li>
                         <li id="name_content" class="input_box_wrap">
-                            <input id="name" class="input_box" placeholder="" maxlength="30" type="text" value="관리자" readonly/>
-                            <span id="nameMsg" class="error_message"></span>
+                            <input id="name" class="input_box" placeholder="" maxlength="30" type="text"/>
+                            <span id="nameMsg" ></span>
                         </li>
                         </li>
                     </ul>
@@ -100,7 +92,7 @@
                         </li>
                         <li class="input_box_wrap">
                             <input id="email" class="input_box" placeholder="" maxlength="45" type="text"/>
-                            <span id="emailMsg" class="error_message"></span>
+                            <span id="emailMsg" ></span>
                         </li>
                     </ul>
 

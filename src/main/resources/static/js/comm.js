@@ -96,7 +96,6 @@ $(document).ready(function() {
 
     // 초기화 버튼 클릭 시 검색폼 초기화
     $('.btn_wrap .reset_btn').click(function () {
-        $('#searchKey').val(''); // 검색어 선택 초기화
         $('#searchKeyword').val(''); // 검색어 입력 초기화
         $('#startDate, #endDate').val(''); // 시작일, 종료일 초기화
     });

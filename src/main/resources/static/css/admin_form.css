@@ -718,6 +718,9 @@ thead .btn_cell {
 .admin_wrap #login .btn_wrap .btn1 {
     width: 100%;
 }
+.admin_wrap #login .account_btns {
+    justify-content: flex-end;
+}
 /*admin_find_pw_send*/
 .admin_wrap .admin_member.find_pw_send label {
     margin: 0;
@@ -742,6 +745,7 @@ thead .btn_cell {
     display: flex;
     gap: 8px;
     margin-bottom: 10px;
+    justify-content: flex-end;
 }
 .admins_wrap .btn1 {
     width: 60px;

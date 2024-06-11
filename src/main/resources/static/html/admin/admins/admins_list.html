@@ -20,6 +20,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
     <script defer src="../../../js/comm.js/"></script>
+    <script defer src="../../../js/adminsList.js"></script>
 
 </head>
 <body>
@@ -28,7 +29,7 @@
         <div class="side_menu top">
             <ul>
                 <li class="logo">
-                    <a href="#">
+                    <a href="../index.html">
                         <img src="../../../images/meek1.png" alt="로고">
                     </a>
                 </li>
@@ -75,11 +76,7 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#">관리자 관리</a>
-                    <ul class="depth2">
-                        <li><a href="../../admin/admins/admins_list.html">전체 관리자 관리</a></li>
-                        <li><a href="../../admin/admins/admin_join.html">관리자 신규 등록</a></li>
-                    </ul>
+                    <a href="../../admin/admins/admins_list.html">관리자 관리</a>
                 </li>
             </ul>
         </div>
@@ -95,7 +92,7 @@
             <h2 class="content_tit">관리자</h2>
             <div class="admins_wrap member">
                 <h3 class="form_title">기본검색</h3>
-                <form id="adminsSearchForm" class="search_form">
+                <form id="adminsSearchForm" class="search_form" onsubmit="return validateBeforeSubmit()">
                     <div class="form_container">
                         <div class="form_wrap search">
                             <label for="searchKeyword">검색어</label>
@@ -122,17 +119,18 @@
                         </div>
                     </div>
                     <div class="btn_wrap">
-                        <button type="button" class="btn1">초기화</button>
+                        <button type="button" class="btn1 reset_btn">초기화</button>
                         <button type="submit" class="btn1 submit_btn">검색</button>
                     </div>
                 </form>
                 <div class="btn_wrap">
+                    <button type="button" class="btn1 approval">승인</button>
                     <button type="button" class="btn1 delete">삭제</button>
                 </div>
                 <table class="admins_table">
                     <thead>
                     <tr>
-                        <th><input type="checkbox"></th>
+                        <th><input type="checkbox" id="selectAll"></th>
                         <th>승인</th>
                         <th>이름</th>
                         <th>아이디</th>
@@ -141,7 +139,7 @@
                     </tr>
                     </thead>
                     <tr id="noDataMessage">
-                        <td colspan="5">등록된 관리자가 없습니다.</td>
+                        <td colspan="6">등록된 관리자가 없습니다.</td>
                     </tr>
                     <tr>
                         <td align="center"><input type="checkbox"></td>

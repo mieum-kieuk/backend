@@ -422,7 +422,7 @@
 #memberInfoLogin .btn_wrap .btn1.submit_btn {
   width: 100%;
 }
-.error_message {
+.error, .success {
   font-size: 12px;
 }
 .address .field-error {
