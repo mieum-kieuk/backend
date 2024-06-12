@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="../../../css/comm.css">
     <link rel="stylesheet" href="../../../css/qna.css">
     <script defer src="../../../js/comm.js"></script>
-    <script defer src="../../../js/qna.js"></script>
+    <script defer src="../../../js/productInquiry.js"></script>
 </head>
 <body>
 <div class="wrap">
@@ -90,15 +90,17 @@
             <h1 class="qna_title">상품문의</h1>
             <div class="qna_content">
                 <div class="qna_info">
+                    <a href="../../shop/product_details.html">
                     <div id="qnaItem" class="qna_item">
                         <div class="thumbnail">
-                            <a href=""><img id="productImg" class="item_img" src="../../../images/display_thumb2.jpeg" alt="상품 이미지"></a>
+                            <img id="productImg" class="item_img" src="../../../images/display_thumb2.jpeg" alt="상품 이미지">
                         </div>
                         <div class="description">
-                            <a href=""><span id="productName" class="item_name">Display masking tape</span></a>
-                            <a href=""><span id="productPrice" class="item_price">3,000원</span></a>
+                            <span id="productName" class="item_name">Display masking tape</span>
+                            <span id="productPrice" class="item_price">3,000원</span>
                         </div>
                     </div>
+                    </a>
                     <div class="qna_tit" >
                         <h3 id="title">재입고 문의</h3>
                         <div class="description">
@@ -114,9 +116,9 @@
                 </div>
             </div>
             <div class="btn_wrap details right">
-                <button type="button" class="btn1" onclick="location.href = 'edit_qna.html'"> 수정</button>
+                <button type="button" class="btn1" onclick="location.href = 'edit_inquiry.html'"> 수정</button>
                 <button type="button" class="btn1">삭제</button>
-                <button type="button" class="btn1 list_btn" onclick="location.href = 'qna_list.html'">목록</button>
+                <button type="button" class="btn1 list_btn" onclick="location.href = 'inquiry_list.html'">목록</button>
             </div>
         </div>
         <div class="cmt_wrap">
@@ -138,12 +140,6 @@
                 </span>
                 </div>
             </div>
-        </div>
-        <div class="page">
-            <ul>
-                <li class="prev"><a href="#"><span class="label">이전 글</span></a></li>
-                <li class="next"><a href="#"><span class="label">다음 글</span></a></li>
-            </ul>
         </div>
     </div>
     <footer id="footer" class="footer">

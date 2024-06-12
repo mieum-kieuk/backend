@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="../../../css/comm.css">
     <link rel="stylesheet" href="../../../css/qna.css">
     <script defer src="../../../js/comm.js"></script>
-    <script defer src="../../../js/qna.js"></script>
+    <script defer src="../../../js/productInquiry.js"></script>
 </head>
 <body>
 <div class="wrap">
@@ -112,8 +112,10 @@
                     </tr>
                     <tr>
                         <td colspan="2">
-                            <label for="title">제목</label>
-                            <input id="title" type="text"  placeholder="제목을 작성해 주세요.">
+                            <div class="title_wrap">
+                                <label for="title">제목</label>
+                                <input id="title" type="text" placeholder="제목을 작성해 주세요.">
+                            </div>
                         </td>
                     </tr>
                     <tr>
@@ -130,7 +132,7 @@
                     </tr>
                 </table>
                 <div class="btn_wrap">
-                    <button type="button" class="btn1" onclick="location.href = 'qna_list.html'">취소</button>
+                    <button type="button" class="btn1" onclick="location.href = 'inquiry_list.html'">취소</button>
                     <button type="submit" id="submitBtn" class="btn1 submit_btn">완료</button>
                 </div>
             </form>

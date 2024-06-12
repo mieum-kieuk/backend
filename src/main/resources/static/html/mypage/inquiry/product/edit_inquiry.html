@@ -18,7 +18,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="../../../../css/comm.css" />
     <link rel="stylesheet" href="../../../../css/mypage.css" />
-    <script src="../../../../js/productInquiry.js"></script>
+    <link rel="stylesheet" href="../../../../css/qna.css" />
+<!--    <script src="../../js/boardList.js"></script>-->
     <script src="../../../../js/comm.js"></script>
 
 </head>
@@ -118,68 +119,52 @@
             <div class="board_wrap wrapper">
                 <h3 class="board_title">상품 문의</h3>
                 <div class="board_content">
-                    <div class="board_head">
-                        <div class="item number">
-                            <span>번호</span>
+                    <form id="addQnaForm" action="#" method="post" novalidate>
+                        <table class="qna_table">
+                            <tr>
+                                <th colspan="2">
+                                    <div id="qnaItem" class="qna_item">
+                                        <div class="item_wrap" id="productId">
+                                            <div class="thumbnail">
+                                                <a href=""><img id="productImg" class="item_img" src="../../../images/img_no.png" alt="상품 이미지"></a>
+                                            </div>
+                                            <div class="description">
+                                                <a href=""><span id="productName" class="item_name"></span></a>
+                                                <a href=""><span id="productPrice" class="item_price"></span></a>
+                                                <div class="btn_wrap">
+                                                    <button type="button" class="popup_btn info">상품 상세 정보</button>
+                                                    <button type="button" id="popupBtn" class="popup_btn">상품 선택</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <label for="title">제목</label>
+                                </th>
+                                <td>
+                                    <input id="title" type="text"  placeholder="제목을 작성해 주세요.">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <textarea id="content" name="content" rows="8" placeholder="내용을 작성해 주세요."></textarea>
+                                </td>
+                            </tr>
+                        </table>
+                        <div class="btn_wrap">
+                            <button type="button" class="btn1" onclick="location.href = './inquiry_details.html'">취소</button>
+                            <button type="submit" id="submitBtn" class="btn1 submit_btn">등록</button>
                         </div>
-                        <div class="item title">
-                            <span>제목</span>
-                        </div>
-                        <div class="item date">
-                            <span>작성일</span>
-                        </div>
-                        <div class="item status">
-                            <span>답변상태</span>
-                        </div>
-                    </div>
-                    <div class="board_list">
-                        <div class="board_item">
-                            <div class="item number">
-                                <span>2</span>
-                            </div>
-                            <div class="item title">
-                                <a href="inquiry_details.html">
-                                <span>재입고 문의</span>
-                                </a>
-                            </div>
-                            <div class="item date">
-                                <span>작성일</span>
-                            </div>
-                            <div class="item status">
-                                <span>답변대기</span>
-                            </div>
-                        </div>
-                        <div class="board_item">
-                            <div class="item number">
-                                <span>1</span>
-                            </div>
-                            <div class="item title">
-                                <a href="inquiry_details.html">
-                                    <span>재입고 문의</span>
-                                </a>
-                            </div>
-                            <div class="item date">
-                                <span>날짜</span>
-                            </div>
-                            <div class="item status">
-                                <span>답변완료</span>
-                            </div>
-                        </div>
-
-                    </div>
+                    </form>
                 </div>
-
-            </div>
-            <div class="pagination">
-                <ul>
-                    <li><a href="#" class="prev_first"><span class="material-symbols-outlined">navigate_before</span></a></li>
-                    <li><a href="#">1</a></li>
-                    <li><a href="#" class="next_last"><span class="material-symbols-outlined">navigate_next</span></a></li>
-                </ul>
+                </div>
             </div>
         </div>
     </div>
-    <footer id="footer" class="footer fixed">
+    <footer id="footer" class="footer">
         <div class="footer_wrap">
             <div class="footer_inner">
                 <ul>

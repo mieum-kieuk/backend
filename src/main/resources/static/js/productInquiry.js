@@ -1,9 +1,9 @@
 $(document).ready(function() {
     initializeDropdownMenus();
 
-    //팝업 창을 띄우는 함수
+    // 팝업 창을 띄우는 함수
     $('#popupBtn').click(function() {
-        window.open("/shop/products/search", "_blank", "width=600px,height=450px");
+        window.open("./inquiry_popup.html", "_blank", "width=600px,height=450px");
     });
 
     $('#submitBtn').click(function () {
@@ -15,6 +15,7 @@ $(document).ready(function() {
     });
 
 });
+
 function initializeDropdownMenus() {
     // Document 클릭 이벤트
     $(document).on('click', function(event) {
@@ -24,6 +25,14 @@ function initializeDropdownMenus() {
     // 메뉴 토글 클릭 이벤트
     $(document).on('click', '.menu_toggle', function() {
         toggleDropdownMenu($(this));
+    });
+
+    $(document).on('click', '.edit_btn', function() {
+        editComment($(this));
+    });
+
+    $(document).on('click', '.delete_btn', function() {
+        deleteComment($(this));
     });
 }
 
@@ -69,7 +78,7 @@ function submitComment() {
                                                 <button type="button" class="edit_btn">수정</button>
                                             </li>
                                             <li>
-                                                <button type="button" class="delete_btn" onclick="">삭제</button>
+                                                <button type="button" class="delete_btn">삭제</button>
                                             </li>
                                         </ul>
                                     </div>
@@ -86,27 +95,53 @@ function submitComment() {
     } else {
         alert('댓글을 입력해 주세요.');
     }
-}function validateBeforeSubmit() {
-        let content = $('#content').val().trim();
-        let product = $('#productId').val().trim();
-        let title = $('#title').val().trim();
+}
 
-        if (product === '') {
-            alert('상품을 선택해 주세요.');
-            return false;
-        }
+function editComment(editButton) {
+    let commentElement = editButton.closest('.comment');
+    let commentText = commentElement.find('.cmt_content span').text().trim();
+    let textArea = `<textarea class="edit_textarea">${commentText}</textarea>`;
+    let updateButton = `<button type="button" class="bnt1 update_btn" onclick="updateComment($(this))">완료</button>`;
+    commentElement.find('.cmt_content').html(textArea + updateButton);
+}
 
-        if (title === '') {
-            alert('제목을 작성해 주세요.');
-            return false;
-        }
-
-        if (content === '') {
-            alert('내용을 작성해 주세요.');
-            return false;
-        }
-        return true;
+function updateComment(updateButton) {
+    let commentElement = updateButton.closest('.comment');
+    let updatedText = commentElement.find('.edit_textarea').val().trim();
+    if (updatedText !== '') {
+        let newContent = `<span>${updatedText}</span>`;
+        commentElement.find('.cmt_content').html(newContent);
+    } else {
+        alert('댓글을 입력해 주세요.');
     }
+}
+
+function deleteComment(deleteButton) {
+    let commentElement = deleteButton.closest('.comment');
+    commentElement.remove();
+}
+
+function validateBeforeSubmit() {
+    let content = $('#content').val().trim();
+    let product = $('#productId').val().trim();
+    let title = $('#title').val().trim();
+
+    if (product === '') {
+        alert('상품을 선택해 주세요.');
+        return false;
+    }
+
+    if (title === '') {
+        alert('제목을 작성해 주세요.');
+        return false;
+    }
+
+    if (content === '') {
+        alert('내용을 작성해 주세요.');
+        return false;
+    }
+    return true;
+}
 
 function deleteOk(qnaId) {
     if (confirm("정말 삭제하시겠습니까?\n한번 삭제한 게시글은 복구할 수 없습니다.")) {

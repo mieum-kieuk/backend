@@ -32,6 +32,9 @@
 #snb .depth2 > li {
     line-height: 1.5;
 }
+#snb .depth2 > li.active {
+    font-weight: bold;
+}
 .mypage_content ul {
     display: flex;
 }
@@ -481,17 +484,22 @@ h3 {
     width:  100%;
     margin-left: 200px;
 }
+.board_title_wrap {
+    display: flex;
+    border-bottom: 1px solid #333;
+}
+
 .board_head {
     display: flex;
     justify-content: space-between;
     border-bottom: 1px solid #666;
     color: #999;
 }
-.board_title {
-    border-bottom: 1px solid #333;
-}
 .board_content {
     margin-bottom: 20px;
+}
+.board_content .qna_table th {
+    width: 100px;
 }
 .board_item  {
     display: flex;
@@ -501,10 +509,20 @@ h3 {
     width: 100%;
     border-bottom: 1px solid #999;
 }
+.board_head .item {
+    padding: 20px 10px;
+}
 .board_wrap .item {
     display: flex;
     justify-content: center;
     text-align: center;
+    /*padding: 20px 10px;*/
+}
+.board_wrap .item.title a{
+    display: flex;
+    width: 100%;
+    text-align: left;
+    align-items: center;
     padding: 20px 10px;
 }
 .board_wrap .number {

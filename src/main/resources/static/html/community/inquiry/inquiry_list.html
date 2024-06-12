@@ -17,8 +17,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="../../../css/comm.css">
     <link rel="stylesheet" href="../../../css/qna.css">
-    <script defer src="../../../js/qna.js"></script>
     <script defer src="../../../js/comm.js"></script>
+    <script defer src="../../../js/productInquiry.js"></script>
 </head>
 <body>
 <div class="wrap">
@@ -48,12 +48,10 @@
                             <a href="inquiry_details.html"><img id="qnaItemImg" class="item_img" src="../../../images/img_no.png" alt="상품 이미지"></a>
                         </td>
                         <td class="title_td">
-                    <span class="title">
-                        <a href="#">
+                            <a class="title" href="inquiry_details.html">
                             재입고 문의
                             <span class="cmt_ea">[<span>1</span>]</span>
-                        </a>
-                    </span>
+                            </a>
                         </td>
                         <td><span class="writer">작성자</span></td>
                         <td><span class="date">2024.04.08</span></td>
@@ -65,11 +63,10 @@
                             <a href="inquiry_details.html"><img id="qnaItemImg" class="item_img" src="../../../images/display_thumb2.jpeg" alt="상품 이미지"></a>
                         </td>
                         <td class="title_td">
-                    <span class="title">
-                        <a href="#">
-                            재입고 문의
+                        <a class="title" href="inquiry_details.html">
+                            <span class="material-symbols-outlined">lock</span>
+                                <span class="title">비밀글입니다.</span>
                         </a>
-                    </span>
                         </td>
                         <td><span class="writer">작성자</span></td>
                         <td><span class="date">2024.04.08</span></td>
@@ -81,12 +78,10 @@
                             <a href="inquiry_details.html"><img id="qnaItemImg" class="item_img" src="../../../images/display_thumb2.jpeg" alt="상품 이미지"></a>
                         </td>
                         <td class="title_td">
-                    <span class="title attach">
-                        <a href="#">
+                            <a class="title attach" href="inquiry_details.html">
                             재입고 문의
                             <span class="cmt_ea">[<span>1</span>]</span>
-                        </a>
-                    </span>
+                            </a>
                         </td>
                         <td><span class="writer">작성자</span></td>
                         <td><span class="date">2024.04.08</span></td>
@@ -95,7 +90,7 @@
                 </table>
                 <div class="qna_foot">
                 <div class="btn_wrap">
-                    <button type="button" id="writeBtn" class="btn1 write_btn" onclick="location.href = 'add_qna.html'">작성</button>
+                    <button type="button" id="writeBtn" class="btn1 write_btn" onclick="location.href = 'add_inquiry.html'">작성</button>
                 </div>
                 </div>
             </div>
