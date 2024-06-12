@@ -103,7 +103,7 @@
     text-align: center;
     font-size: 22px;
     font-weight: 400;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
     width: 100%;
 }
 .link {
@@ -220,7 +220,7 @@
 /*details*/
 .qna_wrap.details {
     /*border-bottom: 1px solid #eee;*/
-    padding-bottom: 30px;
+    padding-bottom: 10px;
     margin-bottom: 0;
 }
 .qna_item {
@@ -252,7 +252,7 @@
 .btn_wrap.details.right {
     justify-content: flex-end;
     gap: 8px;
-    margin-top: 30px;
+    margin-top: 10px;
 }
 .btn_wrap.details .btn1 {
     width: 100px;
@@ -277,6 +277,7 @@
     min-height:  450px;
 }
 .qna_text {
+    padding-top: 20px;
     margin-bottom: 20px;
     white-space: pre-line;
 }
@@ -471,6 +472,7 @@
 .list .qna_table thead .title {
     text-align: center;
     justify-content: center;
+    height: auto;
 }
 .list .qna_table tr {
     border-top: none;
