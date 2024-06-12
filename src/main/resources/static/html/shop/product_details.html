@@ -36,11 +36,11 @@
                         <img src="../../images/meek2.png" alt="제품1">
                     </div>
                     <div class="prd_display">
-                        <div class="display_img">
-                        <img src="../../images/display_thumb2.jpeg" alt="제품1">
+                        <div class="display_img selected">
+                        <img src="../../images/meek2.png" alt="제품1">
                         </div>
                         <div class="display_img">
-                            <img src="../../images/maskingtape1.jpeg" alt="제품1">
+                            <img src="../../images/meek1.png" alt="제품1">
                         </div>
                     </div>
                 </div>
@@ -71,7 +71,7 @@
                     </div>
                     <div class="prd_quantity">
                         <a href="#" id="decreaseBtn" class="btn3 decrease">-</a>
-                        <input name="quantity" value="1" type="number" class="quant_input">
+                        <input name="quantity" value="1" type="number" class="quant_input" readonly>
                         <a href="#" id="increaseBtn" class="btn3 increase">+</a>
                     </div>
                     <div class="prd_total">
@@ -208,9 +208,15 @@
             </div>
             <div class="qna_wrap list">
                 <div class="qna_head">
+                    <div class="qna_head_inner">
                     <h1 class="qna_title">Q&A</h1>
+                    <ul class="text description">
+                        <li><span>상품에 대한 문의를 남기는 공간입니다. 해당 게시판의 성격과 다른 글은 사전동의 없이 담당 게시판으로 이동될 수 있습니다.</span></li>
+                        <li><span>배송관련, 주문(취소/교환/환불)관련 문의 및 요청사항은 마이페이지 내 <a class="link" href="../mypage/inquiry/personal/add_inquiry.html">1:1문의</a>에 남겨주세요.</span></li>
+                    </ul>
+                    </div>
                     <div class="btn_wrap">
-                        <button type="button" id="writeBtn" class="btn1 write_btn">문의하기</button>
+                        <button type="button" id="writeBtn" class="btn1 write_btn" onclick="location.href = '../community/inquiry/add_inquiry.html'">문의하기</button>
                     </div>
                 </div>
                 <ul class="qna_list">

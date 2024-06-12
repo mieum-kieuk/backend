@@ -42,12 +42,22 @@ $(document).ready(function () {
         $('.prd_img img').attr('src', imgUrl);
     });
 
-
+    $('.quant_input').each(function () {
+        let currentValue = parseInt($(this).val());
+        let decreaseBtn = $(this).siblings('.decrease');
+        if (currentValue === 1) {
+            decreaseBtn.addClass('disabled');
+        }
+    });
     $('#increaseBtn').click(function (event) {
         event.preventDefault();
         let input = $(this).siblings('.quant_input');
         let currentValue = parseInt(input.val());
+        let decreaseBtn = $(this).siblings('.decrease');
         input.val(currentValue + 1);
+        if (currentValue === 1) { // 현재 값이 1일 때
+            decreaseBtn.removeClass('disabled'); // 감소 버튼을 활성화
+        }
         updateTotal(); // 총 수량 및 가격 업데이트
     });
 
@@ -58,8 +68,9 @@ $(document).ready(function () {
         if (currentValue > 1) {
             input.val(currentValue - 1);
             updateTotal(); // 총 수량 및 가격 업데이트
-        } else {
-            alert("최소 주문 수량은 1개 입니다.");
+        }
+        if (currentValue === 1) { // 현재 값이 2 이하일 때
+            $(this).addClass('disabled');
         }
     });
 
@@ -105,13 +116,13 @@ $(document).ready(function () {
     }
 
 
-    $('.tab_tit').click(function () {
-        let tabWrap = $(this).siblings('.tab_wrap');
-        $('.prd_info_tab .tab_wrap:visible').not(tabWrap).slideUp();
+    $('.prd_info_list > li').click(function () {
+        let tabWrap = $(this).find('.tab_wrap');
+        $('.prd_info_list > li .tab_wrap').not(tabWrap).slideUp();
         tabWrap.slideToggle();
 
         let expandIcon = $(this).find('.expand_icon');
-        $('.tab_tit .expand_icon').not(expandIcon).text('expand_more');
+        $('.prd_info_list > li .expand_icon').not(expandIcon).text('expand_more');
         expandIcon.text(function (_, text) {
             return text === 'expand_more' ? 'expand_less' : 'expand_more';
         });
