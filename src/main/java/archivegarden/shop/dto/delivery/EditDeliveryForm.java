@@ -1,4 +1,4 @@
-package archivegarden.shop.dto.mypage.address;
+package archivegarden.shop.dto.delivery;
 
 import archivegarden.shop.entity.Address;
 import archivegarden.shop.entity.Delivery;

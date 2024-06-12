@@ -1,4 +1,4 @@
-package archivegarden.shop.dto.mypage.address;
+package archivegarden.shop.dto.delivery;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;

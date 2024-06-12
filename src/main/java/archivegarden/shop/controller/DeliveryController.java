@@ -1,8 +1,8 @@
 package archivegarden.shop.controller;
 
-import archivegarden.shop.dto.mypage.address.AddDeliveryForm;
-import archivegarden.shop.dto.mypage.address.DeliveryListDto;
-import archivegarden.shop.dto.mypage.address.EditDeliveryForm;
+import archivegarden.shop.dto.delivery.AddDeliveryForm;
+import archivegarden.shop.dto.delivery.DeliveryListDto;
+import archivegarden.shop.dto.delivery.EditDeliveryForm;
 import archivegarden.shop.entity.Member;
 import archivegarden.shop.service.mypage.DeliveryService;
 import archivegarden.shop.web.annotation.CurrentUser;

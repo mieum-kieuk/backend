@@ -1,15 +1,16 @@
 package archivegarden.shop.service.mypage;
 
-import archivegarden.shop.dto.mypage.address.AddDeliveryForm;
-import archivegarden.shop.dto.mypage.address.DeliveryListDto;
-import archivegarden.shop.dto.mypage.address.EditDeliveryForm;
+import archivegarden.shop.dto.delivery.AddDeliveryForm;
+import archivegarden.shop.dto.delivery.DeliveryDto;
+import archivegarden.shop.dto.delivery.DeliveryListDto;
+import archivegarden.shop.dto.delivery.EditDeliveryForm;
 import archivegarden.shop.entity.Delivery;
 import archivegarden.shop.entity.Member;
 import archivegarden.shop.exception.NoSuchDeliveryException;
 import archivegarden.shop.exception.NoSuchMemberException;
 import archivegarden.shop.exception.ajax.NoSuchDeliveryAjaxException;
 import archivegarden.shop.repository.DeliveryRepository;
-import archivegarden.shop.repository.MemberRepository;
+import archivegarden.shop.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -98,14 +99,14 @@ public class DeliveryService {
         deliveryRepository.delete(delivery);
     }
 
-//    /**
-//     * 기본 배송지 조회
-//     */
-//    @Transactional(readOnly = true)
-//    public ShippingAddressDto getDefaultDelivery(Long memberId) {
-//        Delivery defaultDelivery = deliveryRepository.findDefaultDelivery(memberId);
-//        return new Delivery(defaultDelivery);
-//    }
+    /**
+     * 기본 배송지 조회
+     */
+    @Transactional(readOnly = true)
+    public DeliveryDto getDefaultDelivery(Long memberId) {
+        Delivery defaultDelivery = deliveryRepository.findDefaultDelivery(memberId);
+        return new DeliveryDto(defaultDelivery);
+    }
 
     /**
      * 기본 배송지 변경

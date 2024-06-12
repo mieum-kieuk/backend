@@ -1,7 +1,7 @@
 package archivegarden.shop.entity;
 
-import archivegarden.shop.dto.mypage.address.AddDeliveryForm;
-import archivegarden.shop.dto.mypage.address.EditDeliveryForm;
+import archivegarden.shop.dto.delivery.AddDeliveryForm;
+import archivegarden.shop.dto.delivery.EditDeliveryForm;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
