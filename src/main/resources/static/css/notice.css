@@ -22,9 +22,8 @@
     flex-direction: column;
     max-width: 1100px;
     width: 100%;
-    min-height: calc( 100svh - 250px) ;
+    min-height: 700px ;
     margin-top: 120px;
-    margin-bottom: 100px;
 }
 
 .notice_wrap {
@@ -129,7 +128,7 @@
     flex-direction: column;
     max-width: 1100px;
     width: 100%;
-    min-height: calc( 100svh - 255px) ;
+    min-height: 700px ;
     margin-top: 120px;
 }
 .notice_tit {
