@@ -337,6 +337,7 @@ input::-webkit-inner-spin-button {
 
 .text.description span::before {
     content: "• ";
+    font-weight: 100;
 }
 
 #productDetails #imageFiles, #productDetails #displayImage {
@@ -874,6 +875,10 @@ thead .btn_cell {
 }
 .admins_wrap .search_form {
     margin-bottom: 22px;
+}
+/*point*/
+.point .text.description {
+    padding: 0;
 }
 /*admin_qna*/
 .admin_wrap .qna_wrap.list .search_form {
