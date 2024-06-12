@@ -67,7 +67,7 @@ select,
 textarea {
   font-size: 100%;
   vertical-align: middle;
-  border: 1px solid #222;
+  border: 1px solid #999;
   padding: 5px 5px;
   border-radius: 2px;
 }
@@ -577,6 +577,7 @@ legend {
   border: solid 1px #222;
   background: #fff;
   color: #222;
+  cursor: pointer;
 }
 .submit_btn {
   color: #fff;
@@ -616,6 +617,7 @@ legend {
   text-align: center;
   line-height: 25px;
   font-size: 12px;
+  cursor: pointer;
 }
 .pagination li a.selected {
   background-color: #000000; /* 선택된 페이지네이션의 배경색 */

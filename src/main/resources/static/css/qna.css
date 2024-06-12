@@ -274,7 +274,7 @@
     border-top: 1px solid #333;
     border-bottom: 1px solid #333;
     padding: 10px 0;
-    min-height:  calc(100vh - 550px);
+    min-height:  450px;
 }
 .qna_text {
     margin-bottom: 20px;
@@ -468,6 +468,10 @@
     border-bottom: 1px solid #333;
     border-top: 1px solid #333;
 }
+.list .qna_table thead .title {
+    text-align: center;
+    justify-content: center;
+}
 .list .qna_table tr {
     border-top: none;
     border-right: none;
@@ -596,6 +600,6 @@
     margin-top: 3px;
 }
 .field-error.ml100 {
-    text-align: l;
+    text-align: left;
     margin: 3px 0 0 100px;
 }
