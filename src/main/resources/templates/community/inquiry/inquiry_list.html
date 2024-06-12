@@ -7,17 +7,14 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
-    <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap"
-          rel="stylesheet">
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+    <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
     <link rel="stylesheet" href="../../../static/css/comm.css" th:href="@{/css/comm.css}">
     <link rel="stylesheet" href="../../../static/css/qna.css" th:href="@{/css/qna.css}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script defer src="../../../static/js/qna.js" th:src="@{/js/qna.js}"></script>
     <script defer src="../../../static/js/comm.js" th:src="@{/js/comm.js}"></script>
+    <script defer src="../../../static/js/productInquiry.js" th:src="@{/js/productInquiry.js}"></script>
 </head>
 <body>
 <div class="wrap">
@@ -47,22 +44,34 @@
                             <span th:text="${inquiries.totalElements - inquiries.number * inquiries.pageable.pageSize - inquiryStat.index}">1</span>
                         </td>
                         <td>
-                            <a href="./inquiry_details.html"
-                               th:href="@{/shop/products/{productId}(productId=${inquiry.productId})}">
+                            <a href="./inquiry_details.html" th:href="@{/shop/products/{productId}(productId=${inquiry.productId})}">
                                 <img class="item_img" th:src="|/productImages/${inquiry.productImage}|" alt="상품 이미지">
                             </a>
                         </td>
                         <td class="title_td" th:unless="${inquiry.isSecret}">
-                            <a href="./inquiry_details.html"
-                               th:href="@{/community/inquiry/{inquiryId}(inquiryId=${inquiry.id})}">
+                            <a class="title" href="./inquiry_details.html" th:href="@{/community/inquiry/{inquiryId}(inquiryId=${inquiry.id})}">
                                 <span class="title" th:text="${inquiry.title}"></span>
                             </a>
                         </td>
-                        <td class="title_td" th:if="${inquiry.isSecret}">
-                            <a href="javascript:void(0)">
+                        <td class="title_td" th:if="${inquiry.isSecret}" sec:authorize="isAnonymous()">
+                            <a href="javascript:void(0)" class="title">
                                 <span class="material-symbols-outlined">lock</span>
                                 <span class="title">비밀글입니다.</span>
                             </a>
+                        </td>
+                        <td class="title_td" th:if="${inquiry.isSecret}" sec:authorize="isAuthenticated()">
+                            <div th:if="${inquiry.writerLoginId == #authentication.principal.username}">
+                                <a class="title" href="./inquiry_details.html" th:href="@{/community/inquiry/{inquiryId}(inquiryId=${inquiry.id})}">
+                                    <span class="material-symbols-outlined">lock</span>
+                                    <span class="title" th:text="${inquiry.title}"></span>
+                                </a>
+                            </div>
+                            <div th:if="${inquiry.writerLoginId != #authentication.principal.username}">
+                                <a href="javascript:void(0)" class="title">
+                                    <span class="material-symbols-outlined">lock</span>
+                                    <span class="title">비밀글입니다.</span>
+                                </a>
+                            </div>
                         </td>
                         <td><span class="writer" th:text="${inquiry.writer}"></span></td>
                         <td><span class="createdAt" th:text="${inquiry.createdAt}"></span></td>

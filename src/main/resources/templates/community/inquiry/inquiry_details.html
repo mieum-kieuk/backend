@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="../../../static/css/qna.css" th:href="@{/css/qna.css}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script defer src="../../../static/js/comm.js" th:src="@{/js/comm.js}"></script>
-    <script defer src="../../../static/js/qna.js" th:src="@{/js/qna.js}"></script>
+    <script defer src="../../../static/js/productInquiry.js" th:src="@{/js/productInquiry.js}"></script>
 </head>
 <body>
 <div class="wrap">
@@ -25,19 +25,6 @@
             <h1 class="qna_title">상품문의</h1>
             <div class="qna_content">
                 <div class="qna_info">
-                    <a href="../../shop/product_details.html" th:href="@{/shop/products/{productId}(productId=${inquiry.productId})}">
-                        <div id="qnaItem" class="qna_item">
-                            <div class="thumbnail">
-                                <img id="productImg" class="item_img" th:src="|/productImages/${inquiry.productImage}|"
-                                     alt="상품 이미지">
-                            </div>
-                            <div class="description">
-                                <span id="productName" class="item_name" th:text="${inquiry.productName}"></span>
-                                <span id="productPrice" class="item_price" th:text="${inquiry.productPrice}"></span>
-                            </div>
-
-                        </div>
-                    </a>
                     <div class="qna_tit">
                         <h3 id="title" th:text="${inquiry.title}">제목</h3>
                         <div class="description">
@@ -46,6 +33,18 @@
                         </div>
                     </div>
                     <div class="qna_cont" id="content">
+                        <a href="../../shop/product_details.html"
+                           th:href="@{/shop/products/{productId}(productId=${inquiry.productId})}">
+                            <div id="qnaItem" class="qna_item">
+                                <div class="thumbnail">
+                                    <img id="productImg" class="item_img" th:src="|/productImages/${inquiry.productImage}|" alt="상품 이미지">
+                                </div>
+                                <div class="description">
+                                    <span id="productName" class="item_name" th:text="${inquiry.productName}"></span>
+                                    <span id="productPrice" class="item_price" th:text="${inquiry.productPrice}"></span>
+                                </div>
+                            </div>
+                        </a>
                         <div class="qna_text" th:text="${inquiry.content}">
                             재입고 언제 되나요?
                         </div>

@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="../../../static/css/qna.css" th:href="@{/css/qna.css}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script defer src="../../../static/js/comm.js" th:src="@{/js/comm.js}"></script>
-    <script defer src="../../../static/js/qna.js" th:src="@{/js/qna.js}"></script>
+    <script defer src="../../../static/js/productInquiry.js" th:src="@{/js/productInquiry.js}"></script>
 </head>
 <body class="popup">
 <div class="popup_content">
@@ -75,28 +75,22 @@
                     </tr>
                     </tbody>
                 </table>
-            </div>
-            <div class="pagination" th:if="${products != null and products.totalPages > 0}">
-                <ul>
-                    <li>
-                        <a href="./inquiry_popup.html"
-                           th:href="@{/shop/products/search(keyword=${condition.keyword}, limit=${condition.limit})}"
-                           class="prev_first">
-                            <span class="material-symbols-outlined">navigate_before</span>
-                        </a>
-                    </li>
-                    <li th:each="page : ${#numbers.sequence(1, products.totalPages)}">
-                        <a onclick="location.href='./inquiry_popup.html'"
-                           th:onclick="|location.href='@{/shop/products/search(keyword=${condition.keyword}, page=${page}, limit=${condition.limit})}'|"
-                           class="page" th:classappend="${page == products.number + 1} ? 'active'" th:text="${page}">1
-                        </a>
-                    </li>
-                    <li>
-                        <a th:href="@{/shop/products/search(keyword=${condition.keyword}, page=${products.totalPages}, limit=${condition.limit})}">
-                            <span class="material-symbols-outlined">navigate_next</span>
-                        </a>
-                    </li>
-                </ul>
+                <div class="pagination" th:if="${products != null and products.totalPages > 0}">
+                    <ul>
+                        <li>
+                            <a href="./inquiry_popup.html" class="prev_first"
+                               th:href="@{/shop/products/search(keyword=${condition.keyword}, limit=${condition.limit})}">
+                                <span class="material-symbols-outlined">navigate_before</span></a></li>
+                        <li th:each="page : ${#numbers.sequence(1, products.totalPages)}">
+                            <a onclick="location.href='./inquiry_popup.html'"
+                               th:onclick="|location.href='@{/shop/products/search(keyword=${condition.keyword}, page=${page}, limit=${condition.limit})}'|"
+                               class="page" th:classappend="${page == products.number + 1} ? 'active'" th:text="${page}"></a></li>
+                        <li>
+                            <a href="./inquiry_popup.html" class="next_last"
+                               th:href="@{/shop/products/search(keyword=${condition.keyword}, page=${products.totalPages}, limit=${condition.limit})}">
+                                <span class="material-symbols-outlined">navigate_next</span></a></li>
+                    </ul>
+                </div>
             </div>
         </form>
     </div>

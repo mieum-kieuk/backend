@@ -3,17 +3,8 @@ $(document).ready(function() {
 
     // 팝업 창을 띄우는 함수
     $('#popupBtn').click(function() {
-        window.open("./inquiry_popup.html", "_blank", "width=600px,height=450px");
+        window.open("/shop/products/search", "_blank", "width=600px,height=450px");
     });
-
-    $('#submitBtn').click(function () {
-        if (!validateBeforeSubmit()) {
-            return false;
-        } else {
-            $('#addQnaForm').submit();
-        }
-    });
-
 });
 
 function initializeDropdownMenus() {
@@ -145,8 +136,7 @@ function validateBeforeSubmit() {
 
 function deleteOk(qnaId) {
     if (confirm("정말 삭제하시겠습니까?\n한번 삭제한 게시글은 복구할 수 없습니다.")) {
-        window.location.href = '/community/qna/' + qnaId + "/delete";
-        alert("Q&A가 삭제되었습니다.");
+        window.location.href = '/community/inquiry/' + qnaId + "/delete";
         return true;
     } else {
         return false;

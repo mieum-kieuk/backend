@@ -61,25 +61,29 @@ public class ProductInquiryController {
     }
 
     @GetMapping("/{inquiryId}/edit")
-    public String editInquiryForm(@PathVariable("inquiryId") Long inquiryId, Model model) {
+    @PreAuthorize("hasRole('ROLE_USER') and #loginMember.loginId == principal.username")
+    public String editInquiryForm(@PathVariable("inquiryId") Long inquiryId, @CurrentUser Member loginMember, Model model) {
         EditProductInquiryForm form = productInquiryService.getEditForm(inquiryId);
         model.addAttribute("form", form);
         return "community/inquiry/edit_inquiry";
     }
 
     @PostMapping("/{inquiryId}/edit")
-    public String editInquiry(@Valid @ModelAttribute("form") EditProductInquiryForm form, BindingResult bindingResult) {
+    @PreAuthorize("hasRole('ROLE_USER') and #loginMember.loginId == principal.username")
+    public String editInquiry(@Valid @ModelAttribute("form") EditProductInquiryForm form, BindingResult bindingResult,
+                              @PathVariable("inquiryId") Long inquiryId, @CurrentUser Member loginMember) {
 
         if(bindingResult.hasErrors()) {
             return "community/inquiry/edit_inquiry";
         }
 
-        productInquiryService.editInquiry(form);
+        productInquiryService.editInquiry(form, inquiryId);
         return "redirect:/community/inquiry/{inquiryId}";
     }
 
     @GetMapping("/{inquiryId}/delete")
-    public String deleteQna(@PathVariable("inquiryId") Long inquiryId) {
+    @PreAuthorize("hasRole('ROLE_USER') and #loginMember.loginId == principal.username")
+    public String deleteQna(@PathVariable("inquiryId") Long inquiryId, @CurrentUser Member loginMember) {
         productInquiryService.deleteInquiry(inquiryId);
         return "redirect:/community/inquiry";
     }
