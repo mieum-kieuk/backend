@@ -2,7 +2,9 @@ package archivegarden.shop.controller;
 
 import archivegarden.shop.dto.member.*;
 import archivegarden.shop.entity.FindAccountType;
+import archivegarden.shop.entity.SavedPointType;
 import archivegarden.shop.service.member.MemberService;
+import archivegarden.shop.service.point.SavedPointService;
 import archivegarden.shop.web.validation.FindIdValidator;
 import archivegarden.shop.web.validation.FindPasswordValidator;
 import jakarta.validation.Valid;
@@ -25,6 +27,7 @@ import java.util.regex.Pattern;
 public class MemberController {
 
     private final MemberService memberService;
+    private final SavedPointService savedPointService;
     private final FindIdValidator findIdValidator;
     private final FindPasswordValidator findPasswordValidator;
 
@@ -58,6 +61,7 @@ public class MemberController {
             return "members/join";
         }
 
+        //회원가입
         Long memberId = memberService.join(form);
 
         redirectAttributes.addFlashAttribute("memberId", memberId);
@@ -66,6 +70,10 @@ public class MemberController {
 
     @GetMapping("/join/complete")
     public String joinComplete(@ModelAttribute(name = "memberId") Long memberId, Model model) {
+
+        //1000원 회원가입 축하 적립금 지급
+        savedPointService.addPoint(memberId, SavedPointType.JOIN, 1000);
+
         NewMemberInfo newMemberInfo = memberService.getNewMemberInfo(memberId);
         model.addAttribute("member", newMemberInfo);
         return "members/join_complete";

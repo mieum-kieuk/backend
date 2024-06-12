@@ -6,6 +6,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -48,11 +50,8 @@ public class Member extends BaseTimeEntity {
     @Column(length = 10, nullable = false)
     private String isEmailVerified;
 
-//    @OneToMany(mappedBy = "member", cascade = ALL)
-//    private List<Delivery> shippingAddressList = new ArrayList<>();
-
-//    @OneToMany(mappedBy = "member")
-//    private List<Order> orders = new ArrayList<>();
+    @OneToMany(mappedBy = "member")
+    private List<SavedPoint> savedPoints;
 
     //==비즈니스 로직==//
     /**

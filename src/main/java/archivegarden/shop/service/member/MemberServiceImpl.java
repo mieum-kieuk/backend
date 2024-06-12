@@ -5,7 +5,7 @@ import archivegarden.shop.entity.Delivery;
 import archivegarden.shop.entity.FindAccountType;
 import archivegarden.shop.entity.Member;
 import archivegarden.shop.repository.DeliveryRepository;
-import archivegarden.shop.repository.MemberRepository;
+import archivegarden.shop.repository.member.MemberRepository;
 import archivegarden.shop.service.email.EmailService;
 import archivegarden.shop.util.RedisUtil;
 import archivegarden.shop.util.SmsUtil;

@@ -19,7 +19,7 @@ public class MemberSaveForm {
 
     private String passwordConfirm;
 
-    @Pattern(regexp = "^[a-zA-z가-힣]{1,12}$", message = "한글, 영문 대/소문자를 사용해 주세요. (특수기호, 공백 사용 불가)")
+    @Pattern(regexp = "^[a-zA-z가-힣]{2,12}$", message = "2~12자의 한글, 영문 대/소문자를 사용해 주세요. (특수기호, 공백 사용 불가)")
     private String name;
 
     private String zipCode;     //우편번호
