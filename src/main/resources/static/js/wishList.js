@@ -18,8 +18,6 @@ function addCart(productId) {
             window.location.href = '/login';
         }
     })
-
-
 }
 
 function deleteOk(wishId) {

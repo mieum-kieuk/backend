@@ -26,6 +26,7 @@ public class AjaxSecurityConfig {
                 .securityMatcher("/api/**")
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/api/**").hasRole("USER")
                         .anyRequest().authenticated()
                 );
 

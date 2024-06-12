@@ -29,8 +29,14 @@ public class WishController {
         return "mypage/wish_list";
     }
 
+    @GetMapping("/mypage/wish/{wishId}/delete")
+    public String deleteWish(@PathVariable("wishId") Long wishId) {
+        wishService.delete(wishId);
+        return "redirect:/mypage/wish";
+    }
+
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("hasRole('ROLE_USER') and #loginMember.loginId == principal.username")
+    @PreAuthorize("#loginMember.loginId == principal.username")
     @ResponseBody
     @PostMapping("/api/wish/add")
     public void addWish(@RequestParam("productId") Long productId, @CurrentUser Member loginMember) {
@@ -38,16 +44,10 @@ public class WishController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("hasRole('ROLE_USER') and #loginMember.loginId == principal.username")
+    @PreAuthorize("#loginMember.loginId == principal.username")
     @ResponseBody
     @PostMapping("/api/wish/remove")
     public void removeWish(@RequestParam("productId") Long productId, @CurrentUser Member loginMember) {
         wishService.remove(productId, loginMember.getId());
-    }
-
-    @GetMapping("/mypage/wish/{wishId}/delete")
-    public String deleteWish(@PathVariable("wishId") Long wishId) {
-        wishService.delete(wishId);
-        return "redirect:/mypage/wish";
     }
 }

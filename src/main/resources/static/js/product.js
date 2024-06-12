@@ -129,45 +129,45 @@ $(document).ready(function () {
 
         return false;
     });
+});
 
-    let csrfToken = $("meta[name='_csrf']").attr("content");
-    let csrfHeader = $("meta[name='_csrf_header']").attr("content");
+let csrfToken = $("meta[name='_csrf']").attr("content");
+let csrfHeader = $("meta[name='_csrf_header']").attr("content");
 
-    $('.wish').click(function () {
+$('.wish').click(function () {
 
-        let heart = $(this);
-        let productId = heart.attr('id');
+    let heart = $(this);
+    let productId = heart.attr('id');
 
-        if (heart.hasClass('filled')) {
-            $.ajax({
-                url: '/api/wish/remove',
-                type: 'POST',
-                data: {productId: productId},
-                beforeSend: function (xhr) {
-                    xhr.setRequestHeader(csrfHeader, csrfToken);
-                },
-                success: function () {
-                    heart.removeClass('filled');
-                },
-                error: function (errorResult) {
-                    alert(errorResult['message']);
-                }
-            })
-        } else {
-            $.ajax({
-                type: 'POST',
-                url: '/api/wish/add',
-                data: {productId: productId},
-                beforeSend: function (xhr) {
-                    xhr.setRequestHeader(csrfHeader, csrfToken);
-                },
-                success: function () {
-                    heart.addClass('filled')
-                },
-                error: function (errorResult) {
-                    alert(errorResult['message']);
-                }
-            })
-        }
-    });
+    if (heart.hasClass('filled')) {
+        $.ajax({
+            url: '/api/wish/remove',
+            type: 'POST',
+            data: {productId: productId},
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(csrfHeader, csrfToken);
+            },
+            success: function () {
+                heart.removeClass('filled');
+            },
+            error: function (errorResult) {
+                alert(errorResult['message']);
+            }
+        })
+    } else {
+        $.ajax({
+            type: 'POST',
+            url: '/api/wish/add',
+            data: {productId: productId},
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(csrfHeader, csrfToken);
+            },
+            success: function () {
+                heart.addClass('filled')
+            },
+            error: function (errorResult) {
+                alert(errorResult['message']);
+            }
+        })
+    }
 });

@@ -7,7 +7,7 @@ import archivegarden.shop.entity.Wish;
 import archivegarden.shop.exception.NoSuchWishException;
 import archivegarden.shop.exception.ajax.NoSuchMemberAjaxException;
 import archivegarden.shop.exception.ajax.NoSuchProductAjaxException;
-import archivegarden.shop.repository.MemberRepository;
+import archivegarden.shop.repository.member.MemberRepository;
 import archivegarden.shop.repository.shop.ProductRepository;
 import archivegarden.shop.repository.wish.WishRepository;
 import lombok.RequiredArgsConstructor;

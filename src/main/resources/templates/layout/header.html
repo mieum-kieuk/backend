@@ -50,14 +50,15 @@
                         <ul class="depth2">
                             <li sec:authorize="!hasRole('USER')"><a href="../login.html" th:href="@{/login}">로그인</a></li>
                             <li sec:authorize="!hasRole('USER')"><a href="../members/join.html" th:href="@{/members/join}">회원가입</a></li>
+                            <li sec:authorize="hasRole('USER')"><a href="../mypage/wish_list.html" th:href="@{/mypage/wish}">위시리스트</a></li>
+                            <li sec:authorize="hasRole('USER')"><a href="../mypage/delivery/delivery_list.html" th:href="@{/mypage/delivery}">배송지 관리</a></li>
+                            <li><a href="../mypage/mypage_home.html" th:href="@{/mypage}">Mypage</a></li>
                             <li sec:authorize="hasRole('USER')">
                                 <form th:action="@{/logout}" method="post">
                                     <button type="submit">로그아웃</button>
                                     <input type="hidden" name="${ _csrf.parameterName }" value="${ _csrf.token }">
                                 </form>
                             </li>
-                            <li><a href="javascript:void(0)">Order</a></li>
-                            <li><a href="../mypage/mypage_home.html" th:href="@{/mypage}">Mypage</a></li>
                         </ul>
                     </li>
                 </ul>
