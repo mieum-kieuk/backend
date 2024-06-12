@@ -36,7 +36,8 @@ public class SecurityConfig {
     public WebSecurityCustomizer webSecurityCustomizer() {
         return web -> web
                 .ignoring()
-                .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
+                .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
+                .requestMatchers("/error");
     }
 
     @Bean
@@ -52,7 +53,7 @@ public class SecurityConfig {
 
         http
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/productImages/**", "/", "/members/**",
+                        .requestMatchers("/login", "/productImages/**", "/", "/members/**",
                                 "/shop/products/**", "/about/**", "/community/inquiry", "/community/inquiry/?", "/community/notice/**", "/search/**").permitAll()
                         .anyRequest().authenticated()
                 );
@@ -66,7 +67,6 @@ public class SecurityConfig {
                         .loginProcessingUrl("/login")
                         .successHandler(authenticationSuccessHandler)
                         .failureHandler(authenticationFailureHandler)
-                        .permitAll()
                 );
 
         http
