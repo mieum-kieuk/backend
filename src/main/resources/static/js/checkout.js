@@ -1,6 +1,5 @@
 $(document).ready(function(){
     initPopup();
-    updateCoupon();
 
     $(".submit_btn").addClass("disabled");
 
@@ -29,18 +28,15 @@ $(document).ready(function(){
     });
        $(".shipping_message select").change(function() {
         let directInputContainer = $(this).closest('.shipping_message').find(".direct_input_wrap");
+        let directInputField = $(this).closest('.shipping_message').find(".direct_input_wrap textarea");
         if ($(this).val() === "direct_input") {
             directInputContainer.show();
         } else {
             directInputContainer.hide();
+            directInputField.val('');
         }
     });
 
-    $(".coupon_select").click(function() {
-        $(this).find(".coupon_list").slideToggle();
-        toggleIcon.call(this); // 아이콘 토글 함수 호출
-
-    });
 
     $('.pay_btn.card').click(function() {
         $('.card_select').show();
@@ -334,63 +330,15 @@ function updateDiscount() {
 
     return productCouponDiscount;
 }
-function updateCoupon() {
-    $('.coupon').each(function(index) {
-        if (index > 0) { // 첫 번째 쿠폰(선택 안함)은 건너뛰기
-            let couponName = $(this).find(".coupon_name").text().trim();
-            let couponValueMatch = couponName.match(/\d+/);
-            if (couponValueMatch) {
-                let couponValue = parseInt(couponValueMatch[0]); // 쿠폰 이름에서 숫자 추출
-                let totalProductPrice = 0;
-                $(".cart_item").each(function() {
-                    let productPrice = parseInt($(this).find("#productPrice").text().replace(/[^0-9]/g, ""));
-                    totalProductPrice += productPrice;
-                });
-                let productCouponDiscount = updateDiscount();
-                let discountedTotalProductPrice = totalProductPrice - productCouponDiscount;
-                let discount = discountedTotalProductPrice * couponValue / 100; // 할인 가격 계산
-                $(this).find(".coupon_details .discount_price").text("-" + discount.toLocaleString() + "원");
-            }
-        }
-    });
-}
-
-function handleCouponSelect() {
-    $(".coupon_list .coupon").click(function() {
-        if ($(this).hasClass("none")) {
-            // "선택 안함" 쿠폰을 선택한 경우
-            $(".coupon_select .coupon_value span:first-child").text("선택 안함");
-            $(".coupon_select .coupon_value span:last-child").text("");
-            updateOrderSummary(updateDiscount(), 0); // 할인 없음을 전달하여 업데이트
-        } else {
-            let couponValue = parseInt($(this).find(".coupon_name").text().match(/\d+/)[0]); // 쿠폰 이름에서 숫자 추출
-            let totalProductPrice = 0;
-            $(".cart_item").each(function() {
-                let productPrice = parseInt($(this).find("#productPrice").text().replace(/[^0-9]/g, ""));
-                totalProductPrice += productPrice;
-            });
-            let productCouponDiscount = updateDiscount();
-            let discountedTotalProductPrice = totalProductPrice - productCouponDiscount;
-            let discount = discountedTotalProductPrice * couponValue / 100; // 할인 가격 계산
-            let couponName = $(this).find(".coupon_name").text();
-            $(".coupon_select .coupon_value span:first-child").text(couponName);
-            $(".coupon_select .coupon_value span:last-child").text("-" + discount.toLocaleString() + "원");
-            // $(this).find(".coupon_details .discount_price").text("-" + discount.toLocaleString() + "원");
-
-            // 회원 쿠폰 할인은 회원 쿠폰 하나만 선택 가능하다고 가정합니다.
-            let memberCouponDiscount = discount;
-
-            // 주문서 업데이트 함수 호출
-            updateOrderSummary(productCouponDiscount, memberCouponDiscount);
-        }
-    });
-}
-handleCouponSelect();
-
 function handleMileage() {
     let availableMileageText = $("#ownedMileage").text().replace(",", "");
     let availableMileage = parseInt(availableMileageText);
     $("#availableMileage").text(availableMileage.toLocaleString());
+
+    if (availableMileage === 0) {
+        $("#useAll").prop("disabled", true);
+        $("#useAll").addClass("disabled", true);
+    }
 
     $("#useAll").click(function() {
         if ($(this).text() === "모두 사용") {
@@ -408,7 +356,7 @@ function handleMileage() {
             $(this).text("모두 사용");
         }
         // 마일리지가 변경되었을 때는 할인 내역과 회원 쿠폰 내역을 유지한 채로 주문 요약 업데이트
-        updateOrderSummary(updateDiscount(), parseInt($(".total.discount .member.coupon .content").text().replace(/[^0-9]/g, "")));
+        updateOrderSummary(updateDiscount(), parseInt($(".total.discount .content").text().replace(/[^0-9]/g, "")));
     });
 
     $("#mileage").on("input", function() {
@@ -425,14 +373,19 @@ function handleMileage() {
         }
 
         $("#ownedMileage").text(ownedMileage.toLocaleString());
+        // 만약 마일리지가 0이면 "모두 사용" 버튼 비활성화, 그렇지 않으면 활성화
+        if (ownedMileage === 0) {
+            $("#useAll").prop("disabled", true).addClass("disabled");
+        } else {
+            $("#useAll").prop("disabled", false).removeClass("disabled");
+        }
         // 마일리지가 변경되었을 때는 할인 내역과 회원 쿠폰 내역을 유지한 채로 주문 요약 업데이트
-        updateOrderSummary(updateDiscount(), parseInt($(".total.discount .member.coupon .content").text().replace(/[^0-9]/g, "")));
+        updateOrderSummary(updateDiscount(), parseInt($(".total.discount .content").text().replace(/[^0-9]/g, "")));
     });
 }
 handleMileage();
-function updateOrderSummary(productCouponDiscount, memberCouponDiscount) {
+function updateOrderSummary(productCouponDiscount) {
     productCouponDiscount = productCouponDiscount || 0;
-    memberCouponDiscount = memberCouponDiscount !== null && memberCouponDiscount !== undefined ? memberCouponDiscount : 0;
 
     let totalProductPrice = 0;
     $(".cart_item").each(function() {
@@ -444,14 +397,12 @@ function updateOrderSummary(productCouponDiscount, memberCouponDiscount) {
     let usedMileage = parseInt($("#mileage").val().replace(/[^0-9]/g, "") || 0);
 
     let discountedTotalProductPrice = totalProductPrice - productCouponDiscount;
-    let totalDiscount = productCouponDiscount + memberCouponDiscount;
+    let totalDiscount = productCouponDiscount ;
     let shippingFee = (totalProductPrice - totalDiscount - usedMileage >= 50000) ? 0 : 3000;
-    let totalPrice = discountedTotalProductPrice + shippingFee - usedMileage - memberCouponDiscount;
+    let totalPrice = discountedTotalProductPrice + shippingFee - usedMileage ;
 
     $(".total.price .content").text(totalProductPrice.toLocaleString() + "원");
-    $(".total.discount .product.coupon .content").text(productCouponDiscount > 0 ? "-" + productCouponDiscount.toLocaleString() + "원" : "0원");
-    $(".total.discount .member.coupon .content").text(memberCouponDiscount > 0 ? "-" + memberCouponDiscount.toLocaleString() + "원" : "0원");
-    $(".total.discount > ul >  .content").text(totalDiscount > 0 ? "-" + totalDiscount.toLocaleString() + "원" : "0원");
+    $(".total.discount .content").text(totalDiscount > 0 ? "-" + totalDiscount.toLocaleString() + "원" : "0원");
     $(".total.mileage .content").text(usedMileage > 0 ? "-" + usedMileage.toLocaleString() + "원" : "0원");
     $(".total_price .content").text(totalPrice.toLocaleString() + "원");
     $(".total.shipping .content").text(shippingFee.toLocaleString() + "원");
