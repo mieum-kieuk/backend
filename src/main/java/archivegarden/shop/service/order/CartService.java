@@ -9,7 +9,7 @@ import archivegarden.shop.exception.NoSuchProductException;
 import archivegarden.shop.exception.ajax.NoSuchMemberAjaxException;
 import archivegarden.shop.exception.ajax.NoSuchProductAjaxException;
 import archivegarden.shop.exception.ajax.NotEnoughStockAjaxException;
-import archivegarden.shop.repository.MemberRepository;
+import archivegarden.shop.repository.member.MemberRepository;
 import archivegarden.shop.repository.order.CartRepository;
 import archivegarden.shop.repository.shop.ProductRepository;
 import lombok.RequiredArgsConstructor;

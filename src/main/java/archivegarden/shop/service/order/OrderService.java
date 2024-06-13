@@ -3,8 +3,8 @@ package archivegarden.shop.service.order;
 import archivegarden.shop.entity.*;
 import archivegarden.shop.exception.NoSuchMemberException;
 import archivegarden.shop.exception.NoSuchProductException;
-import archivegarden.shop.repository.MemberRepository;
-import archivegarden.shop.repository.ShippingAddressRepository;
+import archivegarden.shop.repository.member.MemberRepository;
+import archivegarden.shop.repository.DeliveryRepository;
 import archivegarden.shop.repository.order.CartRepository;
 import archivegarden.shop.repository.order.OrderRepository;
 import archivegarden.shop.repository.shop.ProductRepository;
@@ -23,20 +23,19 @@ public class OrderService {
 
     private final MemberRepository memberRepository;
     private final ProductRepository productRepository;
-    private final ShippingAddressRepository addressRepository;
+    private final DeliveryRepository deliveryRepository;
     private final CartRepository cartRepository;
     private final OrderRepository orderRepository;
 
 
     /**
      * 주문 생성
-     * @param productIds
      */
     public void createOrder(List<Long> productIds, Long memberId) {
         
         //회원, 상품 조회
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new NoSuchMemberException("존재하지 않는 회원입니다."));
-        ShippingAddress shippingAddress = addressRepository.findDefaultShippingAddress(memberId);
+        Delivery delivery = deliveryRepository.findDefaultDelivery(memberId);
         List<Product> products = productIds.stream()
                 .map(productId -> productRepository.findById(productId).orElseThrow(() -> new NoSuchProductException("존재하지 않는 상품입니다.")))
                 .collect(Collectors.toList());
@@ -59,6 +58,7 @@ public class OrderService {
         //주문 생성
         Order order = Order.builder()
                 .member(member)
+                .delivery(delivery)
                 .merchantUid(merchantUid)
                 .orderProducts(orderProducts)
                 .build();

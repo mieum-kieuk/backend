@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -32,5 +34,12 @@ public class SavedPointService {
         savedPointRepository.save(savedPoint);
 
         return savedPoint.getId();
+    }
+
+    /**
+     * 적립금 조회
+     */
+    public int getPoint(Long memberId) {
+        return Optional.ofNullable(savedPointRepository.findBalance(memberId)).orElse(0).intValue();
     }
 }
