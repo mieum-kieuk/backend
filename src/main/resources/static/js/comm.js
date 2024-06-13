@@ -46,90 +46,57 @@ $(document).ready(function() {
         $('.search_popup').fadeOut();
     });
 
-    $('#search_complete').click(function(e) {
+    $('#search_complete').click(function(e) {ㅡ
         e.stopPropagation();
     });
 
     // $(window).load(function(){
     //     $('.loader').delay('1000').fadeOut();
     // });
-    $('.side_menu.menu .depth1 > li > a').click(function(event) {
-        let depth1 = $(this).parent('li');
 
-        depth1.find('.depth2').slideToggle();
-    });
-
-    let activeItem = localStorage.getItem('activeMenuItem');
-    if (activeItem) {
-        let activeLink = $('.side_menu.menu a[href="' + activeItem + '"]');
-        activeLink.addClass('active').closest('li').addClass('active');
-        activeLink.parents('ul').slideDown();
-    }
-
-    // 메뉴 항목 클릭 시 로컬 스토리지에 href 저장 및 active 클래스 적용
-    $('.side_menu.menu a').click(function (event) {
-        event.preventDefault(); // 기본 동작 막기
-
-        var href = $(this).attr('href');
-        var isActive = $(this).hasClass('active');
-
-        if (isActive) {
-            // 클릭한 메뉴가 이미 활성화되어 있으면 닫기
-            $(this).removeClass('active').closest('li').removeClass('active').find('.depth2').slideUp();
-            localStorage.removeItem('activeMenuItem'); // 로컬 스토리지에서 제거
-        } else {
-            // 클릭한 메뉴가 비활성화되어 있으면 열기
-            localStorage.setItem('activeMenuItem', href);
-
-            // 클릭된 항목만 활성화하고 서브메뉴 열기
-            $(this).addClass('active').closest('li').addClass('active').find('.depth2').slideDown();
-        }
-
-        // 페이지 이동
-        window.location.href = href;
-    });
-
-
-    $('#startDate, #endDate').datepicker({
-        dateFormat: 'yy-mm-dd',
-        maxDate: 0
-
-    });
-
-    // 초기화 버튼 클릭 시 검색폼 초기화
-    $('.btn_wrap .reset_btn').click(function () {
-        $('#searchKeyword').val(''); // 검색어 입력 초기화
-        $('#startDate, #endDate').val(''); // 시작일, 종료일 초기화
-    });
 });
 
-function setSearchDate(days) {
-    if (days === 'all') {
-        $('#startDate').datepicker('setDate', null);
-        $('#endDate').datepicker('setDate', null);
-    } else {
-        let endDate = new Date();
-        let startDate = new Date();
 
-        if (days === 0) {
-            startDate = endDate;
+$(document).ready(function() {
+    // 현재 URL을 가져와서 pageLocation에 저장
+    var pageLocation = String(document.location).split('/');
+    var fileName = pageLocation[pageLocation.length - 1];
+    var fileDoc = pageLocation[pageLocation.length - 2];
+    var fullPath = '/' + fileDoc + '/' + fileName;
+
+    // 현재 페이지에 맞는 메뉴 항목을 활성화
+    var activeLink = $('.side_menu.menu .depth2 a[href="' + fullPath + '"]');
+    if (activeLink.length > 0) {
+        activeLink.addClass('active');
+        activeLink.closest('.depth2').slideDown();
+        activeLink.closest('.depth1 > li').addClass('active');
+    }
+
+    // 메뉴 클릭 시 toggle 및 localStorage에 href 저장
+    $('.side_menu.menu .depth1 > li > a').click(function(event) {
+        var depth1 = $(this).parent('li');
+
+        // 모든 항목에서 .active 클래스 제거
+        $('.side_menu.menu .depth1 > li').not(depth1).removeClass('active').find('.depth2').slideUp();
+
+        if (depth1.hasClass('active')) {
+            depth1.removeClass('active').find('.depth2').slideUp();
         } else {
-            startDate.setDate(startDate.getDate() - days);
+            depth1.addClass('active').find('.depth2').slideDown();
         }
 
-        $('#startDate').datepicker('setDate', formatDate(startDate));
-        $('#endDate').datepicker('setDate', formatDate(endDate));
+        var href = $(this).attr('href');
+        localStorage.setItem('activeMenuItem', href);
+    });
+
+    // 로컬 스토리지에 저장된 메뉴 항목 처리
+    var activeItem = localStorage.getItem('activeMenuItem');
+    if (activeItem) {
+        var storedActiveLink = $('.side_menu.menu a[href="' + activeItem + '"]');
+        if (storedActiveLink.length > 0) {
+            storedActiveLink.addClass('active');
+            storedActiveLink.closest('.depth2').slideDown();
+            storedActiveLink.closest('.depth1 > li').addClass('active');
+        }
     }
-}
-
-function formatDate(date) {
-    let d = new Date(date),
-        month = '' + (d.getMonth() + 1),
-        day = '' + d.getDate(),
-        year = d.getFullYear();
-
-    if (month.length < 2) month = '0' + month;
-    if (day.length < 2) day = '0' + day;
-
-    return [year, month, day].join('-');
-}
+});
