@@ -12,6 +12,7 @@ $(function () {
     }, 10000)
 })
 $(document).ready(function() {
+    initializeDropdownMenus();
 
     $('input[type="text"]').on('input', function (e) {
         let maxLength = $(this).attr('maxlength');
@@ -100,3 +101,44 @@ $(document).ready(function() {
         }
     }
 });
+function initializeDropdownMenus() {
+    // Document 클릭 이벤트
+    $(document).on('click', function(event) {
+        closeDropdownMenus(event);
+    });
+
+    // 메뉴 토글 클릭 이벤트
+    $(document).on('click', '.menu_toggle', function() {
+        toggleDropdownMenu($(this));
+    });
+
+    $(document).on('click', '.edit_btn', function() {
+        editComment($(this));
+    });
+
+    $(document).on('click', '.delete_btn', function() {
+        deleteComment($(this));
+    });
+}
+
+function closeDropdownMenus(event) {
+    var dropdownMenus = $('.dropdown_menu');
+
+    // 메뉴 토글 또는 드롭다운 메뉴 내부를 클릭한 경우, 함수 종료
+    if ($(event.target).closest('.menu_toggle, .dropdown_menu').length) {
+        return;
+    }
+
+    // 모든 드롭다운 메뉴를 닫기
+    dropdownMenus.removeClass('show');
+}
+
+function toggleDropdownMenu(toggleElement) {
+    var dropdownMenu = toggleElement.siblings('.dropdown_menu');
+
+    // 다른 모든 드롭다운 메뉴를 닫기
+    $('.dropdown_menu').not(dropdownMenu).removeClass('show');
+
+    // 해당 드롭다운 메뉴 토글
+    dropdownMenu.toggleClass('show');
+}

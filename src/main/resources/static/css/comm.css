@@ -579,6 +579,11 @@ legend {
   color: #222;
   cursor: pointer;
 }
+.btn1.disabled {
+  cursor: default;
+  color: #d7d7d7;
+  border: solid 1px #d7d7d7;
+}
 .submit_btn {
   color: #fff;
   background: #000;
@@ -587,10 +592,48 @@ legend {
   background: #d7d7d7;
   border: 1px solid #d7d7d7;
   cursor: default;
+  color: #fff;
 }
 .btn3.disabled {
   cursor: default;
   color: #d7d7d7;
+}
+.menu {
+  position: relative;
+  display: inline-block;
+  border-radius: 5px;
+}
+
+.dropdown_menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #ffffff;
+  border-radius: 2px;
+  white-space: nowrap;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+}
+.dropdown_menu button {
+  padding: 5px 10px;
+  text-align: center;
+}
+.menu_toggle {
+  position: relative;
+  z-index: 1;
+  height: 25px;
+}
+.menu_toggle .material-symbols-outlined {
+  color: #999;
+  font-weight: 300;
+  rotate: 90deg;
+}
+.dropdown_menu.show {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
 }
 .pagination {
   display: flex;

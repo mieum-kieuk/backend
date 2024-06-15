@@ -129,6 +129,41 @@ $(document).ready(function () {
 
         return false;
     });
+
+    // 상품문의
+    var inquiryModal = $("#inquiryModal");
+    var closeBtn = $(".close");
+
+    $("#product .qna_wrap #writeBtn").click(function() {
+        $("#inquiryModal").css("display", "flex");
+    });
+
+    closeBtn.click(function() {
+        inquiryModal.hide();
+    });
+
+    $(window).click(function(event) {
+        if (event.target.id === "inquiryModal") {
+            inquiryModal.hide();
+        }
+    });
+    $("#product .qna_items").click(function() {
+        $(this).next(".qna_content").slideToggle();
+    });
+    $("#submitBtn").show();
+    $("#editSubmitBtn").hide();
+    $(".edit_btn").click(function() {
+        var questionText = $(this).closest(".qna_question").find(".qna_text").text();
+        var answerText = $(this).closest(".qna_content").find(".qna_answer").text();
+
+        $("#edit_title").val(questionText.trim());
+        $("#edit_content").val(answerText.trim());
+
+        $("#submitBtn").hide();
+        $("#editSubmitBtn").show();
+
+        $("#inquiryModal").css("display", "flex");
+    });
 });
 
 let csrfToken = $("meta[name='_csrf']").attr("content");

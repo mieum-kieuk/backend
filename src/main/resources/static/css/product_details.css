@@ -119,7 +119,7 @@
     border: 1px solid #999;
     border-right: none;
     border-left: none;
-    background-color: #fff;
+    background: #fff;
 }
 .prd_quantity .quant_input::-webkit-inner-spin-button {
     appearance: none;
@@ -133,7 +133,7 @@
     text-align: center;
     line-height: 35px;
     border: 1px solid #999;
-    background-color: #fff;
+    background: #fff;
     cursor: pointer;
 }
 
@@ -202,7 +202,7 @@
     color: #222;
     text-decoration: none;
     padding: 5px;
-    background-color: #fff;
+    background: #fff;
 }
 .prd_info_tab .prd_info_list li border .tab_tit:hover {
     font-weight: 600;
@@ -226,7 +226,7 @@
 .prd_info_tab .prd_info_list li .tab_wrap p {
     margin: 0;
     padding: 10px 0;
-    background-color: #fff;
+    background: #fff;
     white-space: pre-line;
     line-height: 1.5;
 }
@@ -260,8 +260,12 @@
     padding: 10px;
     border-radius: 2px;
     border: solid 1px #333;
-    background-color: #fff;
+    background: #fff;
     color: #222;
+}
+.submit_btn {
+    color: #fff;
+    background: #000;
 }
 .material-symbols-outlined {
     font-family: 'Material Symbols Outlined';
@@ -274,4 +278,50 @@
     width: 100% ;
     margin-top: 163.59px;
 }
-
+/*qna modal*/
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background: rgba(0,0,0,0.4);
+    justify-content: center;
+    align-items: center;
+}
+.modal_content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: #fff;
+    width: 800px;
+    height: 600px;
+    padding: 20px;
+    border-radius: 8px;
+    position: relative;
+}
+.modal .close {
+    color: #222;
+    font-size: 28px;
+    cursor: pointer;
+}
+.modal #addQnaForm .qna_table tr:first-child label {
+    font-weight: 600;
+    color: #999;
+    max-width: 100px;
+    width: 100%;
+    padding-left: 10px;
+}
+.modal .qna_table td textarea {
+    height: 360px;
+}
+.modal .qna_head {
+    flex-direction: row;
+    align-items: center;
+}
+.modal .qna_title {
+    margin-bottom: 0;
+}
