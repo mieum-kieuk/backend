@@ -37,7 +37,12 @@ $(document).ready(function(){
         }
     });
 
+    let availableMileageText = $("#ownedMileage").text().replace(",", "");
+    let availableMileage = parseInt(availableMileageText);
 
+    if (availableMileage === 0) {
+        $("#mileage").prop("disabled", true);
+    }
     $('.pay_btn.card').click(function() {
         $('.card_select').show();
         $('.pay_btn.card').addClass("selected");
@@ -335,9 +340,9 @@ function handleMileage() {
     let availableMileage = parseInt(availableMileageText);
     $("#availableMileage").text(availableMileage.toLocaleString());
 
+    // 사용 가능한 마일리지가 0이면 #useAll 버튼을 비활성화
     if (availableMileage === 0) {
-        $("#useAll").prop("disabled", true);
-        $("#useAll").addClass("disabled", true);
+        $("#useAll").prop("disabled", true).addClass("disabled");
     }
 
     $("#useAll").click(function() {
@@ -354,6 +359,10 @@ function handleMileage() {
             $("#ownedMileage").text(availableMileage.toLocaleString());
             // "모두 사용" 버튼 텍스트 변경
             $(this).text("모두 사용");
+            // 입력란 활성화
+            if (availableMileage > 0) {
+                $("#mileage").prop("disabled", false);
+            }
         }
         // 마일리지가 변경되었을 때는 할인 내역과 회원 쿠폰 내역을 유지한 채로 주문 요약 업데이트
         updateOrderSummary(updateDiscount(), parseInt($(".total.discount .content").text().replace(/[^0-9]/g, "")));
@@ -373,11 +382,13 @@ function handleMileage() {
         }
 
         $("#ownedMileage").text(ownedMileage.toLocaleString());
-        // 만약 마일리지가 0이면 "모두 사용" 버튼 비활성화, 그렇지 않으면 활성화
-        if (ownedMileage === 0) {
+        // 만약 사용 가능한 마일리지가 0이면 "모두 사용" 버튼과 #mileage 입력란 비활성화, 그렇지 않으면 활성화
+        if (availableMileage - mileageInput === 0) {
             $("#useAll").prop("disabled", true).addClass("disabled");
+            $("#mileage").prop("disabled", true);
         } else {
             $("#useAll").prop("disabled", false).removeClass("disabled");
+            $("#mileage").prop("disabled", false);
         }
         // 마일리지가 변경되었을 때는 할인 내역과 회원 쿠폰 내역을 유지한 채로 주문 요약 업데이트
         updateOrderSummary(updateDiscount(), parseInt($(".total.discount .content").text().replace(/[^0-9]/g, "")));

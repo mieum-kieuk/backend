@@ -591,8 +591,21 @@
 #product .qna_wrap .qna_list {
     border-bottom: 1px solid #d7d7d7;
 }
-#product .qna_wrap .qna_list li {
+#product .qna_wrap .qna_items {
     border-top: 1px solid #d7d7d7;
+}
+#product .qna_wrap .qna_tit {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+#product .qna_wrap .qna_tit #title {
+    font-size: 18px;
+    font-weight: 500;
+}
+#product .qna_wrap .qna_tit .description {
+    padding: 0;
+    margin-top: 10px;
 }
 #product_info_o {
     display: none;
