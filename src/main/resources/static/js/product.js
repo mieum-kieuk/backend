@@ -130,31 +130,46 @@ $(document).ready(function () {
         return false;
     });
 
-    // 상품문의
-    var inquiryModal = $("#inquiryModal");
-    var closeBtn = $(".close");
+    // 상품후기,상품문의
+    let reviewModal = $("#reviewModal");
+    let inquiryModal = $("#inquiryModal");
+    let closeBtn = $(".close");
 
+    $("#product .review_wrap #writeBtn").click(function() {
+        $("#reviewModal").css("display", "flex");
+    });
     $("#product .qna_wrap #writeBtn").click(function() {
         $("#inquiryModal").css("display", "flex");
     });
 
     closeBtn.click(function() {
         inquiryModal.hide();
+        reviewModal.hide();
     });
-
     $(window).click(function(event) {
         if (event.target.id === "inquiryModal") {
             inquiryModal.hide();
+        } else if (event.target.id === "reviewModal") {
+            reviewModal.hide();
         }
     });
-    $("#product .qna_items").click(function() {
-        $(this).next(".qna_content").slideToggle();
+
+    $(".qna_items, .review_items").click(function() {
+        let currentContent = $(this).next(".qna_content, .review_content");
+        if (currentContent.is(":visible")) {
+            currentContent.slideUp("fast");
+        } else {
+            $(".qna_content, .review_content").not(currentContent).slideUp("fast").promise().done(function() {
+                currentContent.slideDown();
+            });
+        }
     });
+
     $("#submitBtn").show();
     $("#editSubmitBtn").hide();
     $(".edit_btn").click(function() {
-        var questionText = $(this).closest(".qna_question").find(".qna_text").text();
-        var answerText = $(this).closest(".qna_content").find(".qna_answer").text();
+        let questionText = $(this).closest(".qna_question").find(".qna_text").text();
+        let answerText = $(this).closest(".qna_content").find(".qna_answer").text();
 
         $("#edit_title").val(questionText.trim());
         $("#edit_content").val(answerText.trim());
@@ -163,6 +178,18 @@ $(document).ready(function () {
         $("#editSubmitBtn").show();
 
         $("#inquiryModal").css("display", "flex");
+    });
+    $(".edit_btn").click(function() {
+        let reviewText = $(this).closest(".review_text_wrap").find(".review_text").text().trim();
+        let reviewRating = $(this).closest(".review_cont").find(".star.filled_star").length;
+
+        $("#content").val(reviewText);
+        $("input[name='rating'][value='" + reviewRating + "']").prop('checked', true);
+
+        $("#submitBtn").hide();
+        $("#editSubmitBtn").show();
+
+        $("#reviewModal").css("display", "flex");
     });
 });
 

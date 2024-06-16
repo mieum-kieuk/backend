@@ -17,8 +17,11 @@
     <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="../../css/comm.css" />
+    <link rel="stylesheet" href="../../css/review.css" />
     <link rel="stylesheet" href="../../css/mypage.css" />
     <script src="../../js/comm.js"></script>
+    <script src="../../js/product.js"></script>
+    <script src="../../js/review.js"></script>
 <!--    <script src="../../js/.js"></script>-->
 
 </head>
@@ -28,7 +31,6 @@
         <nav id="gnb">
             <div class="logo">
                 <a href="../index.html">
-                    <img src="../../images/meek2.png" alt="로고">
                     미음키읔
                 </a>
             </div>
@@ -46,8 +48,8 @@
                     </li>
                     <li class="depth1_menu" id="community">Community
                         <ul class="depth2">
-                            <li><a href="../notice/notice_list.html">Notice</a></li>
-                            <li><a href="../qna/qna_list.html">Q&amp;A</a></li>
+                            <li><a href="../community/notice/notice_list.html">Notice</a></li>
+                            <li><a href="../community/inquiry/inquiry_list.html">Q&amp;A</a></li>
                             <li><a href="../review/review_list.html">Review</a></li>
                         </ul>
                     </li>
@@ -101,7 +103,7 @@
                     <ul class="depth2">
                         <li><a href="./wish_list.html">위시리스트</a></li>
                         <li><a href="./my_review.html">상품 후기</a></li>
-                        <li><a href="./my_qna.html">상품 문의</a></li>
+                        <li><a href="inquiry/personal_inquiry.html">상품 문의</a></li>
                     </ul>
                 </li>
                 <li>
@@ -114,53 +116,85 @@
             </ul>
         </nav>
         <div id="boardList">
-            <div class="board_wrap wrapper">
-                <h3 class="board_title">상품 후기 관리</h3>
+            <div class="board_wrap list wrapper">
+                <h3 class="board_title">상품 후기</h3>
                 <div class="board_content">
-                    <div class="board_head">
-                        <div class="item number">
-                            <span>No.</span>
-                        </div>
-                        <div class="item title">
-                            <span>제목</span>
-                        </div>
-                        <div class="item views">
-                            <span>조회수</span>
-                        </div>
-                        <div class="item date">
-                            <span>작성일</span>
-                        </div>
-                    </div>
-                    <div class="board_list">
-                        <div class="board_item">
-                            <div class="item number">
-                                <span>2</span>
-                            </div>
-                            <div class="item title">
-                                <a href="../review/review_details.html"><span>너무 이뻐요</span></a>
-                            </div>
-                            <div class="item views">
-                                <span>조회수</span>
-                            </div>
-                            <div class="item date">
-                                <span>작성일</span>
-                            </div>
-                        </div>
-                        <div class="board_item">
-                            <div class="item number">
-                                <span>1</span>
-                            </div>
-                            <div class="item title">
-                                <a href="../review/review_details.html"><span>너무 이뻐요</span></a>
-                            </div>
-                            <div class="item views">
-                                <span>조회수</span>
-                            </div>
-                            <div class="item date">
-                                <span>작성일</span>
-                            </div>
-                        </div>
-                    </div>
+                    <table class="review_table">
+                        <thead>
+                        <tr>
+                            <th class="title">제목</th>
+                            <th>작성자</th>
+                            <th>조회수</th>
+                            <th>작성일</th>
+                        </tr>
+                        </thead>
+                        <tr id="noDataMessage">
+                            <td colspan="4">등록된 상품문의가 없습니다.</td>
+                        </tr>
+                        <tr class="review_items">
+                            <td class="title_td">
+                                 <span class="title">
+                                    너무 이뻐요
+                                </span>
+                            </td>
+                            <td><span class="writer">작성자</span></td>
+                            <td><span class="views">10</span></td>
+                            <td><span class="date">2024.04.08</span></td>
+                        </tr>
+                        <tr class="review_items">
+                            <td class="title_td">
+                                <span class="title attach">
+                                    너무 이뻐요
+                                </span>
+                            </td>
+                            <td><span class="writer">작성자</span></td>
+                            <td><span class="views">10</span></td>
+                            <td><span class="date">2024.04.08</span></td>
+                        </tr>
+                        <tr class="review_content">
+                            <td colspan="4">
+                                <div class="review_cont" id="content">
+                                    <a href="../shop/product_details.html">
+                                        <div id="orderItem" class="review_item">
+                                            <div class="thumbnail">
+                                                <img id="orderItemImg" class="item_img" src="../../images/display_thumb2.jpeg" alt="상품 이미지">
+                                            </div>
+                                            <div class="description">
+                                                <span id="orderItemName" class="item_name">Display masking tape</span>
+                                                <span id="orderItemPrice" class="item_price">3,000원</span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <div class="review_text_wrap">
+                                        <div class="review_text">미음키읔 귀여워요
+                                            재구매 할 거 같아요.
+                                        </div>
+                                        <div class="menu">
+                                            <button class="menu_toggle">
+                                                <span class="material-symbols-outlined">more_horiz</span>
+                                            </button>
+                                            <div class="dropdown_menu">
+                                                <ul>
+                                                    <li>
+                                                        <button type="button" class="edit_btn">수정</button>
+                                                    </li>
+                                                    <li>
+                                                        <button type="button" class="delete_btn">삭제</button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="review_img">
+                                        <img id="image1" src="../../images/meek2.png" alt="첨부 파일1">
+                                        <img id="image2" src="../../images/meek2.png" alt="첨부 파일2">
+                                        <img id="image3" src="../../images/meek2.png" alt="첨부 파일3">
+                                    </div>
+                                </div>
+
+                            </td>
+                        </tr>
+                    </table>
                 </div>
 
             </div>
@@ -171,9 +205,71 @@
                     <li><a href="#" class="next_last"><span class="material-symbols-outlined">navigate_next</span></a></li>
                 </ul>
             </div>
+            <div id="reviewModal" class="modal">
+                <div class="modal_content">
+                    <div class="review_head">
+                        <h1 class="review_title">상품후기</h1>
+                        <span class="material-symbols-outlined close">close</span>
+                    </div>
+                    <form id="addReviewForm" action="#" method="post">
+                        <table class="review_table">
+                            <tr>
+                                <th><label for="title">별점</label></th>
+                                <td>
+                                    <div class="star_rating">
+                                        <input type="radio" id="rating-1" class="rating" name="rating" value="1">
+                                        <label for="rating-1" class="star"></label>
+                                        <input type="radio" id="rating-2" class="rating" name="rating" value="2">
+                                        <label for="rating-2" class="star"></label>
+                                        <input type="radio" id="rating-3" class="rating" name="rating" value="3">
+                                        <label for="rating-3" class="star"></label>
+                                        <input type="radio" id="rating-4" class="rating" name="rating" value="4">
+                                        <label for="rating-4" class="star"></label>
+                                        <input type="radio" id="rating-5" class="rating" name="rating" value="5">
+                                        <label for="rating-5" class="star"></label>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><label for="title">제목</label></th>
+                                <td><input type="text" id="title" name="title" placeholder="제목을 입력해 주세요." maxlength="50"></td>
+                            </tr>
+                            <tr >
+                                <td colspan="2">
+                                    <textarea id="content" name="content" rows="8" placeholder="리뷰를 작성해 주세요."></textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><label for="image1">첨부 파일1</label></th>
+                                <td>
+                                    <input type="file" id="image1" name="image">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><label for="image2">첨부 파일2</label></th>
+                                <td>
+                                    <input type="file" id="image2" name="image">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><label for="image3">첨부 파일3</label></th>
+                                <td>
+                                    <input type="file" id="image3" name="image">
+                                </td>
+                            </tr>
+                        </table>
+                        <div class="btn_wrap">
+                            <button type="button" class="btn1" onclick="location.href = './review_list.html'">취소</button>
+                            <button type="submit" id="submitBtn" class="btn1 submit_btn">등록</button>
+                            <button type="submit" id="editSubmitBtn" class="btn1 submit_btn">완료</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
         </div>
     </div>
-    <footer id="footer" class="footer fixed">
+    <footer id="footer" class="footer">
         <div class="footer_wrap">
             <div class="footer_inner">
                 <ul>

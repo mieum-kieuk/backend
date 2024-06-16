@@ -278,7 +278,7 @@
     width: 100% ;
     margin-top: 163.59px;
 }
-/*qna modal*/
+/*qna modal, review_modal*/
 .modal {
     display: none;
     position: fixed;
@@ -318,10 +318,10 @@
 .modal .qna_table td textarea {
     height: 360px;
 }
-.modal .qna_head {
+.modal .qna_head, .modal .review_head {
     flex-direction: row;
     align-items: center;
 }
-.modal .qna_title {
+.modal .qna_title, .modal .review_title {
     margin-bottom: 0;
 }

@@ -12,18 +12,21 @@
     flex-direction: column;
 }
 .popup_btn {
-    margin-left: 20px;
+    margin-left: 10px;
     padding: 5px 10px;
     border: 1px solid #222;
     border-radius: 2px;
+}
+.popup_btn.info {
+    display: none;
 }
 #review {
     display: flex;
     flex-direction: column;
     max-width: 1100px;
     width: 100%;
-    min-height: calc( 100svh - 150px) ;
-    margin-top: 150px;
+    min-height: 700px ;
+    margin-top: 120px;
 }
 .review_wrap {
     width: 100%;
@@ -34,9 +37,9 @@
 .review_title {
     display: block;
     text-align: center;
-    font-size: 18px;
+    font-size: 22px;
     font-weight: 400;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
     width: 100%;
 }
 .item_img {
@@ -60,14 +63,27 @@
     border: 1px solid #d7d7d7 ;
     /*padding: 10px;*/
 }
-.review_table tr:first-child {
-    border: none;
-}
-.review_table tr:first-child th{
-    padding: 5px 0;
-}
+
+/*.review_table tr:first-child th{*/
+/*    padding: 5px 0;*/
+/*}*/
 .review_table th {
     width: 90px;
+}
+.review_item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+.item_wrap {
+    display: flex;
+}
+.review_item .description {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 80px;
+    font-weight: normal;
 }
 .review_table td input {
     width: 100%;
@@ -75,11 +91,14 @@
 .review_table th label {
     font-weight: 600;
     color: #999;
+    display: flex;
+    width: 95px;
+    padding-left: 10px;
 }
 .review_table td textarea {
     width: 100%;
     height: 450px;
-    resize: vertical;
+    resize: unset;
 }
 .review_table th, .review_table td {
     padding: 5px;
@@ -95,26 +114,25 @@
 }
 /*details*/
 .review_wrap.details {
-    border-bottom: 1px solid #eee;
-    padding-bottom: 30px;
+    padding-bottom: 10px;
 }
-.order_item {
+.review_item {
     display: flex;
     align-items: center;
     border: 1px solid #eee;
     padding: 10px;
     /*width: 50%;*/
 }
-.order_item .description {
+.review_item .description {
     display: flex;
     flex-direction: column;
 }
-.order_item .description .item_name {
+.review_item .description .item_name {
     display: block;
     font-size: 14px;
     padding: 5px 10px;
 }
-.order_item .description .item_price {
+.review_item .description .item_price {
     display: block;
     padding: 0 10px;
 }
@@ -124,7 +142,7 @@
 .btn_wrap.details.right {
     justify-content: flex-end;
     gap: 8px;
-    margin-top: 30px;
+    margin-top: 10px;
 }
 .btn_wrap.details .btn1 {
     width: 100px;
@@ -137,26 +155,35 @@
     margin-bottom: 10px;
 }
 .review_tit {
-    padding: 10px;
+    padding: 10px 0;
 }
 .review_tit .description {
     margin-top: 10px;
 }
 .review_cont {
-    border-top: 1px solid #eee;
-    border-bottom: 1px solid #eee;
-    padding: 10px;
+    border-top: 1px solid #333;
+    border-bottom: 1px solid #333;
+    padding: 10px 0;
+    min-height: 400px;
 }
 .review_text {
     margin-bottom: 20px;
+    white-space: pre-line;
+    text-align: left;
 }
 .review_img {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    flex-direction: row;
+    justify-content: flex-start;
     gap: 10px;
 }
+.review_img img {
+    width: 200px;
+    height: 200px;
+    object-fit: contain;
+}
 .review_file {
+    display: flex;
     margin-top: 20px;
 }
 .cmt_wrap {
@@ -218,9 +245,6 @@
 }
 .btn_wrap .write_btn {
     width: 100px;
-    height: 30px;
-    background: #222;
-    color: #fff;
 }
 .review_table {
     border-collapse: collapse;
@@ -241,39 +265,44 @@
 .review_table thead th{
     font-weight: 500;
 }
+.list .review_table thead tr{
+    border-top: 1px solid #333;
+    border-bottom: 1px solid #333;
+}
+
 .list .review_table tr {
     border-right: none;
     border-left: none;
     /*padding: 10px;*/
 }
-.list .review_table tr:first-child {
-    border: none;
-    /*border-bottom: 1px solid #333;*/
+.list .review_table tr:first-child th {
+    padding: 20px 10px;
 }
-
 .list .review_table th, .list .review_table td {
     display: table-cell;
-    width: 100%;
+    /*width: 100%;*/
     min-width: 100px;
     text-align: center;
-    padding: 10px;
+    padding: 20px 10px;
 }
 .review_table td input {
     width: 100%;
 }
-.review_table th label {
+.list .review_table th label {
     font-weight: 600;
     color: #999;
 }
-.review_table td textarea {
-    width: 100%;
-    height: 450px;
-    resize: vertical;
-}
 .review_table tbody .title_td {
-    min-width: 600px;
+    width: 100%;
+    /*min-width: 600px;*/
     text-align: left;
 }
+.review_table tbody .title_td .title {
+    height: 80px;
+    display: flex;
+    align-items: center;
+}
+
 .review_foot {
     display: flex;
     justify-content: space-between;
@@ -291,7 +320,7 @@
 #reviewSearchForm .btn1{
     height: 30px;
 }
-.attach::before {
+.attach::after {
     content: "\e226";
     font-family: "Material Symbols Outlined";
     color: #666;
@@ -320,11 +349,9 @@
     align-items: center;
     font-size: 0; /* 부모 컨테이너 크기에 맞춰 별의 크기를 조정하기 위해 필요 */
 }
-
 .rating {
     display: none; /* 기본적으로 input 요소를 숨김 */
 }
-
 .star {
     display: flex;
     align-items: center;
@@ -333,9 +360,8 @@
     font-size: 24px; /* 별의 크기 조정 */
     font-weight: 100;
     cursor: pointer; /* 마우스 커서를 포인터로 변경하여 클릭 가능한 요소임을 나타냄 */
-    color: #666; /* 비어있는 별의 색상 */
+    color: #ffd700; /* 비어있는 별의 색상 */
 }
-
 .star::before {
     content: '\2606'; /* 비어있는 별 모양 */
 }
@@ -345,29 +371,23 @@
     content: '\2605'; /* 채워진 별 모양 */
 }
 
-/* rating-1 선택 시 */
-#rating-1:checked ~ .star:nth-of-type(1)::before {
-    content: '\2605'; /* rating-1이 선택되었을 때 첫 번째 별만 채워짐 */
-}
-
-/* rating-2 선택 시 */
-#rating-2:checked ~ .star:nth-of-type(-n + 2)::before {
-    content: '\2605'; /* rating-2가 선택되었을 때 두 번째 별까지 채워짐 */
-}
-
-/* rating-3 선택 시 */
-#rating-3:checked ~ .star:nth-of-type(-n + 3)::before {
-    content: '\2605'; /* rating-3이 선택되었을 때 세 번째 별까지 채워짐 */
-}
-
-/* rating-4 선택 시 */
-#rating-4:checked ~ .star:nth-of-type(-n + 4)::before {
-    content: '\2605'; /* rating-4가 선택되었을 때 네 번째 별까지 채워짐 */
-}
-
-/* rating-5 선택 시 */
-#rating-5:checked ~ .star:nth-of-type(-n + 5)::before {
-    content: '\2605'; /* rating-5가 선택되었을 때 다섯 번째 별까지 채워짐 */
+#rating-1:checked ~ label[for="rating-1"],
+#rating-2:checked ~ label[for="rating-1"],
+#rating-2:checked ~ label[for="rating-2"],
+#rating-3:checked ~ label[for="rating-1"],
+#rating-3:checked ~ label[for="rating-2"],
+#rating-3:checked ~ label[for="rating-3"],
+#rating-4:checked ~ label[for="rating-1"],
+#rating-4:checked ~ label[for="rating-2"],
+#rating-4:checked ~ label[for="rating-3"],
+#rating-4:checked ~ label[for="rating-4"],
+#rating-5:checked ~ label[for="rating-1"],
+#rating-5:checked ~ label[for="rating-2"],
+#rating-5:checked ~ label[for="rating-3"],
+#rating-5:checked ~ label[for="rating-4"],
+#rating-5:checked ~ label[for="rating-5"] {
+    content: '\2605';
+    color: #FFD700;
 }
 /*product_details*/
 #product .review_wrap .review_head {
@@ -379,7 +399,8 @@
 #product .review_wrap .review_title {
     text-align: left;
     width: auto ;
-    margin-bottom: 0;
+    margin-bottom: 10px;
+    font-weight: 500;
 }
 #product .review_wrap .btn_wrap {
     justify-content: flex-end;
@@ -393,9 +414,22 @@
     border-top: 1px solid #d7d7d7;
     padding: 10px 0;
 }
+#product .review_wrap.list .review_content td {
+    padding: 0;
+}
+#product .review_wrap .review_content {
+    display: none;
+}
+#product .review_table td textarea {
+    height: 250px;
+    resize: unset;
+}
 #product .review_wrap.list .pagination li a {
     border: 1px solid #eee;
 }
 #product .review_wrap.list .pagination li .prev_first, #product .review_wrap.list .pagination li .next_last {
     border: none;
+}
+.modal .review_table tr:nth-child(3) td {
+    padding: 5px;
 }

@@ -481,14 +481,18 @@ h3 {
 #boardList {
     display: flex;
     flex-wrap: wrap;
+    align-content: space-between;
     width:  100%;
     margin-left: 200px;
 }
 .board_title_wrap {
     display: flex;
     border-bottom: 1px solid #333;
+    align-items: center;
 }
-
+.board_title_wrap .btn_wrap {
+    width: auto;
+}
 .board_head {
     display: flex;
     justify-content: space-between;
@@ -501,46 +505,139 @@ h3 {
 .board_content .qna_table th {
     width: 100px;
 }
-.board_item  {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    border-bottom: 1px solid #999;
-}
-.board_head .item {
-    padding: 20px 10px;
-}
-.board_wrap .item {
-    display: flex;
-    justify-content: center;
+.board_wrap.list .qna_table th, .board_wrap.list .qna_table td {
+    display: table-cell;
+    min-width: 100px;
     text-align: center;
-    /*padding: 20px 10px;*/
-}
-.board_wrap .item.title a{
-    display: flex;
-    width: 100%;
-    text-align: left;
-    align-items: center;
     padding: 20px 10px;
 }
-.board_wrap .number {
-    width: 5%;
+.board_wrap.list .qna_table thead tr {
+    border-bottom: 1px solid #333;
+    border-top: 1px solid #333;
 }
-.board_wrap .type, .board_wrap .status, .board_wrap .views, .board_wrap .date {
-    width: 10%;
+.board_wrap.list .qna_table tr {
+    border-top: none;
+    border-right: none;
+    border-left: none;
 }
-.board_wrap .board_head .title {
-    justify-content: center;
+.board_wrap.list .qna_table .title, .board_wrap.list .review_table .title {
+    height: auto;
 }
-.board_wrap .title {
-    width: 55%;
-    justify-content: flex-start;
+.board_wrap.list .qna_table .qna_content td {
+    padding: 0;
 }
-.board_foot form {
+.board_wrap.list .qna_table .qna_content td {
+    padding: 0;
+    text-align: left;
+}
+.board_wrap.list .qna_table tbody .title_td {
+    text-align: left;
+}
+.board_wrap.list .qna_table .title_td .title {
     display: flex;
-    gap: 10px;
+    align-items: center;
+}
+.board_wrap.list #noDataMessage {
+    display: table-row;
+}
+.board_wrap.list .qna_table .qna_items {
+    cursor: pointer;
+}
+.board_wrap.list  .qna_table .qna_content, .board_wrap.list .review_table .review_content {
+    display: none;
+}
+.board_wrap.list .qna_table .qna_content td, .board_wrap.list .review_table .review_content td{
+    padding: 0;
+    text-align: left;
+}
+.board_wrap.list .qna_cont, .board_wrap.list .review_cont {
+    height: auto;
+    min-height: auto;
+    padding: 10px 0;
+}
+.board_wrap.list .qna_question, .board_wrap.list .review_text_wrap {
+    display: flex;
+    justify-content: space-between;
+}
+.board_wrap.list .review_text_wrap {
+    padding-top: 10px;
+}
+.board_wrap.list .qna_text, .board_wrap.list .qna_answer {
+    display: flex;
+    width: 100%;
+    padding-top: 0;
+}
+.board_wrap.list .qna_text span:first-child, .board_wrap.list .qna_answer span:first-child {
+    display: flex;
+    padding: 3px;
+    font-size: 16px;
+    background: #eee;
+    color: #666;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    justify-content: center;
+    align-items: center;
+    margin-right: 5px;
+}
+.board_wrap.list .qna_text span:nth-child(2), .board_wrap.list .qna_answer span:nth-child(2) {
+    padding-top: 3px;
+    width: 95%;
+    text-align: left;
+}
+/*inquiry modal*/
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background: rgba(0,0,0,0.4);
+    justify-content: center;
+    align-items: center;
+}
+.modal_content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: #fff;
+    width: 800px;
+    height: 600px;
+    padding: 20px;
+    border-radius: 8px;
+    position: relative;
+}
+.modal .close {
+    color: #222;
+    font-size: 28px;
+    cursor: pointer;
+}
+.modal #addQnaForm .qna_table tr:first-child label {
+    font-weight: 600;
+    color: #999;
+    max-width: 100px;
+    width: 100%;
+    padding-left: 10px;
+}
+.modal .qna_table td textarea {
+    height: 360px;
+}
+.modal .qna_head {
+    flex-direction: row;
+    align-items: center;
+}
+.modal .review_table td textarea {
+    height: 250px;
+}
+.modal .qna_head, .modal .review_head {
+    flex-direction: row;
+    align-items: center;
+}
+.modal .qna_title, .modal .review_title {
+    margin-bottom: 0;
 }
 .field-error {
     margin-top: 3px;

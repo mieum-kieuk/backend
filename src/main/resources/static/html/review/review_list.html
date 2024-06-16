@@ -24,44 +24,74 @@
 <div class="wrap">
 <div id="review">
     <div class="review_wrap list">
-    <div class="review_head">
-        <h1>Review</h1>
-        <div class="btn_wrap">
-        <button type="button" id="writeBtn" class="btn1 write_btn" onclick="location.href = './add_review.html'">작성</button>
-        </div>
-    </div>
+    <h1 class="review_title">Review</h1>
     <div class="review_list wrapper">
-        <ul class="review_items">
-            <li>
-                <a href="">
-                    <div class="thumbnail">
-                    <a href=""><img id="orderItemImg" class="item_img" src="../../images/display_thumb2.jpeg" alt="상품 이미지"></a>
-                    </div>
-                    <div class="review_tit" >
-                        <h3 id="title">너무 이뻐요</h3>
-                        <div class="description">
-                            <span class="id">작성자</span>
-                            <span class="date">작성일</span>
-                        </div>
-                    </div>
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <div class="thumbnail">
-                        <a href="#"><img class="item_img" src="../../images/display_thumb2.jpeg" alt="상품 이미지"></a>
-                    </div>
-                    <div class="review_tit" >
-                        <h3 class="attach">너무 이뻐요<span class="cmt_ea">[<span>1</span>]</span></h3>
-                        <div class="description">
-                            <span class="id">작성자</span>
-                            <span class="date">작성일</span>
-                        </div>
-
-                    </div>
-                </a>
-            </li>
-        </ul>
+        <table class="review_table">
+            <thead>
+            <tr>
+                <th>No.</th>
+                <th>상품 이미지</th>
+                <th class="title">제목</th>
+                <th>작성자</th>
+                <th>조회수</th>
+                <th>작성일</th>
+            </tr>
+            </thead>
+            <tr id="noDataMessage">
+                <td colspan="6">등록된 상품문의가 없습니다.</td>
+            </tr>
+            <tr>
+                <td><span>2</span></td>
+                <td>
+                    <a href="../shop/product_details.html"><img id="orderItemImg" class="item_img" src="../../images/display_thumb2.jpeg" alt="상품 이미지"></a>
+                </td>
+                <td class="title_td">
+                    <a class="title" href="../review/review_details.html">
+                        <span >
+                            너무 이뻐요
+                        </span>
+                    </a>
+                </td>
+                <td><span class="writer">작성자</span></td>
+                <td><span class="views">10</span></td>
+                <td><span class="date">2024.04.08</span></td>
+            </tr>
+            <tr>
+                <td><span>1</span></td>
+                <td>
+                    <a href="../shop/product_details.html"><img id="orderItemImg" class="item_img" src="../../images/display_thumb2.jpeg" alt="상품 이미지"></a>
+                </td>
+                <td class="title_td">
+                    <a class="title attach" href="../review/review_details.html">
+                        <span>
+                            너무 이뻐요
+                        </span>
+                    </a>
+                </td>
+                <td><span class="writer">작성자</span></td>
+                <td><span class="views">10</span></td>
+                <td><span class="date">2024.04.08</span></td>
+            </tr>
+        </table>
+        <div class="review_foot">
+        <form id="reviewSearchForm">
+            <select id="searchDate">
+                <option value="week">일주일</option>
+                <option value="month">한달</option>
+                <option value="3month">세달</option>
+                <option value="all">전체</option>
+            </select>
+            <select id="searchKey">
+                <option value="subject">제목</option>
+                <option value="content">내용</option>
+            </select>
+            <input type="text" id="searchKeyword" name="searchKeyword" maxlength="50">
+            <button type="submit" class="btn1">검색</button>
+        </form>
+        <div class="btn_wrap">
+            <button type="button" id="writeBtn" class="btn1 write_btn" onclick="location.href = './add_review.html'">작성</button>
+        </div>
+        </div>
     </div>
     <div class="pagination">
         <ul>
