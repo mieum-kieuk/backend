@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static archivegarden.shop.entity.OrderStatus.TRY;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -30,8 +32,10 @@ public class OrderService {
 
     /**
      * 주문 생성
+     *
+     * @return 주문번호
      */
-    public void createOrder(List<Long> productIds, Long memberId) {
+    public String createOrder(List<Long> productIds, Long memberId) {
         
         //회원, 상품 조회
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new NoSuchMemberException("존재하지 않는 회원입니다."));
@@ -60,10 +64,14 @@ public class OrderService {
                 .member(member)
                 .delivery(delivery)
                 .merchantUid(merchantUid)
+                .totalAmount(100)
+                .orderStatus(TRY)   //주문시도
                 .orderProducts(orderProducts)
                 .build();
 
         //주문 상품, 주문 저장
         orderRepository.save(order);
+
+        return merchantUid;
     }
 }

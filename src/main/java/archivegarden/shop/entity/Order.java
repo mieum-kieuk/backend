@@ -21,17 +21,20 @@ public class Order {
     @Column(name = "order_id")
     private Long id;
 
-    @Column(name = "recipient_name")
-    private String recipientName;
-
-    @Column(name = "recipient_phonenumber")
-    private String recipientPhonenumber;
-
-    @Column(name = "shipping_address")
-    private String shippingAddress;
-
     @Column(name = "merchant_uid")
     private String merchantUid;
+
+    @Column(name = "recipient_name", length = 12, nullable = false)
+    private String recipientName;
+
+    @Column(name = "recipient_address", length = 100, nullable = false)
+    private String recipientAddress;
+
+    @Column(name = "recipient_phone_number", length = 13, nullable = false)
+    private String recipientPhonenumber;
+
+    @Column(name = "total_amount", nullable = false)
+    private int totalAmount;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "order_status")
@@ -39,6 +42,9 @@ public class Order {
 
     @Column(name = "order_at", nullable = false, updatable = false)
     private LocalDateTime orderAt;
+
+    @Column(name = "delivered_at")
+    private LocalDateTime deliveredAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
@@ -53,16 +59,15 @@ public class Order {
         orderProduct.setOrder(this);
     }
 
-    private void setMember(Member member) {
-        this.member = member;
-        member.getOrders().add(this);
-    }
-
     @Builder
-    public Order(Member member, String merchantUid, List<OrderProduct> orderProducts) {
-        setMember(member);
+    public Order(Member member, Delivery delivery, String merchantUid, int totalAmount, OrderStatus orderStatus, List<OrderProduct> orderProducts) {
+        this.member = member;
+        this.recipientName = delivery.getRecipientName();
+        this.recipientPhonenumber = delivery.getPhonenumber();
+        this.recipientAddress = delivery.getAddress().fullAddress();
         this.merchantUid = merchantUid;
-        this.orderStatus = OrderStatus.TRY;
+        this.totalAmount = totalAmount;
+        this.orderStatus = orderStatus;
         this.orderAt = LocalDateTime.now();
         for (OrderProduct orderProduct : orderProducts) {
             addOrderProduct(orderProduct);
