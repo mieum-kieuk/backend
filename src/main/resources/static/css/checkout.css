@@ -285,21 +285,21 @@ section {
     height: 45px;
 }
 /*point*/
-.mileage_cont {
+.point_cont {
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 10px;
 }
-.mileage_input {
+.point_input {
     display: flex;
     gap: 10px;
     width: 80%;
 }
-.mileage_input .btn1 {
+.point_input .btn1 {
     width: 80px;
 }
-.mileage_details span {
+.point_details span {
     line-height: 32px;
 }
 /*pay*/
