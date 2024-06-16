@@ -1,53 +1,51 @@
 $(document).ready(function() {
-    initializeDropdownMenus();
-
     // 팝업 창을 띄우는 함수
     $('#popupBtn').click(function() {
         window.open("/shop/products/search", "_blank", "width=600px,height=450px");
     });
+    // 상품문의
+    var inquiryModal = $("#inquiryModal");
+    var closeBtn = $(".close");
+
+    closeBtn.click(function() {
+        inquiryModal.hide();
+    });
+
+    $(window).click(function(event) {
+        if (event.target.id === "inquiryModal") {
+            inquiryModal.hide();
+        }
+    });
+
+    $(".qna_items").click(function() {
+        let currentContent = $(this).next(".qna_content");
+
+        // 이미 열려 있는 항목을 클릭한 경우 닫기
+        if (currentContent.is(":visible")) {
+            currentContent.slideUp("fast");
+        } else {
+            // 먼저 모든 qna_content를 닫습니다
+            $(".qna_content").not(currentContent).slideUp("fast").promise().done(function() {
+                // slideUp이 완료된 후에 현재 클릭된 항목을 열거나 닫습니다
+                currentContent.slideDown();
+            });
+        }
+    });
+
+
+    $(".edit_btn").click(function() {
+        var questionText = $(this).closest(".qna_question").find(".qna_text").text();
+        var answerText = $(this).closest(".qna_content").find(".qna_answer").text();
+
+        $("#edit_title").val(questionText.trim());
+        $("#edit_content").val(answerText.trim());
+
+        $("#submitBtn").hide();
+        $("#editSubmitBtn").show();
+
+        $("#inquiryModal").css("display", "flex");
+    });
 });
-
-function initializeDropdownMenus() {
-    // Document 클릭 이벤트
-    $(document).on('click', function(event) {
-        closeDropdownMenus(event);
-    });
-
-    // 메뉴 토글 클릭 이벤트
-    $(document).on('click', '.menu_toggle', function() {
-        toggleDropdownMenu($(this));
-    });
-
-    $(document).on('click', '.edit_btn', function() {
-        editComment($(this));
-    });
-
-    $(document).on('click', '.delete_btn', function() {
-        deleteComment($(this));
-    });
-}
-
-function closeDropdownMenus(event) {
-    var dropdownMenus = $('.dropdown_menu');
-
-    // 메뉴 토글 또는 드롭다운 메뉴 내부를 클릭한 경우, 함수 종료
-    if ($(event.target).closest('.menu_toggle, .dropdown_menu').length) {
-        return;
-    }
-
-    // 모든 드롭다운 메뉴를 닫기
-    dropdownMenus.removeClass('show');
-}
-
-function toggleDropdownMenu(toggleElement) {
-    var dropdownMenu = toggleElement.siblings('.dropdown_menu');
-
-    // 다른 모든 드롭다운 메뉴를 닫기
-    $('.dropdown_menu').not(dropdownMenu).removeClass('show');
-
-    // 해당 드롭다운 메뉴 토글
-    dropdownMenu.toggleClass('show');
-}
 
 function submitComment() {
     let commentText = $('#cmtInput').val().trim();

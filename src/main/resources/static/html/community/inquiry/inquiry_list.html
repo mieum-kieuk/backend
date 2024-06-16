@@ -22,11 +22,72 @@
 </head>
 <body>
 <div class="wrap">
+    <header id="header" class="header">
+        <nav id="gnb">
+            <div class="logo">
+                <a href="../../index.html">
+                    <img src="../../images/tickers_logo.png" alt="로고">
+                </a>
+            </div>
+            <div class="gnb_menu center">
+                <ul class="depth1">
+                    <li class="depth1_menu" id="shop">
+                        <a href="../../shop/product_list.html">Shop</a>
+                        <ul class="depth2">
+                            <li><a href="../shop/product.html">Masking tape</a></li>
+                            <li><a href="../shop/product.html">Sticker</a></li>
+                            <li><a href="../shop/product.html">Memo</a></li>
+                        </ul>
+                    </li>
+                    <li class="depth1_menu" id="about"><a href="../about.html">About</a>
+                    </li>
+                    <li class="depth1_menu" id="community">Community
+                        <ul class="depth2">
+                            <li><a href="st.html">Notice</a></li>
+                            <li><a href="../inquiry/inquiry_list.html">Q&amp;A</a></li>
+                            <li><a href="../../review/review_list.html">Review</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="gnb_menu">
+                <div class="search">
+                    <form action="#" method="get">
+                        <button type="submit" >Search</button>
+                    </form>
+                    <div class="search_popup">
+                        <div class="search_bg"></div>
+                        <div class="search_form_wrap">
+                            <form action="../../search/search_complete.html" method="get">
+                                <input type="text" placeholder="검색어를 입력하세요.">
+                                <button type="submit" class="search_btn">Search</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="account">
+                    <ul class="depth1">
+                        <li class="depth1_menu">Account
+                            <ul class="depth2">
+                                <li><a href="../../members/login.html">Login</a></li>
+                                <li><a href="../../members/join.html">Join</a></li>
+                                <li><a href="../members/order.html">Order</a></li>
+                                <li><a href="../members/mypage.html">Mypage</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                </div>
+                <div class="cart">
+                    <a href="../../cart/cart.html" >Cart(0)
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
     <div id="qna">
         <div class="qna_wrap list">
-            <div class="qna_head">
-                <h1 class="qna_title">상품문의</h1>
-            </div>
+            <h1 class="qna_title">상품문의</h1>
             <div class="qna_list wrapper">
                 <table class="qna_table">
                     <thead>
@@ -109,5 +170,35 @@
             </div>
         </div>
     </div>
+    <footer id="footer" class="footer">
+        <div class="footer_wrap">
+            <div class="footer_inner">
+                <ul>
+                    <li><a href="">Instagram</a></li>
+                </ul>
+            </div>
+            <div class="footer_inner">
+                <ul>
+                    <li><a href="">Terms of Use</a></li>
+                    <li><a href="">Privacy Policy</a></li>
+                    <li><a href="">Shop Guide</a></li>
+                </ul>
+            </div>
+            <div class="footer_inner">
+                <ul>
+                    <li>Company : 티커스</li>
+                    <li>전화번호 : 010-1234-5678</li>
+                    <li>이메일 : tickers@gmail.com</li>
+                </ul>
+            </div>
+            <div class="footer_inner">
+                <ul>
+                    <li>사업자 번호 : 070-61-01100</li>
+                    <li>주소 : 서울시 티커스구 티커스대로 123</li>
+                    <li>Copyright ©Tickers All rights reserved.</li>
+                </ul>
+            </div>
+        </div>
+    </footer>
 </div>
 </body>
