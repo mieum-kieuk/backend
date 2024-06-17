@@ -49,7 +49,6 @@ function formatDate(date) {
 }
 // 폼 제출 전 유효성 검사 함수
 function validateBeforeSubmit() {
-    let searchKeyword = $('#searchKeyword').val().trim();
     let startDatetime = $('#startDate').val().trim();
     let endDatetime = $('#endDate').val().trim();
 
@@ -63,11 +62,6 @@ function validateBeforeSubmit() {
     if (startDatetime === '' && endDatetime === '') {
         // 다른 유효성 검사를 통과하지 않아도 상관 없음
         return true;
-    }
-
-    if (searchKeyword === '') {
-        alert('검색어를 입력해 주세요.');
-        return false;
     }
 
     let startDate = new Date(startDatetime);

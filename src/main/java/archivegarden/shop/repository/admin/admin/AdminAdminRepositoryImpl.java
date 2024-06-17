@@ -3,7 +3,9 @@ package archivegarden.shop.repository.admin.admin;
 import archivegarden.shop.dto.admin.admin.AdminListDto;
 import archivegarden.shop.dto.admin.admin.AdminSearchForm;
 import archivegarden.shop.dto.admin.admin.QAdminListDto;
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
@@ -15,10 +17,10 @@ import org.springframework.util.StringUtils;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static archivegarden.shop.entity.QAdmin.admin;
+import static archivegarden.shop.entity.QProduct.product;
 
 public class AdminAdminRepositoryImpl implements AdminAdminRepositoryCustom {
 
@@ -43,7 +45,10 @@ public class AdminAdminRepositoryImpl implements AdminAdminRepositoryCustom {
                         keywordLike(form.getSearchKey(), form.getKeyword()),
                         searchDateBetween(form.getStartDate(), form.getEndDate())
                 )
-                .orderBy(admin.createdAt.desc())
+                .orderBy(
+                        anonymousFirst(),
+                        admin.createdAt.desc()
+                )
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
@@ -73,15 +78,21 @@ public class AdminAdminRepositoryImpl implements AdminAdminRepositoryCustom {
         return null;
     }
 
-    private BooleanExpression searchDateBetween(String startDate, String endDate) {
-
-        if (StringUtils.hasText(startDate) && StringUtils.hasText(endDate)) {
-            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            LocalDateTime startDateTime = LocalDate.parse(startDate, dateTimeFormatter).atStartOfDay();
-            LocalDateTime endDateTime = LocalDate.parse(endDate, dateTimeFormatter).atTime(LocalTime.MAX);
+    private BooleanExpression searchDateBetween(LocalDate startDate, LocalDate endDate) {
+        if (startDate != null && endDate != null) {
+            LocalDateTime startDateTime = startDate.atStartOfDay();
+            LocalDateTime endDateTime = endDate.atTime(LocalTime.MAX);
             return admin.createdAt.between(startDateTime, endDateTime);
         }
 
         return null;
+    }
+
+    /**
+     * 승인 안된 관리자 우선 조회
+     */
+    private OrderSpecifier<?> anonymousFirst() {
+        return Expressions.stringTemplate("decode({0}, {1}, {2})", admin.isAuthorized, "TRUE", 1)
+                .desc();
     }
 }

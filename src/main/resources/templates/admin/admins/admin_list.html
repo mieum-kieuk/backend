@@ -32,17 +32,16 @@
                             <label for="searchKeyword">검색어</label>
                             <select id="searchKey" name="searchKey">
                                 <option value="loginId" th:selected="${form.searchKey} == 'loginId'">아이디</option>
-                                <option value="name" th:selected="${form.searchKey} == 'name'">이름</option>
+                                <option value="name" th:selected="${form.searchKey} == 'name'">관리자명</option>
                                 <option value="email" th:selected="${form.searchKey} == 'email'">이메일</option>
                             </select>
-                            <input type="text" id="searchKeyword" name="keyword" th:value="${form.keyword}">
+                            <input type="text" id="searchKeyword" name="keyword" th:value="${form.keyword}" maxlength="45">
                         </div>
                         <div class="form_wrap search date">
                             <label>기간검색</label>
-                            <input type="text" id="startDate" name="startDate" th:value="${form.startDate}"
-                                   maxlength="10">
+                            <input type="date" id="startDate" name="startDate" th:value="${form.startDate}" readonly>
                             <span style="display: flex; align-items: center;">~</span>
-                            <input type="text" id="endDate" name="endDate" th:value="${form.endDate}" maxlength="10">
+                            <input type="date" id="endDate" name="endDate" th:value="${form.endDate}" readonly>
                             <div class="date_option">
                                 <input type="button" onclick="setSearchDate(0);" class="btn1" value="오늘">
                                 <input type="button" onclick="setSearchDate(7);" class="btn1" value="일주일">
@@ -52,6 +51,7 @@
                                 <input type="button" onclick="setSearchDate('all');" class="btn1" value="전체">
                             </div>
                         </div>
+                        <div class="field-error" th:text="${error}?:_"></div>
                     </div>
                     <div class="btn_wrap">
                         <button type="button" class="btn1 reset_btn">초기화</button>
@@ -66,29 +66,29 @@
                     <table class="admins_table">
                         <thead>
                         <tr>
-                            <th><input type="checkbox" id="selectAll"></th>
-                            <th>승인</th>
+                            <th><input type="checkbox" disabled></th>
                             <th>이름</th>
                             <th>아이디</th>
                             <th>이메일</th>
                             <th>가입일시</th>
+                            <th>승인</th>
                         </tr>
                         </thead>
-                        <tr id="noDataMessage" th:if="${admins.content.size() == 0}">
+                        <tr id="noDataMessage" th:if="${admins != null} and ${admins.content.size() == 0}">
                             <td colspan="6">검색결과가 없습니다.</td>
                         </tr>
                         <tbody>
                         <tr th:each="admin : ${admins}">
-                            <td align="center"><input type="checkbox" th:id="|checkbox + ${admin.id}|"></td>
-                            <td><span th:text="${admin.isAuthorized}"></span></td>
+                            <td><input type="checkbox" th:id="checkbox + ${admin.id}"></td>
                             <td><span th:text="${admin.name}"></span></td>
                             <td><span th:text="${admin.loginId}"></span></td>
                             <td><span th:text="${admin.email}"></span></td>
                             <td><span th:text="${admin.createdAt}"></span></td>
+                            <td><span th:text="${admin.isAuthorized}"></span></td>
                         </tr>
                         </tbody>
                     </table>
-                    <div class="pagination" th:if="${admins.totalPages > 0}">
+                    <div class="pagination" th:if="${admins != null} and ${admins.totalPages > 0}">
                         <ul th:if="${form.keyword == null}">
                             <li><a href="./admin_list.html" th:href="@{/admin/admins}" class="prev_first">
                                 <span class="material-symbols-outlined navigate">navigate_before</span></a></li>
