@@ -533,7 +533,7 @@ input::-webkit-inner-spin-button {
 /*List*/
 table {
     width: 100%;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 .list table a {
     display: flex;
@@ -748,6 +748,7 @@ th {
 .admin_wrap #noticeList {
     margin-top: 0;
     max-width: none;
+    min-height: 500px;
 }
 #admin #noticeList th, #admin #noticeList td {
     text-align: center;
@@ -867,13 +868,16 @@ th {
     padding: 0;
 }
 .point .modal.point .modal_content{
-    height: 400px;
+    height: 360px;
 }
 .point .modal.point .form_wrap{
     padding: 30px 0 0 ;
 }
 .point .member_list .btn1 {
     width: 120px;
+}
+.point .search_form.point {
+    margin-bottom: 22px;
 }
 /*admin_qna*/
 .admin_wrap .qna_wrap.list .search_form {

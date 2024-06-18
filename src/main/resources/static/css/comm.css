@@ -94,6 +94,9 @@ input[type=text], input[type=password], input[type=submit], input[type=search] {
   -webkit-appearance: none;
   /*border-radius: 0px;*/
 }
+input[type=checkbox] {
+  cursor: pointer;
+}
 input:checked[type=checkbox] {
   background-color: #666;
   -webkit-appearance: checkbox;
@@ -137,13 +140,6 @@ input:-webkit-autofill:active {
   font-family: 'SUITE';
   src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2') format('woff2');
   font-weight: 400;
-  font-style: normal;
-  unicode-range: U+AC00-D7A3, U+0030-0039, U+0020-002F, U+003A-0040, U+005B-0060, U+007B-007E;
-}
-@font-face {
-  font-family: 'SUITE';
-  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Extrabold.woff2') format('woff2');
-  font-weight: 700;
   font-style: normal;
   unicode-range: U+AC00-D7A3, U+0030-0039, U+0020-002F, U+003A-0040, U+005B-0060, U+007B-007E;
 }
@@ -337,10 +333,7 @@ legend {
 .logo {
   display: flex;
   /*justify-content: center;*/
-}
-.logo img {
-  width: 28px;
-  object-fit: cover;
+  font-size: 28px;
 }
 .gnb_menu {
   display: flex;
@@ -598,6 +591,16 @@ legend {
   cursor: default;
   color: #d7d7d7;
 }
+.btn_wrap.center {
+  justify-content: center;
+  gap: 8px;
+  /*margin-top: 10px;*/
+}
+.btn_wrap.right {
+  justify-content: flex-end;
+  gap: 8px;
+  /*margin-top: 10px;*/
+}
 .menu {
   position: relative;
   display: inline-block;
@@ -697,20 +700,20 @@ legend {
   left: 0;
   width: 100%;
   height: 100%;
-  position: relative;
-  background: rgba(255, 255, 255, 0.8);
+  position: absolute;
+  background: #000;
   z-index: 1000;
 }
 .loader {
-  position: fixed;
+  position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   border: 4px solid #eee;
   border-radius: 50%;
   border-top: 4px solid #666;
-  width: 60px;
-  height: 60px;
+  width: 25px;
+  height: 25px;
   animation: spin 1.5s linear infinite;
   z-index: 1100;
 }

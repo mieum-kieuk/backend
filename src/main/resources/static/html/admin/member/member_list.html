@@ -22,6 +22,7 @@
     <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
     <script defer src="../../../js/memberList.js"></script>
     <script defer src="../../../js/comm.js"></script>
+    <script defer src="../../../js/point.js"></script>
 
 </head>
 <body>
@@ -44,36 +45,34 @@
                 <li>
                     <a href="#">상품 관리</a>
                     <ul class="depth2">
-                        <li><a href="../products/product/add_product.html">상품 등록</a></li>
-                        <li><a href="../products/product/product_list.html">상품 목록</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#">할인 혜택 관리</a>
-                    <ul class="depth2">
-                        <li><a href="../../admin/promotion/discount/add_discount.html">할인 등록</a></li>
-                        <li><a href="../../admin/promotion/discount/discount_list.html">할인 목록</a></li>
+                        <li data-path="product_list"><a href="../../admin/products/product/product_list.html">전체 상품관리</a></li>
+                        <li data-path="inquiry_list"><a href="../../admin/products/inquiry/inquiry_list.html">상품 문의관리</a></li>
+                        <li data-path="discount_list"><a href="../../admin/promotion/discount/discount_list.html">전체 할인관리</a></li>
                     </ul>
                 </li>
                 <li>
                     <a href="#">주문 관리</a>
                     <ul class="depth2">
-                        <li><a href="#"></a></li>
-                        <li><a href="#"></a></li>
+                        <li data-path="order_list"><a href="">전체 주문관리</a></li>
+                        <li data-path="cancel_list"><a href="">취소/교환/반품/환불 관리</a></li>
                     </ul>
                 </li>
                 <li>
-                    <a href="../../admin/member/member_list.html">고객 관리</a>
+                    <a href="#">회원 관리</a>
+                    <ul class="depth2">
+                        <li data-path="member_list"><a href="../../admin/member/member_list.html">회원 정보 관리</a></li>
+                        <li data-path="point_list"><a href="../../admin/member/point_list.html">적립금 관리</a></li>
+                    </ul>
                 </li>
                 <li>
                     <a href="#">고객 지원</a>
                     <ul class="depth2">
-                        <li><a href="../../admin/help/notice/notice_list.html">공지사항</a></li>
-                        <li><a href="../../admin/help/inquiry/qna_list.html">상품 문의</a></li>
-                        <li><a href="../../admin/help/inquiry/personal_inquiry_list.html">1:1 문의</a></li>
+                        <li data-path="notice_list"><a href="../../admin/help/notice/notice_list.html">공지사항 관리</a></li>
+                        <li data-path="inquiry_list"><a href="../../admin/help/inquiry/inquiry_list.html">1:1 문의관리</a></li>
+                        <li data-path="withdrawal_list"><a href="">회원 탈퇴내역</a></li>
                     </ul>
                 </li>
-                <li>
+                <li data-path="admins_list">
                     <a href="../../admin/admins/admins_list.html">관리자 관리</a>
                 </li>
             </ul>
@@ -89,9 +88,9 @@
     <div id="admin">
         <div class="content">
             <h2 class="content_tit">회원 관리</h2>
-            <div class="admins_wrap member">
+            <div class="admins_wrap list member point">
                 <h3 class="form_title">기본검색</h3>
-                <form id="adminsSearchForm" class="search_form" onsubmit="validateBeforeSubmit()">
+                <form id="adminsSearchForm" class="search_form" onsubmit="validateBeforeSubmitSearch()">
                     <div class="form_container">
                         <div class="form_wrap search">
                         <label for="searchKeyword">검색어</label>
@@ -105,9 +104,11 @@
                         </div>
                         <div class="form_wrap search date">
                         <label>기간검색</label>
-                        <input type="text" name="startDate" id="startDate" readonly>
+                        <div class="datepicker_wrap">
+                        <input type="date" name="startDate" id="startDate" readonly>
                         <span style="display: flex; align-items: center;">~</span>
-                        <input type="text" name="endDate" id="endDate" readonly>
+                        <input type="date" name="endDate" id="endDate" readonly>
+                        </div>
                         <div class="date_option">
                             <input type="button" onclick="setSearchDate(0);" class="btn1" value="오늘">
                             <input type="button" onclick="setSearchDate(7);" class="btn1" value="일주일">
@@ -124,9 +125,13 @@
                     </div>
                 </form>
                 <div class="member_list wrapper">
+                    <div class="btn_wrap">
+                        <button type="button" class="btn1 point_btn">적립금 지급/차감</button>
+                    </div>
                 <table class="admins_table">
                     <thead>
                     <tr>
+                        <th><input type="checkbox" disabled></th>
                         <th>번호</th>
                         <th>회원명</th>
                         <th>아이디</th>
@@ -140,11 +145,12 @@
                     </thead>
                     <tbody>
                     <tr id="noDataMessage">
-                        <td colspan="9">등록된 회원이 없습니다.</td>
+                        <td colspan="10">등록된 회원이 없습니다.</td>
                     </tr>
                     </tbody>
                     <tbody>
                     <tr>
+                        <td align="center"><input type="checkbox"></td>
                         <td><span>1</span></td>
                         <td><span>김지우</span></td>
                         <td><span>mary706</span></td>
@@ -170,6 +176,40 @@
                         <li><a href="#" class="next">Next</a></li>
                         <li><a href="#" class="next_last"><span class="material-symbols-outlined navigate">navigate_next</span></a></li>
                     </ul>
+                </div>
+                <div id="pointModal" class="modal point">
+                    <div class="modal_content">
+                        <div class="modal_head">
+                            <h2 class="modal_title">적립금 지급/차감</h2>
+                            <span class="material-symbols-outlined close">close</span>
+                        </div>
+                        <form id="addPointForm" action="#" method="post">
+                            <div class="form_wrap">
+                                <div class="input_box_wrap">
+                                    <label for="userId">회원아이디</label>
+                                    <input type="text" id="userId" name="userId"  maxlength="50">
+                                </div>
+                                <div class="input_box_wrap">
+                                    <label for="point" >적립금</label>
+                                    <input type="number" id="point" name="point" placeholder="숫자를 입력해 주세요.">
+                                </div>
+                            </div>
+                            <div class="text description">
+                                <ul>
+                                    <li>
+                                        <span>음수인 경우 적랍금이 차감됩니다.</span>
+                                    </li>
+                                    <li>
+                                        <span>양수인 경우 적랍금이 적립됩니다.</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="btn_wrap">
+                                <button type="button" class="btn1 cancel_btn">취소</button>
+                                <button type="submit" class="btn1 submit_btn" onclick="validateBeforeSubmit()">지급/차감</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

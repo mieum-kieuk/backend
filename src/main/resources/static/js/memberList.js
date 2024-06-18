@@ -12,7 +12,9 @@ $(document).ready(function() {
     // 초기화 버튼 클릭 시 검색폼 초기화
     $('.btn_wrap .reset_btn').click(function () {
         $('#searchKeyword').val(''); // 검색어 입력 초기화
+        $('select').val(''); // 검색어 입력 초기화
         $('#startDate, #endDate').val(''); // 시작일, 종료일 초기화
+        $('.date_option input[type="button"]').removeClass('active');
     });
 });
 function setSearchDate(days) {
@@ -45,7 +47,8 @@ function formatDate(date) {
 
     return [year, month, day].join('-');
 }
-function validateBeforeSubmit() {
+
+function validateBeforeSubmitSearch() {
     let startDatetime = $('#startDate').val().trim();
     let endDatetime = $('#endDate').val().trim();
 

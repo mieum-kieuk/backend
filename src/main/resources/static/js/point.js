@@ -1,6 +1,8 @@
 $(document).ready(function() {
     $('.point_btn').click(function() {
         let selectedMember = $('.admins_table tbody tr input[type=checkbox]:checked');
+        let selectedPoint = selectedMember.find('td:nth-child(4)').text().trim();
+
         if (selectedMember.length === 0) {
             alert('회원을 선택해 주세요.');
             return;
@@ -39,16 +41,10 @@ $('.admins_table tbody tr').click(function() {
 
 function validateBeforeSubmit() {
     let userId = $('#userId').val().trim();
-    let pointContent = $('#pointContent').val().trim();
     let point = $('#point').val().trim();
 
     if (userId === '') {
         alert('아이디를 입력해 주세요.');
-        return false;
-    }
-
-    if (pointContent === '') {
-        alert('적립금 내용을 입력해 주세요.');
         return false;
     }
 
