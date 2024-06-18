@@ -18,6 +18,5 @@ public class AdminAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
         String redirectUrl = "/";
         this.redirectStrategy.sendRedirect(request, response, redirectUrl);
-        return;
     }
 }

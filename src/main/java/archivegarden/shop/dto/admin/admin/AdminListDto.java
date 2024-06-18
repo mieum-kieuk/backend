@@ -11,7 +11,7 @@ import java.time.format.DateTimeFormatter;
 @Setter
 public class AdminListDto {
 
-    public Integer id;
+    public Long id;
     public String name;
     public String loginId;
     public String email;
@@ -19,7 +19,7 @@ public class AdminListDto {
     public String createdAt;
 
     @QueryProjection
-    public AdminListDto(Integer id, String name, String loginId, String email, String isAuthorized, LocalDateTime createdAt) {
+    public AdminListDto(Long id, String name, String loginId, String email, String isAuthorized, LocalDateTime createdAt) {
         this.id = id;
         this.name = name;
         this.loginId = loginId;

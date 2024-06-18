@@ -23,10 +23,10 @@ public class AjaxSecurityConfig {
     public SecurityFilterChain ajaxFilterChain(HttpSecurity http) throws Exception {
 
         http
-                .securityMatcher("/api/**")
+                .securityMatcher("/ajax/**")
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/api/**").hasRole("USER")
+                        .requestMatchers("/ajax/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/ajax/**").hasRole("USER")
                         .anyRequest().authenticated()
                 );
 

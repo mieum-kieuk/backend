@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title>관리자 정보관리 | 미음키읔</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -59,8 +61,8 @@
                     </div>
                 </form>
                 <div class="btn_wrap">
-                    <button type="button" class="btn1 approval">선택승인</button>
-                    <button type="button" class="btn1 delete">선택삭제</button>
+                    <button type="button" class="btn1 approval" id="authAdminBtn">선택승인</button>
+                    <button type="button" class="btn1 delete" id="deleteAdminBtn">선택삭제</button>
                 </div>
                 <div class="admins_list wrapper">
                     <table class="admins_table">
@@ -84,7 +86,7 @@
                             <td><span th:text="${admin.loginId}"></span></td>
                             <td><span th:text="${admin.email}"></span></td>
                             <td><span th:text="${admin.createdAt}"></span></td>
-                            <td><span th:text="${admin.isAuthorized}"></span></td>
+                            <td><span class="is_authorized" th:text="${admin.isAuthorized}"></span></td>
                         </tr>
                         </tbody>
                     </table>

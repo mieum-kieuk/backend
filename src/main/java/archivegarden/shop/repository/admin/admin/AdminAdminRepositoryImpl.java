@@ -92,7 +92,7 @@ public class AdminAdminRepositoryImpl implements AdminAdminRepositoryCustom {
      * 승인 안된 관리자 우선 조회
      */
     private OrderSpecifier<?> anonymousFirst() {
-        return Expressions.stringTemplate("decode({0}, {1}, {2})", admin.isAuthorized, "TRUE", 1)
+        return Expressions.stringTemplate("decode({0}, {1}, {2})", admin.isAuthorized, "FALSE", 1)
                 .desc();
     }
 }

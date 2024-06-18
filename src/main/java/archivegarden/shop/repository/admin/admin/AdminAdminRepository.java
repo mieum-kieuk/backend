@@ -7,7 +7,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
 
-public interface AdminAdminRepository extends JpaRepository<Admin, Integer>, AdminAdminRepositoryCustom {
+public interface AdminAdminRepository extends JpaRepository<Admin, Long>, AdminAdminRepositoryCustom {
 
     Optional<Admin> findByLoginId(String loginId);
 

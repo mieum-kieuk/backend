@@ -14,7 +14,7 @@ public class Admin extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "admin_id")
-    private Integer id;
+    private Long id;
 
     @Column(name = "login_id", length = 20, nullable = false)
     private String loginId;
@@ -34,6 +34,15 @@ public class Admin extends BaseTimeEntity {
     @Column(length = 30, nullable = false)
     @Enumerated(value = EnumType.STRING)
     private Authority authority;
+
+    //==비즈니스 로직==//
+    /**
+     * 관리자 권한 부여
+     */
+    public void authorize() {
+        this.isAuthorized = Boolean.TRUE.toString().toUpperCase();
+        this.authority = Authority.ROLE_ADMIN;
+    }
 
     //==생성자 메서드==//
     public static Admin createAdmin(AddAdminForm form) {

@@ -38,13 +38,13 @@ public class AdminJoinController {
             return "admin/admins/join";
         }
 
-        Integer adminId = adminService.join(form);
+        Long adminId = adminService.join(form);
         redirectAttributes.addFlashAttribute("adminId", adminId);
         return "redirect:/admin/join/complete";
     }
 
     @GetMapping("/complete")
-    public String joinComplete(@ModelAttribute(name = "adminId") Integer adminId, Model model) {
+    public String joinComplete(@ModelAttribute(name = "adminId") Long adminId, Model model) {
         NewMemberInfo newAdminInfo = adminService.getNewAdminInfo(adminId);
         model.addAttribute("admin", newAdminInfo);
         return "admin/admins/join_complete";

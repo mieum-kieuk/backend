@@ -22,7 +22,7 @@ public class AdminJoinService {
     /**
      * 관리자 회원가입
      */
-    public Integer join(AddAdminForm form) {
+    public Long join(AddAdminForm form) {
 
         //중복 관리자 검증
         validateDuplicateAdmin(form);
@@ -44,7 +44,7 @@ public class AdminJoinService {
      *
      * @throws NoSuchElementException
      */
-    public NewMemberInfo getNewAdminInfo(Integer adminId) {
+    public NewMemberInfo getNewAdminInfo(Long adminId) {
         Admin admin = adminRepository.findById(adminId).orElseThrow(() -> new NoSuchElementException("존재하지 않는 관리자입니다."));
         return new NewMemberInfo(admin.getLoginId(), admin.getName(), admin.getEmail());
     }
