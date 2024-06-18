@@ -9,4 +9,8 @@ public enum SavedPointType {
     SavedPointType(String description) {
         this.description = description;
     }
+
+    public String getDescription() {
+        return description;
+    }
 }

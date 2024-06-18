@@ -5,11 +5,13 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Getter
 @Table(name = "SAVED_POINT")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class SavedPoint extends BaseTimeEntity {
+public class SavedPoint {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,6 +26,12 @@ public class SavedPoint extends BaseTimeEntity {
 
     @Enumerated(value = EnumType.STRING)
     private SavedPointType type;
+
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+
+    @Column(name = "expired_at", nullable = false)
+    private LocalDateTime expiredAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
