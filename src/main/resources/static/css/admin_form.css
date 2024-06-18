@@ -84,7 +84,7 @@ body {
 /*.side_menu.menu li.active .depth2 {*/
 /*    display: block;*/
 /*}*/
-.side_menu .active {
+.side_menu .depth2 > li.active {
     background: #666;
 }
 .side_menu.account {
@@ -97,11 +97,18 @@ body {
 .form_wrap {
     max-width: 1200px;
     width: 100%;
-    border-bottom: 1px solid #d7d7d7;
-    padding: 30px 30px 10px 30px;
+    border-bottom: 2px solid #333;
+    padding: 10px 20px;
     color: #222;
     margin-bottom: 20px;
-    border-radius: 2px;
+}
+.list .form_wrap {
+    max-width: 1200px;
+    width: 100%;
+    border-bottom: 1px solid #d7d7d7;
+    padding: 10px 20px;
+    color: #222;
+    margin-bottom: 20px;
 }
 
 .content {
@@ -172,6 +179,7 @@ input[type=radio] {
     justify-content: flex-end;
     width: 100%;
     gap: 8px;
+    padding-right: 20px;
 }
 
 label {
@@ -201,7 +209,7 @@ input::-webkit-inner-spin-button {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100px;
+    width: 80px;
     padding: 8px;
     border-radius: 2px;
     background: #fff;
@@ -476,9 +484,6 @@ input::-webkit-inner-spin-button {
 }
 
 /*Details*/
-.details_wrap .form_wrap {
-    padding: 30px;
-}
 
 .details_wrap tr {
     display: flex;
@@ -492,17 +497,23 @@ input::-webkit-inner-spin-button {
     width: 130px;
 }
 
-.details_wrap th, .details_wrap td {
+.admin_wrap .details_wrap th, .admin_wrap .details_wrap td {
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
     text-align: left;
-    padding: 10px;
+    padding: 15px 10px;
 }
 .details_wrap td {
     white-space: pre-line;
     max-width: 999px;
     width: 100%;
+    overflow: scroll;
+}
+.details_wrap td span{
+    text-align: left;
+    white-space: pre-line;
+    /*width: 100%;*/
     overflow: scroll;
 }
 .details_wrap tr {
@@ -524,28 +535,37 @@ table {
     width: 100%;
     margin-bottom: 20px;
 }
-
-table img {
+.list table a {
+    display: flex;
+    justify-content: center;
+}
+.list table img {
     display: block;
-    /*max-width: 100px;*/
+    max-width: 100px;
     /*max-height: 150px;*/
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
-
+.list table td {
+    text-align: center;
+}
+.list .input_box_wrap.btn {
+    padding-right: 0;
+}
 #noDataMessage > td {
     text-align: center;
     white-space: nowrap;
 }
-
+.admin_wrap th {
+    font-weight: 600;
+}
 .admin_wrap th,
 .admin_wrap td {
     /*display: flex;*/
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    font-weight: 400;
     /*width: 100%;*/
     height: 100%;
     /*max-height: 100px;*/
@@ -571,10 +591,6 @@ th {
     justify-content: center;
     align-items: center;
     border-bottom: 1px solid #d7d7d7;
-}
-
-thead .btn_cell {
-    opacity: 0;
 }
 
 .checkbox_cell, .btn_cell {
@@ -736,15 +752,15 @@ thead .btn_cell {
 #admin #noticeList th, #admin #noticeList td {
     text-align: center;
 }
-#admin #noticeList .title, #admin #noticeList .title a{
-    width: 100%;
-}
+
 #admin #noticeList .title span {
     text-align: left;
 }
 .admin_wrap .notice_wrap .btn_wrap {
-    justify-content: flex-end;
-    gap: 8px;
+    margin-bottom: 10px;
+}
+.admin_wrap .notice_wrap .btn_wrap .btn1 {
+    width: 80px;
 }
 .admin_wrap .notice_wrap .btn_wrap.details.right {
     margin-top: 10px;
@@ -774,7 +790,7 @@ thead .btn_cell {
     border-bottom: none;
 }
 .search_form {
-    margin-bottom: 22px;
+    /*margin-bottom: 22px;*/
 }
 .search_form .form_container {
     border-top: 1px solid #333;
@@ -806,8 +822,21 @@ thead .btn_cell {
 .admin_wrap .search_form input, .admin_wrap .search_form select {
     margin: 10px 0;
 }
+.admin_wrap .search_form input {
+    width: 160px;
+}
 .admin_wrap .search_form select {
     appearance: auto;
+    width: 80px;
+}
+.admin_wrap .search_form #searchCategory {
+    width: 250px;
+}
+.admin_wrap .form_wrap.search.date .datepicker_wrap {
+    display: flex;
+}
+.admin_wrap .form_wrap.search.date .datepicker_wrap input {
+    width: 120px;
 }
 .admin_wrap .form_wrap.search.date .date_option {
     display: flex;
@@ -840,6 +869,12 @@ thead .btn_cell {
 .point .modal.point .modal_content{
     height: 400px;
 }
+.point .modal.point .form_wrap{
+    padding: 30px 0 0 ;
+}
+.point .member_list .btn1 {
+    width: 120px;
+}
 /*admin_qna*/
 .admin_wrap .qna_wrap.list .search_form {
     margin-bottom: 22px;
@@ -852,6 +887,7 @@ thead .btn_cell {
 }
 .admin_wrap .qna_wrap.list .qna_table .title_td a{
     display: flex;
+    justify-content: flex-start;
 }
 
 .admin_wrap .qna_wrap.details {
@@ -888,11 +924,14 @@ thead .btn_cell {
     position: relative;
 }
 .modal .close {
+    position: absolute;
+    right: 0;
     color: #222;
     font-size: 28px;
     cursor: pointer;
 }
 .modal_head {
+    position: relative;
     display: flex;
     margin-bottom: 20px;
 }

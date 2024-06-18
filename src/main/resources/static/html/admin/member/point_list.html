@@ -107,9 +107,11 @@
                         </div>
                         <div class="form_wrap search date">
                             <label>기간검색</label>
-                            <input type="text" name="startDate" id="startDate" maxlength="10">
-                            <span style="display: flex; align-items: center;">~</span>
-                            <input type="text" name="endDate" id="endDate" maxlength="10">
+                            <div class="datepicker_wrap">
+                                <input type="date" name="startDate" id="startDate" readonly >
+                                <span style="display: flex; align-items: center; width: 10px; justify-content: center;">~</span>
+                                <input type="date" name="endDate" id="endDate" readonly>
+                            </div>
                             <div class="date_option">
                                 <input type="button" onclick="setSearchDate(0);" class="btn1" value="오늘">
                                 <input type="button" onclick="setSearchDate(7);" class="btn1" value="일주일">
@@ -127,7 +129,7 @@
                 </form>
                 <div class="point wrapper">
                 <div class="btn_wrap">
-                    <button type="button" class="btn1 point_btn">지급</button>
+                    <button type="button" class="btn1 point_btn">지급/차감</button>
                 </div>
                 <table class="admins_table">
                     <thead>
@@ -181,12 +183,10 @@
                 <div id="pointModal" class="modal point">
                     <div class="modal_content">
                         <div class="modal_head">
-                            <h2 class="modal_title">포인트 지급</h2>
+                            <h2 class="modal_title">적립금 지급/차감</h2>
                             <span class="material-symbols-outlined close">close</span>
                         </div>
                         <form id="addPointForm" action="#" method="post">
-                            <input type="hidden" id="memberId" name="memberId">
-                            <form >
                                 <div class="form_wrap">
                                     <div class="input_box_wrap">
                                         <label for="userId">회원아이디</label>
@@ -213,11 +213,9 @@
                                 </div>
                                 <div class="btn_wrap">
                                     <button type="button" class="btn1 cancel_btn">취소</button>
-                                    <button type="submit" class="btn1 submit_btn" onclick="validateBeforeSubmit()">지급</button>
+                                    <button type="submit" class="btn1 submit_btn" onclick="validateBeforeSubmit()">지급/차감</button>
                                 </div>
                             </form>
-
-                        </form>
                     </div>
                 </div>
             </div>
