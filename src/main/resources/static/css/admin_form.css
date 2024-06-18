@@ -97,7 +97,7 @@ body {
 .form_wrap {
     max-width: 1200px;
     width: 100%;
-    border: 1px solid #d7d7d7;
+    border-bottom: 1px solid #d7d7d7;
     padding: 30px 30px 10px 30px;
     color: #222;
     margin-bottom: 20px;
@@ -209,11 +209,6 @@ input::-webkit-inner-spin-button {
 .submit_btn {
     color: #fff;
     background: #000;
-}
-.btn_wrap.right {
-    justify-content: flex-end;
-    gap: 8px;
-    margin-top: 10px;
 }
 .material-symbols-outlined {
     font-family: 'Material Symbols Outlined';
@@ -588,48 +583,6 @@ thead .btn_cell {
     padding: 0 10px;
     overflow: visible;
 }
-
-.menu {
-    position: relative;
-    display: inline-block;
-    border-radius: 5px;
-}
-
-.dropdown_menu {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #ffffff;
-    border-radius: 2px;
-    white-space: nowrap;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    z-index: 2;
-}
-
-.dropdown_menu button {
-    padding: 5px 10px;
-    text-align: center;
-}
-
-.menu_toggle {
-    position: relative;
-    z-index: 1;
-    height: 25px;
-}
-
-.menu_toggle .material-symbols-outlined {
-    color: #999;
-    font-weight: 300;
-    rotate: 90deg;
-}
-
-.dropdown_menu.show {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-}
 #addProduct .field-error {
     margin: -17px 0 20px 140px;
 }
@@ -816,10 +769,20 @@ thead .btn_cell {
     background: #1a4e99;
     content: '';
 }
+
+.search_form .form_wrap.search:last-child {
+    border-bottom: none;
+}
+.search_form {
+    margin-bottom: 22px;
+}
+.search_form .form_container {
+    border-top: 1px solid #333;
+    border-bottom: 1px solid #333;
+}
 .admin_wrap .form_wrap.search {
     display: flex;
     gap: 10px;
-    border: 1px solid #333;
     border-left: none;
     border-right: none;
     padding: 0;
@@ -857,28 +820,25 @@ thead .btn_cell {
     border: 1px solid #999;
     cursor: pointer;
 }
-#admin .search_form .btn_wrap {
+.admin_wrap .form_wrap.search.date .date_option .btn1.active {
+    background: #d7d7d7;
+    border: 1px solid #999;
+}
+.search_form .btn_wrap {
     display: flex;
     justify-content: center;
     margin-bottom: 10px;
+    gap: 8px;
 }
 .admin_wrap .search_form .btn_wrap .btn1{
     width: 80px;
 }
-
-/*member_list*/
-.admins_wrap.member .form_wrap.search:first-child {
-    border-bottom: none;
-}
-.admins_wrap.member .form_wrap.search:last-child {
-    border-top: 1px solid #d7d7d7;
-}
-.admins_wrap .search_form {
-    margin-bottom: 22px;
-}
 /*point*/
 .point .text.description {
     padding: 0;
+}
+.point .modal.point .modal_content{
+    height: 400px;
 }
 /*admin_qna*/
 .admin_wrap .qna_wrap.list .search_form {
@@ -887,10 +847,59 @@ thead .btn_cell {
 .admin_wrap .qna_wrap.list .qna_table .title_td span{
     display: flex;
 }
+.admin_wrap .qna_wrap.list .qna_table .title {
+    height: auto;
+}
 .admin_wrap .qna_wrap.list .qna_table .title_td a{
     display: flex;
 }
+
 .admin_wrap .qna_wrap.details {
     border-bottom: none;
     padding-bottom: 20px;
+}
+.admin_wrap .cmt_wrap {
+    margin-bottom: 0;
+}
+
+/*modal*/
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background: rgba(0,0,0,0.4);
+    justify-content: center;
+    align-items: center;
+}
+.modal_content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: #fff;
+    width: 800px;
+    height: 600px;
+    padding: 20px;
+    border-radius: 8px;
+    position: relative;
+}
+.modal .close {
+    color: #222;
+    font-size: 28px;
+    cursor: pointer;
+}
+.modal_head {
+    display: flex;
+    margin-bottom: 20px;
+}
+.modal_head .modal_title {
+    display: block;
+    text-align: center;
+    font-size: 22px;
+    font-weight: 400;
+    width: 100%;
 }

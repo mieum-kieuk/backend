@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>적립금 관리| 미음키읔</title>
+    <title>관리자 회원가입| 미음키읔</title>
 
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Archivegarden" />
@@ -14,12 +14,16 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="../../../../css/comm.css" />
     <link rel="stylesheet" href="../../../../css/admin_form.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
+    <script defer src="../../../../js/adminJoin.js"></script>
+    <script defer src="../../../../js/memberList.js"></script>
     <script defer src="../../../../js/comm.js"></script>
+    <script defer src="../../../../js/point.js"></script>
 
 </head>
 <body>
@@ -49,8 +53,8 @@
                 <li>
                     <a href="#">할인 혜택 관리</a>
                     <ul class="depth2">
-                        <li><a href="../../promotion/discount/add_discount.html">할인 등록</a></li>
-                        <li><a href="../../promotion/discount/discount_list.html">할인 목록</a></li>
+                        <li><a href="../../../admin/promotion/discount/add_discount.html">할인 등록</a></li>
+                        <li><a href="../../../admin/promotion/discount/discount_list.html">할인 목록</a></li>
                     </ul>
                 </li>
                 <li>
@@ -61,67 +65,163 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="../member_list.html">고객 관리</a>
+                    <a href="../../../admin/member/member_list.html">고객 관리</a>
                 </li>
                 <li>
                     <a href="#">고객 지원</a>
                     <ul class="depth2">
-                        <li><a href="../../help/notice/notice_list.html">공지사항</a></li>
-                        <li><a href="../../admin/help/inquiry/qna_list.html">상품 문의</a></li>
-                        <li><a href="../../admin/help/inquiry/personal_inquiry_list.html">1:1 문의</a></li>
+                        <li><a href="../../../admin/help/notice/notice_list.html">공지사항</a></li>
+                        <li><a href="../../../admin/help/inquiry/qna_list.html">상품 문의</a></li>
+                        <li><a href="../../../admin/help/inquiry/personal_inquiry_list.html">1:1 문의</a></li>
                     </ul>
                 </li>
                 <li>
-                    <a href="../../admins/admins_list.html">관리자 관리</a>
+                    <a href="../../../admin/admins/admins_list.html">관리자 관리</a>
                 </li>
             </ul>
         </div>
         <div class="side_menu account">
             <ul>
-                <li><a href="../../admins/admin_login.html">로그인</a></li>
-                <li><a href="../../admins/admin_join.html">회원가입</a></li>
+                <li><a href="../../../admin/admins/admin_login.html">로그인</a></li>
+                <li><a href="../../../admin/admins/admin_join.html">회원가입</a></li>
                 <li><a href="">로그아웃</a></li>
             </ul>
         </div>
     </div>
     <div id="admin">
-        <div class="content " >
-            <h2 class="content_tit">적립금 지급</h2>
-            <div class="admins_wrap point">
-                <form action="">
+        <div class="content">
+            <h2 class="content_tit">적립금 관리</h2>
+            <div class="admins_wrap member point">
+                <h3 class="form_title">기본검색</h3>
+                <form id="adminsSearchForm" class="search_form">
+                    <div class="form_container">
+                        <div class="form_wrap search">
+                            <label for="searchKeyword">검색어</label>
+                            <select id="searchKey">
+                                <option value="">전체</option>
+                                <option value="userId">아이디</option>
+                                <option value="userName">회원명</option>
+                                <option value="userEmail">이메일</option>
+                            </select>
+                            <input type="text" id="searchKeyword" name="searchKeyword">
+                        </div>
+                        <div class="form_wrap search date">
+                            <label>기간검색</label>
+                            <input type="text" name="startDate" id="startDate" maxlength="10">
+                            <span style="display: flex; align-items: center;">~</span>
+                            <input type="text" name="endDate" id="endDate" maxlength="10">
+                            <div class="date_option">
+                                <input type="button" onclick="setSearchDate(0);" class="btn1" value="오늘">
+                                <input type="button" onclick="setSearchDate(7);" class="btn1" value="일주일">
+                                <input type="button" onclick="setSearchDate(30);" class="btn1" value="1개월">
+                                <input type="button" onclick="setSearchDate(90);" class="btn1" value="3개월">
+                                <input type="button" onclick="setSearchDate(180);" class="btn1" value="6개월">
+                                <input type="button" onclick="setSearchDate('all');" class="btn1" value="전체">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="btn_wrap">
+                        <button type="button" class="btn1 reset_btn">초기화</button>
+                        <button type="submit" class="btn1 submit_btn">검색</button>
+                    </div>
+                </form>
+                <div class="point wrapper">
+                <div class="btn_wrap">
+                    <button type="button" class="btn1 point_btn">지급</button>
+                </div>
                 <table class="admins_table">
                     <thead>
                     <tr>
+                        <th><input type="checkbox" disabled></th>
+                        <th>번호</th>
                         <th>회원명</th>
                         <th>아이디</th>
-                        <th>이메일</th>
-                        <th>휴대전화번호</th>
-                        <th>적립금잔액</th>
-                        <th>적립금지급</th>
+                        <th>등급</th>
+                        <th>적립금 내용</th>
+                        <th>일시</th>
+                        <th>만료일</th>
+                        <th>적립금</th>
+                        <th>총 적립금</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr id="noDataMessage">
-                        <td colspan="6">등록된 회원 없습니다.</td>
+                        <td colspan="10">등록된 회원이 없습니다.</td>
                     </tr>
                     </tbody>
                     <tbody>
                     <tr>
-                        <td><span>관리자</span></td>
-                        <td><span>admin03</span></td>
-                        <td><span>admin03@example.com</span></td>
-                        <td><span>010-1234-1234</span></td>
-                        <td><span>1,000p</span></td>
-                        <td><span>500p</span></td>
+                        <td align="center"><input type="checkbox"></td>
+                        <td><span>1</span></td>
+                        <td><span>김지우</span></td>
+                        <td><span>mary706</span></td>
+                        <td><span>일반</span></td>
+                        <td><span>가입 축하 적립금</span></td>
+                        <td><span>2024.04.08</span></td>
+                        <td><span>2024.12.08</span></td>
+                        <td><span>1,000</span></td>
+                        <td><span>1,000</span></td>
                     </tr>
                     </tbody>
                 </table>
-                <div class="btn_wrap right">
-                    <button type="button" class="btn1" onclick="location.href = 'add_point.html'">취소</button>
-                    <button type="submit" class="btn1 submit_btn">지급</button>
                 </div>
-                </form>
+                <div class="pagination">
+                    <ul>
+                        <li><a href="#" class="prev_first"><span class="material-symbols-outlined navigate">navigate_before</span></a></li>
+                        <li><a href="#" class="prev">Prev</a></li>
+                        <li><a href="#">1</a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">4</a></li>
+                        <li><a href="#">5</a></li>
+                        <li><a href="#" class="next">Next</a></li>
+                        <li><a href="#" class="next_last"><span class="material-symbols-outlined navigate">navigate_next</span></a></li>
+                    </ul>
+                </div>
+                <div id="pointModal" class="modal point">
+                    <div class="modal_content">
+                        <div class="modal_head">
+                            <h2 class="modal_title">포인트 지급</h2>
+                            <span class="material-symbols-outlined close">close</span>
+                        </div>
+                        <form id="addPointForm" action="#" method="post">
+                            <input type="hidden" id="memberId" name="memberId">
+                            <form >
+                                <div class="form_wrap">
+                                    <div class="input_box_wrap">
+                                        <label for="userId">회원아이디</label>
+                                        <input type="text" id="userId" name="userId"  maxlength="50">
+                                    </div>
+                                    <div class="input_box_wrap">
+                                        <label for="pointContent">적립금 내용</label>
+                                        <input type="text" id="pointContent" name="pointContent"  maxlength="50">
+                                    </div>
+                                    <div class="input_box_wrap">
+                                        <label for="point" >적립금</label>
+                                        <input type="number" id="point" name="point" placeholder="숫자를 입력해 주세요.">
+                                    </div>
+                                </div>
+                                <div class="text description">
+                                    <ul>
+                                        <li>
+                                            <span>음수인 경우 적랍금이 차감됩니다.</span>
+                                        </li>
+                                        <li>
+                                            <span>양수인 경우 적랍금이 적립됩니다.</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="btn_wrap">
+                                    <button type="button" class="btn1 cancel_btn">취소</button>
+                                    <button type="submit" class="btn1 submit_btn" onclick="validateBeforeSubmit()">지급</button>
+                                </div>
+                            </form>
+
+                        </form>
+                    </div>
+                </div>
             </div>
+
         </div>
     </div>
 </div>

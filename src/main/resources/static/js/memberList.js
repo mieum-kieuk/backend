@@ -1,5 +1,51 @@
+$(document).ready(function() {
+
+    $('#startDate, #endDate').datepicker({
+        dateFormat: 'yy-mm-dd',
+        maxDate: 0
+
+    });
+    $('.date_option input[type="button"]').click(function() {
+        $('.date_option input[type="button"]').removeClass('active');
+        $(this).addClass('active');
+    });
+    // 초기화 버튼 클릭 시 검색폼 초기화
+    $('.btn_wrap .reset_btn').click(function () {
+        $('#searchKeyword').val(''); // 검색어 입력 초기화
+        $('#startDate, #endDate').val(''); // 시작일, 종료일 초기화
+    });
+});
+function setSearchDate(days) {
+    if (days === 'all') {
+        $('#startDate').datepicker('setDate', null);
+        $('#endDate').datepicker('setDate', null);
+    } else {
+        let endDate = new Date();
+        let startDate = new Date();
+
+        if (days === 0) {
+            startDate = endDate;
+        } else {
+            startDate.setDate(startDate.getDate() - days);
+        }
+
+        $('#startDate').datepicker('setDate', formatDate(startDate));
+        $('#endDate').datepicker('setDate', formatDate(endDate));
+    }
+}
+
+function formatDate(date) {
+    let d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [year, month, day].join('-');
+}
 function validateBeforeSubmit() {
-    let searchKeyword = $('#searchKeyword').val().trim();
     let startDatetime = $('#startDate').val().trim();
     let endDatetime = $('#endDate').val().trim();
 
@@ -15,10 +61,6 @@ function validateBeforeSubmit() {
         return true;
     }
 
-    if (searchKeyword === '') {
-        alert('검색어를 입력해 주세요.');
-        return false;
-    }
 
     let startDate = new Date(startDatetime);
     let endDate = new Date(endDatetime);
