@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title>공지사항 | 미음키읔</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,7 +21,7 @@
 </head>
 <body>
 <div class="admin_wrap">
-    <div th:replace="~{/layout/menu :: admin_menu_authenticated}"></div>
+    <div th:replace="~{/layout/menu :: admin_menu}"></div>
     <div id="admin">
         <div class="content">
             <h2 class="content_tit">공지사항</h2>
@@ -42,7 +44,7 @@
                     <button type="button" class="btn1" onclick="location.href='./edit_notice.html'"
                             th:onclick="|location.href='@{/admin/notice/{noticeId}/edit(noticeId=${notice.id})}'|">수정</button>
                     <button type="button" class="btn1" onclick="location.href='./notice_list.html'"
-                            th:onclick="|deleteOk(${notice.id})|">삭제</button>
+                            th:onclick="|deleteNotice(${notice.id})|">삭제</button>
                     <button type="button" class="btn1" onclick="location.href='./notice_list.html'"
                             th:onclick="|location.href='@{/admin/notice}'|">목록</button>
                 </div>

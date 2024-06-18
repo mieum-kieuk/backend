@@ -1,0 +1,35 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>미음키읔 :: 오류페이지</title>
+    <link rel="stylesheet" href="../../../static/css/comm.css" th:href="@{/css/comm.css}">
+    <link rel="stylesheet" href="../../../static/css/error.css" th:href="@{/css/error.css}">
+</head>
+<body>
+<div id="error">
+    <div class="error_wrap">
+        <h2 class="error_tit">
+            요청하신 페이지를 찾을 수 없습니다.
+        </h2>
+        <div class="error_txt">
+            <p>방문하시려는 페이지의 주소가 잘못 입력되었거나,</p>
+            <p>변경 혹은 삭제되어 요청하신 페이지를 찾을 수 없습니다.</p>
+            <p>입력하신 주소가 정확한지 다시 한번 확인해 주시기 바랍니다.</p>
+            <br/>
+            <p>감사합니다.</p>
+        </div>
+        <div class="input_box_wrap">
+        </div>
+        <div class="input_box_wrap">
+            <button id="home" class="btn1 home_btn" onclick="location.href='../../admin/index.html'"
+                    th:onclick="|location.href='@{/admin}'|">관리자 홈
+            </button>
+        </div>
+    </div>
+</div>
+</body>
+</html>

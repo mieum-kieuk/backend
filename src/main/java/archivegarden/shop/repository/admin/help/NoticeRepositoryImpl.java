@@ -1,8 +1,8 @@
 package archivegarden.shop.repository.admin.help;
 
+import archivegarden.shop.dto.admin.admin.AdminSearchForm;
 import archivegarden.shop.dto.admin.help.notice.NoticeSearchForm;
 import archivegarden.shop.entity.Notice;
-import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -27,12 +27,12 @@ public class NoticeRepositoryImpl implements NoticeRepositoryCustom {
 
     @Override
     public Page<Notice> findNoticeAll(NoticeSearchForm form, Pageable pageable) {
-
         List<Notice> content = queryFactory
                 .selectFrom(notice)
                 .where(
                         keywordLike(form.getSearchKey(), form.getKeyword()),
-                        searchDateBetween(form.getSearchDate()))
+                        searchDateBetween(form.getSearchDate())
+                )
                 .orderBy(notice.id.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -42,13 +42,34 @@ public class NoticeRepositoryImpl implements NoticeRepositoryCustom {
                 .select(notice.count())
                 .where(
                         keywordLike(form.getSearchKey(), form.getKeyword()),
-                        searchDateBetween(form.getSearchDate()))
+                        searchDateBetween(form.getSearchDate())
+                )
+                .from(notice);
+
+        return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
+
+    }
+
+    @Override
+    public Page<Notice> findAdminNoticeAll(AdminSearchForm form, Pageable pageable) {
+
+        List<Notice> content = queryFactory
+                .selectFrom(notice)
+                .where(keywordLike(form.getSearchKey(), form.getKeyword()))
+                .orderBy(notice.id.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        JPAQuery<Long> countQuery = queryFactory
+                .select(notice.count())
+                .where(keywordLike(form.getSearchKey(), form.getKeyword()))
                 .from(notice);
 
         return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
     }
 
-    private Predicate searchDateBetween(String searchDate) {
+    private BooleanExpression searchDateBetween(String searchDate) {
         if(searchDate != null) {
             LocalDate today = LocalDate.now();
             LocalDateTime now = LocalDateTime.now();
@@ -70,7 +91,7 @@ public class NoticeRepositoryImpl implements NoticeRepositoryCustom {
     private BooleanExpression keywordLike(String searchKey, String keyword) {
         if (keyword != null) {
             if (searchKey.equals("title")) {
-                return notice.title.contains(keyword);
+                return notice.title.containsIgnoreCase(keyword);
             } else if (searchKey.equals("content")) {
                 return notice.content.contains(keyword);
             }

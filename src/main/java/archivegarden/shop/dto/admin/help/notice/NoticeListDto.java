@@ -17,6 +17,6 @@ public class NoticeListDto {
     public NoticeListDto(Notice notice) {
         this.id = notice.getId();
         this.title = notice.getTitle();
-        this.createdAt = DateTimeFormatter.ofPattern("yyyy.MM.dd").format(notice.getCreatedAt());
+        this.createdAt = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm:ss").format(notice.getCreatedAt());
     }
 }

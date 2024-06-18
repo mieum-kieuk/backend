@@ -1,3 +1,10 @@
+//검색 초기화
+$('.btn_wrap .reset_btn').click(function () {
+    $('#searchKeyword').val('');
+    $('select').val('title');
+});
+
+//유효성 검사
 function validateBeforeSubmit() {
     let titleValue = $('#title').val().trim();
     let contentValue = $('#content').val().trim();
@@ -16,11 +23,33 @@ function validateBeforeSubmit() {
     return true;
 }
 
-function deleteOk(noticeId) {
-    if (confirm("공지사항을 삭제하시겠습니까?")) {
-        window.location.href = '/admin/notice/' + noticeId + "/delete";
-        return true;
+//공지사항 삭제
+function deleteNotice(noticeId) {
+
+    let csrfHeader = $("meta[name='_csrf_header']").attr("content");
+    let csrfToken = $("meta[name='_csrf']").attr("content");
+
+    if (confirm("선택한 공지사항을 삭제하시겠습니까?")) {
+        $.ajax({
+            method: 'DELETE',
+            url: '/ajax/admin/notice/delete',
+            async: false,
+            data: {'noticeId': noticeId},
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(csrfHeader, csrfToken)
+            },
+            success: function (data) {
+                if (data.code === 200) {
+                    window.location.href = '/admin/notice';
+                } else {
+                    alert(data.message);
+                }
+            },
+            error: function () {
+                alert('삭제중 오류가 발생했습니다. 다시 시도해 주세요.');
+            }
+        })
     } else {
         return false;
     }
-}
+};
