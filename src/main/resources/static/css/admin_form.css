@@ -100,7 +100,6 @@ body {
     border-bottom: 2px solid #333;
     padding: 10px 20px;
     color: #222;
-    margin-bottom: 20px;
 }
 .list .form_wrap {
     max-width: 1200px;
@@ -180,6 +179,7 @@ input[type=radio] {
     width: 100%;
     gap: 8px;
     padding-right: 20px;
+    margin: 10px 0;
 }
 
 label {

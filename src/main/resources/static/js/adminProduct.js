@@ -8,21 +8,6 @@ $(document).ready(function() {
         }
     });
 
-    $(document).on('click', function(event) {
-        var dropdownMenus = $('.dropdown_menu');
-
-        if ($(event.target).closest('.menu_toggle, .dropdown_menu').length) {
-            return;
-        }
-
-        dropdownMenus.removeClass('show');
-    });
-
-    $('.menu_toggle').click(function () {
-        var dropdownMenu = $(this).siblings('.dropdown_menu');
-        $('.dropdown_menu').not(dropdownMenu).removeClass('show');
-        dropdownMenu.toggleClass('show');
-    });
 
     $('#selectAll').click(function () {
         if ($(this).prop('checked')) {
@@ -306,7 +291,7 @@ function deleteOk(productId) {
 function deleteProducts() {
 
     let productIds = [];
-    let checkboxes = $('input[name=checkbox]:checked');
+    let checkboxes = $('input[type=checkbox]:checked');
     let csrfToken = $("meta[name='_csrf']").attr("content");
     let csrfHeader = $("meta[name='_csrf_header']").attr("content");
 
