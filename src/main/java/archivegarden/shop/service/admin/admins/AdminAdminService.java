@@ -1,7 +1,7 @@
 package archivegarden.shop.service.admin.admins;
 
 import archivegarden.shop.dto.admin.admin.AdminListDto;
-import archivegarden.shop.dto.admin.admin.AdminSearchForm;
+import archivegarden.shop.dto.admin.AdminSearchForm;
 import archivegarden.shop.entity.Admin;
 import archivegarden.shop.exception.ajax.AjaxNotFoundException;
 import archivegarden.shop.repository.admin.admin.AdminAdminRepository;

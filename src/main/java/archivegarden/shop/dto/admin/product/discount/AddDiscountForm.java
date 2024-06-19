@@ -1,4 +1,4 @@
-package archivegarden.shop.dto.admin.promotion;
+package archivegarden.shop.dto.admin.product.discount;
 
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;
@@ -16,8 +16,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class AddDiscountForm {
 
-    @NotBlank(message = "할인 혜택명을 입력해 주세요.")
-    @Size(max = 30, message = "30자까지 입력 가능합니다.")
+    @NotBlank(message = "할인명을 입력해 주세요.")
+    @Size(max = 50, message = "50자까지 입력 가능합니다.")
     private String name;
 
     @NotNull(message = "할인율을 입력해 주세요.")
@@ -26,7 +26,7 @@ public class AddDiscountForm {
 
     @NotNull(message = "시작일시를 입력해 주세요.")
     @FutureOrPresent(message = "시작일시가 현재 또는 미래의 날짜여야 합니다.")
-    private LocalDateTime createdAt;
+    private LocalDateTime startedAt;
 
     @NotNull(message = "종료일시를 입력해 주세요.")
     @FutureOrPresent(message = "종료일시가 현재 또는 미래의 날짜여야 합니다.")

@@ -1,4 +1,4 @@
-package archivegarden.shop.dto.admin.promotion;
+package archivegarden.shop.dto.admin.product.discount;
 
 import archivegarden.shop.entity.Discount;
 import lombok.Getter;
@@ -12,15 +12,15 @@ public class DiscountDto {
 
     private Long id;
     private String name;
-    private int discountPercent;
-    private String createdAt;
+    private String discountPercent;
+    private String startedAt;
     private String expiredAt;
 
     public DiscountDto(Discount discount) {
         this.id = discount.getId();
         this.name = discount.getName();
-        this.discountPercent = discount.getDiscountPercent();
-        this.createdAt = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH시 mm분 ss초").format(discount.getCreatedAt());
+        this.discountPercent = String.valueOf(discount.getDiscountPercent()) + "%";
+        this.startedAt = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH시 mm분 ss초").format(discount.getStartedAt());
         this.expiredAt = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH시 mm분 ss초").format(discount.getExpiredAt());
     }
 }

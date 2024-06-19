@@ -1,6 +1,6 @@
 package archivegarden.shop.controller.admin.help;
 
-import archivegarden.shop.dto.admin.admin.AdminSearchForm;
+import archivegarden.shop.dto.admin.AdminSearchForm;
 import archivegarden.shop.dto.admin.help.notice.*;
 import archivegarden.shop.entity.Admin;
 import archivegarden.shop.service.admin.help.AdminNoticeService;

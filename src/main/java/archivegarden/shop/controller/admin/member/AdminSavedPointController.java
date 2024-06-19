@@ -1,6 +1,6 @@
 package archivegarden.shop.controller.admin.member;
 
-import archivegarden.shop.dto.admin.admin.AdminSearchForm;
+import archivegarden.shop.dto.admin.AdminSearchForm;
 import archivegarden.shop.dto.admin.member.SavedPointListDto;
 import archivegarden.shop.service.admin.member.AdminSavedPointService;
 import lombok.RequiredArgsConstructor;

@@ -1,7 +1,7 @@
 package archivegarden.shop.repository.admin.admin;
 
 import archivegarden.shop.dto.admin.admin.AdminListDto;
-import archivegarden.shop.dto.admin.admin.AdminSearchForm;
+import archivegarden.shop.dto.admin.AdminSearchForm;
 import archivegarden.shop.dto.admin.admin.QAdminListDto;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -20,7 +20,6 @@ import java.time.LocalTime;
 import java.util.List;
 
 import static archivegarden.shop.entity.QAdmin.admin;
-import static archivegarden.shop.entity.QProduct.product;
 
 public class AdminAdminRepositoryImpl implements AdminAdminRepositoryCustom {
 

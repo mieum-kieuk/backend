@@ -599,12 +599,6 @@ th {
     padding: 0 10px;
     overflow: visible;
 }
-#addProduct .field-error {
-    margin: -17px 0 20px 140px;
-}
-#addProduct .field-error.exc {
-    margin: 2px 0 5px 140px;
-}
 .admin_wrap #join, .admin_wrap #join_succ, .admin_wrap #login, .admin_wrap #find {
     padding-top: 0;
     justify-content: center;
@@ -945,4 +939,14 @@ th {
     font-size: 22px;
     font-weight: 400;
     width: 100%;
+}
+
+/*field error*/
+#addProduct .field-error,
+#addDiscount .field-error,
+#discountEdit .field-error {
+    margin: -17px 0 20px 140px;
+}
+#addProduct .field-error.exc {
+    margin: 2px 0 5px 140px;
 }

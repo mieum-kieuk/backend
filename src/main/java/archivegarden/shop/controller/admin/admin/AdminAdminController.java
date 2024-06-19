@@ -1,7 +1,7 @@
 package archivegarden.shop.controller.admin.admin;
 
 import archivegarden.shop.dto.admin.admin.AdminListDto;
-import archivegarden.shop.dto.admin.admin.AdminSearchForm;
+import archivegarden.shop.dto.admin.AdminSearchForm;
 import archivegarden.shop.service.admin.admins.AdminAdminService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

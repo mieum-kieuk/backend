@@ -1,6 +1,6 @@
 package archivegarden.shop.repository.point;
 
-import archivegarden.shop.dto.admin.admin.AdminSearchForm;
+import archivegarden.shop.dto.admin.AdminSearchForm;
 import archivegarden.shop.dto.admin.member.SavedPointListDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

@@ -3,9 +3,12 @@ package archivegarden.shop.controller.admin;
 import archivegarden.shop.dto.ResultResponse;
 import archivegarden.shop.service.admin.admins.AdminAdminService;
 import archivegarden.shop.service.admin.help.AdminNoticeService;
+import archivegarden.shop.service.admin.promotion.discount.AdminDiscountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/ajax/admin")
@@ -14,6 +17,7 @@ public class AjaxAdminController {
 
     private final AdminAdminService adminService;
     private final AdminNoticeService noticeService;
+    private final AdminDiscountService discountService;
 
     //전체 관리자 관리페이지에서 관리자 단건 삭제
     @ResponseStatus(HttpStatus.OK)
@@ -36,6 +40,22 @@ public class AjaxAdminController {
     @DeleteMapping("/notice/delete")
     public ResultResponse deleteNotice(@RequestParam("noticeId") Long noticeId) {
         noticeService.deleteNotice(noticeId);
+        return new ResultResponse(HttpStatus.OK.value(), "삭제가 완료되었습니다.");
+    }
+
+    //상품할인 단건 삭제
+    @ResponseStatus(HttpStatus.OK)
+    @DeleteMapping("/discount/delete")
+    public ResultResponse deleteDiscount(@RequestParam("discountId") Long discountId) {
+        discountService.deleteDiscount(discountId);
+        return new ResultResponse(HttpStatus.OK.value(), "삭제가 완료되었습니다.");
+    }
+
+    //상품할인 여러건 삭제
+    @ResponseStatus(HttpStatus.OK)
+    @DeleteMapping("/discounts/delete")
+    public ResultResponse deleteDiscounts(@RequestBody List<Long> discountIds) {
+        discountService.deleteDiscounts(discountIds);
         return new ResultResponse(HttpStatus.OK.value(), "삭제가 완료되었습니다.");
     }
 }

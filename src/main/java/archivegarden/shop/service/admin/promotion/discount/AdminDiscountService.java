@@ -5,9 +5,8 @@ import archivegarden.shop.dto.admin.product.discount.AddDiscountForm;
 import archivegarden.shop.dto.admin.product.discount.DiscountDto;
 import archivegarden.shop.dto.admin.product.discount.EditDiscountForm;
 import archivegarden.shop.entity.Discount;
-import archivegarden.shop.exception.NoSuchDiscountException;
 import archivegarden.shop.exception.admin.AdminNotFoundException;
-import archivegarden.shop.exception.ajax.NoSuchDiscountAjaxException;
+import archivegarden.shop.exception.ajax.AjaxNotFoundException;
 import archivegarden.shop.repository.admin.promotion.AdminDiscountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -27,7 +26,7 @@ public class AdminDiscountService {
     private final AdminDiscountRepository discountRepository;
 
     /**
-     * 상품 할인 저장
+     * 할인 저장
      */
     public Long saveDiscount(AddDiscountForm form) {
         //Discount 생성
@@ -40,7 +39,7 @@ public class AdminDiscountService {
     }
 
     /**
-     * 상품 할인 단건 조회
+     * 할인 단건 조회
      *
      * @throws AdminNotFoundException
      */
@@ -87,27 +86,29 @@ public class AdminDiscountService {
     }
 
     /**
-     * 할인 혜택 단건 삭제
+     * Ajax: 할인 단건 삭제
      *
-     * @throws NoSuchDiscountException discountId로 DB에서 데이터 찾을 수 없을 때
+     * @throws AjaxNotFoundException
      */
     public void deleteDiscount(Long discountId) {
-        //엔티티 조회
-        Discount discount = discountRepository.findById(discountId).orElseThrow(() -> new NoSuchDiscountException("존재하지 않는 할인 혜택입니다."));
+        //Discount 조회
+        Discount discount = discountRepository.findById(discountId).orElseThrow(() -> new AjaxNotFoundException("존재하지 않는 할인입니다."));
 
-        //할인 삭제
+        //Discount 삭제
         discountRepository.delete(discount);
     }
 
     /**
-     * Ajax
-     * 할인 혜택 여러개 삭제
+     * Ajax: 할인 여러건 삭제
      *
-     * @throws NoSuchDiscountAjaxException discountId로 DB에서 데이터 찾을 수 없을 때
+     * @throws AjaxNotFoundException
      */
     public void deleteDiscounts(List<Long> discountIds) {
         discountIds.stream().forEach((discountId) -> {
-            Discount discount = discountRepository.findById(discountId).orElseThrow(() -> new NoSuchDiscountAjaxException("존재하지 않는 할인 혜택입니다."));
+            //Discount 조회
+            Discount discount = discountRepository.findById(discountId).orElseThrow(() -> new AjaxNotFoundException("존재하지 않는 할인입니다."));
+
+            //Discount 삭제
             discountRepository.delete(discount);
         });
     }

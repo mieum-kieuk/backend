@@ -1,4 +1,4 @@
-package archivegarden.shop.dto.admin.admin;
+package archivegarden.shop.dto.admin;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

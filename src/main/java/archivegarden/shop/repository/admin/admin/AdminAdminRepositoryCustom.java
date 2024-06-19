@@ -1,7 +1,7 @@
 package archivegarden.shop.repository.admin.admin;
 
 import archivegarden.shop.dto.admin.admin.AdminListDto;
-import archivegarden.shop.dto.admin.admin.AdminSearchForm;
+import archivegarden.shop.dto.admin.AdminSearchForm;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

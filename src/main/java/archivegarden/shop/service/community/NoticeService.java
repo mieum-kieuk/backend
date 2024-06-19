@@ -1,7 +1,7 @@
 package archivegarden.shop.service.community;
 
 import archivegarden.shop.dto.admin.help.notice.NoticeDetailsDto;
-import archivegarden.shop.dto.admin.help.notice.NoticeSearchForm;
+import archivegarden.shop.dto.community.notice.NoticeSearchForm;
 import archivegarden.shop.dto.community.notice.NoticeListDto;
 import archivegarden.shop.entity.Notice;
 import archivegarden.shop.repository.admin.help.NoticeRepository;

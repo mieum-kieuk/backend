@@ -1,7 +1,7 @@
 package archivegarden.shop.controller;
 
 import archivegarden.shop.dto.admin.help.notice.NoticeDetailsDto;
-import archivegarden.shop.dto.admin.help.notice.NoticeSearchForm;
+import archivegarden.shop.dto.community.notice.NoticeSearchForm;
 import archivegarden.shop.dto.community.notice.NoticeListDto;
 import archivegarden.shop.service.community.NoticeService;
 import lombok.RequiredArgsConstructor;
