@@ -3,31 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>할인 혜택 상세정보 | Tickers</title>
+    <title>상품 할인관리  | 미음키읔</title>
 
-    <meta property="og:type" content="website"/>
-    <meta property="og:title" content="Tickers"/>
-    <meta property="og:description" content=""/>
-    <meta property="og:image" content=""/>
-    <meta property="og:url" content=""/>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
     <link rel="stylesheet" href="../../../../static/css/comm.css" th:href="@{/css/comm.css}">
     <link rel="stylesheet" href="../../../../static/css/admin_form.css" th:href="@{/css/admin_form.css}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script defer src="../../../../static/js/adminDiscount.js" th:src="@{/js/adminDiscount.js}"></script>
 </head>
 <body>
 <div class="admin_wrap">
     <div th:replace="~{/layout/menu :: admin_menu}"></div>
-    <div id="discountDetails">
+    <div id="discountDetails" class="details_wrap">
         <div class="content">
-            <h2 class="content_tit">할인 혜택 상세정보</h2>
+            <h2 class="content_tit">할인 상세정보</h2>
             <div class="form_wrap">
                 <table>
                     <tr>
-                        <th class="input_tit">할인 혜택명</th>
+                        <th class="input_tit">할인명</th>
                         <td id="name" th:text="*{discount.name}"></td>
                     </tr>
                     <tr>
@@ -39,21 +35,17 @@
                         <td><span id="startDatetime" th:text="*{discount.startDatetime}"></span><span>&nbsp;~&nbsp;</span><span
                                 id="endDatetime" th:text="*{discount.endDatetime}"></span></td>
                     </tr>
-                    <tr>
-                        <th class="input_tit">중복할인</th>
-                        <td id="isDoubleDiscount" th:text="*{discount.isDoubleDiscount}"></td>
-                    </tr>
                 </table>
             </div>
             <div class="input_box_wrap btn">
-                <button class="btn1" onclick="location.href='./edit_discount.html'"
+                <button class="btn1" onclick="location.href='edit_discount.html'"
                         th:onclick="|location.href='@{/admin/promotion/discounts/{discountId}/edit(discountId=${discount.id})}'|">
                     수정
                 </button>
-                <button class="btn1" id="delete-btn" onclick="location.href='./discount_list.html'"
+                <button class="btn1" id="delete-btn" onclick="location.href='discount_list.html'"
                         th:onclick="|deleteOk(${discount.id})|">삭제
                 </button>
-                <button class="btn1" onclick="location.href='./discount_list.html'"
+                <button class="btn1" onclick="location.href='discount_list.html'"
                         th:onclick="|location.href='@{/admin/promotion/discounts}'|">목록
                 </button>
             </div>

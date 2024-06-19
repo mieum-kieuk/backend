@@ -27,22 +27,18 @@ public class EditDiscountForm {
 
     @NotNull(message = "시작일시를 입력해 주세요.")
     @FutureOrPresent(message = "시작일시가 현재 또는 미래의 날짜여야 합니다.")
-    private LocalDateTime startDatetime;
+    private LocalDateTime createdAt;
 
     @NotNull(message = "종료일시를 입력해 주세요.")
     @FutureOrPresent(message = "종료일시가 현재 또는 미래의 날짜여야 합니다.")
-    private LocalDateTime endDatetime;
-
-    @NotNull(message = "중복 할인 가능 여부를 선택해 주세요.")
-    private String isDoubleDiscount;
+    private LocalDateTime expiredAt;
 
     public EditDiscountForm(Discount discount) {
         this.id = discount.getId();
         this.name = discount.getName();
         this.discountPercent = discount.getDiscountPercent();
-        this.startDatetime = discount.getStartDatetime();
-        this.endDatetime = discount.getEndDatetime();
-        this.isDoubleDiscount = discount.getIsDoubleDiscount();
+        this.createdAt = discount.getCreatedAt();
+        this.expiredAt = discount.getExpiredAt();
     }
 
 }

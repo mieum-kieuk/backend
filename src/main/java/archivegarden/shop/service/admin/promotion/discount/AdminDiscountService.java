@@ -1,10 +1,12 @@
 package archivegarden.shop.service.admin.promotion.discount;
 
-import archivegarden.shop.dto.admin.promotion.AddDiscountForm;
-import archivegarden.shop.dto.admin.promotion.DiscountDetailsDto;
-import archivegarden.shop.dto.admin.promotion.EditDiscountForm;
+import archivegarden.shop.dto.admin.AdminSearchForm;
+import archivegarden.shop.dto.admin.product.discount.AddDiscountForm;
+import archivegarden.shop.dto.admin.product.discount.DiscountDto;
+import archivegarden.shop.dto.admin.product.discount.EditDiscountForm;
 import archivegarden.shop.entity.Discount;
 import archivegarden.shop.exception.NoSuchDiscountException;
+import archivegarden.shop.exception.admin.AdminNotFoundException;
 import archivegarden.shop.exception.ajax.NoSuchDiscountAjaxException;
 import archivegarden.shop.repository.admin.promotion.AdminDiscountRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,54 +27,60 @@ public class AdminDiscountService {
     private final AdminDiscountRepository discountRepository;
 
     /**
-     * 할인 혜택 저장
+     * 상품 할인 저장
      */
     public Long saveDiscount(AddDiscountForm form) {
-        //엔티티 생성
+        //Discount 생성
         Discount discount = Discount.createDiscount(form);
 
-        //할인 혜택 저장
+        //Discount 저장
         discountRepository.save(discount);
 
         return discount.getId();
     }
 
     /**
-     * 할인 혜택 단건 조회
+     * 상품 할인 단건 조회
      *
-     * @throws NoSuchDiscountException discountId로 DB에서 데이터 찾을 수 없을 때
+     * @throws AdminNotFoundException
      */
     @Transactional(readOnly = true)
-    public DiscountDetailsDto getDiscount(Long discountId) {
-        Discount discount = discountRepository.findById(discountId).orElseThrow(() -> new NoSuchDiscountException("존재하지 않는 할인 혜택입니다."));
-        return new DiscountDetailsDto(discount);
+    public DiscountDto getDiscount(Long discountId) {
+        //Discount 조회
+        Discount discount = discountRepository.findById(discountId).orElseThrow(() -> new AdminNotFoundException("존재하지 않는 상품 할인입니다."));
+
+        return new DiscountDto(discount);
     }
 
     /**
-     * 할인 혜택 목록 조회
+     * 할인 목록 조회
      */
     @Transactional(readOnly = true)
-    public Page<DiscountDetailsDto> getDiscountList(Pageable pageable) {
-        return discountRepository.findAll(pageable).map(d -> new DiscountDetailsDto(d));
+    public Page<DiscountDto> getDiscountList(AdminSearchForm form, Pageable pageable) {
+        return discountRepository.findAll(form, pageable).map(d -> new DiscountDto(d));
     }
 
     /**
-     * 할인 혜택 수정 폼 조회
+     * 할인 수정 폼 조회
+     *
+     * @throws
      */
     @Transactional(readOnly = true)
     public EditDiscountForm getEditDiscountForm(Long discountId) {
-        Discount discount = discountRepository.findById(discountId).orElseThrow(() -> new NoSuchDiscountException("존재하지 않는 할인 혜택입니다."));
+        //Discount 조회
+        Discount discount = discountRepository.findById(discountId).orElseThrow(() -> new AdminNotFoundException("존재하지 않는 상품 할인입니다."));
+
         return new EditDiscountForm(discount);
     }
 
     /**
-     * 할인 혜택 수정
+     * 할인 수정
      *
-     * @throws NoSuchDiscountException discoundId로 DB에서 데이터 찾을 수 없을 때
+     * @throws AdminNotFoundException
      */
     public void updateDiscount(Long discountId, EditDiscountForm form) {
-        //엔티티 조회
-        Discount discount = discountRepository.findById(discountId).orElseThrow(() -> new NoSuchDiscountException("존재하지 않는 할인 혜택입니다."));
+        //Discount 조회
+        Discount discount = discountRepository.findById(discountId).orElseThrow(() -> new AdminNotFoundException("존재하지 않는 할인 혜택입니다."));
 
         //할인 혜택 수정
         discount.update(form);

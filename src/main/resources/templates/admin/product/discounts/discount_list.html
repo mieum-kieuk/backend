@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>상품 할인관리 | 미음키읔</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,300,0,0"/>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="../../../../static/css/comm.css" th:href="@{/css/comm.css}">
+    <link rel="stylesheet" href="../../../../static/css/admin_form.css" th:href="@{/css/admin_form.css}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
+    <script defer src="../../../../static/js/adminDiscount.js" th:src="@{/js/adminDiscount.js}"></script>
+    <script defer src="../../../../static/js/memberList.js" th:src="@{/js/memberList.js}"></script>
+</head>
+<body>
+<div class="admin_wrap">
+    <div th:replace="~{/layout/menu :: admin_menu}"></div>
+    <div id="admin">
+        <div class="content">
+            <h2 class="content_tit">할인 혜택 목록</h2>
+            <div id="discountList" class="list wrapper">
+                <div class="discount_wrap">
+                    <h3 class="form_title">기본검색</h3>
+                    <form id="adminsSearchForm" class="search_form" onsubmit="return validateBeforeSubmitSearch()">
+                        <div class="form_container">
+                            <div class="form_wrap search">
+                                <label for="searchKeyword">검색어</label>
+                                <select id="searchKey">
+                                    <option value="">전체</option>
+                                    <option value="productName">상품명</option>
+                                </select>
+                                <input type="text" id="searchKeyword" name="searchKeyword">
+                            </div>
+                            <div class="form_wrap search">
+                                <label for="searchCategory">카테고리</label>
+                                <select id="searchCategory">
+                                    <option value="Ocean">ocean</option>
+                                    <option value="Cafe">cafe</option>
+                                    <option value="Sunset">sunset</option>
+                                </select>
+                            </div>
+                            <div class="form_wrap search date">
+                                <label>기간검색</label>
+                                <div class="datepicker_wrap">
+                                    <input type="date" name="startDate" id="startDate" readonly>
+                                    <span style="display: flex; align-items: center; width: 10px; justify-content: center;">~</span>
+                                    <input type="date" name="endDate" id="endDate" readonly>
+                                </div>
+                                <div class="date_option">
+                                    <input type="button" onclick="setSearchDate(0);" class="btn1" value="오늘">
+                                    <input type="button" onclick="setSearchDate(7);" class="btn1" value="일주일">
+                                    <input type="button" onclick="setSearchDate(30);" class="btn1" value="1개월">
+                                    <input type="button" onclick="setSearchDate(90);" class="btn1" value="3개월">
+                                    <input type="button" onclick="setSearchDate(180);" class="btn1" value="6개월">
+                                    <input type="button" onclick="setSearchDate('all');" class="btn1" value="전체">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="btn_wrap">
+                            <button type="button" class="btn1 reset_btn">초기화</button>
+                            <button type="submit" class="btn1 submit_btn">검색</button>
+                        </div>
+                    </form>
+                    <div class="input_box_wrap btn">
+                        <button type="button" class="btn1">삭제</button>
+                        <button type="submit" class="btn1" onclick="location.href = 'add_discount.html'"> 등록</button>
+                    </div>
+                    <table class="admins_table">
+                        <thead>
+                        <tr>
+                            <th align="center" class="checkbox_cell">
+                                <input type="checkbox" id="selectAll"></th>
+                            <th>할인 혜택명</th>
+                            <th>할인율</th>
+                            <th>시작일시</th>
+                            <th>종료일시</th>
+                        </tr>
+                        </thead>
+                        <tbody class="discount_list">
+                        <tr id="noDataMessage">
+                            <td colspan="5">등록된 할인 혜택이 없습니다.</td>
+                        </tr>
+                        <tr>
+                            <td align="center" class="checkbox_cell">
+                                <input type="checkbox" name="checkbox" id="checkbox"></td>
+                            <td><a href="discount_details.html">할인</a></td>
+                            <td><a href="discount_details.html">10%</a</td>
+                            <td><a href="discount_details.html">2024-04-01 09:00</a></td>
+                            <td><a href="discount_details.html">2024-04-30 18:00</a</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="pagination">
+                <ul>
+                    <li><a href="#" class="prev_first"><span
+                            class="material-symbols-outlined navigate">navigate_before</span></a></li>
+                    <li><a href="#" class="prev">Prev</a></li>
+                    <li><a href="#">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#">4</a></li>
+                    <li><a href="#">5</a></li>
+                    <li><a href="#" class="next">Next</a></li>
+                    <li><a href="#" class="next_last"><span
+                            class="material-symbols-outlined navigate">navigate_next</span></a></li>
+                </ul>
+            </div>
+        </div>
+<!--    <div id="discountList" class="wrapper">-->
+<!--        <div class="content">-->
+<!--            <div class="content_tit">-->
+<!--                <h2>할인 혜택 </h2>-->
+<!--                <div class="input_box_wrap btn">-->
+<!--                    <button type="button" class="btn1" th:onclick="deleteDiscount()">삭제</button>-->
+<!--                    <button type="button" class="btn1 submit_btn" onclick="location.href='./add_discount.html'"-->
+<!--                            th:onclick="|location.href='@{/admin/promotion/discounts/add}'|">등록-->
+<!--                    </button>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <table class="discount_table">-->
+<!--                <thead>-->
+<!--                <tr>-->
+<!--                    <th class="checkbox_cell">-->
+<!--                        <input type="checkbox" id="selectAll">-->
+<!--                    </th>-->
+<!--                    <th>할인 혜택명</th>-->
+<!--                    <th>할인율</th>-->
+<!--                    <th>시작 일시</th>-->
+<!--                    <th>종료 일시</th>-->
+<!--                    <th>중복할인</th>-->
+<!--                    <th class="btn_cell"><span class="material-symbols-outlined">more_horiz</span></th>-->
+<!--                </tr>-->
+<!--                </thead>-->
+<!--                <tbody class="discount_list">-->
+<!--                <tr th:if="${discounts.content.size()} == 0" class="noDataMessage">-->
+<!--                    <td colspan="4">등록된 할인 혜택이 없습니다.</td>-->
+<!--                </tr>-->
+<!--                <tr th:each="discount : ${discounts}">-->
+<!--                    <td class="checkbox_cell">-->
+<!--                        <input type="checkbox" name="checkbox" th:id="'checkbox' + ${discount.id}">-->
+<!--                    </td>-->
+<!--                    <td><a href="./discount_details.html"-->
+<!--                           th:href="@{/admin/promotion/discounts/{discountId}(discountId=${discount.id})}"-->
+<!--                           th:text="${discount.name}">할인 혜택명</a></td>-->
+<!--                    <td>[[${discount.discountPercent}]]%</td>-->
+<!--                    <td th:text="${discount.startDatetime}">시작 일시</td>-->
+<!--                    <td th:text="${discount.endDatetime}">종료 일시</td>-->
+<!--                    <td th:text="${discount.isDoubleDiscount}">중복할인</td>-->
+<!--                    <td class="btn_cell">-->
+<!--                        <div class="menu">-->
+<!--                            <button class="menu_toggle">-->
+<!--                                <span class="material-symbols-outlined">more_horiz</span>-->
+<!--                            </button>-->
+<!--                            <div class="dropdown_menu">-->
+<!--                                <ul>-->
+<!--                                    <li>-->
+<!--                                        <button class="edit_btn" onclick="location.href='./edit_discount.html'"-->
+<!--                                                th:onclick="|location.href='@{/admin/promotion/discounts/{discountId}/edit(discountId=${discount.id})}'|">-->
+<!--                                            수정-->
+<!--                                        </button>-->
+<!--                                    </li>-->
+<!--                                    <li>-->
+<!--                                        <button class="delete_btn" onclick="location.href='./discount_list.html'"-->
+<!--                                                th:onclick="|deleteOk(${discount.id})|">-->
+<!--                                            삭제-->
+<!--                                        </button>-->
+<!--                                    </li>-->
+<!--                                </ul>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </td>-->
+<!--                </tr>-->
+<!--                </tbody>-->
+<!--            </table>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <div class="pagination">-->
+<!--        <ul>-->
+<!--            <li><a href="./discount_list.html" th:href="@{/admin/promotion/discounts}" class="prev_first"><span class="material-symbols-outlined">navigate_before</span></a></li>-->
+<!--            <li><a href="./discount_list" class="prev">Prev</a></li>-->
+<!--            <li th:each="page : ${#numbers.sequence(1, discounts.totalPages)}">-->
+<!--                <a href="./discount_list.html" th:href="@{/admin/promotion/products(page=${page})}" th:id="${page}" th:text="${page}"></a>-->
+<!--            </li>-->
+<!--            <li><a href="./discount_list.html" class="next">Next</a></li>-->
+<!--            <li><a href="./discount_list.html" th:href="@{/admin/promotion/discounts(page=${discounts.totalPages})}" class="next_last"><span class="material-symbols-outlined">navigate_next</span></a></li>-->
+<!--        </ul>-->
+<!--    </div>-->
+</div>
+</div>
+</body>
+</html>

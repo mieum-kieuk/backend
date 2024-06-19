@@ -3,19 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>할인 혜택 수정 | Tickers</title>
+    <title>상품 할인관리 | 미음키읔</title>
 
-    <meta property="og:type" content="website"/>
-    <meta property="og:title" content="Tickers"/>
-    <meta property="og:description" content=""/>
-    <meta property="og:image" content=""/>
-    <meta property="og:url" content=""/>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
     <link rel="stylesheet" href="../../../../static/css/comm.css" th:href="@{/css/comm.css}">
     <link rel="stylesheet" href="../../../../static/css/admin_form.css" th:href="@{/css/admin_form.css}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="../../../../static/js/adminDiscount.js" th:src="@{/js/adminDiscount.js}"></script>
 </head>
 <body>
@@ -62,27 +58,13 @@
                         <p class="field-error" th:if="${#fields.hasErrors('endDatetime')}"
                            th:text="${#fields.errors('endDatetime')[0]}"></p>
                     </div>
-                    <div class="discount type">
-                        <span>중복할인</span>
-                        <div class="discount_cont duplicate">
-                            <div class="input_box_wrap radio">
-                                <input type="radio" id="enable" name="isDoubleDiscount" value="TRUE">
-                                <label for="enable">허용</label>
-                            </div>
-                            <div class="input_box_wrap radio">
-                                <input type="radio" id="disable" name="isDoubleDiscount" value="FALSE">
-                                <label for="disable">불가</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="field-error" th:errors="*{isDoubleDiscount}"></div>
                 </div>
                 <div class="input_box_wrap btn">
-                    <button type="button" class="btn1" onclick="location.href='./discount_details.html'"
+                    <button type="button" class="btn1" onclick="location.href='discount_details.html'"
                             th:onclick="|location.href='@{/admin/promotion/discounts/{discountId}(discountId=${discount.id})}'|">
                         취소
                     </button>
-                    <button type="submit" class="btn1 submit_btn">수정</button>
+                    <button type="submit" class="btn1 submit_btn">완료</button>
                 </div>
             </form>
         </div>
