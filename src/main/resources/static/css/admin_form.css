@@ -329,7 +329,7 @@ input::-webkit-inner-spin-button {
     margin-left: 140px;
 }
 
-.text.description {
+.form_wrap .text.description {
     padding: 5px 0 15px 140px;
 }
 
@@ -474,7 +474,17 @@ input::-webkit-inner-spin-button {
     font-weight: 600;
     color: #999;
 }
-
+#discountDetails .form_wrap {
+    padding: 0 20px 20px;
+}
+#discountDetails .text.description{
+    padding: 10px 0 10px 30px;
+    width: 100%;
+}
+#discountDetails .text.description span{
+    font-size: 14px;
+    line-height: 1;
+}
 .input_box_wrap .input_tit {
     display: block;
     margin-right: 20px;
@@ -484,7 +494,6 @@ input::-webkit-inner-spin-button {
 }
 
 /*Details*/
-
 .details_wrap tr {
     display: flex;
 }
@@ -519,6 +528,7 @@ input::-webkit-inner-spin-button {
 .details_wrap tr {
     border-bottom: 1px solid #eee;
 }
+
 .input_tit.details {
     display: block;
     color: #999;
@@ -735,8 +745,11 @@ th {
     border: 1px solid #d7d7d7;
     text-align: center;
 }
-.admins_table th:first-child, .admins_table td:first-child {
-    /*border-left: none;*/
+.admins_table .title_td {
+    text-align: left;
+}
+.admins_table .title_td a{
+    justify-content: initial;
 }
 /*admin_notice*/
 .admin_wrap #noticeList {
@@ -799,6 +812,9 @@ th {
     padding: 0;
     width: 100%;
     margin: 0;
+}
+.admin_wrap .form_wrap.search #searchType {
+    width: 130px;
 }
 .admin_wrap .search_form {
     display: flex;

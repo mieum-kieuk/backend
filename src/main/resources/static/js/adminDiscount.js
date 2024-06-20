@@ -9,11 +9,12 @@ $(document).ready(function () {
     //목록에서 체크박스 전체선택
     $('#selectAll').click(function () {
         if ($(this).prop('checked')) {
-            $('tbody input[type="checkbox"]').prop('checked', true);
+            $('.list_content input[type="checkbox"]').prop('checked', true);
         } else {
-            $('tbody input[type="checkbox"]').prop('checked', false);
+            $('.list_content input[type="checkbox"]').prop('checked', false);
         }
     });
+
 });
 
 //유효성 검사

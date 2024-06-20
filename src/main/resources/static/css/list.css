@@ -9,6 +9,11 @@
     background: #eee;
     font-weight: 500;
 }
+.list_head > div:last-child {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
 .list_head .item:last-child {
     border-right: none;
 }
@@ -24,6 +29,7 @@
     justify-content: space-between;
 }
 .list_item{
+    display: flex;
     align-items: center;
     width: 100%;
     border: 1px solid #d7d7d7;
@@ -33,6 +39,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    width: 100%;
 }
 .item {
     display: flex;
@@ -43,11 +50,17 @@
     width: 15%;
     border-right: 1px solid #d7d7d7;
 }
-.list_item #noDataMessage {
-    display: block;
+#noDataMessage {
+    display: flex;
+    align-items: center;
     width: 100%;
+    border: 1px solid #d7d7d7;
+    border-top: none;
     padding: 8px;
     text-align: center;
+}
+#noDataMessage span {
+    width: 100%;
 }
 .list_item .item.title {
     text-align: left;
@@ -55,10 +68,15 @@
     width: 80%;
 }
 .item.check {
+    display: block;
     width: 3%;
+    min-width: max-content;
+    height: 100%;
+    border-right: none;
 }
 .item.number {
     width: 8%;
+    border-left: 1px solid #d7d7d7;
 }
 .item.date {
     width: 22%;
@@ -104,7 +122,7 @@
     width: 10%;
 }
 .discount .item.title {
-    width: 18%;
+    width: 22%;
 }
 .discount .item.date {
     width: 30%;
