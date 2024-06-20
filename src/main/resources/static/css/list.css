@@ -1,0 +1,131 @@
+.list_content {
+    margin-bottom: 20px;
+}
+.list_head {
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid #d7d7d7;
+    color: #999;
+    background: #eee;
+    font-weight: 500;
+}
+.list_head .item:last-child {
+    border-right: none;
+}
+.list_item .item:last-child {
+    border-right: none;
+}
+.list_head .item.title {
+    width: 80%;
+}
+.list {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.list_item{
+    align-items: center;
+    width: 100%;
+    border: 1px solid #d7d7d7;
+    border-top: none;
+}
+.list_item a {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 8px;
+    width: 15%;
+    border-right: 1px solid #d7d7d7;
+}
+.list_item #noDataMessage {
+    display: block;
+    width: 100%;
+    padding: 8px;
+    text-align: center;
+}
+.list_item .item.title {
+    text-align: left;
+    justify-content: flex-start;
+    width: 80%;
+}
+.item.check {
+    width: 3%;
+}
+.item.number {
+    width: 8%;
+}
+.item.date {
+    width: 22%;
+}
+
+/*notice_list*/
+.notice .item.number {
+    width: 8%;
+}
+.notice .item.title {
+    width: 70%;
+}
+.notice .item.date {
+    width: 22%;
+}
+
+
+/*product_list*/
+.product .item.img {
+    width: 12%;
+}
+.product .item.img img {
+    max-width: 100px;
+    max-height: 100px;
+    width: 100%;
+    height: 100%;
+}
+.product .item.number, .product .item.stock {
+    width: 8%;
+}
+.product .item.title {
+    width: 30%;
+}
+.product .item.category, .product .item.price {
+    width: 13%;
+}
+
+/*discount_list*/
+.discount .item.number {
+    width: 8%;
+}
+.discount .item.percent {
+    width: 10%;
+}
+.discount .item.title {
+    width: 18%;
+}
+.discount .item.date {
+    width: 30%;
+}
+
+/*member_list*/
+.member .item.userId, .member .item.membership {
+    width: 12%;
+}
+.member .item.name {
+    width: 10%;
+}
+.member .item.email {
+    width: 20%;
+}
+.member .item.phonenumber {
+    width: 15%;
+}
+.member .item.purchase {
+    width: 8%;
+}
+.member .item.point {
+    width: 10%;
+}

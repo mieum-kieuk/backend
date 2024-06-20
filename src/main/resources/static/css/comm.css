@@ -32,6 +32,7 @@ button,
   padding: 0;
   box-sizing: border-box;
   font-family: "Aleo", "SUITE", "Noto Sans KR", "Malgun Gothic", "맑은 고딕", sans-serif;
+  line-height: 1.4;
 }
 
 fieldset,
