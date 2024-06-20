@@ -4,7 +4,7 @@ import archivegarden.shop.dto.admin.help.notice.NoticeDetailsDto;
 import archivegarden.shop.dto.community.notice.NoticeSearchForm;
 import archivegarden.shop.dto.community.notice.NoticeListDto;
 import archivegarden.shop.entity.Notice;
-import archivegarden.shop.repository.admin.help.NoticeRepository;
+import archivegarden.shop.repository.notice.NoticeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

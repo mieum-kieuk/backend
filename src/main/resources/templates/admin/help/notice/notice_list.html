@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="../../../../static/css/comm.css" th:href="@{/css/comm.css}"/>
     <link rel="stylesheet" href="../../../../static/css/admin_form.css" th:href="@{/css/admin_form.css}">
     <link rel="stylesheet" href="../../../../static/css/notice.css" th:href="@{/css/notice.css}">
+    <link rel="stylesheet" href="../../../../static/css/list.css" th:href="@{/css/list.css}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script defer src="../../../../static/js/comm.js" th:src="@{/js/comm.js}"></script>
     <script defer src="../../../../static/js/notice.js" th:src="@{/js/notice.js}"></script>
@@ -48,147 +49,68 @@
                                 th:onclick="|location.href='@{/admin/notice/add}'|"> 작성
                         </button>
                     </div>
-                    <table class="admins_table">
-                        <thead>
-                        <tr>
-                            <th>번호</th>
-                            <th class="title">제목</th>
-                            <th>작성일</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr id="noDataMessage" th:if="${notices.content.size()} == 0">
-                            <td colspan="3" th:if="${form.searchKey} == null">등록된 공지사항이 없습니다.</td>
-                            <td colspan="3" th:if="${form.searchKey} != null">검색결과가 없습니다.</td>
-                        </tr>
-                        <tr th:each="notice, noticeStat : ${notices}">
-                            <td th:text="${notices.totalElements - (notices.number * notices.pageable.pageSize) - noticeStat.index}"></td>
-                            <td class="title">
+                    <div class="list_content">
+                        <div class="list_head notice">
+                            <div class="item number">번호</div>
+                            <div class="item title">제목</div>
+                            <div class="item date">작성일시</div>
+                        </div>
+                        <div class="list notice">
+                            <div class="list_item" th:each="notice, noticeStat : ${notices}">
                                 <a href="./notice_details.html" th:href="@{/admin/notice/{noticeId}(noticeId=${notice.id})}">
-                                    <span id="title" th:text="${notice.title}"></span>
+                                    <div class="item number" th:text="${notices.totalElements - (notices.number * notices.pageable.pageSize) - noticeStat.index}"></div>
+                                    <div class="item title" th:text="${notice.title}"></div>
+                                    <div class="item date" th:text="${notice.createdAt}">>작성일</div>
                                 </a>
-                            </td>
-                            <td><span id="date" th:text="${notice.createdAt}"></span></td>
-                        </tr>
-                        </tbody>
-                    </table>
+                            </div>
+                            <div class="list_item">
+                                <div id="noDataMessage" th:if="${notices.content.size()} == 0">
+                                    <span th:if="${form.searchKey} == null">등록된 공지사항이 없습니다.</span>
+                                    <span  th:if="${form.searchKey} != null">검색결과가 없습니다.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="pagination" th:if="${notices.totalPages > 0}">
-                <ul th:if="${form.keyword == null}">
-                    <li>
-                        <a href="./notice_list.html" th:href="@{/admin/notice}" class="prev_first">
-                            <span class="material-symbols-outlined navigate">navigate_before</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="./notice_list.html" th:href="@{/admin/notice(page=${notices.number})}"
-                           class="prev" id="prevPage" th:classappend="${!notices.hasPrevious()} ? 'disabled'">Prev</a>
-                    </li>
-                    <li id="paginationNumbers"></li>
-                    <li>
-                        <a href="./notice_list.html" th:href="@{/admin/notice(page=${notices.number} + 2)}"
-                           class="next" id="nextPage" th:classappend="${!notices.hasNext()} ? 'disabled'">Next</a>
-                    </li>
-                    <li>
-                        <a href="./notice_list.html" th:href="@{/admin/notice(page=${notices.totalPages})}" class="next_last">
-                            <span class="material-symbols-outlined navigate">navigate_next</span>
-                        </a>
-                    </li>
+                <ul th:if="${form.keyword == null}"
+                    th:with="startPage = ${(notices.number/5)*5+1},
+                             endPage=${T(java.lang.Math).min((notices.number/5)*5+5, notices.totalPages)}">
+                    <li><a href="./notice_list.html" th:href="@{/admin/notice}" class="prev_first">
+                            <span class="material-symbols-outlined navigate">navigate_before</span></a></li>
+                    <li><a href="./notice_list.html" th:href="@{/admin/notice(page=${startPage}-1)}"
+                           class="prev" id="prevPage" th:classappend="${startPage == 1} ? 'disabled'">Prev</a></li>
+                    <li th:each="page : ${#numbers.sequence(startPage, endPage)}">
+                        <a href="./product_list.html" th:href="@{/admin/notice(page=${page})}"
+                           class="page" th:classappend="${page == notices.number + 1} ? 'active'" th:text="${page}"></a></li>
+                    <li><a href="./notice_list.html" th:href="@{/admin/notice(page=${endPage} + 1)}"
+                           class="next" id="nextPage" th:classappend="${endPage+1 > notices.totalPages} ? 'disabled'">Next</a></li>
+                    <li><a href="./notice_list.html" th:href="@{/admin/notice(page=${notices.totalPages})}" class="next_last">
+                            <span class="material-symbols-outlined navigate">navigate_next</span></a></li>
                 </ul>
-                <ul th:if="${form.keyword != null}">
-                    <li>
-                        <a class="prev_first" href="./notice_list.html"
+                <ul th:if="${form.keyword != null}"
+                    th:with="startPage = ${(notices.number/5)*5+1},
+                             endPage=${T(java.lang.Math).min((notices.number/5)*5+5, notices.totalPages)}">
+                    <li><a class="prev_first" href="./notice_list.html"
                            th:href="@{/admin/notice(searchKey=${form.searchKey}, keyword=${form.keyword})}">
-                            <span class="material-symbols-outlined navigate">navigate_before</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="./notice_list.html"
-                           th:href="@{/admin/notice(searchKey=${form.searchKey}, keyword=${form.keyword}, page=${notices.number})}"
-                           class="prev" id="prevPageSearch" th:classappend="${!notices.hasPrevious()} ? 'disabled'">Prev</a>
-                    </li>
-                    <li id="paginationNumbersSearch"></li>
-                    <li>
-                        <a href="./notice_list.html"
-                           th:href="@{/admin/notice(searchKey=${form.searchKey}, keyword=${form.keyword}, page=${notices.number} + 2)}"
-                           class="next" id="nextPageSearch" th:classappend="${!notices.hasNext()} ? 'disabled'">Next</a>
-                    </li>
-                    <li>
-                        <a href="./notice_list.html"
-                           th:href="@{/admin/notice(searchKey=${form.searchKey}, keyword=${form.keyword}, page=${notices.totalPages})}"
-                           class="next_last">
-                            <span class="material-symbols-outlined navigate">navigate_next</span>
-                        </a>
-                    </li>
+                            <span class="material-symbols-outlined navigate">navigate_before</span></a></li>
+                    <li><a href="./notice_list.html"
+                           th:href="@{/admin/notice(searchKey=${form.searchKey}, keyword=${form.keyword}, page=${startPage}-1)}"
+                           class="prev" id="prevPageSearch" th:classappend="${startPage ==1} ? 'disabled'">Prev</a></li>
+                    <li th:each="page : ${#numbers.sequence(startPage, endPage)}">
+                        <a href="./product_list.html" th:href="@{/admin/notice(searchKey=${form.searchKey}, keyword=${form.keyword}, page=${page})}"
+                           class="page" th:classappend="${page == notices.number + 1} ? 'active'" th:text="${page}"></a></li>
+                    <li><a href="./notice_list.html"
+                           th:href="@{/admin/notice(searchKey=${form.searchKey}, keyword=${form.keyword}, page=${endPage} + 1)}"
+                           class="next" id="nextPageSearch" th:classappend="${endPage+1 > notices.totalPages} ? 'disabled'">Next</a></li>
+                    <li><a href="./notice_list.html" class="next_last"
+                           th:href="@{/admin/notice(searchKey=${form.searchKey}, keyword=${form.keyword}, page=${notices.totalPages})}">
+                            <span class="material-symbols-outlined navigate">navigate_next</span></a></li>
                 </ul>
             </div>
         </div>
     </div>
 </div>
-<script th:inline="javascript">
-    $(document).ready(function() {
-        let currentPage = [[${notices.number + 1}]];
-        let totalPages = [[${notices.totalPages}]];
-
-        function updatePagination(currentPage, totalPages, containerId) {
-            let paginationList = $('#' + containerId);
-            paginationList.empty(); // 기존 목록 초기화
-
-            let start = Math.floor((currentPage - 1) / 5) * 5 + 1;
-            let end = Math.min(start + 4, totalPages);
-
-            for (let i = start; i <= end; i++) {
-                let listItem = $('<li></li>');
-                let link = $('<a></a>').attr('href', './notice_list.html?page=' + i).text(i);
-                if (i === currentPage) {
-                    link.addClass('selected');
-                }
-                paginationList.append(listItem.append(link));
-            }
-        }
-
-        updatePagination(currentPage, totalPages, 'paginationNumbers');
-
-        $('#prevPage').click(function(e) {
-            e.preventDefault();
-            if (!$(this).hasClass('disabled')) {
-                let prevPage = Math.max(currentPage - 1, 1);
-                currentPage = prevPage;
-                updatePagination(currentPage, totalPages, 'paginationNumbers');
-            }
-        });
-
-        $('#nextPage').click(function(e) {
-            e.preventDefault();
-            if (!$(this).hasClass('disabled')) {
-                let nextPage = Math.min(currentPage + 1, totalPages);
-                currentPage = nextPage;
-                updatePagination(currentPage, totalPages, 'paginationNumbers');
-            }
-        });
-
-        // 기본 검색일 때의 페이징 처리
-        updatePagination(currentPage, totalPages, 'paginationNumbersSearch');
-
-        $('#prevPageSearch').click(function(e) {
-            e.preventDefault();
-            if (!$(this).hasClass('disabled')) {
-                let prevPage = Math.max(currentPage - 1, 1);
-                currentPage = prevPage;
-                updatePagination(currentPage, totalPages, 'paginationNumbersSearch');
-            }
-        });
-
-        $('#nextPageSearch').click(function(e) {
-            e.preventDefault();
-            if (!$(this).hasClass('disabled')) {
-                let nextPage = Math.min(currentPage + 1, totalPages);
-                currentPage = nextPage;
-                updatePagination(currentPage, totalPages, 'paginationNumbersSearch');
-            }
-        });
-    });
-</script>
 </body>
 </html>

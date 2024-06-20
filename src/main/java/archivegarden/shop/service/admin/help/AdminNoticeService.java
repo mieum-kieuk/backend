@@ -9,7 +9,7 @@ import archivegarden.shop.entity.Admin;
 import archivegarden.shop.entity.Notice;
 import archivegarden.shop.exception.admin.AdminNotFoundException;
 import archivegarden.shop.exception.ajax.AjaxNotFoundException;
-import archivegarden.shop.repository.admin.help.NoticeRepository;
+import archivegarden.shop.repository.notice.NoticeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

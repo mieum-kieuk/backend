@@ -32,7 +32,7 @@ public class ProductDetailsDto {
         categoryName = product.getCategory().getDisplayName();
         price = new DecimalFormat("###,###원").format(product.getPrice());
 
-        discountName = product.getDiscount() != null ? "[" + product.getDiscount().getDiscountPercent() + "%] " + product.getDiscount().getName() : "할인 혜택이 없습니다.";
+        discountName = product.getDiscount() != null ? "[" + product.getDiscount().getDiscountPercent() + "%] " + product.getDiscount().getName() : "할인이 적용되지 않았습니다.";
         stockQuantity = new DecimalFormat("###,###개").format(product.getStockQuantity());
         details = product.getDetails();
         sizeGuide = product.getSizeGuide();

@@ -1,4 +1,4 @@
-package archivegarden.shop.repository.admin.help;
+package archivegarden.shop.repository.notice;
 
 import archivegarden.shop.dto.admin.AdminSearchForm;
 import archivegarden.shop.dto.community.notice.NoticeSearchForm;

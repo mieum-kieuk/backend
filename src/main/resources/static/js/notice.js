@@ -1,4 +1,3 @@
-
 //유효성 검사
 function validateBeforeSubmit() {
     let titleValue = $('#title').val().trim();
@@ -24,9 +23,9 @@ function deleteNotice(noticeId) {
     let csrfHeader = $("meta[name='_csrf_header']").attr("content");
     let csrfToken = $("meta[name='_csrf']").attr("content");
 
-    if (confirm("선택한 공지사항을 삭제하시겠습니까?")) {
+    if (confirm("삭제하시겠습니까?")) {
         $.ajax({
-            method: 'DELETE',
+            type: 'DELETE',
             url: '/ajax/admin/notice/delete',
             async: false,
             data: {'noticeId': noticeId},

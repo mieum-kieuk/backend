@@ -1,15 +1,17 @@
-package archivegarden.shop.repository.admin.help;
+package archivegarden.shop.repository.notice;
 
 import archivegarden.shop.dto.admin.AdminSearchForm;
 import archivegarden.shop.dto.community.notice.NoticeSearchForm;
 import archivegarden.shop.entity.Notice;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -91,7 +93,9 @@ public class NoticeRepositoryImpl implements NoticeRepositoryCustom {
     private BooleanExpression keywordLike(String searchKey, String keyword) {
         if (keyword != null) {
             if (searchKey.equals("title")) {
-                return notice.title.containsIgnoreCase(keyword);
+                //공백제거
+                return Expressions.stringTemplate("function('replace',{0},{1},{2})", notice.title, " ", "")
+                        .containsIgnoreCase(StringUtils.replace(keyword, " ", ""));
             } else if (searchKey.equals("content")) {
                 return notice.content.contains(keyword);
             }

@@ -37,6 +37,16 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
     }
 
     @Override
+    public Product findProductFetch(Long productId) {
+        return queryFactory
+                .selectFrom(product)
+                .leftJoin(product.discount, discount).fetchJoin()
+                .leftJoin(product.images, productImage).fetchJoin()
+                .where(product.id.eq(productId))
+                .fetchOne();
+    }
+
+    @Override
     public Page<ProductListDto> findDtoAll(Pageable pageable) {
         List<ProductListDto> content = queryFactory
                 .select(new QProductListDto(
