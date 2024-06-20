@@ -2,7 +2,8 @@ package archivegarden.shop.controller.admin.promotion;
 
 import archivegarden.shop.dto.admin.AdminSearchForm;
 import archivegarden.shop.dto.admin.product.discount.AddDiscountForm;
-import archivegarden.shop.dto.admin.product.discount.DiscountDto;
+import archivegarden.shop.dto.admin.product.discount.DiscountDetailsDto;
+import archivegarden.shop.dto.admin.product.discount.DiscountListDto;
 import archivegarden.shop.dto.admin.product.discount.EditDiscountForm;
 import archivegarden.shop.service.admin.promotion.discount.AdminDiscountService;
 import jakarta.validation.Valid;
@@ -50,8 +51,10 @@ public class AdminDiscountController {
     //상품 할인 단건 조회
     @GetMapping("/{discountId}")
     public String discountDetails(@PathVariable("discountId") Long discountId, Model model) {
-        DiscountDto discountDto = discountService.getDiscount(discountId);
-        model.addAttribute("discount", discountDto);
+        DiscountDetailsDto discountDetailsDto = discountService.getDiscount(discountId);
+
+        //수정 가능 여부
+        model.addAttribute("discount", discountDetailsDto);
         return "admin/product/discounts/discount_details";
     }
 
@@ -66,7 +69,7 @@ public class AdminDiscountController {
         }
 
         PageRequest pageRequest = PageRequest.of(page - 1, 10);
-        Page<DiscountDto> discountDtos = discountService.getDiscountList(form, pageRequest);
+        Page<DiscountListDto> discountDtos = discountService.getDiscountList(form, pageRequest);
         model.addAttribute("discounts", discountDtos);
         return "admin/product/discounts/discount_list";
     }

@@ -20,7 +20,7 @@
     <div th:replace="~{/layout/menu :: admin_menu}"></div>
     <div id="discountEdit">
         <div class="content">
-            <h2 class="content_tit">할인 혜택 수정</h2>
+            <h2 class="content_tit">상품 할인관리</h2>
             <form id="editDiscountForm" action="" th:action th:object="${form}" method="post" th:onsubmit="return validateBeforeSubmit()" novalidate>
                 <div class="form_wrap">
                     <div class="input_box_wrap">
@@ -29,8 +29,8 @@
                     </div>
                     <div class="field-error" th:errors="*{name}"></div>
                     <div class="input_box_wrap">
-                        <label for="value">할인율</label>
-                        <input type="number" id="value" th:field="*{discountPercent}" placeholder="숫자만 입력해 주세요.">
+                        <label for="discountPercent">할인율</label>
+                        <input type="number" id="discountPercent" th:field="*{discountPercent}" placeholder="숫자만 입력해 주세요.">
                     </div>
                     <div class="field-error" th:errors="*{discountPercent}"></div>
                     <div class="discount period">

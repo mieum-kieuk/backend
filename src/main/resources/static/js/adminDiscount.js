@@ -42,15 +42,15 @@ function validateBeforeSubmit() {
     }
 
     if (startedAt === '' && expiredAt === '') {
-        alert('할인 기간을 입력해 주세요.');
+        alert('할인 기간을 지정해 주세요.');
         return false;
     }
     if (startedAt === '') {
-        alert('시작일시를 입력해 주세요.');
+        alert('시작일시를 지정해 주세요.');
         return false;
     }
     if (expiredAt === '') {
-        alert('종료일시를 입력해 주세요.');
+        alert('종료일시를 지정해 주세요.');
         return false;
     }
 

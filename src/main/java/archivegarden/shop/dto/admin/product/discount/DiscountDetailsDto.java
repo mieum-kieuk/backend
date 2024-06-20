@@ -4,23 +4,26 @@ import archivegarden.shop.entity.Discount;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Getter
 @Setter
-public class DiscountDto {
+public class DiscountDetailsDto {
 
     private Long id;
     private String name;
     private String discountPercent;
     private String startedAt;
     private String expiredAt;
+    private boolean editable;
 
-    public DiscountDto(Discount discount) {
+    public DiscountDetailsDto(Discount discount) {
         this.id = discount.getId();
         this.name = discount.getName();
         this.discountPercent = String.valueOf(discount.getDiscountPercent()) + "%";
         this.startedAt = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH시 mm분 ss초").format(discount.getStartedAt());
         this.expiredAt = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH시 mm분 ss초").format(discount.getExpiredAt());
+        this.editable = discount.getStartedAt().isBefore(LocalDateTime.now()) ? false : true;
     }
 }

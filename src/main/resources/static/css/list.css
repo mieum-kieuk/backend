@@ -4,6 +4,7 @@
 .list_head {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     border: 1px solid #d7d7d7;
     color: #999;
     background: #eee;

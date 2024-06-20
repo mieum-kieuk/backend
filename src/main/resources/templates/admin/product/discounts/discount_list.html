@@ -16,21 +16,22 @@
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="../../../../static/css/comm.css" th:href="@{/css/comm.css}">
     <link rel="stylesheet" href="../../../../static/css/admin_form.css" th:href="@{/css/admin_form.css}">
+    <link rel="stylesheet" href="../../../../static/css/list.css" th:href="@{/css/list.css}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
     <script defer src="../../../../static/js/comm.js" th:src="@{/js/comm.js}"></script>
-    <script defer src="../../../../static/js/adminDiscount.js" th:src="@{/js/adminDiscount.js}"></script>
-    <script defer src="../../../../static/js/memberList.js" th:src="@{/js/memberList.js}"></script>
+    <script defer src="../../../../static/js/adminSearch.js.js" th:src="@{/js/adminSearch.js}"></script>
+    <script defer src="../../../../static/js/adminDiscount.js.js" th:src="@{/js/adminDiscount.js}"></script>
 </head>
 <body>
 <div class="admin_wrap">
     <div th:replace="~{/layout/menu :: admin_menu}"></div>
     <div class="content">
-        <h2 class="content_tit">상품 할인 목록</h2>
+        <h2 class="content_tit">상품 할인관리</h2>
         <div id="discountList" class="list wrapper">
             <div class="discount_wrap">
                 <h3 class="form_title">기본검색</h3>
-                <form id="adminsSearchForm" class="search_form" action="" th:action method="get" onsubmit="return validateBeforeSubmitSearch()">
+                <form id="adminsSearchForm" class="search_form" action="" th:action method="get" onsubmit="return validateBeforeDiscountSearch()">
                     <div class="form_container">
                         <div class="form_wrap search">
                             <label for="searchKeyword">검색어</label>
@@ -48,70 +49,76 @@
                     </div>
                 </form>
                 <div class="input_box_wrap btn">
-                    <button type="button" class="btn1"  id="deleteDiscountsBtn">삭제</button>
+                    <button type="button" class="btn1" id="deleteDiscountsBtn">삭제</button>
                     <button type="submit" class="btn1" onclick="location.href = './add_discount.html'"
                             th:onclick="|location.href='@{/admin/discounts/add}'|">등록</button>
                 </div>
-                <table class="admins_table">
-                    <thead>
-                    <tr>
-                        <th class="checkbox_cell">
-                            <input type="checkbox" id="selectAll"></th>
-                        <th style="width: 15%">할인명</th>
-                        <th>할인율</th>
-                        <th style="width: 35%">시작일시</th>
-                        <th style="width: 35%">만료일시</th>
-                    </tr>
-                    </thead>
-                    <tbody class="discount_list">
-                    <tr id="noDataMessage" th:if="${discounts != null && discounts.content.size() == 0}">
-                        <td colspan="5" th:if="${form.keyword} == null">등록된 할인이 없습니다.</td>
-                        <td colspan="5" th:if="${form.keyword} != null">검색 결과가 없습니다.</td>
-                    </tr>
-                    <tr th:each="discount : ${discounts}">
-                        <td class="checkbox_cell">
-                            <input type="checkbox" name="checkbox" th:id="'checkbox' + ${discount.id}"></td>
-                        <td><a th:text="${discount.name}" href="./discount_details.html"
-                               th:href="@{/admin/discounts/{discountId}(discountId=${discount.id})}"></a></td>
-                        <td><a th:text="${discount.discountPercent}" href="./discount_details.html"
-                               th:href="@{/admin/discounts/{discountId}(discountId=${discount.id})}"></a></td>
-                        <td><a th:text="${discount.startedAt}" href="./discount_details.html"
-                               th:href="@{/admin/discounts/{discountId}(discountId=${discount.id})}"></a></td>
-                        <td><a th:text="${discount.expiredAt}" href="./discount_details.html"
-                               th:href="@{/admin/discounts/{discountId}(discountId=${discount.id})}"></a></td>
-                    </tr>
-                    </tbody>
-                </table>
+                <div class="list_content">
+                    <div class="list_head discount">
+                        <div class="item check">
+                            <input type="checkbox" id="selectAll">
+                        </div>
+                        <div>
+                            <div class="item number">번호</div>
+                            <div class="item title">할인명</div>
+                            <div class="item percent">할인율</div>
+                            <div class="item date">시작일시</div>
+                            <div class="item date">종료일시</div>
+                        </div>
+                    </div>
+                    <div class="list discount">
+                        <div class="list_item" id="noDataMessage" th:if="${discounts != null && discounts.content.size() == 0}">
+                            <span th:if="${form.keyword} == null">등록된 할인이 없습니다.</span>
+                            <span th:if="${form.keyword} != null">검색 결과가 없습니다.</span>
+                        </div>
+                        <div class="list_item" th:each="discount, discountStat : ${discounts}">
+                            <div class="item check">
+                                <input type="checkbox" name="checkbox" th:id="'checkbox' + ${discount.id}">
+                            </div>
+                            <a href="./discount_details.html" th:href="@{/admin/discounts/{discountId}(discountId=${discount.id})}">
+                                <div class="item number" th:text="${discounts.totalElements - (discounts.number * discounts.pageable.pageSize) - discountStat.index}"></div>
+                                <div class="item title" th:text="${discount.name}">할인명</div>
+                                <div class="item percent" th:text="${discount.discountPercent}">할인율</div>
+                                <div class="item date" th:text="${discount.startedAt}">시작일시</div>
+                                <div class="item date" th:text="${discount.expiredAt}">종료일시</div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="pagination" th:if="${discounts.totalPages > 0}">
-            <ul th:if="${form.keyword == null}">
+        <div class="pagination" th:if="${discounts != null and discounts.totalPages > 0}">
+            <ul th:if="${form.keyword == null}"
+                th:with="startPage = ${(discounts.number/5)*5+1},
+                             endPage=${T(java.lang.Math).min((discounts.number/5)*5+5, discounts.totalPages)}">
                 <li><a href="./discount_list.html" th:href="@{/admin/discounts}" class="prev_first">
                     <span class="material-symbols-outlined navigate">navigate_before</span></a></li>
-                <li><a href="./discount_list.html" th:href="@{/admin/discounts(page=${discounts.number})}"
-                       class="prev" th:classappend="${!discounts.hasPrevious()} ? 'disabled'">Prev</a></li>
-                <li th:each="page : ${#numbers.sequence(1, discounts.totalPages)}">
+                <li><a href="./discount_list.html" th:href="@{/admin/discounts(page=${startPage}-1)}"
+                       class="prev" th:classappend="${startPage == 1} ? 'disabled'">Prev</a></li>
+                <li th:each="page : ${#numbers.sequence(startPage, endPage)}">
                     <a href="./discount_list.html" th:href="@{/admin/discounts(page=${page})}" th:text="${page}"
                        class="page" th:classappend="${page == discounts.number + 1} ? 'active'"></a></li>
-                <li><a href="./discount_list.html" th:href="@{/admin/discounts(page=${discounts.number} + 2)}"
-                       class="next" th:classappend="${!discounts.hasNext()} ? 'disabled'">Next</a></li>
+                <li><a href="./discount_list.html" th:href="@{/admin/discounts(page=${endPage} + 1)}"
+                       class="next" th:classappend="${endPage+1 > discounts.totalPages} ? 'disabled'">Next</a></li>
                 <li><a href="./discount_list.html" th:href="@{/admin/discounts(page=${discounts.totalPages})}" class="next_last">
                     <span class="material-symbols-outlined navigate">navigate_next</span></a></li>
             </ul>
-            <ul th:if="${form.keyword != null}">
+            <ul th:if="${form.keyword != null}"
+                th:with="startPage = ${(discounts.number/5)*5+1},
+                             endPage=${T(java.lang.Math).min((discounts.number/5)*5+5, discounts.totalPages)}">
                 <li><a class="prev_first" href="./discount_list.html"
                        th:href="@{/admin/discounts(searchKey=${form.searchKey}, keyword=${form.keyword})}">
                     <span class="material-symbols-outlined navigate">navigate_before</span></a></li>
                 <li><a href="./discount_list.html"
-                       th:href="@{/admin/discounts(searchKey=${form.searchKey}, keyword=${form.keyword}, page=${discounts.number})}"
-                       class="prev" th:classappend="${!discounts.hasPrevious()} ? 'disabled'">Prev</a></li>
-                <li th:each="page : ${#numbers.sequence(1, discounts.totalPages)}">
+                       th:href="@{/admin/discounts(searchKey=${form.searchKey}, keyword=${form.keyword}, page=${startPage}-1)}"
+                       class="prev" th:classappend="${startPage ==1} ? 'disabled'">Prev</a></li>
+                <li th:each="page : ${#numbers.sequence(startPage, endPage)}">
                     <a href="./discount_list.html"
                        th:href="@{/admin/discounts(searchKey=${form.searchKey}, keyword=${form.keyword}, page=${page})}"
                        th:text="${page}" class="page" th:classappend="${page == discounts.number + 1} ? 'active'">1</a></li>
                 <li><a href="./discount_list.html"
-                       th:href="@{/admin/discounts(searchKey=${form.searchKey}, keyword=${form.keyword}, page=${discounts.number} + 2)}"
-                       class="next" th:classappend="${!discounts.hasNext()} ? 'disabled'">Next</a></li>
+                       th:href="@{/admin/discounts(searchKey=${form.searchKey}, keyword=${form.keyword}, page=${endPage} + 1)}"
+                       class="next" th:classappend="${endPage+1 > discounts.totalPages} ? 'disabled'">Next</a></li>
                 <li><a href="./discount_list.html"
                        th:href="@{/admin/discounts(searchKey=${form.searchKey}, keyword=${form.keyword}, page=${discounts.totalPages})}"
                        class="next_last"><span class="material-symbols-outlined navigate">navigate_next</span></a></li>

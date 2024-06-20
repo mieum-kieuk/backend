@@ -51,11 +51,6 @@ $(document).ready(function() {
         e.stopPropagation();
     });
 
-    $('.pagination > ul').on('click', 'a', function(e) {
-        e.preventDefault();
-
-    });
-
     initializeSideMenu();
 
 });

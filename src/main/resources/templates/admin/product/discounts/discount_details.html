@@ -22,7 +22,7 @@
     <div th:replace="~{/layout/menu :: admin_menu}"></div>
     <div id="discountDetails" class="details_wrap">
         <div class="content">
-            <h2 class="content_tit">상품 할인 상세정보</h2>
+            <h2 class="content_tit">상품 할인관리</h2>
             <div class="form_wrap">
                 <table>
                     <tr>
@@ -41,14 +41,20 @@
                     </tr>
                 </table>
             </div>
-            <div class="input_box_wrap btn">
-                <button class="btn1" onclick="location.href='./edit_discount.html'"
-                        th:onclick="|location.href='@{/admin/discounts/{discountId}/edit(discountId=${discount.id})}'|">
-                    수정</button>
-                <button class="btn1" id="delete-btn" onclick="location.href='./discount_list.html'"
-                        th:onclick="|deleteDiscount(${discount.id})|">삭제</button>
-                <button class="btn1" onclick="location.href='./discount_list.html'"
-                        th:onclick="|location.href='@{/admin/discounts}'|">목록</button>
+            <div style="display: flex; align-items: center">
+                <div class="text description">
+                    <span>상품 할인 수정은 할인 시작일시 이전까지만 가능합니다.</span>
+                </div>
+                <div class="input_box_wrap btn">
+                    <button class="btn1" th:if="${discount.editable}"
+                            onclick="location.href='./edit_discount.html'"
+                            th:onclick="|location.href='@{/admin/discounts/{discountId}/edit(discountId=${discount.id})}'|">
+                         수정</button>
+                    <button class="btn1" id="delete-btn" onclick="location.href='./discount_list.html'"
+                            th:onclick="|deleteDiscount(${discount.id})|">삭제</button>
+                    <button class="btn1" onclick="location.href='./discount_list.html'"
+                            th:onclick="|location.href='@{/admin/discounts}'|">목록</button>
+                </div>
             </div>
         </div>
     </div>

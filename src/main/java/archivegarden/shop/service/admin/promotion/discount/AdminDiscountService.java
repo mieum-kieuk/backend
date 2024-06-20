@@ -2,18 +2,20 @@ package archivegarden.shop.service.admin.promotion.discount;
 
 import archivegarden.shop.dto.admin.AdminSearchForm;
 import archivegarden.shop.dto.admin.product.discount.AddDiscountForm;
-import archivegarden.shop.dto.admin.product.discount.DiscountDto;
+import archivegarden.shop.dto.admin.product.discount.DiscountDetailsDto;
+import archivegarden.shop.dto.admin.product.discount.DiscountListDto;
 import archivegarden.shop.dto.admin.product.discount.EditDiscountForm;
 import archivegarden.shop.entity.Discount;
 import archivegarden.shop.exception.admin.AdminNotFoundException;
 import archivegarden.shop.exception.ajax.AjaxNotFoundException;
-import archivegarden.shop.repository.admin.promotion.AdminDiscountRepository;
+import archivegarden.shop.repository.discount.AdminDiscountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,19 +46,19 @@ public class AdminDiscountService {
      * @throws AdminNotFoundException
      */
     @Transactional(readOnly = true)
-    public DiscountDto getDiscount(Long discountId) {
+    public DiscountDetailsDto getDiscount(Long discountId) {
         //Discount 조회
         Discount discount = discountRepository.findById(discountId).orElseThrow(() -> new AdminNotFoundException("존재하지 않는 상품 할인입니다."));
 
-        return new DiscountDto(discount);
+        return new DiscountDetailsDto(discount);
     }
 
     /**
      * 할인 목록 조회
      */
     @Transactional(readOnly = true)
-    public Page<DiscountDto> getDiscountList(AdminSearchForm form, Pageable pageable) {
-        return discountRepository.findAll(form, pageable).map(d -> new DiscountDto(d));
+    public Page<DiscountListDto> getDiscountList(AdminSearchForm form, Pageable pageable) {
+        return discountRepository.findAll(form, pageable).map(d -> new DiscountListDto(d));
     }
 
     /**
@@ -115,14 +117,17 @@ public class AdminDiscountService {
 
     /**
      * 상품 카테고리에 보여줄 할인 목록 조회
-     * ex) [20%] 봄 신상 할인
+     * ex) [20%] 봄 신상 할인 (시작일시 ~ 종료일시)
      */
     @Transactional(readOnly = true)
-    public Map<Long, String> getDiscountNames() {
+    public Map<Long, String> getNewDiscounts() {
         Map<Long, String> result = new HashMap<>();
-        List<Discount> discounts = discountRepository.findAll();
+        List<Discount> discounts = discountRepository.findNewDiscounts();
         for (Discount discount : discounts) {
-            String discountName = "[" + discount.getDiscountPercent() + "%] " + discount.getName();
+            String startedAtFormat = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm:ss").format(discount.getStartedAt());
+            String expiredAtFormat = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm:ss").format(discount.getExpiredAt());
+            String discountName = "[" + discount.getDiscountPercent() + "%] " + discount.getName()
+                    + " (" + startedAtFormat + " ~ " + expiredAtFormat + ")";
             result.put(discount.getId(), discountName);
         }
 

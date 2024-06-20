@@ -27,10 +27,10 @@ public class EditDiscountForm {
     @Range(min = 1, max = 100, message = "할인율은 1부터 100사이의 값이여야 합니다.")
     private Integer discountPercent;
 
-    @NotNull(message = "시작일시를 입력해 주세요.")
+    @NotNull(message = "시작일시를 지정해 주세요.")
     private LocalDateTime startedAt;
 
-    @NotNull(message = "종료일시를 입력해 주세요.")
+    @NotNull(message = "종료일시를 지정해 주세요.")
     private LocalDateTime expiredAt;
 
     public EditDiscountForm(Discount discount) {
@@ -40,5 +40,4 @@ public class EditDiscountForm {
         this.startedAt = discount.getStartedAt();
         this.expiredAt = discount.getExpiredAt();
     }
-
 }

@@ -20,8 +20,8 @@
                 <li>
                     <a href="javascript:void(0)">회원관리</a>
                     <ul class="depth2">
-                        <li><a href="../admin/help/notice/notice_list.html" th:href="@{/admin/notice}">회원 정보관리</a></li>
-                        <li><a href="../admin/help/notice/notice_list.html" th:href="@{/admin/notice}">적립금관리</a></li>
+                        <li><a data-path="members" href="../admin/members/member_list.html" th:href="@{/admin/members}">회원 정보관리</a></li>
+                        <li><a data-path="points"href="../admin/members/point_list.html" th:href="@{/admin/points}">적립금 관리</a></li>
                     </ul>
                 </li>
                 <li>
@@ -33,10 +33,10 @@
                 <li>
                     <a href="javascript:void(0)">상품관리</a>
                     <ul class="depth2">
-                        <li><a href="../admin/products/product/product_list.html" th:href="@{/admin/shop/products}">전체 상품관리</a></li>
-                        <li><a href="#">상품 문의관리</a></li>
-                        <li><a href="#">상품 후기관리</a></li>
-                        <li><a href="#">할인관리</a></li>
+                        <li><a data-path="products" href="../admin/product/products/product_list.html" th:href="@{/admin/products}">전체 상품관리</a></li>
+                        <li><a data-path="products/inquiry" href="#">상품 문의관리</a></li>
+                        <li><a data-path="reviews" href="#">상품 후기관리</a></li>
+                        <li><a data-path="discounts" href="../admin/product/discounts/discount_list.html" th:href="@{/admin/discounts}">상품 할인관리</a></li>
                     </ul>
                 </li>
                 <li>
@@ -46,12 +46,12 @@
                         <li><a href="#">취소/교환/반품/환불 관리</a></li>
                     </ul>
                 </li>
-                <li>
+                <li data-path="help">
                     <a href="javascript:void(0)">고객 지원</a>
                     <ul class="depth2">
-                        <li><a href="../admin/help/notice/notice_list.html" th:href="@{/admin/notice}">공지사항</a></li>
-                        <li><a href="../inquiry/personal/inquiry_list.html">1:1 문의관리</a></li>
-                        <li><a href="#">회원 탈퇴내역</a></li>
+                        <li data-path="notice"><a href="../admin/help/notice/notice_list.html" th:href="@{/admin/notice}">공지사항 관리</a></li>
+                        <li data-path="inquiry"><a href="../admin/help/inquiry/inquiry_list.html">1:1 문의관리</a></li>
+                        <li data-path="withdrawal"><a href="javascript:void(0)">회원 탈퇴내역</a></li>
                     </ul>
                 </li>
             </ul>
@@ -75,7 +75,6 @@
             <ul class="depth2">
                 <li><a href="">주문 내역 조회</a></li>
                 <li><a href="">적립금 내역</a></li>
-                <li><a href="">쿠폰 내역</a></li>
             </ul>
         </li>
         <li>
@@ -83,11 +82,12 @@
                 <li><a href="../mypage/wish_list.html" th:href="@{/mypage/wish}">위시리스트</a></li>
                 <li><a href="">상품 후기</a></li>
                 <li><a href="../mypage/board/qna_list.html" th:href="@{/mypage/qna}">상품 문의</a></li>
+                <li><a href="#" >1:1 문의</a></li>
             </ul>
         </li>
         <li>
             <ul class="depth2">
-                <li><a href="../mypage/mypage_home.html">회원 정보 수정</a></li>
+                <li><a href="../mypage/member/member_info_login.html" th:href="@{/mypage/info}">회원 정보 수정</a></li>
                 <li><a href="../mypage/delivery/delivery_list.html" th:href="@{/mypage/delivery}">배송지 관리</a></li>
                 <li>
                     <form action="../login.html" th:action="@{/logout}" method="post">

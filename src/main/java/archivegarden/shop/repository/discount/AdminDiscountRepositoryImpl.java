@@ -1,4 +1,4 @@
-package archivegarden.shop.repository.admin.promotion;
+package archivegarden.shop.repository.discount;
 
 import archivegarden.shop.dto.admin.AdminSearchForm;
 import archivegarden.shop.entity.Discount;
