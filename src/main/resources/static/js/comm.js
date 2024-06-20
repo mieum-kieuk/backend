@@ -24,7 +24,7 @@ $(document).ready(function() {
         }
     });
     $('.search_btn').click(function(event) {
-        var keyword = $('.search_form_wrap input[type="text"]').val().trim();
+        let keyword = $('.search_form_wrap input[type="text"]').val().trim();
 
         if (keyword === '') {
             event.preventDefault();
@@ -32,7 +32,7 @@ $(document).ready(function() {
         }
     });
     $('.search_btn2').click(function(event) {
-        var keyword = $('#search_complete input[type="text"]').val().trim();
+        let keyword = $('#search_complete input[type="text"]').val().trim();
 
         if (keyword === '') {
             event.preventDefault();
@@ -47,60 +47,19 @@ $(document).ready(function() {
         $('.search_popup').fadeOut();
     });
 
-    $('#search_complete').click(function(e) {ㅡ
+    $('#search_complete').click(function(e) {
         e.stopPropagation();
     });
 
-    // $(window).load(function(){
-    //     $('.loader').delay('1000').fadeOut();
-    // });
+    $('.pagination > ul').on('click', 'a', function(e) {
+        e.preventDefault();
 
-});
-
-
-$(document).ready(function() {
-    // 현재 URL을 가져와서 pageLocation에 저장
-    var pageLocation = String(document.location).split('/');
-    var fileName = pageLocation[pageLocation.length - 1];
-    var fileDoc = pageLocation[pageLocation.length - 2];
-    var fullPath = '/' + fileDoc + '/' + fileName;
-
-    // 현재 페이지에 맞는 메뉴 항목을 활성화
-    var activeLink = $('.side_menu.menu .depth2 a[href="' + fullPath + '"]');
-    if (activeLink.length > 0) {
-        activeLink.addClass('active');
-        activeLink.closest('.depth2').slideDown();
-        activeLink.closest('.depth1 > li').addClass('active');
-    }
-
-    // 메뉴 클릭 시 toggle 및 localStorage에 href 저장
-    $('.side_menu.menu .depth1 > li > a').click(function(event) {
-        var depth1 = $(this).parent('li');
-
-        // 모든 항목에서 .active 클래스 제거
-        $('.side_menu.menu .depth1 > li').not(depth1).removeClass('active').find('.depth2').slideUp();
-
-        if (depth1.hasClass('active')) {
-            depth1.removeClass('active').find('.depth2').slideUp();
-        } else {
-            depth1.addClass('active').find('.depth2').slideDown();
-        }
-
-        var href = $(this).attr('href');
-        localStorage.setItem('activeMenuItem', href);
     });
 
-    // 로컬 스토리지에 저장된 메뉴 항목 처리
-    var activeItem = localStorage.getItem('activeMenuItem');
-    if (activeItem) {
-        var storedActiveLink = $('.side_menu.menu a[href="' + activeItem + '"]');
-        if (storedActiveLink.length > 0) {
-            storedActiveLink.addClass('active');
-            storedActiveLink.closest('.depth2').slideDown();
-            storedActiveLink.closest('.depth1 > li').addClass('active');
-        }
-    }
+    initializeSideMenu();
+
 });
+
 function initializeDropdownMenus() {
     // Document 클릭 이벤트
     $(document).on('click', function(event) {
@@ -122,7 +81,7 @@ function initializeDropdownMenus() {
 }
 
 function closeDropdownMenus(event) {
-    var dropdownMenus = $('.dropdown_menu');
+    let dropdownMenus = $('.dropdown_menu');
 
     // 메뉴 토글 또는 드롭다운 메뉴 내부를 클릭한 경우, 함수 종료
     if ($(event.target).closest('.menu_toggle, .dropdown_menu').length) {
@@ -134,11 +93,59 @@ function closeDropdownMenus(event) {
 }
 
 function toggleDropdownMenu(toggleElement) {
-    var dropdownMenu = toggleElement.siblings('.dropdown_menu');
+    let dropdownMenu = toggleElement.siblings('.dropdown_menu');
 
     // 다른 모든 드롭다운 메뉴를 닫기
     $('.dropdown_menu').not(dropdownMenu).removeClass('show');
 
     // 해당 드롭다운 메뉴 토글
     dropdownMenu.toggleClass('show');
+}
+
+function initializeSideMenu() {
+    let url = window.location.pathname;
+    let paths = url.split('/');
+
+    // 현재 페이지 URL과 일치하는 depth2 항목을 찾아 active 클래스를 추가하고, 해당 depth2만 열기
+    $('.side_menu .depth2 li[data-path]').each(function() {
+        let dataPath = $(this).data('path');
+
+        if (url.includes(dataPath)) {
+            $(this).addClass('active');
+            $(this).closest('.depth2').css('display', 'block');
+            $(this).closest('.depth1 > li').addClass('active');
+        }
+    });
+
+    $('.side_menu .depth1 > li').each(function() {
+        let depth1 = $(this);
+        let depth2 = depth1.find('.depth2');
+
+        // depth2가 없는 경우 기본 링크 동작 유지
+        if (depth2.length === 0) {
+            return;
+        }
+
+        depth1.children('a').click(function(event) {
+            event.preventDefault(); // 기본 링크 동작 방지
+
+            // 클릭한 li의 부모 depth2를 토글
+            depth2.slideToggle();
+
+            // 다른 모든 depth2를 닫음
+            $('.side_menu .depth2').not(depth2).slideUp();
+
+            // depth1의 다른 항목의 active 클래스를 제거
+            $('.side_menu .depth1 > li').not(depth1).removeClass('active');
+
+            // 클릭한 depth1에 active 클래스 추가
+            depth1.toggleClass('active');
+        });
+
+        // 현재 페이지 URL과 일치하는 depth2 항목이 있는 경우 해당 depth1을 활성화
+        if (depth2.find('li[data-path]').toArray().some(item => url.includes($(item).data('path')))) {
+            depth1.addClass('active');
+            depth2.css('display', 'block');
+        }
+    });
 }

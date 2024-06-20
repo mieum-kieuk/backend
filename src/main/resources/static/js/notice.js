@@ -1,8 +1,3 @@
-//검색 초기화
-$('.btn_wrap .reset_btn').click(function () {
-    $('#searchKeyword').val('');
-    $('select').val('title');
-});
 
 //유효성 검사
 function validateBeforeSubmit() {

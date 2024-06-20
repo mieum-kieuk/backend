@@ -28,11 +28,10 @@
         <div class="side_menu top">
             <ul>
                 <li class="logo">
-                    <a href="../index.html">
+                    <a href="#">
                         <img src="../../images/meek1.png" alt="로고">
                     </a>
                 </li>
-                <li><a href="#">기본 설정</a></li>
                 <li><a href="../index.html">사이트 바로가기</a></li>
             </ul>
             <hr>
@@ -43,41 +42,45 @@
                 <li>
                     <a href="#">상품 관리</a>
                     <ul class="depth2">
-                        <li><a href="#">상품 등록</a></li>
-                        <li><a href="#">상품 목록</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#">할인 혜택 관리</a>
-                    <ul class="depth2">
-                        <li><a href="#">할인 등록</a></li>
-                        <li><a href="#">할인 목록</a></li>
+                        <li data-path="product"><a href="../admin/products/product/product_list.html">전체 상품관리</a></li>
+                        <li data-path="products/inquiry"><a href="../admin/products/inquiry/inquiry_list.html">상품 문의관리</a></li>
+                        <li data-path="discount"><a href="../admin/promotion/discount/discount_list.html">전체 할인관리</a></li>
                     </ul>
                 </li>
                 <li>
                     <a href="#">주문 관리</a>
                     <ul class="depth2">
-                        <li><a href="#"></a></li>
-                        <li><a href="#"></a></li>
+                        <li data-path="order"><a href="#">전체 주문관리</a></li>
+                        <li data-path="cancel"><a href="#">취소/교환/반품/환불 관리</a></li>
                     </ul>
                 </li>
                 <li>
-                    <a href="#">고객 관리</a>
+                    <a href="#">회원 관리</a>
                     <ul class="depth2">
-                        <li><a href="#">고객 목록</a></li>
-                        <li><a href="#">고객 문의</a></li>
+                        <li data-path="member"><a href="../admin/member/member_list.html">회원 정보 관리</a></li>
+                        <li data-path="point"><a href="../admin/member/point_list.html">적립금 관리</a></li>
                     </ul>
                 </li>
                 <li>
-                    <a href="./admins/admins_list.html">관리자 관리</a>
+                    <a href="#">고객 지원</a>
+                    <ul class="depth2">
+                        <li data-path="notice"><a href="../admin/help/notice/notice_list.html">공지사항 관리</a></li>
+                        <li data-path="help/inquiry"><a href="../admin/help/inquiry/inquiry_list.html">1:1 문의관리</a></li>
+                        <li data-path="withdrawal"><a href="#">회원 탈퇴내역</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">관리자 관리</a>
+                    <ul class="depth2">
+                        <li data-path="notice"><a href="../admin/admins/admins_list.html">전체 관리자 관리</a></li>
+                    </ul>
                 </li>
             </ul>
         </div>
         <div class="side_menu account">
             <ul>
                 <li><a href="../admin/admins/admin_login.html">로그인</a></li>
-                <li><a href="../admin/admins/admin_join.html">회원가입</a></li>
-                <li><a href="">로그아웃</a></li>
+                <li><button class="login_btn">로그아웃</button></li>
             </ul>
         </div>
     </div>
@@ -181,7 +184,6 @@
                             <td>2024-05-04</td>
                         </tr>
                         </tbody>
-
                     </table>
                 </section>
             </div>

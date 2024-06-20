@@ -675,6 +675,11 @@ legend {
   border: none;
   background: none;
 }
+#paginationNumbers, #paginationNumbersSearch {
+  display: flex;
+  flex-direction: row;
+  gap: 3px;
+}
 .pagination .material-symbols-outlined {
   font-family: 'Material Symbols Outlined';
   font-weight: 300;
