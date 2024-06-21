@@ -1,13 +1,13 @@
 package archivegarden.shop.service.admin.shop;
 
-import archivegarden.shop.dto.admin.shop.product.ProductImageDto;
+import archivegarden.shop.dto.admin.product.product.ProductImageDto;
 import archivegarden.shop.entity.ImageType;
 import archivegarden.shop.entity.Product;
 import archivegarden.shop.entity.ProductImage;
 import archivegarden.shop.exception.ajax.NoSuchProductAjaxException;
 import archivegarden.shop.exception.ajax.NoSuchImageAjaxException;
-import archivegarden.shop.repository.shop.ProductImageRepository;
-import archivegarden.shop.repository.shop.ProductRepository;
+import archivegarden.shop.repository.product.ProductImageRepository;
+import archivegarden.shop.repository.product.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

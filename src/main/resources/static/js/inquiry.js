@@ -3,9 +3,10 @@ $(document).ready(function () {
     $('#popupBtn').click(function () {
         window.open("/shop/products/search", "_blank", "width=600px,height=450px");
     });
+
     // 상품문의
-    var inquiryModal = $("#inquiryModal");
-    var closeBtn = $(".close");
+    let inquiryModal = $("#inquiryModal");
+    let closeBtn = $(".close");
 
     closeBtn.click(function () {
         inquiryModal.hide();
@@ -30,10 +31,9 @@ $(document).ready(function () {
         }
     });
 
-
     $(".edit_btn").click(function () {
-        var questionText = $(this).closest(".qna_question").find(".qna_text").text();
-        var answerText = $(this).closest(".qna_content").find(".qna_answer").text();
+        let questionText = $(this).closest(".qna_question").find(".qna_text").text();
+        let answerText = $(this).closest(".qna_content").find(".qna_answer").text();
 
         $("#edit_title").val(questionText.trim());
         $("#edit_content").val(answerText.trim());
@@ -45,98 +45,144 @@ $(document).ready(function () {
     });
 });
 
-function submitComment() {
-    let commentText = $('#cmtInput').val().trim();
-    let today = new Date().toISOString().slice(0, 10);
-    if (commentText !== '') {
-        if ($('.cmt_wrap .comment').length > 0) {
-            if (!confirm('이미 작성된 답변이 있습니다. 기존의 답변을 덮어쓰시겠습니까?')) {
-                return;
+let csrfHeader = $("meta[name='_csrf_header']").attr("content");
+let csrfToken = $("meta[name='_csrf']").attr("content");
+
+//답변 작성
+function addAnswer(inquiryId) {
+
+    let content = $('#cmtInput').val().trim()
+
+    if (content !== '') {
+        // if ($('.comment .cmt_content').text().trim() !== '') {
+        //     if (!confirm('이미 작성된 답변이 있습니다. 기존의 답변을 덮어쓰시겠습니까?')) {
+        //         return;
+        //     }
+        // }
+
+        $.ajax({
+            type: 'POST',
+            url: '/ajax/admin/product/inquiry/' + inquiryId + '/add',
+            contentType: 'application/json;charset=utf-8',
+            data: JSON.stringify(content),
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(csrfHeader, csrfToken);
+            },
+            success: function (data) {
+                if(data.code == 200) {
+                    $('#cmtInput').val('');
+                    $('#cmtInput').css('display', 'none');
+                    $('#addCommentBtn').css('display', 'none');
+                    loadAnswer(inquiryId);
+                } else {
+                    alert(data.message);
+                }
+            },
+            error: function () {
+                alert('요청을 처리하는 동안 오류가 발생했습니다. 다시 시도해 주세요.');
             }
-        }
-        let newComment = `
-            <div class="cmt_info">
-                <span class="id">관리자</span>
-                <span class="date">${today}</span>
-                <div class="btn_wrap details right">
-                    <div class="menu">
-                        <button class="menu_toggle">
-                            <span class="material-symbols-outlined">more_horiz</span>
-                        </button>
-                        <div class="dropdown_menu">
-                            <ul>
-                                <li>
-                                    <button type="button" class="edit_btn">수정</button>
-                                </li>
-                                <li>
-                                    <button type="button" class="delete_btn">삭제</button>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="cmt_content">
-                <span>${commentText}</span>
-            </div>
-       `;
-        $('.cmt_wrap .comment').html(newComment); // 기존 댓글 덮어쓰기
-        $('#cmtInput').val(''); // 입력 필드 초기화
+        });
     } else {
-        alert('댓글을 입력해 주세요.');
+        alert('답변을 작성해 주세요.');
     }
 }
 
-function editComment(editButton) {
-    let commentElement = editButton.closest('.comment');
-    let commentText = commentElement.find('.cmt_content span').text().trim();
+//답변 조회
+function loadAnswer(inquiryId) {
+    console.log('loadAnswer!!');
+
+    $.ajax({
+        type: 'GET',
+        url: '/ajax/admin/product/inquiry/' + inquiryId,
+        dataType: 'json',
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader(csrfHeader, csrfToken);
+        },
+        success: function(data) {
+            if (data['content'] !== null) {
+                $('.comment .writer').text(data['name']);
+                $('.comment .date').text(data['createdAt']);
+                $('.comment .cmt_content').text(data['content']);
+                $('.comment .edit_btn').attr('onclick', 'editAnswerForm(' + inquiryId + ',' + data['id'] + ')');
+                $('.comment .delete_btn').attr('onclick', 'deleteAnswer(' + inquiryId + ',' +data['id'] + ')');
+                $('.cmt_wrap').css('display', 'flex');
+            } else {
+                $('.cmt_wrap').css('display', 'none');
+            }
+        },
+        error: function() {
+            alert('댓글을 불러오는 중 오류가 발생했습니다.');
+        }
+    });
+}
+
+//답변 수정 폼 조회
+function editAnswerForm(inquiryId, answerId) {
+    console.log('editAnswerForm!!');
+    let commentElement = $('.edit_btn').closest('.comment');
+    let commentText = commentElement.find('.cmt_content').text().trim();
     let textArea = `<textarea class="edit_textarea">${commentText}</textarea>`;
-    let updateButton = `<button type="button" class="bnt1 update_btn" onclick="updateComment($(this))">완료</button>`;
+    let updateButton = `<button type="button" class="bnt1 update_btn" onclick="updateAnswer(` + inquiryId + `,` + answerId + `)">완료</button>`;
     commentElement.find('.cmt_content').html(textArea + updateButton);
 }
 
-function updateComment(updateButton) {
-    let commentElement = updateButton.closest('.comment');
-    let updatedText = commentElement.find('.edit_textarea').val().trim();
-    if (updatedText !== '') {
-        let newContent = `<span>${updatedText}</span>`;
-        commentElement.find('.cmt_content').html(newContent);
+//답변 수정
+function updateAnswer(inquiryId, answerId) {
+    console.log('update answer!!!');
+
+    let updatedContent = $('.edit_textarea').val().trim();
+    if (updatedContent !== '') {
+        $.ajax({
+            type: 'POST',
+            url: '/ajax/admin/product/inquiry/edit',
+            contentType: 'application/json;charset=utf-8',
+            async: false,
+            data: JSON.stringify({'answerId' : answerId, 'content' : updatedContent}),
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(csrfHeader, csrfToken);
+            }, success: function (data) {
+                if (data.code === 200) {
+                    loadAnswer(inquiryId);
+                } else {
+                    alert(data.message);
+                }
+            },
+            error: function () {
+                alert('수정 중 오류가 발생했습니다. 다시 시도해 주세요.');
+            }
+        })
     } else {
-        alert('댓글을 입력해 주세요.');
+        alert('답변을 입력해 주세요.');
     }
 }
 
-function deleteComment(deleteButton) {
-    let commentElement = deleteButton.closest('.comment');
-    commentElement.remove();
-}
+// 답변삭제
+function deleteAnswer(inquiryId, answerId) {
 
-function validateBeforeSubmit() {
-    let content = $('#content').val().trim();
-    let product = $('#productId').val().trim();
-    let title = $('#title').val().trim();
+    console.log('deleteAnswer!!');
 
-    if (product === '') {
-        alert('상품을 선택해 주세요.');
-        return false;
-    }
-
-    if (title === '') {
-        alert('제목을 작성해 주세요.');
-        return false;
-    }
-
-    if (content === '') {
-        alert('내용을 작성해 주세요.');
-        return false;
-    }
-    return true;
-}
-
-function deleteOk(qnaId) {
-    if (confirm("정말 삭제하시겠습니까?\n한번 삭제한 게시글은 복구할 수 없습니다.")) {
-        window.location.href = '/community/inquiry/' + qnaId + "/delete";
-        return true;
+    if (confirm("삭제하시겠습니까?")) {
+        $.ajax({
+            type: 'DELETE',
+            url: '/ajax/admin/product/inquiry/delete',
+            async: false,
+            data: {'answerId' : answerId},
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(csrfHeader, csrfToken);
+            },
+            success: function (data) {
+                if (data.code === 200) {
+                    $('#cmtInput').css('display', 'block');
+                    $('#addCommentBtn').css('display', 'block');
+                    loadAnswer(inquiryId);
+                } else {
+                    alert(data.message);
+                }
+            },
+            error: function () {
+                alert('삭제 중 오류가 발생했습니다. 다시 시도해 주세요.');
+            }
+        })
     } else {
         return false;
     }

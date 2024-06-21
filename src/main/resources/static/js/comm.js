@@ -65,14 +65,6 @@ function initializeDropdownMenus() {
     $(document).on('click', '.menu_toggle', function() {
         toggleDropdownMenu($(this));
     });
-
-    $(document).on('click', '.edit_btn', function() {
-        editComment($(this));
-    });
-
-    $(document).on('click', '.delete_btn', function() {
-        deleteComment($(this));
-    });
 }
 
 function closeDropdownMenus(event) {

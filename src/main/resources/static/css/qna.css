@@ -291,11 +291,10 @@
     margin-top: 20px;
 }
 .cmt_wrap {
-    display: flex;
+    display: none;
     flex-direction: column;
     justify-content: flex-start;
-    padding: 10px;
-    padding-bottom: 0;
+    padding: 10px 10px 0 10px;
     width: 100%;
     background: #eee;
     margin-bottom: 40px;
@@ -306,9 +305,8 @@
     padding-bottom: 10px;
 }
 .comment {
-    border-top: 1px solid #d7d7d7;
-    border-bottom: 1px solid #d7d7d7;
-    /*margin-bottom: 10px;*/
+    border: 1px solid #d7d7d7;
+    padding: 5px;
 }
 .cmt_info {
     display: flex;
@@ -520,14 +518,14 @@
 .qna_tit .description {
     color: #666;
 }
-.qna_wrap.personal .id::before {
+.qna_wrap.personal .writer::before {
     content: " |";
     margin: 3px;
 }
-.id::before {
+.writer::before {
     content: none;
 }
-.id::after {
+.writer::after {
     content: " |";
     margin: 3px;
 }

@@ -40,6 +40,8 @@ public class ProductInquiry extends BaseTimeEntity {
     @JoinColumn(name = "product_id")
     private Product product;  //다대일 단방향
 
+//    @OneToOne(fetch = LAZY, cascade = CascadeType.REMOVE)
+//    private Answer answer;  //일대일 양방향
 
     //==비즈니스 로직==//
     /**
@@ -49,6 +51,13 @@ public class ProductInquiry extends BaseTimeEntity {
         this.title = title;
         this.content = content;
         this.product = product;
+    }
+
+    /**
+     * 답변 상태 수정
+     */
+    public void updateAnswerStatus(boolean isAnswered) {
+        this.isAnswered = String.valueOf(isAnswered).toUpperCase();
     }
 
     @Builder

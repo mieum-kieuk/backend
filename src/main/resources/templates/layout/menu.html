@@ -34,7 +34,7 @@
                     <a href="javascript:void(0)">상품관리</a>
                     <ul class="depth2">
                         <li><a data-path="products" href="../admin/product/products/product_list.html" th:href="@{/admin/products}">전체 상품관리</a></li>
-                        <li><a data-path="products/inquiry" href="#">상품 문의관리</a></li>
+                        <li><a data-path="products/inquiry" href="../admin/product/inquiry/inquiry_list.html" th:href="@{/admin/product/inquiry}">상품 문의관리</a></li>
                         <li><a data-path="reviews" href="#">상품 후기관리</a></li>
                         <li><a data-path="discounts" href="../admin/product/discounts/discount_list.html" th:href="@{/admin/discounts}">상품 할인관리</a></li>
                     </ul>
@@ -50,7 +50,7 @@
                     <a href="javascript:void(0)">고객 지원</a>
                     <ul class="depth2">
                         <li data-path="notice"><a href="../admin/help/notice/notice_list.html" th:href="@{/admin/notice}">공지사항 관리</a></li>
-                        <li data-path="inquiry"><a href="../admin/help/inquiry/inquiry_list.html">1:1 문의관리</a></li>
+                        <li data-path="/personal/inquiry"><a href="../admin/help/inquiry/inquiry_list.html">1:1 문의관리</a></li>
                         <li data-path="withdrawal"><a href="javascript:void(0)">회원 탈퇴내역</a></li>
                     </ul>
                 </li>
