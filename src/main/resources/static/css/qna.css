@@ -295,6 +295,7 @@
     flex-direction: column;
     justify-content: flex-start;
     padding: 10px;
+    padding-bottom: 0;
     width: 100%;
     background: #eee;
     margin-bottom: 40px;
@@ -302,10 +303,11 @@
 .cmt_tit h3{
     font-size: 16px;
     font-weight: 600;
+    padding-bottom: 10px;
 }
 .comment {
     border-top: 1px solid #d7d7d7;
-    /*border-bottom: 1px solid #eee;*/
+    border-bottom: 1px solid #d7d7d7;
     /*margin-bottom: 10px;*/
 }
 .cmt_info {
@@ -322,13 +324,15 @@
 }
 .cmt_content {
     position: relative;
-    border-bottom: 1px solid #d7d7d7;
-    padding: 10px 0;
     margin: 10px 0;
+}
+.cmt_content span {
+    white-space: pre-line;
 }
 .cmt_input {
     position: relative;
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
     width: 100%;
     gap: 10px;
@@ -352,21 +356,25 @@
 .cmt_input #updateCmt {
     display: none;
 }
+.cmt_input .text.description span {
+    color: #d94747;
+    font-size: 13px;
+}
 .cmt_content .edit_textarea {
     width: 100%;
-    height: 80px;
+    height: 100px;
+    resize: unset;
 }
 .cmt_content .update_btn {
     display: flex;
     background: #fff;
     position: absolute;
-    bottom: 11px;
-    right: 0;
-    width: 60px;
+    bottom: 5px;
+    right: 5px;
+    width: 80px;
     height: 32px;
-    border-radius: 0;
     border: 1px solid #999;
-    border-bottom: none;
+    border-radius: 2px;
     padding: 8px;
     justify-content: center;
     align-items: center;
@@ -409,11 +417,6 @@
 .text.description span::before {
     content: "• ";
     font-size: 10px;
-}
-.qna_wrap.list .btn_wrap {
-    display: flex;
-    justify-content: flex-end;
-    align-items: flex-end;
 }
 .btn_wrap .write_btn {
     width: 100px;
@@ -486,11 +489,11 @@
     width: 100%;
     text-align: left;
 }
-.qna_table .answer.complete {
+.answer.complete {
     /*color: #43972a;*/
     color: #3273F6;
 }
-.qna_table .answer.pending {
+.answer.pending {
     color: #999;
 }
 .qna_foot {
@@ -506,9 +509,7 @@
     height: 30px;
     border-radius: 2px;
 }
-#qnaSearchForm .btn1{
-    height: 30px;
-}
+
 .attach::after {
     content: "\e226";
     font-family: "Material Symbols Outlined";

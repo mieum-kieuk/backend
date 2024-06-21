@@ -4,7 +4,7 @@
 .list_head {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    /*align-items: center;*/
     border: 1px solid #d7d7d7;
     color: #999;
     background: #eee;
@@ -12,7 +12,7 @@
 }
 .list_head > div:last-child {
     display: flex;
-    justify-content: space-between;
+    /*justify-content: space-between;*/
     width: 100%;
 }
 .list_head .item:last-child {
@@ -49,7 +49,7 @@
     text-align: center;
     padding: 8px;
     width: 15%;
-    border-right: 1px solid #d7d7d7;
+    border-left: 1px solid #d7d7d7;
 }
 #noDataMessage {
     display: flex;
@@ -69,11 +69,13 @@
     width: 80%;
 }
 .item.check {
-    display: block;
+    display: flex;
     width: 3%;
     min-width: max-content;
-    height: 100%;
+    /*height: 100%;*/
+    align-items: center;
     border-right: none;
+    border-left: none;
 }
 .item.number {
     width: 8%;
@@ -86,6 +88,7 @@
 /*notice_list*/
 .notice .item.number {
     width: 8%;
+    border-left: none;
 }
 .notice .item.title {
     width: 70%;
@@ -147,4 +150,23 @@
 }
 .member .item.point {
     width: 10%;
+}
+
+/*product_inquiry*/
+
+.inquiry .item.number {
+    width: 8%;
+    border-left: none;
+}
+.inquiry .item.name {
+    width: 10%;
+}
+.inquiry .item.title {
+    width: 52%;
+}
+.inquiry .item.date {
+    width: 22%;
+}
+.inquiry .item.answer {
+    width: 8%;
 }

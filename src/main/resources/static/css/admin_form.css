@@ -906,7 +906,13 @@ th {
 
 .admin_wrap .qna_wrap.details {
     border-bottom: none;
-    padding-bottom: 20px;
+}
+.admin_wrap .qna_wrap.details .btn_wrap{
+    justify-content: flex-end;
+    margin-top: 10px;
+}
+.admin_wrap .qna_wrap.details .btn_wrap .btn1{
+    width: 80px;
 }
 .admin_wrap .cmt_wrap {
     margin-bottom: 0;

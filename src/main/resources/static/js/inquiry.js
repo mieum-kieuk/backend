@@ -1,31 +1,29 @@
-$(document).ready(function() {
+$(document).ready(function () {
     // 팝업 창을 띄우는 함수
-    $('#popupBtn').click(function() {
+    $('#popupBtn').click(function () {
         window.open("/shop/products/search", "_blank", "width=600px,height=450px");
     });
     // 상품문의
     var inquiryModal = $("#inquiryModal");
     var closeBtn = $(".close");
 
-    closeBtn.click(function() {
+    closeBtn.click(function () {
         inquiryModal.hide();
     });
 
-    $(window).click(function(event) {
+    $(window).click(function (event) {
         if (event.target.id === "inquiryModal") {
             inquiryModal.hide();
         }
     });
 
-    $(".qna_items").click(function() {
+    $(".qna_items").click(function () {
         let currentContent = $(this).next(".qna_content");
 
-        // 이미 열려 있는 항목을 클릭한 경우 닫기
         if (currentContent.is(":visible")) {
             currentContent.slideUp("fast");
         } else {
-            // 먼저 모든 qna_content를 닫습니다
-            $(".qna_content").not(currentContent).slideUp("fast").promise().done(function() {
+            $(".qna_content").not(currentContent).slideUp("fast").promise().done(function () {
                 // slideUp이 완료된 후에 현재 클릭된 항목을 열거나 닫습니다
                 currentContent.slideDown();
             });
@@ -33,7 +31,7 @@ $(document).ready(function() {
     });
 
 
-    $(".edit_btn").click(function() {
+    $(".edit_btn").click(function () {
         var questionText = $(this).closest(".qna_question").find(".qna_text").text();
         var answerText = $(this).closest(".qna_content").find(".qna_answer").text();
 
@@ -49,37 +47,40 @@ $(document).ready(function() {
 
 function submitComment() {
     let commentText = $('#cmtInput').val().trim();
-    let today = new Date().toISOString().slice(0, 10); // 현재 날짜
+    let today = new Date().toISOString().slice(0, 10);
     if (commentText !== '') {
+        if ($('.cmt_wrap .comment').length > 0) {
+            if (!confirm('이미 작성된 답변이 있습니다. 기존의 답변을 덮어쓰시겠습니까?')) {
+                return;
+            }
+        }
         let newComment = `
-                    <div class="comment">
-                        <div class="cmt_info">
-                            <span class="id">관리자</span>
-                            <span class="date">${today}</span>
-                            <div class="btn_wrap details right">
-                               <div class="menu">
-                                    <button class="menu_toggle">
-                                        <span class="material-symbols-outlined">more_horiz</span>
-                                    </button>
-                                    <div class="dropdown_menu">
-                                        <ul>
-                                            <li>
-                                                <button type="button" class="edit_btn">수정</button>
-                                            </li>
-                                            <li>
-                                                <button type="button" class="delete_btn">삭제</button>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="cmt_content">
-                            <span>${commentText}</span>
+            <div class="cmt_info">
+                <span class="id">관리자</span>
+                <span class="date">${today}</span>
+                <div class="btn_wrap details right">
+                    <div class="menu">
+                        <button class="menu_toggle">
+                            <span class="material-symbols-outlined">more_horiz</span>
+                        </button>
+                        <div class="dropdown_menu">
+                            <ul>
+                                <li>
+                                    <button type="button" class="edit_btn">수정</button>
+                                </li>
+                                <li>
+                                    <button type="button" class="delete_btn">삭제</button>
+                                </li>
+                            </ul>
                         </div>
                     </div>
-                `;
-        $('.cmt_wrap').append(newComment);
+                </div>
+            </div>
+            <div class="cmt_content">
+                <span>${commentText}</span>
+            </div>
+       `;
+        $('.cmt_wrap .comment').html(newComment); // 기존 댓글 덮어쓰기
         $('#cmtInput').val(''); // 입력 필드 초기화
     } else {
         alert('댓글을 입력해 주세요.');

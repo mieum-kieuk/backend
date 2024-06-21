@@ -47,9 +47,9 @@
                 <li data-path="products">
                     <a href="#">상품 관리</a>
                     <ul class="depth2">
-                        <li data-path="product"><a href="../../../admin/products/product/product_list.html">전체 상품관리</a></li>
-                        <li data-path="inquiry"><a href="../../../admin/products/inquiry/inquiry_list.html">상품 문의관리</a></li>
-                        <li data-path="discount"><a href="../../../admin/promotion/discount/discount_list.html">전체 할인관리</a></li>
+                        <li data-path="product"><a href="../product/product_list.html">전체 상품관리</a></li>
+                        <li data-path="inquiry"><a href="../inquiry/inquiry_list.html">상품 문의관리</a></li>
+                        <li data-path="discount"><a href="/discount_list.html">전체 할인관리</a></li>
                     </ul>
                 </li>
                 <li data-path="orders">
@@ -62,26 +62,26 @@
                 <li data-path="member">
                     <a href="#">회원 관리</a>
                     <ul class="depth2">
-                        <li data-path="member"><a href="../../../admin/member/member_list.html">회원 정보 관리</a></li>
-                        <li data-path="point"><a href="../../../admin/member/point_list.html">적립금 관리</a></li>
+                        <li data-path="member"><a href="../../member/member_list.html">회원 정보 관리</a></li>
+                        <li data-path="point"><a href="../../member/point_list.html">적립금 관리</a></li>
                     </ul>
                 </li>
                 <li data-path="help">
                     <a href="#">고객 지원</a>
                     <ul class="depth2">
-                        <li data-path="notice"><a href="../../../admin/help/notice/notice_list.html">공지사항 관리</a></li>
-                        <li data-path="inquiry"><a href="../../../admin/help/inquiry/inquiry_list.html">1:1 문의관리</a></li>
+                        <li data-path="notice"><a href="../../help/notice/notice_list.html">공지사항 관리</a></li>
+                        <li data-path="inquiry"><a href="../../help/inquiry/inquiry_list.html">1:1 문의관리</a></li>
                         <li data-path="withdrawal"><a href="#">회원 탈퇴내역</a></li>
                     </ul>
                 </li>
                 <li data-path="admins">
-                    <a href="../../../admin/admins/admins_list.html">관리자 관리</a>
+                    <a href="../../admins/admins_list.html">관리자 관리</a>
                 </li>
             </ul>
         </div>
         <div class="side_menu account">
             <ul>
-                <li><a href="../../../admin/admins/admin_login.html">로그인</a></li>
+                <li><a href="../../admins/admin_login.html">로그인</a></li>
                 <li><button class="login_btn">로그아웃</button></li>
             </ul>
         </div>
@@ -97,8 +97,8 @@
                         <div class="form_wrap search">
                             <label for="searchKeyword">검색어</label>
                             <select id="searchKey">
-                                <option value="discountName">할인명</option>
-                                <option value="discountPercent">할인율</option>
+                                <option value="name">할인명</option>
+                                <option value="percent">할인율</option>
                             </select>
                             <input type="text" id="searchKeyword" name="searchKeyword">
                         </div>
@@ -126,7 +126,7 @@
                 </form>
                 <div class="input_box_wrap btn">
                     <button type="button" class="btn1" onclick="deleteDiscount()">삭제</button>
-                    <button type="submit" class="btn1" onclick="location.href = './add_discount.html'"> 등록</button>
+                    <button type="submit" class="btn1" onclick="location.href = 'add_discount.html'"> 등록</button>
                 </div>
                 <div class="list_content">
                     <div class="list_head discount">
@@ -146,7 +146,7 @@
                             <div class="item check" >
                                 <input type="checkbox" name="checkBox">
                             </div>
-                            <a href="./discount_details.html">
+                            <a href="discount_details.html">
                                 <div class="item number">2</div>
                                 <div class="item title">할인명</div>
                                 <div class="item percent">할인율</div>
@@ -164,8 +164,7 @@
         </div>
         <div class="pagination">
             <ul>
-                <li><a href="#" class="prev_first"><span
-                        class="material-symbols-outlined navigate">navigate_before</span></a></li>
+                <li><a href="#" class="prev_first"><span class="material-symbols-outlined navigate">navigate_before</span></a></li>
                 <li><a href="#" class="prev">Prev</a></li>
                 <li><a href="#">1</a></li>
                 <li><a href="#">2</a></li>
