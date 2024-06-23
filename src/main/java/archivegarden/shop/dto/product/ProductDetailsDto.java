@@ -15,7 +15,7 @@ public class ProductDetailsDto {
 
     private Long id;
     private String name;
-    private String categoryName;
+    private String category;
     private String price;
     private boolean isDiscounted;
     private int discountPercent;
@@ -31,17 +31,17 @@ public class ProductDetailsDto {
     private List<String> detailsImages = new ArrayList<>();
 
     public ProductDetailsDto(Product product) {
-        id = product.getId();
-        name = product.getName();
-        categoryName = product.getCategory().getDisplayName();
-        price = new DecimalFormat("###,###").format(product.getPrice());
+        this.id = product.getId();
+        this.name = product.getName();
+        this.category = product.getCategory().getDisplayName();
+        this.price = new DecimalFormat("###,###원").format(product.getPrice());
 
         Discount discount = product.getDiscount();
         if (discount != null) {
             this.isDiscounted = true;
             this.discountPercent = discount.getDiscountPercent();
             int discountAmount = product.getPrice() * discountPercent / 100;
-            this.salePrice = new DecimalFormat("###,###").format((product.getPrice() - discountAmount));
+            this.salePrice = new DecimalFormat("###,###원").format((product.getPrice() - discountAmount));
             this.point =  Math.round((float)(product.getPrice() - discountAmount) / 100);
         } else {
             this.point = Math.round((float)product.getPrice() / 100);
