@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>배송지 목록 | 미음키읔</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="../../static/css/comm.css" th:href="@{/css/comm.css}"/>
+    <link rel="stylesheet" href="../../static/css/checkout.css" th:href="@{/css/checkout.css}"/>
+    <link rel="stylesheet" href="../../static/css/search_complete.css" th:href="@{/css/search_complete.css}"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script defer src="../../static/js/comm.js" th:src="@{/js/comm.js}"></script>
+    <script defer src="../../static/js/checkout.js" th:src="@{/js/checkout.js}"></script>
+</head>
+<body>
+    <div id="deliveryPopup" class="popup">
+        <div class="popup_content">
+            <div class="popup_tit">
+                <h2>배송지 목록</h2>
+            </div>
+            <div class="content">
+                <ul class="delivery_list" id="deliveryList">
+                    <li th:each="delivery : ${deliveries}">
+                        <div class="delivery_item">
+                            <div class="delivery_name" th:classappend="${delivery.isDefaultDelivery} ? 'default_delivery'"><span class="popup_delivery_name" th:text="${delivery.deliveryName}"></span></div>
+                            <div class="delivery_details"><span class="popup_zip_code">([[${delivery.zipCode}]])</span><span class="popup_basic_address" th:text="${delivery.basicAddress}"></span><span class="popup_detail_address" th:text="${delivery.detailAddress}"></span></div>
+                            <div class="recipient_info"><span class="popup_recipient_name"  th:text="${delivery.recipientName}"></span><span class="popup_phonenumber" th:text="${delivery.phonenumber}"></span></div>
+                        </div>
+                        <a href="./checkout_edit_delivery.html" th:href="@{/popup/deliveries/{deliveryId}/edit(deliveryId=${delivery.id})}">수정</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

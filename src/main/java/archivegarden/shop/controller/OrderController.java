@@ -69,7 +69,6 @@ public class OrderController {
 
     @GetMapping("/complete")
     public String orderComplete() {
-        System.out.println("OrderController.orderComplete");
         return "order/checkout_complete";
     }
 }

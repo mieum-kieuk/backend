@@ -20,13 +20,27 @@ public class Address {
     @Column(name = "detail_address", length = 40, nullable = false)
     private String detailAddress;
 
+
+    //==비즈니스 로직==//
+    /**
+     * 전체 주소
+     */
+    public String fullAddress() {
+        return "(" + getZipCode() + ") " + getBasicAddress() + " " + getDetailAddress();
+    }
+
+    /**
+     * 주문서 페이지 팝업창
+     * 상세 주소 변경
+     */
+    public void updateDetailAddress(String detailAddress) {
+        this.detailAddress = detailAddress;
+    }
+
+    //==생성자==//
     public Address(String zipCode, String basicAddress, String detailAddress) {
         this.zipCode = zipCode;
         this.basicAddress = basicAddress;
         this.detailAddress = detailAddress;
-    }
-
-    public String fullAddress() {
-        return "(" + getZipCode() + ") " + getBasicAddress() + " " + getDetailAddress();
     }
 }

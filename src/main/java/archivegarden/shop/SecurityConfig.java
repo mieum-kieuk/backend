@@ -54,7 +54,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/login", "/productImages/**", "/", "/members/**", "/error",
                                 "/products/**", "/about/**", "/community/inquiry", "/community/inquiry/*", "/community/notice/**", "/search/**",
-                                "/payment/webhook").permitAll()
+                                "/payment/webhook", "/popup/deliveries/**").permitAll()
                         .anyRequest().authenticated()
                 );
 

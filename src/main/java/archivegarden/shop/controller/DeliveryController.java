@@ -3,6 +3,7 @@ package archivegarden.shop.controller;
 import archivegarden.shop.dto.delivery.AddDeliveryForm;
 import archivegarden.shop.dto.delivery.DeliveryListDto;
 import archivegarden.shop.dto.delivery.EditDeliveryForm;
+import archivegarden.shop.dto.delivery.EditPopupDeliveryForm;
 import archivegarden.shop.entity.Member;
 import archivegarden.shop.service.mypage.DeliveryService;
 import archivegarden.shop.web.annotation.CurrentUser;
@@ -19,27 +20,26 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 @Controller
-@RequestMapping("/mypage/delivery")
 @RequiredArgsConstructor
 public class DeliveryController {
 
     private final DeliveryService deliveryService;
 
-    @GetMapping
+    @GetMapping("/mypage/delivery")
     @PreAuthorize("hasRole('ROLE_USER')")
-    public String address(@CurrentUser Member loginMember, Model model) {
+    public String deliveries(@CurrentUser Member loginMember, Model model) {
         List<DeliveryListDto> deliveries = deliveryService.getDeliveries(loginMember.getId());
         model.addAttribute("deliveries", deliveries);
         return "mypage/delivery/delivery_list";
     }
 
-    @GetMapping("/add")
+    @GetMapping("/mypage/delivery/add")
     @PreAuthorize("hasRole('ROLE_USER')")
     public String addDeliveryForm(@ModelAttribute("delivery") AddDeliveryForm form) {
         return "mypage/delivery/add_delivery";
     }
 
-    @PostMapping("/add")
+    @PostMapping("/mypage/delivery/add")
     @PreAuthorize("hasRole('ROLE_USER') and #loginMember.loginId == principal.username")
     public String addAddress(@Valid @ModelAttribute("delivery") AddDeliveryForm form, BindingResult bindingResult, @CurrentUser Member loginMember) {
 
@@ -54,7 +54,7 @@ public class DeliveryController {
         return "redirect:/mypage/delivery";
     }
 
-    @GetMapping("/{deliveryId}/edit")
+    @GetMapping("/mypage/delivery/{deliveryId}/edit")
     @PreAuthorize("hasRole('ROLE_USER') and #loginMember.loginId == principal.username")
     public String editAddressForm(@PathVariable("deliveryId") Long deliveryId, @CurrentUser Member loginMember, Model model) {
         EditDeliveryForm form = deliveryService.getEditDeliveryForm(deliveryId);
@@ -62,7 +62,7 @@ public class DeliveryController {
         return "mypage/delivery/edit_delivery";
     }
 
-    @PostMapping("/{deliverId}/edit")
+    @PostMapping("/mypage/delivery/{deliverId}/edit")
     @PreAuthorize("hasRole('ROLE_USER') and #loginMember.loginId == principal.username")
     public String editDelivery(@Valid @ModelAttribute("delivery") EditDeliveryForm form, BindingResult bindingResult,
                               @PathVariable("deliverId") Long deliverId, @CurrentUser Member loginMember) {
@@ -74,15 +74,35 @@ public class DeliveryController {
             return "mypage/delivery/edit_delivery";
         }
 
-        deliveryService.editDelivery(form, deliverId, loginMember.getId());
+        deliveryService.editDelivery(form, deliverId);
         return "redirect:/mypage/delivery";
     }
 
-    @GetMapping("/{deliveryId}/delete")
+    @GetMapping("/mypage/delivery/{deliveryId}/delete")
     @PreAuthorize("hasRole('ROLE_USER') and #loginMember.loginId == principal.username")
     public String deleteAddress(@PathVariable("deliveryId") Long deliveryId, @CurrentUser Member loginMember) {
         deliveryService.deleteDelivery(deliveryId);
         return "redirect:/mypage/delivery";
+    }
+
+    @GetMapping("/popup/deliveries")
+    public String checkoutDeliveries(@CurrentUser Member loginMember, Model model) {
+        List<DeliveryListDto> deliveries = deliveryService.getDeliveries(loginMember.getId());
+        model.addAttribute("deliveries", deliveries);
+        return "order/checkout_delivery_popup";
+    }
+
+    @GetMapping("/popup/deliveries/{deliveryId}/edit")
+    public String checkoutDeliveryEditForm(@PathVariable("deliveryId") Long deliveryId, Model model) {
+        EditPopupDeliveryForm editDeliveryForm = deliveryService.getEditPopupDeliveryForm(deliveryId);
+        model.addAttribute("form", editDeliveryForm);
+        return "order/checkout_edit_delivery";
+    }
+
+    @PostMapping("/popup/deliveries/{deliveryId}/edit")
+    public String checkoutDeliveryEdit(@ModelAttribute("form") EditPopupDeliveryForm form, @PathVariable("deliveryId") Long deliveryId) {
+        deliveryService.editPopupDelivery(form, deliveryId);
+        return "redirect:/popup/deliveries";
     }
 
     private void validateAddress(String zipCode, String basicAddress, BindingResult bindingResult) {

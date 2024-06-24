@@ -154,7 +154,7 @@ function initPopup() {
     let height = 500;
     let left = (window.screen.width / 2) - (width / 2);
     let top = (window.screen.height / 2) - (height / 2);
-    let popupUrl = 'checkout_delivery_popup.html'; // 팝업으로 열 페이지의 URL
+    let popupUrl = '/popup/deliveries'; // 팝업으로 열 페이지의 URL
     let popupName = '주소 입력'; // 팝업 창의 이름
     let popupOptions =  `width=${width},height=${height},top=${top},left=${left}`; // 팝업 창의 옵션
 

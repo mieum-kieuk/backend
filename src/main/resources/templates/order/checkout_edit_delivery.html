@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>배송지 수정 | 미음키읔</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+    <link rel="stylesheet" href="../../static/css/comm.css" th:href="@{/css/comm.css}"/>
+    <link rel="stylesheet" href="../../static/css/checkout.css" th:href="@{/css/checkout.css}"/>
+    <link rel="stylesheet" href="../../static/css/search_complete.css" th:href="@{/css/search_complete.css}"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script defer src="../../static/js/comm.js" th:src="@{/js/comm.js}"></script>
+    <script defer src="../../static/js/checkout.js" th:src="@{/js/checkout.js}"></script>
+    <script defer src="../../static/js/findAddress.js" th:src="@{/js/findAddress.js}"></script>
+</head>
+<body>
+<div id="deliveryEditPopup" class="popup">
+    <div class="popup_content">
+        <form action="" th:action th:object="${form}" method="post" th:onsubmit="return validateEditPopup()">
+            <div class="popup_tit">
+                <h2>배송지 수정</h2>
+            </div>
+            <div class="content">
+                <ul class="delivery_list" id="deliveryList">
+                    <li>
+                        <label for="detailAddress" class="popup_basic_address" th:text="*{basicAddress}"></label>
+                        <input type="text" class="input_box" id="detailAddress" th:field="*{detailAddress}" placeholder="상세주소를 입력해 주세요." maxlength="40"/>
+                    </li>
+                    <li>
+                        <label for="recipientName" class="input_tit ess">수령인</label>
+                        <input type="text" id="recipientName" class="input_box" th:field="*{recipientName}" maxlength="23"/>
+                    </li>
+                    <li class="phone_number">
+                        <label class="input_tit ess">휴대전화번호</label>
+                        <div class="number_sec">
+                            <select id="phonenumber1" th:field="*{phonenumber1}">
+                                <option value="010" th:selected="${form.phonenumber1} == '010'">010</option>
+                                <option value="011" th:selected="${form.phonenumber1} == '011'">011</option>
+                                <option value="016" th:selected="${form.phonenumber1} == '016'">016</option>
+                                <option value="017" th:selected="${form.phonenumber1} == '017'">017</option>
+                                <option value="018" th:selected="${form.phonenumber1} == '018'">018</option>
+                                <option value="019" th:selected="${form.phonenumber1} == '019'">019</option>
+                            </select>
+                            <p>-</p><input type="text" id="phonenumber2" class="input_box" th:field="*{phonenumber2}" maxlength="4"/>
+                            <p>-</p><input type="text" id="phonenumber3" class="input_box" th:field="*{phonenumber3}"  maxlength="4"/>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="btn_wrap">
+                <button type="button" class="btn1 submit_btn" onclick="location.href='./checkout_delivery_popup.html'"
+                        th:onclick="|location.href='@{/popup/deliveries}'|">취소
+                </button>
+                <button type="submit" class="btn1 submit_btn">완료</button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

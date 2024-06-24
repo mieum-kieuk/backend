@@ -1,13 +1,10 @@
 package archivegarden.shop.service.mypage;
 
-import archivegarden.shop.dto.delivery.AddDeliveryForm;
-import archivegarden.shop.dto.delivery.DeliveryDto;
-import archivegarden.shop.dto.delivery.DeliveryListDto;
-import archivegarden.shop.dto.delivery.EditDeliveryForm;
+import archivegarden.shop.dto.delivery.*;
 import archivegarden.shop.entity.Delivery;
 import archivegarden.shop.entity.Member;
-import archivegarden.shop.exception.NoSuchDeliveryException;
 import archivegarden.shop.exception.NoSuchMemberException;
+import archivegarden.shop.exception.NotFoundException;
 import archivegarden.shop.exception.ajax.NoSuchDeliveryAjaxException;
 import archivegarden.shop.repository.DeliveryRepository;
 import archivegarden.shop.repository.member.MemberRepository;
@@ -62,25 +59,20 @@ public class DeliveryService {
     /**
      * 배송지 수정 폼 조회
      *
-     * @throws NoSuchDeliveryException
+     * @throws NotFoundException
      */
     @Transactional(readOnly = true)
     public EditDeliveryForm getEditDeliveryForm(Long deliverId) {
-        Delivery delivery = deliveryRepository.findById(deliverId).orElseThrow(() -> new NoSuchDeliveryException("존재하지 않는 배송지입니다."));
+        Delivery delivery = deliveryRepository.findById(deliverId).orElseThrow(() -> new NotFoundException("존재하지 않는 배송지입니다."));
         return new EditDeliveryForm(delivery);
     }
 
     /**
      * 배송지 수정
      */
-    public void editDelivery(EditDeliveryForm form, Long deliveryId, Long memberId) {
+    public void editDelivery(EditDeliveryForm form, Long deliveryId) {
         //수정할 배송지 엔티티 조회
-        Delivery delivery = deliveryRepository.findById(deliveryId).orElseThrow(() -> new NoSuchDeliveryException("존재하지 않는 배송지 주소입니다."));
-
-        //기본 배송지 변경
-        if(form.getIsDefaultDelivery()) {
-            changeDefaultDelivery(memberId);
-        }
+        Delivery delivery = deliveryRepository.findById(deliveryId).orElseThrow(() -> new NotFoundException("존재하지 않는 배송지 주소입니다."));
 
         //배송지 정보 수정
         delivery.update(form);
@@ -114,5 +106,31 @@ public class DeliveryService {
     private void changeDefaultDelivery(Long memberId) {
         Delivery defaultDelivery = deliveryRepository.findDefaultDelivery(memberId);
         defaultDelivery.removeDefault();
+    }
+
+    /**
+     * 주문서 페이지 팝업창
+     * 배송지 수정 폼 조회
+     *
+     * @throws NotFoundException
+     */
+    @Transactional(readOnly = true)
+    public EditPopupDeliveryForm getEditPopupDeliveryForm(Long deliverId) {
+        Delivery delivery = deliveryRepository.findById(deliverId).orElseThrow(() -> new NotFoundException("존재하지 않는 배송지입니다."));
+        return new EditPopupDeliveryForm(delivery);
+    }
+
+    /**
+     * 주문서 페이지 팝업창
+     * 배송지 수정
+     *
+     * @throws NotFoundException
+     */
+    public void editPopupDelivery(EditPopupDeliveryForm form, Long deliveryId) {
+        //수정할 배송지 엔티티 조회
+        Delivery delivery = deliveryRepository.findById(deliveryId).orElseThrow(() -> new NotFoundException("존재하지 않는 배송지 주소입니다."));
+
+        //배송지 정보 수정
+        delivery.updatePopup(form);
     }
 }

@@ -2,6 +2,7 @@ package archivegarden.shop.entity;
 
 import archivegarden.shop.dto.delivery.AddDeliveryForm;
 import archivegarden.shop.dto.delivery.EditDeliveryForm;
+import archivegarden.shop.dto.delivery.EditPopupDeliveryForm;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -48,6 +49,16 @@ public class Delivery extends BaseTimeEntity {
         this.address = new Address(form.getZipCode(), form.getBasicAddress(), form.getDetailAddress());
         this.phonenumber = form.getPhonenumber1() + "-" + form.getPhonenumber2() + "-" + form.getPhonenumber3();
         this.isDefaultDelivery = form.getIsDefaultDelivery().toString().toUpperCase();
+    }
+
+    /**
+     * 주문서 페이지 팝업창
+     * 배송지 주소 수정
+     */
+    public void updatePopup(EditPopupDeliveryForm form) {
+        this.address.updateDetailAddress(form.getDetailAddress());
+        this.recipientName = form.getRecipientName();
+        this.phonenumber = form.getPhonenumber1() + "-" + form.getPhonenumber2() + "-" + form.getPhonenumber3();
     }
 
     /**

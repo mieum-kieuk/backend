@@ -1,5 +1,6 @@
 package archivegarden.shop.controller.exception;
 
+import archivegarden.shop.exception.NotFoundException;
 import archivegarden.shop.exception.ProductNotFoundException;
 import archivegarden.shop.exception.admin.AdminNotFoundException;
 import lombok.extern.slf4j.Slf4j;
@@ -9,6 +10,12 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @Slf4j
 @ControllerAdvice
 public class ExceptionController {
+
+    @ExceptionHandler(NotFoundException.class)
+    public String notFoundException(NotFoundException e) {
+        log.warn("[{}] cause={}, message={}", e.getStackTrace()[0], "NotFoundException", e.getMessage());
+        return "error/not_found_exception.html";
+    }
 
     @ExceptionHandler(ProductNotFoundException.class)
     public String productNotFoundException(ProductNotFoundException e) {
@@ -35,10 +42,5 @@ public class ExceptionController {
 //    @ExceptionHandler(NoSuchBoardException.class)
 //    public String noSuchNoticeException(NoSuchBoardException e) {
 //        return "error/no_such_board_exception";
-//    }
-//
-//    @ExceptionHandler(NoSuchDeliveryException.class)
-//    public String noSuchDeliveryException(NoSuchDeliveryException e) {
-//        return "error/no_such_delivery_exception";
 //    }
 }

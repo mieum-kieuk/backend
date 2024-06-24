@@ -91,7 +91,7 @@
                                         <option value="direct_input">직접입력</option>
                                     </select>
                                     <div id="defaultDirectInputContainer" class="direct_input_wrap">
-                                        <textarea id="defaultDirectInput" name="directInput" placeholder="내용을 작성해 주세요."></textarea>
+                                        <textarea id="defaultDirectInput" name="directInput" placeholder="내용을 작성해 주세요.(255자 이내)"></textarea>
                                     </div>
                                 </li>
                             </ul>
@@ -145,8 +145,8 @@
                                                 <option value="018">018</option>
                                                 <option value="019">019</option>
                                             </select>
-                                            <p>-</p><input id="phonenumber2" class="input_box" type="text"/>
-                                            <p>-</p><input id="phonenumber3" class="input_box" type="text"/>
+                                            <p>-</p><input id="phonenumber2" class="input_box" type="text" maxlength="4">
+                                            <p>-</p><input id="phonenumber3" class="input_box" type="text" maxlength="4"/>
                                         </div>
                                     </div>
                                 </li>
@@ -168,7 +168,7 @@
                                         <option value="direct_input">직접입력</option>
                                     </select>
                                     <div id="directInputContainer" class="direct_input_wrap">
-                                        <textarea id="directInput" name="directInput" placeholder="내용을 작성해 주세요."></textarea>
+                                        <textarea id="directInput" name="directInput" placeholder="내용을 작성해 주세요.(255자 이내)"></textarea>
                                     </div>
                                 </li>
                             </ul>
@@ -212,7 +212,7 @@
                                 <input type="text" id="point" th:value="${point}">
                                 <button type="button" class="btn1" id="useAll">모두 사용</button>
                                 <div class="point_details">
-                                    <span>사용가능 <em id="availablePoint"></em>P / <span>보유 <em id="ownedpoint" th:text="${point}"></em>P</span></span>
+                                    <span>사용가능 <em id="availablePoint"></em>P / <span>보유 <em id="ownedPoint" th:text="${point}"></em>P</span></span>
                                 </div>
                             </div>
                         </div>
@@ -407,9 +407,8 @@
             currency: 'KRW',    //결제 통화
             payMethod: payMethod,   //결제수단 구분코드
             customer: customer,
-            noticeUrls: ['https://ce5d-121-133-1-166.ngrok-free.app/payment/webhook'],
-            confirmUrl: 'https://ce5d-121-133-1-166.ngrok-free.app/order/confirm',
-            redirectUrl: 'https://ce5d-121-133-1-166.ngrok-free.app/payment/redirect'
+            confirmUrl: 'https://86e8-222-107-113-225.ngrok-free.app/payment/webhook',
+            redirectUrl: 'https://86e8-222-107-113-225.ngrok-free.app/payment/redirect'
         }
 
         const response = PortOne.requestPayment(paymentData)

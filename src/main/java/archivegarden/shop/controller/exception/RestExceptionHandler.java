@@ -51,12 +51,6 @@ public class RestExceptionHandler {
 //    }
 //
 //    @ResponseStatus(HttpStatus.BAD_REQUEST)
-//    @ExceptionHandler(NoSuchDeliveryException.class)
-//    public ErrorResult noSuchDeliveryException(NoSuchDeliveryException e) {
-//        return new ErrorResult("BAD_REQUEST", "존재하지 않는 배송지입니다. 다시 시도해 주세요.");
-//    }
-//
-//    @ResponseStatus(HttpStatus.BAD_REQUEST)
 //    @ExceptionHandler(NotEnoughStockAjaxException.class)
 //    public ErrorResult notEnoughStockAjaxException(NotEnoughStockAjaxException e) {
 //        return new ErrorResult("BAD_REQUEST", e.getMessage());

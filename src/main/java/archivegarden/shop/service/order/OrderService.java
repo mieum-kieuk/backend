@@ -7,7 +7,7 @@ import archivegarden.shop.repository.member.MemberRepository;
 import archivegarden.shop.repository.DeliveryRepository;
 import archivegarden.shop.repository.order.CartRepository;
 import archivegarden.shop.repository.order.OrderRepository;
-import archivegarden.shop.repository.shop.ProductRepository;
+import archivegarden.shop.repository.product.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
