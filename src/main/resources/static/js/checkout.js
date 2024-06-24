@@ -37,42 +37,58 @@ $(document).ready(function(){
         }
     });
 
-    let availableMileageText = $("#ownedMileage").text().replace(",", "");
-    let availableMileage = parseInt(availableMileageText);
-
-    if (availableMileage === 0) {
-        $("#mileage").prop("disabled", true);
-    }
     $('.pay_btn.card').click(function() {
+        // 모든 선택 상태 초기화
+        resetSelections();
+
+        // 카드 결제 선택 시
         $('.card_select').show();
         $('.pay_btn.card').addClass("selected");
         $('.easy_select').hide();
         $('.pay_btn.easy').removeClass("selected");
     });
-    $('.card_select').click(function() {
+
+    $('.card.selected').click(function() {
         $('.card_list').toggle();
         toggleIcon.call(this);
     });
+
     $('.pay_btn.easy').click(function() {
+        // 모든 선택 상태 초기화
+        resetSelections();
+
+        // 간편 결제 선택 시
         $('.easy_select').show();
         $('.pay_btn.easy').addClass("selected");
         $('.card_select').hide();
         $('.pay_btn.card').removeClass("selected");
     });
 
+    $('.payment_option').click(function() {
+        $('.payment_option').removeClass('selected');
+        $(this).addClass('selected');
+    });
+
     $('.card_list .card').on('click', function() {
         let cardName = $(this).find('.card_name').text();
-        let cardCode = $(this).data('code');
+        // let cardCode = $(this).data('code');
 
+        $('.card_list .card').removeClass('selected');
+        $(this).addClass('selected');
         $('.card.selected .card_value span').text(cardName);
 
         $('.card_list').hide();
-        $('.card.selected').find('.material-icons').text('expand_more');
-
-        let cardCompany = cardCode;
-        console.log('Selected Card Company Code:', cardCompany);
-
+        $('.card.selected').find('.material-symbols-outlined').text('expand_more');
     });
+
+    function resetSelections() {
+        // 선택된 카드 및 결제 옵션 초기화
+        $('.card_list .card').removeClass('selected');
+        $('.card.selected .card_value span').text("카드사를 선택해 주세요.");
+        $('.card_list').hide();
+        $('.card.selected').find('.material-symbols-outlined').text('expand_more');
+        $('.payment_option').removeClass('selected');
+    }
 
     // 전체 동의 체크박스 기능 구현
     $("#agreeAll").click(function() {
@@ -330,6 +346,24 @@ function validateBeforeSubmit() {
         }
     }
 
+    if (!$('.pay_btn').hasClass('selected')) {
+        alert('결제방식을 선택해 주세요.');
+        return false;
+    }
+
+    if ($('.pay_btn.card').hasClass('selected')) {
+        if ($('.card.selected .card_value span').text() === '카드사를 선택해 주세요.') {
+            alert('카드사를 선택해 주세요.');
+            return false;
+        }
+    }
+
+    if ($('.pay_btn.easy').hasClass('selected')) {
+        if (!$('.payment_option').hasClass('selected')) {
+            alert('결제방식을 선택해 주세요.');
+            return false;
+        }
+    }
     return true;
 }
 
@@ -377,7 +411,7 @@ function handlePoint() {
             }
         }
         // 마일리지가 변경되었을 때는 할인 내역과 회원 쿠폰 내역을 유지한 채로 주문 요약 업데이트
-        updateOrderSummary(updateDiscount(), parseInt($(".total.discount .content").text().replace(/[^0-9]/g, "")));
+        updateOrderSummary(updateDiscount(), parseInt($(".total.discounts .content").text().replace(/[^0-9]/g, "")));
     });
 
     $("#point").on("input", function() {
@@ -403,7 +437,7 @@ function handlePoint() {
             $("#point").prop("disabled", false);
         }
         // 마일리지가 변경되었을 때는 할인 내역과 회원 쿠폰 내역을 유지한 채로 주문 요약 업데이트
-        updateOrderSummary(updateDiscount(), parseInt($(".total.discount .content").text().replace(/[^0-9]/g, "")));
+        updateOrderSummary(updateDiscount(), parseInt($(".total.discounts .content").text().replace(/[^0-9]/g, "")));
     });
 }
 handlePoint();
@@ -424,7 +458,7 @@ function updateOrderSummary(productCouponDiscount) {
     let totalPrice = discountedTotalProductPrice + shippingFee - usedPoint ;
 
     $(".total.price .content").text(totalProductPrice.toLocaleString() + "원");
-    $(".total.discount .content").text(totalDiscount > 0 ? "-" + totalDiscount.toLocaleString() + "원" : "0원");
+    $(".total.discounts .content").text(totalDiscount > 0 ? "-" + totalDiscount.toLocaleString() + "원" : "0원");
     $(".total.point .content").text(usedPoint > 0 ? "-" + usedPoint.toLocaleString() + "원" : "0원");
     $(".total_price .content").text(totalPrice.toLocaleString() + "원");
     $(".total.shipping .content").text(shippingFee.toLocaleString() + "원");

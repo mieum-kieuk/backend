@@ -65,13 +65,18 @@ function initializeDropdownMenus() {
     $(document).on('click', '.menu_toggle', function() {
         toggleDropdownMenu($(this));
     });
+
+    // 드롭다운 메뉴 내 버튼 클릭 이벤트
+    $(document).on('click', '.dropdown_menu button', function() {
+        closeDropdownMenus();
+    });
 }
 
 function closeDropdownMenus(event) {
     let dropdownMenus = $('.dropdown_menu');
 
     // 메뉴 토글 또는 드롭다운 메뉴 내부를 클릭한 경우, 함수 종료
-    if ($(event.target).closest('.menu_toggle, .dropdown_menu').length) {
+    if (event && $(event.target).closest('.menu_toggle, .dropdown_menu').length) {
         return;
     }
 
