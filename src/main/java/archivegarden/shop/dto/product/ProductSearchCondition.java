@@ -15,4 +15,8 @@ public class ProductSearchCondition {
     public void setCategory(String category) {
         this.category = Category.of(category);
     }
+
+    public void setSorted_type(String sortedCode) {
+        this.sorted_type = SortedType.of(sortedCode);
+    }
 }

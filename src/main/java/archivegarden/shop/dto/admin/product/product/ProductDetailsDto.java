@@ -1,4 +1,4 @@
-package archivegarden.shop.dto.admin.shop.product;
+package archivegarden.shop.dto.admin.product.product;
 
 import archivegarden.shop.entity.ImageType;
 import archivegarden.shop.entity.Product;
