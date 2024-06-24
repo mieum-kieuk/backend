@@ -1,7 +1,7 @@
 $(document).ready(function () {
     // 팝업 창을 띄우는 함수
     $('#popupBtn').click(function () {
-        window.open("/shop/products/search", "_blank", "width=600px,height=450px");
+        window.open("/products/search", "_blank", "width=600px,height=450px");
     });
 
     // 상품문의

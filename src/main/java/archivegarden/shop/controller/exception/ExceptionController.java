@@ -1,5 +1,6 @@
-package archivegarden.shop.controller;
+package archivegarden.shop.controller.exception;
 
+import archivegarden.shop.exception.ProductNotFoundException;
 import archivegarden.shop.exception.admin.AdminNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -9,10 +10,11 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class ExceptionController {
 
-//    @ExceptionHandler(NoSuchElementException.class)
-//    public String noSuchElementException(NoSuchElementException e) {
-//        return "error/not_found_exception.html";
-//    }
+    @ExceptionHandler(ProductNotFoundException.class)
+    public String productNotFoundException(ProductNotFoundException e) {
+        log.warn("[{}] cause={}, message={}", e.getStackTrace()[0], "ProductNotFoundException", e.getMessage());
+        return "error/product_not_found_exception.html";
+    }
 
     @ExceptionHandler(AdminNotFoundException.class)
     public String adminNoSuchElementException(AdminNotFoundException e) {
@@ -24,12 +26,7 @@ public class ExceptionController {
 //    public String noSuchDiscountException(NoSuchDiscountException e) {
 //        return "error/no_such_discount_exception.html";
 //    }
-//
-//    @ExceptionHandler(NoSuchProductException.class)
-//    public String noSuchProductException(NoSuchProductException e) {
-//        return "error/no_such_product_exception";
-//    }
-//
+
 //    @ExceptionHandler(NoSuchMemberException.class)
 //    public String noSuchMemberException(NoSuchMemberException e) {
 //        return "error/no_such_member_exception";

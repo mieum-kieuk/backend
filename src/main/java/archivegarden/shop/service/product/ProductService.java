@@ -1,12 +1,12 @@
 package archivegarden.shop.service.product;
 
-import archivegarden.shop.dto.community.qna.QnaPopupDto;
-import archivegarden.shop.dto.shop.product.ProductDetailsDto;
-import archivegarden.shop.dto.shop.product.ProductListDto;
-import archivegarden.shop.dto.shop.product.ProductSearchCondition;
+import archivegarden.shop.dto.community.inquiry.ProductPopupDto;
+import archivegarden.shop.dto.product.ProductDetailsDto;
+import archivegarden.shop.dto.product.ProductListDto;
+import archivegarden.shop.dto.product.ProductSearchCondition;
 import archivegarden.shop.entity.Product;
-import archivegarden.shop.exception.NoSuchProductException;
-import archivegarden.shop.repository.shop.ProductRepository;
+import archivegarden.shop.exception.ProductNotFoundException;
+import archivegarden.shop.repository.product.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,10 +24,11 @@ public class ProductService {
     private final ProductRepository productRepository;
 
     /**
+     * 홈 화면
      * 최신 상품 9개 조회
      */
     public List<ProductListDto> getMainProducts() {
-        return productRepository.findLatestProducts().stream()
+        return productRepository.findMainProducts().stream()
                 .map(ProductListDto::new)
                 .collect(Collectors.toList());
     }
@@ -43,17 +44,20 @@ public class ProductService {
      * 상품 목록 조회 + 페이지네이션
      */
     public Page<ProductListDto> getProducts(ProductSearchCondition condition, Pageable pageable) {
-        return productRepository.findAllByCategory(condition, pageable).map(p -> new ProductListDto(p));
+        return productRepository.findAllByCategory(condition, pageable).map(ProductListDto::new);
     }
 
     /**
      * 상품 단건 조회
      *
-     * @throws NoSuchProductException
+     * @throws ProductNotFoundException
      */
     public ProductDetailsDto getProduct(Long productId) {
-        //엔티티 조회
-        Product product = productRepository.findById(productId).orElseThrow(() -> new NoSuchProductException("존재하지 않는 상품입니다."));
+        //Product 조회
+        Product product = productRepository.findProduct(productId);
+        if(product == null) {
+            throw new ProductNotFoundException("존재하지 않는 상품입니다.");
+        }
 
         return new ProductDetailsDto(product);
     }
@@ -62,7 +66,7 @@ public class ProductService {
      * 팝업창
      * 상품 목록 조회 + 페이지네이션
      */
-    public Page<QnaPopupDto> getPopupProducts(Pageable pageable, String keyword) {
-        return productRepository.findAllPopup(pageable, keyword).map(QnaPopupDto::new);
+    public Page<ProductPopupDto> getPopupProducts(String keyword, Pageable pageable) {
+        return productRepository.findDtoAllPopup(keyword, pageable);
     }
 }

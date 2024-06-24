@@ -3,22 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>검색 결과 | 미음키읔</title>
+    <title>검색결과 | 미음키읔</title>
 
-    <meta property="og:type" content="website"/>
-    <meta property="og:title" content="Tickers"/>
-    <meta property="og:description" content=""/>
-    <meta property="og:image" content=""/>
-    <meta property="og:url" content=""/>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="../../static/css/comm.css" th:href="@{/css/comm.css}">
     <link rel="stylesheet" href="../../static/css/product_list.css" th:href="@{/css/product_list.css}"/>
     <link rel="stylesheet" href="../../static/css/search_complete.css" th:href="@{/css/search_complete.css}"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script defer src="../../static/js/comm.js" th:src="@{/js/comm.js}"></script>
 </head>
 <body>
@@ -42,24 +37,23 @@
                             <li>
                                 <div class="thumb">
                                     <a href="./product_details.html"
-                                       th:href="@{/shop/products/{productId}(productId=${product.id})}">
-                                        <img class="thumb1" th:src="|/productImages/${product.displayImage}|" alt="제품 이미지">
-                                        <img class="thumb2" th:if="${product.hoverImage} != null"
-                                             th:src="|/productImages/${product.hoverImage}|" alt="제품 이미지">
+                                       th:href="@{/products/{productId}(productId=${product.id})}">
+                                        <img class="thumb1" th:src="|/productImages/${product.displayImages[0]}|" alt="제품 이미지">
+                                        <img class="thumb2" th:if="${product.displayImages.size() == 2}"
+                                             th:src="|/productImages/${product.displayImages[1]}|" alt="제품 이미지">
                                     </a>
                                 </div>
                                 <div class="description">
                                     <div class="prd_name">
                                         <a href="./product_details.html"
                                            th:href="@{/shop/products/{productId}(productId=${product.id})}">
-                                            <span th:text="${product.name}">Masking Tape01</span></a>
+                                            <span th:text="${product.name}"></span></a>
                                     </div>
                                     <ul class="prd_price">
-                                    <span class="original_price"
-                                          th:classappend="${product.isDiscounted} ? 'line_through'">KRW [[${product.price}]]</span>
+                                    <span class="original_price" th:classappend="${product.isDiscounted} ? 'line_through'" th:text="${product.price}"></span>
                                         <li th:if="${product.isDiscounted} and !${product.isSoldOut}" class="discount">
                                             <span class="discount_rate">[[${product.discountPercent}]]%</span>
-                                            <span class="discounted_price">KRW [[${product.salePrice}]]</span>
+                                            <span class="discounted_price" th:text="${product.salePrice}"></span>
                                         </li>
                                         <li th:if="${product.isSoldOut}" class="soldout">
                                             <span class="sold_out">sold out</span>
@@ -76,14 +70,9 @@
         <div class="pagination" th:if="${products.totalPages} > 0">
             <ul>
                 <li><a href="./search_complete.html" th:href="@{/search(keyword=${keyword})}" class="prev_first"><span class="material-symbols-outlined">navigate_before</span></a></li>
-                <li><a href="./search_complete.html" th:href="@{/search(keyword=${keyword}, page=${products.number})}"
-                       class="prev" th:classappend="${!products.hasPrevious()} ? 'disabled'">Prev</a></li>
                 <li th:each="page : ${#numbers.sequence(1, products.totalPages)}">
                     <a href="./search_complete.html" th:href="@{/search(keyword=${keyword}, page=${page})}"
-                       class="page" th:classappend="${page == products.number + 1} ? 'active'" th:text="${page}">1</a>
-                </li>
-                <li><a href="./search_complete.html" th:href="@{/search(keyword=${keyword}, page=${products.number} + 2)}"
-                       class="next" th:classappend="${!products.hasNext()} ? 'disabled'">Next</a></li>
+                       class="page" th:classappend="${page == products.number + 1} ? 'active'" th:text="${page}">1</a></li>
                 <li><a href="./search_complete.html" th:href="@{/search(keyword=${keyword}, page=${products.totalPages})}" class="next_last"><span class="material-symbols-outlined">navigate_next</span></a></li>
             </ul>
         </div>

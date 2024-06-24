@@ -1,4 +1,4 @@
-package archivegarden.shop.dto.shop.product;
+package archivegarden.shop.dto.product;
 
 import archivegarden.shop.entity.Category;
 import archivegarden.shop.entity.SortedType;
@@ -14,9 +14,5 @@ public class ProductSearchCondition {
 
     public void setCategory(String category) {
         this.category = Category.of(category);
-    }
-
-    public void setSorted_type(String sortedCode) {
-        this.sorted_type = SortedType.of(sortedCode);
     }
 }

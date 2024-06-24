@@ -11,7 +11,7 @@ import archivegarden.shop.exception.ajax.NoSuchProductAjaxException;
 import archivegarden.shop.exception.ajax.NotEnoughStockAjaxException;
 import archivegarden.shop.repository.member.MemberRepository;
 import archivegarden.shop.repository.order.CartRepository;
-import archivegarden.shop.repository.shop.ProductRepository;
+import archivegarden.shop.repository.product.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

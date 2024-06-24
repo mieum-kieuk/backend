@@ -1,6 +1,6 @@
 package archivegarden.shop.controller;
 
-import archivegarden.shop.dto.shop.product.ProductListDto;
+import archivegarden.shop.dto.product.ProductListDto;
 import archivegarden.shop.service.product.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -31,10 +31,8 @@ public class HomeController {
     }
 
     @GetMapping("/search")
-    public String search(@RequestParam(name = "keyword") String keyword,
-                         @RequestParam(value = "page", defaultValue = "1") Integer page, Model model) {
+    public String search(@RequestParam(name = "keyword") String keyword, @RequestParam(value = "page", defaultValue = "1") Integer page, Model model) {
         PageRequest pageRequest = PageRequest.of(page - 1, 12);
-
         Page<ProductListDto> products = productService.searchProducts(keyword, pageRequest);
         model.addAttribute("products", products);
         model.addAttribute("keyword", keyword);

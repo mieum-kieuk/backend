@@ -1,4 +1,4 @@
-package archivegarden.shop.repository.shop;
+package archivegarden.shop.repository.product;
 
 import archivegarden.shop.entity.ImageType;
 import archivegarden.shop.entity.Product;

@@ -1,14 +1,19 @@
-package archivegarden.shop.dto.shop.product;
+package archivegarden.shop.dto.product;
 
-import com.querydsl.core.annotations.QueryProjection;
+import archivegarden.shop.entity.Discount;
+import archivegarden.shop.entity.Product;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.text.DecimalFormat;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ProductListDto {
 
     private Long id;
@@ -18,27 +23,28 @@ public class ProductListDto {
     private Integer discountPercent;    //할인율
     private String salePrice;   //할인가
     private boolean isSoldOut;
-    private String displayImage;
-    private String hoverImage;
+    private List<String> displayImages;
 
-    @QueryProjection
-    public ProductListDto(Long id, String name, int price, Integer discountPercent, int stockQuantity, List<String> displayImages) {
-        this.id = id;
-        this.name = name;
-        this.price = new DecimalFormat("###,###원").format(price);
+    public ProductListDto(Product product) {
+        this.id = product.getId();
+        this.name = product.getName();
+        this.price = new DecimalFormat("###,###원").format(product.getPrice());
 
-        if (discountPercent != null) {
+        Discount discount = product.getDiscount();
+        if (discount != null) {
             this.isDiscounted = true;
-            int discountAmount = price * discountPercent / 100;
-            this.salePrice = new DecimalFormat("###,###원").format(price - discountAmount);
+            this.discountPercent = Integer.valueOf(discount.getDiscountPercent());
+            int discountAmount = product.getPrice() * discountPercent / 100;
+            this.salePrice = new DecimalFormat("###,###원").format(product.getPrice() - discountAmount);
         }
 
-        if (stockQuantity <= 0) {
+        if (product.getStockQuantity() <= 0) {
             this.isSoldOut = true;
         }
 
-        this.displayImage = images.get(0);
-        this.hoverImage = images.get(1);
-
+        this.displayImages = product.getImages()
+                .stream()
+                .map((image) -> image.getStoreImageName())
+                .collect(Collectors.toList());
     }
 }

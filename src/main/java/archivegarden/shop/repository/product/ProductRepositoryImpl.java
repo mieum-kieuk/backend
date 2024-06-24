@@ -1,8 +1,8 @@
-package archivegarden.shop.repository.shop;
+package archivegarden.shop.repository.product;
 
-import archivegarden.shop.dto.admin.shop.product.ProductListDto;
-import archivegarden.shop.dto.admin.shop.product.QProductListDto;
-import archivegarden.shop.dto.shop.product.ProductSearchCondition;
+import archivegarden.shop.dto.community.inquiry.ProductPopupDto;
+import archivegarden.shop.dto.community.inquiry.QProductPopupDto;
+import archivegarden.shop.dto.product.ProductSearchCondition;
 import archivegarden.shop.entity.Category;
 import archivegarden.shop.entity.ImageType;
 import archivegarden.shop.entity.Product;
@@ -10,6 +10,7 @@ import archivegarden.shop.entity.SortedType;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.*;
+import com.querydsl.jpa.JPQLTemplates;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
@@ -33,11 +34,11 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 
     public ProductRepositoryImpl(EntityManager em) {
         this.em = em;
-        this.queryFactory = new JPAQueryFactory(em);
+        this.queryFactory = new JPAQueryFactory(JPQLTemplates.DEFAULT, em);
     }
 
     @Override
-    public Product findProductFetch(Long productId) {
+    public Product findProduct(Long productId) {
         return queryFactory
                 .selectFrom(product)
                 .leftJoin(product.discount, discount).fetchJoin()
@@ -47,39 +48,12 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
     }
 
     @Override
-    public Page<ProductListDto> findDtoAll(Pageable pageable) {
-        List<ProductListDto> content = queryFactory
-                .select(new QProductListDto(
-                        product.id,
-                        product.name,
-                        product.category,
-                        product.price,
-                        product.stockQuantity,
-                        discount.discountPercent,
-                        productImage.storeImageName
-                ))
-                .from(product)
-                .leftJoin(product.discount, discount)
-                .leftJoin(product.images, productImage)
-                .where(productImage.imageType.eq(ImageType.DISPLAY))
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .fetch();
-
-        JPAQuery<Long> countQuery = queryFactory
-                .select(product.count())
-                .from(product);
-
-        return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
-    }
-
-    @Override
-    public List<Product> findLatestProducts() {
+    public List<Product> findMainProducts() {
         return queryFactory
                 .selectFrom(product)
                 .leftJoin(product.discount, discount).fetchJoin()
                 .leftJoin(product.images, productImage).fetchJoin()
-                .where(imageTypeNe())
+                .where(imageTypeDisplay())
                 .orderBy(product.createdAt.desc())
                 .offset(0)
                 .limit(9)
@@ -95,7 +69,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                 .leftJoin(product.images, productImage).fetchJoin()
                 .where(
                         categoryEq(condition.getCategory()),
-                        imageTypeNe()
+                        imageTypeDisplay()
                 )
                 .orderBy(getOrderSpecifier(condition.getSorted_type()).stream().toArray(OrderSpecifier[]::new))
                 .offset(pageable.getOffset())
@@ -105,7 +79,6 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
         JPAQuery<Long> countQuery = queryFactory
                 .select(product.count())
                 .from(product)
-                .leftJoin(product.discount, discount)
                 .where(categoryEq(condition.getCategory()));
 
         return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
@@ -132,11 +105,18 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
     }
 
     @Override
-    public Page<Product> findAllPopup(Pageable pageable, String keyword) {
-        List<Product> content = queryFactory
-                .selectFrom(product)
+    public Page<ProductPopupDto> findDtoAllPopup(String keyword, Pageable pageable) {
+        List<ProductPopupDto> content = queryFactory.select(new QProductPopupDto(
+                        product.id,
+                        product.name,
+                        product.price,
+                        productImage.storeImageName
+                ))
+                .from(product)
                 .leftJoin(product.images, productImage)
-                .on(product.id.eq(productImage.product.id), productImage.imageType.eq(ImageType.DISPLAY))
+                .on(
+                        product.id.eq(productImage.product.id),
+                        productImage.imageType.eq(ImageType.DISPLAY))
                 .where(keywordLike(keyword))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -150,6 +130,42 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
         return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
     }
 
+    //    @Override
+//    public Page<ProductListDto> findAdminDtoAll(ProductSearchForm form, Pageable pageable) {
+//        List<ProductListDto> content = queryFactory
+//                .select(new QProductListDto(
+//                        product.id,
+//                        product.name,
+//                        product.category,
+//                        product.price,
+//                        product.stockQuantity,
+//                        discount.discountPercent,
+//                        productImage.storeImageName
+//                ))
+//                .from(product)
+//                .leftJoin(product.discount, discount)
+//                .leftJoin(product.images, productImage)
+//                .where(
+//                        adminKeywordLike(form.getSearchKey(), form.getKeyword()),
+//                        adminCategoryEq(form.getCategory()),
+//                        productImage.imageType.eq(ImageType.DISPLAY)
+//                )
+//                .orderBy(product.createdAt.desc())
+//                .offset(pageable.getOffset())
+//                .limit(pageable.getPageSize())
+//                .fetch();
+//
+//        JPAQuery<Long> countQuery = queryFactory
+//                .select(product.count())
+//                .where(
+//                        adminKeywordLike(form.getSearchKey(), form.getKeyword()),
+//                        adminCategoryEq(form.getCategory())
+//                )
+//                .from(product);
+//
+//        return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
+//    }
+
     /**
      * OrderSpecifier 리스트 객체 생성
      */
@@ -162,7 +178,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
         if (sortedType != null) {
             switch (sortedType) {
                 case NEW:
-                    orderSpecifiers.add(new OrderSpecifier<>(Order.ASC, product.createdAt));
+                    orderSpecifiers.add(new OrderSpecifier<>(Order.DESC, product.createdAt));
                     break;
                 case NAME:
                     orderSpecifiers.add(new OrderSpecifier<>(Order.ASC, product.name));
@@ -197,18 +213,45 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                 .otherwise(product.price.subtract((product.price.multiply(discount.discountPercent).divide(100))));
     }
 
+    /**
+     * 검색어
+     * 공백 제거, 대소문자 구분 안함
+     */
     private BooleanExpression keywordLike(String keyword) {
-        //공백 제거
         String replaceKeyword = StringUtils.replace(keyword, " ", "");
         StringTemplate replaceProductName = Expressions.stringTemplate("function('replace',{0},{1},{2})", product.name, " ", "");
         return hasText(keyword) ? replaceProductName.containsIgnoreCase(replaceKeyword) : null;
     }
 
+    /**
+     * 카테고리
+     */
     private BooleanExpression categoryEq(Category category) {
         return category != null ? product.category.eq(category) : null;
     }
 
-    private BooleanExpression imageTypeNe() {
+    /**
+     * 상품 목록에서 DISPLAY, HOVER 이미지
+     */
+    private BooleanExpression imageTypeDisplay() {
         return productImage != null ? productImage.imageType.ne(ImageType.DETAILS) : null;
+    }
+
+    private BooleanExpression adminKeywordLike(String searchKey, String keyword) {
+        if (keyword != null) {
+            if (searchKey.equals("name")) {
+                return keywordLike(keyword);
+            }
+        }
+
+        return null;
+    }
+
+    private BooleanExpression adminCategoryEq(String category) {
+        if(StringUtils.hasText(category)) {
+            return product.category.eq(Category.of(category));
+        }
+
+        return null;
     }
 }

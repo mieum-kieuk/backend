@@ -1,4 +1,4 @@
-package archivegarden.shop.controller;
+package archivegarden.shop.controller.exception;
 
 import archivegarden.shop.dto.ResultResponse;
 import archivegarden.shop.exception.ajax.AjaxNotFoundException;

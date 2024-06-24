@@ -1,7 +1,7 @@
 package archivegarden.shop.entity;
 
-import archivegarden.shop.dto.admin.shop.product.AddProductForm;
-import archivegarden.shop.dto.admin.shop.product.EditProductForm;
+import archivegarden.shop.dto.admin.product.product.AddProductForm;
+import archivegarden.shop.dto.admin.product.product.EditProductForm;
 import archivegarden.shop.exception.ajax.NotEnoughStockAjaxException;
 import jakarta.persistence.*;
 import lombok.AccessLevel;

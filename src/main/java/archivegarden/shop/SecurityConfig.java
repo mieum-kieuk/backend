@@ -53,7 +53,8 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/login", "/productImages/**", "/", "/members/**", "/error",
-                                "/shop/products/**", "/about/**", "/community/inquiry", "/community/inquiry/*", "/community/notice/**", "/search/**").permitAll()
+                                "/products/**", "/about/**", "/community/inquiry", "/community/inquiry/*", "/community/notice/**", "/search/**",
+                                "/payment/webhook").permitAll()
                         .anyRequest().authenticated()
                 );
 
@@ -87,6 +88,12 @@ public class SecurityConfig {
         http
                 .exceptionHandling(exception -> exception
                         .accessDeniedHandler(memberAccessDeniedHandler())
+                );
+
+        http
+
+                .csrf(csrf -> csrf
+                        .ignoringRequestMatchers("/payment/webhook")
                 );
 
         return http.build();
