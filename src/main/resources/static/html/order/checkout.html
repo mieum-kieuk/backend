@@ -26,6 +26,7 @@
 <body>
 <div class="wrap">
     <div id="order">
+        <form action="" onsubmit="validateBeforeSubmit()">
         <div class="order_wrap">
             <h1 class="order_title">주문서</h1>
             <div class="order_inner">
@@ -93,7 +94,7 @@
                                         <option value="direct_input">직접입력</option>
                                     </select>
                                     <div id="defaultDirectInputContainer" class="direct_input_wrap">
-                                        <textarea id="defaultDirectInput" name="directInput" placeholder="내용을 255자 이내로 작성해 주세요." maxlength="255"></textarea>
+                                        <textarea id="defaultDirectInput" name="directInput" placeholder="내용을 작성해 주세요.(255자 이내)" maxlength="255"></textarea>
                                     </div>
                                 </li>
                             </ul>
@@ -168,7 +169,7 @@
                                     <option value="direct_input">직접입력</option>
                                 </select>
                                 <div id="directInputContainer" class="direct_input_wrap">
-                                    <textarea id="directInput" name="directInput" placeholder="내용을 작성해 주세요."></textarea>
+                                    <textarea id="directInput" name="directInput" placeholder="내용을 작성해 주세요.(255자 이내)" maxlength="255"></textarea>
                                 </div>
                                 </li>
                             </ul>
@@ -264,7 +265,7 @@
                             <input type="text" id="point">
                             <button type="button" class="btn1" id="useAll">모두 사용</button>
                             <div class="point_details">
-                            <span>사용가능 <em id="availablePoint"></em>P / <span>보유 <em id="ownedPoint">2,450</em>P</span></span>
+                            <span>사용가능 <em id="availablePoint"></em>P / <span>보유 <em id="ownedPoint">10</em>P</span></span>
                             </div>
                             </div>
                         </div>
@@ -385,7 +386,7 @@
                         </li>
                         <li class="total_price">
                             <div class="title">총 결제 금액</div>
-                            <div class="content"></div>
+                            <div class="content" id="orderTotalPrice"></div>
                         </li>
                     </ul>
                     <div class="order_agree_wrap">
@@ -418,12 +419,13 @@
                         </ul>
                         <p>결제 및 계좌 안내 시 상호명은 <em>[미음키읔]</em>으로 표기되니 참고 부탁드립니다.</p></div>
                     <div class="btn_wrap">
-                        <button type="submit" class="btn1 submit_btn" id="checkoutBtn" onclick="validateBeforeSubmit()">결제하기</button>
+                        <button type="submit" class="btn1 submit_btn" id="checkoutBtn">결제하기</button>
                     </div>
                 </div>
                 </div>
             </div>
         </div>
+        </form>
     </div>
 </div>
 </body>

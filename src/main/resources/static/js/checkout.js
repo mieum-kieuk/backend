@@ -2,7 +2,31 @@ $(document).ready(function(){
     initPopup();
 
     $(".submit_btn").addClass("disabled");
+    $('#deliveryList').on('click', 'li .delivery_item', function() {
+        let deliveryData = {
+            recipient: $(this).find('.recipient_info .popup_recipient_name').text().trim(),
+            detailAddress: $(this).find('.delivery_details .popup_detail_address').text().trim(),
+            phoneNumber: $(this).find('.recipient_info .popup_phonenumber').text().trim()
+        };
 
+        // 배송 정보 업데이트
+        updateDelivery(deliveryData);
+    });
+
+    // 확인 버튼 클릭 이벤트 핸들러
+    $("#deliveryEditPopup .submit_btn").click(function(event) {
+        event.preventDefault(); // 기본 동작 중지
+
+        // 배송지 데이터를 수집합니다.
+        let deliveryData = {
+            recipient: $("#recipientName").val(),
+            detailAddress: $("#detailAddress").val(),
+            phoneNumber: $("#phonenumber1").val() + '-' + $("#phonenumber2").val() + '-' + $("#phonenumber3").val()
+        };
+
+        // 배송 정보 업데이트
+        updateDelivery(deliveryData);
+    });
     // 기본 배송지 탭 클릭 시
     $('.delivery_tabs li:first-child').addClass('active'); // 처음에 기본 배송지 탭을 활성화
     $('.input_area.default').addClass('active'); // 처음에 기본 배송지 입력 영역을 활성화
@@ -70,25 +94,9 @@ $(document).ready(function(){
     });
 
     $('.card_list .card').on('click', function() {
-        let cardName = $(this).find('.card_name').text();
-        // let cardCode = $(this).data('code');
-
-        $('.card_list .card').removeClass('selected');
-        $(this).addClass('selected');
-        $('.card.selected .card_value span').text(cardName);
-
-        $('.card_list').hide();
-        $('.card.selected').find('.material-symbols-outlined').text('expand_more');
+        let cardCode = handleCardClick.call(this);
+        console.log('Selected card code:', cardCode);
     });
-
-    function resetSelections() {
-        // 선택된 카드 및 결제 옵션 초기화
-        $('.card_list .card').removeClass('selected');
-        $('.card.selected .card_value span').text("카드사를 선택해 주세요.");
-        $('.card_list').hide();
-        $('.card.selected').find('.material-symbols-outlined').text('expand_more');
-        $('.payment_option').removeClass('selected');
-    }
 
     // 전체 동의 체크박스 기능 구현
     $("#agreeAll").click(function() {
@@ -104,28 +112,58 @@ $(document).ready(function(){
         updateSubmitButtonState();
     });
 
-    $('#deliveryList').on('click', 'li .delivery_item', function() {
-        let deliveryName = $(this).find('.delivery_name .popup_delivery_name').text().trim();
-        let recipient = $(this).find('.recipient_info .popup_recipient_name').text().trim();
-        let zipCode = $(this).find('.delivery_details .popup_zip_code').text().trim().replace(/[()]/g, '');
-        let basicAddress = $(this).find('.delivery_details .popup_basic_address').text().trim();
-        let detailAddress = $(this).find('.delivery_details .popup_detail_address').text().trim();
-        let phoneNumber = $(this).find('.recipient_info .popup_phonenumber').text().trim();
+    let orderName = getOrderName();
+    console.log('주문명:', orderName);
 
-        // 부모 창의 주소 입력란 업데이트
-        window.opener.$('#defaultDelivery .input_wrap #defaultDeliveryName').text(deliveryName);
-        window.opener.$('#defaultDelivery .input_wrap #defaultRecipientName').text(recipient);
-        window.opener.$('#defaultDelivery .input_wrap #defaultZipCode').text(zipCode);
-        window.opener.$('#defaultDelivery .input_wrap #defaultBasicAddress').text(basicAddress);
-        window.opener.$('#defaultDelivery .input_wrap #defaultDetailAddress').text(detailAddress);
-        window.opener.$('#defaultDelivery .input_wrap #defaultPhonenumber1').text(phoneNumber.split('-')[0]);
-        window.opener.$('#defaultDelivery .input_wrap #defaultPhonenumber2').text(phoneNumber.split('-')[1]);
-        window.opener.$('#defaultDelivery .input_wrap #defaultPhonenumber3').text(phoneNumber.split('-')[2]);
-
-        // 팝업 창 닫기
-        window.close();
+    $('#checkoutBtn').click(function() {
+        if (validateBeforeSubmit()) {
+            payment('CARD');
+        } else {
+            return false;
+        }
     });
 });
+
+// 부모 창의 팝업 창 닫기 함수
+function closeDeliveryPopup() {
+    let deliveryPopup = window.open('', '주소 입력');
+    if (deliveryPopup && !deliveryPopup.closed) {
+        deliveryPopup.close();
+    }
+}
+window.closeDeliveryPopup = closeDeliveryPopup;
+
+// 부모 창의 배송 정보 업데이트 함수
+function updateDelivery(deliveryData) {
+    if (window.opener) {
+        window.opener.$('#defaultDelivery #defaultRecipientName').text(deliveryData.recipient);
+        window.opener.$('#defaultDelivery #defaultDetailAddress').text(deliveryData.detailAddress);
+        window.opener.$('#defaultDelivery #defaultPhonenumber1').text(deliveryData.phoneNumber.split('-')[0]);
+        window.opener.$('#defaultDelivery #defaultPhonenumber2').text(deliveryData.phoneNumber.split('-')[1]);
+        window.opener.$('#defaultDelivery #defaultPhonenumber3').text(deliveryData.phoneNumber.split('-')[2]);
+
+        window.opener.closeDeliveryPopup();
+    }
+    window.close();
+}
+
+function handleCardClick() {
+    let cardName = $(this).find('.card_name').text();
+
+    $('.card_list .card').removeClass('selected');
+    $(this).addClass('selected');
+    $('.card.selected .card_value span').text(cardName);
+
+    $('.card_list').hide();
+    $('.card.selected').find('.material-symbols-outlined').text('expand_more');
+
+    return cardCompanyCode(); // 선택된 카드의 코드를 반환
+}
+
+function cardCompanyCode() {
+    let cardCompanyCode = $('.card_list .card.selected').data('code');
+    return cardCompanyCode;
+}
 function toggleIcon() {
     let icon = $(this).find(".material-symbols-outlined");
     if (icon.text() === "expand_more") {
@@ -133,6 +171,14 @@ function toggleIcon() {
     } else {
         icon.text("expand_more");
     }
+}
+function resetSelections() {
+    // 선택된 카드 및 결제 옵션 초기화
+    $('.card_list .card').removeClass('selected');
+    $('.card.selected .card_value span').text("카드사를 선택해 주세요.");
+    $('.card_list').hide();
+    $('.card.selected').find('.material-symbols-outlined').text('expand_more');
+    $('.payment_option').removeClass('selected');
 }
 function updateSubmitButtonState() {
         let checked = $(".order_agree input[type='checkbox']:checked").length;
@@ -232,13 +278,11 @@ function isDeliveryEmpty() {
     if (zipCode === '') {
         return false;
     }
-
     // 기본주소 검사
     let basicAddress = $('#basicAddress').val().trim();
     if (basicAddress === '') {
         return false;
     }
-
     return true;
 }
 
@@ -296,7 +340,6 @@ function validateNewDelivery() {
         alert("유효한 휴대전화번호를 입력해 주세요.");
         return false;
     }
-
     return true;
 }
 function validateEditPopup() {
@@ -341,9 +384,8 @@ function validateBeforeSubmit() {
     }
 
     if ($('#newDelivery').hasClass('active')) {
-        if (!validateNewDelivery()) {
-            return false;
-        }
+        validateNewDelivery();
+        return false;
     }
 
     if (!$('.pay_btn').hasClass('selected')) {
@@ -366,7 +408,6 @@ function validateBeforeSubmit() {
     }
     return true;
 }
-
 function updateDiscount() {
     let productCouponDiscount = 0;
     $(".cart_item").each(function()     {
@@ -389,6 +430,7 @@ function handlePoint() {
     // 사용 가능한 마일리지가 0이면 #useAll 버튼을 비활성화
     if (availablePoint === 0) {
         $("#useAll").prop("disabled", true).addClass("disabled");
+        $("#point").prop("disabled", true).addClass("disabled");
     }
 
     $("#useAll").click(function() {
@@ -450,12 +492,17 @@ function updateOrderSummary(productCouponDiscount) {
         totalProductPrice += productPrice;
     });
 
-    let usedPoint = parseInt($("#point").val().replace(/[^0-9]/g, "") || 0);
+    // $("#point").val() 값이 존재하고 null이 아닌 경우에만 처리
+    let pointValue = $("#point").val();
+    let usedPoint = 0;
+    if (pointValue !== undefined && pointValue !== null) {
+        usedPoint = parseInt(pointValue.replace(/[^0-9]/g, ""), 10);
+    }
 
     let discountedTotalProductPrice = totalProductPrice - productCouponDiscount;
-    let totalDiscount = productCouponDiscount ;
-    let shippingFee = (totalProductPrice - totalDiscount  >= 50000) ? 0 : 3000;
-    let totalPrice = discountedTotalProductPrice + shippingFee - usedPoint ;
+    let totalDiscount = productCouponDiscount;
+    let shippingFee = (totalProductPrice - totalDiscount >= 50000) ? 0 : 3000;
+    let totalPrice = discountedTotalProductPrice + shippingFee - usedPoint;
 
     $(".total.price .content").text(totalProductPrice.toLocaleString() + "원");
     $(".total.discounts .content").text(totalDiscount > 0 ? "-" + totalDiscount.toLocaleString() + "원" : "0원");
@@ -463,4 +510,18 @@ function updateOrderSummary(productCouponDiscount) {
     $(".total_price .content").text(totalPrice.toLocaleString() + "원");
     $(".total.shipping .content").text(shippingFee.toLocaleString() + "원");
 }
+
 updateOrderSummary(updateDiscount());
+function getTotalPrice() {
+    let orderTotalPrice = parseInt($('#orderTotalPrice').text().replace(/[^0-9]/g, ''), 10);
+    console.log("총 가격:", orderTotalPrice);
+
+    return orderTotalPrice
+}
+function getOrderName() {
+    let firstProductName = $('.cart_item').first().find('.name > span').text();
+    let totalProducts = $('.cart_item').length;
+    let orderName = `${firstProductName} 외 ${totalProducts - 1}개`;
+
+    return orderName;
+}
