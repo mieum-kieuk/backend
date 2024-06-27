@@ -32,13 +32,52 @@ $(document).ready(function() {
         }
     });
 
-});
-function validateBeforeSubmit() {
-    let product = $('#productId').val().trim();
+    // 상품후기, 상품문의
+    let reviewModal = $("#reviewModal");
+    let closeBtn = $(".close");
+    let cancelBtn = $(".cancel_btn");
 
-    if (product === '') {
-        alert('상품을 선택해 주세요.');
-        return false;
+
+    // 모달 닫기
+    closeBtn.click(function() {
+        reviewModal.hide();
+    });
+    cancelBtn.click(function() {
+        reviewModal.hide();
+    });
+    // 외부 클릭 시 모달 닫기
+    $(window).click(function(event) {
+         if (event.target.id === "reviewModal") {
+            reviewModal.hide();
+        }
+    });
+
+    $("#product .review_wrap .edit_btn").click(function() {
+        let reviewText = $(this).closest(".review_text_wrap").find(".review_text").text().trim();
+        let reviewRating = $(this).closest(".review_cont").find(".star.filled_star").length;
+
+        $("#content").val(reviewText);
+        $("input[name='rating'][value='" + reviewRating + "']").prop('checked', true);
+
+        $("#reviewModal .submit_btn").text("완료");
+
+        showReviewModal();
+    });
+});
+function showReviewModal() {
+    let reviewModal = $("#reviewModal");
+    reviewModal.css("display", "flex");
+
+}
+
+function validateReviewBeforeSubmit() {
+    let productElement = $('#productId');
+    if (productElement.length > 0) {
+        let product = productElement.val().trim();
+        if (product === '') {
+            alert('상품을 선택해 주세요.');
+            return false;
+        }
     }
     let filledStars = $('.star_rating .star.filled_star').length; // 채워진 별의 개수를 가져옴
 

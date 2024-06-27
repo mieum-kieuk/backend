@@ -4,50 +4,44 @@ $(document).ready(function () {
         window.open("/products/search", "_blank", "width=600px,height=450px");
     });
 
-    // 상품문의
+    // 상품후기, 상품문의
     let inquiryModal = $("#inquiryModal");
     let closeBtn = $(".close");
+    let cancelBtn = $(".cancel_btn");
 
-    closeBtn.click(function () {
+    // 모달 닫기
+    closeBtn.click(function() {
         inquiryModal.hide();
     });
-
-    $(window).click(function (event) {
+    cancelBtn.click(function() {
+        inquiryModal.hide();
+    });
+    // 외부 클릭 시 모달 닫기
+    $(window).click(function(event) {
         if (event.target.id === "inquiryModal") {
             inquiryModal.hide();
         }
     });
 
-    $(".qna_items").click(function () {
-        let currentContent = $(this).next(".qna_content");
-
-        if (currentContent.is(":visible")) {
-            currentContent.slideUp("fast");
-        } else {
-            $(".qna_content").not(currentContent).slideUp("fast").promise().done(function () {
-                // slideUp이 완료된 후에 현재 클릭된 항목을 열거나 닫습니다
-                currentContent.slideDown();
-            });
-        }
-    });
-
-    $(".edit_btn").click(function () {
+    $("#product .qna_wrap .edit_btn").click(function() {
         let questionText = $(this).closest(".qna_question").find(".qna_text").text();
         let answerText = $(this).closest(".qna_content").find(".qna_answer").text();
 
         $("#edit_title").val(questionText.trim());
         $("#edit_content").val(answerText.trim());
 
-        $("#submitBtn").hide();
-        $("#editSubmitBtn").show();
-
-        $("#inquiryModal").css("display", "flex");
+        $("#inquiryModal .submit_btn").text("완료");
+        showInquiryModal();
     });
 });
 
 let csrfHeader = $("meta[name='_csrf_header']").attr("content");
 let csrfToken = $("meta[name='_csrf']").attr("content");
+function showInquiryModal() {
+    let inquiryModal = $("#inquiryModal");
+    inquiryModal.css("display", "flex");
 
+}
 //답변 작성
 function addAnswer(inquiryId) {
 
@@ -154,6 +148,22 @@ function updateAnswer(inquiryId, answerId) {
     } else {
         alert('답변을 입력해 주세요.');
     }
+}
+
+function validateInquiryBeforeSubmit() {
+    let content = $('#content').val().trim();
+    let title = $('#inquiryModal #title').val().trim();
+
+    if (title === '') {
+        alert('제목을 작성해 주세요.');
+        return false;
+    }
+
+    if (content === '') {
+        alert('내용을 작성해 주세요.');
+        return false;
+    }
+    return true;
 }
 
 // 답변삭제

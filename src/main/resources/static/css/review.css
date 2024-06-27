@@ -402,6 +402,17 @@
     margin-bottom: 10px;
     font-weight: 500;
 }
+#product .review_wrap .review_cont {
+    border: none;
+    padding: 10px;
+}
+#product .review_wrap .review_cont .review_cont_head{
+    display: flex;
+    justify-content: space-between;
+}
+#product .review_table tbody .title_td .title {
+    height: auto;
+}
 #product .review_wrap .btn_wrap {
     justify-content: flex-end;
     text-align: left;

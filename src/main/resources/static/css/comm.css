@@ -606,6 +606,7 @@ legend {
   position: relative;
   display: inline-block;
   border-radius: 5px;
+  height: fit-content;
 }
 
 .dropdown_menu {

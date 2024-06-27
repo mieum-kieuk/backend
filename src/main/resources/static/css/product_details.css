@@ -138,6 +138,9 @@
 }
 
 .prd_total {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
     border-top: 1px solid #222;
     padding: 10px 0 20px;
     margin-top: 20px;
@@ -163,6 +166,7 @@
 .buy_btn .btn1 {
     display: none;
     width: 49%;
+    height: 40px;
 }
 .buy_btn .btn1.active {
     display: flex;
@@ -212,7 +216,7 @@
     justify-content: space-between;
     align-items: center;
     line-height: 25px;
-    font-size: 15px;
+    font-size: 16px;
 }
 .prd_info_tab .prd_info_list li .expand_icon {
     position: absolute;

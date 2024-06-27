@@ -24,6 +24,7 @@
     <script defer src="../../js/comm.js"></script>
     <script defer src="../../js/review.js"></script>
     <script defer src="../../js/product.js"></script>
+    <script defer src="../../js/inquiry.js"></script>
 <!--    <script defer src="../../js/cart.js"></script>-->
 
 </head>
@@ -71,7 +72,7 @@
                         <div class="prd_price point"><span>30 P (1%)</span></div>
                     </div>
                     <div class="prd_quantity">
-                        <a href="#" id="decreaseBtn" class="btn3 decrease">-</a>
+                        <a href="#" id="decreaseBtn" class="btn3 decrease disabled">-</a>
                         <input name="quantity" value="1" type="number" class="quant_input" readonly>
                         <a href="#" id="increaseBtn" class="btn3 increase">+</a>
                     </div>
@@ -172,7 +173,7 @@
                 <div class="review_head">
                     <h1 class="review_title">상품 후기</h1>
                     <div class="btn_wrap">
-                        <button type="button" id="writeBtn" class="btn1 write_btn">작성하기</button>
+                        <button type="button" id="writeBtn" class="btn1 write_btn" onclick="showReviewModal()">작성하기</button>
                     </div>
                 </div>
                 <table class="review_table">
@@ -226,9 +227,25 @@
                     <tr class="review_content">
                         <td colspan="4">
                             <div class="review_cont" id="content">
-                                <div class="review_text">
-                                    미음키읔 귀여워요
+                                <div class="review_cont_head">
+                                <div class="review_text">미음키읔 귀여워요
                                     재구매 할 거 같아요.
+                                </div>
+                                <div class="menu">
+                                    <button class="menu_toggle">
+                                        <span class="material-symbols-outlined">more_horiz</span>
+                                    </button>
+                                    <div class="dropdown_menu">
+                                        <ul>
+                                            <li>
+                                                <button type="button" class="edit_btn">수정</button>
+                                            </li>
+                                            <li>
+                                                <button type="button" class="delete_btn">삭제</button>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
                                 </div>
                                 <div class="review_img">
                                     <img id="image1" src="../../images/meek2.png" alt="첨부 파일1">
@@ -250,15 +267,15 @@
             </div>
             <div class="qna_wrap list">
                 <div class="qna_head">
-                    <div class="qna_head_inner">
                     <h1 class="qna_title">상품 문의</h1>
+                    <div class="qna_head_inner">
                     <ul class="text description">
                         <li><span>상품에 대한 문의를 남기는 공간입니다. 해당 게시판의 성격과 다른 글은 사전동의 없이 담당 게시판으로 이동될 수 있습니다.</span></li>
                         <li><span>배송관련, 주문(취소/교환/환불)관련 문의 및 요청사항은 마이페이지 내 <a class="link" href="../mypage/inquiry/personal/add_inquiry.html">1:1문의</a>에 남겨주세요.</span></li>
                     </ul>
-                    </div>
                     <div class="btn_wrap">
-                        <button type="button" id="writeBtn" class="btn1 write_btn" >문의하기</button>
+                        <button type="button" id="writeBtn" class="btn1 write_btn" onclick="showInquiryModal()" >문의하기</button>
+                    </div>
                     </div>
                 </div>
                 <table class="qna_table">
@@ -463,9 +480,8 @@
                             </tr>
                         </table>
                         <div class="btn_wrap">
-                            <button type="button" class="btn1" onclick="location.href = './review_list.html'">취소</button>
-                            <button type="submit" id="submitBtn" class="btn1 submit_btn">등록</button>
-                            <button type="submit" id="editSubmitBtn" class="btn1 submit_btn">완료</button>
+                            <button type="button" class="btn1 cancel_btn">취소</button>
+                            <button type="submit" id="submitBtn" class="btn1 submit_btn" onclick="validateReviewBeforeSubmit()">등록</button>
                         </div>
                     </form>
                 </div>
@@ -500,9 +516,9 @@
                             </tr>
                         </table>
                         <div class="btn_wrap">
-                            <button type="button" class="btn1">취소</button>
-                            <button type="submit" id="submitBtn" class="btn1 submit_btn">등록</button>
-                            <button type="submit" id="editSubmitBtn" class="btn1 submit_btn">완료</button>
+                            <button type="button" class="btn1 cancel_btn">취소</button>
+                            <button type="submit" id="submitBtn" class="btn1 submit_btn" onclick="validateInquiryBeforeSubmit()">등록</button>
+<!--                            <button type="submit" id="editSubmitBtn" class="btn1 submit_btn">완료</button>-->
 
                         </div>
                     </form>
@@ -511,5 +527,35 @@
         </div>
     </div>
 </div>
+<footer id="footer" class="footer">
+    <div class="footer_wrap">
+        <div class="footer_inner">
+            <ul>
+                <li><a href="">Instagram</a></li>
+            </ul>
+        </div>
+        <div class="footer_inner">
+            <ul>
+                <li><a href="">Terms of Use</a></li>
+                <li><a href="">Privacy Policy</a></li>
+                <li><a href="">Shop Guide</a></li>
+            </ul>
+        </div>
+        <div class="footer_inner">
+            <ul>
+                <li>Company : 티커스</li>
+                <li>전화번호 : 010-1234-5678</li>
+                <li>이메일 : tickers@gmail.com</li>
+            </ul>
+        </div>
+        <div class="footer_inner">
+            <ul>
+                <li>사업자 번호 : 070-61-01100</li>
+                <li>주소 : 서울시 티커스구 티커스대로 123</li>
+                <li>Copyright ©Tickers All rights reserved.</li>
+            </ul>
+        </div>
+    </div>
+</footer>
 </body>
 </html>
