@@ -25,23 +25,16 @@ public class DeliveryController {
 
     private final DeliveryService deliveryService;
 
-    @GetMapping("/mypage/delivery")
-    @PreAuthorize("hasRole('ROLE_USER')")
-    public String deliveries(@CurrentUser Member loginMember, Model model) {
-        List<DeliveryListDto> deliveries = deliveryService.getDeliveries(loginMember.getId());
-        model.addAttribute("deliveries", deliveries);
-        return "mypage/delivery/delivery_list";
-    }
-
+    //배송지 등록 폼
     @GetMapping("/mypage/delivery/add")
-    @PreAuthorize("hasRole('ROLE_USER')")
-    public String addDeliveryForm(@ModelAttribute("delivery") AddDeliveryForm form) {
+    public String addDeliveryForm(@ModelAttribute("form") AddDeliveryForm form) {
         return "mypage/delivery/add_delivery";
     }
 
+    //배송지 등록
     @PostMapping("/mypage/delivery/add")
     @PreAuthorize("hasRole('ROLE_USER') and #loginMember.loginId == principal.username")
-    public String addAddress(@Valid @ModelAttribute("delivery") AddDeliveryForm form, BindingResult bindingResult, @CurrentUser Member loginMember) {
+    public String addAddress(@Valid @ModelAttribute("form") AddDeliveryForm form, BindingResult bindingResult, @CurrentUser Member loginMember) {
 
         validateAddress(form.getZipCode(), form.getBasicAddress(), bindingResult);
         validatePhonenumber(form.getPhonenumber1(), form.getPhonenumber2(), form.getPhonenumber3(), bindingResult);
@@ -54,18 +47,28 @@ public class DeliveryController {
         return "redirect:/mypage/delivery";
     }
 
+    //배송지 목록 조회
+    @GetMapping("/mypage/delivery")
+    public String deliveries(@CurrentUser Member loginMember, Model model) {
+        List<DeliveryListDto> deliveries = deliveryService.getDeliveries(loginMember.getId());
+        model.addAttribute("deliveries", deliveries);
+        return "mypage/delivery/delivery_list";
+    }
+
+    //배송지 수정 폼 조회
     @GetMapping("/mypage/delivery/{deliveryId}/edit")
-    @PreAuthorize("hasRole('ROLE_USER') and #loginMember.loginId == principal.username")
+    @PreAuthorize("#loginMember.loginId == principal.username")
     public String editAddressForm(@PathVariable("deliveryId") Long deliveryId, @CurrentUser Member loginMember, Model model) {
         EditDeliveryForm form = deliveryService.getEditDeliveryForm(deliveryId);
-        model.addAttribute("delivery", form);
+        model.addAttribute("form", form);
         return "mypage/delivery/edit_delivery";
     }
 
+    //배송지 수정
     @PostMapping("/mypage/delivery/{deliverId}/edit")
-    @PreAuthorize("hasRole('ROLE_USER') and #loginMember.loginId == principal.username")
-    public String editDelivery(@Valid @ModelAttribute("delivery") EditDeliveryForm form, BindingResult bindingResult,
-                              @PathVariable("deliverId") Long deliverId, @CurrentUser Member loginMember) {
+    @PreAuthorize("#loginMember.loginId == principal.username")
+    public String editDelivery(@Valid @ModelAttribute("form") EditDeliveryForm form, BindingResult bindingResult,
+                               @PathVariable("deliverId") Long deliverId, @CurrentUser Member loginMember) {
 
         validateAddress(form.getZipCode(), form.getBasicAddress(), bindingResult);
         validatePhonenumber(form.getPhonenumber1(), form.getPhonenumber2(), form.getPhonenumber3(), bindingResult);
@@ -78,6 +81,7 @@ public class DeliveryController {
         return "redirect:/mypage/delivery";
     }
 
+    //배송지 삭제
     @GetMapping("/mypage/delivery/{deliveryId}/delete")
     @PreAuthorize("hasRole('ROLE_USER') and #loginMember.loginId == principal.username")
     public String deleteAddress(@PathVariable("deliveryId") Long deliveryId, @CurrentUser Member loginMember) {
@@ -105,8 +109,8 @@ public class DeliveryController {
         return "redirect:/popup/deliveries";
     }
 
+    //주소 검증
     private void validateAddress(String zipCode, String basicAddress, BindingResult bindingResult) {
-        //주소 검증
         if (StringUtils.hasText(zipCode) && StringUtils.hasText(basicAddress)) {
             if (!Pattern.matches("^[\\d]{5}$", zipCode) || !Pattern.matches("^[가-힣\\d\\W]{1,40}$", basicAddress)) {
                 bindingResult.rejectValue("zipCode", "addressInvalid");
@@ -116,8 +120,8 @@ public class DeliveryController {
         }
     }
 
+    //휴대전화번호 검증
     private void validatePhonenumber(String phonenumber1,String phonenumber2, String phonenumber3, BindingResult bindingResult) {
-        //휴대전화번호 검증
         if (StringUtils.hasText(phonenumber1) && StringUtils.hasText(phonenumber2) && StringUtils.hasText(phonenumber3)) {
             if (!Pattern.matches("^01(0|1|[6-9])$", phonenumber1) || !Pattern.matches("^[\\d]{3,4}$", phonenumber2) || !Pattern.matches("^[\\d]{4}$", phonenumber3)) {
                 bindingResult.rejectValue("phonenumber1", "phonenumberInvalid");

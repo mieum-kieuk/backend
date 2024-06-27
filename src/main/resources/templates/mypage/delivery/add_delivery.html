@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>배송지 등록 | 미음키읔</title>
+    <title>배송지 관리 | 미음키읔</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,7 +15,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script src="../../../static/js/findAddress.js" th:src="@{/js/findAddress.js}"></script>
-    <script src="../../../static/js/delivery.js.js" th:src="@{/js/delivery.js}"></script>
+    <script src="../../../static/js/delivery.js" th:src="@{/js/delivery.js}"></script>
 </head>
 <body>
 <div class="wrap">
@@ -24,8 +24,8 @@
         <div th:replace="~{/layout/menu :: mypage_menu}"></div>
         <div id="delivery">
             <div class="delivery_wrap wrapper">
-                <h3 class="delivery_title">배송지 등록</h3>
-                <form action="" th:action th:object="${delivery}" th:method="post" th:onsubmit="return validateBeforeSubmit()" id="joinForm">
+                <h3 class="delivery_title">새 배송지 추가</h3>
+                <form action="" th:action th:object="${form}" th:method="post" th:onsubmit="return validateBeforeSubmit()" id="joinForm">
                     <div class="input_area">
                         <ul class="input_wrap">
                             <li>
@@ -76,15 +76,15 @@
                                             <option value="018">018</option>
                                             <option value="019">019</option>
                                         </select>
-                                        <p>-</p><input id="phonenumber2" th:field="*{phonenumber2}" class="input_box" type="text" maxlength="4"/>
-                                        <p>-</p><input id="phonenumber3" th:field="*{phonenumber3}" class="input_box" type="text" maxlength="4"/>
+                                        <p>-</p><input type="text" id="phonenumber2" th:field="*{phonenumber2}" class="input_box" maxlength="4"/>
+                                        <p>-</p><input type="text" id="phonenumber3" th:field="*{phonenumber3}" class="input_box" maxlength="4"/>
                                     </div>
                                 </div>
                                 <div class="field-error" th:errors="*{phonenumber1}"></div>
                             </li>
                             <li class="default_delivery">
                                 <div>
-                                    <input id="isDefaultDelivery" th:field="*{isDefaultDelivery}" class="normal" type="checkbox"/>
+                                    <input type="checkbox" id="isDefaultDelivery" th:field="*{defaultDelivery}" class="normal"/>
                                     <label for="isDefaultDelivery">기본 배송지로 저장</label>
                                 </div>
                             </li>
@@ -92,15 +92,10 @@
                     </div>
                     <div class="btn_wrap">
                         <button type="button" class="btn1 cancel_btn" onclick="location.href='./delivery_list.html'"
-                                th:onclick="|location.href='@{/mypage/delivery}'|">
-                            취소
-                        </button>
-                        <button type="submit" id="submitBtn" class="btn1 submit_btn">
-                            등록
-                        </button>
+                                th:onclick="|location.href='@{/mypage/delivery}'|">취소</button>
+                        <button type="submit" id="submitBtn" class="btn1 submit_btn">등록</button>
                     </div>
                 </form>
-
             </div>
         </div>
     </div>

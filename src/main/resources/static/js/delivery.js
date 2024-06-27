@@ -19,10 +19,6 @@ $(document).ready(function () {
         var isChecked = $(this).prop('checked');
         $('.checkbox').prop('checked', isChecked);
     });
-
-    $('#deleteBtn').click(function() {
-        deleteAddresses();
-    });
 });
 
 function isDeliveryNameEmpty() {
@@ -155,12 +151,33 @@ function validateBeforeSubmit() {
     return true;
 }
 
-function deleteOk(deliveryId) {
-    if (confirm("배송지를 삭제하시겠습니까?")) {
-        window.location.href = '/mypage/delivery/' + deliveryId + '/delete';
-        return true;
+//배송지 삭제
+function deleteDelivery(deliveryId) {
+
+    let csrfHeader = $("meta[name='_csrf_header']").attr("content");
+    let csrfToken = $("meta[name='_csrf']").attr("content");
+
+    if (confirm("삭제하시겠습니까?")) {
+        $.ajax({
+            type: 'DELETE',
+            url: '/ajax/delivery/delete',
+            async: false,
+            data: {'deliveryId': deliveryId},
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(csrfHeader, csrfToken)
+            },
+            success: function (data) {
+                if (data.code === 200) {
+                    window.location.href = '/mypage/delivery';
+                } else {
+                    alert(data.message);
+                }
+            },
+            error: function () {
+                alert('삭제중 오류가 발생했습니다. 다시 시도해 주세요.');
+            }
+        })
     } else {
         return false;
     }
-}
-
+};

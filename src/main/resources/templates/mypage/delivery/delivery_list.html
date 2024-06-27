@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title>배송지 관리 | 미음키읔</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
-    <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap"
-          rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+    <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
     <link rel="stylesheet" href="../../../static/css/comm.css" th:href="@{/css/comm.css}"/>
     <link rel="stylesheet" href="../../../static/css/mypage.css" th:href="@{/css/mypage.css}"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="../../../static/js/delivery.js.js" th:src="@{/js/delivery.js}"></script>
+    <script src="../../../static/js/delivery.js" th:src="@{/js/delivery.js}"></script>
 </head>
 
 <body>
@@ -51,14 +51,10 @@
                             </div>
                             <div class="item btn">
                                 <div class="btn_wrap">
-                                    <button class="btn1 delete" onclick="location.href='./delivery_list.html'" th:onclick="|deleteOk(${delivery.Id})|"
-                                            th:unless="${delivery.isDefaultDelivery}">
-                                        삭제
-                                    </button>
+                                    <button class="btn1 delete" onclick="location.href='./delivery_list.html'" th:onclick="|deleteDelivery(${delivery.Id})|"
+                                            th:unless="${delivery.isDefaultDelivery}">삭제</button>
                                     <button class="btn1" onclick="location.href='./edit_delivery.html'"
-                                            th:onclick="|location.href='@{/mypage/delivery/{deliveryId}/edit(deliveryId=${delivery.id})}'|">
-                                        수정
-                                    </button>
+                                            th:onclick="|location.href='@{/mypage/delivery/{deliveryId}/edit(deliveryId=${delivery.id})}'|">수정</button>
                                 </div>
                             </div>
                         </div>
@@ -71,9 +67,8 @@
                 </div>
                 <div class="delivery_foot">
                     <div class="btn_wrap">
-                        <button type="button" class="btn1 write_btn" onclick="location.href = './add_delivery.html'"
-                                th:onclick="|location.href='@{/mypage/delivery/add}'|">배송지 등록
-                        </button>
+                        <button type="button" class="btn1 write_btn" onclick="location.href='./add_delivery.html'"
+                                th:onclick="|location.href='@{/mypage/delivery/add}'|">새 배송지 추가</button>
                     </div>
                 </div>
             </div>

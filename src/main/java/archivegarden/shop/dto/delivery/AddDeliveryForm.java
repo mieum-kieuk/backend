@@ -24,5 +24,5 @@ public class AddDeliveryForm {
     private String phonenumber2;
     private String phonenumber3;
 
-    private Boolean isDefaultDelivery;
+    private boolean defaultDelivery;
 }

@@ -48,7 +48,7 @@ public class Delivery extends BaseTimeEntity {
         this.recipientName = form.getRecipientName();
         this.address = new Address(form.getZipCode(), form.getBasicAddress(), form.getDetailAddress());
         this.phonenumber = form.getPhonenumber1() + "-" + form.getPhonenumber2() + "-" + form.getPhonenumber3();
-        this.isDefaultDelivery = form.getIsDefaultDelivery().toString().toUpperCase();
+        this.isDefaultDelivery = String.valueOf(form.isDefaultDelivery()).toUpperCase();
     }
 
     /**
@@ -84,7 +84,7 @@ public class Delivery extends BaseTimeEntity {
     }
 
     /**
-     * 배송지 관리페이지에서 배송지 등록할 때 호출
+     * 마이페이지의 배송지 관리에서 배송지 등록할 때 호출
      */
     public static Delivery createDelivery(AddDeliveryForm form, Member member) {
         Delivery delivery = new Delivery();
@@ -92,7 +92,7 @@ public class Delivery extends BaseTimeEntity {
         delivery.recipientName = form.getRecipientName();
         delivery.address = new Address(form.getZipCode(), form.getBasicAddress(), form.getDetailAddress());
         delivery.phonenumber = form.getPhonenumber1() + "-" + form.getPhonenumber2() + "-" + form.getPhonenumber3();
-        delivery.isDefaultDelivery = Boolean.toString(form.getIsDefaultDelivery()).toUpperCase();
+        delivery.isDefaultDelivery = Boolean.toString(form.isDefaultDelivery()).toUpperCase();
         delivery.member = member;
         return delivery;
     }
