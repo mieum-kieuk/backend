@@ -1,6 +1,11 @@
 $(document).ready(function(){
     initPopup();
+    $('.submit_btn').click(function(event) {
+        event.preventDefault();
+        if (isOrderAgree()) {
 
+        }
+    });
     $(".submit_btn").addClass("disabled");
     $('#deliveryList').on('click', 'li .delivery_item', function() {
         let deliveryData = {
@@ -95,7 +100,6 @@ $(document).ready(function(){
 
     $('.card_list .card').on('click', function() {
         let cardCode = handleCardClick.call(this);
-        console.log('Selected card code:', cardCode);
     });
 
     // 전체 동의 체크박스 기능 구현
@@ -111,9 +115,6 @@ $(document).ready(function(){
         $(".order_agree.all input[type='checkbox']").prop("checked", allChecked);
         updateSubmitButtonState();
     });
-
-    let orderName = getOrderName();
-    console.log('주문명:', orderName);
 
     $('#checkoutBtn').click(function() {
         if (validateBeforeSubmit()) {
@@ -223,14 +224,20 @@ function initPopup() {
 //
 //     });
 // }
+// function isOrderAgree() {
+//     if (!$('#agreeAll').prop('checked')) {
+//         alert("주문 내용을 확인하고 모두 동의해주세요.");
+//         return false;
+//     }
+//     return true;
+// }
 function isOrderAgree() {
     if (!$('#agreeAll').prop('checked')) {
-        alert("주문 내용을 확인하고 모두 동의해주세요.");
+
         return false;
     }
     return true;
 }
-
 function isDeliveryNameEmpty() {
     let deliveryName = $("#deliveryName").val();
 
@@ -313,33 +320,35 @@ function regexPhone() {
 function validateNewDelivery() {
     // 배송지명 검사
     if (!isDeliveryNameEmpty()) {
-        alert("배송지명을 입력해 주세요.");
+
         return false;
     }
 
     // 수령인 검사
     if (!isNameEmpty()) {
-        alert("수령인을 입력해 주세요.");
+
         return false;
     } else if (!regexName()) {
-        alert("유효한 수령인을 입력해 주세요.");
+
         return false;
     }
 
+
     // 주소 검사
     if (!isDeliveryEmpty()) {
-        alert("주소를 입력해 주세요.");
+
         return false;
     }
 
     // 휴대전화번호 검사
     if (!isPhoneEmpty()) {
-        alert("휴대전화번호를 입력해 주세요.");
+
         return false;
     } else if (!regexPhone()) {
-        alert("유효한 휴대전화번호를 입력해 주세요.");
+
         return false;
     }
+
     return true;
 }
 function validateEditPopup() {
@@ -384,31 +393,32 @@ function validateBeforeSubmit() {
     }
 
     if ($('#newDelivery').hasClass('active')) {
-        validateNewDelivery();
-        return false;
+        if (!validateNewDelivery()) {
+            return false;
+        }
     }
 
     if (!$('.pay_btn').hasClass('selected')) {
-        alert('결제방식을 선택해 주세요.');
+
         return false;
     }
 
     if ($('.pay_btn.card').hasClass('selected')) {
         if ($('.card.selected .card_value span').text() === '카드사를 선택해 주세요.') {
-            alert('카드사를 선택해 주세요.');
+
             return false;
         }
     }
 
     if ($('.pay_btn.easy').hasClass('selected')) {
         if (!$('.payment_option').hasClass('selected')) {
-            alert('결제방식을 선택해 주세요.');
+
             return false;
         }
     }
+
     return true;
-}
-function updateDiscount() {
+}function updateDiscount() {
     let productCouponDiscount = 0;
     $(".cart_item").each(function()     {
         let originalPrice = parseInt($(this).find("#productPrice").text().replace(/[^0-9]/g, ""));
@@ -436,7 +446,7 @@ function handlePoint() {
     $("#useAll").click(function() {
         if ($(this).text() === "모두 사용") {
             // 입력란에 사용 가능한 마일리지 값 설정
-            $("#point").val(availablePoint.toLocaleString());
+            $("#point").val(availablePoint);
             $("#ownedPoint").text("0");
             // "사용 안함" 버튼 텍스트 변경
             $(this).text("사용 안함");
@@ -453,7 +463,7 @@ function handlePoint() {
             }
         }
         // 마일리지가 변경되었을 때는 할인 내역과 회원 쿠폰 내역을 유지한 채로 주문 요약 업데이트
-        updateOrderSummary(updateDiscount(), parseInt($(".total.discounts .content").text().replace(/[^0-9]/g, "")));
+        updateOrderSummary(updateDiscount(), parseInt($(".total.discount .content").text().replace(/[^0-9]/g, "")));
     });
 
     $("#point").on("input", function() {
@@ -465,13 +475,13 @@ function handlePoint() {
         ownedPoint = Math.max(ownedPoint, 0); // 음수인 경우 0으로 설정
 
         if (pointInput > availablePoint) {
-            $(this).val(availablePoint.toLocaleString());
+            $(this).val(availablePoint);
             alert("사용 가능한 마일리지를 초과했습니다.");
         }
 
         $("#ownedPoint").text(ownedPoint.toLocaleString());
         // 만약 사용 가능한 마일리지가 0이면 "모두 사용" 버튼과 #point 입력란 비활성화, 그렇지 않으면 활성화
-        if (availablePoint - pointInput === 0) {
+        if (availablePoint === 0) {
             $("#useAll").prop("disabled", true).addClass("disabled");
             $("#point").prop("disabled", true);
         } else {
@@ -479,7 +489,7 @@ function handlePoint() {
             $("#point").prop("disabled", false);
         }
         // 마일리지가 변경되었을 때는 할인 내역과 회원 쿠폰 내역을 유지한 채로 주문 요약 업데이트
-        updateOrderSummary(updateDiscount(), parseInt($(".total.discounts .content").text().replace(/[^0-9]/g, "")));
+        updateOrderSummary(updateDiscount(), parseInt($(".total.discount .content").text().replace(/[^0-9]/g, "")));
     });
 }
 handlePoint();
@@ -488,15 +498,20 @@ function updateOrderSummary(productCouponDiscount) {
 
     let totalProductPrice = 0;
     $(".cart_item").each(function() {
-        let productPrice = parseInt($(this).find("#productPrice").text().replace(/[^0-9]/g, ""));
-        totalProductPrice += productPrice;
+        let productPrice = parseInt($(this).find("#productPrice").text().replace(/[^0-9]/g, ""), 10);
+        if (!isNaN(productPrice)) {
+            totalProductPrice += productPrice;
+        }
     });
 
     // $("#point").val() 값이 존재하고 null이 아닌 경우에만 처리
     let pointValue = $("#point").val();
     let usedPoint = 0;
     if (pointValue !== undefined && pointValue !== null) {
-        usedPoint = parseInt(pointValue.replace(/[^0-9]/g, ""), 10);
+        let parsedPoint = parseInt(pointValue.replace(/[^0-9]/g, ""), 10);
+        if (!isNaN(parsedPoint)) {
+            usedPoint = parsedPoint;
+        }
     }
 
     let discountedTotalProductPrice = totalProductPrice - productCouponDiscount;
@@ -505,7 +520,7 @@ function updateOrderSummary(productCouponDiscount) {
     let totalPrice = discountedTotalProductPrice + shippingFee - usedPoint;
 
     $(".total.price .content").text(totalProductPrice.toLocaleString() + "원");
-    $(".total.discounts .content").text(totalDiscount > 0 ? "-" + totalDiscount.toLocaleString() + "원" : "0원");
+    $(".total.discount .content").text(totalDiscount > 0 ? "-" + totalDiscount.toLocaleString() + "원" : "0원");
     $(".total.point .content").text(usedPoint > 0 ? "-" + usedPoint.toLocaleString() + "원" : "0원");
     $(".total_price .content").text(totalPrice.toLocaleString() + "원");
     $(".total.shipping .content").text(shippingFee.toLocaleString() + "원");
@@ -514,7 +529,6 @@ function updateOrderSummary(productCouponDiscount) {
 updateOrderSummary(updateDiscount());
 function getTotalPrice() {
     let orderTotalPrice = parseInt($('#orderTotalPrice').text().replace(/[^0-9]/g, ''), 10);
-    console.log("총 가격:", orderTotalPrice);
 
     return orderTotalPrice
 }

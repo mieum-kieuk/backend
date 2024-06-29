@@ -153,39 +153,32 @@ $('.wish').click(function () {
 });
 function setProductState() {
     // 초기화
-    $('.prd_price.price, .prd_price.discount, .prd_price.soldout').removeClass('active');
+    $('.prd_price .original_price, .prd_price .discount').removeClass('active');
     $('.buy_btn .btn1').addClass('active');
-    $('.buy_btn .soldout').removeClass('active');
+    // $('.sold_out_btn .btn1').removeClass('active');
 
     // 상태 설정
-    if ($('.prd_price.discount').length) {
-        $('.prd_price.discount').addClass('active');
-    } else if ($('.prd_price.soldout').length) {
-        $('.prd_price.soldout').addClass('active');
-        $('.buy_btn .btn1').removeClass('active');
-        $('.buy_btn .soldout').addClass('active');
-
+    if ($('.prd_price .discount').length > 0) {
+        $('.prd_price .discount').addClass('active');
     } else {
-        $('.prd_price.price').addClass('active');
+        $('.prd_price .original_price').addClass('active');
         $('#CartBtn, #BuyBtn').addClass('active');
+    }
+
+    let isSoldOut = $('.sold_out_btn').length > 0;
+    if (isSoldOut) {
+        $(".prd_quantity").hide();
+        $(".prd_total").hide();
     }
 
     updateTotal();
 }
 function updateTotal() {
     let quantity = parseInt($('.quant_input').val());
-    let isDiscount = $('.prd_price.discount').hasClass('active');
-    let isSoldOut = $('.prd_price.soldout').hasClass('active');
+    let isDiscount = $('.prd_price .discount').hasClass('active');
     let currentPrice = isDiscount ? parseInt($('#salePrice').text().replace(/[^0-9]/g, '')) : parseInt($('#productPrice').text().replace(/[^0-9]/g, ''));
     let totalPrice = quantity * currentPrice;
-    if (isSoldOut) {
-        $('.prd_total').hide();
-        $('.prd_quantity').hide();
-        return;
-    } else {
-        $('.prd_total').show();
-        $('.prd_quantity').show();
-    }
+
     $('#totalQuantity').text(quantity + '개');
     $('#totalPrice').text(totalPrice.toLocaleString() + '원');
 }
