@@ -477,6 +477,91 @@ h3 {
 .add_cart .btn_wrap .btn1 {
     width: 120px;
 }
+/*point_list*/
+#pointList {
+    display: flex;
+    flex-wrap: wrap;
+    width:  100%;
+    margin-left: 200px;
+}
+#pointList h3 {
+    margin-bottom: 0;
+}
+.point_head {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #666;
+    color: #999;
+}
+.point_title {
+    border-bottom: 1px solid #333;
+}
+.prd_category, .prd_sort {
+    display: flex;
+    justify-content: center;
+}
+.point_sort {
+    max-width: 1390px;
+    width: 100%;
+    justify-content: flex-end;
+    font-size: 13px;
+}
+.sort_tit {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    margin: 10px 0;
+}
+.sort_tit li.selected a {
+    font-weight: 700;
+}
+.point_content {
+    margin-bottom: 20px;
+}
+.point_content .member_benefit {
+    display: flex;
+    border-top: none;
+}
+.point_head {
+    border-top: 1px solid #333;
+}
+.point_item  {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    border-bottom: 1px solid #999;
+}
+.point_wrap .item {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    padding: 20px 10px;
+}
+.point_wrap .item span{
+    width: 100%;
+}
+.point_wrap .item.date {
+    width: 12%;
+}
+.point_wrap .item.content {
+    width: 26%;
+}
+.point_wrap .item.order {
+    width: 40%;
+}
+.point_wrap .item.orderName span{
+    width: 100%;
+    text-align: left;
+}
+.point_wrap .item.expiration {
+    width: 12%;
+}
+.point_wrap .item.point {
+    width: 10%;
+}
+
 /*board*/
 #boardList {
     display: flex;

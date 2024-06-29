@@ -1,4 +1,21 @@
 $(document).ready(function() {
+
+    let url = window.location.href;
+
+    if (!url.includes('type')) {
+        $('#all').addClass('selected');
+    } else {
+        if (url.includes('type=earn')) {
+            $('#earn').addClass('selected');
+        } else if (url.includes('type=use')) {
+            $('#use').addClass('selected');
+        } else if (url.includes('type=expire')) {
+            $('#expire').addClass('selected');
+        } else {
+            $('#all').addClass('selected');
+        }
+    }
+
     $('.point_btn').click(function() {
         let selectedMember = $('.admins_table tbody tr input[type=checkbox]:checked');
         let selectedPoint = selectedMember.find('td:nth-child(4)').text().trim();
