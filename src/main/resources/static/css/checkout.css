@@ -7,6 +7,9 @@
     margin: 150px 80px 80px;
     font-size: 14px;
 }
+#order > form {
+    width: 100%;
+}
 .order_title {
     display: block;
     font-size: 18px;

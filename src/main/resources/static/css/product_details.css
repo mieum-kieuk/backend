@@ -175,10 +175,7 @@
     background: #222;
     color: #fff;
 }
-.buy_btn .soldout {
-    display: none;
-}
-.buy_btn .soldout.active {
+.sold_out_btn .btn1.active {
     display: flex;
 }
 .prd_info_tab {
@@ -280,7 +277,8 @@
     color: #d94747;
     border: solid 1.5px #333;
     width: 100% ;
-    margin-top: 163.59px;
+    height: 40px;
+    margin-top: 155px;
 }
 /*qna modal, review_modal*/
 .modal {

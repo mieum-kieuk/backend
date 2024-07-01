@@ -3,7 +3,18 @@ $(document).ready(function(){
     $('.submit_btn').click(function(event) {
         event.preventDefault();
         if (isOrderAgree()) {
-
+            Swal.fire({
+                text: '주문이 성공적으로 제출되었습니다.',
+                showConfirmButton: true,
+                confirmButtonText: '확인',
+                customClass: {
+                    container: 'my-swal-container',
+                    popup: 'my-swal-popup',
+                    htmlContainer: 'my-swal-text',
+                    confirmButton: 'my-swal-confirm-button',
+                    actions: 'my-swal-actions',
+                }
+            });
         }
     });
     $(".submit_btn").addClass("disabled");
@@ -55,7 +66,7 @@ $(document).ready(function(){
             $('#searchZipCodeBtn').focus();
         }
     });
-       $(".shipping_message select").change(function() {
+    $(".shipping_message select").change(function() {
         let directInputContainer = $(this).closest('.shipping_message').find(".direct_input_wrap");
         let directInputField = $(this).closest('.shipping_message').find(".direct_input_wrap textarea");
         if ($(this).val() === "direct_input") {
@@ -182,20 +193,20 @@ function resetSelections() {
     $('.payment_option').removeClass('selected');
 }
 function updateSubmitButtonState() {
-        let checked = $(".order_agree input[type='checkbox']:checked").length;
-        if (checked === 4) {
-            $("#agreeAll").prop("checked", true);
-        } else {
-            $("#agreeAll").prop("checked", false);
-        }
-        if (checked === 4) {
-            $(".submit_btn").prop("disabled", false);
-            $('.submit_btn').removeClass('disabled');
-        } else {
-            $(".submit_btn").prop("disabled", true);
-            $('.submit_btn').addClass('disabled');
-        }
+    let checked = $(".order_agree input[type='checkbox']:checked").length;
+    if (checked === 4) {
+        $("#agreeAll").prop("checked", true);
+    } else {
+        $("#agreeAll").prop("checked", false);
     }
+    if (checked === 4) {
+        $(".submit_btn").prop("disabled", false);
+        $('.submit_btn').removeClass('disabled');
+    } else {
+        $(".submit_btn").prop("disabled", true);
+        $('.submit_btn').addClass('disabled');
+    }
+}
 function initPopup() {
     let width = 450;
     let height = 500;
@@ -233,7 +244,18 @@ function initPopup() {
 // }
 function isOrderAgree() {
     if (!$('#agreeAll').prop('checked')) {
-
+        Swal.fire({
+            text: '주문 내용을 확인하고 모두 동의해주세요.',
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: {
+                container: 'my-swal-container',
+                popup: 'my-swal-popup',
+                htmlContainer: 'my-swal-text',
+                confirmButton: 'my-swal-confirm-button',
+                actions: 'my-swal-actions',
+            }
+        });
         return false;
     }
     return true;
@@ -320,31 +342,102 @@ function regexPhone() {
 function validateNewDelivery() {
     // 배송지명 검사
     if (!isDeliveryNameEmpty()) {
+        Swal.fire({
+            text: '배송지명을 입력해 주세요.',
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: {
+                container: 'my-swal-container',
+                popup: 'my-swal-popup',
+                htmlContainer: 'my-swal-text',
+                confirmButton: 'my-swal-confirm-button',
+                actions: 'my-swal-actions',
+            }
+        });
 
         return false;
     }
 
     // 수령인 검사
     if (!isNameEmpty()) {
+        Swal.fire({
+            text: '수령인을 입력해 주세요.',
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: {
+                container: 'my-swal-container',
+                popup: 'my-swal-popup',
+                htmlContainer: 'my-swal-text',
+                confirmButton: 'my-swal-confirm-button',
+                actions: 'my-swal-actions',
+            }
+        });
 
         return false;
     } else if (!regexName()) {
-
+        Swal.fire({
+            text: '유효한 수령인을 입력해 주세요.',
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: {
+                container: 'my-swal-container',
+                popup: 'my-swal-popup',
+                htmlContainer: 'my-swal-text',
+                confirmButton: 'my-swal-confirm-button',
+                actions: 'my-swal-actions',
+            }
+        });
         return false;
     }
 
 
     // 주소 검사
     if (!isDeliveryEmpty()) {
+        Swal.fire({
+            text: '주소를 입력해 주세요.',
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: {
+                container: 'my-swal-container',
+                popup: 'my-swal-popup',
+                htmlContainer: 'my-swal-text',
+                confirmButton: 'my-swal-confirm-button',
+                actions: 'my-swal-actions',
+            }
+        });
 
         return false;
     }
 
     // 휴대전화번호 검사
     if (!isPhoneEmpty()) {
+        Swal.fire({
+            text: '휴대전화번호를 입력해 주세요.',
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: {
+                container: 'my-swal-container',
+                popup: 'my-swal-popup',
+                htmlContainer: 'my-swal-text',
+                confirmButton: 'my-swal-confirm-button',
+                actions: 'my-swal-actions',
+            }
+        });
 
         return false;
     } else if (!regexPhone()) {
+        Swal.fire({
+            text: '유효한 휴대전화번호를 입력해 주세요.',
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: {
+                container: 'my-swal-container',
+                popup: 'my-swal-popup',
+                htmlContainer: 'my-swal-text',
+                confirmButton: 'my-swal-confirm-button',
+                actions: 'my-swal-actions',
+            }
+        });
 
         return false;
     }
@@ -399,24 +492,69 @@ function validateBeforeSubmit() {
     }
 
     if (!$('.pay_btn').hasClass('selected')) {
+        Swal.fire({
+            text: '결제방식을 선택해 주세요.',
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: {
+                container: 'my-swal-container',
+                popup: 'my-swal-popup',
+                htmlContainer: 'my-swal-text',
+                confirmButton: 'my-swal-confirm-button',
+                actions: 'my-swal-actions',
+            }
+        });
 
         return false;
     }
 
     if ($('.pay_btn.card').hasClass('selected')) {
         if ($('.card.selected .card_value span').text() === '카드사를 선택해 주세요.') {
-
+            Swal.fire({
+                text: '카드사를 선택해 주세요.',
+                showConfirmButton: true,
+                confirmButtonText: '확인',
+                customClass: {
+                    container: 'my-swal-container',
+                    popup: 'my-swal-popup',
+                    htmlContainer: 'my-swal-text',
+                    confirmButton: 'my-swal-confirm-button',
+                    actions: 'my-swal-actions',
+                }
+            });
             return false;
         }
     }
 
     if ($('.pay_btn.easy').hasClass('selected')) {
         if (!$('.payment_option').hasClass('selected')) {
-
+            Swal.fire({
+                text: '결제방식을 선택해 주세요.',
+                showConfirmButton: true,
+                confirmButtonText: '확인',
+                customClass: {
+                    container: 'my-swal-container',
+                    popup: 'my-swal-popup',
+                    htmlContainer: 'my-swal-text',
+                    confirmButton: 'my-swal-confirm-button',
+                    actions: 'my-swal-actions',
+                }
+            });
             return false;
         }
     }
-
+    Swal.fire({
+        text: '주문이 성공적으로 제출되었습니다.',
+        showConfirmButton: true,
+        confirmButtonText: '확인',
+        customClass: {
+            container: 'my-swal-container',
+            popup: 'my-swal-popup',
+            htmlContainer: 'my-swal-text',
+            confirmButton: 'my-swal-confirm-button',
+            actions: 'my-swal-actions',
+        }
+    });
     return true;
 }function updateDiscount() {
     let productCouponDiscount = 0;
@@ -539,3 +677,4 @@ function getOrderName() {
 
     return orderName;
 }
+
