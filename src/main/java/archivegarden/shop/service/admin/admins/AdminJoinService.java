@@ -3,7 +3,7 @@ package archivegarden.shop.service.admin.admins;
 import archivegarden.shop.dto.admin.admin.AddAdminForm;
 import archivegarden.shop.dto.member.NewMemberInfo;
 import archivegarden.shop.entity.Admin;
-import archivegarden.shop.repository.admin.admin.AdminAdminRepository;
+import archivegarden.shop.repository.admin.AdminAdminRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

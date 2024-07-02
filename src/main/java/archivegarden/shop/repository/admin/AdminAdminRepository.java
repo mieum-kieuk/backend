@@ -1,4 +1,4 @@
-package archivegarden.shop.repository.admin.admin;
+package archivegarden.shop.repository.admin;
 
 import archivegarden.shop.entity.Admin;
 import org.springframework.data.jpa.repository.JpaRepository;

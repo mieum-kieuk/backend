@@ -4,7 +4,7 @@ import archivegarden.shop.dto.admin.admin.AdminListDto;
 import archivegarden.shop.dto.admin.AdminSearchForm;
 import archivegarden.shop.entity.Admin;
 import archivegarden.shop.exception.ajax.AjaxNotFoundException;
-import archivegarden.shop.repository.admin.admin.AdminAdminRepository;
+import archivegarden.shop.repository.admin.AdminAdminRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

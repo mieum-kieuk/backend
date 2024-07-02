@@ -1,4 +1,4 @@
-package archivegarden.shop.repository.admin.admin;
+package archivegarden.shop.repository.admin;
 
 import archivegarden.shop.dto.admin.admin.AdminListDto;
 import archivegarden.shop.dto.admin.AdminSearchForm;
@@ -66,11 +66,11 @@ public class AdminAdminRepositoryImpl implements AdminAdminRepositoryCustom {
     private BooleanExpression keywordLike(String searchKey, String keyword) {
         if (StringUtils.hasText(keyword)) {
             if (searchKey.equals("loginId")) {
-                return admin.loginId.containsIgnoreCase(keyword);
+                return admin.loginId.contains(keyword);
             } else if (searchKey.equals("name")) {
-                return admin.name.contains(keyword);
+                return admin.name.containsIgnoreCase(keyword);
             }else if (searchKey.equals("email")) {
-                return admin.email.containsIgnoreCase(keyword);
+                return admin.email.contains(keyword);
             }
         }
 
