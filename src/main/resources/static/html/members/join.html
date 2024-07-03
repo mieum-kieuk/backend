@@ -3,21 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>회원가입 | Archivegarden</title>
+    <title>회원가입 | 미음키읔</title>
 
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Archivegarden" />
+    <meta property="og:title" content="미음키읔" />
     <meta property="og:description" content="" />
     <meta property="og:image" content="" />
     <meta property="og:url" content="" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <link rel="stylesheet" href="../../css/join.css" />
     <link rel="stylesheet" href="../../css/comm.css" />
+    <script defer src="../../js/comm.js"></script>
     <script defer src="../../js/join.js"></script>
     <script defer src="../../js/findAddress.js"></script>
 
@@ -51,64 +52,64 @@
                 <div class="input_wrap">
                     <ul>
                         <li>
-                            <p class="join_tit ess">아이디</p>
+                            <label for="loginId" class="join_tit ess">아이디</label>
                             <span class="addinfo">(영문소문자/숫자 조합, 5~20자)</span>
                         </li>
                         <li class="input_box_wrap">
                             <input id="loginId" class="inputTypeText" placeholder="" maxlength="20" type="text"/>
-                            <span id="idMsg"></span>
+                            <span id="idMsg" ></span>
                         </li>
                     </ul>
                     <ul>
                         <li>
-                            <p class="join_tit ess">비밀번호</p>
+                            <label for="password" class="join_tit ess">비밀번호</label>
                             <span class="addinfo">(영문 대소문자/숫자/특수문자 조합, 8자~16자)</span>
                         </li>
                         <li class="input_box_wrap">
                             <input id="password" class="input_box" autocomplete="off" maxlength="16" 0="disabled" type="password"/>
-                            <span id="pwMsg"></span>
+                            <span id="pwMsg" ></span>
                         </li>
                     </ul>
                     <ul>
                         <li>
-                            <p class="join_tit ess">비밀번호 확인</p>
+                            <label for="passwordConfirm" class="join_tit ess">비밀번호 확인</label>
                         </li>
                         <li class="input_box_wrap">
                             <input id="passwordConfirm" class="input_box" autocomplete="off" maxlength="16" 0="disabled" type="password"/>
-                            <span id="pwconfirmMsg"></span>
+                            <span id="pwconfirmMsg" ></span>
                         </li>
                     </ul>
 
                     <ul>
                         <li id="name_title">
-                            <p class="join_tit ess">이름</p>
+                            <label for="name" class="join_tit ess">이름</label>
                         </li>
                         <li>
                         <li id="name_content" class="input_box_wrap">
                             <input id="name" class="input_box ec-user-name" placeholder="" maxlength="30" type="text"/>
-                            <span id="nameMsg"></span>
+                            <span id="nameMsg" ></span>
                         </li>
                         </li>
                     </ul>
                     <ul class="address">
                         <li>
-                            <p class="join_tit btn_included">주소</p>
+                            <label class="join_tit ess btn_included">주소</label>
                         </li>
                         <li>
-                            <input class="input_box" id="zipCode" name="zipCode" placeholder="우편번호" maxlength="10" type="text" disabled/>
+                            <input class="input_box" id="zipCode" name="zipCode" placeholder="우편번호" maxlength="5" type="text" disabled/>
                             <button id="searchZipCodeBtn" class="btn1">주소검색</button>
                         </li>
                         <li>
-                            <input class="input_box" id="basicAddress" name="basicAddress" placeholder="기본주소" maxlength="100" type="text" disabled/>
+                            <input class="input_box" id="basicAddress" name="basicAddress" placeholder="기본주소" maxlength="40" type="text" disabled/>
                         </li>
                         <li>
-                            <input class="i번nput_box" id="detailAddress" name="detailAddress" placeholder="상세주소(선택 가능)" maxlength="100" type="text"/>
+                            <input class="input_box" id="detailAddress" name="detailAddress" placeholder="상세주소" maxlength="40" type="text"/>
                         </li>
                     </ul>
 
                     <ul class="phone_number">
                         <li class="">
-                            <p class="join_tit ess btn_included">휴대전화번호</p>
+                            <label class="join_tit ess btn_included">휴대전화번호</label>
                         </li>
                         <li class="phone_number select">
                             <div class="number_sec">
@@ -127,14 +128,14 @@
                                     onclick="userVerifyMobile.joinSendVerificationNumber(); return true;">인증번호 받기
                             </button>
                         </li>
-                        <span id="phoneNumberMsg"></span>
+                        <span id="phoneNumberMsg" ></span>
 
                     </ul>
                     <ul class="displaynone" id="confirm_verify_mobile">
                         <li class="verify_sec">
-                            <p class="join_tit ess">인증번호</p>
+                            <label for="verificationNo" class="join_tit ess">인증번호</label>
                             <div class="verify">
-                                <input class="input_box inputTypeText" placeholder=""
+                                <input id="verificationNo" class="input_box inputTypeText" placeholder=""
                                        maxlength="6" type="text"/>
                                 <span class="time" id="expiryTime"></span>
                             </div>
@@ -144,15 +145,15 @@
                         </button>
                     </ul>
 
-                    <span id="verificationMsg"></span>
+                    <span id="verificationMsg" ></span>
 
                     <ul>
                         <li>
-                            <p class="join_tit ess ">이메일</p>
+                            <label for="email" class="join_tit ess ">이메일</label>
                         </li>
                         <li class="input_box_wrap">
                             <input id="email" class="input_box" placeholder="" maxlength="45" type="text"/>
-                            <span id="emailMsg"></span>
+                            <span id="emailMsg" ></span>
                         </li>
                     </ul>
 
@@ -163,7 +164,7 @@
                 <div class="agree_all">
                     <strong>이용약관 및 개인정보수집 및 이용, 쇼핑정보 수신(선택)에 모두 동의합니다.</strong>
                     <p class="check">
-                        <input id="agree_all" class="ec-base-chk" value="1" type="checkbox"/>
+                        <input id="agree_all" value="1" type="checkbox"/>
                         <label for="agree_to_terms_of_use">동의함</label>
                     </p>
                 </div>
@@ -172,7 +173,7 @@
                         <a>
                             <span class="agree_ess">[필수] 이용약관 동의</span>
                             <p class="check">
-                                <input id="agree_to_terms_of_use" class="normal" value="1" type="checkbox"/>
+                                <input id="agree_to_terms_of_use" class="checkbox" value="1" type="checkbox"/>
                                 <label for="agree_to_terms_of_use">동의함</label>
                             </p>
                         </a>
@@ -350,8 +351,8 @@
                             <span class="agree_ess">[필수] 개인정보 수집 및 이용 동의</span>
                             <p class="check">
                                 <input id="agree_to_personal_information"
-                                       class="normal"
                                        value="1"
+                                       class="checkbox"
                                        type="checkbox"/>
                                 <label for="agree_to_personal_information">동의함</label>
                             </p>
@@ -399,14 +400,14 @@
                                 <span class="agree_opt">SMS 수신 동의</span>
                                 <p class="check">
                                     <input id="agree_to_receive_sms"
-                                           class="normal" value="T" type="checkbox"/>
+                                           value="T" class="checkbox" type="checkbox"/>
                                     <label for="agree_to_receive_sms">동의함</label>
                                 </p>
                             </li>
                             <li>
                                 <span class="agree_opt">이메일 수신 동의</span>
                                 <p class="check">
-                                    <input id="agree_to_receive_email" class="normal" value="T" type="checkbox"/>
+                                    <input id="agree_to_receive_email" class="checkbox" value="T" type="checkbox"/>
                                     <label for="agree_to_receive_email">동의함</label>
                                 </p>
                             </li>
@@ -418,8 +419,11 @@
                 <button type="button" class="btn1 cancel_btn">
                     취소
                 </button>
-                <button type="submit" id="submitBtn" class="btn1 submit_btn">
+                <button type="submit" id="submitBtn" class="btn1 submit_btn" onclick="validateBeforeSubmit()">
                     가입
+                <div class="loader_wrap">
+                    <div class="loader"></div>
+                </div>
                 </button>
             </div>
         </form>

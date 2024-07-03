@@ -288,7 +288,9 @@
   border-radius: 2px;
   /*background-color: #fff;*/
 }
-
+#join .btn1.submit_btn {
+  position: relative;
+}
 #join_succ {
   display: flex;
   justify-content: center;

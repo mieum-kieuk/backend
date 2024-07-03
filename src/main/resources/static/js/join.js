@@ -2,6 +2,10 @@ let isAvailableLoginId = false;
 let isAvailableEmail = false;
 
 $(document).ready(function () {
+    $('#joinForm').submit(function(event) {
+        $('.loader_wrap').css('display', 'block');
+    });
+
     $('#loginId').on('focusout', function () {
         isLoginIdValid();
     });
@@ -51,6 +55,15 @@ $(document).ready(function () {
 
     $('#agree_group').on('click', "#agree_all", function () {
         toggleAgreement(this);
+    });
+    $('#agree_group').find('.checkbox').change(function() {
+        let allChecked = true;
+        $('#agree_group').find('.checkbox').each(function() {
+            if (!$(this).prop('checked')) {
+                allChecked = false;
+            }
+        });
+        $('#agree_all').prop('checked', allChecked);
     });
 });
 
@@ -193,7 +206,7 @@ function isNameEmpty() {
 
     if (name.trim() === '') {
         $('#nameMsg').text('이름을 입력해 주세요.');
-        $('#nameMsg').removeClass('success error').addClass('error');
+        $('#nameMsg').removeClass('success').addClass('error');
         return false;
     }
 
@@ -255,6 +268,8 @@ function isEmailEmpty() {
 
     if (email.trim() === '') {
         $('#emailMsg').text('이메일을 입력해 주세요.');
+        $('#emailMsg').removeClass('success').addClass('error');
+
         return false;
     }
 
@@ -291,6 +306,7 @@ function isPhoneEmpty() {
 
     if (phonenumber2.trim() === '' && phonenumber3.trim() === '') {
         $('#phoneNumberMsg').text('휴대전화번호를 입력해 주세요.');
+        $('#phoneNumberMsg').removeClass('success').addClass('error');
         return false;
     }
 
@@ -306,6 +322,7 @@ function regexPhone() {
         return true;
     } else {
         $('#phoneNumberMsg').text('유효한 휴대전화번호를 입력해 주세요.');
+        $('#phoneNumberMsg').removeClass('success').addClass('error');
         return false;
     }
 }
