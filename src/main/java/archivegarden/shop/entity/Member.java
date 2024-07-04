@@ -1,11 +1,12 @@
 package archivegarden.shop.entity;
 
-import archivegarden.shop.dto.member.MemberSaveForm;
+import archivegarden.shop.dto.member.AddMemberForm;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -51,7 +52,7 @@ public class Member extends BaseTimeEntity {
     private String isEmailVerified;
 
     @OneToMany(mappedBy = "member")
-    private List<SavedPoint> savedPoints;
+    private List<SavedPoint> savedPoints = new ArrayList<>();
 
     //==비즈니스 로직==//
     /**
@@ -69,7 +70,7 @@ public class Member extends BaseTimeEntity {
     }
 
     //==생성자 메서드==//
-    public static Member createMember(MemberSaveForm form) {
+    public static Member createMember(AddMemberForm form) {
         Member member = new Member();
         member.loginId = form.getLoginId();
         member.password = form.getPassword();

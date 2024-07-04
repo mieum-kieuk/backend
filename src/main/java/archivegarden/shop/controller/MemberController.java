@@ -47,12 +47,12 @@ public class MemberController {
     }
 
     @GetMapping("/join")
-    public String addMemberForm(@ModelAttribute("form") MemberSaveForm form) {
+    public String addMemberForm(@ModelAttribute("form") AddMemberForm form) {
         return "members/join";
     }
 
     @PostMapping("/join")
-    public String join(@Valid @ModelAttribute("form") MemberSaveForm form, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    public String join(@Valid @ModelAttribute("form") AddMemberForm form, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
         //복합 룰 검증
         validateObjectError(form, bindingResult);
@@ -178,7 +178,7 @@ public class MemberController {
         return "members/find_pw_complete";
     }
 
-    private void validateObjectError(MemberSaveForm form, BindingResult bindingResult) {
+    private void validateObjectError(AddMemberForm form, BindingResult bindingResult) {
         //주소 검증
         if (StringUtils.hasText(form.getZipCode()) && StringUtils.hasText(form.getBasicAddress())) {
             if(!Pattern.matches("^[\\d]{5}$", form.getZipCode()) || !Pattern.matches("^[가-힣\\d\\W]{1,40}$", form.getBasicAddress())) {

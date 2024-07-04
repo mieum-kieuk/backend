@@ -1,12 +1,13 @@
 package archivegarden.shop.service.member;
 
 import archivegarden.shop.dto.member.*;
+import archivegarden.shop.entity.Member;
 
 import java.util.Optional;
 
 public interface MemberService {
 
-    Long join(MemberSaveForm dto);
+    Long join(AddMemberForm dto);
 
     boolean isAvailableLoginId(String loginId);
 
@@ -23,4 +24,6 @@ public interface MemberService {
     Optional<FindIdResultDto> findId(FindIdForm form);
 
     String findPassword(FindPasswordForm form);
+
+    boolean checkPassword(Member member, String password);
 }

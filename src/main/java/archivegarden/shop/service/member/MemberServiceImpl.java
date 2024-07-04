@@ -37,7 +37,7 @@ public class MemberServiceImpl implements MemberService {
      */
     @Transactional
     @Override
-    public Long join(MemberSaveForm form) {
+    public Long join(AddMemberForm form) {
 
         //중복 회원 검증
         validateDuplicateMember(form);
@@ -66,7 +66,7 @@ public class MemberServiceImpl implements MemberService {
     /**
      * 비밀번호 암호화
      */
-    private void encodePassword(MemberSaveForm form) {
+    private void encodePassword(AddMemberForm form) {
         String encodedPassword = passwordEncoder.encode(form.getPassword());
         form.setPassword(encodedPassword);
     }
@@ -76,7 +76,7 @@ public class MemberServiceImpl implements MemberService {
      *
      * @throws IllegalStateException 이미 존재하는 회원일 경우
      */
-    private void validateDuplicateMember(MemberSaveForm form) {
+    private void validateDuplicateMember(AddMemberForm form) {
         String phonenumber = form.getPhonenumber1() + form.getPhonenumber2() + form.getPhonenumber3();
         memberRepository.findDuplicateMember(form.getLoginId(), phonenumber, form.getEmail())
                 .ifPresent(m -> {
@@ -177,6 +177,18 @@ public class MemberServiceImpl implements MemberService {
             String phonenumber = form.getPhonenumber1() + "-" + form.getPhonenumber2() + "-" + form.getPhonenumber3();
             return memberRepository.findPasswordByPhonenumber(form.getLoginId(), form.getName(), phonenumber);
         }
+    }
+
+    /**
+     * 마이페이지 - 회원 정보 수정 로그인
+     */
+    @Override
+    public boolean checkPassword(Member member, String password) {
+        if(!passwordEncoder.matches(member.getPassword(), password)) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
