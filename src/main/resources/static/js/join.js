@@ -52,17 +52,15 @@ $(document).ready(function () {
     $('input[id^="phonenumber"]').on('input', function () {
         verificationBtnState();
     });
-
-    $('#agree_group').on('click', "#agree_all", function () {
-        toggleAgreement(this);
+    // 전체 체크
+    $('#agree_group').on('click', "#agree_all", function() {
+        let isChecked = $(this).prop("checked");
+        $('#agree_group').find('.checkbox').prop("checked", isChecked);
     });
+
+    // 개별 동의 체크박스 변경 시
     $('#agree_group').find('.checkbox').change(function() {
-        let allChecked = true;
-        $('#agree_group').find('.checkbox').each(function() {
-            if (!$(this).prop('checked')) {
-                allChecked = false;
-            }
-        });
+        let allChecked = $('#agree_group').find('.checkbox:not(#agree_all)').length === $('#agree_group').find('.checkbox:not(#agree_all):checked').length;
         $('#agree_all').prop('checked', allChecked);
     });
 });
@@ -158,7 +156,7 @@ function isPasswordEmpty() {
 
     if (password.trim() === '') {
         $('#pwMsg').text('비밀번호를 입력해 주세요.');
-        $('#pwMsg').removeClass('success error').addClass('error');
+        $('#pwMsg').removeClass('success').addClass('error');
         return false;
     }
 
@@ -170,6 +168,8 @@ function regexPassword() {
     let regex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&^()])[a-zA-Z\d@$!%*?&^()]{8,16}$/;
     if (!regex.test(password)) {
         $('#pwMsg').text('8~16자의 영문 대/소문자, 숫자, 특수문자 조합을 사용해 주세요.');
+        $('#pwMsg').removeClass('success').addClass('error');
+
         return false;
     }
 
@@ -186,6 +186,7 @@ function isPwConfirmValid() {
         return true;
     } else {
         $('#pwconfirmMsg').text('비밀번호가 일치하지 않습니다.');
+        $('#pwconfirmMsg').removeClass('success').addClass('error');
         return false;
     }
 }
@@ -218,6 +219,7 @@ function regexName() {
     let regex = /^[가-힣a-zA-Z]{2,12}$/;
     if (!regex.test(name)) {
         $('#nameMsg').text('2~12자의 한글, 영문 대/소문자를 사용해 주세요. (특수기호, 공백 사용 불가)');
+        $('#nameMsg').removeClass('success').addClass('error');
         return false;
     }
 
@@ -466,17 +468,6 @@ function isVerificationValid() {
 
 function isVerificationCompelte() {
     return $('#verificationNo').attr('complete') === "true";
-}
-
-//전체 선택
-function toggleAgreement(element) {
-    let isChecked = $(element).prop('checked');
-
-    if (isChecked) {
-        $(element).parents("#agree_group").find('input[type="checkbox"]').prop("checked", true);
-    } else {
-        $(element).parents("#agree_group").find('input[type="checkbox"]').prop("checked", false);
-    }
 }
 
 function validateBeforeSubmit() {
