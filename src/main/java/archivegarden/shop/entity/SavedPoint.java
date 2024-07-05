@@ -49,6 +49,8 @@ public class SavedPoint {
         savedPoint.amount = amount;
         savedPoint.balance = amount;
         savedPoint.type = type;
+        savedPoint.createdAt = LocalDateTime.now();
+        savedPoint.expiredAt = savedPoint.createdAt.plusYears(1);
         savedPoint.setMember(member);
         return savedPoint;
     }
