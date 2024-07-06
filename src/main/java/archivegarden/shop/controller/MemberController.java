@@ -7,6 +7,8 @@ import archivegarden.shop.service.member.MemberService;
 import archivegarden.shop.service.point.SavedPointService;
 import archivegarden.shop.web.validation.FindIdValidator;
 import archivegarden.shop.web.validation.FindPasswordValidator;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -52,7 +54,7 @@ public class MemberController {
     }
 
     @PostMapping("/join")
-    public String join(@Valid @ModelAttribute("form") AddMemberForm form, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    public String join(@Valid @ModelAttribute("form") AddMemberForm form, BindingResult bindingResult, HttpServletRequest request) {
 
         //복합 룰 검증
         validateObjectError(form, bindingResult);
@@ -64,15 +66,25 @@ public class MemberController {
         //회원가입
         Long memberId = memberService.join(form);
 
-        redirectAttributes.addFlashAttribute("memberId", memberId);
+        //1000원 회원가입 축하 적립금 지급
+        savedPointService.addPoint(memberId, SavedPointType.JOIN, 1000);
+
+        //회원가입한 회원 아이디 세션에 저장
+        HttpSession session = request.getSession();
+        session.setAttribute("memberId", memberId);
         return "redirect:/members/join/complete";
     }
 
     @GetMapping("/join/complete")
-    public String joinComplete(@ModelAttribute(name = "memberId") Long memberId, Model model) {
+    public String joinComplete(HttpServletRequest request, Model model) {
 
-        //1000원 회원가입 축하 적립금 지급
-        savedPointService.addPoint(memberId, SavedPointType.JOIN, 1000);
+        HttpSession session = request.getSession(false);
+        Long memberId = (Long) session.getAttribute("memberId");
+        if(memberId == null){
+            return "redirect:/members/join";
+        }
+
+        session.removeAttribute("memberId");
 
         NewMemberInfo newMemberInfo = memberService.getNewMemberInfo(memberId);
         model.addAttribute("member", newMemberInfo);
