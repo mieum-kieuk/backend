@@ -1,3 +1,43 @@
+$(window).on('unload', function() {
+    $('input[type="text"]').val('');
+});
+$(document).ready(function() {
+    $('.submit_btn').click(function() {
+        // 유효성 검사 실행
+        if (!validationCheck()) {
+            return;
+        }
+
+        if ($('input[name="findType"]:checked').val() === 'EMAIL') {
+            data.email = $('#email').val();
+
+            // 이메일로 데이터 가져오기
+            $.ajax({
+                url: '/', // 적절한 엔드포인트로 변경 필요
+                type: 'POST',
+                data: ,
+                success: function() {
+                },
+                error: function() {
+                }
+            });
+        } else if ($('input[name="findType"]:checked').val() === 'PHONENUMBER') {
+            data.phonenumber = $('#phonenumber1').val() + '-' + $('#phonenumber2').val() + '-' + $('#phonenumber3').val();
+
+            // 휴대전화로 데이터 가져오기
+            $.ajax({
+                url: '/', // 적절한 엔드포인트로 변경 필요
+                type: 'POST',
+                data: ,
+                success: function() {
+                },
+                error: function() {
+                }
+            });
+        }
+    });
+
+});
 // 이름 입력란 유효성 검사
 function isNamePresent() {
     let name = $('#name').val();
@@ -103,6 +143,7 @@ $('input[name="findType"]').change(function () {
         $('#email').val('');
         $('#email_view').hide();
         $('#phonenumber_view').show();
+        $('.phone_number').css("display", "block");
         $('.field-error').empty();
     }
 })

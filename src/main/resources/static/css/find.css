@@ -5,62 +5,66 @@
     font-size: 14px;
     color: #222;
 }
-form {
+.find_form {
     max-width: 380px;
     width: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
 }
-form .auth_select {
+.find_form .auth_select {
     display: flex;
     flex-direction: column;
 }
-form .auth_select p {
+.find_form .auth_select p {
     padding: 10px 0;
     font-size: 16px;
     font-weight: 500;
 }
-form .radio_wrap {
+.find_form .radio_wrap {
     display: flex;
 }
-form .radio_wrap div {
+.find_form .radio_wrap div {
     display: flex;
     align-items: center;
     vertical-align: middle;
 }
-form .radio_wrap input {
+.find_form .radio_wrap input {
     width: 14px;
     margin-right: 4px;
 }
-form .radio_wrap #findType2 {
+.find_form .radio_wrap #findType2 {
     margin-left: 10px;
 }
-form .input_wrap ul {
+.find_form .input_wrap ul {
     margin-bottom: 5px;
 }
-form .input_wrap p {
+.find_form .input_wrap p {
     padding: 10px 0;
 }
-form .input_wrap .number_sec {
+.find_form .phone_number {
+    display: none;
+}
+.find_form .input_wrap .number_sec {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    height: 35px;
 }
-form .input_wrap .number_sec #phonenumber2, form .input_wrap .number_sec #phonenumber3 {
+.find_form .input_wrap .number_sec #phonenumber2, .find_form .input_wrap .number_sec #phonenumber3 {
     width: 40%;
 }
-form input {
+.find_form input {
     border: none;
     border: 1px solid #999;
     width: 100%;
     height: 35px;
     padding: 5px;
 }
-form input:focus {
+.find_form input:focus {
     outline: none;
 }
-form input::placeholder {
+.find_form input::placeholder {
     color: #999;
 }
 
