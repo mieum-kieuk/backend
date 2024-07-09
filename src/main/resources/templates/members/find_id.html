@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title>아이디 찾기 | 미음키읔</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,21 +19,20 @@
 <body>
 <div th:replace="~{/layout/header :: header}"></div>
 <div id="find" class="find">
-    <form id="findIdForm" action="" th:action th:object="${findIdForm}" method="post" th:onsubmit="return validationCheck()">
-        <div th:if="${#fields.hasGlobalErrors()}">
-            <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">전체 오류 메세지</p>
-        </div>
+    <div class="find_form">
         <div class="auth_select">
             <p>인증방법</p>
             <div class="radio_wrap">
-                <div th:each="type : ${findAccountTypes}">
-                    <input type="radio" th:field="*{findType}" th:value="${type.name()}"/>
-                    <label th:for="${#ids.prev('findType')}" th:text="${type.description}">
-                        이메일
-                    </label>
+                <div>
+                    <div>
+                        <input type="radio" id="findType1" name="findType" value="EMAIL" checked="checked">
+                        <label for="findType1">이메일</label>
+                    </div>
+                    <div><input type="radio" id="findType2" name="findType" value="PHONENUMBER">
+                        <label for="findType2">휴대전화번호</label>
+                    </div>
                 </div>
             </div>
-            <div class="field-error" th:errors="*{findType}"></div>
         </div>
         <div class="input_wrap">
             <ul>
@@ -39,26 +40,24 @@
                     <p>이름</p>
                 </li>
                 <li id="name_content" class="input_box_wrap">
-                    <input th:field="*{name}" class="input_box ec-user-name" maxlength="12" type="text"/>
+                    <input id="name" class="input_box ec-user-name" maxlength="12" type="text"/>
                 </li>
-                <div class="field-error" th:errors="*{name}"></div>
             </ul>
             <ul id="email_view">
                 <li>
                     <p>이메일</p>
                 </li>
                 <li class="input_box_wrap">
-                    <input th:field="*{email}" class="input_box" maxlength="45" type="text"/>
+                    <input id="email" class="input_box" maxlength="45" type="text"/>
                 </li>
-                <div class="field-error" th:errors="*{email}"></div>
             </ul>
             <ul class="phone_number" id="phonenumber_view">
-                <li class="">
+                <li>
                     <p>휴대전화번호</p>
                 </li>
                 <li class="phone_number select">
                     <div class="number_sec">
-                        <select th:field="*{phonenumber1}">
+                        <select id="phonenumber1">
                             <option value="010">010</option>
                             <option value="011">011</option>
                             <option value="016">016</option>
@@ -66,32 +65,17 @@
                             <option value="018">018</option>
                             <option value="019">019</option>
                         </select>
-                        <p>-</p><input th:field="*{phonenumber2}" class="input_box" maxlength="4" type="text"/>
-                        <p>-</p><input th:field="*{phonenumber3}" class="input_box" maxlength="4" type="text"/>
+                        <p>-</p><input id="phonenumber2" class="input_box" maxlength="4" type="text"/>
+                        <p>-</p><input id="phonenumber3" class="input_box" maxlength="4" type="text"/>
                     </div>
-                    <div class="field-error" th:errors="*{phonenumber1}"></div>
                 </li>
             </ul>
         </div>
         <div class="btn_wrap">
-            <button type="submit" class="btn1 submit_btn">확인</button>
+            <button type="button" class="btn1 submit_btn">확인</button>
         </div>
-    </form>
+    </div>
 </div>
 <div th:replace="~{/layout/footer :: fixed_footer}"></div>
-<script th:inline="javascript">
-    $(document).ready(function () {
-        let findType = [[${findIdForm.findType}]]
-        if (findType == null || findType === 'EMAIL') {
-            $('#findType1').attr('checked', 'checked');
-            $('#phonenumber_view').hide();
-            $('#email_view').show();
-        } else if (findType === 'SMS') {
-            $('#findType2').attr('checked', 'checked');
-            $('#phonenumber_view').show();
-            $('#email_view').hide();
-        }
-    })
-</script>
 </body>
 </html>

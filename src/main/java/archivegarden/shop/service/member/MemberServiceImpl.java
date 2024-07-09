@@ -2,11 +2,13 @@ package archivegarden.shop.service.member;
 
 import archivegarden.shop.dto.member.*;
 import archivegarden.shop.entity.Delivery;
-import archivegarden.shop.entity.FindAccountType;
 import archivegarden.shop.entity.Member;
+import archivegarden.shop.entity.SavedPointType;
+import archivegarden.shop.exception.NotFoundException;
 import archivegarden.shop.repository.DeliveryRepository;
 import archivegarden.shop.repository.member.MemberRepository;
 import archivegarden.shop.service.email.EmailService;
+import archivegarden.shop.service.point.SavedPointService;
 import archivegarden.shop.util.RedisUtil;
 import archivegarden.shop.util.SmsUtil;
 import lombok.RequiredArgsConstructor;
@@ -15,8 +17,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.NoSuchElementException;
-import java.util.Optional;
 import java.util.Random;
 
 @Slf4j
@@ -28,6 +28,7 @@ public class MemberServiceImpl implements MemberService {
     private final SmsUtil smsUtil;
     private final RedisUtil redisUtil;
     private final EmailService emailService;
+    private final SavedPointService savedPointService;
     private final PasswordEncoder passwordEncoder;
     private final MemberRepository memberRepository;
     private final DeliveryRepository deliveryRepository;
@@ -60,28 +61,21 @@ public class MemberServiceImpl implements MemberService {
         //인증 이메일 전송
         emailService.sendValidationRequestEmail(member.getEmail(), member.getCreatedAt());
 
+        //1000원 회원가입 축하 적립금 지급
+        savedPointService.addPoint(member.getId(), SavedPointType.JOIN, 1000);
+
         return member.getId();
     }
 
     /**
-     * 비밀번호 암호화
-     */
-    private void encodePassword(AddMemberForm form) {
-        String encodedPassword = passwordEncoder.encode(form.getPassword());
-        form.setPassword(encodedPassword);
-    }
-
-    /**
-     * 중복 회원 검증
+     * 회원 가입 완료페이지에서 필요한 정보 조회
      *
-     * @throws IllegalStateException 이미 존재하는 회원일 경우
+     * @throws NotFoundException
      */
-    private void validateDuplicateMember(AddMemberForm form) {
-        String phonenumber = form.getPhonenumber1() + form.getPhonenumber2() + form.getPhonenumber3();
-        memberRepository.findDuplicateMember(form.getLoginId(), phonenumber, form.getEmail())
-                .ifPresent(m -> {
-                    throw new IllegalStateException("이미 존재하는 회원입니다.");
-                });
+    @Override
+    public NewMemberInfo joinComplete(Long memberId) {
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new NotFoundException("존재하지 않는 회원입니다."));
+        return new NewMemberInfo(member.getLoginId(), member.getName(), member.getEmail());
     }
 
     /**
@@ -114,6 +108,7 @@ public class MemberServiceImpl implements MemberService {
     /**
      * 인증코드 전송
      */
+    @Transactional
     @Override
     public void sendVerificationNo(String to) {
         if (redisUtil.existData(to)) {
@@ -121,7 +116,7 @@ public class MemberServiceImpl implements MemberService {
         }
 
         String verificationNo = createVerificationNo();
-        log.info("verificationNo={}", verificationNo);
+        log.info("휴대전화번호 인증번호: {}", verificationNo);
 
 //        smsUtil.sendVerificationNo(to, verificationNo);
 
@@ -133,7 +128,7 @@ public class MemberServiceImpl implements MemberService {
      */
     @Override
     public boolean validateVerificationNo(VerificationRequestDto requestDto) {
-        String phonenumber = requestDto.getPhonenumber1() + "-" + requestDto.getPhonenumber2() + "-" + requestDto.getPhonenumber3();
+        String phonenumber = requestDto.getPhonenumber();
 
         if (redisUtil.existData(phonenumber)) {
             return redisUtil.getData(phonenumber).equals(requestDto.getVerificationNo());
@@ -143,25 +138,32 @@ public class MemberServiceImpl implements MemberService {
     }
 
     /**
-     * 회원 가입 완료페이지에서 필요한 정보 조회
+     * 이메일 통해 아이디 존재하는지 확인
      */
     @Override
-    public NewMemberInfo getNewMemberInfo(Long memberId) {
-        Member member = memberRepository.findById(memberId).orElseThrow(() -> new NoSuchElementException("존재하지 않는 회원입니다."));
-        return new NewMemberInfo(member.getLoginId(), member.getName(), member.getEmail());
+    public Long checkLoginIdExistsByEmail(String name, String email) {
+        return memberRepository.findLoginIdByEmail(name, email);
     }
 
     /**
-     * 아이디 찾기
+     * 휴대전화번호 통해 아이디 존재하는지 확인
      */
     @Override
-    public Optional<FindIdResultDto> findId(FindIdForm form) {
-        if (form.getFindType() == FindAccountType.EMAIL) {
-            return memberRepository.findLoginIdByEmail(form.getName(), form.getEmail()).map(FindIdResultDto::new);
-        } else {
-            String phonenumber = form.getPhonenumber1() + "-" + form.getPhonenumber2() + "-" + form.getPhonenumber3();
-            return memberRepository.findLoginIdByPhonenumber(form.getName(), phonenumber).map(FindIdResultDto::new);
-        }
+    public Long checkIdExistsByPhonenumber(String name, String phonenumber) {
+        return memberRepository.findLoginIdByPhonenumber(name, phonenumber);
+    }
+
+    /**
+     * 아이디 찾기 결과 페이지에서 필요한 정보 조회
+     *
+     * @throws NotFoundException
+     */
+    @Override
+    public FindIdResultDto findIdComplete(Long memberId) {
+        //Member 조회
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new NotFoundException("존재하지 않는 회원입니다."));
+
+        return new FindIdResultDto(member);
     }
 
     /**
@@ -171,12 +173,13 @@ public class MemberServiceImpl implements MemberService {
      */
     @Override
     public String findPassword(FindPasswordForm form) {
-        if (form.getFindType() == FindAccountType.EMAIL) {
-            return memberRepository.findPasswordByEmail(form.getLoginId(), form.getName(), form.getEmail());
-        } else {
-            String phonenumber = form.getPhonenumber1() + "-" + form.getPhonenumber2() + "-" + form.getPhonenumber3();
-            return memberRepository.findPasswordByPhonenumber(form.getLoginId(), form.getName(), phonenumber);
-        }
+//        if (form.getFindType() == FindAccountType.EMAIL) {
+//            return memberRepository.findPasswordByEmail(form.getLoginId(), form.getName(), form.getEmail());
+//        } else {
+//            String phonenumber = form.getPhonenumber1() + "-" + form.getPhonenumber2() + "-" + form.getPhonenumber3();
+//            return memberRepository.findPasswordByPhonenumber(form.getLoginId(), form.getName(), phonenumber);
+//        }
+        return null;
     }
 
     /**
@@ -189,6 +192,27 @@ public class MemberServiceImpl implements MemberService {
         }
 
         return true;
+    }
+
+    /**
+     * 중복 회원 검증
+     *
+     * @throws IllegalStateException 이미 존재하는 회원일 경우
+     */
+    private void validateDuplicateMember(AddMemberForm form) {
+        String phonenumber = form.getPhonenumber1() + form.getPhonenumber2() + form.getPhonenumber3();
+        memberRepository.findDuplicateMember(form.getLoginId(), phonenumber, form.getEmail())
+                .ifPresent(m -> {
+                    throw new IllegalStateException("이미 존재하는 회원입니다.");
+                });
+    }
+
+    /**
+     * 비밀번호 암호화
+     */
+    private void encodePassword(AddMemberForm form) {
+        String encodedPassword = passwordEncoder.encode(form.getPassword());
+        form.setPassword(encodedPassword);
     }
 
     /**

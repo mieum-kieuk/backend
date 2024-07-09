@@ -9,6 +9,8 @@ public interface MemberService {
 
     Long join(AddMemberForm dto);
 
+    NewMemberInfo joinComplete(Long memberId);
+
     boolean isAvailableLoginId(String loginId);
 
     boolean isAvailableEmail(String email);
@@ -19,9 +21,11 @@ public interface MemberService {
 
     boolean validateVerificationNo(VerificationRequestDto requestDto);
 
-    NewMemberInfo getNewMemberInfo(Long memberId);
+    Long checkLoginIdExistsByEmail(String name, String email);
 
-    Optional<FindIdResultDto> findId(FindIdForm form);
+    Long checkIdExistsByPhonenumber(String name, String phonenumber);
+
+    FindIdResultDto findIdComplete(Long memberId);
 
     String findPassword(FindPasswordForm form);
 

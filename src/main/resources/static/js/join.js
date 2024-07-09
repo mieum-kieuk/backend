@@ -87,24 +87,24 @@ function isLoginIdValid() {
 
     $.ajax({
         type: 'POST',
-        url: '/members/verification/loginId',
+        url: '/members/check/loginId',
         data: {loginId: loginId},
         beforeSend: function (xhr) {
             xhr.setRequestHeader(csrfHeader, csrfToken);
         },
         success: function (result) {
-            if (result) {
+            if (result.code == 200) {
                 isAvailableLoginId = true;
-                $('#idMsg').text('사용 가능한 아이디입니다.');
+                $('#idMsg').text(result.message);
                 $('#idMsg').removeClass('error').addClass('success');
             } else {
                 isAvailableLoginId = false;
-                $('#idMsg').text('이미 사용 중인 아이디입니다.');
+                $('#idMsg').text(result.message);
                 $('#idMsg').removeClass('success').addClass('error');
             }
         },
         error: function () {
-            $('#idMsg').text('아이디 중복 확인을 다시 시도해 주세요.');
+            $('#idMsg').text('아이디 중복 확인 중 오류가 발생했습니다. 다시 시도해 주세요.');
             $('#idMsg').removeClass('success').addClass('error');
         }
     });
@@ -245,24 +245,24 @@ function isEmailValid() {
 
     $.ajax({
         type: 'POST',
-        url: '/members/verification/email',
+        url: '/members/check/email',
         data: {email: email},
         beforeSend: function (xhr) {
             xhr.setRequestHeader(csrfHeader, csrfToken);
         },
         success: function (result) {
-            if (result) {
+            if (result.code == 200) {
                 isAvailableEmail = true;
-                $('#emailMsg').text('사용 가능한 이메일입니다.');
+                $('#emailMsg').text(result.message);
                 $('#emailMsg').removeClass('error').addClass('success');
             } else {
                 isAvailableEmail = false;
-                $('#emailMsg').text('이미 사용 중인 이메일입니다.');
+                $('#emailMsg').text(result.message);
                 $('#emailMsg').removeClass('success').addClass('error');
             }
         },
         error: function () {
-            $('#emailMsg').text('이메일 중복 확인을 다시 시도해 주세요.');
+            $('#emailMsg').text('이메일 중복 확인 중 오류가 발생했습니다. 다시 시도해 주세요.');
             $('#emailMsg').removeClass('success').addClass('error');
         }
     });
@@ -382,19 +382,19 @@ function requestVerificationCode() {
             xhr.setRequestHeader(csrfHeader, csrfToken);
         },
         success: function (result) {
-            if (result['success']) {
-                $('#phoneNumberMsg').text(result['message']);
+            if (result.code == 200) {
+                $('#phoneNumberMsg').text(result.message);
                 $('#confirm_verify_mobile').css('display', 'flex');
                 $('#btn_action_verify_mobile').text('재전송');
                 $('#verificationNo').val('');
                 startTimer();
             } else {
                 $('#confirm_verify_mobile').css('display', 'none');
-                $('#phoneNumberMsg').text(result['message']);
+                $('#phoneNumberMsg').text(result.message);
             }
         },
         error: function () {
-            $('#phoneNumberMsg').text('휴대전화번호 인증을 다시 시도해 주세요.');
+            $('#phoneNumberMsg').text('인증번호 발급 중 오류가 발생했습니다. 다시 시도해 주세요.');
         }
     });
 }
@@ -435,7 +435,7 @@ function isVerificationValid() {
 
     $.ajax({
         type: 'POST',
-        url: '/members/verification/verificationNo',
+        url: '/members/check/verificationNo',
         data: {
             phonenumber1: phonenumber1,
             phonenumber2: phonenumber2,
@@ -446,7 +446,7 @@ function isVerificationValid() {
             xhr.setRequestHeader(csrfHeader, csrfToken);
         },
         success: function (result) {
-            if (result) {
+            if (result.code == 200) {
                 $('#verificationNo').val('');
                 $('#verificationNo').attr('placeholder', '휴대전화 인증 완료');
                 $('#verificationNo').attr('disabled', true);
@@ -461,12 +461,12 @@ function isVerificationValid() {
                 $('#verificationNo').attr('complete', "true");
             } else {
                 $('#verificationNo').val('');
-                alert('인증번호가 일치하지 않습니다.\n확인 후 다시 시도해 주세요.');
+                alert(result.message);
                 $('#verificationNo').attr('complete', "false");
             }
         },
         error: function () {
-            $('verificationMsg').text('인증번호 인증을 다시 시도해 주세요.');
+            $('verificationMsg').text('인증번호 인증 중 오류가 발생했습니다. 다시 시도해 주세요.');
         }
     });
 }

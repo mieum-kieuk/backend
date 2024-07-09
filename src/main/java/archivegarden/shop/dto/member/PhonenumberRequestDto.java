@@ -20,4 +20,8 @@ public class PhonenumberRequestDto {
     @NotBlank
     @Pattern(regexp = "^(\\d){4}")
     private String phonenumber3;
+
+    public String getPhonenumber() {
+        return this.phonenumber1 + "-" + this.phonenumber2 + "-" + this.phonenumber3;
+    }
 }

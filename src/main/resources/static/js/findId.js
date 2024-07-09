@@ -4,34 +4,53 @@ $(window).on('unload', function() {
 $(document).ready(function() {
     $('.submit_btn').click(function() {
         // 유효성 검사 실행
-        if (!validationCheck()) {
+        if (!validateBeforeSubmit()) {
             return;
         }
 
+        let csrfHeader = $("meta[name='_csrf_header']").attr("content");
+        let csrfToken = $("meta[name='_csrf']").attr("content");
+
         if ($('input[name="findType"]:checked').val() === 'EMAIL') {
-            data.email = $('#email').val();
+            let name = $('#name').val();
+            let email = $('#email').val();
 
             // 이메일로 데이터 가져오기
             $.ajax({
-                url: '/', // 적절한 엔드포인트로 변경 필요
+                url: '/find-id/email',
                 type: 'POST',
-                data: ,
-                success: function() {
+                data: {'name': name, 'email': email},
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader(csrfHeader, csrfToken)
+                },
+                success: function(result) {
+                    if(result) {
+                        console.log("아이디 찾기 성공");
+                    }
                 },
                 error: function() {
+                    console.log("아이디 찾기 실패");
                 }
             });
         } else if ($('input[name="findType"]:checked').val() === 'PHONENUMBER') {
-            data.phonenumber = $('#phonenumber1').val() + '-' + $('#phonenumber2').val() + '-' + $('#phonenumber3').val();
+            let name = $('#name').val();
+            let phonenumber = $('#phonenumber1').val() + '-' + $('#phonenumber2').val() + '-' + $('#phonenumber3').val();
 
             // 휴대전화로 데이터 가져오기
             $.ajax({
-                url: '/', // 적절한 엔드포인트로 변경 필요
+                url: '/find-id', // 적절한 엔드포인트로 변경 필요
                 type: 'POST',
-                data: ,
-                success: function() {
+                data: {'name': name, 'phonenumber': phonenumber},
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader(csrfHeader, csrfToken)
+                },
+                success: function(result) {
+                    if(result) {
+                        console.log("아이디 찾기 성공");
+                    }
                 },
                 error: function() {
+                    console.log("아이디 찾기 실패");
                 }
             });
         }
@@ -90,7 +109,7 @@ function regexPhonenumber() {
     return result;
 }
 
-function validationCheck() {
+function validateBeforeSubmit() {
 
     let byEmail = $('#findType1').is(':checked');
     let byPhonenumber = $('#findType2').is(':checked');
@@ -126,6 +145,8 @@ function validationCheck() {
             return false;
         }
     }
+
+    return true;
 }
 
 $('input[name="findType"]').change(function () {
