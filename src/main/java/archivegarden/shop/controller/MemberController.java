@@ -134,7 +134,7 @@ public class MemberController {
     }
 
     @GetMapping("/find-password")
-    public String findPasswordForm(@ModelAttribute("findPasswordForm") FindPasswordForm form) {
+    public String findPasswordForm() {
         return "members/find_pw";
     }
 

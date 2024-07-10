@@ -1,68 +1,72 @@
-$(window).on('unload', function() {
+$(window).on('unload', function () {
     $('input[type="text"]').val('');
+    $('#findType1').prop('checked', true);
 });
-$(document).ready(function() {
-    $('.submit_btn').click(function() {
-        // 유효성 검사 실행
-        if (!validateBeforeSubmit()) {
-            return;
-        }
 
-        let csrfHeader = $("meta[name='_csrf_header']").attr("content");
-        let csrfToken = $("meta[name='_csrf']").attr("content");
+$('.submit_btn').click(function () {
+    // 유효성 검사 실행
+    if (!validateBeforeSubmit()) {
+        return;
+    }
 
-        if ($('input[name="findType"]:checked').val() === 'EMAIL') {
-            let name = $('#name').val();
-            let email = $('#email').val();
+    let csrfHeader = $("meta[name='_csrf_header']").attr("content");
+    let csrfToken = $("meta[name='_csrf']").attr("content");
 
-            // 이메일로 데이터 가져오기
-            $.ajax({
-                url: '/find-id/email',
-                type: 'POST',
-                data: {'name': name, 'email': email},
-                beforeSend: function (xhr) {
-                    xhr.setRequestHeader(csrfHeader, csrfToken)
-                },
-                success: function(result) {
-                    if(result) {
-                        console.log("아이디 찾기 성공");
-                    }
-                },
-                error: function() {
-                    console.log("아이디 찾기 실패");
+    if ($('input[name="findType"]:checked').val() === 'EMAIL') {
+        let name = $('#name').val();
+        let email = $('#email').val();
+
+        $.ajax({
+            url: '/members/find-id/email',
+            type: 'POST',
+            data: {name: name, email: email},
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(csrfHeader, csrfToken)
+            },
+            success: function (result) {
+                if (result.code == 200) {
+                    window.location.href = '/members/find-id/complete';
+                } else {
+                    alert(result.message);
                 }
-            });
-        } else if ($('input[name="findType"]:checked').val() === 'PHONENUMBER') {
-            let name = $('#name').val();
-            let phonenumber = $('#phonenumber1').val() + '-' + $('#phonenumber2').val() + '-' + $('#phonenumber3').val();
+            },
+            error: function () {
+                alert('아이디 찾기 중 오류가 발생했습니다.\n다시 시도해 주세요.');
+            }
+        });
+    } else if ($('input[name="findType"]:checked').val() === 'PHONENUMBER') {
+        let name = $('#name').val();
+        let phonenumber = $('#phonenumber1').val() + '-' + $('#phonenumber2').val() + '-' + $('#phonenumber3').val();
 
-            // 휴대전화로 데이터 가져오기
-            $.ajax({
-                url: '/find-id', // 적절한 엔드포인트로 변경 필요
-                type: 'POST',
-                data: {'name': name, 'phonenumber': phonenumber},
-                beforeSend: function (xhr) {
-                    xhr.setRequestHeader(csrfHeader, csrfToken)
-                },
-                success: function(result) {
-                    if(result) {
-                        console.log("아이디 찾기 성공");
-                    }
-                },
-                error: function() {
-                    console.log("아이디 찾기 실패");
+        // 휴대전화로 데이터 가져오기
+        $.ajax({
+            url: '/members/find-id/phonenumber',
+            type: 'POST',
+            data: {name: name, phonenumber: phonenumber},
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(csrfHeader, csrfToken)
+            },
+            success: function (result) {
+                if (result.code == 200) {
+                    window.location.href = '/members/find-id/complete';
+                } else {
+                    alert(result.message);
                 }
-            });
-        }
-    });
-
+            },
+            error: function () {
+                alert('아이디 찾기 중 오류가 발생했습니다.\n다시 시도해 주세요.');
+            }
+        });
+    }
 });
+
 // 이름 입력란 유효성 검사
 function isNamePresent() {
     let name = $('#name').val();
     let result = name.trim() === '' ? false : true;
     return result;
 }
+
 function regexName() {
     let name = $('#name').val();
     let regex = /^[가-힣a-zA-Z]{2,12}$/;
@@ -73,6 +77,7 @@ function regexName() {
 
     return true;
 }
+
 // 이메일 입력란 유효성 검사
 function isEmailPresent() {
     let email = $('#email').val();

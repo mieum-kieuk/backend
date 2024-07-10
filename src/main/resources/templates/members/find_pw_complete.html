@@ -18,15 +18,14 @@
 <div id="find_pw">
     <div class="find_wrap">
         <div class="success_message">
-            <span>임시 비밀번호가<br> <b>고객님의 [[${dto.description}]]로 전송되었습니다.</b></span>
+            <span>임시 비밀번호가<br> <b>고객님의 이메일로 전송되었습니다.</b></span>
         </div>
         <ul class="user_info">
-            <li><p th:text="${dto.description}">이메일</p>  <span id="userEmail" th:text="${dto.value}"></span></li>
+            <li><p>이메일</p><span id="userEmail" th:text="${email}"></span></li>
         </ul>
         <div class="btn_wrap">
-            <button type="button" id="loginBtn" class="btn1 submit_btn" onclick="location.href='../members/login.html'" th:onclick="|location.href='@{/login}'|">
-                로그인
-            </button>
+            <button type="button" id="loginBtn" class="btn1 submit_btn"
+                    onclick="location.href='../members/login.html'" th:onclick="|location.href='@{/login}'|">로그인</button>
         </div>
     </div>
 </div>

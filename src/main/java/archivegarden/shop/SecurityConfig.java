@@ -55,6 +55,7 @@ public class SecurityConfig {
                         .requestMatchers("/login", "/productImages/**", "/", "/members/**", "/error",
                                 "/products/**", "/about/**", "/community/inquiry", "/community/inquiry/*", "/community/notice/**", "/search/**",
                                 "/payment/webhook", "/popup/deliveries/**").permitAll()
+                        .requestMatchers("/**").hasRole("USER")
                         .anyRequest().authenticated()
                 );
 

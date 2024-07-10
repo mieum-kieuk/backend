@@ -34,11 +34,6 @@ public class ExceptionController {
 //        return "error/no_such_discount_exception.html";
 //    }
 
-//    @ExceptionHandler(NoSuchMemberException.class)
-//    public String noSuchMemberException(NoSuchMemberException e) {
-//        return "error/no_such_member_exception";
-//    }
-//
 //    @ExceptionHandler(NoSuchBoardException.class)
 //    public String noSuchNoticeException(NoSuchBoardException e) {
 //        return "error/no_such_board_exception";

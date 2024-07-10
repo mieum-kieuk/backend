@@ -1,3 +1,97 @@
+//뒤로가기로 접속하는 경우 input 데이터 초기화
+$(window).on('unload', function () {
+    $('input[type="text"]').val('');
+    $('#phonenumber1').val('010');
+    $('#findType1').prop('checked', true);
+});
+
+//비밀번호 찾기
+$('#find #findPwBtn').click(function () {
+    // 유효성 검사 실행
+    if (!validateBeforeSubmit()) {
+        return;
+    }
+
+    let csrfHeader = $("meta[name='_csrf_header']").attr("content");
+    let csrfToken = $("meta[name='_csrf']").attr("content");
+
+    if ($('input[name="findType"]:checked').val() === 'EMAIL') {
+        let loginId = $('#loginId').val();
+        let name = $('#name').val();
+        let email = $('#email').val();
+
+        $.ajax({
+            type: 'POST',
+            url: '/members/find-password/email',
+            data: {loginId: loginId, name: name, email: email},
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(csrfHeader, csrfToken)
+            },
+            success: function (result) {
+                if (result.code == 200) {
+                    window.location.href = '/members/find-password/send';
+                } else {
+                    alert(result.message);
+                }
+            },
+            error: function () {
+                alert('비밀번호 찾기 중 오류가 발생했습니다.\n다시 시도해 주세요.');
+            }
+        });
+    } else if ($('input[name="findType"]:checked').val() === 'PHONENUMBER') {
+        let loginId = $('#loginId').val();
+        let name = $('#name').val();
+        let phonenumber = $('#phonenumber1').val() + '-' + $('#phonenumber2').val() + '-' + $('#phonenumber3').val();
+
+        $.ajax({
+            type: 'POST',
+            url: '/members/find-password/phonenumber',
+            data: {loginId: loginId, name: name, phonenumber: phonenumber},
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(csrfHeader, csrfToken)
+            },
+            success: function (result) {
+                if (result.code == 200) {
+                    window.location.href = '/members/find-password/send';
+                } else {
+                    alert(result.message);
+                }
+            },
+            error: function () {
+                alert('비밀번호 찾기 중 오류가 발생했습니다.\n다시 시도해 주세요.');
+            }
+        });
+    }
+});
+
+//임시 비밀번호 전송
+$('#find_pw #sendPwBtn').click(function () {
+
+    let csrfHeader = $("meta[name='_csrf_header']").attr("content");
+    let csrfToken = $("meta[name='_csrf']").attr("content");
+    let email = $('#email').val();
+    console.log(email);
+
+    $.ajax({
+        type: 'POST',
+        url: '/email/temp-password',
+        data: {email: email},
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader(csrfHeader, csrfToken);
+        },
+        success: function (result) {
+            if(result.code == 200) {
+                window.location.href = 'members/find-password/complete';
+            } else {
+                alert(result.message);
+            }
+        },
+        error: function () {
+            alert("임시 비밀번호 전송 중 오류가 발생했습니다.\n다시 시도해 주세요.");
+        }
+    })
+});
+
 // 아이디 입력란 유효성 검사
 function isLoginIdPresent() {
     let loginId = $('#loginId').val();
@@ -19,6 +113,7 @@ function isNamePresent() {
     let result = name.trim() === '' ? false : true;
     return result;
 }
+
 function regexName() {
     let name = $('#name').val();
     let regex = /^[가-힣a-zA-Z]{2,12}$/;
@@ -29,6 +124,7 @@ function regexName() {
 
     return true;
 }
+
 // 이메일 입력란 유효성 검사
 function isEmailPresent() {
     let email = $('#email').val();
@@ -63,7 +159,7 @@ function regexPhonenumber() {
     return result;
 }
 
-function validationCheck() {
+function validateBeforeSubmit() {
 
     let byEmail = $('#findType1').is(':checked');
     let byPhonenumber = $('#findType2').is(':checked');
@@ -83,7 +179,7 @@ function validationCheck() {
         return false;
     }
     if (!regexName()) {
-        alert("2~12자의 한글, 영문 대/소문자를 사용해 주세요. (특수기호, 공백 사용 불가)")
+        alert("유효한 이름을 입력해 주세요.")
         return false;
     }
 
@@ -110,6 +206,8 @@ function validationCheck() {
             return false;
         }
     }
+
+    return true;
 }
 
 $('input[name="findType"]').change(function () {

@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title>비밀번호 찾기 | 미음키읔</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -23,16 +25,16 @@
                 <p>임시 비밀번호</p>
                 <span>
                     <input type="radio" id="findType" name="findType" checked="checked">
-                    <label for="findType" th:text="${dto.description}">이메일</label>
+                    <label for="findType">이메일</label>
                 </span>
             </li>
             <li>
-                <p th:text="${dto.description}">이메일</p>
-                <span id="findTypeValue" th:text="${dto.value}"></span>
+                <p>이메일</p>
+                <span id="findTypeValue" th:text="${email}"></span>
             </li>
         </ul>
         <div class="btn_wrap">
-            <button type="button" id="sendPwBtn" class="btn1 submit_btn" onclick="location.href='./find_pw_complete.html'" th:onclick="|location.href='@{/{type}/temp-password(type=${dto.findType}, value=${dto.value})}'|">임시 비밀번호 전송</button>
+            <button type="button" id="sendPwBtn" class="btn1 submit_btn">임시 비밀번호 전송</button>
         </div>
     </div>
 </div>

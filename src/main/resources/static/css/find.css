@@ -42,7 +42,7 @@
 .find_form .input_wrap p {
     padding: 10px 0;
 }
-.find_form .phone_number {
+.find_form #phonenumber_view {
     display: none;
 }
 .find_form .input_wrap .number_sec {

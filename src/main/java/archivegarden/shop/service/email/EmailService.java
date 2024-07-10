@@ -2,8 +2,10 @@ package archivegarden.shop.service.email;
 
 import archivegarden.shop.entity.Member;
 import archivegarden.shop.exception.NoSuchMemberException;
-import archivegarden.shop.repository.MemberRepository;
+import archivegarden.shop.exception.ajax.AjaxNotFoundException;
+import archivegarden.shop.repository.member.MemberRepository;
 import archivegarden.shop.util.RedisUtil;
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -100,11 +102,13 @@ public class EmailService {
 
     /**
      * 임시 비밀번호 발급
+     *
+     * @throws AjaxNotFoundException
      */
-    public Long sendTempPassword(String to) {
+    public Long sendTempPassword(String to) throws MessagingException {
 
-        //엔티티 조회
-        Member member = memberRepository.findByEmail(to).orElseThrow(() -> new NoSuchElementException("존재하지 않는 회원입니다."));
+        //Member 조회
+        Member member = memberRepository.findByEmail(to).orElseThrow(() -> new AjaxNotFoundException("존재하지 않는 회원입니다."));
 
         //임시 비밀번호 발급
         String tempPassword = getTempPassword();
