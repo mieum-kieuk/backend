@@ -5,7 +5,6 @@ import archivegarden.shop.exception.NoSuchMemberException;
 import archivegarden.shop.exception.ajax.AjaxNotFoundException;
 import archivegarden.shop.repository.member.MemberRepository;
 import archivegarden.shop.util.RedisUtil;
-import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -105,7 +104,7 @@ public class EmailService {
      *
      * @throws AjaxNotFoundException
      */
-    public Long sendTempPassword(String to) throws MessagingException {
+    public Long sendTempPassword(String to) {
 
         //Member 조회
         Member member = memberRepository.findByEmail(to).orElseThrow(() -> new AjaxNotFoundException("존재하지 않는 회원입니다."));

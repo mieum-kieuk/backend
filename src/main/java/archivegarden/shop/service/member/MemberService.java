@@ -27,7 +27,9 @@ public interface MemberService {
 
     FindIdResultDto findIdComplete(Long memberId);
 
-    String findPassword(FindPasswordForm form);
+    String checkPasswordExistsByEmail(String loginId, String name, String email);
+
+    String checkPasswordExistsByPhonenumber(String loginId, String name, String phonenumber);
 
     boolean checkPassword(Member member, String password);
 }

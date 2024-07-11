@@ -2,6 +2,7 @@ package archivegarden.shop.controller;
 
 import archivegarden.shop.dto.ResultResponse;
 import archivegarden.shop.service.email.EmailService;
+import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,7 @@ public class EmailController {
 
     //임시 비밀번호 이메일로 전송
     @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
     @PostMapping("/temp-password")
     public ResultResponse tempPassword(@RequestParam(name = "email") String email, HttpServletRequest request) {
         //임시 비밀번호 전송

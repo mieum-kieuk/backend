@@ -167,19 +167,19 @@ public class MemberServiceImpl implements MemberService {
     }
 
     /**
-     * 비밀번호 찾기
-     *
-     * @return 회원 이메일 또는 휴대전화번호
+     * 이메일 통해 비밀번호 존재하는지 확인
      */
     @Override
-    public String findPassword(FindPasswordForm form) {
-//        if (form.getFindType() == FindAccountType.EMAIL) {
-//            return memberRepository.findPasswordByEmail(form.getLoginId(), form.getName(), form.getEmail());
-//        } else {
-//            String phonenumber = form.getPhonenumber1() + "-" + form.getPhonenumber2() + "-" + form.getPhonenumber3();
-//            return memberRepository.findPasswordByPhonenumber(form.getLoginId(), form.getName(), phonenumber);
-//        }
-        return null;
+    public String checkPasswordExistsByEmail(String loginId, String name, String email) {
+        return memberRepository.findPasswordByEmail(loginId, name, email);
+    }
+
+    /**
+     * 휴대전화번호를 통해 비밀번호 존재하는지 확인
+     */
+    @Override
+    public String checkPasswordExistsByPhonenumber(String loginId, String name, String phonenumber) {
+        return memberRepository.findPasswordByPhonenumber(loginId, name, phonenumber);
     }
 
     /**

@@ -32,7 +32,7 @@ public class MemberController {
 
     //회원가입
     @PostMapping("/join")
-    public String join(@Valid @ModelAttribute("form") AddMemberForm form, BindingResult bindingResult, HttpServletRequest request) {
+    public String join(@Validated @ModelAttribute("form") AddMemberForm form, BindingResult bindingResult, HttpServletRequest request) {
 
         //복합 룰 검증
         validateJoin(form, bindingResult);
@@ -53,7 +53,7 @@ public class MemberController {
     //회원가입 완료
     @GetMapping("/join/complete")
     public String joinComplete(HttpServletRequest request, Model model) {
-
+        //세션에서 memberId(회원아이디) 조회
         HttpSession session = request.getSession(false);
         Long memberId = (Long) session.getAttribute("joinMemberId");
         if(memberId == null){
@@ -68,30 +68,15 @@ public class MemberController {
 
     //아이디 찾기 폼
     @GetMapping("/find-id")
-    public String findIdForm() {
+    public String findId() {
         return "members/find_id";
-    }
-
-    //아이디 찾기 완료
-    @GetMapping("/find-id/complete")
-    public String findIdResult(HttpServletRequest request, Model model) {
-        HttpSession session = request.getSession(false);
-        Long memberId = (Long) session.getAttribute("findMemberId");
-        if(memberId == null){
-            return "redirect:/members/find-id";
-        }
-        session.invalidate();
-
-        FindIdResultDto findIdResultDto = memberService.findIdComplete(memberId);
-        model.addAttribute("member", findIdResultDto);
-        return "members/find_id_complete";
     }
 
     //이메일을 통해 아이디 찾기
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     @PostMapping("/find-id/email")
-    public ResultResponse checkEmailExistsByEmail(@RequestParam("name") String name, @RequestParam("email") String email, HttpServletRequest request) {
+    public ResultResponse findIdByEmail(@RequestParam("name") String name, @RequestParam("email") String email, HttpServletRequest request) {
 
         //유효성 검사
         String errorMessage = validateFindIdByEmail(name, email);
@@ -104,9 +89,9 @@ public class MemberController {
             return new ResultResponse(HttpStatus.BAD_REQUEST.value(), "가입 시 입력하신 회원 정보가 맞는지 다시 한번 확인해 주세요.");
         }
 
-        //회원가입한 회원 아이디 세션에 저장
+        //아이디 찾은 회원 아이디 세션에 저장
         HttpSession session = request.getSession();
-        session.setAttribute("findMemberId", memberId);
+        session.setAttribute("findLoginIdMemberId", memberId);
         return new ResultResponse(HttpStatus.OK.value(), "아이디 찾기에 성공하였습니다.");
     }
 
@@ -127,38 +112,107 @@ public class MemberController {
             return new ResultResponse(HttpStatus.BAD_REQUEST.value(), "가입 시 입력하신 회원 정보가 맞는지 다시 한번 확인해 주세요.");
         }
 
-        //회원가입한 회원 아이디 세션에 저장
+        //아이디 찾은 회원 아이디 세션에 저장
         HttpSession session = request.getSession();
-        session.setAttribute("findMemberId", memberId);
+        session.setAttribute("findLoginIdMemberId", memberId);
         return new ResultResponse(HttpStatus.OK.value(), "아이디 찾기에 성공하였습니다.");
     }
 
+    //아이디 찾기 완료
+    @GetMapping("/find-id/complete")
+    public String findIdResult(HttpServletRequest request, Model model) {
+        //세션에서 memberId(회원아이디) 조회
+        HttpSession session = request.getSession(false);
+        Long memberId = (Long) session.getAttribute("findLoginIdMemberId");
+        if(memberId == null){
+            return "redirect:/members/find-id";
+        }
+        session.invalidate();
+
+        FindIdResultDto findIdResultDto = memberService.findIdComplete(memberId);
+        model.addAttribute("member", findIdResultDto);
+        return "members/find_id_complete";
+    }
+
+    //비밀번호 찾기 폼
     @GetMapping("/find-password")
-    public String findPasswordForm() {
+    public String findPassword() {
         return "members/find_pw";
     }
 
-    @PostMapping("/find-password")
-    public String verifyFindPassword(@Validated @ModelAttribute("findPasswordForm") FindPasswordForm form, BindingResult bindingResult, Model model) {
-
-        if(bindingResult.hasErrors()) {
-            return "members/find_pw";
+    //이메일을 통해 비밀번호 찾기
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    @PostMapping("/find-password/email")
+    public ResultResponse findPasswordByEmail(@RequestParam("loginId") String loginId, @RequestParam("name") String name,
+                                              @RequestParam("email") String email, HttpServletRequest request) {
+        //유효성 검사
+        String errorMessage = validateFindPasswordByEmail(loginId, name, email);
+        if(StringUtils.hasText(errorMessage)) {
+            return new ResultResponse(HttpStatus.BAD_REQUEST.value(), errorMessage);
         }
 
-        String findTypeValue = memberService.findPassword(form);
-        if(findTypeValue == null) {
-            bindingResult.reject("memberNotFound");
-            return "members/find_pw";
-        } else {
-//            FindPasswordDto findPasswordDto = new FindPasswordDto(form.getFindType(), findTypeValue);
-//            model.addAttribute("dto", findPasswordDto);
-            return "members/find_pw_send";
+        String findEmail = memberService.checkPasswordExistsByEmail(loginId, name, email);
+        if(findEmail == null) {
+            return new ResultResponse(HttpStatus.BAD_REQUEST.value(), "가입 시 입력하신 회원 정보가 맞는지 다시 한번 확인해 주세요.");
         }
+
+        //비밀번호 찾은 회원 아이디 세션에 저장
+        HttpSession session = request.getSession();
+        session.setAttribute("findPasswordEmail", findEmail);
+        return new ResultResponse(HttpStatus.OK.value(), "비밀번호 찾기에 성공하였습니다.");
     }
 
+    //휴대전화번호 통해 비밀번호 찾기
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    @PostMapping("/find-password/phonenumber")
+    public ResultResponse findPasswordByPhonenumber(@RequestParam("loginId") String loginId, @RequestParam("name") String name,
+                                                    @RequestParam("phonenumber") String phonenumber, HttpServletRequest request) {
+
+        //유효성 검사
+        String errorMessage = validateFindPasswordByPhonenumber(loginId, name, phonenumber);
+        if(StringUtils.hasText(errorMessage)) {
+            return new ResultResponse(HttpStatus.BAD_REQUEST.value(), errorMessage);
+        }
+
+        String email = memberService.checkPasswordExistsByPhonenumber(loginId, name, phonenumber);
+        if(email == null) {
+            return new ResultResponse(HttpStatus.BAD_REQUEST.value(), "가입 시 입력하신 회원 정보가 맞는지 다시 한번 확인해 주세요.");
+        }
+
+        //비밀번호 찾은 회원 아이디 세션에 저장
+        HttpSession session = request.getSession();
+        session.setAttribute("findPasswordEmail", email);
+        return new ResultResponse(HttpStatus.OK.value(), "비밀번호 찾기에 성공하였습니다.");
+    }
+
+    //임시 비밀번호 전송될 이메일 확인
+    @GetMapping("find-password/send")
+    public String verifyEmail(HttpServletRequest request, Model model) {
+        //세션에서 이메일 조회
+        HttpSession session = request.getSession(false);
+        String email = (String) session.getAttribute("findPasswordEmail");
+        if(email == null) {
+            return "redirect:/members/find-password";
+        }
+        session.invalidate();
+
+        model.addAttribute("email", email);
+        return "members/find_pw_send";
+    }
+
+    //비밀번호 찾기 완료
     @GetMapping("/find-password/complete")
-    public String findPasswordResult(@ModelAttribute("dto") FindPasswordDto dto, Model model) {
-        model.addAttribute("dto", dto);
+    public String findPasswordResult(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession(false);
+        String email = (String) session.getAttribute("findPasswordSendEmail");
+        if(email == null) {
+            return "redirect:/members/find-password";
+        }
+        session.invalidate();
+
+        model.addAttribute("email", email);
         return "members/find_pw_complete";
     }
 
@@ -289,6 +343,58 @@ public class MemberController {
         //휴대전화번호
         if (!Pattern.matches("^01(0|1|[6-9])-(\\d){3,4}-(\\d){4}$", phonenumber)) {
            errorMessage = "유효한 휴대전화번호를 입력해 주세요.";
+        }
+
+        return errorMessage;
+    }
+
+    //이메일로 비밀번호를 찾는 경우 유효성 검사
+    private String validateFindPasswordByEmail(String loginId, String name, String email) {
+
+        String errorMessage = "";
+
+        //아이디
+        if (!StringUtils.hasText(loginId)) {
+            errorMessage = "아이디를 입력해 주세요.";
+        } else if (!Pattern.matches("(?=.*[a-z])(?=.*\\d)[a-z\\d]{5,20}+$", loginId)) {
+            errorMessage = "유효한 아이디를 입력해 주세요.";
+        }
+
+        //이름
+        if (!StringUtils.hasText(name)) {
+            errorMessage = "이름을 입력해 주세요.";
+        }
+
+        //이메일
+        if (!StringUtils.hasText(email)) {
+            errorMessage = "이메일을 입력해 주세요.";
+        } else if (!Pattern.matches("^[A-Za-z0-9_\\.\\-]+@[A-Za-z0-9\\-]+\\.[A-Za-z0-9\\-]+$", email)) {
+            errorMessage = "유효한 이메일을 입력해 주세요.";
+        }
+
+        return errorMessage;
+    }
+
+    //휴대전화번호로 비밀번호를 찾는 경우 유효성 검사
+    private String validateFindPasswordByPhonenumber(String loginId, String name, String phonenumber) {
+
+        String errorMessage = "";
+
+        //아이디
+        if (!StringUtils.hasText(loginId)) {
+            errorMessage = "아이디를 입력해 주세요.";
+        } else if (!Pattern.matches("(?=.*[a-z])(?=.*\\d)[a-z\\d]{5,20}+$", loginId)) {
+            errorMessage = "유효한 아이디를 입력해 주세요.";
+        }
+
+        //이름
+        if (!StringUtils.hasText(name)) {
+            errorMessage = "이름을 입력해 주세요.";
+        }
+
+        //휴대전화번호
+        if (!Pattern.matches("^01(0|1|[6-9])-(\\d){3,4}-(\\d){4}$", phonenumber)) {
+            errorMessage = "유효한 휴대전화번호를 입력해 주세요.";
         }
 
         return errorMessage;

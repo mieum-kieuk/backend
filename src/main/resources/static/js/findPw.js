@@ -69,8 +69,7 @@ $('#find_pw #sendPwBtn').click(function () {
 
     let csrfHeader = $("meta[name='_csrf_header']").attr("content");
     let csrfToken = $("meta[name='_csrf']").attr("content");
-    let email = $('#email').val();
-    console.log(email);
+    let email = $('#email').text();
 
     $.ajax({
         type: 'POST',
@@ -81,7 +80,7 @@ $('#find_pw #sendPwBtn').click(function () {
         },
         success: function (result) {
             if(result.code == 200) {
-                window.location.href = 'members/find-password/complete';
+                window.location.href = '/members/find-password/complete';
             } else {
                 alert(result.message);
             }
