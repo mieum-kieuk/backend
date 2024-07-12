@@ -560,6 +560,9 @@ legend {
   color: #d94747;
   font-size: 12px;
 }
+#phonenumber1 {
+  height: 35px;
+}
 .btn1 {
   display: flex;
   justify-content: center;
@@ -749,8 +752,8 @@ legend {
 .swal2-html-container.my-swal-text {
   margin: 0;
   width: 400px;
-  font-size: 18px;
-  font-weight: 600;
+  font-size: 16px;
+  font-weight: 400;
   padding: 40px 20px;
 }
 .my-swal-container {

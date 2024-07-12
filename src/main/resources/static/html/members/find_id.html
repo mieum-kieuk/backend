@@ -12,12 +12,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+    <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.js"></script>
+
     <link rel="stylesheet" href="../../css/find.css" />
     <link rel="stylesheet" href="../../css/comm.css" />
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-
     <script defer src="../../js/findId.js"></script>
 </head>
 <body>
@@ -86,7 +88,8 @@
         </nav>
     </header>
     <div id="find" class="find">
-    <div id="findIdForm" class="find_form" action="find_id_complete" method="post" onsubmit="return validationCheck()">
+    <div id="findIdForm" class="find_form">
+    <h2 class="find_title">아이디 찾기</h2>
         <div class="auth_select">
             <p>인증방법</p>
             <div class="radio_wrap">
@@ -127,8 +130,8 @@
                             <option value="018">018</option>
                             <option value="019">019</option>
                         </select>
-                        <p>-</p><input id="phonenumber2" class="input_box" placeholder="" value="" maxlength="4" type="text"/>
-                        <p>-</p><input id="phonenumber3" class="input_box" placeholder="" value="" maxlength="4" type="text"/>
+                        <p>-</p><input id="phonenumber2" class="input_box" placeholder="" value="" maxlength="4" type="number"/>
+                        <p>-</p><input id="phonenumber3" class="input_box" placeholder="" value="" maxlength="4" type="number"/>
                     </div>
                 </li>
             </ul>

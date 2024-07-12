@@ -43,6 +43,7 @@
 }
 .auth_wrap #personal_type_wrap label {
   font-size: 13px;
+  margin: 0;
   margin-left: 4px;
 }
 .auth_wrap #email_auth {

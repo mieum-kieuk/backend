@@ -4,6 +4,13 @@ $(window).on('unload', function () {
     $('#phonenumber1').val('010');
     $('#findType1').prop('checked', true);
 });
+const mySwal = {
+    container: 'my-swal-container',
+    popup: 'my-swal-popup',
+    htmlContainer: 'my-swal-text',
+    confirmButton: 'my-swal-confirm-button',
+    actions: 'my-swal-actions',
+};
 
 //비밀번호 찾기
 $('#find #findPwBtn').click(function () {
@@ -31,11 +38,21 @@ $('#find #findPwBtn').click(function () {
                 if (result.code == 200) {
                     window.location.href = '/members/find-password/send';
                 } else {
-                    alert(result.message);
+                    Swal.fire({
+                        text: result.message,
+                        showConfirmButton: true,
+                        confirmButtonText: '확인',
+                        customClass: mySwal
+                    });
                 }
             },
             error: function () {
-                alert('비밀번호 찾기 중 오류가 발생했습니다.\n다시 시도해 주세요.');
+                Swal.fire({
+                    html: '비밀번호 찾기 중 오류가 발생했습니다.<br>다시 시도해 주세요.',
+                    showConfirmButton: true,
+                    confirmButtonText: '확인',
+                    customClass: mySwal
+                });
             }
         });
     } else if ($('input[name="findType"]:checked').val() === 'PHONENUMBER') {
@@ -54,11 +71,21 @@ $('#find #findPwBtn').click(function () {
                 if (result.code == 200) {
                     window.location.href = '/members/find-password/send';
                 } else {
-                    alert(result.message);
+                    Swal.fire({
+                        text: result.message,
+                        showConfirmButton: true,
+                        confirmButtonText: '확인',
+                        customClass: mySwal
+                    });
                 }
             },
             error: function () {
-                alert('비밀번호 찾기 중 오류가 발생했습니다.\n다시 시도해 주세요.');
+                Swal.fire({
+                    html: '비밀번호 찾기 중 오류가 발생했습니다.<br>다시 시도해 주세요.',
+                    showConfirmButton: true,
+                    confirmButtonText: '확인',
+                    customClass: mySwal
+                });
             }
         });
     }
@@ -66,7 +93,8 @@ $('#find #findPwBtn').click(function () {
 
 //임시 비밀번호 전송
 $('#find_pw #sendPwBtn').click(function () {
-
+    $('.loader_wrap').css('display', 'block');
+    $('#find_pw #sendPwBtn').prop('disabled', 'true');
     let csrfHeader = $("meta[name='_csrf_header']").attr("content");
     let csrfToken = $("meta[name='_csrf']").attr("content");
     let email = $('#email').text();
@@ -82,11 +110,21 @@ $('#find_pw #sendPwBtn').click(function () {
             if(result.code == 200) {
                 window.location.href = '/members/find-password/complete';
             } else {
-                alert(result.message);
+                Swal.fire({
+                    text: result.message,
+                    showConfirmButton: true,
+                    confirmButtonText: '확인',
+                    customClass: mySwal
+                });
             }
         },
         error: function () {
-            alert("임시 비밀번호 전송 중 오류가 발생했습니다.\n다시 시도해 주세요.");
+            Swal.fire({
+                html: '임시 비밀번호 전송 중 오류가 발생했습니다.<br>다시 시도해 주세요.',
+                showConfirmButton: true,
+                confirmButtonText: '확인',
+                customClass: mySwal
+            });
         }
     })
 });
@@ -164,48 +202,90 @@ function validateBeforeSubmit() {
     let byPhonenumber = $('#findType2').is(':checked');
 
     if (!isLoginIdPresent()) {
-        alert("아이디를 입력해 주세요.");
+        Swal.fire({
+            text: '아이디를 입력해 주세요.',
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal
+        });
         return false;
     }
 
     if (!regexId()) {
-        alert("유효한 아이디를 입력해 주세요.");
+        Swal.fire({
+            text: '5~20자의 영문 소문자, 숫자 조합을 사용해 주세요.',
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal
+        });
         return false;
     }
 
     if (!isNamePresent()) {
-        alert("이름을 입력해 주세요.");
+        Swal.fire({
+            text: '이름을 입력해 주세요.',
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal
+        });
         return false;
     }
     if (!regexName()) {
-        alert("유효한 이름을 입력해 주세요.")
+        Swal.fire({
+            html: '2~12자의 한글, 영문 대/소문자를 사용해 주세요.<br>(특수기호, 공백 사용 불가)',
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal
+        });
         return false;
     }
 
     if (byEmail) {
         if (!isEmailPresent()) {
-            alert("이메일을 입력해 주세요.");
+            Swal.fire({
+                text: '이메일을 입력해 주세요.',
+                showConfirmButton: true,
+                confirmButtonText: '확인',
+                customClass: mySwal
+            });
             return false;
         }
 
         if (!regexEmail()) {
-            alert("유효한 이메일을 입력해 주세요.");
+            Swal.fire({
+                text: '이메일 형식으로 입력해 주세요.',
+                showConfirmButton: true,
+                confirmButtonText: '확인',
+                customClass: mySwal
+            });
             return false;
         }
     }
 
     if (byPhonenumber) {
         if (!isPhonenumberPresent()) {
-            alert("휴대전화번호를 입력해 주세요.");
+            Swal.fire({
+                text: '휴대전화번호를 입력해 주세요.',
+                showConfirmButton: true,
+                confirmButtonText: '확인',
+                customClass: mySwal
+            });
             return false;
         }
 
         if (!regexPhonenumber()) {
-            alert("유효한 휴대전화번호를 입력해 주세요.");
+            Swal.fire({
+                text: '휴대전화번호 형식으로 입력해 주세요.',
+                showConfirmButton: true,
+                confirmButtonText: '확인',
+                customClass: mySwal
+            });
             return false;
         }
     }
 
+    $('.submit_btn').prop('disabled', true);
+    $('.loader_wrap').css('display', 'block');
     return true;
 }
 

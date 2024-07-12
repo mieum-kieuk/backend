@@ -5,12 +5,14 @@ $(window).on('unload', function() {
     $('input[type="text"]').val('');
     $('form input[type="checkbox"]').prop('checked', false);
 });
-
+const mySwal = {
+    container: 'my-swal-container',
+    popup: 'my-swal-popup',
+    htmlContainer: 'my-swal-text',
+    confirmButton: 'my-swal-confirm-button',
+    actions: 'my-swal-actions',
+};
 $(document).ready(function () {
-    $('#joinForm').submit(function(event) {
-        $('.loader_wrap').css('display', 'block');
-    });
-
     $('#loginId').on('focusout', function () {
         isLoginIdValid();
     });
@@ -35,7 +37,12 @@ $(document).ready(function () {
         let basicAddress = $('#basicAddress').val().trim();
 
         if (zipCode === '' || basicAddress === '') {
-            alert("주소 검색을 통해 우편번호와 기본주소를 먼저 입력해 주세요.");
+            Swal.fire({
+                text: '주소 검색을 통해 우편번호와 기본주소를 먼저 입력해 주세요.',
+                showConfirmButton: true,
+                confirmButtonText: '확인',
+                customClass: mySwal
+            });
             $('#searchZipCodeBtn').focus();
         }
     });
@@ -461,7 +468,12 @@ function isVerificationValid() {
                 $('#verificationNo').attr('complete', "true");
             } else {
                 $('#verificationNo').val('');
-                alert(result.message);
+                Swal.fire({
+                    text: result.message,
+                    showConfirmButton: true,
+                    confirmButtonText: '확인',
+                    customClass: mySwal
+                });
                 $('#verificationNo').attr('complete', "false");
             }
         },
@@ -478,84 +490,170 @@ function isVerificationCompelte() {
 function validateBeforeSubmit() {
     // 아이디 유효성 검사
     if (!isLoginIdEmpty()) {
-        alert("아이디를 입력해 주세요.");
+        Swal.fire({
+            text: '아이디를 입력해 주세요.',
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal
+        });
         return false;
     } else if (!regexLoginId()) {
-        alert("유효한 아이디를 입력해 주세요.");
+        Swal.fire({
+            text: '5~20자의 영문 소문자, 숫자 조합을 사용해 주세요.',
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal
+        });
         return false;
     } else if (!isAvailableLoginId) {
-        alert("이미 사용중인 아이디입니다.");
+        Swal.fire({
+            text: '이미 사용중인 아이디입니다.',
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal
+        });
         return false;
     }
 
     // 비밀번호 유효성 검사
     if (!isPasswordEmpty()) {
-        alert("비밀번호를 입력해 주세요.");
+        Swal.fire({
+            text: '비밀번호를 입력해 주세요.',
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal
+        });
         return false;
     } else if (!regexPassword()) {
-        alert("유효한 비밀번호를 입력해 주세요.");
+        Swal.fire({
+            text: '8~16자의 영문 대/소문자, 숫자, 특수문자 조합을 사용해 주세요.',
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal
+        });
         return false;
     }
 
     // 비밀번호 확인 유효성 검사
     if (!isPwConfirmValid()) {
-        alert("비밀번호가 일치하지 않습니다.");
+        Swal.fire({
+            text: '비밀번호가 일치하지 않습니다.',
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal
+        });
         return false;
     }
 
     // 이름 유효성 검사
     if (!isNameEmpty()) {
-        alert("이름을 입력해 주세요.");
+        Swal.fire({
+            text: '이름을 입력해 주세요.',
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal
+        });
         return false;
     } else if (!regexName()) {
-        alert("유효한 이름을 입력해 주세요.");
+        Swal.fire({
+            html: '2~12자의 한글, 영문 대/소문자를 사용해 주세요.<br>(특수기호, 공백 사용 불가)',
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal
+        });
         return false;
     }
     if (!isAddressEmpty()) {
-        alert("주소를 입력해 주세요.");
+        Swal.fire({
+            text: '주소를 입력해 주세요.',
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal
+        });
         return false;
     }
 
     // 휴대전화번호 유효성 검사
     if (!isPhoneEmpty()) {
-        alert("휴대전화번호를 입력해 주세요.");
+        Swal.fire({
+            text: '휴대전화번호를 입력해 주세요.',
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal
+        });
         return false;
     } else if (!regexPhone()) {
-        alert("유효한 휴대전화번호를 입력해 주세요.");
+        Swal.fire({
+            text: '휴대전화번호 형식으로 입력해 주세요.',
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal
+        });
         return false;
     }
 
     // 인증 번호 유효성 검사
     if (!isVerificationCompelte()) {
-        alert("휴대전화번호를 인증해 주세요.");
+        Swal.fire({
+            text: '휴대전화번호를 인증해 주세요.',
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal
+        });
         return false;
     }
 
     // 이메일 유효성 검사
     if (!isEmailEmpty()) {
-        alert("이메일을 입력해 주세요.");
+        Swal.fire({
+            text: '이메일을 입력해 주세요.',
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal
+        });
         return false;
     } else if (!regexEmail()) {
-        alert("유효한 이메일을 입력해 주세요.");
+        Swal.fire({
+            text: '이메일 형식으로 입력해 주세요.',
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal
+        });
         return false;
     } else if (!isAvailableEmail) {
-        alert("이미 사용중인 이메일입니다.");
+        Swal.fire({
+            text: '이미 사용중인 이메일입니다.',
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal
+        });
         return false;
     }
 
     // 이용약관 동의 확인
     if (!$('#agree_to_terms_of_use').is(':checked')) {
-        alert("이용약관 동의를 확인해 주세요.");
+        Swal.fire({
+            text: '이용약관 동의를 확인해 주세요.',
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal
+        });
         return false;
     }
 
     // 개인정보 수집 및 이용 동의 확인
     if (!$('#agree_to_personal_information').is(':checked')) {
-        alert("개인정보 수집 및 이용 동의를 확인해 주세요.");
+        Swal.fire({
+            text: '개인정보 수집 및 이용 동의를 확인해 주세요.',
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal
+        });
         return false;
     }
 
     $('.submit_btn').prop('disabled', true);
+    $('.loader_wrap').css('display', 'block');
 
     return true;
 }
