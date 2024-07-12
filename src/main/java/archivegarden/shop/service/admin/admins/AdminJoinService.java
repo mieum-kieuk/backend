@@ -3,13 +3,12 @@ package archivegarden.shop.service.admin.admins;
 import archivegarden.shop.dto.admin.admin.AddAdminForm;
 import archivegarden.shop.dto.member.NewMemberInfo;
 import archivegarden.shop.entity.Admin;
+import archivegarden.shop.exception.NotFoundException;
 import archivegarden.shop.repository.admin.AdminAdminRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.NoSuchElementException;
 
 @Service
 @Transactional
@@ -42,10 +41,12 @@ public class AdminJoinService {
     /**
      * 회원 가입 완료페이지에서 필요한 정보 조회
      *
-     * @throws NoSuchElementException
+     * @throws NotFoundException
      */
     public NewMemberInfo getNewAdminInfo(Long adminId) {
-        Admin admin = adminRepository.findById(adminId).orElseThrow(() -> new NoSuchElementException("존재하지 않는 관리자입니다."));
+        //Admin 조회
+        Admin admin = adminRepository.findById(adminId).orElseThrow(() -> new NotFoundException("존재하지 않는 관리자입니다."));
+
         return new NewMemberInfo(admin.getLoginId(), admin.getName(), admin.getEmail());
     }
 

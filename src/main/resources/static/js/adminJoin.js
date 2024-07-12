@@ -1,6 +1,10 @@
 let isAvailableLoginId = false;
 let isAvailableEmail = false;
 
+$(window).on('unload', function() {
+    $('input[type="text"]').val('');
+});
+
 $(document).ready(function () {
     $('#loginId').on('focusout', function () {
         isLoginIdValid();
@@ -50,13 +54,13 @@ function isLoginIdValid() {
             xhr.setRequestHeader(csrfHeader, csrfToken);
         },
         success: function (result) {
-            if (result) {
+            if (result.code == 200) {
                 isAvailableLoginId = true;
-                $('#idMsg').text('사용 가능한 아이디입니다.');
+                $('#idMsg').text(result.message);
                 $('#idMsg').removeClass('error').addClass('success');
             } else {
                 isAvailableLoginId = false;
-                $('#idMsg').text('이미 사용 중인 아이디입니다.');
+                $('#idMsg').text(result.message);
                 $('#idMsg').removeClass('success').addClass('error');
             }
         },
@@ -204,13 +208,13 @@ function isEmailValid() {
             xhr.setRequestHeader(csrfHeader, csrfToken);
         },
         success: function (result) {
-            if (result) {
+            if (result.code == 200) {
                 isAvailableEmail = true;
-                $('#emailMsg').text('사용 가능한 이메일입니다.');
+                $('#emailMsg').text(result.message);
                 $('#emailMsg').removeClass('error').addClass('success');
             } else {
                 isAvailableEmail = false;
-                $('#emailMsg').text('이미 사용 중인 이메일입니다.');
+                $('#emailMsg').text(result.message);
                 $('#emailMsg').removeClass('success').addClass('error');
             }
         },
