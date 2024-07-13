@@ -73,10 +73,10 @@ public class EmailService {
 
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NoSuchMemberException("존재하지 않는 회원입니다."));
 
-        if(redisUtil.existData(email)) {
-            if(Boolean.valueOf(member.getIsEmailVerified())) {    //이미 인증 완료
+        if (redisUtil.existData(email)) {
+            if (Boolean.valueOf(member.getIsEmailVerified())) {    //이미 인증 완료
                 return "email/verification_complete";
-            } else if(redisUtil.getData(email).equals(uuid)) {    //처음 성공
+            } else if (redisUtil.getData(email).equals(uuid)) {    //처음 성공
                 updateEmailVerified(email);
                 return "email/verification_success";
             } else {    //uuid 일치X
@@ -141,9 +141,9 @@ public class EmailService {
     /**
      * 임시 비밀번호 생성
      */
-    private String getTempPassword(){
-        char[] charSet = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
-                'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
+    private String getTempPassword() {
+        char[] charSet = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
+                'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
 
         String password = "";
 
@@ -154,5 +154,30 @@ public class EmailService {
             password += charSet[idx];
         }
         return password;
+    }
+
+
+    /**
+     * 관리자 권환 부여 완료 이메일 전송
+     */
+    public void sendAuthComplete(String to, String name) {
+
+        Context context = new Context();
+        context.setVariable("name", name);
+        context.setVariable("loginUrl", "http://localhost:8080/admin/login");
+
+
+        MimeMessagePreparator preparator = mimeMessage -> {
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "UTF-8");
+
+            String content = templateEngine.process("email/template/admin_auth_complete", context);
+
+            helper.setTo(to);
+            helper.setFrom(from);
+            helper.setSubject("[미음키읔] 관리자 인증이 완료되었습니다.");
+            helper.setText(content, true);
+        };
+
+        javaMailSender.send(preparator);
     }
 }

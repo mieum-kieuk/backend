@@ -105,8 +105,8 @@ $("#authAdminBtn").click(function() {
             beforeSend: function (xhr) {
                 xhr.setRequestHeader(csrfHeader, csrfToken)
             },
-            success: function (data) {
-                if(data.code === 200) {
+            success: function (result) {
+                if(result.code === 200) {
                     document.location.reload();
                 }
             },
@@ -136,20 +136,17 @@ $("#deleteAdminBtn").click(function() {
         $.ajax({
             method: 'DELETE',
             url: '/ajax/admin/admins/delete',
-            async: false,
-            data: {'adminId': adminId},
+            data: {adminId: adminId},
             beforeSend: function (xhr) {
                 xhr.setRequestHeader(csrfHeader, csrfToken)
             },
-            success: function (data) {
-                if(data.code === 200) {
+            success: function (result) {
+                if(result.code === 200) {
                     document.location.reload();
-                } else {
-                    alert(data.message);
                 }
             },
             error: function () {
-                alert('삭제중 오류가 발생했습니다. 다시 시도해 주세요.');
+                alert('삭제 중 오류가 발생했습니다. 다시 시도해 주세요.');
             }
         })
     } else {

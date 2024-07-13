@@ -5,6 +5,7 @@ import archivegarden.shop.dto.admin.AdminSearchForm;
 import archivegarden.shop.entity.Admin;
 import archivegarden.shop.exception.ajax.AjaxNotFoundException;
 import archivegarden.shop.repository.admin.AdminAdminRepository;
+import archivegarden.shop.service.email.EmailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class AdminAdminService {
 
+    private final EmailService emailService;
     private final AdminAdminRepository adminRepository;
 
     /**
@@ -50,5 +52,8 @@ public class AdminAdminService {
 
         //권한 부여
         admin.authorize();
+
+        //관리자 권환 인증 완료 이메일 전송
+        emailService.sendAuthComplete(admin.getEmail(), admin.getName());
     }
 }

@@ -24,7 +24,7 @@ public class AjaxAdminController {
     private final AdminAdminService adminService;
     private final AdminNoticeService noticeService;
     private final AdminDiscountService discountService;
-    private final AdminProductService productService;
+//    private final AdminProductService productService;
     private final AdminProductImageService productImageService;
     private final AdminProductInquiryService inquiryService;
     private final AdminProductInquiryAnswerService answerService;
@@ -35,7 +35,7 @@ public class AjaxAdminController {
     @DeleteMapping("/admins/delete")
     public ResultResponse deleteAdmin(@RequestParam("adminId") Long adminId) {
         adminService.deleteAdmin(adminId);
-        return new ResultResponse(HttpStatus.OK.value(), "삭제가 완료되었습니다.");
+        return new ResultResponse(HttpStatus.OK.value(), "삭제되었습니다.");
     }
 
     //전체 관리자 관리페이지에서 권한 부여
@@ -93,7 +93,7 @@ public class AjaxAdminController {
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/product/delete")
     public ResultResponse deleteProduct(@RequestParam("productId") Long productId) {
-        productService.deleteProduct(productId);
+//        productService.deleteProduct(productId);
         return new ResultResponse(HttpStatus.OK.value(), "삭제가 완료되었습니다.");
     }
 
@@ -101,7 +101,7 @@ public class AjaxAdminController {
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/products/delete")
     public ResultResponse deleteProducts(@RequestBody List<Long> discountIds) {
-        productService.deleteProducts(discountIds);
+//        productService.deleteProducts(discountIds);
         return new ResultResponse(HttpStatus.OK.value(), "삭제가 완료되었습니다.");
     }
 

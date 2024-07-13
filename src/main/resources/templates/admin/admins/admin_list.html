@@ -41,9 +41,9 @@
                         </div>
                         <div class="form_wrap search date">
                             <label>기간검색</label>
-                            <input type="date" id="startDate" name="startDate" th:value="${form.startDate}" readonly>
+                            <input type="text" id="startDate" name="startDate" th:value="${form.startDate}" readonly>
                             <span style="display: flex; align-items: center;">~</span>
-                            <input type="date" id="endDate" name="endDate" th:value="${form.endDate}" readonly>
+                            <input type="text" id="endDate" name="endDate" th:value="${form.endDate}" readonly>
                             <div class="date_option">
                                 <input type="button" onclick="setSearchDate(0);" class="btn1" value="오늘">
                                 <input type="button" onclick="setSearchDate(7);" class="btn1" value="일주일">
@@ -90,40 +90,43 @@
                         </tr>
                         </tbody>
                     </table>
-                    <div class="pagination" th:if="${admins != null} and ${admins.totalPages > 0}">
-                        <ul th:if="${form.keyword == null}">
-                            <li><a href="./admin_list.html" th:href="@{/admin/admins}" class="prev_first">
-                                <span class="material-symbols-outlined navigate">navigate_before</span></a></li>
-                            <li><a href="./admin_list.html" th:href="@{/admin/admins(page=${admins.number})}"
-                                   class="prev" th:classappend="${!admins.hasPrevious()} ? 'disabled'">Prev</a></li>
-                            <li th:each="page : ${#numbers.sequence(1, admins.totalPages)}">
-                                <a href="./admin_list.html" th:href="@{/admin/admins(page=${page})}" th:text="${page}"
-                                   class="page" th:classappend="${page == admins.number + 1} ? 'active'"></a></li>
-                            <li><a href="./admin_list.html" th:href="@{/admin/admins(page=${admins.number} + 2)}"
-                                   class="next" th:classappend="${!admins.hasNext()} ? 'disabled'">Next</a></li>
-                            <li><a href="./admin_list.html" th:href="@{/admin/admins(page=${admins.totalPages})}"
-                                   class="next_last">
-                                <span class="material-symbols-outlined navigate">navigate_next</span></a></li>
-                        </ul>
-                        <ul th:unless="${form.keyword == null}">
-                            <li><a class="prev_first" href="./admin_list.html"
-                                   th:href="@{/admin/admins(searchKey=${form.searchKey}, keyword=${form.keyword}, startDate=${form.startDate}, endDate=${form.endDate})}">
-                                <span class="material-symbols-outlined navigate">navigate_before</span></a></li>
-                            <li><a href="./admin_list.html"
-                                   th:href="@{/admin/admins(searchKey=${form.searchKey}, keyword=${form.keyword}, startDate=${form.startDate}, endDate=${form.endDate}, page=${admins.number})}"
-                                   class="prev" th:classappend="${!admins.hasPrevious()} ? 'disabled'">Prev</a></li>
-                            <li th:each="page : ${#numbers.sequence(1, admins.totalPages)}">
-                                <a href="./admin_list.html"
-                                   th:href="@{/admin/admins(searchKey=${form.searchKey}, keyword=${form.keyword}, startDate=${form.startDate}, endDate=${form.endDate}, page=${page})}"
-                                   th:text="${page}" class="page" th:classappend="${page == admins.number + 1} ? 'active'">1</a></li>
-                            <li><a href="./admin_list.html"
-                                   th:href="@{/admin/admins(searchKey=${form.searchKey}, keyword=${form.keyword}, startDate=${form.startDate}, endDate=${form.endDate}, page=${admins.number} + 2)}"
-                                   class="next" th:classappend="${!admins.hasNext()} ? 'disabled'">Next</a></li>
-                            <li><a href="./admin_list.html"
-                                   th:href="@{/admin/admins(searchKey=${form.searchKey}, keyword=${form.keyword}, startDate=${form.startDate}, endDate=${form.endDate}, page=${admins.totalPages})}"
-                                   class="next_last"><span class="material-symbols-outlined navigate">navigate_next</span></a></li>
-                        </ul>
-                    </div>
+                </div>
+                <div class="pagination" th:if="${admins != null} and ${admins.totalPages > 0}">
+                    <ul th:if="${form.keyword == null}"
+                        th:with="startPage=${(admins.number/5)*5+1},
+                                 endPage=${T(java.lang.Math).min((admins.number/5)*5+5, admins.totalPages)}">
+                        <li><a href="./admin_list.html" th:href="@{/admin/admins}" class="prev_first">
+                            <span class="material-symbols-outlined navigate">navigate_before</span></a></li>
+                        <li><a href="./admin_list.html" th:href="@{/admin/admins(page=${startPage - 1})}"
+                               class="prev" th:classappend="${startPage == 1} ? 'disabled'">Prev</a></li>
+                        <li th:each="page : ${#numbers.sequence(1, admins.totalPages)}">
+                            <a href="./admin_list.html" th:href="@{/admin/admins(page=${page})}" th:text="${page}"
+                               class="page" th:classappend="${page == admins.number + 1} ? 'active'"></a></li>
+                        <li><a href="./admin_list.html" th:href="@{/admin/admins(page=${endPage + 1})}"
+                               class="next" th:classappend="${endPage + 1 > admins.totalPages} ? 'disabled'">Next</a></li>
+                        <li><a href="./admin_list.html" th:href="@{/admin/admins(page=${admins.totalPages})}" class="next_last">
+                            <span class="material-symbols-outlined navigate">navigate_next</span></a></li>
+                    </ul>
+                    <ul th:unless="${form.keyword == null}"
+                        th:with="startPage=${(admins.number/5)*5+1},
+                                 endPage=${T(java.lang.Math).min((admins.number/5)*5+5, admins.totalPages)}">
+                        <li><a class="prev_first" href="./admin_list.html"
+                               th:href="@{/admin/admins(searchKey=${form.searchKey}, keyword=${form.keyword}, startDate=${form.startDate}, endDate=${form.endDate})}">
+                            <span class="material-symbols-outlined navigate">navigate_before</span></a></li>
+                        <li><a href="./admin_list.html"
+                               th:href="@{/admin/admins(searchKey=${form.searchKey}, keyword=${form.keyword}, startDate=${form.startDate}, endDate=${form.endDate}, page=${startPage - 1})}"
+                               class="prev" th:classappend="${startPage == 1} ? 'disabled'">Prev</a></li>
+                        <li th:each="page : ${#numbers.sequence(1, admins.totalPages)}">
+                            <a href="./admin_list.html"
+                               th:href="@{/admin/admins(searchKey=${form.searchKey}, keyword=${form.keyword}, startDate=${form.startDate}, endDate=${form.endDate}, page=${page})}"
+                               th:text="${page}" class="page" th:classappend="${page == admins.number + 1} ? 'active'">1</a></li>
+                        <li><a href="./admin_list.html"
+                               th:href="@{/admin/admins(searchKey=${form.searchKey}, keyword=${form.keyword}, startDate=${form.startDate}, endDate=${form.endDate}, page=${endPage} + 1)}"
+                               class="next" th:classappend="${endPage + 1 > admins.totalPages} ? 'disabled'">Next</a></li>
+                        <li><a href="./admin_list.html"
+                               th:href="@{/admin/admins(searchKey=${form.searchKey}, keyword=${form.keyword}, startDate=${form.startDate}, endDate=${form.endDate}, page=${admins.totalPages})}"
+                               class="next_last"><span class="material-symbols-outlined navigate">navigate_next</span></a></li>
+                    </ul>
                 </div>
             </div>
         </div>

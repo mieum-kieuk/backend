@@ -66,11 +66,11 @@ public class AdminAdminRepositoryImpl implements AdminAdminRepositoryCustom {
     private BooleanExpression keywordLike(String searchKey, String keyword) {
         if (StringUtils.hasText(keyword)) {
             if (searchKey.equals("loginId")) {
-                return admin.loginId.contains(keyword);
+                return admin.loginId.containsIgnoreCase(keyword);
             } else if (searchKey.equals("name")) {
                 return admin.name.containsIgnoreCase(keyword);
             }else if (searchKey.equals("email")) {
-                return admin.email.contains(keyword);
+                return admin.email.containsIgnoreCase(keyword);
             }
         }
 
