@@ -28,19 +28,19 @@ function deleteNotice(noticeId) {
             type: 'DELETE',
             url: '/ajax/admin/notice/delete',
             async: false,
-            data: {'noticeId': noticeId},
+            data: {noticeId: noticeId},
             beforeSend: function (xhr) {
                 xhr.setRequestHeader(csrfHeader, csrfToken)
             },
-            success: function (data) {
-                if (data.code === 200) {
+            success: function (result) {
+                if (result.code === 200) {
                     window.location.href = '/admin/notice';
                 } else {
-                    alert(data.message);
+                    alert(reult.message);
                 }
             },
             error: function () {
-                alert('삭제중 오류가 발생했습니다. 다시 시도해 주세요.');
+                alert('삭제 중 오류가 발생했습니다. 다시 시도해 주세요.');
             }
         })
     } else {

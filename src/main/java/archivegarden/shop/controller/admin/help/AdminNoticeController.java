@@ -77,11 +77,4 @@ public class AdminNoticeController {
         noticeService.editNotice(noticeId, form);
         return "redirect:/admin/notice/{noticeId}";
     }
-
-    //공지사항 삭제
-    @GetMapping("/{noticeId}/delete")
-    public String deleteNotice(@PathVariable("noticeId") Long noticeId) {
-        noticeService.deleteNotice(noticeId);
-        return "redirect:/admin/notice";
-    }
 }

@@ -45,9 +45,8 @@
                         </div>
                     </form>
                     <div class="btn_wrap right">
-                        <button type="button" class="btn1 write_btn" onclick="location.href = './add_notice.html'"
-                                th:onclick="|location.href='@{/admin/notice/add}'|"> 작성
-                        </button>
+                        <button type="button" class="btn1 write_btn" onclick="location.href='./add_notice.html'"
+                                th:onclick="|location.href='@{/admin/notice/add}'|">작성</button>
                     </div>
                     <div class="list_content">
                         <div class="list_head notice">
@@ -80,12 +79,12 @@
                     <li><a href="./notice_list.html" th:href="@{/admin/notice}" class="prev_first">
                             <span class="material-symbols-outlined navigate">navigate_before</span></a></li>
                     <li><a href="./notice_list.html" th:href="@{/admin/notice(page=${startPage}-1)}"
-                           class="prev" id="prevPage" th:classappend="${startPage == 1} ? 'disabled'">Prev</a></li>
+                           class="prev" th:classappend="${startPage == 1} ? 'disabled'">Prev</a></li>
                     <li th:each="page : ${#numbers.sequence(startPage, endPage)}">
                         <a href="./product_list.html" th:href="@{/admin/notice(page=${page})}"
                            class="page" th:classappend="${page == notices.number + 1} ? 'active'" th:text="${page}"></a></li>
                     <li><a href="./notice_list.html" th:href="@{/admin/notice(page=${endPage} + 1)}"
-                           class="next" id="nextPage" th:classappend="${endPage+1 > notices.totalPages} ? 'disabled'">Next</a></li>
+                           class="next" th:classappend="${endPage+1 > notices.totalPages} ? 'disabled'">Next</a></li>
                     <li><a href="./notice_list.html" th:href="@{/admin/notice(page=${notices.totalPages})}" class="next_last">
                             <span class="material-symbols-outlined navigate">navigate_next</span></a></li>
                 </ul>
