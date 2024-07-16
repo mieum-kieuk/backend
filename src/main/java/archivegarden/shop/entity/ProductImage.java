@@ -1,11 +1,14 @@
 package archivegarden.shop.entity;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
 @Table(name = "PRODUCT_IMAGE")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ProductImage extends BaseTimeEntity {
 
     @Id
@@ -19,13 +22,13 @@ public class ProductImage extends BaseTimeEntity {
     @Column(name = "store_image_name", nullable = false)
     private String storeImageName;
 
-    @Column(name = "image_type", nullable = false)
+    @Column(name = "image_type", length = 10, nullable = false)
     @Enumerated(value = EnumType.STRING)
     private ImageType imageType;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
-    private Product product;
+    private Product product;    //다대일 양방향
 
     //==연관관계 메서드==//
     public void setProduct(Product product) {

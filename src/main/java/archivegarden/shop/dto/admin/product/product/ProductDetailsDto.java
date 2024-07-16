@@ -2,7 +2,6 @@ package archivegarden.shop.dto.admin.product.product;
 
 import archivegarden.shop.entity.ImageType;
 import archivegarden.shop.entity.Product;
-import archivegarden.shop.entity.ProductImage;
 import lombok.Getter;
 
 import java.text.DecimalFormat;
@@ -22,32 +21,26 @@ public class ProductDetailsDto {
     private String sizeGuide;
     private String shipping;
     private String notice;
-    private String displayImage;
-    private String hoverImage;
+    private List<String> displayImages = new ArrayList<>();
     private List<String> detailsImages = new ArrayList<>();
 
     public ProductDetailsDto(Product product) {
-        id = product.getId();
-        name = product.getName();
-        categoryName = product.getCategory().getDisplayName();
-        price = new DecimalFormat("###,###원").format(product.getPrice());
-
-        discountName = product.getDiscount() != null ? "[" + product.getDiscount().getDiscountPercent() + "%] " + product.getDiscount().getName() : "할인이 적용되지 않았습니다.";
-        stockQuantity = new DecimalFormat("###,###개").format(product.getStockQuantity());
-        details = product.getDetails();
-        sizeGuide = product.getSizeGuide();
-        shipping = product.getShipping();
-        notice = product.getNotice();
-
-        List<ProductImage> images = product.getImages();
-        for (ProductImage image : images) {
+        this.id = product.getId();
+        this.name = product.getName();
+        this.categoryName = product.getCategory().getDisplayName();
+        this.price = new DecimalFormat("###,###원").format(product.getPrice());
+        this.discountName = product.getDiscount() != null ? "[" + product.getDiscount().getDiscountPercent() + "%] " + product.getDiscount().getName() : "할인이 적용되지 않았습니다.";
+        this.stockQuantity = new DecimalFormat("###,###개").format(product.getStockQuantity());
+        this.details = product.getDetails();
+        this.sizeGuide = product.getSizeGuide();
+        this.shipping = product.getShipping();
+        this.notice = product.getNotice();
+        product.getProductImages().forEach(image -> {
             if (image.getImageType() == ImageType.DISPLAY) {
-                displayImage = image.getStoreImageName();
-            } else if (image.getImageType() == ImageType.HOVER) {
-                hoverImage = image.getStoreImageName();
+                this.displayImages.add(image.getStoreImageName());
             } else {
-                detailsImages.add(image.getStoreImageName());
+                this.detailsImages.add(image.getStoreImageName());
             }
-        }
+        });
     }
 }

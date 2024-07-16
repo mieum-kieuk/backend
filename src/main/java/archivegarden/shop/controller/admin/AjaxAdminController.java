@@ -24,11 +24,11 @@ public class AjaxAdminController {
     private final AdminAdminService adminService;
     private final AdminNoticeService noticeService;
     private final AdminDiscountService discountService;
-//    private final AdminProductService productService;
+    private final AdminProductService productService;
     private final AdminProductImageService productImageService;
     private final AdminProductInquiryService inquiryService;
     private final AdminProductInquiryAnswerService answerService;
-//    private final AdminFileStore fileStore;
+//    private final ProductFileStore fileStore;
 
     //전체 관리자 관리페이지에서 관리자 단건 삭제
     @ResponseStatus(HttpStatus.OK)
@@ -93,15 +93,15 @@ public class AjaxAdminController {
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/product/delete")
     public ResultResponse deleteProduct(@RequestParam("productId") Long productId) {
-//        productService.deleteProduct(productId);
+        productService.deleteProduct(productId);
         return new ResultResponse(HttpStatus.OK.value(), "삭제가 완료되었습니다.");
     }
 
     //상품 여러건 삭제
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/products/delete")
-    public ResultResponse deleteProducts(@RequestBody List<Long> discountIds) {
-//        productService.deleteProducts(discountIds);
+    public ResultResponse deleteProducts(@RequestBody List<Long> productIds) {
+        productService.deleteProducts(productIds);
         return new ResultResponse(HttpStatus.OK.value(), "삭제가 완료되었습니다.");
     }
 

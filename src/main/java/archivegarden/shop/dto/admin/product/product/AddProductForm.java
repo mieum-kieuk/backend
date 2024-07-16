@@ -45,7 +45,7 @@ public class AddProductForm {
     @NotBlank(message = "주의 사항을 입력해 주세요.")
     private String notice;
 
-    private MultipartFile displayImage;
-    private MultipartFile hoverImage;
+    private MultipartFile displayImage1;
+    private MultipartFile displayImage2;
     private List<MultipartFile> detailsImages;
 }

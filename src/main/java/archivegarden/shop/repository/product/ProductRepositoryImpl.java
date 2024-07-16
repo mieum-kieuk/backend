@@ -1,5 +1,6 @@
 package archivegarden.shop.repository.product;
 
+import archivegarden.shop.dto.admin.product.product.AdminProductSearchForm;
 import archivegarden.shop.dto.community.inquiry.ProductPopupDto;
 import archivegarden.shop.dto.community.inquiry.QProductPopupDto;
 import archivegarden.shop.dto.product.ProductSearchCondition;
@@ -42,7 +43,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
         return queryFactory
                 .selectFrom(product)
                 .leftJoin(product.discount, discount).fetchJoin()
-                .leftJoin(product.images, productImage).fetchJoin()
+                .leftJoin(product.productImages, productImage).fetchJoin()
                 .where(product.id.eq(productId))
                 .fetchOne();
     }
@@ -52,7 +53,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
         return queryFactory
                 .selectFrom(product)
                 .leftJoin(product.discount, discount).fetchJoin()
-                .leftJoin(product.images, productImage).fetchJoin()
+                .leftJoin(product.productImages, productImage).fetchJoin()
                 .where(imageTypeDisplay())
                 .orderBy(product.createdAt.desc())
                 .offset(0)
@@ -66,7 +67,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
         List<Product> content = queryFactory
                 .selectFrom(product)
                 .leftJoin(product.discount, discount).fetchJoin()
-                .leftJoin(product.images, productImage).fetchJoin()
+                .leftJoin(product.productImages, productImage).fetchJoin()
                 .where(
                         categoryEq(condition.getCategory()),
                         imageTypeDisplay()
@@ -89,7 +90,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
         List<Product> content = queryFactory
                 .selectFrom(product)
                 .leftJoin(product.discount, discount).fetchJoin()
-                .leftJoin(product.images, productImage).fetchJoin()
+                .leftJoin(product.productImages, productImage).fetchJoin()
                 .where(keywordLike(keyword))
                 .orderBy(orderSoldOutLast())
                 .offset(pageable.getOffset())
@@ -113,7 +114,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                         productImage.storeImageName
                 ))
                 .from(product)
-                .leftJoin(product.images, productImage)
+                .leftJoin(product.productImages, productImage)
                 .on(
                         product.id.eq(productImage.product.id),
                         productImage.imageType.eq(ImageType.DISPLAY))
@@ -130,41 +131,32 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
         return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
     }
 
-    //    @Override
-//    public Page<ProductListDto> findAdminDtoAll(ProductSearchForm form, Pageable pageable) {
-//        List<ProductListDto> content = queryFactory
-//                .select(new QProductListDto(
-//                        product.id,
-//                        product.name,
-//                        product.category,
-//                        product.price,
-//                        product.stockQuantity,
-//                        discount.discountPercent,
-//                        productImage.storeImageName
-//                ))
-//                .from(product)
-//                .leftJoin(product.discount, discount)
-//                .leftJoin(product.images, productImage)
-//                .where(
-//                        adminKeywordLike(form.getSearchKey(), form.getKeyword()),
-//                        adminCategoryEq(form.getCategory()),
-//                        productImage.imageType.eq(ImageType.DISPLAY)
-//                )
-//                .orderBy(product.createdAt.desc())
-//                .offset(pageable.getOffset())
-//                .limit(pageable.getPageSize())
-//                .fetch();
-//
-//        JPAQuery<Long> countQuery = queryFactory
-//                .select(product.count())
-//                .where(
-//                        adminKeywordLike(form.getSearchKey(), form.getKeyword()),
-//                        adminCategoryEq(form.getCategory())
-//                )
-//                .from(product);
-//
-//        return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
-//    }
+    @Override
+    public Page<Product> findAdminDtoAll(AdminProductSearchForm form, Pageable pageable) {
+        List<Product> content = queryFactory
+                .selectFrom(product)
+                .leftJoin(product.discount, discount).fetchJoin()
+                .leftJoin(product.productImages, productImage).fetchJoin()
+                .where(
+                        adminKeywordLike(form.getSearchKey(), form.getKeyword()),
+                        adminCategoryEq(form.getCategory()),
+                        imageTypeDisplay()
+                )
+                .orderBy(product.createdAt.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        JPAQuery<Long> countQuery = queryFactory
+                .select(product.count())
+                .where(
+                        adminKeywordLike(form.getSearchKey(), form.getKeyword()),
+                        adminCategoryEq(form.getCategory())
+                )
+                .from(product);
+
+        return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
+    }
 
     /**
      * OrderSpecifier 리스트 객체 생성
@@ -231,10 +223,10 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
     }
 
     /**
-     * 상품 목록에서 DISPLAY, HOVER 이미지
+     * IMAGE TYPE = DISPLAY
      */
     private BooleanExpression imageTypeDisplay() {
-        return productImage != null ? productImage.imageType.ne(ImageType.DETAILS) : null;
+        return productImage != null ? productImage.imageType.eq(ImageType.DISPLAY) : null;
     }
 
     private BooleanExpression adminKeywordLike(String searchKey, String keyword) {

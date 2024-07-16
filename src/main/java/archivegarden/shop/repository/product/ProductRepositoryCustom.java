@@ -1,5 +1,7 @@
 package archivegarden.shop.repository.product;
 
+import archivegarden.shop.dto.admin.product.product.AdminProductSearchForm;
+import archivegarden.shop.dto.admin.product.product.ProductListDto;
 import archivegarden.shop.dto.community.inquiry.ProductPopupDto;
 import archivegarden.shop.dto.product.ProductSearchCondition;
 import archivegarden.shop.entity.Product;
@@ -21,5 +23,5 @@ public interface ProductRepositoryCustom {
     Page<ProductPopupDto> findDtoAllPopup(String keyword, Pageable pageable);
 
     //==관리자 페이지==//
-//    Page<ProductListDto> findAdminDtoAll(ProductSearchForm form, Pageable pageable);
+    Page<Product> findAdminDtoAll(AdminProductSearchForm form, Pageable pageable);
 }

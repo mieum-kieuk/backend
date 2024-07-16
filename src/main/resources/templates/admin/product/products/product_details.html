@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>상품 상세정보 | 미음키읔</title>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <title>전체 상품관리 | 미음키읔</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,7 +20,7 @@
 </head>
 <body>
 <div class="admin_wrap">
-    <div th:replace="~{/layout/menu :: admin_menu_authenticated}"></div>
+    <div th:replace="~{/layout/menu :: admin_menu}"></div>
     <div id="productDetails" class="details_wrap">
         <div class="content">
             <h2 class="content_tit">상품 상세정보</h2>
@@ -46,19 +48,19 @@
                     </tr>
                     <tr>
                         <th class="input_tit">상품 상세정보</th>
-                        <td id="details" th:text="${product.details}">상품 상세정보</td>
+                        <td id="details" th:text="${product.details}"></td>
                     </tr>
                     <tr>
                         <th class="input_tit">상품 크기</th>
-                        <td id="sizeGuide" th:text="${product.sizeGuide}">상품 크기</td>
+                        <td id="sizeGuide" th:text="${product.sizeGuide}"></td>
                     </tr>
                     <tr>
                         <th class="input_tit">배송 정보</th>
-                        <td id="shipping" th:text="${product.shipping}">배송 정보</td>
+                        <td id="shipping" th:text="${product.shipping}"></td>
                     </tr>
                     <tr>
-                        <th class="input_tit">주의 사항</th>
-                        <td id="notice" th:text="${product.notice}">주의 사항</td>
+                        <th class="input_tit">주의사항</th>
+                        <td id="notice" th:text="${product.notice}"></td>
                     </tr>
                     <tr>
                         <th class="input_tit">
@@ -66,7 +68,7 @@
                         </th>
                         <td>
                             <div class="details_images_container">
-                                <img th:src="|/productImages/${product.displayImage}|">
+                                <img th:src="|/productImages/${product.displayImages[0]}|">
                             </div>
                         </td>
                     </tr>
@@ -75,9 +77,9 @@
                             <div class="input_tit details">섬네일 사진2</div>
                         </th>
                         <td>
-                            <span th:if="${product.hoverImage} == null">첨부파일이 없습니다.</span>
+                            <span th:if="${product.displayImages.size()} == 1">첨부파일이 없습니다.</span>
                             <div class="details_images_container">
-                                <img th:if="${product.hoverImage} != null" th:src="|/productImages/${product.hoverImage}|">
+                                <img th:if="${product.displayImages.size()} == 2" th:src="|/productImages/${product.displayImages[1]}|">
                             </div>
                         </td>
 
@@ -89,22 +91,21 @@
                         <td>
                             <span th:if="${#lists.size(product.detailsImages)} == 0">첨부파일이 없습니다.</span>
                             <div class="details_images_container">
-                                <img th:each="detailImage : ${product.detailsImages}"
-                                     th:src="|/productImages/${detailImage}|">
+                                <img th:each="detailImage : ${product.detailsImages}" th:src="|/productImages/${detailImage}|">
                             </div>
                         </td>
                     </tr>
                 </table>
             </div>
             <div class="input_box_wrap btn">
-                <button class="btn1" onclick="location.href='edit_product.html'"
-                        th:onclick="|location.href='@{/admin/shop/products/{productId}/edit(productId=${product.id})}'|">수정
+                <button class="btn1" onclick="location.href='./edit_product.html'"
+                        th:onclick="|location.href='@{/admin/products/{productId}/edit(productId=${product.id})}'|">수정
                 </button>
-                <button class="btn1" onclick="location.href='product_list.html'"
-                        th:onclick="|deleteOk(${product.id})|">삭제
+                <button class="btn1" onclick="location.href='./product_list.html'"
+                        th:onclick="|deleteProduct(${product.id})|">삭제
                 </button>
-                <button class="btn1" onclick="location.href='product_list.html'"
-                        th:onclick="|location.href='@{/admin/shop/products}'|">목록
+                <button class="btn1" onclick="location.href='./product_list.html'"
+                        th:onclick="|location.href='@{/admin/products}'|">목록
                 </button>
             </div>
         </div>

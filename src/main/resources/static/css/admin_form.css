@@ -318,7 +318,7 @@ input::-webkit-inner-spin-button {
     display: flex;
 }
 
-#detailsImages, #displayImage, #hoverImage, #editDisplayImage1, #editDisplayImage2, #editDetailsImages {
+#detailsImages, #displayImage1, #displayImage2, #editDisplayImage1, #editDisplayImage2, #editDetailsImages {
     width: 100%;
     border-left: none;
     border-right: none;
