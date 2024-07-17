@@ -5,6 +5,7 @@ import archivegarden.shop.dto.admin.AdminSearchForm;
 import archivegarden.shop.dto.admin.admin.QAdminListDto;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.CaseBuilder;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -45,8 +46,16 @@ public class AdminAdminRepositoryImpl implements AdminAdminRepositoryCustom {
                         searchDateBetween(form.getStartDate(), form.getEndDate())
                 )
                 .orderBy(
-                        anonymousFirst(),
-                        admin.createdAt.desc()
+                        new CaseBuilder()
+                                .when(admin.isAuthorized.eq("FALSE")).then(0)
+                                .when(admin.isAuthorized.eq("TRUE")).then(1)
+                                .otherwise(2).asc(),
+                        new CaseBuilder()
+                                .when(admin.isAuthorized.eq("FALSE")).then(admin.createdAt)
+                                .otherwise(LocalDateTime.now()).asc(),
+                        new CaseBuilder()
+                                .when(admin.isAuthorized.eq("TRUE")).then(admin.createdAt)
+                                .otherwise(LocalDateTime.now()).desc()
                 )
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -69,7 +78,7 @@ public class AdminAdminRepositoryImpl implements AdminAdminRepositoryCustom {
                 return admin.loginId.containsIgnoreCase(keyword);
             } else if (searchKey.equals("name")) {
                 return admin.name.containsIgnoreCase(keyword);
-            }else if (searchKey.equals("email")) {
+            } else if (searchKey.equals("email")) {
                 return admin.email.containsIgnoreCase(keyword);
             }
         }
