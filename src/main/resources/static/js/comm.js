@@ -39,7 +39,8 @@ $(document).ready(function() {
                 text: '검색어를 입력해 주세요.',
                 showConfirmButton: true,
                 confirmButtonText: '확인',
-                customClass: mySwal
+                customClass: mySwal,
+                buttonsStyling: false
             });
         }
     });
@@ -52,7 +53,8 @@ $(document).ready(function() {
                 text: '검색어를 입력해 주세요.',
                 showConfirmButton: true,
                 confirmButtonText: '확인',
-                customClass: mySwal
+                customClass: mySwal,
+                buttonsStyling: false
             });
         }
     });
