@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="../../../../css/comm.css">
     <link rel="stylesheet" href="../../../../css/admin_form.css">
     <script defer src="../../../../js/comm.js"></script>
-    <script defer src="../../../../js/adminProduㅔct.js"></script>
+    <script defer src="../../../../js/adminProduct.js"></script>
 </head>
 <body>
 <div class="admin_wrap">
@@ -26,7 +26,7 @@
         <div class="side_menu top">
             <ul>
                 <li class="logo">
-                    <a href="#">
+                    <a href="../../index.html">
                         <img src="../../../../images/meek1.png" alt="로고">
                     </a>
                 </li>
@@ -37,37 +37,37 @@
         <div class="side_menu menu">
             <h2>메뉴</h2>
             <ul class="depth1">
-                <li>
+                <li data-path="products">
                     <a href="#">상품 관리</a>
                     <ul class="depth2">
-                        <li data-path="product_list"><a href="../../../admin/products/product/product_list.html">전체 상품관리</a></li>
-                        <li data-path="inquiry_list"><a href="../../../admin/products/inquiry/inquiry_list.html">상품 문의관리</a></li>
-                        <li data-path="discount_list"><a href="../../../admin/promotion/discount/discount_list.html">전체 할인관리</a></li>
+                        <li data-path="product"><a href="../../../admin/products/product/product_list.html">전체 상품관리</a></li>
+                        <li data-path="inquiry"><a href="../../../admin/products/inquiry/inquiry_list.html">상품 문의관리</a></li>
+                        <li data-path="discount"><a href="../../../admin/promotion/discount/discount_list.html">전체 할인관리</a></li>
                     </ul>
                 </li>
-                <li>
+                <li data-path="orders">
                     <a href="#">주문 관리</a>
                     <ul class="depth2">
-                        <li data-path="order_list"><a href="">전체 주문관리</a></li>
-                        <li data-path="cancel_list"><a href="">취소/교환/반품/환불 관리</a></li>
+                        <li data-path="order"><a href="#">전체 주문관리</a></li>
+                        <li data-path="cancel"><a href="#">취소/교환/반품/환불 관리</a></li>
                     </ul>
                 </li>
-                <li>
+                <li data-path="member">
                     <a href="#">회원 관리</a>
                     <ul class="depth2">
-                        <li data-path="member_list"><a href="../../../admin/member/member_list.html">회원 정보 관리</a></li>
-                        <li data-path="point_list"><a href="../../../admin/member/point_list.html">적립금 관리</a></li>
+                        <li data-path="member"><a href="../../../admin/member/member_list.html">회원 정보 관리</a></li>
+                        <li data-path="point"><a href="../../../admin/member/point_list.html">적립금 관리</a></li>
                     </ul>
                 </li>
-                <li>
+                <li data-path="help">
                     <a href="#">고객 지원</a>
                     <ul class="depth2">
-                        <li data-path="notice_list"><a href="../../../admin/help/notice/notice_list.html">공지사항 관리</a></li>
-                        <li data-path="inquiry_list"><a href="../../../admin/help/inquiry/inquiry_list.html">1:1 문의관리</a></li>
-                        <li data-path="withdrawal_list"><a href="">회원 탈퇴내역</a></li>
+                        <li data-path="notice"><a href="../../../admin/help/notice/notice_list.html">공지사항 관리</a></li>
+                        <li data-path="inquiry"><a href="../../../admin/help/inquiry/inquiry_list.html">1:1 문의관리</a></li>
+                        <li data-path="withdrawal"><a href="#">회원 탈퇴내역</a></li>
                     </ul>
                 </li>
-                <li data-path="admins_list">
+                <li data-path="admins">
                     <a href="../../../admin/admins/admins_list.html">관리자 관리</a>
                 </li>
             </ul>
@@ -101,20 +101,8 @@
                     </div>
                 </div>
                 <div class="input_box_wrap">
-                    <label for="price" class="ess_tit">상품 가격</label>
+                    <label for="price" class="ess_tit">상품 정</label>
                     <input type="number" id="price" name="price" placeholder="숫자를 입력해 주세요.">
-                </div>
-                <div class="input_box_wrap">
-                    <label for="discount">상품 할인</label>
-                    <div class="select_wrap">
-                        <select id="discount" name="discount">
-                            <option value="" selected>상품 할인을 선택해 주세요.</option>
-                            <option value="discount1">할인 혜택 1</option>
-                            <option value="discount2">할인 혜택 2</option>
-                            <option value="discount3">할인 혜택 3</option>
-                        </select>
-                        <span class="material-symbols-outlined">expand_more</span>
-                    </div>
                 </div>
                 <div class="input_box_wrap">
                     <label for="stockQuantity" class="ess_tit">재고</label>
@@ -147,6 +135,9 @@
                     <div class="btn_wrap">
                     <button type="button" class="delete_btn"><span class="material-symbols-outlined">close</span></button>
                     </div>
+                    <div class="filename_container">
+                        <div class="file_name"></div>
+                    </div>
                 </div>
                 <div class="text description"><span>상품 목록에서 보여질 사진입니다.</span></div>
                 <div class="input_box_wrap desc">
@@ -159,6 +150,9 @@
                     </div>
                     <div class="btn_wrap">
                         <button type="button" class="delete_btn"><span class="material-symbols-outlined">close</span></button>
+                    </div>
+                    <div class="filename_container">
+                        <div class="file_name"></div>
                     </div>
                 </div>
                 <div class="text description"><span>상품 목록에서 커서를 올리면 보여질 사진입니다.</span></div>

@@ -67,8 +67,12 @@
                     <div class="item img">섬네일 사진</div>
                     <div class="item title">상품명</div>
                     <div class="item category">카테고리</div>
-                    <div class="item price">정가</div>
-                    <div class="item price">할인가</div>
+                    <div class="item price">가격
+                        <ul>
+                            <li class="item_price">상품 정가</li>
+                            <li class="item_price">상품 판매가</li>
+                        </ul>
+                    </div>
                     <div class="item stock">재고</div>
                 </div>
                 <div class="list product">
@@ -84,8 +88,13 @@
                             <div class="item img"><img id="displayImage1" th:src="|/productImages/${product.displayImage}|" alt="상품이미지"></div>
                             <div class="item title" th:text="${product.name}">상품명</div>
                             <div class="item category" th:text="${product.categoryName}">카테고리</div>
-                            <div class="item price" th:text="${product.price}">정가</div>
-                            <div class="item price" th:text="${product.salesPrice}">할인가</div>
+                            <div class="item price">
+                                <div class="item_price" th:text="${product.price}">
+                                </div>
+                                <div class="item_price" th:text="${product.price}">
+                                </div>
+                            </div>
+
                             <div class="item stock" th:text="${product.stockQuantity}">재고</div>
                         </a>
                     </div>

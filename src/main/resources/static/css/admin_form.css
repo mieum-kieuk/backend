@@ -218,6 +218,9 @@ input::-webkit-inner-spin-button {
     color: #fff;
     background: #000;
 }
+.pagination {
+    margin: 20px 0;
+}
 .material-symbols-outlined {
     font-family: 'Material Symbols Outlined';
     font-weight: 200;
@@ -528,6 +531,9 @@ input::-webkit-inner-spin-button {
 .details_wrap tr {
     border-bottom: 1px solid #eee;
 }
+.details_wrap tr:last-child {
+    border-bottom: none;
+}
 
 .input_tit.details {
     display: block;
@@ -806,12 +812,14 @@ th {
 }
 .admin_wrap .form_wrap.search {
     display: flex;
+    align-items: center;
     gap: 10px;
     border-left: none;
     border-right: none;
     padding: 0;
     width: 100%;
     margin: 0;
+    height: 50px;
 }
 .admin_wrap .form_wrap.search #searchType {
     width: 130px;
@@ -829,6 +837,16 @@ th {
     padding-left: 10px;
     margin-right: 0;
     width: 100px;
+}
+.admin_wrap .search_form .form_wrap > label:first-child {
+    display: flex;
+    align-items: center;
+    color: #222;
+    background: #eee;
+    padding-left: 10px;
+    margin-right: 0;
+    width: 100px;
+    height: 100%;
 }
 .admin_wrap .search_form input, .admin_wrap .search_form select {
     margin: 10px 0;
@@ -917,7 +935,27 @@ th {
 .admin_wrap .cmt_wrap {
     margin-bottom: 0;
 }
-
+/*admin_order*/
+.order .search_form {
+    margin-bottom: 22px;
+}
+.order .search_form .form_wrap .option {
+    display: flex;
+    align-items: center;
+}
+.order .search_form .form_wrap .option label {
+    display: flex;
+    align-items: center;
+    width: auto;
+    font-weight: 400;
+    color: #222;
+    margin-right: 5px;
+    gap: 3px;
+}
+.order .search_form .form_wrap .option input {
+    width: auto;
+    margin-left: 3px;
+}
 /*modal*/
 .modal {
     display: none;

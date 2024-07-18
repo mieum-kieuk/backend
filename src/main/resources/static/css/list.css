@@ -31,7 +31,6 @@
 }
 .list_item{
     display: flex;
-    align-items: center;
     width: 100%;
     border: 1px solid #d7d7d7;
     border-top: none;
@@ -99,8 +98,23 @@
 
 
 /*product_list*/
+.list_head.product .item.price {
+    display: flex;
+    flex-direction: column;
+    padding-top: 5px;
+}
+.list_head.product .item.price > ul{
+    display: flex;
+    width: 100%;
+    border-left: none;
+    border-top: 1px solid #d7d7d7;
+    margin-top: 5px;
+}
+.list_head.product .item.price .item_price {
+    padding: 5px;
+}
 .product .item.img {
-    width: 12%;
+    width: 10%;
 }
 .product .item.img img {
     max-width: 100px;
@@ -114,8 +128,22 @@
 .product .item.title {
     width: 30%;
 }
-.product .item.category, .product .item.price {
+.product .item.category {
     width: 13%;
+}
+.product .item.price {
+    width: 28%;
+    padding: 0;
+}
+.product .item.price .item_price:first-child {
+    border-right: 1px solid #d7d7d7;
+}
+.product .item.price .item_price {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
 }
 
 /*discount_list*/
@@ -153,7 +181,6 @@
 }
 
 /*product_inquiry*/
-
 .inquiry .item.number {
     width: 8%;
     border-left: none;
@@ -170,3 +197,27 @@
 .inquiry .item.answer {
     width: 8%;
 }
+
+/*order_list*/
+.order .item.check {
+    width: 2%;
+}
+.order .item.number, .order .item.orderStatus, .order .item.payment {
+    width: 6%;
+}
+.order .item.product {
+    width: 12%;
+}
+.order .item.date, .order .item.orderNumber {
+    width: 15%;
+}
+.order .item.quantity {
+    width: 4%;
+}
+.order .item.productPrice, .order .item.totalPrice, .order .item.userName, .order .item.recipient {
+    width: 8%;
+}
+.order .item.shippingFee {
+    width: 5%;
+}
+
