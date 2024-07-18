@@ -1,5 +1,6 @@
 package archivegarden.shop.dto.admin.product.product;
 
+import archivegarden.shop.entity.Discount;
 import archivegarden.shop.entity.ImageType;
 import archivegarden.shop.entity.Product;
 import lombok.Getter;
@@ -15,6 +16,7 @@ public class ProductDetailsDto {
     private String name;
     private String categoryName;
     private String price;
+    private String salePrice;
     private String discountName;
     private String stockQuantity;
     private String details;
@@ -29,7 +31,17 @@ public class ProductDetailsDto {
         this.name = product.getName();
         this.categoryName = product.getCategory().getDisplayName();
         this.price = new DecimalFormat("###,###원").format(product.getPrice());
-        this.discountName = product.getDiscount() != null ? "[" + product.getDiscount().getDiscountPercent() + "%] " + product.getDiscount().getName() : "할인이 적용되지 않았습니다.";
+
+        Discount discount = product.getDiscount();
+        if(discount != null) {
+            this.discountName = "[" + product.getDiscount().getDiscountPercent() + "%] " + product.getDiscount().getName();
+            double salePriceDouble = product.getPrice() - (double) product.getPrice() * discount.getDiscountPercent() / 100;
+            this.salePrice = new DecimalFormat("###,###원").format(salePriceDouble);
+        } else {
+            this.discountName = "적용된 할인 혜택이 없습니다";
+            this.salePrice = this.price;
+        }
+
         this.stockQuantity = new DecimalFormat("###,###개").format(product.getStockQuantity());
         this.details = product.getDetails();
         this.sizeGuide = product.getSizeGuide();

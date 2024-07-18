@@ -27,8 +27,6 @@ public class AddProductForm {
     @Positive(message = "유효한 값을 입력해 주세요.")
     private Integer price;
 
-    private Long discountId;
-
     @NotNull(message = "재고를 입력해 주세요.")
     @PositiveOrZero(message = "0 이상의 값을 입력해 주세요.")
     private Integer stockQuantity;

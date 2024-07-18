@@ -4,13 +4,11 @@ import archivegarden.shop.dto.admin.product.product.AddProductForm;
 import archivegarden.shop.dto.admin.product.product.AdminProductSearchForm;
 import archivegarden.shop.dto.admin.product.product.ProductDetailsDto;
 import archivegarden.shop.dto.admin.product.product.ProductListDto;
-import archivegarden.shop.entity.Discount;
 import archivegarden.shop.entity.ImageType;
 import archivegarden.shop.entity.Product;
 import archivegarden.shop.entity.ProductImage;
 import archivegarden.shop.exception.admin.AdminNotFoundException;
 import archivegarden.shop.exception.ajax.AjaxNotFoundException;
-import archivegarden.shop.repository.discount.AdminDiscountRepository;
 import archivegarden.shop.repository.product.ProductRepository;
 import archivegarden.shop.service.upload.ProductFileStore;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +27,6 @@ public class AdminProductService {
 
     private final ProductFileStore fileStore;
     private final ProductRepository productRepository;
-    private final AdminDiscountRepository discountRepository;
 
     /**
      * 상품 저장
@@ -43,20 +40,12 @@ public class AdminProductService {
         ProductImage displayImage2 = !form.getDisplayImage2().isEmpty() ? fileStore.storeFile(form.getDisplayImage2(), ImageType.DISPLAY) : null;
         List<ProductImage> detailsImages = !form.getDetailsImages().isEmpty() ? fileStore.storeFiles(form.getDetailsImages(), ImageType.DETAILS) :  null;
 
-        //Discount 조회
-        Discount discount = null;
-        if(form.getDiscountId() != null) {
-            discount = discountRepository.findById(form.getDiscountId())
-                    .orElseThrow(() -> new AdminNotFoundException("존재하지 않는 할인 혜택입니다."));
-        }
-
         //Product 생성
         Product product = Product.builder()
                 .form(form)
                 .displayImage1(displayImage1)
                 .displayImage2(displayImage2)
                 .detailsImages(detailsImages)
-                .discount(discount)
                 .build();
 
         //Product 저장
@@ -73,7 +62,7 @@ public class AdminProductService {
     @Transactional(readOnly = true)
     public ProductDetailsDto getProduct(Long productId) {
         //Product 조회
-        Product product = productRepository.findByIdWithProductImages(productId).orElseThrow(() -> new AdminNotFoundException("존재하지 않는 상품입니다."));
+        Product product = productRepository.findByIdFetchJoin(productId).orElseThrow(() -> new AdminNotFoundException("존재하지 않는 상품입니다."));
 
         return new ProductDetailsDto(product);
     }

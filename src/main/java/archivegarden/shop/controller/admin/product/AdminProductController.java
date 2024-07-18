@@ -5,7 +5,6 @@ import archivegarden.shop.dto.admin.product.product.AdminProductSearchForm;
 import archivegarden.shop.dto.admin.product.product.ProductDetailsDto;
 import archivegarden.shop.dto.admin.product.product.ProductListDto;
 import archivegarden.shop.entity.Category;
-import archivegarden.shop.service.admin.product.AdminDiscountService;
 import archivegarden.shop.service.admin.product.AdminProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +21,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -30,12 +28,10 @@ import java.util.Map;
 public class AdminProductController {
 
     private final AdminProductService productService;
-    private final AdminDiscountService discountService;
 
     //상품 저장 폼
     @GetMapping("/add")
     public String addProductForm(@ModelAttribute("product") AddProductForm form, Model model) {
-        model.addAttribute("discounts", discountSelectBox());
         model.addAttribute("categories", categorySelectBox());
         return "admin/product/products/add_product";
     }
@@ -47,7 +43,6 @@ public class AdminProductController {
         validateAttachImage(form.getDisplayImage1(), form.getDetailsImages(), bindingResult);
 
         if (bindingResult.hasErrors()) {
-            model.addAttribute("discounts", discountSelectBox());
             model.addAttribute("categories", categorySelectBox());
             return "admin/product/products/add_product";
         }
@@ -79,7 +74,6 @@ public class AdminProductController {
     public String editProductForm(@PathVariable("productId") Long productId, Model model) {
         EditProductForm product = productService.getEditProductForm(productId);
         model.addAttribute("product", product);
-        model.addAttribute("discounts", discountSelectBox());
         model.addAttribute("categories", categorySelectBox());
         return "admin/product/products/edit_product";
     }
@@ -97,7 +91,6 @@ public class AdminProductController {
         }
 
         if(bindingResult.hasErrors()) {
-            model.addAttribute("discounts", discountSelectBox());
             model.addAttribute("categories", categorySelectBox());
             return "admin/product/products/edit_product";
         }
@@ -111,11 +104,6 @@ public class AdminProductController {
     public Resource downloadImage(@PathVariable String filename) throws MalformedURLException {
         return new UrlResource("file:" + fileStore.getFullPath(filename));
     }*/
-
-    //할인 셀렉트 박스
-    public Map<Long, String> discountSelectBox() {
-        return discountService.getNewDiscounts();
-    }
 
     //카테고리 셀렉트 박스
     public List<Category> categorySelectBox() {

@@ -1,7 +1,6 @@
 package archivegarden.shop.repository.product;
 
 import archivegarden.shop.dto.admin.product.product.AdminProductSearchForm;
-import archivegarden.shop.dto.admin.product.product.ProductListDto;
 import archivegarden.shop.dto.community.inquiry.ProductPopupDto;
 import archivegarden.shop.dto.product.ProductSearchCondition;
 import archivegarden.shop.entity.Product;
@@ -9,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ProductRepositoryCustom {
 
@@ -24,4 +24,6 @@ public interface ProductRepositoryCustom {
 
     //==관리자 페이지==//
     Page<Product> findAdminDtoAll(AdminProductSearchForm form, Pageable pageable);
+
+    Optional<Product> findByIdFetchJoin(Long productId);
 }

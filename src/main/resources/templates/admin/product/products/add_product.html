@@ -49,16 +49,6 @@
                     </div>
                     <div class="field-error" th:errors="*{price}"></div>
                     <div class="input_box_wrap">
-                        <label for="discount">상품 할인</label>
-                        <div class="select_wrap">
-                            <select id="discount" th:field="*{discountId}">
-                                <option value="" selected>상품 할인을 선택해 주세요.</option>
-                                <option th:each="discount : ${discounts}" th:value="${discount.key}" th:text="${discount.value}"></option>
-                            </select>
-                            <span class="material-symbols-outlined">expand_more</span>
-                        </div>
-                    </div>
-                    <div class="input_box_wrap">
                         <label for="stockQuantity" class="ess_tit">재고</label>
                         <input type="number" id="stockQuantity" th:field="*{stockQuantity}" placeholder="숫자만 입력해 주세요.">
                     </div>

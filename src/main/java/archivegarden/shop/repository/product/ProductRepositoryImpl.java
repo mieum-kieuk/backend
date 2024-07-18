@@ -22,6 +22,7 @@ import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static archivegarden.shop.entity.QDiscount.discount;
 import static archivegarden.shop.entity.QProduct.product;
@@ -156,6 +157,18 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                 .from(product);
 
         return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
+    }
+
+    @Override
+    public Optional<Product> findByIdFetchJoin(Long productId) {
+        Product result = queryFactory
+                .selectFrom(product)
+                .leftJoin(product.discount, discount).fetchJoin()
+                .leftJoin(product.productImages, productImage).fetchJoin()
+                .where(product.id.eq(productId))
+                .fetchOne();
+
+        return Optional.ofNullable(result);
     }
 
     /**

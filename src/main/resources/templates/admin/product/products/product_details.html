@@ -35,11 +35,15 @@
                         <td id="category" th:text="${product.categoryName}">카테고리</td>
                     </tr>
                     <tr>
-                        <th class="input_tit">상품 가격</th>
-                        <td id="price" th:text="${product.price}"></td>
+                        <th class="input_tit">상품 정가</th>
+                        <td id="productPrice" th:text="${product.price}"></td>
                     </tr>
                     <tr>
-                        <th class="input_tit">할인</th>
+                        <th class="input_tit">상품 판매가</th>
+                        <td id="salePrice" th:text="${product.salePrice}"></td>
+                    </tr>
+                    <tr>
+                        <th class="input_tit">할인 혜택</th>
                         <td id="discountName" th:text="${product.discountName}"></td>
                     </tr>
                     <tr>
