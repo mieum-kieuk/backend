@@ -77,7 +77,8 @@
                 </div>
                 <div class="list product">
                     <div id="noDataMessage" th:if="${products.content.size()} == 0">
-                        <span>등록된 상품이 없습니다.</span>
+                        <span th:if="${form.searchKey} == null">등록된 상품이 없습니다.</span>
+                        <span  th:if="${form.searchKey} != null">검색결과가 없습니다.</span>
                     </div>
                     <div class="list_item" th:each="product, productStat : ${products}">
                         <a href="./product_details.html" th:href="@{/admin/products/{productId}(productId=${product.id})}">
@@ -91,7 +92,7 @@
                             <div class="item price">
                                 <div class="item_price" th:text="${product.price}">
                                 </div>
-                                <div class="item_price" th:text="${product.price}">
+                                <div class="item_price" th:text="${product.salePrice}">
                                 </div>
                             </div>
 
@@ -103,34 +104,37 @@
         </div>
     </div>
     <div class="pagination" th:if="${products.totalPages} > 0">
-        <ul th:if="${form.keyword } == null">
+        <ul th:if="${form.keyword } == null"
+            th:with="startPage = ${(products.number/5)*5+1},
+                     endPage=${T(java.lang.Math).min((products.number/5)*5+5, products.totalPages)}">
             <li><a href="./product_list.html" th:href="@{/admin/products}" class="prev_first">
-                    <span class="material-symbols-outlined">navigate_before</span></a></li>
-            <li><a href="./product_list.html" th:href="@{/admin/products(page=${products.number})}"
-                   class="prev" th:classappend="${!products.hasPrevious()} ? 'disabled'">Prev</a></li>
-            <li th:each="page : ${#numbers.sequence(1, products.totalPages)}">
+                <span class="material-symbols-outlined">navigate_before</span></a></li>
+            <li><a href="./product_list.html" th:href="@{/admin/products(page=${startPage - 1})}"
+                   class="prev" th:classappend="${startPage == 1} ? 'disabled'">Prev</a></li>
+            <li th:each="page : ${#numbers.sequence(startPage, endPage)}">
                 <a href="./product_list.html" th:href="@{/admin/products(page=${page})}"
                    class="page" th:classappend="${page == products.number + 1} ? 'active'" th:text="${page}"></a></li>
-            <li><a href="./product_list.html" th:href="@{/admin/products(page=${products.number + 2})}"
-                   class="next" th:classappend="${!products.hasNext()} ? 'disabled'">Next</a>
-            </li>
+            <li><a href="./product_list.html" th:href="@{/admin/products(page=${endPage + 1})}"
+                   class="next" th:classappend="${endPage+1 > products.totalPages} ? 'disabled'">Next</a></li>
             <li><a href="./product_list.html" th:href="@{/admin/products(page=${products.totalPages})}" class="next_last">
-                    <span class="material-symbols-outlined">navigate_next</span></a></li>
+                <span class="material-symbols-outlined">navigate_next</span></a></li>
         </ul>
-        <ul th:if="${form.keyword != null}">
+        <ul th:if="${form.keyword != null}"
+            th:with="startPage = ${(products.number/5)*5+1},
+                     endPage=${T(java.lang.Math).min((products.number/5)*5+5, products.totalPages)}">
             <li><a class="prev_first" href="./product_list.html"
                    th:href="@{/admin/products(searchKey=${form.searchKey}, keyword=${form.keyword}, category=${form.category})}">
                 <span class="material-symbols-outlined navigate">navigate_before</span></a></li>
             <li><a href="./product_list.html"
-                   th:href="@{/admin/products(searchKey=${form.searchKey}, keyword=${form.keyword}, category=${form.category}, page=${products.number})}"
-                   class="prev" th:classappend="${!products.hasPrevious()} ? 'disabled'">Prev</a></li>
-            <li th:each="page : ${#numbers.sequence(1, products.totalPages)}">
+                   th:href="@{/admin/products(searchKey=${form.searchKey}, keyword=${form.keyword}, category=${form.category}, page=${startPage - 1})}"
+                   class="prev" th:classappend="${startPage == 1} ? 'disabled'">Prev</a></li>
+            <li th:each="page : ${#numbers.sequence(startPage, endPage)}">
                 <a href="./product_list.html"
                    th:href="@{/admin/products(searchKey=${form.searchKey}, keyword=${form.keyword}, category=${form.category}, page=${page})}"
                    th:text="${page}" class="page" th:classappend="${page == products.number + 1} ? 'active'"></a></li>
             <li><a href="./product_list.html"
-                   th:href="@{/admin/products(searchKey=${form.searchKey}, keyword=${form.keyword}, category=${form.category}, page=${products.number} + 2)}"
-                   class="next" th:classappend="${!products.hasNext()} ? 'disabled'">Next</a></li>
+                   th:href="@{/admin/products(searchKey=${form.searchKey}, keyword=${form.keyword}, category=${form.category}, page=${endPage + 1})}"
+                   class="next" th:classappend="${endPage+1 > products.totalPages} ? 'disabled'">Next</a></li>
             <li><a href="./product_list.html"
                    th:href="@{/admin/products(searchKey=${form.searchKey}, keyword=${form.keyword}, category=${form.category}, page=${products.totalPages})}"
                    class="next_last"><span class="material-symbols-outlined navigate">navigate_next</span></a></li>

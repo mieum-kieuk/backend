@@ -36,7 +36,7 @@ public class ProductDetailsDto {
         if(discount != null) {
             this.discountName = "[" + product.getDiscount().getDiscountPercent() + "%] " + product.getDiscount().getName();
             double salePriceDouble = product.getPrice() - (double) product.getPrice() * discount.getDiscountPercent() / 100;
-            this.salePrice = new DecimalFormat("###,###원").format(salePriceDouble);
+            this.salePrice = new DecimalFormat("###,###원").format(Math.round(salePriceDouble));
         } else {
             this.discountName = "적용된 할인 혜택이 없습니다";
             this.salePrice = this.price;

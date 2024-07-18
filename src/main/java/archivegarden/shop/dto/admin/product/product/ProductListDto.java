@@ -6,6 +6,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.text.DecimalFormat;
+
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ProductListDto {
@@ -14,8 +16,8 @@ public class ProductListDto {
     private String name;
     private String categoryName;
     private int stockQuantity;
-    private int price;
-    private int salesPrice;
+    private String price;
+    private String salePrice;
     private String displayImage;
 
     public ProductListDto(Product product) {
@@ -23,13 +25,13 @@ public class ProductListDto {
         this.name = product.getName();
         this.categoryName = product.getCategory().getDisplayName();
         this.stockQuantity = product.getStockQuantity();
-        this.price = product.getPrice();
+        this.price = new DecimalFormat("###.###원").format(product.getPrice());
         Discount discount = product.getDiscount();
         if(discount != null) {
-            int discountPercent = discount.getDiscountPercent();
-            this.salesPrice = this.price - this.price * discountPercent / 100;
+            double salePriceDouble = product.getPrice() - (double) product.getPrice() * discount.getDiscountPercent() / 100;
+            this.salePrice = new DecimalFormat("###.###원").format(Math.round(salePriceDouble));
         } else {
-            this.salesPrice = this.price;
+            this.salePrice = this.price;
         }
         this.displayImage = product.getProductImages().get(0).getStoreImageName();
     }
