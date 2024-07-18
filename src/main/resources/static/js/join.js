@@ -3,11 +3,6 @@ let isEmailChecked = false;
 let isAvailableLoginId = false;
 let isAvailableEmail = false
 
-$(window).on('unload', function() {
-    $('input[type="text"]').val('');
-    $('form input[type="checkbox"]').prop('checked', false);
-});
-
 $(document).ready(function () {
     $('#loginId').on('focusout', function () {
         isLoginIdValid();
@@ -28,7 +23,7 @@ $(document).ready(function () {
         isNameValid();
     });
 
-    $('#detailAddress').focus(function() {
+    $('#detailAddress').click(function() {
         let zipCode = $('#zipCode').val().trim();
         let basicAddress = $('#basicAddress').val().trim();
 
@@ -37,8 +32,12 @@ $(document).ready(function () {
                 html: '주소 검색을 통해 우편번호와 기본주소를<br/>먼저 입력해 주세요.',
                 showConfirmButton: true,
                 confirmButtonText: '확인',
-                customClass: mySwal
+                customClass: mySwal,
+                focusConfirm: true,
+                buttonsStyling: false
             });
+        } else {
+            $('#detailAddress').prop('readonly', false);
         }
     });
 
@@ -469,7 +468,8 @@ function isVerificationValid() {
                     text: result.message,
                     showConfirmButton: true,
                     confirmButtonText: '확인',
-                    customClass: mySwal
+                    customClass: mySwal,
+                    buttonsStyling: false
                 });
                 $('#verificationNo').attr('complete', "false");
             }
@@ -491,7 +491,8 @@ function validateBeforeSubmit() {
             text: '아이디를 입력해 주세요.',
             showConfirmButton: true,
             confirmButtonText: '확인',
-            customClass: mySwal
+            customClass: mySwal,
+            buttonsStyling: false
         });
         return false;
     } else if (!regexLoginId()) {
@@ -499,7 +500,8 @@ function validateBeforeSubmit() {
             text: '5~20자의 영문 소문자, 숫자 조합을 사용해 주세요.',
             showConfirmButton: true,
             confirmButtonText: '확인',
-            customClass: mySwal
+            customClass: mySwal,
+            buttonsStyling: false
         });
         return false;
     } else if (!isLoginIdChecked)  {
@@ -507,7 +509,8 @@ function validateBeforeSubmit() {
             text: '아이디 중복검사를 해주세요.',
             showConfirmButton: true,
             confirmButtonText: '확인',
-            customClass: mySwal
+            customClass: mySwal,
+            buttonsStyling: false
         });
         return false;
     }
@@ -516,7 +519,8 @@ function validateBeforeSubmit() {
             text: '이미 사용중인 아이디입니다.',
             showConfirmButton: true,
             confirmButtonText: '확인',
-            customClass: mySwal
+            customClass: mySwal,
+            buttonsStyling: false
         });
         return false;
     }
@@ -527,7 +531,8 @@ function validateBeforeSubmit() {
             text: '비밀번호를 입력해 주세요.',
             showConfirmButton: true,
             confirmButtonText: '확인',
-            customClass: mySwal
+            customClass: mySwal,
+            buttonsStyling: false
         });
         return false;
     } else if (!regexPassword()) {
@@ -535,7 +540,8 @@ function validateBeforeSubmit() {
             text: '8~16자의 영문 대/소문자, 숫자, 특수문자 조합을 사용해 주세요.',
             showConfirmButton: true,
             confirmButtonText: '확인',
-            customClass: mySwal
+            customClass: mySwal,
+            buttonsStyling: false
         });
         return false;
     }
@@ -546,7 +552,8 @@ function validateBeforeSubmit() {
             text: '비밀번호가 일치하지 않습니다.',
             showConfirmButton: true,
             confirmButtonText: '확인',
-            customClass: mySwal
+            customClass: mySwal,
+            buttonsStyling: false
         });
         return false;
     }
@@ -557,7 +564,8 @@ function validateBeforeSubmit() {
             text: '이름을 입력해 주세요.',
             showConfirmButton: true,
             confirmButtonText: '확인',
-            customClass: mySwal
+            customClass: mySwal,
+            buttonsStyling: false
         });
         return false;
     } else if (!regexName()) {
@@ -565,16 +573,19 @@ function validateBeforeSubmit() {
             html: '2~12자의 한글, 영문 대/소문자를 사용해 주세요.<br>(특수기호, 공백 사용 불가)',
             showConfirmButton: true,
             confirmButtonText: '확인',
-            customClass: mySwal
+            customClass: mySwal,
+            buttonsStyling: false
         });
         return false;
     }
     if (!isAddressEmpty()) {
+        console.log("hi");
         Swal.fire({
             text: '주소를 입력해 주세요.',
             showConfirmButton: true,
             confirmButtonText: '확인',
-            customClass: mySwal
+            customClass: mySwal,
+            buttonsStyling: false
         });
         return false;
     }
@@ -585,7 +596,8 @@ function validateBeforeSubmit() {
             text: '휴대전화번호를 입력해 주세요.',
             showConfirmButton: true,
             confirmButtonText: '확인',
-            customClass: mySwal
+            customClass: mySwal,
+            buttonsStyling: false
         });
         return false;
     } else if (!regexPhone()) {
@@ -593,7 +605,8 @@ function validateBeforeSubmit() {
             text: '휴대전화번호 형식으로 입력해 주세요.',
             showConfirmButton: true,
             confirmButtonText: '확인',
-            customClass: mySwal
+            customClass: mySwal,
+            buttonsStyling: false
         });
         return false;
     }
@@ -604,7 +617,8 @@ function validateBeforeSubmit() {
             text: '휴대전화번호를 인증해 주세요.',
             showConfirmButton: true,
             confirmButtonText: '확인',
-            customClass: mySwal
+            customClass: mySwal,
+            buttonsStyling: false
         });
         return false;
     }
@@ -615,7 +629,8 @@ function validateBeforeSubmit() {
             text: '이메일을 입력해 주세요.',
             showConfirmButton: true,
             confirmButtonText: '확인',
-            customClass: mySwal
+            customClass: mySwal,
+            buttonsStyling: false
         });
         return false;
     } else if (!regexEmail()) {
@@ -623,7 +638,8 @@ function validateBeforeSubmit() {
             text: '이메일 형식으로 입력해 주세요.',
             showConfirmButton: true,
             confirmButtonText: '확인',
-            customClass: mySwal
+            customClass: mySwal,
+            buttonsStyling: false
         });
         return false;
     } else if (!isEmailChecked) {
@@ -631,7 +647,8 @@ function validateBeforeSubmit() {
             text: '이메일 중복검사를 해주세요.',
             showConfirmButton: true,
             confirmButtonText: '확인',
-            customClass: mySwal
+            customClass: mySwal,
+            buttonsStyling: false
         });
         return false;
     } else if (!isAvailableEmail) {
@@ -639,7 +656,8 @@ function validateBeforeSubmit() {
             text: '이미 사용중인 이메일입니다.',
             showConfirmButton: true,
             confirmButtonText: '확인',
-            customClass: mySwal
+            customClass: mySwal,
+            buttonsStyling: false
         });
         return false;
     }
