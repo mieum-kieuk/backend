@@ -299,6 +299,14 @@ function createFileList(deleteFilename) {
     return fileList.files;
 }
 
+let isAvailableName = false;
+
+$(document).ready(function () {
+    $('#name').on('focusout', function () {
+        isNameValid();
+    });
+});
+
 //유효성 검사
 function validateBeforeSubmit() {
     let nameValue = $('#name').val().trim();
@@ -315,14 +323,15 @@ function validateBeforeSubmit() {
     let hoverImageValue = $('#displayImage2')[0].files;
     let detailsImagesValue = $('#detailsImages')[0].files;
 
-
     let nameRegex = /^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9\s]+$/;
-    if (nameValue === '') {
+    if(nameValue === '') {
         alert('상품명을 입력해 주세요.');
         return false;
-    }
-    if (!nameRegex.test(nameValue)) {
+    } else if (!nameRegex.test(nameValue)) {
         alert('상품명은 한글, 영문, 숫자, 공백만 허용됩니다.');
+        return false;
+    } else if(!isAvailableName) {
+        alert('이미 존재하는 상품명입니다.');
         return false;
     }
 
@@ -409,11 +418,45 @@ function validateBeforeSubmit() {
     return true;
 }
 
+let csrfHeader = $("meta[name='_csrf_header']").attr("content");
+let csrfToken = $("meta[name='_csrf']").attr("content");
+
+function isNameValid() {
+    let name = $('#name').val().trim();
+    let nameRegex = /^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9\s]+$/;
+
+    if (name === '') {
+        return;
+    }
+    if (!nameRegex.test(name)) {
+        return;
+    }
+
+    $.ajax({
+        type: 'POST',
+        url: '/ajax/admin/products/check/name',
+        async: false,
+        data: {name: name},
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader(csrfHeader, csrfToken);
+        },
+        success: function (result) {
+            if (result.code == 200) {
+                isAvailableName = true;
+            } else {
+                isAvailableName = false;
+            }
+        },
+        error: function () {
+            isAvailableName = false;
+        }
+    });
+
+    return;
+}
+
 //상품 단건 삭제
 function deleteProduct(productId) {
-
-    let csrfHeader = $("meta[name='_csrf_header']").attr("content");
-    let csrfToken = $("meta[name='_csrf']").attr("content");
 
     if (confirm('삭제하시겠습니까?')) {
         $.ajax({
@@ -445,8 +488,6 @@ $('#deleteProductsBtn').click(function () {
 
     let productIds = [];
     let checkboxes = $('input[name=checkbox]:checked');
-    let csrfHeader = $("meta[name='_csrf_header']").attr("content");
-    let csrfToken = $("meta[name='_csrf']").attr("content");
 
     if (checkboxes.length == 0) {
         alert('삭제할 상품들을 선택해 주세요.');

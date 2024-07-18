@@ -127,6 +127,14 @@ public class AdminProductService {
 //        }
 //    }
 
+
+    /**
+     * Ajax 상품명 중복 검사
+     */
+    public boolean isAvailableName(String name) {
+        return productRepository.findByName(name).isEmpty();
+    }
+
     /**
      * Ajax: 상품 단건 삭제
      *

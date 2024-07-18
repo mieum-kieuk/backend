@@ -89,6 +89,18 @@ public class AjaxAdminController {
         productImageService.deleteImage(productImageId);
     }
 
+    //상품명 중복 검사
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping("/products/check/name")
+    public ResultResponse checkProductName(@RequestParam("name") String name) {
+        boolean isAvailable = productService.isAvailableName(name);
+        if(isAvailable) {
+            return new ResultResponse(HttpStatus.OK.value(), "사용 가능한 상품명입니다.");
+        } else {
+            return new ResultResponse(HttpStatus.BAD_REQUEST.value(), "이미 존재하는 상품명입니다.");
+        }
+    }
+
     //상품 단건 삭제
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/product/delete")
