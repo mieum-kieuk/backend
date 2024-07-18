@@ -114,7 +114,9 @@ textarea:focus {
 button {
   -webkit-appearance: button;
 }
-
+button:focus-visible {
+  outline: none;
+}
 input[type=button], input[type=submit], input[type=reset], input[type=file] {
   -webkit-appearance: button;
 }
@@ -755,6 +757,8 @@ legend {
   font-size: 16px;
   font-weight: 400;
   padding: 40px 20px;
+  line-height: 1.4;
+  box-sizing: border-box;
 }
 .my-swal-container {
   display: flex;

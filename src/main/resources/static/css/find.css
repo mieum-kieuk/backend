@@ -86,7 +86,7 @@
 }
 
 .btn_wrap .btn1.submit_btn {
-    position: absolute;
+    position: relative;
     background: #000;
     color: #fff;
     width: 380px;
@@ -219,6 +219,7 @@
     border-radius: 2px;
 }
 #find_pw .find_wrap .btn_wrap {
+    position: relative;
     display: flex;
     justify-content: center;
     width: 100%;
@@ -231,6 +232,7 @@
     margin-right: 10px;
 }
 #find_pw .find_wrap #sendPwBtn {
+    position: relative;
     width: 100%;
 }
 .field-error {

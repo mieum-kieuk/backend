@@ -39,10 +39,11 @@ $('#find #findPwBtn').click(function () {
                     window.location.href = '/members/find-password/send';
                 } else {
                     Swal.fire({
-                        text: result.message,
+                        html: result.message.replace('\n', '<br>'),
                         showConfirmButton: true,
                         confirmButtonText: '확인',
-                        customClass: mySwal
+                        customClass: mySwal,
+                        buttonsStyling: false
                     });
                 }
             },
@@ -51,7 +52,8 @@ $('#find #findPwBtn').click(function () {
                     html: '비밀번호 찾기 중 오류가 발생했습니다.<br>다시 시도해 주세요.',
                     showConfirmButton: true,
                     confirmButtonText: '확인',
-                    customClass: mySwal
+                    customClass: mySwal,
+                    buttonsStyling: false
                 });
             }
         });
@@ -72,10 +74,11 @@ $('#find #findPwBtn').click(function () {
                     window.location.href = '/members/find-password/send';
                 } else {
                     Swal.fire({
-                        text: result.message,
+                        html: result.message.replace('\n', '<br>'),
                         showConfirmButton: true,
                         confirmButtonText: '확인',
-                        customClass: mySwal
+                        customClass: mySwal,
+                        buttonsStyling: false
                     });
                 }
             },
@@ -84,7 +87,8 @@ $('#find #findPwBtn').click(function () {
                     html: '비밀번호 찾기 중 오류가 발생했습니다.<br>다시 시도해 주세요.',
                     showConfirmButton: true,
                     confirmButtonText: '확인',
-                    customClass: mySwal
+                    customClass: mySwal,
+                    buttonsStyling: false
                 });
             }
         });
@@ -111,10 +115,11 @@ $('#find_pw #sendPwBtn').click(function () {
                 window.location.href = '/members/find-password/complete';
             } else {
                 Swal.fire({
-                    text: result.message,
+                    html: result.message.replace('\n', '<br>'),
                     showConfirmButton: true,
                     confirmButtonText: '확인',
-                    customClass: mySwal
+                    customClass: mySwal,
+                    buttonsStyling: false
                 });
             }
         },
@@ -123,7 +128,8 @@ $('#find_pw #sendPwBtn').click(function () {
                 html: '임시 비밀번호 전송 중 오류가 발생했습니다.<br>다시 시도해 주세요.',
                 showConfirmButton: true,
                 confirmButtonText: '확인',
-                customClass: mySwal
+                customClass: mySwal,
+                buttonsStyling: false
             });
         }
     })
@@ -206,7 +212,8 @@ function validateBeforeSubmit() {
             text: '아이디를 입력해 주세요.',
             showConfirmButton: true,
             confirmButtonText: '확인',
-            customClass: mySwal
+            customClass: mySwal,
+            buttonsStyling: false
         });
         return false;
     }
@@ -216,7 +223,8 @@ function validateBeforeSubmit() {
             text: '5~20자의 영문 소문자, 숫자 조합을 사용해 주세요.',
             showConfirmButton: true,
             confirmButtonText: '확인',
-            customClass: mySwal
+            customClass: mySwal,
+            buttonsStyling: false
         });
         return false;
     }
@@ -226,7 +234,8 @@ function validateBeforeSubmit() {
             text: '이름을 입력해 주세요.',
             showConfirmButton: true,
             confirmButtonText: '확인',
-            customClass: mySwal
+            customClass: mySwal,
+            buttonsStyling: false
         });
         return false;
     }
@@ -235,7 +244,8 @@ function validateBeforeSubmit() {
             html: '2~12자의 한글, 영문 대/소문자를 사용해 주세요.<br>(특수기호, 공백 사용 불가)',
             showConfirmButton: true,
             confirmButtonText: '확인',
-            customClass: mySwal
+            customClass: mySwal,
+            buttonsStyling: false
         });
         return false;
     }
@@ -246,7 +256,8 @@ function validateBeforeSubmit() {
                 text: '이메일을 입력해 주세요.',
                 showConfirmButton: true,
                 confirmButtonText: '확인',
-                customClass: mySwal
+                customClass: mySwal,
+                buttonsStyling: false
             });
             return false;
         }
@@ -256,7 +267,8 @@ function validateBeforeSubmit() {
                 text: '이메일 형식으로 입력해 주세요.',
                 showConfirmButton: true,
                 confirmButtonText: '확인',
-                customClass: mySwal
+                customClass: mySwal,
+                buttonsStyling: false
             });
             return false;
         }
@@ -268,7 +280,8 @@ function validateBeforeSubmit() {
                 text: '휴대전화번호를 입력해 주세요.',
                 showConfirmButton: true,
                 confirmButtonText: '확인',
-                customClass: mySwal
+                customClass: mySwal,
+                buttonsStyling: false
             });
             return false;
         }
@@ -278,13 +291,13 @@ function validateBeforeSubmit() {
                 text: '휴대전화번호 형식으로 입력해 주세요.',
                 showConfirmButton: true,
                 confirmButtonText: '확인',
-                customClass: mySwal
+                customClass: mySwal,
+                buttonsStyling: false
             });
             return false;
         }
     }
 
-    $('.submit_btn').prop('disabled', true);
     $('.loader_wrap').css('display', 'block');
     return true;
 }
