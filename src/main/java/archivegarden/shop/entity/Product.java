@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Getter
 @Entity
@@ -53,13 +53,28 @@ public class Product extends BaseTimeEntity {
     private String notice;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ProductImage> images = new ArrayList<>();
+    private List<ProductImage> productImages = new ArrayList<>();  //다대일 양방향
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "discount_id")
     private Discount discount;  //다대일 단방향
 
     //==비즈니스 로직==//
+    /**
+     * 이미지 한장 추가
+     */
+    private void addProductImage(ProductImage productImage) {
+        this.productImages.add(productImage);
+        productImage.setProduct(this);
+    }
+
+    /**
+     * 이미지 여러장 추가
+     */
+    public void addProductImages(List<ProductImage> productImages) {
+        productImages.stream().forEach(image -> addProductImage(image));
+    }
+
     /**
      * 상품 수정
      */
@@ -82,10 +97,10 @@ public class Product extends BaseTimeEntity {
      */
     public void updateDisplayImage(ProductImage displayImage) {
         //1. 수정의 경우 기존에 존재하던 사진 제거
-        this.images.stream()
-                .filter(image -> image.getImageType() == ImageType.DISPLAY)
-                .collect(Collectors.toList())
-                .forEach(image -> images.remove(image));
+//        this.productImages.stream()
+//                .filter(image -> image.getImageType() == ImageType.DISPLAY)
+//                .collect(Collectors.toList())
+//                .forEach(image -> images.remove(image));
 
 
         addProductImage(displayImage);
@@ -98,19 +113,12 @@ public class Product extends BaseTimeEntity {
      * 2. 삭제 -> 추가: Ajax 통신 통해 삭제 이미 이루어짐 -> 추가
      */
     public void updateHoverImage(ProductImage hoverImage) {
-        this.images.stream()
-                .filter(image -> image.getImageType() == ImageType.HOVER)
-                .collect(Collectors.toList())
-                .forEach(image -> images.remove(image));
+//        this.images.stream()
+//                .filter(image -> image.getImageType() == ImageType.HOVER)
+//                .collect(Collectors.toList())
+//                .forEach(image -> images.remove(image));
 
         addProductImage(hoverImage);
-    }
-
-    /**
-     * 상세 페이지 사진 추가
-     */
-    public void addDetailsImage(List<ProductImage> productImages) {
-        productImages.stream().forEach(image -> addProductImage(image));
     }
 
     /**
@@ -130,17 +138,9 @@ public class Product extends BaseTimeEntity {
         }
     }
 
-    /**
-     * 이미지 추가
-     */
-    private void addProductImage(ProductImage image) {
-        images.add(image);
-        image.setProduct(this);
-    }
-
     //==생성자==//
     @Builder
-    public Product(AddProductForm form, ProductImage displayImage, ProductImage hoverImage, List<ProductImage> detailsImages, Discount discount) {
+    public Product(AddProductForm form, ProductImage displayImage1, ProductImage displayImage2, List<ProductImage> detailsImages, Discount discount) {
         this.name = form.getName();
         this.category = form.getCategory();
         this.price = form.getPrice();
@@ -149,15 +149,9 @@ public class Product extends BaseTimeEntity {
         this.sizeGuide = form.getSizeGuide();
         this.shipping = form.getShipping();
         this.notice = form.getNotice();
-        this.addProductImage(displayImage);
-
-        if(hoverImage != null) {
-            this.addProductImage(hoverImage);
-        }
-
-        for (ProductImage detailsImage : detailsImages) {
-            this.addProductImage(detailsImage);
-        }
         this.discount = discount;
+        this.addProductImage(displayImage1);
+        Optional.ofNullable(displayImage2).ifPresent(this::addProductImage);
+        Optional.ofNullable(detailsImages).ifPresent(this::addProductImages);
     }
 }

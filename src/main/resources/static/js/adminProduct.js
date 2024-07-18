@@ -264,8 +264,9 @@ async function addImagePreview(container, file) {
             let deleteButton = $('<button>').addClass('delete_btn').append($('<span>').addClass('material-symbols-outlined').text('close'));
 
             deleteButton.click(function() {
+                let deleteFilename = $(this).parent().siblings('.file_name').text().split(": ")[1];
                 containerDiv.remove();
-                updateFileCount();
+                updateFileCount(deleteFilename);
             });
 
             filenameContainer.append($('<span>').text('파일명: '), fileName);
@@ -281,17 +282,20 @@ async function addImagePreview(container, file) {
 }
 
 //상세이미지 파일 개수 수정
-function updateFileCount() {
-    $('#detailsImages').prop('files', createFileList());
+function updateFileCount(deleteFilename) {
+    $('#detailsImages').prop('files', createFileList(deleteFilename));
 }
 
 //사용자가 선택하는 순서대로 상세이미지 첨부
-function createFileList() {
+function createFileList(deleteFilename) {
     let fileList = new DataTransfer();
-    $('#previewContainer3 .preview_image_container .file_name').each(function() {
-        let file = new File([], $(this).text());
-        fileList.items.add(file);
-    });
+    let files = $('#detailsImages')[0].files;
+    for (let i = 0; i < files.length; i++) {
+        if(files[i].name != deleteFilename) {
+            fileList.items.add(files[i]);
+        }
+    }
+
     return fileList.files;
 }
 
