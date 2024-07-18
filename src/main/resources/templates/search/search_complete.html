@@ -13,7 +13,9 @@
     <link rel="stylesheet" href="../../static/css/comm.css" th:href="@{/css/comm.css}">
     <link rel="stylesheet" href="../../static/css/product_list.css" th:href="@{/css/product_list.css}"/>
     <link rel="stylesheet" href="../../static/css/search_complete.css" th:href="@{/css/search_complete.css}"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.js"></script>
     <script defer src="../../static/js/comm.js" th:src="@{/js/comm.js}"></script>
 </head>
 <body>
@@ -33,35 +35,36 @@
                 </div>
                 <div class="prd_list_wrap">
                     <ul class="prd_list">
-                        <div th:each="product : ${products}">
-                            <li>
-                                <div class="thumb">
+                        <li th:each="product : ${products}">
+                            <div class="thumb">
+                                <a href="./product_details.html"
+                                   th:href="@{/products/{productId}(productId=${product.id})}">
+                                    <img class="thumb1" th:src="|/productImages/${product.displayImages[0]}|"
+                                         alt="제품 이미지">
+                                    <img class="thumb2" th:if="${product.displayImages.size() == 2}"
+                                         th:src="|/productImages/${product.displayImages[1]}|" alt="제품 이미지">
+                                </a>
+                            </div>
+                            <div class="description">
+                                <div class="prd_name">
                                     <a href="./product_details.html"
-                                       th:href="@{/products/{productId}(productId=${product.id})}">
-                                        <img class="thumb1" th:src="|/productImages/${product.displayImages[0]}|" alt="제품 이미지">
-                                        <img class="thumb2" th:if="${product.displayImages.size() == 2}"
-                                             th:src="|/productImages/${product.displayImages[1]}|" alt="제품 이미지">
-                                    </a>
+                                       th:href="@{/shop/products/{productId}(productId=${product.id})}">
+                                        <span th:text="${product.name}"></span></a>
                                 </div>
-                                <div class="description">
-                                    <div class="prd_name">
-                                        <a href="./product_details.html"
-                                           th:href="@{/shop/products/{productId}(productId=${product.id})}">
-                                            <span th:text="${product.name}"></span></a>
-                                    </div>
-                                    <ul class="prd_price">
-                                    <span class="original_price" th:classappend="${product.isDiscounted} ? 'line_through'" th:text="${product.price}"></span>
-                                        <li th:if="${product.isDiscounted} and !${product.isSoldOut}" class="discount">
-                                            <span class="discount_rate">[[${product.discountPercent}]]%</span>
-                                            <span class="discounted_price" th:text="${product.salePrice}"></span>
-                                        </li>
-                                        <li th:if="${product.isSoldOut}" class="soldout">
-                                            <span class="sold_out">sold out</span>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
-                        </div>
+                                <ul class="prd_price">
+                                    <span class="original_price"
+                                          th:classappend="${product.isDiscounted} ? 'line_through'"
+                                          th:text="${product.price}"></span>
+                                    <li th:if="${product.isDiscounted} and !${product.isSoldOut}" class="discount">
+                                        <span class="discount_rate">[[${product.discountPercent}]]%</span>
+                                        <span class="discounted_price" th:text="${product.salePrice}"></span>
+                                    </li>
+                                    <li th:if="${product.isSoldOut}" class="soldout">
+                                        <span class="sold_out">sold out</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
                     </ul>
                 </div>
                 <div th:if="${products.totalElements} == 0" class="no_data_msg"><p>"[[${keyword}]]"에 해당하는 상품 검색 결과가 없습니다.</p></div>

@@ -1,3 +1,10 @@
+const mySwal = {
+    container: 'my-swal-container',
+    popup: 'my-swal-popup',
+    htmlContainer: 'my-swal-text',
+    confirmButton: 'my-swal-confirm-button',
+    actions: 'my-swal-actions',
+};
 $(function () {
     let now = 0
     const slideCount = $('.main_slide > ul > li').length
@@ -28,7 +35,12 @@ $(document).ready(function() {
 
         if (keyword === '') {
             event.preventDefault();
-            alert('검색어를 입력해 주세요.');
+            Swal.fire({
+                text: '검색어를 입력해 주세요.',
+                showConfirmButton: true,
+                confirmButtonText: '확인',
+                customClass: mySwal
+            });
         }
     });
     $('.search_btn2').click(function(event) {
@@ -36,7 +48,12 @@ $(document).ready(function() {
 
         if (keyword === '') {
             event.preventDefault();
-            alert('검색어를 입력해 주세요.');
+            Swal.fire({
+                text: '검색어를 입력해 주세요.',
+                showConfirmButton: true,
+                confirmButtonText: '확인',
+                customClass: mySwal
+            });
         }
     });
     $('.search button').click(function() {
