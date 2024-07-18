@@ -55,10 +55,10 @@ public class MemberController {
     public String joinComplete(HttpServletRequest request, Model model) {
         //세션에서 memberId(회원아이디) 조회
         HttpSession session = request.getSession(false);
-        Long memberId = (Long) session.getAttribute("joinMemberId");
-        if(memberId == null){
+        if(session == null || session.getAttribute("joinMemberId") == null) {
             return "redirect:/members/join";
         }
+        Long memberId = (Long) session.getAttribute("joinMemberId");
         session.invalidate();
 
         NewMemberInfo newMemberInfo = memberService.joinComplete(memberId);
@@ -86,7 +86,7 @@ public class MemberController {
 
         Long memberId = memberService.checkLoginIdExistsByEmail(name, email);
         if(memberId == null) {
-            return new ResultResponse(HttpStatus.BAD_REQUEST.value(), "가입 시 입력하신 회원 정보가 맞는지 다시 한번 확인해 주세요.");
+            return new ResultResponse(HttpStatus.BAD_REQUEST.value(), "가입 시 입력하신 회원 정보가 맞는지\n다시 한번 확인해 주세요.");
         }
 
         //아이디 찾은 회원 아이디 세션에 저장
@@ -109,7 +109,7 @@ public class MemberController {
 
         Long memberId = memberService.checkIdExistsByPhonenumber(name, phonenumber);
         if(memberId == null) {
-            return new ResultResponse(HttpStatus.BAD_REQUEST.value(), "가입 시 입력하신 회원 정보가 맞는지 다시 한번 확인해 주세요.");
+            return new ResultResponse(HttpStatus.BAD_REQUEST.value(), "가입 시 입력하신 회원 정보가 맞는지\n다시 한번 확인해 주세요.");
         }
 
         //아이디 찾은 회원 아이디 세션에 저장
@@ -123,10 +123,10 @@ public class MemberController {
     public String findIdResult(HttpServletRequest request, Model model) {
         //세션에서 memberId(회원아이디) 조회
         HttpSession session = request.getSession(false);
-        Long memberId = (Long) session.getAttribute("findLoginIdMemberId");
-        if(memberId == null){
+        if(session == null || session.getAttribute("findLoginIdMemberId") == null) {
             return "redirect:/members/find-id";
         }
+        Long memberId = (Long) session.getAttribute("findLoginIdMemberId");
         session.invalidate();
 
         FindIdResultDto findIdResultDto = memberService.findIdComplete(memberId);
@@ -154,7 +154,7 @@ public class MemberController {
 
         String findEmail = memberService.checkPasswordExistsByEmail(loginId, name, email);
         if(findEmail == null) {
-            return new ResultResponse(HttpStatus.BAD_REQUEST.value(), "가입 시 입력하신 회원 정보가 맞는지 다시 한번 확인해 주세요.");
+            return new ResultResponse(HttpStatus.BAD_REQUEST.value(), "가입 시 입력하신 회원 정보가 맞는지\n다시 한번 확인해 주세요.");
         }
 
         //비밀번호 찾은 회원 아이디 세션에 저장
@@ -178,7 +178,7 @@ public class MemberController {
 
         String email = memberService.checkPasswordExistsByPhonenumber(loginId, name, phonenumber);
         if(email == null) {
-            return new ResultResponse(HttpStatus.BAD_REQUEST.value(), "가입 시 입력하신 회원 정보가 맞는지 다시 한번 확인해 주세요.");
+            return new ResultResponse(HttpStatus.BAD_REQUEST.value(), "가입 시 입력하신 회원 정보가 맞는지\n다시 한번 확인해 주세요.");
         }
 
         //비밀번호 찾은 회원 아이디 세션에 저장
@@ -192,10 +192,10 @@ public class MemberController {
     public String verifyEmail(HttpServletRequest request, Model model) {
         //세션에서 이메일 조회
         HttpSession session = request.getSession(false);
-        String email = (String) session.getAttribute("findPasswordEmail");
-        if(email == null) {
+        if(session == null || session.getAttribute("findPasswordEmail") == null) {
             return "redirect:/members/find-password";
         }
+        String email = (String) session.getAttribute("findPasswordEmail");
         session.invalidate();
 
         model.addAttribute("email", email);
@@ -206,10 +206,10 @@ public class MemberController {
     @GetMapping("/find-password/complete")
     public String findPasswordResult(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession(false);
-        String email = (String) session.getAttribute("findPasswordSendEmail");
-        if(email == null) {
+        if(session == null || session.getAttribute("findPasswordSendEmail") == null) {
             return "redirect:/members/find-password";
         }
+        String email = (String) session.getAttribute("findPasswordSendEmail");
         session.invalidate();
 
         model.addAttribute("email", email);
@@ -265,7 +265,7 @@ public class MemberController {
             memberService.sendVerificationNo(phonenumber);
             return new ResultResponse(HttpStatus.OK.value(), "인증번호가 발송되었습니다.\n인증번호를 받지 못하셨다면 휴대전화번호를 확인해 주세요.");
         } catch (Exception e) {
-            return new ResultResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), "인증번호 발송 중 오류가 발생했습니다. 다시 시도해 주세요.");
+            return new ResultResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), "인증번호 발송 중 오류가 발생했습니다.\n다시 시도해 주세요.");
         }
     }
 
