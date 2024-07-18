@@ -1,17 +1,13 @@
+let isLoginIdChecked = false;
+let isEmailChecked = false;
 let isAvailableLoginId = false;
-let isAvailableEmail = false;
+let isAvailableEmail = false
 
 $(window).on('unload', function() {
     $('input[type="text"]').val('');
     $('form input[type="checkbox"]').prop('checked', false);
 });
-const mySwal = {
-    container: 'my-swal-container',
-    popup: 'my-swal-popup',
-    htmlContainer: 'my-swal-text',
-    confirmButton: 'my-swal-confirm-button',
-    actions: 'my-swal-actions',
-};
+
 $(document).ready(function () {
     $('#loginId').on('focusout', function () {
         isLoginIdValid();
@@ -38,12 +34,11 @@ $(document).ready(function () {
 
         if (zipCode === '' || basicAddress === '') {
             Swal.fire({
-                text: '주소 검색을 통해 우편번호와 기본주소를 먼저 입력해 주세요.',
+                html: '주소 검색을 통해 우편번호와 기본주소를<br/>먼저 입력해 주세요.',
                 showConfirmButton: true,
                 confirmButtonText: '확인',
                 customClass: mySwal
             });
-            $('#searchZipCodeBtn').focus();
         }
     });
 
@@ -100,6 +95,7 @@ function isLoginIdValid() {
             xhr.setRequestHeader(csrfHeader, csrfToken);
         },
         success: function (result) {
+            isLoginIdChecked = true;
             if (result.code == 200) {
                 isAvailableLoginId = true;
                 $('#idMsg').text(result.message);
@@ -258,6 +254,7 @@ function isEmailValid() {
             xhr.setRequestHeader(csrfHeader, csrfToken);
         },
         success: function (result) {
+            isEmailChecked = true;
             if (result.code == 200) {
                 isAvailableEmail = true;
                 $('#emailMsg').text(result.message);
@@ -505,7 +502,16 @@ function validateBeforeSubmit() {
             customClass: mySwal
         });
         return false;
-    } else if (!isAvailableLoginId) {
+    } else if (!isLoginIdChecked)  {
+        Swal.fire({
+            text: '아이디 중복검사를 해주세요.',
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal
+        });
+        return false;
+    }
+    else if (!isAvailableLoginId) {
         Swal.fire({
             text: '이미 사용중인 아이디입니다.',
             showConfirmButton: true,
@@ -615,6 +621,14 @@ function validateBeforeSubmit() {
     } else if (!regexEmail()) {
         Swal.fire({
             text: '이메일 형식으로 입력해 주세요.',
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal
+        });
+        return false;
+    } else if (!isEmailChecked) {
+        Swal.fire({
+            text: '이메일 중복검사를 해주세요.',
             showConfirmButton: true,
             confirmButtonText: '확인',
             customClass: mySwal

@@ -434,6 +434,6 @@
 .admin_member .field-error {
   margin-top: -15px;
 }
-.field-error {
+#join .input_box_wrap .field-error {
   margin-top: -15px;
 }
