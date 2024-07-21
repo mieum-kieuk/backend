@@ -135,6 +135,9 @@
     width: 28%;
     padding: 0;
 }
+.product .item.discount {
+    width: 10%;
+}
 .product .item.price .item_price:first-child {
     border-right: 1px solid #d7d7d7;
 }
@@ -155,6 +158,9 @@
 }
 .discount .item.title {
     width: 22%;
+}
+.discount .item.type {
+    width: 10%;
 }
 .discount .item.date {
     width: 30%;
