@@ -1,9 +1,6 @@
 package archivegarden.shop.controller.admin.product;
 
-import archivegarden.shop.dto.admin.product.product.AddProductForm;
-import archivegarden.shop.dto.admin.product.product.AdminProductSearchForm;
-import archivegarden.shop.dto.admin.product.product.ProductDetailsDto;
-import archivegarden.shop.dto.admin.product.product.ProductListDto;
+import archivegarden.shop.dto.admin.product.product.*;
 import archivegarden.shop.entity.Category;
 import archivegarden.shop.service.admin.product.AdminProductService;
 import jakarta.validation.Valid;
@@ -69,7 +66,7 @@ public class AdminProductController {
         return "admin/product/products/product_list";
     }
 
-/*    //상품 수정 폼
+   //상품 수정 폼
     @GetMapping("/{productId}/edit")
     public String editProductForm(@PathVariable("productId") Long productId, Model model) {
         EditProductForm product = productService.getEditProductForm(productId);
@@ -77,7 +74,7 @@ public class AdminProductController {
         model.addAttribute("categories", categorySelectBox());
         return "admin/product/products/edit_product";
     }
-
+/*
     @PostMapping("/{productId}/edit")
     public String editProduct(@PathVariable("productId") Long productId, @Valid @ModelAttribute("product") EditProductForm form, BindingResult bindingResult, Model model) throws IOException {
         //섬네일 사진1 검증

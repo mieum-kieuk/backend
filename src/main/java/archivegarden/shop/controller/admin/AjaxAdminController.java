@@ -76,18 +76,18 @@ public class AjaxAdminController {
 //        return new UrlResource("file:" + fileStore.getFullPath(filename));
 //    }
 
-    //상품 수정 폼에서 페이지 로딩시 첨부된 이미지 조회
-    @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/productImages/{productId}")
-    public List<ProductImageDto> getProductImages(@PathVariable("productId") Long productId) {
-        return productImageService.findProductImages(productId);
-    }
+//    //상품 수정 폼에서 페이지 로딩시 첨부된 이미지 조회
+//    @ResponseStatus(HttpStatus.OK)
+//    @GetMapping("/productImages/{productId}")
+//    public List<ProductImageDto> getProductImages(@PathVariable("productId") Long productId) {
+//        return productImageService.findProductImages(productId);
+//    }
 
-    //상품 수정 폼에서 이미지 단건 삭제
-    @PostMapping("/productImages/{productImageId}/delete")
-    public void deleteImage(@PathVariable("productImageId") Long productImageId) {
-        productImageService.deleteImage(productImageId);
-    }
+//    //상품 수정 폼에서 이미지 단건 삭제
+//    @PostMapping("/productImages/{productImageId}/delete")
+//    public void deleteImage(@PathVariable("productImageId") Long productImageId) {
+//        productImageService.deleteImage(productImageId);
+//    }
 
     //상품명 중복 검사
     @ResponseStatus(HttpStatus.OK)

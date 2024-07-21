@@ -1,6 +1,7 @@
-package archivegarden.shop.dto.admin.shop.product;
+package archivegarden.shop.dto.admin.product.product;
 
 import archivegarden.shop.entity.Category;
+import archivegarden.shop.entity.ImageType;
 import archivegarden.shop.entity.Product;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -29,8 +30,6 @@ public class EditProductForm {
     @Positive(message = "유효한 값을 입력해 주세요.")
     private Integer price;
 
-    private Long discountId;
-
     @NotNull(message = "재고를 입력해 주세요.")
     @PositiveOrZero(message = "0 이상의 값을 입력해 주세요.")
     private Integer stockQuantity;
@@ -47,21 +46,26 @@ public class EditProductForm {
     @NotBlank(message = "주의 사항을 입력해 주세요.")
     private String notice;
 
-    private Boolean isDisplayImageChanged;
-    private MultipartFile displayImage;
-    private MultipartFile hoverImage;
-    private List<MultipartFile> detailsImages = new ArrayList<>();
+    private MultipartFile displayImage1;
+    private MultipartFile displayImage2;
+    private List<ProductImageDto> displayImages = new ArrayList<>();
+    private List<ProductImageDto> detailsImages = new ArrayList<>();
 
     public EditProductForm(Product product) {
-        name = product.getName();
-        category = product.getCategory();
-        price = product.getPrice();
-        discountId = product.getDiscount() != null ? product.getDiscount().getId() : null;
-        stockQuantity = product.getStockQuantity();
-        details = product.getDetails();
-        sizeGuide = product.getSizeGuide();
-        shipping = product.getShipping();
-        notice = product.getNotice();
-        isDisplayImageChanged = false;
+        this.name = product.getName();
+        this.category = product.getCategory();
+        this.price = product.getPrice();
+        this.stockQuantity = product.getStockQuantity();
+        this.details = product.getDetails();
+        this.sizeGuide = product.getSizeGuide();
+        this.shipping = product.getShipping();
+        this.notice = product.getNotice();
+        product.getProductImages().forEach(image -> {
+            if (image.getImageType() == ImageType.DISPLAY) {
+                this.displayImages.add(new ProductImageDto(image));
+            } else {
+                this.detailsImages.add(new ProductImageDto(image));
+            }
+        });
     }
 }

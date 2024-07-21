@@ -23,7 +23,7 @@ public interface ProductRepositoryCustom {
     Page<ProductPopupDto> findDtoAllPopup(String keyword, Pageable pageable);
 
     //==관리자 페이지==//
-    Page<Product> findAdminDtoAll(AdminProductSearchForm form, Pageable pageable);
+    Page<Product> findProductAll(AdminProductSearchForm form, Pageable pageable);
 
     Optional<Product> findByIdFetchJoin(Long productId);
 }

@@ -1,9 +1,6 @@
 package archivegarden.shop.service.admin.product;
 
-import archivegarden.shop.dto.admin.product.product.AddProductForm;
-import archivegarden.shop.dto.admin.product.product.AdminProductSearchForm;
-import archivegarden.shop.dto.admin.product.product.ProductDetailsDto;
-import archivegarden.shop.dto.admin.product.product.ProductListDto;
+import archivegarden.shop.dto.admin.product.product.*;
 import archivegarden.shop.entity.ImageType;
 import archivegarden.shop.entity.Product;
 import archivegarden.shop.entity.ProductImage;
@@ -71,22 +68,22 @@ public class AdminProductService {
      * 상품 목록 조회
      */
     public Page<ProductListDto> getProducts(AdminProductSearchForm form, Pageable pageable) {
-        return productRepository.findAdminDtoAll(form, pageable)
+        return productRepository.findProductAll(form, pageable)
                 .map(ProductListDto::new);
     }
 
-//    /**
-//     * 상품 수정 폼 조회
-//     *
-//     * @throws AdminNotFoundException
-//     */
-//    public EditProductForm getEditProductForm(Long productId) {
-//        //Product 조회
-//        Product product = productRepository.findById(productId).orElseThrow(() -> new AdminNotFoundException("존재하지 않는 상품입니다."));
-//
-//        return new EditProductForm(product);
-//    }
-//
+    /**
+     * 상품 수정 폼 조회
+     *
+     * @throws AdminNotFoundException
+     */
+    public EditProductForm getEditProductForm(Long productId) {
+        //Product 조회
+        Product product = productRepository.findById(productId).orElseThrow(() -> new AdminNotFoundException("존재하지 않는 상품입니다."));
+
+        return new EditProductForm(product);
+    }
+
 //    /**
 //     * 상품 수정
 //     *
