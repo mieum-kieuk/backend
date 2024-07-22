@@ -26,7 +26,15 @@ $(document).ready(function() {
             $('tbody input[type="checkbox"]').prop('checked', false);
         }
     });
-
+    $('#displayImage1Btn').on('click', function() {
+        $('#displayImage1').click();
+    });
+    $('#displayImage2Btn').on('click', function() {
+        $('#displayImage2').click();
+    });
+    $('#detailsImagesBtn').on('click', function() {
+        $('#detailsImages').click();
+    });
     //등록, 수정: 섬네일 사진1 첨부
     $('#displayImage1').change(async function() {
         await updatePreviewContainer($(this), 'previewContainer1', '섬네일 사진1');

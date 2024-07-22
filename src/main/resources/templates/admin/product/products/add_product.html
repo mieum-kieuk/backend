@@ -75,7 +75,10 @@
                     <div class="field-error" th:errors="*{notice}"></div>
                     <div class="input_box_wrap desc">
                         <label for="displayImage1" class="ess_tit">섬네일 사진1</label>
-                        <input type="file" id="displayImage1" name="displayImage1">
+                        <input type="file" id="displayImage1" name="displayImage1" class="choose_file">
+                        <div class="file_btn_wrap">
+                            <button type="button" class="btn1 file_btn" id="displayImage1Btn">파일 선택</button>
+                        </div>
                     </div>
                     <div class="field-error exc" th:errors="*{displayImage1}"></div>
                     <div id="previewContainer1" class="preview_container">
@@ -92,7 +95,10 @@
                     <div class="text description"><span>상품 목록에서 보여질 사진입니다.</span></div>
                     <div class="input_box_wrap desc">
                         <label for="displayImage2">섬네일 사진2</label>
-                        <input type="file" id="displayImage2" th:field="*{displayImage2}">
+                        <input type="file" id="displayImage2" th:field="*{displayImage2}" class="choose_file">
+                        <div class="file_btn_wrap">
+                            <button type="button" class="btn1 file_btn" id="displayImage2Btn">파일 선택</button>
+                        </div>
                     </div>
                     <div id="previewContainer2" class="preview_container">
                         <div class="preview_images">
@@ -105,7 +111,10 @@
                     <div class="text description"><span>상품 목록에서 커서를 올리면 보여질 사진입니다.</span></div>
                     <div class="input_box_wrap desc">
                         <label for="detailsImages">상세 페이지 사진</label>
-                        <input type="file" multiple="multiple" id="detailsImages" th:field="*{detailsImages}">
+                        <input type="file" multiple="multiple" id="detailsImages" th:field="*{detailsImages}" class="choose_file">
+                        <div class="file_btn_wrap">
+                            <button type="button" class="btn1 file_btn" id="detailsImagesBtn">파일 선택</button>
+                        </div>
                     </div>
                     <div class="field-error exc" th:errors="*{detailsImages}"></div>
                     <div id="previewContainer3" class="preview_container column">
