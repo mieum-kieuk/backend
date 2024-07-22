@@ -5,6 +5,15 @@ const mySwal = {
     confirmButton: 'my-swal-confirm-button',
     actions: 'my-swal-actions',
 };
+const mySwalConfirm = {
+    container: 'my-swal-confirm',
+    popup: 'my-swal-popup',
+    htmlContainer: 'my-swal-text',
+    confirmButton: 'my-swal-cf-confirm-button',
+    cancelButton: 'my-swal-cf-cancel-button',
+    actions: 'my-swal-cf-actions',
+    reverseButton: true,
+};
 $(function () {
     let now = 0
     const slideCount = $('.main_slide > ul > li').length

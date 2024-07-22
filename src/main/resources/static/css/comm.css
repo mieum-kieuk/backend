@@ -388,6 +388,7 @@ legend {
 #community .depth2 {
   /*margin-left: 34px;*/
   margin-left: calc(33.333% - 24px);
+  font-size: 14px;
 }
 .depth1_menu:hover{
   color: #999;
@@ -410,6 +411,7 @@ legend {
   max-height: 0;
   overflow: hidden;
   text-align: left;
+  font-size: 14px;
   transition: all 0.3s ease-in-out;
 }
 .gnb_menu .account .depth2 {
@@ -592,6 +594,9 @@ legend {
   border: 1px solid #d7d7d7;
   cursor: default;
   color: #fff;
+}
+.btn3 {
+  cursor: pointer;
 }
 .btn3.disabled {
   cursor: default;
@@ -827,7 +832,7 @@ legend {
   margin: 0;
   height: 50px;
 }
-.swal2-styled.swal2-confirm.my-swal-confirm-button {
+.swal2-confirm.my-swal-confirm-button {
   border: none;
   border-radius: 0 0 10px 10px;
   background-color: white;
@@ -846,6 +851,7 @@ legend {
   font-weight: 400;
   padding: 40px 20px;
   line-height: 1.4;
+  border-bottom: 1px solid #eee;
   box-sizing: border-box;
 }
 .my-swal-container {
@@ -887,4 +893,42 @@ legend {
   border-bottom-left-radius: 10px;
   background-color: #eee;
 }
+/*confirm*/
+.swal2-actions.my-swal-cf-actions {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 0;
+}
+.swal2-actions.my-swal-cf-actions .my-swal-cf-confirm-button:hover, .swal2-actions.my-swal-cf-actions .my-swal-cf-cancel-button:hover {
+  width: 50%;
+  height: 100%;
+  background-color: #eee;
+}
+.my-swal-cf-confirm-button:hover {
+  border-bottom-right-radius: 10px;
+}
+.my-swal-cf-cancel-button:hover {
+  border-bottom-left-radius: 10px;
 
+}
+.swal2-confirm.my-swal-cf-confirm-button, .swal2-cancel.my-swal-cf-cancel-button {
+  border: none;
+  /*border-radius: 0 0 10px 10px;*/
+  background-color: white;
+  color: #222;
+  font-size: 16px;
+  cursor: pointer;
+  margin: 0;
+  padding: 0;
+  width: 50%;
+  height: 50px;
+}
+.swal2-confirm.my-swal-cf-confirm-button {
+  border-bottom-right-radius: 10px;
+}
+.swal2-cancel.my-swal-cf-cancel-button {
+  border-right: 1px solid #eee;
+  border-bottom-left-radius: 10px;
+
+}

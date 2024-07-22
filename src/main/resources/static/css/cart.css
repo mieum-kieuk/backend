@@ -39,7 +39,7 @@
 .cart_content .cart_list li{
     display: flex;
 }
-.cart_item.sold_out {
+.cart_item.sold_out .check .cart_checkbox{
     filter: grayscale(100%);
 }
 .cart_item .cart_display img {
@@ -256,7 +256,6 @@
     line-height: 35px;
     border: 1px solid #999;
     background-color: #fff;
-    cursor: pointer;
 }
 .cart_total_wrap {
     position: relative;
