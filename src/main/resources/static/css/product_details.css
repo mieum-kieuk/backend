@@ -164,7 +164,7 @@
     font-size: 16px;
 }
 .buy_btn .btn1 {
-    display: none;
+    /*display: none;*/
     width: 49%;
     height: 40px;
 }
@@ -214,6 +214,7 @@
     align-items: center;
     line-height: 25px;
     font-size: 16px;
+    width: 100%;
 }
 .prd_info_tab .prd_info_list li .expand_icon {
     position: absolute;

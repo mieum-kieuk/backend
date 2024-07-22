@@ -33,6 +33,7 @@ $(document).ready(function () {
         }
     }
     setProductState();
+    $('.display_img:first-child').addClass('selected');
 
     $('.display_img').click(function () {
         $('.display_img.selected').removeClass('selected');
@@ -157,8 +158,8 @@ function toggleContent(content) {
     }
 }
 
-let csrfToken = $("meta[name='_csrf']").attr("content");
-let csrfHeader = $("meta[name='_csrf_header']").attr("content");
+// let csrfToken = $("meta[name='_csrf']").attr("content");
+// let csrfHeader = $("meta[name='_csrf_header']").attr("content");
 
 //장바구니 담기
 $('#CartBtn').click(function () {
@@ -176,14 +177,26 @@ $('#CartBtn').click(function () {
             xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
         },
         success: function (result) {
-            alert(result.message);
+            Swal.fire({
+                html: result.message.replace('\n', '<br>'),
+                showConfirmButton: true,
+                confirmButtonText: '확인',
+                customClass: mySwal,
+                buttonsStyling: false
+            });
         },
         error: function(xhr) {
             console.log(xhr.status);
             if(xhr.status == 401) {
                 window.location.href = '/login';
             } else {
-                alert("장바구니에 삼품을 담는 중 오류가 발생했습니다.\n다시 시도해 주세요.");
+                Swal.fire({
+                    html: '장바구니에 삼품을 담는 중 오류가 발생했습니다.<br>다시 시도해 주세요.',
+                    showConfirmButton: true,
+                    confirmButtonText: '확인',
+                    customClass: mySwal,
+                    buttonsStyling: false
+                });
             }
         }
     })
