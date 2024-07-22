@@ -49,14 +49,6 @@ public class CartController {
         cartService.decreaseCount(productId, loginMember);
     }
 
-    @ResponseBody
-    @PostMapping("/api/cart/add")
-    public String addCart(@CurrentUser Member loginMember,
-                          @RequestParam(name = "productId") Long productId,
-                          @RequestParam(name = "count") int count) {
-        return cartService.addCart(count, loginMember.getId(), productId);
-    }
-
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("#loginMember.loginId == principal.username")
     @PostMapping("/api/cart/{productId}/delete")

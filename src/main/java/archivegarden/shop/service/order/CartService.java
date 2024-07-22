@@ -1,18 +1,20 @@
 package archivegarden.shop.service.order;
 
+import archivegarden.shop.dto.ResultResponse;
 import archivegarden.shop.dto.order.CartCheckoutListDto;
 import archivegarden.shop.dto.order.CartListDto;
 import archivegarden.shop.entity.Cart;
 import archivegarden.shop.entity.Member;
 import archivegarden.shop.entity.Product;
 import archivegarden.shop.exception.NoSuchProductException;
-import archivegarden.shop.exception.ajax.NoSuchMemberAjaxException;
+import archivegarden.shop.exception.ajax.AjaxNotFoundException;
 import archivegarden.shop.exception.ajax.NoSuchProductAjaxException;
 import archivegarden.shop.exception.ajax.NotEnoughStockAjaxException;
 import archivegarden.shop.repository.member.MemberRepository;
 import archivegarden.shop.repository.order.CartRepository;
 import archivegarden.shop.repository.product.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,20 +44,19 @@ public class CartService {
     /**
      * 장바구니에 상품 추가
      *
-     * @throws NoSuchMemberAjaxException
-     * @throws NoSuchProductAjaxException
+     * @throws AjaxNotFoundException
      */
-    public String addCart(int count, Long memberId, Long productId) {
+    public ResultResponse addCart(int count, Long memberId, Long productId) {
         //Member, Product 엔티티 조회
-        Member member = memberRepository.findById(memberId).orElseThrow(() -> new NoSuchMemberAjaxException("존재하지 않는 회원입니다."));
-        Product product = productRepository.findById(productId).orElseThrow(() -> new NoSuchProductAjaxException("존재하지 않는 상품입니다.."));
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new AjaxNotFoundException("존재하지 않는 회원입니다."));
+        Product product = productRepository.findById(productId).orElseThrow(() -> new AjaxNotFoundException("존재하지 않는 상품입니다.."));
 
         //카트에 담겨있는 상품인지 확인
         Cart cart = cartRepository.findByMemberAndProduct(member, product);
 
         //재고 확인
         if(product.getStockQuantity() < count) {
-            return "재고가 부족합니다.";
+            return new ResultResponse(HttpStatus.BAD_REQUEST.value(), "재고가 부족합니다.");
         }
 
         if(cart == null) {
@@ -68,12 +69,11 @@ public class CartService {
 
             //Cart 저장
             cartRepository.save(cart);
-
-            return "장바구니에 상품을 담았습니다.";
+            return new ResultResponse(HttpStatus.OK.value(), "장바구니에 상품을 담았습니다.");
         } else {
            //수량 증가
             cart.addCount(count);
-            return "장바구니에 상품을 담았습니다.\n이미 담은 상품의 수량을 추가했습니다.";
+            return new ResultResponse(HttpStatus.OK.value(), "장바구니에 상품을 담았습니다.\n이미 담은 상품의 수량을 추가했습니다.");
         }
     }
 
