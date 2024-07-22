@@ -1,6 +1,8 @@
 package archivegarden.shop.controller.admin.product;
 
 import archivegarden.shop.dto.admin.product.product.*;
+import archivegarden.shop.dto.community.inquiry.PopupProductSearchCondition;
+import archivegarden.shop.dto.community.inquiry.ProductPopupDto;
 import archivegarden.shop.entity.Category;
 import archivegarden.shop.service.admin.product.AdminProductService;
 import jakarta.validation.Valid;

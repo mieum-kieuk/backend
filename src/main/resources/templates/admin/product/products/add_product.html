@@ -77,7 +77,7 @@
                         <label for="displayImage1" class="ess_tit">섬네일 사진1</label>
                         <input type="file" id="displayImage1" name="displayImage1" class="choose_file">
                         <div class="file_btn_wrap">
-                            <button type="button" class="btn1 file_btn" id="displayImage1Btn">파일 선택</button>
+                            <button type="button" class="btn1 file_btn" id="displayImage1Btn">파일 추가</button>
                         </div>
                     </div>
                     <div class="field-error exc" th:errors="*{displayImage1}"></div>
@@ -97,7 +97,7 @@
                         <label for="displayImage2">섬네일 사진2</label>
                         <input type="file" id="displayImage2" th:field="*{displayImage2}" class="choose_file">
                         <div class="file_btn_wrap">
-                            <button type="button" class="btn1 file_btn" id="displayImage2Btn">파일 선택</button>
+                            <button type="button" class="btn1 file_btn" id="displayImage2Btn">파일 추가</button>
                         </div>
                     </div>
                     <div id="previewContainer2" class="preview_container">
@@ -113,23 +113,11 @@
                         <label for="detailsImages">상세 페이지 사진</label>
                         <input type="file" multiple="multiple" id="detailsImages" th:field="*{detailsImages}" class="choose_file">
                         <div class="file_btn_wrap">
-                            <button type="button" class="btn1 file_btn" id="detailsImagesBtn">파일 선택</button>
+                            <button type="button" class="btn1 file_btn" id="detailsImagesBtn">파일 추가</button>
                         </div>
                     </div>
                     <div class="field-error exc" th:errors="*{detailsImages}"></div>
-                    <div id="previewContainer3" class="preview_container column">
-                        <div class="preview_image_container">
-                            <div class="preview_images">
-                                <img src="" alt="" class="preview_image">
-                                <div class="filename_container">
-                                    <span class="file_name"></span>
-                                </div>
-                            </div>
-                            <div class="btn_wrap">
-                                <button type="button" class="delete_btn"><span class="material-symbols-outlined">close</span></button>
-                            </div>
-                        </div>
-                    </div>
+                    <div id="previewContainer3" class="preview_container column"></div>
                     <div class="text description">
                         <ul>
                             <li>
