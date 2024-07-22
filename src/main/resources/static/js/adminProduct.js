@@ -47,7 +47,7 @@ $(document).ready(function() {
 
     //등록, 수정: 상세 페이지 사진 첨부
     $('#detailsImages').change(async function() {
-        await handleDetailsImagesChange(this.files);
+        await handleDetailsImagesChange();
     });
 
     //등록, 수정: X(삭제) 클릭 시 첨부된 이미지 삭제
@@ -103,25 +103,22 @@ async function updatePreviewContainer(input, containerId, thumbnailType) {
     });
 }
 
+const dataTransfer = new DataTransfer();
+
 //등록, 수정: 상세 페이지 사진 유효성 검사 -> 첨부
-async function handleDetailsImagesChange(files) {
+async function handleDetailsImagesChange() {
     let previewContainer = $('#previewContainer3');
-    previewContainer.find('.preview_image_container').remove();
+    let newFileArr = $('#detailsImages')[0].files;
 
-    if (files.length === 0) {
-        previewContainer.css('display', 'none');
-        return;
-    }
-
-    let totalSize = 0;
+    let newFileSize = newFileArr.length;
+    let originalFileSize = dataTransfer.files.length;
     let maxSizePerFile = 3 * 1024 * 1024;
 
     let exceedsMaxSize = false;
-    let exceedsMaxFiles = files.length > 20;
+    let exceedsMaxFiles = originalFileSize + newFileSize > 20;
 
-    for (let i = 0; i < files.length; i++) {
-        let fileSize = files[i].size;
-        totalSize += fileSize;
+    for (let i = 0; i < newFileSize; i++) {
+        let fileSize = newFileArr[i].size;
 
         if (fileSize > maxSizePerFile) {
             exceedsMaxSize = true;
@@ -140,8 +137,17 @@ async function handleDetailsImagesChange(files) {
         return false;
     }
 
-    for (let i = 0; i < files.length; i++) {
-        await addImagePreview(previewContainer, files[i]);
+    if(newFileArr != null && newFileSize > 0){
+        for(let i = 0; i < newFileSize; i++){
+            dataTransfer.items.add(newFileArr[i])
+        }
+        $('#detailsImages')[0].files = dataTransfer.files;
+    }
+
+    console.log($('#detailsImages')[0].files);
+
+    for (let i = 0; i < newFileSize; i++) {
+        await addImagePreview(previewContainer, newFileArr[i]);
     }
 
     previewContainer.css('display', 'flex');
@@ -163,37 +169,17 @@ async function addImagePreview(container, file) {
             deleteButton.click(function() {
                 let deleteFilename = $(this).parent().siblings('.file_name').text().split(": ")[1];
                 containerDiv.remove();
-                updateFileCount(deleteFilename);
             });
 
             filenameContainer.append($('<span>').text('파일명: '), fileName);
             containerDiv.append(previewImages.append(previewImage), fileName, $('<div>').addClass('btn_wrap').append(deleteButton));
             container.append(containerDiv);
 
-            updateFileCount();
             resolve();
         };
 
         reader.readAsDataURL(file);
     });
-}
-
-//상세이미지 파일 개수 수정
-function updateFileCount(deleteFilename) {
-    $('#detailsImages').prop('files', createFileList(deleteFilename));
-}
-
-//사용자가 선택하는 순서대로 상세이미지 첨부
-function createFileList(deleteFilename) {
-    let fileList = new DataTransfer();
-    let files = $('#detailsImages')[0].files;
-    for (let i = 0; i < files.length; i++) {
-        if(files[i].name != deleteFilename) {
-            fileList.items.add(files[i]);
-        }
-    }
-
-    return fileList.files;
 }
 
 let isAvailableName = false;
