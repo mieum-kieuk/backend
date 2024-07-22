@@ -54,7 +54,6 @@ public class NoticeRepositoryImpl implements NoticeRepositoryCustom {
 
     @Override
     public Page<Notice> findAdminNoticeAll(AdminSearchForm form, Pageable pageable) {
-
         List<Notice> content = queryFactory
                 .selectFrom(notice)
                 .where(keywordLike(form.getSearchKey(), form.getKeyword()))

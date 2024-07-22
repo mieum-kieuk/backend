@@ -21,7 +21,7 @@ public class Notice extends BaseTimeEntity {
     private String title;
 
     @Lob
-    @Column(nullable = false)
+    @Column(length = 2000, nullable = false)
     private String content;
 
     @ColumnDefault(value = "0")

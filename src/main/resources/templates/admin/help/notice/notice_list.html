@@ -62,11 +62,9 @@
                                     <div class="item date" th:text="${notice.createdAt}">>작성일</div>
                                 </a>
                             </div>
-                            <div class="list_item">
-                                <div id="noDataMessage" th:if="${notices.content.size()} == 0">
-                                    <span th:if="${form.searchKey} == null">등록된 공지사항이 없습니다.</span>
-                                    <span  th:if="${form.searchKey} != null">검색결과가 없습니다.</span>
-                                </div>
+                            <div id="noDataMessage" th:if="${notices.content.size()} == 0">
+                                <span th:if="${form.searchKey} == null">등록된 공지사항이 없습니다.</span>
+                                <span th:if="${form.searchKey} != null">검색결과가 없습니다.</span>
                             </div>
                         </div>
                     </div>
