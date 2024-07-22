@@ -151,14 +151,19 @@ public class CartService {
     }
 
     /**
-     * 주문서로 넘어가기 전 재고 검사
+     *  재고 확인
+     *
+     *  @throws AjaxNotFoundException
      */
     public void validateStockQuantity(List<Long> productIds, Member loginMember) {
         for (Long productId : productIds) {
+            //Product 조회
             Product product = productRepository.findById(productId).orElseThrow(() -> new AjaxNotFoundException("존재하지 않는 상품입니다."));
+
+            //Cart 조회
             Cart cart = cartRepository.findByMemberAndProduct(loginMember, product);
             if(cart.getCount() > product.getStockQuantity()) {
-                throw new NotEnoughStockAjaxException("[" + product.getName() + "] 재고가 부족합니다.");
+                throw new NotEnoughStockAjaxException("[" + product.getName() + "] 상품의 재고가 부족합니다.");
             }
         }
     }

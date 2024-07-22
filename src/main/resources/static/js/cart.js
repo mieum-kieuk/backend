@@ -245,7 +245,7 @@ function deleteProduct(productId) {
     }).then((result) => {
         if (result.isConfirmed) {
             $.ajax({
-                type: 'POST',
+                type: 'DELETE',
                 url: '/ajax/cart/' + productId + '/delete',
                 beforeSend: function (xhr) {
                     xhr.setRequestHeader(csrfHeader, csrfToken);
@@ -310,7 +310,7 @@ function deleteProducts() {
                 });
 
                 $.ajax({
-                    type: 'POST',
+                    type: 'DELETE',
                     url: '/ajax/cart/delete',
                     contentType: 'application/json',
                     data: JSON.stringify(productIds),
@@ -379,12 +379,13 @@ function deleteSoldOutProducts() {
                 });
 
                 $.ajax({
-                    type: 'POST',
+                    type: 'DELETE',
                     url: '/ajax/cart/delete',
                     contentType: 'application/json',
                     data: JSON.stringify(productIds),
                     beforeSend: function (xhr) {
                         xhr.setRequestHeader(csrfHeader, csrfToken);
+                        xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
                     },
                     success: function (result) {
                         if (result.code == 200) {
@@ -414,7 +415,6 @@ function deleteSoldOutProducts() {
     }
 }
 
-
 async function checkout() {
     let productIds = [];
     let checkboxes = $('.cart_content input[type=checkbox]:checked');
@@ -425,39 +425,28 @@ async function checkout() {
     })
 
     $.ajax({
-        type: 'GET',
-        url: '/api/cart/validate?productIds=' + productIds,
-        dataType: 'json',
+        type: 'POST',
+        url: '/ajax/checkout',
+        contentType: 'application/json',
+        data: JSON.stringify(productIds),
         async: false,
         beforeSend: function (xhr) {
             xhr.setRequestHeader(csrfHeader, csrfToken);
             xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
         },
-        statusCode: {
-            200: function () {
-                window.location.href = '/cart/checkout?productIds=' + productIds.join(',');
-            },
-            400: function (xhr) {
-                Swal.fire({
-                    html: xhr.responseJSON.message.replace('\n', '<br>'),
-                    showConfirmButton: true,
-                    confirmButtonText: '확인',
-                    customClass: mySwal,
-                    buttonsStyling: false
-                });
-                window.location.href = '/cart';
+        success: function (result) {
+            if(result.code == 200) {
+                window.location.href = '/order/checkout'
+            } else {
+                alert(result.message);
             }
         },
-        error: function (error) {
-           if(error.status !== 200 && error.status !== 400) {
-               Swal.fire({
-                   html: '요청 사항 진행 중 문제가 발생했습니다.<br>다시 시도해 주세요.',
-                   showConfirmButton: true,
-                   confirmButtonText: '확인',
-                   customClass: mySwal,
-                   buttonsStyling: false
-               });
-           }
+        error: function (xhr) {
+            if(xhr.responseJSON.code == 400) {
+                alert(xhr.responseJSON.message);
+            } else {
+                alert("요청 사항 진행 중 문제가 발생했습니다.\n다시 시도해 주세요.");
+            }
         }
     })
 }
