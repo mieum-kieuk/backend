@@ -45,13 +45,13 @@
                                        th:id="'checkbox' + ${product.id}" th:checked="${!product.isSoldOut}" th:disabled="${product.isSoldOut}">
                             </div>
                             <div class="item img">
-                                <a th:href="@{/shop/products/{productId}(productId=${product.id})}">
+                                <a th:href="@{/products/{productId}(productId=${product.id})}">
                                     <img th:src="|/productImages/${product.displayImage}|" alt="제품 이미지">
                                 </a>
                             </div>
                             <div class="item info">
                                 <div class="name">
-                                    <a th:href="@{/shop/products/{productId}(productId=${product.id})}"
+                                    <a th:href="@{/products/{productId}(productId=${product.id})}"
                                        th:text="${product.name}">Gzy</a>
                                 </div>
                                 <div class="price">

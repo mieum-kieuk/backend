@@ -31,11 +31,10 @@ public class CartListDto {
         this.name = product.getName();
         this.count = count;
 
-        product.getImages().stream().forEach(image -> {
-            if (image.getImageType() == ImageType.DISPLAY) {
-                this.displayImage = image.getStoreImageName();
-            }
-        });
+        product.getProductImages().stream()
+                .filter(image -> image.getImageType() == ImageType.DISPLAY)
+                .findFirst()
+                .ifPresent(displayImage -> this.displayImage = displayImage.getStoreImageName());
 
         this.price = new DecimalFormat("###,###원").format(product.getPrice());
 

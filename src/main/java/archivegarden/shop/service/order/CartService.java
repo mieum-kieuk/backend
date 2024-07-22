@@ -8,7 +8,6 @@ import archivegarden.shop.entity.Member;
 import archivegarden.shop.entity.Product;
 import archivegarden.shop.exception.NoSuchProductException;
 import archivegarden.shop.exception.ajax.AjaxNotFoundException;
-import archivegarden.shop.exception.ajax.NoSuchProductAjaxException;
 import archivegarden.shop.exception.ajax.NotEnoughStockAjaxException;
 import archivegarden.shop.repository.member.MemberRepository;
 import archivegarden.shop.repository.order.CartRepository;
@@ -72,63 +71,81 @@ public class CartService {
             return new ResultResponse(HttpStatus.OK.value(), "장바구니에 상품을 담았습니다.");
         } else {
            //수량 증가
-            cart.addCount(count);
+            cart.updateCount(count);
             return new ResultResponse(HttpStatus.OK.value(), "장바구니에 상품을 담았습니다.\n이미 담은 상품의 수량을 추가했습니다.");
         }
     }
 
     /**
      * 장바구니에 담긴 상품 수량 1개 증가
+     *
+     * @throws AjaxNotFoundException
      */
-    public void increaseCount(Long productId, Member loginMember) {
-        //Product 엔티티 조회
-        Product product = productRepository.findById(productId).orElseThrow(() -> new NoSuchProductAjaxException("존재하지 않는 상품입니다."));
+    public ResultResponse increaseCount(Long productId, Member loginMember) {
+        //Product 조회
+        Product product = productRepository.findById(productId).orElseThrow(() -> new AjaxNotFoundException("존재하지 않는 상품입니다."));
 
-        //Cart 엔티티 조회
+        //Cart 조회
         Cart cart = cartRepository.findByMemberAndProduct(loginMember, product);
+        if(cart == null) {
+            return new ResultResponse(HttpStatus.BAD_REQUEST.value(), "장바구니에 존재하지 않는 상품입니다.\n다시 시도해 주세요.");
+        }
+
+        if(cart.getCount() + 1 > product.getStockQuantity()) {
+            return new ResultResponse(HttpStatus.BAD_REQUEST.value(), "재고가 부족합니다.");
+        }
 
         //수량 1개 증가
-        cart.addCount(1);
+        cart.updateCount(1);
+
+        return new ResultResponse(HttpStatus.OK.value(), "상품 수량이 성공적으로 증가되었습니다.");
     }
 
     /**
      * 장바구니에 담긴 상품 수량 1개 감소
+     *
+     * @throws AjaxNotFoundException
      */
-    public void decreaseCount(Long productId, Member loginMember) {
-        //Product 엔티티 조회
-        Product product = productRepository.findById(productId).orElseThrow(() -> new NoSuchProductAjaxException("존재하지 않는 상품입니다."));
+    public ResultResponse decreaseCount(Long productId, Member loginMember) {
+        //Product 조회
+        Product product = productRepository.findById(productId).orElseThrow(() -> new AjaxNotFoundException("존재하지 않는 상품입니다."));
 
-        //Cart 엔티티 조회
+        //Cart 조회
         Cart cart = cartRepository.findByMemberAndProduct(loginMember, product);
+        if(cart == null) {
+            return new ResultResponse(HttpStatus.BAD_REQUEST.value(), "장바구니에 존재하지 않는 상품입니다.\n다시 시도해 주세요.");
+        }
 
         //수량 1개 감소
-        cart.addCount(-1);
+        cart.updateCount(-1);
+
+        return new ResultResponse(HttpStatus.OK.value(), "상품 수량이 성공적으로 감소되었습니다.");
     }
 
     /**
-     * 장바구니에 담긴 상품 단 삭제
+     * 장바구니에 담긴 상품 단건 삭제
      *
-     * @throws NoSuchProductAjaxException
+     * @throws AjaxNotFoundException
      */
     public void deleteCart(Long productId, Member loginMember) {
-        //Product 엔티티 조회
-        Product product = productRepository.findById(productId).orElseThrow(() -> new NoSuchProductAjaxException("존재하지 않는 상품입니다."));
+        //Product 조회
+        Product product = productRepository.findById(productId).orElseThrow(() -> new AjaxNotFoundException("존재하지 않는 상품입니다."));
 
-        //Cart 엔티티 삭제
+        //Cart 삭제
         cartRepository.deleteByMemberAndProduct(loginMember, product);
     }
 
     /**
-     * 장바구니에 담긴 상품 여러개 삭제
+     * 장바구니에 담긴 상품 여러건 삭제
      *
-     * @throws NoSuchProductAjaxException
+     * @throws AjaxNotFoundException
      */
     public void deleteCarts(List<Long> productIds, Member loginMember) {
         productIds.stream().forEach(productId -> {
-            //Product 엔티티 조회
-            Product product = productRepository.findById(productId).orElseThrow(() -> new NoSuchProductAjaxException("존재하지 않는 상품입니다."));
+            //Product 조회
+            Product product = productRepository.findById(productId).orElseThrow(() -> new AjaxNotFoundException("존재하지 않는 상품입니다."));
 
-            //Cart 엔티티 삭제
+            //Cart 삭제
             cartRepository.deleteByMemberAndProduct(loginMember, product);
         });
     }
@@ -138,7 +155,7 @@ public class CartService {
      */
     public void validateStockQuantity(List<Long> productIds, Member loginMember) {
         for (Long productId : productIds) {
-            Product product = productRepository.findById(productId).orElseThrow(() -> new NoSuchProductAjaxException("존재하지 않는 상품입니다."));
+            Product product = productRepository.findById(productId).orElseThrow(() -> new AjaxNotFoundException("존재하지 않는 상품입니다."));
             Cart cart = cartRepository.findByMemberAndProduct(loginMember, product);
             if(cart.getCount() > product.getStockQuantity()) {
                 throw new NotEnoughStockAjaxException("[" + product.getName() + "] 재고가 부족합니다.");

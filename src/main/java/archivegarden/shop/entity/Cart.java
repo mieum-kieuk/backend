@@ -29,7 +29,7 @@ public class Cart {
     private Product product;    //다대일 단방향
 
     //==비즈니스 로직==//
-    public void addCount(int count) {
+    public void updateCount(int count) {
         this.count += count;
     }
 

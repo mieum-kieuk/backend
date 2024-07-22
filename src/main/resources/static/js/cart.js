@@ -132,6 +132,7 @@ function addCommas(num) {
 let csrfToken = $("meta[name='_csrf']").attr("content");
 let csrfHeader = $("meta[name='_csrf_header']").attr("content");
 
+//상품 개수 감소
 function decreaseCount(productId) {
     let decreaseBtn = $('#decreaseBtn' + productId);
     let input = decreaseBtn.siblings('.quant_input');
@@ -141,20 +142,24 @@ function decreaseCount(productId) {
     if (!cartItem.hasClass('sold_out') && currentValue > 1) {
         $.ajax({
             type: 'POST',
-            url: '/api/cart/decrease',
+            url: '/ajax/cart/decrease',
             beforeSend: function (xhr) {
                 xhr.setRequestHeader(csrfHeader, csrfToken);
             },
             data: {productId: productId},
-            success: function () {
-                input.val(currentValue - 1);
-                if (currentValue === 2) {
-                    decreaseBtn.addClass('disabled');
+            success: function (result) {
+                if(result.code == 200) {
+                    input.val(currentValue - 1);
+                    if (currentValue === 2) {
+                        decreaseBtn.addClass('disabled');
+                    }
+                    updateTotalPrice();
+                } else {
+                    alert(result.message);
                 }
-                updateTotalPrice();
             },
             error: function () {
-                alert('수량 변경 중에 문제가 발생했습니다.\n다시 시도해주세요.');
+                alert('수량 변경 중 문제가 발생했습니다.\n다시 시도해주세요.');
             }
         })
     } else {
@@ -162,6 +167,7 @@ function decreaseCount(productId) {
     }
 }
 
+//상품 개수 증가
 function increaseCount(productId) {
     let increaseBtn = $('#increaseBtn' + productId);
     let input = increaseBtn.siblings('.quant_input');
@@ -172,20 +178,25 @@ function increaseCount(productId) {
     if (!cartItem.hasClass('sold_out')) {
         $.ajax({
             type: 'POST',
-            url: '/api/cart/increase',
+            url: '/ajax/cart/increase',
             beforeSend: function (xhr) {
                 xhr.setRequestHeader(csrfHeader, csrfToken);
+                xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
             },
             data: {productId: productId},
-            success: function () {
-                input.val(currentValue + 1);
-                if (currentValue === 1) {
-                    decreaseBtn.removeClass('disabled');
+            success: function (result) {
+                if(result.code == 200) {
+                    input.val(currentValue + 1);
+                    if (currentValue === 1) {
+                        decreaseBtn.removeClass('disabled');
+                    }
+                    updateTotalPrice();
+                } else {
+                    alert(result.message);
                 }
-                updateTotalPrice();
             },
             error: function () {
-                alert('수량 변경 중에 문제가 발생했습니다.\n다시 시도해주세요.');
+                alert('수량 변경 중 문제가 발생했습니다.\n다시 시도해주세요.');
             }
         })
     } else {
@@ -193,29 +204,34 @@ function increaseCount(productId) {
     }
 }
 
+//상품 단건 삭제
 function deleteProduct(productId) {
-
-    if (!confirm('상품을 삭제하시겠습니까?')) {
+    if (!confirm('삭제하시겠습니까?')) {
         return false;
     } else {
         $.ajax({
             type: 'POST',
-            url: '/api/cart/' + productId + '/delete',
+            url: '/ajax/cart/' + productId + '/delete',
             beforeSend: function (xhr) {
                 xhr.setRequestHeader(csrfHeader, csrfToken);
+                xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
             },
-            success: function () {
-                window.location.href = '/cart';
+            success: function (result) {
+                if(result.code == 200) {
+                    location.reload();
+                } else {
+                    alert(result.message);
+                }
             },
             error: function () {
-                alert('삭제하는 동안 문제가 발생하였습니다.\n다시 시도해주세요.');
+                alert('삭제 중 문제가 발생하였습니다.\n다시 시도해주세요.');
             }
         })
     }
 }
 
+//상품 여러개 삭제
 function deleteProducts() {
-
     let productIds = [];
     let checkboxes = $('.cart_content input[type=checkbox]:checked');
 
@@ -233,25 +249,30 @@ function deleteProducts() {
 
             $.ajax({
                 type: 'POST',
-                url: '/api/cart/delete',
+                url: '/ajax/cart/delete',
                 contentType: 'application/json',
                 data: JSON.stringify(productIds),
                 beforeSend: function (xhr) {
                     xhr.setRequestHeader(csrfHeader, csrfToken);
+                    xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
                 },
-                success: function () {
-                    window.location.href = '/cart';
+                success: function (result) {
+                    if(result.code == 200) {
+                        location.reload();
+                    } else {
+                        alert(result.message);
+                    }
                 },
                 error: function () {
-                    alert('삭제하는 동안 문제가 발생했습니다.\n다시 시도해주세요.');
+                    alert('삭제 중 문제가 발생했습니다.\n다시 시도해주세요.');
                 }
             })
         }
     }
 }
 
+//솔드아웃된 상품 삭제
 function deleteSoldOutProducts() {
-
     let productIds = [];
     let checkboxes = $('.cart_checkbox.sold_out');
 
@@ -269,17 +290,21 @@ function deleteSoldOutProducts() {
 
             $.ajax({
                 type: 'POST',
-                url: '/api/cart/delete',
+                url: '/ajax/cart/delete',
                 contentType: 'application/json',
                 data: JSON.stringify(productIds),
                 beforeSend: function (xhr) {
                     xhr.setRequestHeader(csrfHeader, csrfToken);
                 },
-                success: function () {
-                    window.location.href = '/cart';
+                success: function (result) {
+                    if(result.code == 200) {
+                        location.reload();
+                    } else {
+                        alert(result.message);
+                    }
                 },
                 error: function () {
-                    alert('삭제하는 동안 문제가 발생했습니다.\n다시 시도해주세요.');
+                    alert('삭제 중 문제가 발생했습니다.\n다시 시도해주세요.');
                 }
             })
         }
@@ -302,6 +327,7 @@ async function checkout() {
         async: false,
         beforeSend: function (xhr) {
             xhr.setRequestHeader(csrfHeader, csrfToken);
+            xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
         },
         statusCode: {
             200: function () {

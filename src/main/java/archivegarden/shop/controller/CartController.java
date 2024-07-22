@@ -35,33 +35,6 @@ public class CartController {
         return "redirect:/order/checkout";
     }
 
-    @ResponseStatus(HttpStatus.OK)
-    @PostMapping("/api/cart/increase")
-    @PreAuthorize("hasRole('ROLE_USER') and #loginMember.loginId == principal.username")
-    public void increaseCount(@RequestParam("productId") Long productId, @CurrentUser Member loginMember) {
-        cartService.increaseCount(productId, loginMember);
-    }
-
-    @ResponseStatus(HttpStatus.OK)
-    @PostMapping("/api/cart/decrease")
-    @PreAuthorize("hasRole('ROLE_USER') and #loginMember.loginId == principal.username")
-    public void decreaseCount(@RequestParam("productId") Long productId, @CurrentUser Member loginMember) {
-        cartService.decreaseCount(productId, loginMember);
-    }
-
-    @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("#loginMember.loginId == principal.username")
-    @PostMapping("/api/cart/{productId}/delete")
-    public void deleteCart(@PathVariable("productId") Long productId, @CurrentUser Member loginMember) {
-        cartService.deleteCart(productId, loginMember);
-    }
-
-    @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("#loginMember.loginId == principal.username")
-    @PostMapping("/api/cart/delete")
-    public void deleteCarts(@RequestBody List<Long> productIds, @CurrentUser Member loginMember) {
-        cartService.deleteCarts(productIds, loginMember);
-    }
 
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("#loginMember.loginId == principal.username")
