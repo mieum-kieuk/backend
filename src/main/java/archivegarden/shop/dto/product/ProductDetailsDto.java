@@ -3,7 +3,6 @@ package archivegarden.shop.dto.product;
 import archivegarden.shop.entity.Discount;
 import archivegarden.shop.entity.ImageType;
 import archivegarden.shop.entity.Product;
-import archivegarden.shop.entity.ProductImage;
 import lombok.Getter;
 
 import java.text.DecimalFormat;
@@ -26,8 +25,7 @@ public class ProductDetailsDto {
     private String sizeGuide;
     private String shipping;
     private String notice;
-    private String displayImage;
-    private String hoverImage;
+    private List<String> displayImages = new ArrayList<>();
     private List<String> detailsImages = new ArrayList<>();
 
     public ProductDetailsDto(Product product) {
@@ -40,9 +38,9 @@ public class ProductDetailsDto {
         if (discount != null) {
             this.isDiscounted = true;
             this.discountPercent = discount.getDiscountPercent();
-            int discountAmount = product.getPrice() * discountPercent / 100;
-            this.salePrice = new DecimalFormat("###,###원").format((product.getPrice() - discountAmount));
-            this.point =  Math.round((float)(product.getPrice() - discountAmount) / 100);
+            double salePriceDouble = product.getPrice() - (double) product.getPrice() * discount.getDiscountPercent() / 100;
+            this.salePrice = new DecimalFormat("###,###원").format(Math.round(salePriceDouble));
+//            this.point =  Math.round(salePriceDouble));
         } else {
             this.point = Math.round((float)product.getPrice() / 100);
         }
@@ -55,16 +53,12 @@ public class ProductDetailsDto {
         sizeGuide = product.getSizeGuide();
         shipping = product.getShipping();
         notice = product.getNotice();
-
-        List<ProductImage> images = product.getImages();
-        for (ProductImage image : images) {
+        product.getProductImages().forEach(image -> {
             if (image.getImageType() == ImageType.DISPLAY) {
-                displayImage = image.getStoreImageName();
-            } else if (image.getImageType() == ImageType.HOVER) {
-                hoverImage = image.getStoreImageName();
+                this.displayImages.add(image.getStoreImageName());
             } else {
-                detailsImages.add(image.getStoreImageName());
+                this.detailsImages.add(image.getStoreImageName());
             }
-        }
+        });
     }
 }

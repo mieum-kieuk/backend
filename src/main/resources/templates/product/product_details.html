@@ -30,14 +30,14 @@
             <div class="prd_desc">
                 <div class="prd_left">
                     <div class="prd_img">
-                        <img th:src="|/productImages/${product.displayImage}|" alt="제품 이미지">
+                        <img th:src="|/productImages/${product.displayImages[0]}|" alt="제품 이미지">
                     </div>
                     <div class="prd_display">
                         <div class="display_img">
-                            <img th:src="|/productImages/${product.displayImage}|" alt="제품 이미지">
+                            <img th:src="|/productImages/${product.displayImages[0]}|" alt="제품 이미지">
                         </div>
-                        <div class="display_img" th:if="${product.hoverImage} != null">
-                            <img th:src="|/productImages/${product.hoverImage}|" alt="제품 이미지">
+                        <div class="display_img" th:if="${product.displayImages.size() == 2}">
+                            <img th:src="|/productImages/${product.displayImages[1]}|" alt="제품 이미지">
                         </div>
                     </div>
                 </div>
@@ -69,14 +69,9 @@
                         <div class="total_price">총 상품 금액:<span id="totalPrice" th:text="${product.isDiscounted} ? ${product.salePrice} : ${product.price}"></span></div>
                     </div>
                     <div class="buy_btn" th:unless="${product.isSoldOut}">
-                        <button type="button" id="CartBtn" class="btn1 cart">
-                            장바구니에 담기
-                        </button>
+                        <button type="button" id="CartBtn" class="btn1 cart">장바구니에 담기</button>
                         <button type="button" id="BuyBtn" class="btn1 buy"
-                                onclick="location.href='../order/cart.html'"
-                                th:onclick="|location.href='@{/order/cart}'|">
-                            구매하기
-                        </button>
+                                onclick="location.href='../order/cart.html'" th:onclick="|location.href='@{/order/cart}'|">구매하기</button>
                     </div>
                     <div class="sold_out_btn" th:if="${product.isSoldOut}">
                         <button type="button" id="SoldOutBtn" class="btn1 buy">
@@ -471,82 +466,61 @@
             </div>
         </div>
     </div>
+    <div th:replace="~{/layout/footer :: basic_footer}"></div>
 </div>
 <script th:inline="javascript">
     let csrfToken = $("meta[name='_csrf']").attr("content");
     let csrfHeader = $("meta[name='_csrf_header']").attr("content");
 
-    //장바구니 담기
-    $('#CartBtn').click(function () {
-        let productId = [[${product.id}]];
-        let count = $('.quant_input').val();
-
-        $.ajax({
-            type: 'POST',
-            url: '/api/cart/add',
-            data: {productId: productId, count: count},
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader(csrfHeader, csrfToken);
-                xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-            },
-            success: function (message) {
-                alert(message);
-            },
-            error: function() {
-                window.location.href = '/login';
-            }
-        })
-    });
-
-    $('.wish').click(function () {
-
-        let heart = $(this);
-        let productId = heart.attr('id');
-
-        if (heart.hasClass('filled')) {
-            $.ajax({
-                url: '/api/wish/remove',
-                type: 'POST',
-                data: {productId: productId},
-                beforeSend: function (xhr) {
-                    xhr.setRequestHeader(csrfHeader, csrfToken);
-                    xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-                },
-                success: function () {
-                    heart.removeClass('filled');
-                },
-                statusCode: {
-                    401: function() {
-                        window.location.href = '/login';
-                    },
-                    400: function() {
-                        alert("요청사항 진행 중 오류가 발생했습니다.\n다시 시도해 주세요.");
-                    }
-                }
-            })
-        } else {
-            $.ajax({
-                type: 'POST',
-                url: '/api/wish/add',
-                data: {productId: productId},
-                beforeSend: function (xhr) {
-                    xhr.setRequestHeader(csrfHeader, csrfToken);
-                    xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-                },
-                success: function () {
-                    heart.addClass('filled')
-                },
-                statusCode: {
-                    401: function() {
-                        window.location.href = '/login';
-                    },
-                    400: function() {
-                        alert("요청사항 진행 중 오류가 발생했습니다.\n다시 시도해 주세요.");
-                    }
-                }
-            })
-        }
-    });
+    // $('.wish').click(function () {
+    //
+    //     let heart = $(this);
+    //     let productId = heart.attr('id');
+    //
+    //     if (heart.hasClass('filled')) {
+    //         $.ajax({
+    //             url: '/api/wish/remove',
+    //             type: 'POST',
+    //             data: {productId: productId},
+    //             beforeSend: function (xhr) {
+    //                 xhr.setRequestHeader(csrfHeader, csrfToken);
+    //                 xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+    //             },
+    //             success: function () {
+    //                 heart.removeClass('filled');
+    //             },
+    //             statusCode: {
+    //                 401: function() {
+    //                     window.location.href = '/login';
+    //                 },
+    //                 400: function() {
+    //                     alert("요청사항 진행 중 오류가 발생했습니다.\n다시 시도해 주세요.");
+    //                 }
+    //             }
+    //         })
+    //     } else {
+    //         $.ajax({
+    //             type: 'POST',
+    //             url: '/api/wish/add',
+    //             data: {productId: productId},
+    //             beforeSend: function (xhr) {
+    //                 xhr.setRequestHeader(csrfHeader, csrfToken);
+    //                 xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+    //             },
+    //             success: function () {
+    //                 heart.addClass('filled')
+    //             },
+    //             statusCode: {
+    //                 401: function() {
+    //                     window.location.href = '/login';
+    //                 },
+    //                 400: function() {
+    //                     alert("요청사항 진행 중 오류가 발생했습니다.\n다시 시도해 주세요.");
+    //                 }
+    //             }
+    //         })
+    //     }
+    // });
 </script>
 </body>
 </html>

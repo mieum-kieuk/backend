@@ -111,46 +111,6 @@ $(document).ready(function () {
 
 });
 
-// let csrfToken = $("meta[name='_csrf']").attr("content");
-// let csrfHeader = $("meta[name='_csrf_header']").attr("content");
-
-$('.wish').click(function () {
-
-    let heart = $(this);
-    let productId = heart.attr('id');
-
-    if (heart.hasClass('filled')) {
-        $.ajax({
-            url: '/api/wish/remove',
-            type: 'POST',
-            data: {productId: productId},
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader(csrfHeader, csrfToken);
-            },
-            success: function () {
-                heart.removeClass('filled');
-            },
-            error: function (errorResult) {
-                alert(errorResult['message']);
-            }
-        })
-    } else {
-        $.ajax({
-            type: 'POST',
-            url: '/api/wish/add',
-            data: {productId: productId},
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader(csrfHeader, csrfToken);
-            },
-            success: function () {
-                heart.addClass('filled')
-            },
-            error: function (errorResult) {
-                alert(errorResult['message']);
-            }
-        })
-    }
-});
 function setProductState() {
     // 초기화
     $('.prd_price .original_price, .prd_price .discount').removeClass('active');
@@ -196,3 +156,35 @@ function toggleContent(content) {
         });
     }
 }
+
+let csrfToken = $("meta[name='_csrf']").attr("content");
+let csrfHeader = $("meta[name='_csrf_header']").attr("content");
+
+//장바구니 담기
+$('#CartBtn').click(function () {
+    let url = window.location.href;
+    let parts = url.split('/');
+    let productId = parts[parts.length - 1];
+    let count = $('.quant_input').val();
+
+    $.ajax({
+        type: 'POST',
+        url: '/ajax/cart/add',
+        data: {productId: productId, count: count},
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader(csrfHeader, csrfToken);
+            xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+        },
+        success: function (result) {
+            alert(result.message);
+        },
+        error: function(xhr) {
+            console.log(xhr.status);
+            if(xhr.status == 401) {
+                window.location.href = '/login';
+            } else {
+                alert("장바구니에 삼품을 담는 중 오류가 발생했습니다.\n다시 시도해 주세요.");
+            }
+        }
+    })
+});

@@ -13,6 +13,6 @@ public class PopupProductSearchCondition {
 
     public PopupProductSearchCondition() {
         this.page = 1;
-        this.limit = 1;
+        this.limit = 5;
     }
 }
