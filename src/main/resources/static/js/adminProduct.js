@@ -167,7 +167,15 @@ async function addImagePreview(container, file) {
             let deleteButton = $('<button>').addClass('delete_btn').append($('<span>').addClass('material-symbols-outlined').text('close'));
 
             deleteButton.click(function() {
-                let deleteFilename = $(this).parent().siblings('.file_name').text().split(": ")[1];
+
+                for (let i = 0; i < dataTransfer.items.length; i++) {
+                    if (dataTransfer.items[i].getAsFile().name === file.name) {
+                        dataTransfer.items.remove(i);
+                        break;
+                    }
+                }
+
+                $('#detailsImages')[0].files = dataTransfer.files;
                 containerDiv.remove();
             });
 
