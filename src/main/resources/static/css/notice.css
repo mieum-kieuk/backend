@@ -17,6 +17,9 @@
     border: 1px solid #222;
     border-radius: 2px;
 }
+.admin_wrap {
+    max-height: 100svh;
+}
 #notice {
     display: flex;
     flex-direction: column;
@@ -93,9 +96,7 @@
     padding: 10px 0;
     min-height: 450px;
 }
-#content {
-    height: auto;
-}
+
 .notice_text {
     padding-top: 20px;
     margin-bottom: 20px;
@@ -128,7 +129,7 @@
     flex-direction: column;
     max-width: 1100px;
     width: 100%;
-    min-height: 700px ;
+    min-height: calc( 100svh - 250px) ;
     margin-top: 120px;
 }
 .notice_tit {
@@ -159,6 +160,11 @@
 .notice_table thead th{
     font-weight: 500;
 }
+.notice_table tbody {
+    width: 100%;
+    max-height: 450px;
+    overflow-y: auto;
+}
 #noticeList .notice_table thead tr{
     border-bottom: 1px solid #333;
     border-top: 1px solid #333;
@@ -177,6 +183,7 @@
     min-width: 100px;
     text-align: center;
     padding: 20px 10px;
+    box-sizing: border-box;
 }
 #noticeList .notice_table .title_td {
     min-width: 700px;
@@ -190,7 +197,8 @@
 }
 .notice_table td textarea {
     width: 100%;
-    height: 450px;
+    max-height: 450px;
+    min-height: fit-content;
     resize: none;
 }
 .notice_table th, .notice_table td {

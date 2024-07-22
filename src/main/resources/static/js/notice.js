@@ -2,6 +2,7 @@
 function validateBeforeSubmit() {
     let titleValue = $('#title').val().trim();
     let contentValue = $('#content').val().trim();
+    let contentValueLength = contentValue.length;
 
     if (titleValue === '') {
         alert('제목을 작성해 주세요.');
@@ -10,6 +11,11 @@ function validateBeforeSubmit() {
 
     if (contentValue === '') {
         alert('내용을 작성해 주세요.');
+        return false;
+    }
+
+    if (contentValueLength > 2000) {
+        alert('내용은 최대 2000자까지 작성할 수 있습니다.');
         return false;
     }
 
