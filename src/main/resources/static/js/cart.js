@@ -438,14 +438,31 @@ async function checkout() {
             if(result.code == 200) {
                 window.location.href = '/order/checkout'
             } else {
-                alert(result.message);
-            }
+                Swal.fire({
+                    html: result.message.replace('\n', '<br>'),
+                    showConfirmButton: true,
+                    confirmButtonText: '확인',
+                    customClass: mySwal,
+                    buttonsStyling: false
+                });            }
         },
         error: function (xhr) {
             if(xhr.responseJSON.code == 400) {
-                alert(xhr.responseJSON.message);
+                Swal.fire({
+                    html: xhr.responseJSON.message,
+                    showConfirmButton: true,
+                    confirmButtonText: '확인',
+                    customClass: mySwal,
+                    buttonsStyling: false
+                });
             } else {
-                alert("요청 사항 진행 중 문제가 발생했습니다.\n다시 시도해 주세요.");
+                Swal.fire({
+                    html: '요청 사항 진행 중 문제가 발생했습니다.<br>다시 시도해 주세요.',
+                    showConfirmButton: true,
+                    confirmButtonText: '확인',
+                    customClass: mySwal,
+                    buttonsStyling: false
+                });
             }
         }
     })
