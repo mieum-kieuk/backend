@@ -38,13 +38,13 @@ public class OrderController {
         //로그인 된 회원 정보
         MemberDto member = new MemberDto(loginMember);
 
-        //주문하려는 상품들
+        //주문 상품 목록
         HttpSession session = request.getSession(false);
         if(session == null || session.getAttribute("checkoutProducts") == null) {
             return "redirect:/cart";
         }
         List<Long> productIds = (List<Long>) session.getAttribute("checkoutProducts");
-        session.invalidate();
+        session.removeAttribute("checkoutProducts");
 
         List<CartCheckoutListDto> products = cartService.getCheckoutProducts(loginMember, productIds);
 

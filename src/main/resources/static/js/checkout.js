@@ -26,22 +26,6 @@ $(document).ready(function(){
         updateDelivery(deliveryData);
     });
 
-    // 확인 버튼 클릭 이벤트 핸들러
-    $("#deliveryEditPopup .submit_btn").click(function(event) {
-        event.preventDefault(); // 기본 동작 중지
-
-        // 배송지 데이터를 수집합니다.
-        let deliveryData = {
-            recipient: $("#recipientName").val(),
-            detailAddress: $("#detailAddress").val(),
-            phoneNumber: $("#phonenumber1").val() + '-' + $("#phonenumber2").val() + '-' + $("#phonenumber3").val()
-        };
-
-        // 배송 정보 업데이트
-        if (validateEditPopup()) {
-            updateDelivery(deliveryData);
-        }
-    });
     // 기본 배송지 탭 클릭 시
     $('.delivery_tabs li:first-child').addClass('active'); // 처음에 기본 배송지 탭을 활성화
     $('.input_area.default').addClass('active'); // 처음에 기본 배송지 입력 영역을 활성화

@@ -23,7 +23,7 @@
 <body>
 <div id="deliveryEditPopup" class="popup">
     <div class="popup_content">
-        <form action="" th:action th:object="${form}" method="post" th:onsubmit="return validateEditPopup()">
+        <form action="" th:action th:object="${form}" method="post" th:onsubmit="return validateEditPopup()" novalidate>
             <div class="popup_tit">
                 <h2>배송지 수정</h2>
             </div>
@@ -31,11 +31,11 @@
                 <ul class="delivery_list" id="deliveryList">
                     <li>
                         <label for="detailAddress" class="popup_basic_address" th:text="*{basicAddress}"></label>
-                        <input type="text" class="input_box" id="detailAddress" th:field="*{detailAddress}" placeholder="상세주소를 입력해 주세요." maxlength="40"/>
+                        <input type="text" class="input_box" id="detailAddress" th:field="*{detailAddress}" placeholder="상세주소(선택가능)" maxlength="40"/>
                     </li>
                     <li>
                         <label for="recipientName" class="input_tit ess">수령인</label>
-                        <input type="text" id="recipientName" class="input_box" th:field="*{recipientName}" maxlength="23"/>
+                        <input type="text" id="recipientName" class="input_box" th:field="*{recipientName}" maxlength="12"/>
                     </li>
                     <li class="phone_number">
                         <label class="input_tit ess">휴대전화번호</label>
@@ -48,8 +48,8 @@
                                 <option value="018" th:selected="${form.phonenumber1} == '018'">018</option>
                                 <option value="019" th:selected="${form.phonenumber1} == '019'">019</option>
                             </select>
-                            <p>-</p><input type="text" id="phonenumber2" class="input_box" th:field="*{phonenumber2}" maxlength="4"/>
-                            <p>-</p><input type="text" id="phonenumber3" class="input_box" th:field="*{phonenumber3}"  maxlength="4"/>
+                            <p>-</p><input type="number" id="phonenumber2" class="input_box" th:field="*{phonenumber2}" maxlength="4"/>
+                            <p>-</p><input type="number" id="phonenumber3" class="input_box" th:field="*{phonenumber3}" maxlength="4"/>
                         </div>
                     </li>
                 </ul>

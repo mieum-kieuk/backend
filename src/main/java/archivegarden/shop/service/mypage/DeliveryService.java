@@ -134,7 +134,7 @@ public class DeliveryService {
      * @throws NotFoundException
      */
     public void editPopupDelivery(EditPopupDeliveryForm form, Long deliveryId) {
-        //수정할 배송지 엔티티 조회
+        //수정할 Delivery 조회
         Delivery delivery = deliveryRepository.findById(deliveryId).orElseThrow(() -> new NotFoundException("존재하지 않는 배송지 주소입니다."));
 
         //배송지 정보 수정

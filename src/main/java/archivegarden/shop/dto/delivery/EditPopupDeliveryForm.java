@@ -19,7 +19,6 @@ public class EditPopupDeliveryForm {
 
     private String basicAddress;
     private String detailAddress;
-
     private String phonenumber1;
     private String phonenumber2;
     private String phonenumber3;
@@ -27,11 +26,9 @@ public class EditPopupDeliveryForm {
     public EditPopupDeliveryForm(Delivery delivery) {
         this.id = delivery.getId();
         this.recipientName = delivery.getRecipientName();
-
         Address address = delivery.getAddress();
         this.basicAddress = address.getBasicAddress();
         this.detailAddress = address.getDetailAddress();
-
         String[] phonenumber = delivery.getPhonenumber().split("-");
         this.phonenumber1 = phonenumber[0];
         this.phonenumber2 = phonenumber[1];
