@@ -461,6 +461,9 @@ section {
     max-width: 450px;
     min-height: 450px;
 }
+.popup_content .popup_tit {
+    margin-bottom: 0;
+}
 .popup_tit h2{
     display: block;
     text-align: left;

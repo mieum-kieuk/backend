@@ -1,6 +1,6 @@
 $(document).ready(function(){
     initPopup();
-    $('.submit_btn').click(function(event) {
+    $('#checkoutBtn').click(function(event) {
         event.preventDefault();
         if (isOrderAgree()) {
             Swal.fire({
@@ -12,7 +12,7 @@ $(document).ready(function(){
             });
         }
     });
-    $(".submit_btn").addClass("disabled");
+    $("#checkoutBtn").addClass("disabled");
     $('#deliveryList').on('click', 'li .delivery_item', function() {
         let deliveryData = {
             recipient: $(this).find('.recipient_info .popup_recipient_name').text().trim(),
@@ -35,11 +35,12 @@ $(document).ready(function(){
             recipient: $("#recipientName").val(),
             detailAddress: $("#detailAddress").val(),
             phoneNumber: $("#phonenumber1").val() + '-' + $("#phonenumber2").val() + '-' + $("#phonenumber3").val()
-
         };
 
         // 배송 정보 업데이트
-        updateDelivery(deliveryData);
+        if (validateEditPopup()) {
+            updateDelivery(deliveryData);
+        }
     });
     // 기본 배송지 탭 클릭 시
     $('.delivery_tabs li:first-child').addClass('active'); // 처음에 기본 배송지 탭을 활성화
@@ -48,6 +49,7 @@ $(document).ready(function(){
     $('.delivery_tabs li:first-child').click(function(){
         $(this).addClass('active').siblings().removeClass('active');
         $('.input_area.default').addClass('active').siblings('.input_area').removeClass('active');
+        resetNewDelivery();
     });
 
     // 신규 입력 탭 클릭 시
@@ -132,7 +134,16 @@ $(document).ready(function(){
         }
     });
 });
-
+function resetNewDelivery() {
+    $("#deliveryName").val('');
+    $("#recipientName").val('');
+    $("#zipCode").val('');
+    $("#basicAddress").val('');
+    $("#detailAddress").val('');
+    $("#phonenumber1").val('');
+    $("#phonenumber2").val('');
+    $("#phonenumber3").val('');
+}
 // 부모 창의 팝업 창 닫기 함수
 function closeDeliveryPopup() {
     let deliveryPopup = window.open('', '주소 입력');
@@ -152,7 +163,13 @@ function updateDelivery(deliveryData) {
         window.opener.$('#defaultDelivery #defaultPhonenumber1').text(deliveryData.phoneNumber.split('-')[0]);
         window.opener.$('#defaultDelivery #defaultPhonenumber2').text(deliveryData.phoneNumber.split('-')[1]);
         window.opener.$('#defaultDelivery #defaultPhonenumber3').text(deliveryData.phoneNumber.split('-')[2]);
-
+        window.opener.Swal.fire({
+            text: '배송지가 변경되었습니다.',
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
         window.opener.closeDeliveryPopup();
     }
     window.close();
@@ -208,6 +225,7 @@ function initPopup() {
     let left = (window.screen.width / 2) - (width / 2);
     let top = (window.screen.height / 2) - (height / 2);
     let popupUrl = '/popup/deliveries'; // 팝업으로 열 페이지의 URL
+
     let popupName = '주소 입력'; // 팝업 창의 이름
     let popupOptions =  `width=${width},height=${height},top=${top},left=${left}`; // 팝업 창의 옵션
 
