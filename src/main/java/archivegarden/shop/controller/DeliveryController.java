@@ -1,9 +1,6 @@
 package archivegarden.shop.controller;
 
-import archivegarden.shop.dto.delivery.AddDeliveryForm;
-import archivegarden.shop.dto.delivery.DeliveryListDto;
-import archivegarden.shop.dto.delivery.EditDeliveryForm;
-import archivegarden.shop.dto.delivery.EditPopupDeliveryForm;
+import archivegarden.shop.dto.delivery.*;
 import archivegarden.shop.entity.Member;
 import archivegarden.shop.service.mypage.DeliveryService;
 import archivegarden.shop.web.annotation.CurrentUser;
@@ -33,7 +30,7 @@ public class DeliveryController {
 
     //배송지 등록
     @PostMapping("/mypage/delivery/add")
-    @PreAuthorize("hasRole('ROLE_USER') and #loginMember.loginId == principal.username")
+    @PreAuthorize("#loginMember.loginId == principal.username")
     public String addAddress(@Valid @ModelAttribute("form") AddDeliveryForm form, BindingResult bindingResult, @CurrentUser Member loginMember) {
 
         validateAddress(form.getZipCode(), form.getBasicAddress(), bindingResult);
@@ -50,8 +47,8 @@ public class DeliveryController {
     //배송지 목록 조회
     @GetMapping("/mypage/delivery")
     public String deliveries(@CurrentUser Member loginMember, Model model) {
-        List<DeliveryListDto> deliveries = deliveryService.getDeliveries(loginMember.getId());
-        model.addAttribute("deliveries", deliveries);
+//        List<DeliveryListDto> deliveries = deliveryService.getDeliveries(loginMember.getId());
+//        model.addAttribute("deliveries", deliveries);
         return "mypage/delivery/delivery_list";
     }
 
@@ -90,21 +87,21 @@ public class DeliveryController {
     }
 
     @GetMapping("/popup/deliveries")
-    public String checkoutDeliveries(@CurrentUser Member loginMember, Model model) {
-        List<DeliveryListDto> deliveries = deliveryService.getDeliveries(loginMember.getId());
+    public String popupDeliveries(@CurrentUser Member loginMember, Model model) {
+        List<DeliveryPopupDto> deliveries = deliveryService.getDeliveries(loginMember.getId());
         model.addAttribute("deliveries", deliveries);
         return "order/checkout_delivery_popup";
     }
 
     @GetMapping("/popup/deliveries/{deliveryId}/edit")
-    public String checkoutDeliveryEditForm(@PathVariable("deliveryId") Long deliveryId, Model model) {
+    public String popupDeliveryEditForm(@PathVariable("deliveryId") Long deliveryId, Model model) {
         EditPopupDeliveryForm editDeliveryForm = deliveryService.getEditPopupDeliveryForm(deliveryId);
         model.addAttribute("form", editDeliveryForm);
         return "order/checkout_edit_delivery";
     }
 
     @PostMapping("/popup/deliveries/{deliveryId}/edit")
-    public String checkoutDeliveryEdit(@ModelAttribute("form") EditPopupDeliveryForm form, @PathVariable("deliveryId") Long deliveryId) {
+    public String popupDeliveryEdit(@ModelAttribute("form") EditPopupDeliveryForm form, @PathVariable("deliveryId") Long deliveryId) {
         deliveryService.editPopupDelivery(form, deliveryId);
         return "redirect:/popup/deliveries";
     }

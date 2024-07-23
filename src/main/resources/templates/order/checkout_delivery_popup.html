@@ -29,11 +29,22 @@
                 <ul class="delivery_list" id="deliveryList">
                     <li th:each="delivery : ${deliveries}">
                         <div class="delivery_item">
-                            <div class="delivery_name" th:classappend="${delivery.isDefaultDelivery} ? 'default_delivery'"><span class="popup_delivery_name" th:text="${delivery.deliveryName}"></span></div>
-                            <div class="delivery_details"><span class="popup_zip_code">([[${delivery.zipCode}]])</span><span class="popup_basic_address" th:text="${delivery.basicAddress}"></span><span class="popup_detail_address" th:text="${delivery.detailAddress}"></span></div>
-                            <div class="recipient_info"><span class="popup_recipient_name"  th:text="${delivery.recipientName}"></span><span class="popup_phonenumber" th:text="${delivery.phonenumber}"></span></div>
+                            <div class="delivery_name" th:classappend="${delivery.isDefaultDelivery} ? 'default_delivery'">
+                                <span class="popup_delivery_name" th:text="${delivery.deliveryName}"></span>
+                            </div>
+                            <div class="delivery_details">
+                                <span>(</span><span class="popup_zip_code" th:text="${delivery.zipCode}"></span><span>)</span>
+                                <span class="popup_basic_address" th:text="${delivery.basicAddress}"></span>
+                                <span> </span>
+                                <span class="popup_detail_address" th:text="${delivery.detailAddress}"></span>
+                            </div>
+                            <div class="recipient_info">
+                                <span class="popup_recipient_name" th:text="${delivery.recipientName}">
+
+                            </span><span class="popup_phonenumber" th:text="${delivery.phonenumber}"></span></div>
                         </div>
-                        <a href="./checkout_edit_delivery.html" th:href="@{/popup/deliveries/{deliveryId}/edit(deliveryId=${delivery.id})}">수정</a>
+                        <a href="./checkout_edit_delivery.html"
+                           th:href="@{/popup/deliveries/{deliveryId}/edit(deliveryId=${delivery.id})}">수정</a>
                     </li>
                 </ul>
             </div>

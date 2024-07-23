@@ -31,7 +31,7 @@ public class DeliveryService {
         //Member 조회
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new NotFoundException("존재하지 않는 회원입니다."));
 
-        //기본 배송지 변경
+        //기존의 기본 배송지 제거
         if (form.isDefaultDelivery()) {
             changeDefaultDelivery(memberId);
         }
@@ -49,9 +49,9 @@ public class DeliveryService {
      * 배송지 목록 조회
      */
     @Transactional(readOnly = true)
-    public List<DeliveryListDto> getDeliveries(Long memberId) {
+    public List<DeliveryPopupDto> getDeliveries(Long memberId) {
         return deliveryRepository.findAllByMemberId(memberId).stream()
-                .map(DeliveryListDto::new)
+                .map(DeliveryPopupDto::new)
                 .collect(Collectors.toList());
     }
 
@@ -98,7 +98,9 @@ public class DeliveryService {
      */
     @Transactional(readOnly = true)
     public DeliveryDto getDefaultDelivery(Long memberId) {
+        //Delivery 조회
         Delivery defaultDelivery = deliveryRepository.findDefaultDelivery(memberId);
+
         return new DeliveryDto(defaultDelivery);
     }
 
@@ -106,7 +108,10 @@ public class DeliveryService {
      * 기본 배송지 변경
      */
     private void changeDefaultDelivery(Long memberId) {
+        //기본 배송지 조회
         Delivery defaultDelivery = deliveryRepository.findDefaultDelivery(memberId);
+
+        //기본 배송지 제거
         defaultDelivery.removeDefault();
     }
 
