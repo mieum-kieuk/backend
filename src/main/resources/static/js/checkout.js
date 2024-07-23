@@ -17,7 +17,9 @@ $(document).ready(function(){
         let deliveryData = {
             recipient: $(this).find('.recipient_info .popup_recipient_name').text().trim(),
             detailAddress: $(this).find('.delivery_details .popup_detail_address').text().trim(),
-            phoneNumber: $(this).find('.recipient_info .popup_phonenumber').text().trim()
+            phoneNumber: $(this).find('.recipient_info .popup_phonenumber').text().trim(),
+            zipCode: $(this).find('.delivery_details .popup_zip_code').text().trim(),
+            basicAddress: $(this).find('.delivery_details .popup_basic_address').text().trim()
         };
 
         // 배송 정보 업데이트
@@ -33,6 +35,7 @@ $(document).ready(function(){
             recipient: $("#recipientName").val(),
             detailAddress: $("#detailAddress").val(),
             phoneNumber: $("#phonenumber1").val() + '-' + $("#phonenumber2").val() + '-' + $("#phonenumber3").val()
+
         };
 
         // 배송 정보 업데이트
@@ -143,6 +146,8 @@ window.closeDeliveryPopup = closeDeliveryPopup;
 function updateDelivery(deliveryData) {
     if (window.opener) {
         window.opener.$('#defaultDelivery #defaultRecipientName').text(deliveryData.recipient);
+        window.opener.$('#defaultDelivery #defaultZipCode').text(deliveryData.zipCode);
+        window.opener.$('#defaultDelivery #defaultBasicAddress').text(deliveryData.basicAddress);
         window.opener.$('#defaultDelivery #defaultDetailAddress').text(deliveryData.detailAddress);
         window.opener.$('#defaultDelivery #defaultPhonenumber1').text(deliveryData.phoneNumber.split('-')[0]);
         window.opener.$('#defaultDelivery #defaultPhonenumber2').text(deliveryData.phoneNumber.split('-')[1]);

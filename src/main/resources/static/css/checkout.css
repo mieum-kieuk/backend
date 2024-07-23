@@ -459,7 +459,7 @@ section {
     padding: 20px;
     width: 100%;
     max-width: 450px;
-    min-height: 500px;
+    min-height: 450px;
 }
 .popup_tit h2{
     display: block;
@@ -495,6 +495,9 @@ section {
 .popup .delivery_list li:first-child {
     border-top: none;
 }
+.popup .delivery_list li > a {
+    white-space: nowrap;
+}
 .popup .delivery_item {
     display: flex;
     flex-direction: column;
@@ -519,6 +522,7 @@ section {
     font-size: 16px;
     font-weight: 600;
     gap: 3px;
+    max-width: 350px;
 }
 .popup .delivery_item .recipient_info span:first-child::after {
     content: "|";
