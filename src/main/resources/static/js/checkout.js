@@ -83,15 +83,9 @@ $(document).ready(function(){
         resetSelections();
 
         // 카드 결제 선택 시
-        $('.card_select').show();
         $('.pay_btn.card').addClass("selected");
         $('.easy_select').hide();
         $('.pay_btn.easy').removeClass("selected");
-    });
-
-    $('.card.selected').click(function() {
-        $('.card_list').toggle();
-        toggleIcon.call(this);
     });
 
     $('.pay_btn.easy').click(function() {
@@ -101,7 +95,6 @@ $(document).ready(function(){
         // 간편 결제 선택 시
         $('.easy_select').show();
         $('.pay_btn.easy').addClass("selected");
-        $('.card_select').hide();
         $('.pay_btn.card').removeClass("selected");
     });
 
@@ -110,9 +103,9 @@ $(document).ready(function(){
         $(this).addClass('selected');
     });
 
-    $('.card_list .card').on('click', function() {
-        let cardCode = handleCardClick.call(this);
-    });
+    // $('.card_list .card').on('click', function() {
+    //     let cardCode = handleCardClick.call(this);
+    // });
 
     // 전체 동의 체크박스 기능 구현
     $("#agreeAll").click(function() {
@@ -160,23 +153,23 @@ function updateDelivery(deliveryData) {
     window.close();
 }
 
-function handleCardClick() {
-    let cardName = $(this).find('.card_name').text();
+// function handleCardClick() {
+//     let cardName = $(this).find('.card_name').text();
+//
+//     $('.card_list .card').removeClass('selected');
+//     $(this).addClass('selected');
+//     $('.card.selected .card_value span').text(cardName);
+//
+//     $('.card_list').hide();
+//     $('.card.selected').find('.material-symbols-outlined').text('expand_more');
+//
+//     return cardCompanyCode(); // 선택된 카드의 코드를 반환
+// }
 
-    $('.card_list .card').removeClass('selected');
-    $(this).addClass('selected');
-    $('.card.selected .card_value span').text(cardName);
-
-    $('.card_list').hide();
-    $('.card.selected').find('.material-symbols-outlined').text('expand_more');
-
-    return cardCompanyCode(); // 선택된 카드의 코드를 반환
-}
-
-function cardCompanyCode() {
-    let cardCompanyCode = $('.card_list .card.selected').data('code');
-    return cardCompanyCode;
-}
+// function cardCompanyCode() {
+//     let cardCompanyCode = $('.card_list .card.selected').data('code');
+//     return cardCompanyCode;
+// }
 function toggleIcon() {
     let icon = $(this).find(".material-symbols-outlined");
     if (icon.text() === "expand_more") {
@@ -187,10 +180,6 @@ function toggleIcon() {
 }
 function resetSelections() {
     // 선택된 카드 및 결제 옵션 초기화
-    $('.card_list .card').removeClass('selected');
-    $('.card.selected .card_value span').text("카드사를 선택해 주세요.");
-    $('.card_list').hide();
-    $('.card.selected').find('.material-symbols-outlined').text('expand_more');
     $('.payment_option').removeClass('selected');
 }
 function updateSubmitButtonState() {
