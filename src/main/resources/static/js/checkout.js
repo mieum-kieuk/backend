@@ -119,14 +119,20 @@ $(document).ready(function(){
     });
 });
 function resetNewDelivery() {
+    let directInputContainer = $(".direct_input_wrap");
+
     $("#deliveryName").val('');
     $("#recipientName").val('');
     $("#zipCode").val('');
     $("#basicAddress").val('');
     $("#detailAddress").val('');
-    $("#phonenumber1").val('');
+    $("#phonenumber1").val('010');
     $("#phonenumber2").val('');
     $("#phonenumber3").val('');
+    $("#phonenumber3").val('');
+    $("#shippingMsg").prop('selectedIndex', 0);
+    $(".default_delivery input[type='checkbox']").prop('checked', false);
+    $("#directInput").hide();
 }
 // 부모 창의 팝업 창 닫기 함수
 function closeDeliveryPopup() {
