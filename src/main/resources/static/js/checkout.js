@@ -7,13 +7,8 @@ $(document).ready(function(){
                 text: '주문이 성공적으로 제출되었습니다.',
                 showConfirmButton: true,
                 confirmButtonText: '확인',
-                customClass: {
-                    container: 'my-swal-container',
-                    popup: 'my-swal-popup',
-                    htmlContainer: 'my-swal-text',
-                    confirmButton: 'my-swal-confirm-button',
-                    actions: 'my-swal-actions',
-                }
+                customClass: mySwal,
+                buttonsStyling: false
             });
         }
     });
@@ -62,7 +57,13 @@ $(document).ready(function(){
         let basicAddress = $('#basicAddress').val().trim();
 
         if (zipCode === '' || basicAddress === '') {
-            alert("주소 검색을 통해 우편번호와 기본주소를 먼저 입력해 주세요.");
+            Swal.fire({
+                html: '주소 검색을 통해 우편번호와 기본주소를<br>먼저 입력해 주세요.',
+                showConfirmButton: true,
+                confirmButtonText: '확인',
+                customClass: mySwal,
+                buttonsStyling: false
+            });
             $('#searchZipCodeBtn').focus();
         }
     });
@@ -248,13 +249,8 @@ function isOrderAgree() {
             text: '주문 내용을 확인하고 모두 동의해주세요.',
             showConfirmButton: true,
             confirmButtonText: '확인',
-            customClass: {
-                container: 'my-swal-container',
-                popup: 'my-swal-popup',
-                htmlContainer: 'my-swal-text',
-                confirmButton: 'my-swal-confirm-button',
-                actions: 'my-swal-actions',
-            }
+            customClass: mySwal,
+            buttonsStyling: false
         });
         return false;
     }
@@ -346,15 +342,9 @@ function validateNewDelivery() {
             text: '배송지명을 입력해 주세요.',
             showConfirmButton: true,
             confirmButtonText: '확인',
-            customClass: {
-                container: 'my-swal-container',
-                popup: 'my-swal-popup',
-                htmlContainer: 'my-swal-text',
-                confirmButton: 'my-swal-confirm-button',
-                actions: 'my-swal-actions',
-            }
+            customClass: mySwal,
+            buttonsStyling: false
         });
-
         return false;
     }
 
@@ -364,28 +354,17 @@ function validateNewDelivery() {
             text: '수령인을 입력해 주세요.',
             showConfirmButton: true,
             confirmButtonText: '확인',
-            customClass: {
-                container: 'my-swal-container',
-                popup: 'my-swal-popup',
-                htmlContainer: 'my-swal-text',
-                confirmButton: 'my-swal-confirm-button',
-                actions: 'my-swal-actions',
-            }
+            customClass: mySwal,
+            buttonsStyling: false
         });
-
         return false;
     } else if (!regexName()) {
         Swal.fire({
-            text: '유효한 수령인을 입력해 주세요.',
+            html: '2~12자의 한글, 영문 대/소문자를 사용해 주세요.<br>(특수기호, 공백 사용 불가)',
             showConfirmButton: true,
             confirmButtonText: '확인',
-            customClass: {
-                container: 'my-swal-container',
-                popup: 'my-swal-popup',
-                htmlContainer: 'my-swal-text',
-                confirmButton: 'my-swal-confirm-button',
-                actions: 'my-swal-actions',
-            }
+            customClass: mySwal,
+            buttonsStyling: false
         });
         return false;
     }
@@ -397,13 +376,8 @@ function validateNewDelivery() {
             text: '주소를 입력해 주세요.',
             showConfirmButton: true,
             confirmButtonText: '확인',
-            customClass: {
-                container: 'my-swal-container',
-                popup: 'my-swal-popup',
-                htmlContainer: 'my-swal-text',
-                confirmButton: 'my-swal-confirm-button',
-                actions: 'my-swal-actions',
-            }
+            customClass: mySwal,
+            buttonsStyling: false
         });
 
         return false;
@@ -415,28 +389,18 @@ function validateNewDelivery() {
             text: '휴대전화번호를 입력해 주세요.',
             showConfirmButton: true,
             confirmButtonText: '확인',
-            customClass: {
-                container: 'my-swal-container',
-                popup: 'my-swal-popup',
-                htmlContainer: 'my-swal-text',
-                confirmButton: 'my-swal-confirm-button',
-                actions: 'my-swal-actions',
-            }
+            customClass: mySwal,
+            buttonsStyling: false
         });
 
         return false;
     } else if (!regexPhone()) {
         Swal.fire({
-            text: '유효한 휴대전화번호를 입력해 주세요.',
+            text: '휴대전화번호 형식으로 입력해 주세요.',
             showConfirmButton: true,
             confirmButtonText: '확인',
-            customClass: {
-                container: 'my-swal-container',
-                popup: 'my-swal-popup',
-                htmlContainer: 'my-swal-text',
-                confirmButton: 'my-swal-confirm-button',
-                actions: 'my-swal-actions',
-            }
+            customClass: mySwal,
+            buttonsStyling: false
         });
 
         return false;
@@ -452,13 +416,25 @@ function validateEditPopup() {
     let phoneNumber3 = $('#phonenumber3').val().trim();
 
     if (recipientName === '') {
-        alert('수령인을 입력해 주세요.');
+        Swal.fire({
+            text: '수령인을 입력해 주세요.',
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
         $('#recipientName').focus();
         return false;
     }
 
     if (phoneNumber2 === '' || phoneNumber3 === '') {
-        alert('휴대전화번호를 입력해 주세요.');
+        Swal.fire({
+            text: '휴대전화번호를 입력해 주세요.',
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
         if (phoneNumber2 === '') {
             $('#phonenumber2').focus();
         } else {
@@ -468,7 +444,13 @@ function validateEditPopup() {
     }
 
     if (!/^\d{3,4}$/.test(phoneNumber2) || !/^\d{4}$/.test(phoneNumber3)) {
-        alert('유효한 휴대전화번호를 입력해 주세요.');
+        Swal.fire({
+            text: '휴대전화번호 형식으로 입력해 주세요.',
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
         if (!/^\d{3,4}$/.test(phoneNumber2)) {
             $('#phonenumber2').focus();
         } else {
@@ -496,34 +478,10 @@ function validateBeforeSubmit() {
             text: '결제방식을 선택해 주세요.',
             showConfirmButton: true,
             confirmButtonText: '확인',
-            customClass: {
-                container: 'my-swal-container',
-                popup: 'my-swal-popup',
-                htmlContainer: 'my-swal-text',
-                confirmButton: 'my-swal-confirm-button',
-                actions: 'my-swal-actions',
-            }
+            customClass: mySwal,
+            buttonsStyling: false
         });
-
         return false;
-    }
-
-    if ($('.pay_btn.card').hasClass('selected')) {
-        if ($('.card.selected .card_value span').text() === '카드사를 선택해 주세요.') {
-            Swal.fire({
-                text: '카드사를 선택해 주세요.',
-                showConfirmButton: true,
-                confirmButtonText: '확인',
-                customClass: {
-                    container: 'my-swal-container',
-                    popup: 'my-swal-popup',
-                    htmlContainer: 'my-swal-text',
-                    confirmButton: 'my-swal-confirm-button',
-                    actions: 'my-swal-actions',
-                }
-            });
-            return false;
-        }
     }
 
     if ($('.pay_btn.easy').hasClass('selected')) {
@@ -532,13 +490,8 @@ function validateBeforeSubmit() {
                 text: '결제방식을 선택해 주세요.',
                 showConfirmButton: true,
                 confirmButtonText: '확인',
-                customClass: {
-                    container: 'my-swal-container',
-                    popup: 'my-swal-popup',
-                    htmlContainer: 'my-swal-text',
-                    confirmButton: 'my-swal-confirm-button',
-                    actions: 'my-swal-actions',
-                }
+                customClass: mySwal,
+                buttonsStyling: false
             });
             return false;
         }
@@ -547,13 +500,8 @@ function validateBeforeSubmit() {
         text: '주문이 성공적으로 제출되었습니다.',
         showConfirmButton: true,
         confirmButtonText: '확인',
-        customClass: {
-            container: 'my-swal-container',
-            popup: 'my-swal-popup',
-            htmlContainer: 'my-swal-text',
-            confirmButton: 'my-swal-confirm-button',
-            actions: 'my-swal-actions',
-        }
+        customClass: mySwal,
+        buttonsStyling: false
     });
     return true;
 }function updateDiscount() {
@@ -614,7 +562,13 @@ function handlePoint() {
 
         if (pointInput > availablePoint) {
             $(this).val(availablePoint);
-            alert("사용 가능한 마일리지를 초과했습니다.");
+            Swal.fire({
+                text: '사용 가능한 마일리지를 초과했습니다.',
+                showConfirmButton: true,
+                confirmButtonText: '확인',
+                customClass: mySwal,
+                buttonsStyling: false
+            });
         }
 
         $("#ownedPoint").text(ownedPoint.toLocaleString());
