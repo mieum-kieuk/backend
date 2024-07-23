@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>할인 혜택 등록 | Tickers</title>
+    <title>상품 선택 | 미음키읔</title>
 
     <meta property="og:type" content="website"/>
-    <meta property="og:title" content="Tickers"/>
+    <meta property="og:title" content="미음키읔"/>
     <meta property="og:description" content=""/>
     <meta property="og:image" content=""/>
     <meta property="og:url" content=""/>
@@ -24,7 +24,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
     <script defer src="../../../../js/adminDiscount.js"></script>
 </head>
-<body class="popup">
+<body class="popup" id="discountPopup">
 <div class="popup_content">
     <div class="popup_tit">
         <h2>상품 정보 검색</h2>
@@ -51,39 +51,42 @@
             </div>
         </form>
         <div class="search_result">
-            <table class="result_table">
-                <colgroup>
-                    <col style="width:10px">
-                    <col style="width:100px">
-                    <col style="width:auto">
-                    <col style="width:80px">
-                </colgroup>
-                <thead>
-                <tr>
-                    <th scope="col">
+            <div class="list_content result_table">
+                <div class="list_head product">
+                    <div class="item check">
                         <input type="checkbox" name="checkBox" id="selectAll">
-                    </th>
-                    <th scope="col">이미지</th>
-                    <th scope="col">상품 정보</th>
-                    <th scope="col">선택</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>
-                        <input type="checkbox" name="checkBox">
-                    </td>
-                    <td>이미지</td>
-                    <td>
-                        <div class="prd_info">
-                            <span id="prd_name">Hello</span>
-                            <span id="prd_price">1,000원</span>
+                    </div>
+                    <div class="item number">번호</div>
+                    <div class="item img">사진</div>
+                    <div class="item title">상품명</div>
+                    <div class="item price">상품 정가</div>
+
+                </div>
+                <div class="list product">
+                    <div class="list_item">
+                        <div class="item check">
+                            <input type="checkbox" name="checkBox">
                         </div>
-                    </td>
-                    <td><a href="#" onclick="" class="btn1 select">선택</a></td>
-                </tr>
-                </tbody>
-            </table>
+                        <div class="item number">2</div>
+                        <div class="item img"><img id="displayImage1"
+                                                   src="../../../../images/display_details1.jpeg"></div>
+                        <div class="item title">상품명</div>
+                        <div class="item price">상품 정가</div>
+                    </div>
+                    <div class="list_item">
+                        <div class="item check">
+                            <input type="checkbox" name="checkBox">
+                        </div>
+                        <div class="item number">1</div>
+                        <div class="item img"><img src="../../../../images/meek2.png"></div>
+                        <div class="item title">믘</div>
+                        <div class="item price">10,000</div>
+                    </div>
+                </div>
+            </div>
+            <div class="btn_wrap right">
+                <button type="button" class="btn1 add_btn">추가</button>
+            </div>
             <div class="pagination">
                 <ul>
                     <li><a href="#" class="prev_first"><span class="material-symbols-outlined">navigate_before</span></a></li>

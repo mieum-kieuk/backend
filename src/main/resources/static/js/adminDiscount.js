@@ -1,12 +1,25 @@
 $(document).ready(function () {
-    // 현재 날짜와 시간 가져오기
-    let currentDate = new Date();
+    setupDate();
+    selectCheckboxes();
+    productTypeToggle();
+    popupButton();
+    addItems();
+    $('.submit_btn').click(function(event) {
+        if (!validateBeforeSubmit()) {
+            event.preventDefault();
+        }
+    });
+});
 
+let discountPopup = null;
+function setupDate() {
+    let currentDate = new Date();
     let minDate = currentDate.toISOString().slice(0, 16);
     $('#startedAt').attr('min', minDate);
     $('#expiredAt').attr('min', minDate);
+}
 
-    // 목록에서 체크박스 전체선택
+function selectCheckboxes() {
     $('#selectAll').click(function () {
         let isChecked = $(this).prop('checked');
         $('.result_table input[type="checkbox"]').prop('checked', isChecked);
@@ -14,19 +27,19 @@ $(document).ready(function () {
     });
 
     $('.result_table').on('change', 'input[type="checkbox"]', function () {
-        let totalCheck = $('.result_table tbody input[type="checkbox"]').length ;
-        let checkedBox = $('.result_table tbody input[type="checkbox"]:checked').length ;
-
+        let totalCheck = $('.result_table tbody input[type="checkbox"]').length;
+        let checkedBox = $('.result_table tbody input[type="checkbox"]:checked').length;
         $('#selectAll').prop('checked', totalCheck === checkedBox);
     });
 
     $('.list_content').on('change', 'input[type="checkbox"]', function () {
         let totalCheck = $('.list_content .list input[type="checkbox"]').length;
         let checkedBox = $('.list_content .list input[type="checkbox"]:checked').length;
-
         $('#selectAll').prop('checked', totalCheck === checkedBox);
     });
+}
 
+function productTypeToggle() {
     $('input[name="productType"]').on('change', function() {
         if ($(this).val() === 'specific') {
             $('.input_box_wrap.product').show();
@@ -34,28 +47,82 @@ $(document).ready(function () {
             $('.input_box_wrap.product').hide();
         }
     });
+}
+
+function popupButton() {
     $('#popupBtn').click(function () {
-        window.open("./discount_popup.html", "_blank", "width=600px,height=450px");
+        openDiscountPopup();
     });
-    $('.submit_btn').click(function(event) {
-        if (!validateBeforeSubmit()) {
-            event.preventDefault();
+}
+
+function openDiscountPopup() {
+    if (discountPopup && !discountPopup.closed) {
+        discountPopup.focus();
+        return;
+    }
+    discountPopup = window.open("./discount_popup.html", "_blank", "width=600,height=450");
+}
+
+function closeDiscountPopup() {
+    if (discountPopup && !discountPopup.closed) {
+        discountPopup.close();
+    }
+}
+
+function addItems() {
+    $('.add_btn').on('click', function() {
+        let items = $('.search_result .list.product .list_item').has('input:checked').closest('.list_item');
+        let selectedItems = [];
+
+        items.each(function() {
+            let productName = $(this).find('.item.title').text();
+            let productPrice = $(this).find('.item.price').text();
+            let productImage = $(this).find('.item.img img').attr('src');
+            let productNumber = $(this).find('.item.number').text();
+
+            selectedItems.push({
+                productName: productName,
+                productPrice: productPrice,
+                productImage: productImage,
+                productNumber: productNumber
+            });
+        });
+        if (selectedItems.length === 0) {
+            alert('상품을 선택해 주세요.');
+            return;
+        }
+        if (window.opener) {
+            window.opener.getItems(selectedItems);
+            window.close();
         }
     });
+}
 
-});
-//유효성 검사
+window.getItems = function(items) {
+    let listContainer = $('.input_box_wrap.product .list.product');
+    items.forEach(function (item) {
+        let newItemHtml = `
+            <div class="list_item">
+                <div class="item check">
+                    <input type="checkbox" name="checkBox">
+                </div>
+                <div class="item number">${item.productNumber}</div>
+                <div class="item img"><img src="${item.productImage}" alt="상품 이미지"></div>
+                <div class="item title">${item.productName}</div>
+                <div class="item price">${item.productPrice}</div>
+            </div>
+        `;
+        listContainer.append(newItemHtml);
+    });
+}
+
 function validateBeforeSubmit() {
     let discountName = $('#name').val().trim();
     let discountPercent = $('#discountPercent').val().trim();
     let productType = $('input[name="productType"]:checked').val();
     let startedAt = $('#startedAt').val().trim();
     let expiredAt = $('#expiredAt').val().trim();
-    console.log('Discount Name:', discountName);
-    console.log('Discount Percent:', discountPercent);
-    console.log('Started At:', startedAt);
-    console.log('Expired At:', expiredAt);
-    console.log('Product Type:', productType);
+
     if (discountName === '') {
         alert('할인명을 입력해 주세요.');
         return false;

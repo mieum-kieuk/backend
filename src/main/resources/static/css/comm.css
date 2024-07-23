@@ -603,11 +603,13 @@ legend {
   color: #d7d7d7;
 }
 .btn_wrap.center {
+  display: flex;
   justify-content: center;
   gap: 8px;
   /*margin-top: 10px;*/
 }
 .btn_wrap.right {
+  display: flex;
   justify-content: flex-end;
   gap: 8px;
   /*margin-top: 10px;*/
