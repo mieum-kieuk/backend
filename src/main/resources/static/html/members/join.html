@@ -123,8 +123,8 @@
                                     <option value="018">018</option>
                                     <option value="019">019</option>
                                 </select>
-                                <p>-</p><input id="phonenumber2" class="input_box" placeholder="" value="" type="text"/>
-                                <p>-</p><input id="phonenumber3" class="input_box" placeholder="" value="" type="text"/>
+                                <p>-</p><input id="phonenumber2" class="input_box" placeholder="" value="" type="number" maxlength="4"/>
+                                <p>-</p><input id="phonenumber3" class="input_box" placeholder="" value="" type="number" maxlength="4"/>
                             </div>
                             <button type="button" id="btn_action_verify_mobile" class="btn1 disabled"
                                     onclick="userVerifyMobile.joinSendVerificationNumber(); return true;">인증번호 받기
@@ -421,7 +421,7 @@
                 <button type="button" class="btn1 cancel_btn">
                     취소
                 </button>
-                <button type="submit" id="submitBtn" class="btn1 submit_btn" onclick="validateBeforeSubmit()">
+                <button type="submit" id="submitBtn" class="btn1 submit_btn" >
                     가입
                 <div class="loader_wrap">
                     <div class="loader"></div>

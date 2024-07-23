@@ -39,6 +39,20 @@ $(document).ready(function() {
             $(this).val(trimmedValue);
         }
     });
+    $('.phone_number input[type="number"]').on('input', function() {
+        let maxLength = $(this).attr('maxlength');
+        let value = $(this).val();
+
+        if (value.length > maxLength) {
+            $(this).val(value.slice(0, maxLength));
+        }
+    });
+    $('#phonenumber3').on('input', function() {
+        let value = $(this).val();
+        if (value.length > 4) {
+            $(this).val(value.slice(0, 4)); // 최대 4자리까지만 입력 가능
+        }
+    });
     $('.search_btn').click(function(event) {
         let keyword = $('.search_form_wrap input[type="text"]').val().trim();
 
