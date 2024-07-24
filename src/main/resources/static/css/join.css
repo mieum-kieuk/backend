@@ -211,9 +211,10 @@
   color: #000;
 }
 #btn_action_verify_mobile {
-  /*font-weight: 400;*/
+  position: relative;
 }
 #btn_action_verify_mobile.disabled {
+  position: relative;
   color: #999;
   border-color: #999;
   pointer-events: none;

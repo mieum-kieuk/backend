@@ -383,8 +383,11 @@ function requestVerificationCode() {
         dataType: 'json',
         beforeSend: function (xhr) {
             xhr.setRequestHeader(csrfHeader, csrfToken);
+            $('.loader_wrap.white').show();
         },
         success: function (result) {
+            $('.loader_wrap.white').hide();
+
             if (result.code == 200) {
                 $('#phoneNumberMsg').text(result.message);
                 $('#confirm_verify_mobile').css('display', 'flex');
@@ -397,12 +400,12 @@ function requestVerificationCode() {
             }
         },
         error: function () {
+            $('.loader_wrap.white').hide();
             $('#phoneNumberMsg').text('인증번호 발급 중 오류가 발생했습니다. 다시 시도해 주세요.');
         }
     });
 }
 
-//인증번호 검증
 function verificationBtnState() {
     let phonenumber2 = $('#phonenumber2').val();
     let phonenumber3 = $('#phonenumber3').val();
@@ -427,6 +430,14 @@ function verificationBtnState() {
         $('#confirm_verify_mobile').css('display', 'none');
         $('#phoneNumberMsg').text('');
         $('#btn_action_verify_mobile').text('인증번호 받기');
+        if ($('#btn_action_verify_mobile .loader_wrap').length === 0) {
+            $('#btn_action_verify_mobile').append(`
+            <div class="loader_wrap white" style="display: none;">
+                <div class="loader"></div>
+            </div>
+        `);
+        }
+
     }
 }
 
