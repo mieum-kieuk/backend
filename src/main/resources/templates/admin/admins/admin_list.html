@@ -86,7 +86,9 @@
                             <div class="item approval">승인</div>
                         </div>
                         <div class="list admin">
-                            <div th:if="${admins != null} and ${admins.content.size() == 0}" class="item noDataMessage">검색 결과가 없습니다.</div>
+                            <div id="noDataMessage" th:if="${admins != null} and ${admins.content.size()} == 0">
+                                <span>검색결과가 없습니다.</span>
+                            </div>
                             <div th:each="admin, adminStat : ${admins}" class="list_item">
                                 <div class="item check">
                                     <input type="checkbox" th:id="'checkbox' + ${admin.id}">
