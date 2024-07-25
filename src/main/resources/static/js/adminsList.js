@@ -1,53 +1,13 @@
 $(document).ready(function() {
-    $('tbody input[type="checkbox"]').click(function () {
+    $('.admins_list input[type="checkbox"]').click(function () {
         let isChecked = $(this).prop('checked');
         if (isChecked) {
-            $('tbody input[type="checkbox"]').not(this).prop('checked', false);
+            $('.admins_list input[type="checkbox"]').not(this).prop('checked', false);
         }
-    });
-    $('#startDate, #endDate').datepicker({
-        dateFormat: 'yy-mm-dd',
-        maxDate: 0
-
-    });
-
-    // 초기화 버튼 클릭 시 검색폼 초기화
-    $('.btn_wrap .reset_btn').click(function () {
-        $('#searchKeyword').val(''); // 검색어 입력 초기화
-        $('#startDate, #endDate').val(''); // 시작일, 종료일 초기화
     });
 });
 
-function setSearchDate(days) {
-    if (days === 'all') {
-        $('#startDate').datepicker('setDate', null);
-        $('#endDate').datepicker('setDate', null);
-    } else {
-        let endDate = new Date();
-        let startDate = new Date();
 
-        if (days === 0) {
-            startDate = endDate;
-        } else {
-            startDate.setDate(startDate.getDate() - days);
-        }
-
-        $('#startDate').datepicker('setDate', formatDate(startDate));
-        $('#endDate').datepicker('setDate', formatDate(endDate));
-    }
-}
-
-function formatDate(date) {
-    let d = new Date(date),
-        month = '' + (d.getMonth() + 1),
-        day = '' + d.getDate(),
-        year = d.getFullYear();
-
-    if (month.length < 2) month = '0' + month;
-    if (day.length < 2) day = '0' + day;
-
-    return [year, month, day].join('-');
-}
 
 // 폼 제출 전 유효성 검사 함수
 function validateBeforeSubmit() {
@@ -80,13 +40,13 @@ function validateBeforeSubmit() {
 //선택승인
 $("#authAdminBtn").click(function() {
 
-    let admin = $('.admins_table tbody tr input[type=checkbox]:checked')
+    let admin = $('.list_content .list_item input[type=checkbox]:checked')
     if (admin.length === 0) {
         alert('승인할 관리자를 선택해 주세요.');
         return;
     }
 
-    let isAuth = admin.closest('tr').find('.is_authorized');
+    let isAuth = admin.closest('.list_item').find('.is_authorized');
     if(isAuth.text() === 'O') {
         alert('이미 승인된 관리자입니다.');
         return;
@@ -97,11 +57,12 @@ $("#authAdminBtn").click(function() {
     let csrfHeader = $("meta[name='_csrf_header']").attr("content");
 
     if(confirm("선택한 관리자에게 관리자 권한을 부여하시겠습니까?")) {
+        // $('.loader_wrap.white').css('display', 'block');
         $.ajax({
             method: 'POST',
             url: '/ajax/admin/admins/auth',
             async: false,
-            data: {'adminId': adminId},
+            data: {adminId: adminId},
             beforeSend: function (xhr) {
                 xhr.setRequestHeader(csrfHeader, csrfToken)
             },
@@ -111,7 +72,8 @@ $("#authAdminBtn").click(function() {
                 }
             },
             error: function () {
-                alert('승인중 오류가 발생했습니다. 다시 시도해 주세요.');
+                alert('승인 중 오류가 발생했습니다. 다시 시도해 주세요.');
+                // $('.loader_wrap.white').css('display', 'none');
             }
         })
     } else {
@@ -122,7 +84,7 @@ $("#authAdminBtn").click(function() {
 //선택삭제
 $("#deleteAdminBtn").click(function() {
 
-    let admin = $('.admins_table tbody tr input[type=checkbox]:checked');
+    let admin = $('.list_content .list_item input[type=checkbox]:checked');
     if (admin.length === 0) {
         alert('삭제할 관리자를 선택해 주세요.');
         return;
@@ -138,7 +100,7 @@ $("#deleteAdminBtn").click(function() {
             url: '/ajax/admin/admins/delete',
             data: {adminId: adminId},
             beforeSend: function (xhr) {
-                xhr.setRequestHeader(csrfHeader, csrfToken)
+                xhr.setRequestHeader(csrfHeader, csrfToken);
             },
             success: function (result) {
                 if(result.code === 200) {

@@ -811,6 +811,9 @@ th {
 .admins_wrap .btn1 {
     width: 80px;
 }
+#authAdminBtn {
+    position: relative;
+}
 .admins_table {
     border-collapse: collapse;
     /*border-bottom: 1px solid #d7d7d7;*/
