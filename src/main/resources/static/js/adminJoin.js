@@ -1,3 +1,5 @@
+let isLoginIdChecked = false;
+let isEmailChecked = false;
 let isAvailableLoginId = false;
 let isAvailableEmail = false;
 
@@ -54,6 +56,7 @@ function isLoginIdValid() {
             xhr.setRequestHeader(csrfHeader, csrfToken);
         },
         success: function (result) {
+            isLoginIdChecked = true;
             if (result.code == 200) {
                 isAvailableLoginId = true;
                 $('#idMsg').text(result.message);
@@ -150,6 +153,7 @@ function isPwConfirmValid() {
         return true;
     } else {
         $('#pwconfirmMsg').text('비밀번호가 일치하지 않습니다.');
+        $('#pwconfirmMsg').removeClass('success').addClass('error');
         return false;
     }
 }
@@ -182,6 +186,7 @@ function regexName() {
     let regex = /^[가-힣]{2,5}$/;
     if (!regex.test(name)) {
         $('#nameMsg').text('2~5자의 한글을 사용해 주세요. (특수기호, 공백 사용 불가)');
+        $('#nameMsg').removeClass('success').addClass('error');
         return false;
     }
 
@@ -208,6 +213,7 @@ function isEmailValid() {
             xhr.setRequestHeader(csrfHeader, csrfToken);
         },
         success: function (result) {
+            isEmailChecked = true;
             if (result.code == 200) {
                 isAvailableEmail = true;
                 $('#emailMsg').text(result.message);
@@ -243,7 +249,7 @@ function regexEmail() {
     let email = $('#email').val();
     let regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!regex.test(email)) {
-        $('#emailMsg').text('유효한 이메일을 입력해 주세요.');
+        $('#emailMsg').text('이메일 형식으로 입력해 주세요.');
         $('#emailMsg').removeClass('success').addClass('error');
         return false;
     }
@@ -257,9 +263,12 @@ function validateBeforeSubmit() {
         alert("아이디를 입력해 주세요.");
         return false;
     } else if (!regexLoginId()) {
-        alert("유효한 아이디를 입력해 주세요.");
+        alert("5~20자의 영문 소문자, 숫자 조합을 사용해 주세요.");
         return false;
-    } else if(!isAvailableLoginId) {
+    } else if (!isLoginIdChecked) {
+        alert("아이디 중복검사를 해주세요");
+        return false;
+    } else if (!isAvailableLoginId) {
         alert("이미 사용중인 아이디입니다.");
         return false;
     }
@@ -284,7 +293,7 @@ function validateBeforeSubmit() {
         alert("이름을 입력해 주세요.");
         return false;
     } else if (!regexName()) {
-        alert("유효한 이름을 입력해 주세요.");
+        alert("2~12자의 한글, 영문 대/소문자를 사용해 주세요.(특수기호, 공백 사용 불가)");
         return false;
     }
 
@@ -293,14 +302,18 @@ function validateBeforeSubmit() {
         alert("이메일을 입력해 주세요.");
         return false;
     } else if (!regexEmail()) {
-        alert("유효한 이메일을 입력해 주세요.");
+        alert("이메일 형식으로 입력해 주세요.");
         return false;
-    } else if(!isAvailableEmail) {
+    } else if (!isEmailChecked) {
+        alert("이메일 중복검사를 해주세요.");
+        return false;
+    } else if (!isAvailableEmail) {
         alert("이미 사용중인 이메일입니다.");
         return false;
     }
 
     $('.submit_btn').prop('disabled', true);
+    $('.loader_wrap').css('display', 'block');
 
     return true;
 }
