@@ -31,6 +31,7 @@
 }
 .list_item{
     display: flex;
+    justify-content: space-between;
     width: 100%;
     border: 1px solid #d7d7d7;
     border-top: none;
@@ -185,7 +186,19 @@
 .member .item.point {
     width: 10%;
 }
-
+/*admin*/
+.admin .item.userId{
+    width: 16%;
+}
+.admin .item.name {
+    width: 16%;
+}
+.admin .item.email {
+    width: 25%;
+}
+.admin .item.approval {
+    width: 6%;
+}
 /*product_inquiry*/
 .inquiry .item.number {
     width: 8%;
@@ -227,3 +240,19 @@
     width: 5%;
 }
 
+/*popup*/
+.popup .list_head {
+    border-right: none;
+    border-left: none;
+    background: #fff;
+}
+.popup .list_item {
+    border-right: none;
+    border-left: none;
+}
+.popup .list_content .item {
+    border-left: none;
+}
+.popup .list_content .item.title {
+    width: 60%;
+}
