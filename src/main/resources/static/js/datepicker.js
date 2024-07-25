@@ -2,13 +2,7 @@ $(document).ready(function() {
     $('#startDate, #endDate').datepicker({
         dateFormat: 'yy-mm-dd',
         maxDate: 0
-
     });
-    $('.date_option input[type="button"]').click(function() {
-        $('.date_option input[type="button"]').removeClass('active');
-        $(this).addClass('active');
-    });
-
 });
 function setSearchDate(days) {
     if (days === 'all') {

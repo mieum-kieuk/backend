@@ -18,8 +18,6 @@ function resetSearchForm() {
     });
     $('#startDate, #endDate').val(''); // 시작일, 종료일 초기화
     $('.date_option input[type="button"]').removeClass('active');
-    $('#adminsSearchForm')[0].reset();
-
 }
 
 function validateBeforeSearch() {
