@@ -1,12 +1,10 @@
 package archivegarden.shop.service.order;
 
 import archivegarden.shop.dto.ResultResponse;
-import archivegarden.shop.dto.order.CartCheckoutListDto;
 import archivegarden.shop.dto.order.CartListDto;
 import archivegarden.shop.entity.Cart;
 import archivegarden.shop.entity.Member;
 import archivegarden.shop.entity.Product;
-import archivegarden.shop.exception.NoSuchProductException;
 import archivegarden.shop.exception.ajax.AjaxNotFoundException;
 import archivegarden.shop.exception.ajax.NotEnoughStockAjaxException;
 import archivegarden.shop.repository.member.MemberRepository;
@@ -166,18 +164,5 @@ public class CartService {
                 throw new NotEnoughStockAjaxException("[" + product.getName() + "] 상품의 재고가 부족합니다.");
             }
         }
-    }
-
-    /**
-     * 주문하려는 상품 목록 조회
-     */
-    public List<CartCheckoutListDto> getCheckoutProducts(Member loginMember, List<Long> productIds) {
-        //Product 조회
-        productIds.forEach(id -> productRepository.findById(id).orElseThrow(() -> new NoSuchProductException("존재하지 않는 상품입니다.")));
-
-        return cartRepository.findCheckoutProducts(loginMember, productIds)
-                .stream()
-                .map(CartCheckoutListDto::new)
-                .collect(Collectors.toList());
     }
 }

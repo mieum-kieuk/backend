@@ -5,7 +5,7 @@ import archivegarden.shop.dto.admin.product.discount.AddDiscountForm;
 import archivegarden.shop.dto.admin.product.discount.DiscountDetailsDto;
 import archivegarden.shop.dto.admin.product.discount.DiscountListDto;
 import archivegarden.shop.dto.admin.product.discount.EditDiscountForm;
-import archivegarden.shop.service.admin.promotion.discount.AdminDiscountService;
+import archivegarden.shop.service.admin.product.AdminDiscountService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

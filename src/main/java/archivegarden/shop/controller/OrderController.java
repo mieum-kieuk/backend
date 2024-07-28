@@ -1,13 +1,13 @@
 package archivegarden.shop.controller;
 
 import archivegarden.shop.dto.delivery.DeliveryDto;
-import archivegarden.shop.dto.order.CartCheckoutListDto;
 import archivegarden.shop.dto.order.MemberDto;
+import archivegarden.shop.dto.order.OrderProductListDto;
 import archivegarden.shop.entity.Member;
 import archivegarden.shop.service.mypage.DeliveryService;
-import archivegarden.shop.service.order.CartService;
 import archivegarden.shop.service.order.OrderService;
 import archivegarden.shop.service.point.SavedPointService;
+import archivegarden.shop.service.product.ProductService;
 import archivegarden.shop.web.annotation.CurrentUser;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -26,7 +26,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderController {
 
-    private final CartService cartService;
+    private final ProductService productService;
     private final OrderService orderService;
     private final DeliveryService deliveryService;
     private final SavedPointService savedPointService;
@@ -46,7 +46,7 @@ public class OrderController {
         List<Long> productIds = (List<Long>) session.getAttribute("checkoutProducts");
         session.removeAttribute("checkoutProducts");
 
-        List<CartCheckoutListDto> products = cartService.getCheckoutProducts(loginMember, productIds);
+        List<OrderProductListDto> products = productService.getOrderProducts(loginMember, productIds);
 
         //기본 배송지 주소
         DeliveryDto defaultDelivery = deliveryService.getDefaultDelivery(loginMember.getId());

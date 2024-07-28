@@ -33,15 +33,15 @@ public class Order {
     @Column(name = "recipient_phone_number", length = 13, nullable = false)
     private String recipientPhonenumber;
 
-    @Column(name = "total_amount", nullable = false)
-    private int totalAmount;
+    @Column(name = "amount", nullable = false)
+    private int amount;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "order_status")
     private OrderStatus orderStatus;
 
-    @Column(name = "order_at", nullable = false, updatable = false)
-    private LocalDateTime orderAt;
+    @Column(name = "ordered_at", nullable = false, updatable = false)
+    private LocalDateTime orderedAt;
 
     @Column(name = "delivered_at")
     private LocalDateTime deliveredAt;
@@ -60,15 +60,12 @@ public class Order {
     }
 
     @Builder
-    public Order(Member member, Delivery delivery, String merchantUid, int totalAmount, OrderStatus orderStatus, List<OrderProduct> orderProducts) {
+    public Order(Member member, String merchantUid, int amount, OrderStatus orderStatus, List<OrderProduct> orderProducts) {
         this.member = member;
-        this.recipientName = delivery.getRecipientName();
-        this.recipientPhonenumber = delivery.getPhonenumber();
-        this.recipientAddress = delivery.getAddress().fullAddress();
         this.merchantUid = merchantUid;
-        this.totalAmount = totalAmount;
+        this.amount = amount;
         this.orderStatus = orderStatus;
-        this.orderAt = LocalDateTime.now();
+        this.orderedAt = LocalDateTime.now();
         for (OrderProduct orderProduct : orderProducts) {
             addOrderProduct(orderProduct);
         }

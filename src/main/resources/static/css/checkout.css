@@ -65,7 +65,7 @@ section {
 .cart_wrap .cart_head {
     display: flex;
     border-bottom: 1px solid #333;
-    padding: 10px 0;
+    padding-bottom: 10px;
     text-align: center;
 }
 .cart_wrap .cart_head .item.quantity{

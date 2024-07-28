@@ -1,11 +1,15 @@
 package archivegarden.shop.service.product;
 
 import archivegarden.shop.dto.community.inquiry.ProductPopupDto;
+import archivegarden.shop.dto.order.OrderProductListDto;
 import archivegarden.shop.dto.product.ProductDetailsDto;
 import archivegarden.shop.dto.product.ProductListDto;
 import archivegarden.shop.dto.product.ProductSearchCondition;
+import archivegarden.shop.entity.Member;
 import archivegarden.shop.entity.Product;
+import archivegarden.shop.exception.NotFoundException;
 import archivegarden.shop.exception.ProductNotFoundException;
+import archivegarden.shop.repository.order.CartRepository;
 import archivegarden.shop.repository.product.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -22,6 +26,7 @@ import java.util.stream.Collectors;
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final CartRepository cartRepository;
 
     /**
      * 홈 화면
@@ -68,5 +73,20 @@ public class ProductService {
      */
     public Page<ProductPopupDto> getPopupProducts(String keyword, Pageable pageable) {
         return productRepository.findDtoAllPopup(keyword, pageable);
+    }
+
+    /**
+     * 주문하려는 상품 목록 조회
+     *
+     * @throws NotFoundException
+     */
+    public List<OrderProductListDto> getOrderProducts(Member loginMember, List<Long> productIds) {
+        //Product 조회
+        productIds.forEach(id -> productRepository.findById(id).orElseThrow(() -> new NotFoundException("존재하지 않는 상품입니다.")));
+
+        return cartRepository.findOrderProducts(loginMember, productIds)
+                .stream()
+                .map(OrderProductListDto::new)
+                .collect(Collectors.toList());
     }
 }
