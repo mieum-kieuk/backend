@@ -818,9 +818,7 @@ legend {
 }
 .loader_wrap.white {
   display: none;
-  position: absolute;
   background: #fff;
-  z-index: 1000;
 }
 .loader {
   position: absolute;

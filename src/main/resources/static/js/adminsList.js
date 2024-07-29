@@ -57,14 +57,23 @@ $("#authAdminBtn").click(function() {
     let csrfHeader = $("meta[name='_csrf_header']").attr("content");
 
     if(confirm("선택한 관리자에게 관리자 권한을 부여하시겠습니까?")) {
-        // $('.loader_wrap.white').css('display', 'block');
+
+        $('#authAdminBtn').append(`
+            <div class="loader_wrap white" style="display: none;">
+                <div class="loader"></div>
+            </div>`
+        );
+
+        let loader = $('#authAdminBtn .loader_wrap.white');
+        loader.css('display', 'block');
+
         $.ajax({
             method: 'POST',
             url: '/ajax/admin/admins/auth',
-            async: false,
+            async: true,
             data: {adminId: adminId},
             beforeSend: function (xhr) {
-                xhr.setRequestHeader(csrfHeader, csrfToken)
+                xhr.setRequestHeader(csrfHeader, csrfToken);
             },
             success: function (result) {
                 if(result.code === 200) {
@@ -73,9 +82,9 @@ $("#authAdminBtn").click(function() {
             },
             error: function () {
                 alert('승인 중 오류가 발생했습니다. 다시 시도해 주세요.');
-                // $('.loader_wrap.white').css('display', 'none');
+                loader.css('display', 'none');
             }
-        })
+        });
     } else {
         return false;
     }
