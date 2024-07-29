@@ -38,4 +38,7 @@ public class Portone {
 
     //==FAILED==//
     String failedAt;    //결제 실패 시점
+
+    //==CANCELLED==//
+    String cancelledAt;    //결제 취소 시점
 }

@@ -45,7 +45,6 @@ public class OrderController {
         }
         List<Long> productIds = (List<Long>) session.getAttribute("checkoutProducts");
         session.removeAttribute("checkoutProducts");
-
         List<OrderProductListDto> products = productService.getOrderProducts(loginMember, productIds);
 
         //기본 배송지 주소

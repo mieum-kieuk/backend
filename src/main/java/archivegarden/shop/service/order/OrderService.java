@@ -37,22 +37,37 @@ public class OrderService {
                 .map(productId -> productRepository.findById(productId).orElseThrow(() -> new NotFoundException("존재하지 않는 상품입니다.")))
                 .collect(Collectors.toList());
 
-        //주문 상품 생성
+        //OrderProduct 생성
         List<OrderProduct> orderProducts = new ArrayList<>();
         for (Product product : products) {
             Cart cart = cartRepository.findByMemberAndProduct(member, product);
-            OrderProduct orderProduct = OrderProduct.builder()
-                    .product(product)
-                    .count(cart.getCount())
-                    .build();
+            OrderProduct orderProduct = OrderProduct.createOrderProduct(cart.getCount(), product);
             orderProducts.add(orderProduct);
+        }
+
+        //주문 결제 금액 계산
+        int amount = 0;
+        for (OrderProduct orderProduct : orderProducts) {
+            Product product = orderProduct.getProduct();
+            int price = product.getPrice();
+            Discount discount = product.getDiscount();
+            if(discount != null) {
+                double salePrice = price - (double) price * discount.getDiscountPercent() / 100;
+                amount += Math.round(salePrice * orderProduct.getCount());
+            } else {
+                amount += price;
+            }
+        }
+
+        if(amount < 50000) {
+            amount += 3000;
         }
 
         //주문 생성
         Order order = Order.builder()
                 .member(member)
                 .merchantUid(merchantUid)
-                .amount(10000)
+                .amount(amount)
                 .orderStatus(OrderStatus.TRY)   //주문시도
                 .orderProducts(orderProducts)
                 .build();

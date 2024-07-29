@@ -43,19 +43,8 @@ public class PaymentService {
     @Value("${portone.apiSecret}")
     private String apiSecret;
 
-/*    public boolean doCallbackResult(String paymentId, String transactionId) {
-
-        boolean isPaymentExist = findPayment(paymentId);
-        if(!isPaymentExist) {
-            doResult(paymentId, transactionId);
-        }
-
-        Payment payment = paymentRepository.findByPaymentId(paymentId).get();
-        return "SUCCESS".equals(payment.getOrder().getOrderStatus());
-    }*/
-
     /**
-     * 공통처리
+     * STEP5: 공통처리
      * 1. access token 발급
      * 2. 결제 단건 조회
      * 3. 결제 데이터 생성
@@ -68,10 +57,8 @@ public class PaymentService {
         String transactionId = webhook.getData().getTransactionId();
 
         try {
-            //STEP5
             if (paymentId != null) {
-                //1. 결제 조회를 위한 access_token 발급
-                //유효기간은 하루
+                //1. 결제 조회를 위한 access_token 발급, 유효기간은 하루
                 String accessToken = getAccessToken();
 
                 //2. 결제 단건 조회
@@ -81,6 +68,7 @@ public class PaymentService {
 
                 LocalDateTime paidAt = null;
                 LocalDateTime failedAt = null;
+                LocalDateTime cancelledAt = null;
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
                 if (response.isSuccessful()) {
@@ -88,7 +76,6 @@ public class PaymentService {
                     JSONParser parser = new JSONParser();
                     JSONObject resultObj = (JSONObject) parser.parse(response.body().string());
                     String payStatus = (String) resultObj.get("status");
-                    payResultEntity.setStatus(payStatus);
                     payResultEntity.setOrderName((String) resultObj.get("orderName"));  //주문명
                     JSONObject amount = (JSONObject) resultObj.get("amount"); //결제 금액 세부 정보
                     payResultEntity.setAmount((Long) amount.get("total"));    //총 결제금액
@@ -100,23 +87,32 @@ public class PaymentService {
                         payResultEntity.setBuyerEmail((String) customer.get("email"));    //이메일
                         payResultEntity.setBuyerPhone((String) customer.get("phoneNumber"));    //휴대전화번호
                     }
-                    payResultEntity.setCustomData((String) resultObj.get("customData"));    //사용자 지정 데이터
+                    JSONObject paymentMethodObj = (JSONObject) resultObj.get("method");
+                    String type = (String) paymentMethodObj.get("type");
+                    payResultEntity.setPayMethod(type.split("PaymentMethod")[1]); //결제수단 정보
+                    payResultEntity.setCustomData((String) resultObj.get("customData")); //사용자 지정 데이터
                     JSONObject channel = (JSONObject) resultObj.get("channel"); //(결제, 본인인증 등에) 선택된 채널 정보
                     payResultEntity.setPgProvider((String) channel.get("pgProvider")); //PG사 결제 모듈
 
-                    if ("PAID".equals(payStatus)) { //결제(예약 결제 포함)가 승인되었을 때 (모든 결제 수단)
+                    payResultEntity.setStatus(payStatus);   //결제 건 상태
+                    if ("PAID".equals(payStatus)) { //결제 완료
                         payResultEntity.setPaidAt((String) resultObj.get("paidAt"));  //결제 완료 시점
-                        JSONObject paymentMethodObj = (JSONObject) resultObj.get("method");    //결제수단 정보
                         JSONObject cardObj = (JSONObject) paymentMethodObj.get("card");  //카드 상세 정보
                         payResultEntity.setCardName((String) cardObj.get("name"));    //카드 상품명
                         payResultEntity.setApprovalNumber((String) paymentMethodObj.get("approval_number"));  //승인 번호
                         JSONObject installment = (JSONObject) paymentMethodObj.get("installment"); //할부 정보
                         payResultEntity.setCardQuota((Long) installment.get("month"));   //할부 개월 수
-                        paidAt = LocalDateTime.parse(payResultEntity.getPaidAt().replace("T", " ").substring(0, 19), formatter);
-                    } else if ("FAILED".equals(payStatus)) {    //결제(예약 결제 포함)가 실패했을 때
+                        paidAt = LocalDateTime.parse(payResultEntity.getPaidAt().replace("T", " ").substring(0, 19), formatter).plusHours(9);
+                    } else if("CANCELLED".equals(payStatus)) {  //결제 취소
+                        cancelledAt = LocalDateTime.parse(resultObj.get("cancelledAt").toString().replace("T", " ").substring(0, 19), formatter);
+                        Payment payment = paymentRepository.findByMerchantUid(paymentId);
+                        payment.updateStatus(payResultEntity.getStatus(), cancelledAt);
+                        return "CANCELLED";
+                    }
+                    else if ("FAILED".equals(payStatus)) {    //결제 실패
                         payResultEntity.setFailedAt((String) resultObj.get("failedAt"));
                         failedAt = LocalDateTime.parse(payResultEntity.getFailedAt().replace("T", " ").substring(0, 19), formatter);
-                    } else if ("READY".equals(payStatus)) {  //결제창이 열렸을 때
+                    } else if ("READY".equals(payStatus)) {  //결제 준비
                         return "READY";
                     }
                 } else {
@@ -141,8 +137,9 @@ public class PaymentService {
                         .impUid(transactionId)
                         .merchantUid(paymentId)
                         .payMethod(payResultEntity.getPayMethod())
-                        .customData(payResultEntity.getCustomData())
                         .status(payResultEntity.getStatus())
+                        .paidAt(paidAt)
+                        .failedAt(failedAt)
                         .build();
 
                 paymentRepository.save(payment);
@@ -151,13 +148,13 @@ public class PaymentService {
                 if (order.getAmount().toString().equals(payResultEntity.getAmount().toString())) {
                     if ("CANCELLED".equals(payResultEntity.getStatus())) {
                         //주문상태 변경
-                        order.updateStatus(OrderStatus.CANCEL, "결과수신시 취소로 수신");
+                        order.updateStatus(OrderStatus.CANCEL, "결과 수신시 취소로 수신");
                     } else if ("FAILED".equals(payResultEntity.getStatus())) {
                         //주문상태 변경
                         order.updateStatus(OrderStatus.FAIL, "주문 실패");
                     } else if ("PAID".equals(payResultEntity.getStatus())) {
                         //상품재고 감소 및 주문상태 변경
-                        order.updateStatus(OrderStatus.SUCCESS, "결제성공");
+                        order.updateStatus(OrderStatus.SUCCESS, "결제 성공");
                     }
                 } else {
                     //금액 위변조 취소처리
@@ -179,6 +176,14 @@ public class PaymentService {
         }
 
         return status;
+    }
+
+    /**
+     * 결제 성공 여부 조회
+     */
+    public boolean isPaymentSuccess(String paymentId) {
+        String orderStatus = orderRepository.findOrderStatusByMerchantUid(paymentId);
+        return "SUCCESS".equals(orderStatus);
     }
 
     /**
@@ -204,7 +209,7 @@ public class PaymentService {
             JSONObject resultObj = (JSONObject) parser.parse(response.body().string());
             accessToken = (String) resultObj.get("accessToken");
         } else {
-            //웹훅 결제조회 실패로 결제취 처리하거나 콜백에서 처리할 수 있다.
+            //웹훅 결제조회 실패로 결제취소 처리하거나 콜백에서 처리할 수 있다.
             log.error("결제 조회를 위한 토큰 발급에 실패하였습니다.");
         }
 
@@ -244,13 +249,5 @@ public class PaymentService {
 
         OkHttpClient client = new OkHttpClient();
         client.newCall(request).execute();
-    }
-
-    /**
-     * 결제 성공 여부 조회
-     */
-    public boolean isPaymentSuccess(String paymentId) {
-        Payment payment = paymentRepository.findByPaymentId(paymentId).get();
-        return "SUCCESS".equals(payment.getOrder().getOrderStatus());
     }
 }

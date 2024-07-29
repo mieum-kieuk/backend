@@ -46,9 +46,6 @@ public class Payment {
     @Column(name = "pay_method")
     private String payMethod;
 
-    @Column(name = "custom_data")
-    private String customData;
-
     private String status;
 
     @Column(name = "paid_at")
@@ -57,12 +54,15 @@ public class Payment {
     @Column(name = "failed_at")
     private LocalDateTime failedAt;
 
+    @Column(name = "cancelled_at")
+    private LocalDateTime cancelledAt;
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
     private Order order;    //일대일 단방향
 
     @Builder
-    public Payment(Long id, Long amount, String pgProvider, String approvalNumber, String buyerEmail, String cardName, Long cardQuota, String currency, String impUid, String merchantUid, String payMethod, String customData, String status, LocalDateTime paidAt, LocalDateTime failedAt, Order order) {
+    public Payment(Long id, Long amount, String pgProvider, String approvalNumber, String buyerEmail, String cardName, Long cardQuota, String currency, String impUid, String merchantUid, String payMethod, String status, LocalDateTime paidAt, LocalDateTime failedAt, Order order) {
         this.id = id;
         this.amount = amount;
         this.pgProvider = pgProvider;
@@ -74,10 +74,14 @@ public class Payment {
         this.impUid = impUid;
         this.merchantUid = merchantUid;
         this.payMethod = payMethod;
-        this.customData = customData;
         this.status = status;
         this.paidAt = paidAt;
         this.failedAt = failedAt;
         this.order = order;
+    }
+
+    public void updateStatus(String status, LocalDateTime cancelledAt) {
+        this.status = status;
+        this.cancelledAt = cancelledAt;
     }
 }

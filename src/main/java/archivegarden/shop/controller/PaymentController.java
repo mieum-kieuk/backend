@@ -43,6 +43,7 @@ public class PaymentController {
             log.info("code: {}", code);
             log.info("message: {}", message);
 
+            //웹훅 우선순위 설정에 따라 웹훅으로 DB 결과를 반영하여 콜백은 DB의 결과를 조회하여 프론트로 전달한다.
             boolean payment = paymentService.isPaymentSuccess(paymentId);
 
             String status = "fail";
@@ -83,7 +84,7 @@ public class PaymentController {
             log.info("timestamp: {}", timestamp);
             log.info("data: {}", data);
 
-            paymentService.doResult(webhook);
+            String status = paymentService.doResult(webhook);
 
         } catch (Exception e) {
             e.printStackTrace();

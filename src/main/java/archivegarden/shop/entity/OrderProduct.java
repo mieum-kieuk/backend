@@ -2,7 +2,6 @@ package archivegarden.shop.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -30,12 +29,11 @@ public class OrderProduct {
     @JoinColumn(name = "order_id")
     private Order order;    //다대일 양방향
 
-    @Builder
-    public OrderProduct(int count, Product product) {
-        this.count = count;
-        this.product = product;
-
-        product.removeStock(count);
+    public static OrderProduct createOrderProduct(int count, Product product) {
+        OrderProduct orderProduct = new OrderProduct();
+        orderProduct.count = count;
+        orderProduct.product = product;
+        return orderProduct;
     }
 
     public void setOrder(Order order) {

@@ -12,10 +12,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css">
     <link rel="stylesheet" href="../../static/css/comm.css" th:href="@{/css/comm.css}"/>
     <link rel="stylesheet" href="../../static/css/checkout.css" th:href="@{/css/checkout.css}"/>
     <link rel="stylesheet" href="../../static/css/search_complete.css" th:href="@{/css/search_complete.css}"/>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -27,7 +27,7 @@
 <div class="wrap">
     <div th:replace="~{/layout/header :: header}"></div>
     <div id="order">
-        <form action="" th:action th:object="${form}" method="post" th:onsubmit="return validateBeforeSubmit()">
+<!--        <form action="" th:action th:object="${form}" method="post" th:onsubmit="return validateBeforeSubmit()">-->
         <div class="order_wrap">
             <h1 class="order_title">주문서</h1>
             <div class="order_inner">
@@ -201,7 +201,9 @@
                                 </div>
                                 <div class="item price">
                                     <span class="sale_price" id="productSalePrice" th:text="${product.totalSalePrice}"></span>
-                                    <span class="original_price" id="productPrice" th:classappend="${product.isDiscounted} ? 'line_through'" th:text="${product.totalPrice}"></span>
+                                    <div class="original_price">
+                                        <span class="sale_price" id="productPrice" th:classappend="${product.isDiscounted} ? 'line_through'" th:text="${product.totalPrice}"></span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -233,72 +235,7 @@
                             <li>
                                 <button type="button" class="pay_btn easy">간편결제</button>
                             </li>
-
                         </ul>
-                        <div class="card_select">
-                            <div class="card selected">
-                                <div class="card_value">
-                                    <span>카드사를 선택해 주세요.</span>
-                                </div>
-                                <span class="material-symbols-outlined">expand_more</span>
-                            </div>
-                            <ul class="card_list">
-                                <li class="card">
-                                    <span class="card_name" value>KB국민카드</span>
-                                </li>
-                                <li class="card">
-                                    <span class="card_name">신한카드</span>
-                                </li>
-                                <li class="card">
-                                    <span class="card_name">삼성카드</span>
-                                </li>
-                                <li class="card">
-                                    <span class="card_name">현대카드</span>
-                                </li>
-                                <li class="card">
-                                    <span class="card_name">BC카드</span>
-                                </li>
-                                <li class="card">
-                                    <span class="card_name">롯데카드</span>
-                                </li>
-                                <li class="card">
-                                    <span class="card_name">KEB하나카드</span>
-                                </li>
-                                <li class="card">
-                                    <span class="card_name">우리카드</span>
-                                </li>
-                                <li class="card">
-                                    <span class="card_name">NH카드</span>
-                                </li>
-                                <li class="card">
-                                    <span class="card_name">씨티카드</span>
-                                </li>
-                                <li class="card">
-                                    <span class="card_name">카카오뱅크카드</span>
-                                </li>
-                                <li class="card">
-                                    <span class="card_name">전북카드</span>
-                                </li>
-                                <li class="card">
-                                    <span class="card_name">광주카드</span>
-                                </li>
-                                <li class="card">
-                                    <span class="card_name">수협카드</span>
-                                </li>
-                                <li class="card">
-                                    <span class="card_name">우체국카드</span>
-                                </li>
-                                <li class="card">
-                                    <span class="card_name">제주카드</span>
-                                </li>
-                                <li class="card">
-                                    <span class="card_name">신협카드</span>
-                                </li>
-                                <li class="card">
-                                    <span class="card_name">새마을카드</span>
-                                </li>
-                            </ul>
-                        </div>
                         <div class="easy_select">
                             <ul class="easy_options">
                                 <li>
@@ -337,7 +274,7 @@
                             </li>
                             <li class="total_price">
                                 <div class="title">총 결제 금액</div>
-                                <div class="content"></div>
+                                <div class="content" id="orderTotalPrice"></div>
                             </li>
                         </ul>
                         <div class="order_agree_wrap">
@@ -370,13 +307,13 @@
                             </ul>
                             <p>결제 및 계좌 안내 시 상호명은 <em>[미음키읔]</em>으로 표기되니 참고 부탁드립니다.</p></div>
                         <div class="btn_wrap">
-                            <button type="submit" class="btn1 submit_btn" id="checkoutBtn" >결제하기</button>
+                            <button type="submit" class="btn1 submit_btn" id="checkoutBtn" onclick="payment('CARD')">결제하기</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        </form>
+<!--        </form>-->
     </div>
     <div th:replace="~{/layout/footer :: basic_footer}"></div>
 </div>
@@ -385,15 +322,13 @@
 <script src="https://cdn.portone.io/v2/browser-sdk.js"></script>
 <script th:inline="javascript">
 
-    let paymentId = [[${paymentId}]];
-    let storeId = [[${storeId}]];
-    let channelKey = [[${channelKey}]];
     let csrfToken = $("meta[name='_csrf']").attr('content');
     let csrfHeader = $("meta[name='_csrf_header']").attr('content');
 
     function payment(payMethod) {
         //STEP2
         //파라미터 세팅 후 결제창 호출
+
         //고객정보
         const customer = {
             customerId: 'cid-' + [[${member.id}]], // 구매자 고유 ID
@@ -402,18 +337,24 @@
             email: [[${member.email}]]  //구매자 이메일 주소
         };
 
-
+        //결제 정보
         let paymentData = {
-            storeId: storeId,   //고객사 ID
-            paymentId: paymentId,   //고객사 주문 고유 번호
-            channelKey: channelKey,  //채널 키
-            orderName: '어쩌구 저쩌구',   //주문명
-            totalAmount: 100,   //결제 금액
+            storeId: [[${storeId}]],   //고객사 ID
+            paymentId: [[${paymentId}]],   //고객사 주문 고유 번호
+            orderName: getOrderName(),   //주문명
+            totalAmount: getTotalPrice(),   //결제 금액
             currency: 'KRW',    //결제 통화
             payMethod: payMethod,   //결제수단 구분코드
             customer: customer,
-            confirmUrl: 'https://86e8-222-107-113-225.ngrok-free.app/payment/webhook',
-            redirectUrl: 'https://86e8-222-107-113-225.ngrok-free.app/payment/redirect'
+            customData: [[${orderId}]],
+            confirmUrl: 'https://57f6-118-220-129-220.ngrok-free.app/payment/webhook',
+            redirectUrl: 'https://57f6-118-220-129-220.ngrok-free.app/payment/redirect'
+        }
+
+        //일반 신용카드 결제시
+        //'payMethod' : 'CARD'
+        if(payMethod == 'CARD') {
+            paymentData.channelKey = [[${channelKey}]];    //채널키
         }
 
         const response = PortOne.requestPayment(paymentData)
@@ -428,6 +369,7 @@
                     headers: {"Content-Type": "application/json"},
                     beforeSend: function (xhr) {
                         xhr.setRequestHeader(csrfHeader, csrfToken)
+                        xhr.setRequestHeader('XMLHttpRequest', 'X-Requested-With')
                     },
                     data: JSON.stringify(response)
                 }).done(function (data) {
