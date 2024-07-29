@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>상품 수정 | 미음키읔</title>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <title>전체 상품관리 | 미음키읔</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,15 +16,15 @@
     <link rel="stylesheet" href="../../../../static/css/admin_form.css" th:href="@{/css/admin_form.css}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script defer src="../../../../static/js/comm.js" th:src="@{/js/comm.js}"></script>
-    <script defer src="../../../../static/js/adminProduct.js" th:src="@{/js/adminProduct.js}"></script>
+    <script defer src="../../../../static/js/adminEditProduct.js" th:src="@{/js/adminEditProduct.js}"></script>
 </head>
 <body>
 <div class="admin_wrap">
-    <div th:replace="~{/layout/menu :: admin_menu_authenticated}"></div>
+    <div th:replace="~{/layout/menu :: admin_menu}"></div>
     <div id="editProduct">
         <div class="content">
             <h2 class="content_tit">상품 수정</h2>
-            <form id="ProductForm" action="" th:object="${product}" th:action method="post" enctype="multipart/form-data">
+            <form id="ProductForm" action="" th:object="${product}" th:action method="post" enctype="multipart/form-data" th:onsubmit="return validateBeforeSubmit()">
                 <div class="form_wrap">
                     <div class="input_box_wrap">
                         <label for="name" class="ess_tit">상품명</label>
@@ -43,16 +45,6 @@
                         <input type="number" id="price" th:field="*{price}">
                     </div>
                     <div class="field-error" th:errors="*{price}"></div>
-                    <div class="input_box_wrap">
-                        <label for="discount" class="ess_tit">상품 할인</label>
-                        <div class="select_wrap">
-                            <select id="discount" th:field="*{discountId}">
-                                <option value="" selected>상품 할인을 선택해 주세요.</option>
-                                <option th:each="discount : ${discounts}" th:value="${discount.key}" th:text="${discount.value}"></option>
-                            </select>
-                            <span class="material-symbols-outlined">expand_more</span>
-                        </div>
-                    </div>
                     <div class="input_box_wrap">
                         <label for="stockQuantity" class="ess_tit">재고</label>
                         <input type="number" id="stockQuantity" th:field="*{stockQuantity}">
@@ -79,15 +71,18 @@
                     </div>
                     <div class="field-error" th:errors="*{notice}"></div>
                     <div class="input_box_wrap desc">
-                        <label for="displayImage" class="ess_tit">섬네일 사진1</label>
-                        <input type="file" id="displayImage" th:field="*{displayImage}">
+                        <label for="displayImage1" class="ess_tit">섬네일 사진1</label>
+                        <input type="file" id="displayImage1" th:field="*{displayImage1}">
+                        <div class="file_btn_wrap">
+                            <button type="button" class="btn1 file_btn" id="displayImage1Btn">파일 선택</button>
+                        </div>
                     </div>
-                    <div class="field-error exc" th:errors="*{displayImage}"></div>
-                    <input type="hidden" id="isDisplayImageChanged" th:field="*{isDisplayImageChanged}">
+                    <div class="field-error exc" th:errors="*{displayImage1}"></div>
                     <div id="previewContainer1" class="preview_container">
                         <div class="preview_images">
-                            <img src="" alt="섬네일 사진1" class="preview_image">
-                            <div class="filename_container"><span class="file_name"></span>
+                            <img th:src="|/productImages/${product.displayImages[0].storeImageName}|" alt="섬네일 사진1" class="preview_image">
+                            <div class="filename_container">
+                                <span>파일명: </span><span class="file_name" th:text="${product.displayImages[0].uploadImageName}"></span>
                             </div>
                         </div>
                         <div class="btn_wrap">
@@ -96,14 +91,17 @@
                     </div>
                     <div class="text description"><span>상품 목록에서 보여질 사진입니다.</span></div>
                     <div class="input_box_wrap desc">
-                        <label for="hoverImage">섬네일 사진2</label>
-                        <input type="file" id="hoverImage" th:field="*{hoverImage}">
+                        <label for="displayImage2">섬네일 사진2</label>
+                        <input type="file" id="displayImage2" th:field="*{displayImage2}">
+                        <div class="file_btn_wrap">
+                            <button type="button" class="btn1 file_btn" id="displayImage2Btn">파일 선택</button>
+                        </div>
                     </div>
-                    <div id="previewContainer2" class="preview_container">
+                    <div id="previewContainer2" class="preview_container" th:if="${product.displayImages.size() == 2}">
                         <div class="preview_images">
-                            <img src="" alt="섬네일 사진2" class="preview_image">
+                            <img th:src="|/productImages/${product.displayImages[1].storeImageName}|" alt="섬네일 사진2" class="preview_image">
                             <div class="filename_container">
-                                <span class="file_name"></span>
+                                <span>파일명: </span><span class="file_name" th:text="${product.displayImages[1].uploadImageName}"></span>
                             </div>
                         </div>
                         <div class="btn_wrap">
@@ -114,60 +112,40 @@
                     <div class="input_box_wrap desc">
                         <label for="detailsImages">상세 페이지 사진</label>
                         <input type="file" id="detailsImages" th:field="*{detailsImages}" multiple>
+                        <div class="file_btn_wrap">
+                            <button type="button" class="btn1 file_btn" id="detailsImagesBtn">파일 선택</button>
+                        </div>
                     </div>
                     <div class="field-error exc" th:errors="*{detailsImages}"></div>
-                    <div id="previewContainer3" class="preview_container column"></div>
-                    <div id="newPreviewContainer3" class="preview_container column"></div>
+                    <div id="previewContainer3" class="preview_container column">
+                        <div class="preview_image_container" th:each="detailsImage : ${product.detailsImages}">
+                            <div class="preview_images">
+                                <img th:src="|/productImages/${detailsImage.storeImageName}|" alt="섬네일 사진2" class="preview_image">
+                                <div class="filename_container">
+                                    <span>파일명: </span><span class="file_name" th:text="${detailsImage.uploadImageName}"></span>
+                                </div>
+                            </div>
+                            <div class="btn_wrap">
+                                <button type="button" class="delete_btn" onclick="deleteFile()"><span class="material-symbols-outlined">close</span></button>
+                            </div>
+                        </div>
+                    </div>
                     <div class="text description">
                         <ul>
-                            <li>
-                                <span>첨부파일 한 개 3MB 이하의 이미지만 업로드 가능합니다.</span>
-                            </li>
-                            <li>
-                                <span>상품과 무관한 내용이거나 음란 및 불법적인 내용은 통보없이 삭제 될 수 있습니다.</span>
-                            </li>
-                            <li>
-                                <span>사진은 최대 20장까지 등록가능합니다.</span>
-                            </li>
+                            <li><span>첨부파일 한 개 3MB 이하의 이미지만 업로드 가능합니다.</span></li>
+                            <li><span>상품과 무관한 내용이거나 음란 및 불법적인 내용은 통보없이 삭제 될 수 있습니다.</span></li>
+                            <li><span>사진은 최대 20장까지 등록가능합니다.</span></li>
                         </ul>
                     </div>
                 </div>
                 <div class="input_box_wrap btn">
-                    <button type="button" class="btn1" onclick="location.href = 'product_list.html'"
-                            th:onclick="|location.href='@{/admin/shop/products}'|">취소
-                    </button>
+                    <button type="button" class="btn1" onclick="location.href='./product_list.html'"
+                            th:onclick="|location.href='@{/admin/products}'|">취소</button>
                     <button type="submit" id="submitBtn" class="btn1 submit_btn">완료</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
-<script th:inline="javascript">
-    $(document).ready(function () {
-
-        let productId = [[${productId}]];
-
-        $.ajax({
-            type: 'GET',
-            dataType: 'json',
-            url: '/admin/productImages/' + productId,
-            success: function (result) {
-                for (let i = 0; i < result.length; i++) {
-                    if (result[i].imageType === 'DISPLAY') {
-                        loadDisplayImage(result[i]);
-                    } else if (result[i].imageType === 'HOVER') {
-                        loadHoverImage(result[i]);
-                    } else {
-                        loadDetailsImages(result[i]);
-                    }
-                }
-            },
-            error: function (result) {
-                let alertMessage = '[' + result['code'] + '] ' + result['message'];
-                alert(alertMessage);
-            }
-        })
-    })
-</script>
 </body>
 </html>

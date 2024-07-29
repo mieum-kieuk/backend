@@ -1,14 +1,5 @@
 $(document).ready(function() {
 
-    //초기화 버튼
-    $('.btn_wrap .reset_btn').click(function () {
-        $('#searchKeyword').val(''); // 검색어 입력 초기화
-        $('select').each(function() {
-            $(this).val($(this).find('option:first').val()); // select 요소 초기화
-        });
-
-    });
-
     //등록, 수정: 셀렉트 박스 css
     $('.select_wrap select').on('change', function() {
         if ($(this).val() === '') {
@@ -17,15 +8,8 @@ $(document).ready(function() {
             $(this).addClass('selected');
         }
     });
-
-    //목록: 체크박스 전체 선택
-    $('#selectAll').click(function () {
-        if ($(this).prop('checked')) {
-            $('tbody input[type="checkbox"]').prop('checked', true);
-        } else {
-            $('tbody input[type="checkbox"]').prop('checked', false);
-        }
-    });
+    // 체크박스 전체 선택
+    selectCheckboxes();
     $('#displayImage1Btn').on('click', function() {
         $('#displayImage1').click();
     });
@@ -36,12 +20,12 @@ $(document).ready(function() {
         $('#detailsImages').click();
     });
     //등록, 수정: 섬네일 사진1 첨부
-    $('#displayImage1').change(async function() {
+    $('#addProduct #displayImage1').change(async function() {
         await updatePreviewContainer($(this), 'previewContainer1', '섬네일 사진1');
     });
 
     //등록, 수정: 섬네일 사진2 첨부
-    $('#displayImage2').change(async function() {
+    $('#addProduct #displayImage2').change(async function() {
         await updatePreviewContainer($(this), 'previewContainer2', '섬네일 사진2');
     });
 
@@ -61,6 +45,18 @@ $(document).ready(function() {
         previewContainer.hide();
     });
 });
+function selectCheckboxes() {
+    $('#selectAll').click(function () {
+        let isChecked = $(this).prop('checked');
+        $('.list_content input[type="checkbox"]').prop('checked', isChecked);
+    });
+
+    $('.list_content').on('change', 'input[type="checkbox"]', function () {
+        let totalCheck = $('.list_content .list input[type="checkbox"]').length;
+        let checkedBox = $('.list_content .list input[type="checkbox"]:checked').length;
+        $('#selectAll').prop('checked', totalCheck === checkedBox);
+    });
+}
 
 //등록, 수정: 섬네일 사진1, 섬네일 사진2 유효성 검사 -> 첨부
 async function updatePreviewContainer(input, containerId, thumbnailType) {
@@ -414,4 +410,4 @@ $('#deleteProductsBtn').click(function () {
             return false;
         }
     }
-});
+})
