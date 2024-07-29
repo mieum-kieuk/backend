@@ -371,7 +371,6 @@ function validateNewDelivery() {
         return false;
     }
 
-
     // 주소 검사
     if (!isDeliveryEmpty()) {
         Swal.fire({
@@ -381,7 +380,6 @@ function validateNewDelivery() {
             customClass: mySwal,
             buttonsStyling: false
         });
-
         return false;
     }
 
@@ -404,7 +402,6 @@ function validateNewDelivery() {
             customClass: mySwal,
             buttonsStyling: false
         });
-
         return false;
     }
 
@@ -498,6 +495,7 @@ function validateBeforeSubmit() {
             return false;
         }
     }
+
     Swal.fire({
         text: '주문이 성공적으로 제출되었습니다.',
         showConfirmButton: true,
@@ -506,7 +504,8 @@ function validateBeforeSubmit() {
         buttonsStyling: false
     });
     return true;
-}function updateDiscount() {
+}
+function updateDiscount() {
     let productCouponDiscount = 0;
     $(".cart_item").each(function()     {
         let originalPrice = parseInt($(this).find("#productPrice").text().replace(/[^0-9]/g, ""));
@@ -629,7 +628,13 @@ function getTotalPrice() {
 function getOrderName() {
     let firstProductName = $('.cart_item').first().find('.name > span').text();
     let totalProducts = $('.cart_item').length;
-    let orderName = `${firstProductName} 외 ${totalProducts - 1}개`;
+    let orderName;
+
+    if (totalProducts === 1) {
+        orderName = firstProductName;
+    } else {
+        orderName = `${firstProductName} 외 ${totalProducts - 1}개`;
+    }
 
     return orderName;
 }
