@@ -1,25 +1,33 @@
 $(document).ready(function() {
     let category = $('#category').val();
-
     if (category) {
         $('#category').addClass('selected');
     }
+
     $('#displayImageBtn').on('click', function() {
         $('#displayImage').click();
     });
     $('#hoverImageBtn').on('click', function() {
         $('#hoverImage').click();
     });
+    $('#detailsImagesBtn').on('click', function() {
+        $('#detailsImages').click();
+    });
 
-    //섬네일 사진1 수정
+    //섬네일 사진1 첨부
     $('#editProduct #displayImage').change(async function() {
         await updatePreviewContainer($(this), 'previewContainer1', '섬네일 사진1');
     });
 
-    //섬네일 사진2 수정
+    //섬네일 사진2 첨부
     $('#editProduct #hoverImage').change(async function() {
         await updatePreviewContainer($(this), 'previewContainer2', '섬네일 사진2');
         $('#hoverImageDeleted').val('false');
+    });
+
+    //상세 페이지 사진 첨부
+    $('#detailsImages').change(async function() {
+        await handleDetailsImagesChange();
     });
 });
 
@@ -64,6 +72,90 @@ async function updatePreviewContainer(input, containerId, thumbnailType) {
     });
 }
 
+const dataTransfer = new DataTransfer();
+
+//상세 페이지 사진 유효성 검사 -> 첨부
+async function handleDetailsImagesChange() {
+    let previewContainer = $('#previewContainer3');
+    let newFileArr = $('#detailsImages')[0].files; // 새로 선택된 파일 목록
+
+    const maxSizePerFile = 3 * 1024 * 1024;
+
+    // 기존 파일 개수
+    let originalFileCount = $('#previewContainer3 .preview_image_container').length;
+    let newFileSize = newFileArr.length;
+
+    let exceedsMaxSize = false;
+    let exceedsMaxFiles = originalFileCount + newFileSize > 20;
+
+    // 파일 사이즈 체크
+    for (let i = 0; i < newFileSize; i++) {
+        let fileSize = newFileArr[i].size;
+        if (fileSize > maxSizePerFile) {
+            exceedsMaxSize = true;
+            break; // 사이즈 초과 시 루프 종료
+        }
+    }
+
+    // 파일 사이즈 초과 시 알림
+    if (exceedsMaxSize) {
+        alert('상세 페이지 사진 한 장의 크기가 3MB 이하여야 합니다.');
+        $('#detailsImages').val('');
+        return false;
+    }
+
+    if (exceedsMaxFiles) {
+        alert(`상세 페이지 사진은 최대 20장까지 가능합니다.`);
+        $('#detailsImages').val(''); // 파일 입력 필드 초기화
+        return false;
+    }
+
+    // 파일 미리보기 추가
+    for (let i = 0; i < newFileSize; i++) {
+        await addImagePreview(previewContainer, newFileArr[i]);
+    }
+
+    previewContainer.css('display', 'flex');
+}
+
+//상세 이미지 사진 첨부시 뷰 생성
+async function addImagePreview(container, file) {
+    let reader = new FileReader();
+
+    return new Promise((resolve) => {
+        reader.onload = function(e) {
+            let containerDiv = $('<div>').addClass('preview_image_container');
+            let previewImages = $('<div>').addClass('preview_images');
+            let previewImage = $('<img>').addClass('preview_image').attr('src', e.target.result);
+            let filenameContainer = $('<div>').addClass('filename_container');
+            let fileName = $('<span>').addClass('file_name').text('파일명: ' + file.name);
+            let deleteButton = $('<button>').addClass('delete_btn').append($('<span>').addClass('material-symbols-outlined').text('close'));
+
+            deleteButton.click(function() {
+
+                for (let i = 0; i < dataTransfer.items.length; i++) {
+                    if (dataTransfer.items[i].getAsFile().name === file.name) {
+                        dataTransfer.items.remove(i);
+                        break;
+                    }
+                }
+
+                $('#detailsImages')[0].files = dataTransfer.files;
+                containerDiv.remove();
+            });
+
+            filenameContainer.append($('<span>').text('파일명: '), fileName);
+            containerDiv.append(previewImages.append(previewImage), fileName, $('<div>').addClass('btn_wrap').append(deleteButton));
+            container.append(containerDiv);
+
+            resolve();
+        };
+
+        reader.readAsDataURL(file);
+    });
+}
+
+
 //유효성 검사
 function validateBeforeSubmit() {
     let nameValue = $('#name').val().trim();
@@ -76,6 +168,9 @@ function validateBeforeSubmit() {
 
     let displayImageValue = $('#displayImage')[0].files;
     let originalDisplayPreviewImage = $('#previewContainer1 .preview_image').attr('src');
+    console.log(displayImageValue.length);
+    console.log(originalDisplayPreviewImage);
+
     let hoverImageValue = $('#hoverImage')[0].files;
     let detailsImagesValue = $('#detailsImages')[0].files;
 
@@ -145,7 +240,7 @@ function validateBeforeSubmit() {
         let fileSize = hoverImageValue[i].size;
         if (fileSize > maxSizePerFile) {
             alert('섬네일 사진2의 크기가 3MB 이하여야 합니다.');
-            $('#displayImage2').val('');
+            $('#hoverImage').val('');
             return false;
         }
     }
@@ -182,4 +277,12 @@ $('.hover_delete_btn').click(function() {
     previewContainer.hide();
 
     $('#hoverImageDeleted').val('true');
+});
+
+$('.details_delete_btn').click(function() {
+    let previewContainer = $(this).closest('.preview_image_container');
+    previewContainer.find('.preview_image').attr('src', '');
+    let fileInput = previewContainer.prev('.input_box_wrap').find('input[type="file"]');
+    fileInput.val('');
+    previewContainer.remove();
 });
