@@ -1,8 +1,6 @@
 package archivegarden.shop.controller.admin.product;
 
 import archivegarden.shop.dto.admin.product.product.*;
-import archivegarden.shop.dto.community.inquiry.PopupProductSearchCondition;
-import archivegarden.shop.dto.community.inquiry.ProductPopupDto;
 import archivegarden.shop.entity.Category;
 import archivegarden.shop.service.admin.product.AdminProductService;
 import jakarta.validation.Valid;
@@ -39,7 +37,7 @@ public class AdminProductController {
     @PostMapping("/add")
     public String addProduct(@Valid @ModelAttribute("product") AddProductForm form, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) throws IOException {
 
-        validateAttachImage(form.getDisplayImage1(), form.getDetailsImages(), bindingResult);
+        validateAttachImage(form.getDisplayImage(), form.getDetailsImages(), bindingResult);
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("categories", categorySelectBox());
@@ -76,13 +74,9 @@ public class AdminProductController {
         model.addAttribute("categories", categorySelectBox());
         return "admin/product/products/edit_product";
     }
-/*
+
     @PostMapping("/{productId}/edit")
     public String editProduct(@PathVariable("productId") Long productId, @Valid @ModelAttribute("product") EditProductForm form, BindingResult bindingResult, Model model) throws IOException {
-        //섬네일 사진1 검증
-        if ((form.getDisplayImage() == null || form.getDisplayImage().getOriginalFilename().equals("")) && form.getIsDisplayImageChanged()) {
-            bindingResult.rejectValue("displayImage", "imageRequired", "상품 목록에 보일 이미지를 첨부해 주세요.");
-        }
 
         //상세 페이지 사진 검증
         if(form.getDetailsImages().size() > 20) {
@@ -98,12 +92,6 @@ public class AdminProductController {
         return "redirect:/admin/products/{productId}";
     }
 
-    @ResponseBody
-    @GetMapping("/images/{filename}")
-    public Resource downloadImage(@PathVariable String filename) throws MalformedURLException {
-        return new UrlResource("file:" + fileStore.getFullPath(filename));
-    }*/
-
     //카테고리 셀렉트 박스
     public List<Category> categorySelectBox() {
         List<Category> categories = new ArrayList<>();
@@ -112,10 +100,10 @@ public class AdminProductController {
     }
 
     //섬네일 사진1, 상세페이지 사진 유효성 검사
-    private void validateAttachImage(MultipartFile displayImage1, List<MultipartFile> detailsImages, BindingResult bindingResult) {
+    private void validateAttachImage(MultipartFile displayImage, List<MultipartFile> detailsImages, BindingResult bindingResult) {
         //섬네일 사진1 검증
-        if (displayImage1 == null || displayImage1.isEmpty()) {
-            bindingResult.rejectValue("displayImage1", "imageRequired", "섬네일 사진1을 첨부해 주세요.");
+        if (displayImage == null || displayImage.isEmpty()) {
+            bindingResult.rejectValue("displayImage", "imageRequired", "섬네일 사진1을 첨부해 주세요.");
         }
 
         //상세 페이지 사진 검증

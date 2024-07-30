@@ -20,6 +20,8 @@ import java.util.List;
 @NoArgsConstructor
 public class EditProductForm {
 
+    private Long id;
+
     @NotBlank(message = "상품명을 입력해 주세요.")
     private String name;
 
@@ -46,12 +48,18 @@ public class EditProductForm {
     @NotBlank(message = "주의 사항을 입력해 주세요.")
     private String notice;
 
-    private MultipartFile displayImage1;
-    private MultipartFile displayImage2;
-    private List<ProductImageDto> displayImages = new ArrayList<>();
-    private List<ProductImageDto> detailsImages = new ArrayList<>();
+    private MultipartFile displayImage;
+    private MultipartFile hoverImage;
+    private List<MultipartFile> detailsImages;
+    private boolean displayImageUpdated;
+    private boolean hoverImageUpdated;
+
+    private ProductImageDto originDisplayImage;
+    private ProductImageDto originHoverImage;
+    private List<ProductImageDto> originDetailsImages = new ArrayList<>();
 
     public EditProductForm(Product product) {
+        this.id = product.getId();
         this.name = product.getName();
         this.category = product.getCategory();
         this.price = product.getPrice();
@@ -62,9 +70,11 @@ public class EditProductForm {
         this.notice = product.getNotice();
         product.getProductImages().forEach(image -> {
             if (image.getImageType() == ImageType.DISPLAY) {
-                this.displayImages.add(new ProductImageDto(image));
+                this.originDisplayImage = new ProductImageDto(image);
+            } else if (image.getImageType() == ImageType.HOVER) {
+                this.originHoverImage = new ProductImageDto(image);
             } else {
-                this.detailsImages.add(new ProductImageDto(image));
+                this.originDetailsImages.add(new ProductImageDto(image));
             }
         });
     }

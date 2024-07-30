@@ -1,11 +1,13 @@
 package archivegarden.shop.service.admin.product;
 
 import archivegarden.shop.dto.admin.product.product.*;
+import archivegarden.shop.dto.community.inquiry.ProductPopupDto;
 import archivegarden.shop.entity.ImageType;
 import archivegarden.shop.entity.Product;
 import archivegarden.shop.entity.ProductImage;
 import archivegarden.shop.exception.admin.AdminNotFoundException;
 import archivegarden.shop.exception.ajax.AjaxNotFoundException;
+import archivegarden.shop.repository.product.ProductImageRepository;
 import archivegarden.shop.repository.product.ProductRepository;
 import archivegarden.shop.service.upload.ProductFileStore;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +26,7 @@ public class AdminProductService {
 
     private final ProductFileStore fileStore;
     private final ProductRepository productRepository;
+    private final ProductImageRepository productImageRepository;
 
     /**
      * 상품 저장
@@ -33,15 +36,15 @@ public class AdminProductService {
     public Long saveProduct(AddProductForm form) throws IOException {
 
         //ProductImage 생성
-        ProductImage displayImage1 = fileStore.storeFile(form.getDisplayImage1(), ImageType.DISPLAY);
-        ProductImage displayImage2 = !form.getDisplayImage2().isEmpty() ? fileStore.storeFile(form.getDisplayImage2(), ImageType.DISPLAY) : null;
-        List<ProductImage> detailsImages = !form.getDetailsImages().isEmpty() ? fileStore.storeFiles(form.getDetailsImages(), ImageType.DETAILS) :  null;
+        ProductImage displayImage = fileStore.storeFile(form.getDisplayImage(), ImageType.DISPLAY);
+        ProductImage hoverImage = !form.getHoverImage().isEmpty() ? fileStore.storeFile(form.getHoverImage(), ImageType.HOVER) : null;
+        List<ProductImage> detailsImages = !form.getDetailsImages().isEmpty() ? fileStore.storeFiles(form.getDetailsImages(), ImageType.DETAILS) : null;
 
         //Product 생성
         Product product = Product.builder()
                 .form(form)
-                .displayImage1(displayImage1)
-                .displayImage2(displayImage2)
+                .displayImage1(displayImage)
+                .displayImage2(hoverImage)
                 .detailsImages(detailsImages)
                 .build();
 
@@ -67,6 +70,7 @@ public class AdminProductService {
     /**
      * 상품 목록 조회
      */
+    @Transactional(readOnly = true)
     public Page<ProductListDto> getProducts(AdminProductSearchForm form, Pageable pageable) {
         return productRepository.findProductAll(form, pageable)
                 .map(ProductListDto::new);
@@ -77,6 +81,7 @@ public class AdminProductService {
      *
      * @throws AdminNotFoundException
      */
+    @Transactional(readOnly = true)
     public EditProductForm getEditProductForm(Long productId) {
         //Product 조회
         Product product = productRepository.findById(productId).orElseThrow(() -> new AdminNotFoundException("존재하지 않는 상품입니다."));
@@ -84,41 +89,54 @@ public class AdminProductService {
         return new EditProductForm(product);
     }
 
-//    /**
-//     * 상품 수정
-//     *
-//     * @throws AdminNotFoundException
-//     */
-//    public void updateProduct(Long productId, EditProductForm form) throws IOException {
-//        //Product 조회
-//        Product product = productRepository.findAllWithImages(productId).orElseThrow(() -> new AdminNotFoundException("존재하지 않는 상품입니다."));
+    /**
+     * 상품 수정
+     *
+     * @throws AdminNotFoundException
+     */
+    public void updateProduct(Long productId, EditProductForm form) throws IOException {
+        //Product 조회
+        Product product = productRepository.findById(productId).orElseThrow(() -> new AdminNotFoundException("존재하지 않는 상품입니다."));
+
+        //Product 수정
+        product.update(form);
+
+        //ImageType == DISPLAY인 ProductImage 삭제
+        if (form.isDisplayImageUpdated()) {
+            ProductImage displayImage = product.getProductImages()
+                    .stream()
+                    .filter(productImage -> productImage.getImageType() == ImageType.DISPLAY)
+                    .findFirst()
+                    .orElseThrow(() -> new AdminNotFoundException("존재하지 않는 상품 이미지 입니다."));
+
+            product.removeImage(displayImage);
+        }
+
+        //ImageType == HOVER인 ProductImage 삭제
+//        if (form.isHoverImageUpdated()) {
+//            ProductImage hoverImage = product.getProductImages()
+//                    .stream()
+//                    .filter(productImage -> productImage.getImageType() == ImageType.HOVER)
+//                    .findFirst()
+//                    .orElseThrow(() -> new AdminNotFoundException("존재하지 않는 상품 이미지 입니다."));
 //
-//        //Product수정
-//        product.update(form);
-//
-//        //ProductImage 수정
-//        if (!form.getDisplayImage().getOriginalFilename().equals("")) {
-//            ProductImage displayImage = fileStore.storeFile(form.getDisplayImage(), ImageType.DISPLAY);
-//            product.updateDisplayImage(displayImage);
+//            productImageRepository.delete(hoverImage);
 //        }
-//
-//        if (!form.getHoverImage().getOriginalFilename().equals("")) {
-//            ProductImage hoverImage = fileStore.storeFile(form.getHoverImage(), ImageType.HOVER);
-//            product.updateHoverImage(hoverImage);
+
+        //DisplayImage 추가
+        if (form.isDisplayImageUpdated()) {
+            ProductImage newDisplayImage1 = fileStore.storeFile(form.getDisplayImage(), ImageType.DISPLAY);
+            product.updateImage(newDisplayImage1);
+        }
+//        if (form.isHoverImageUpdated() && !form.getHoverImage().isEmpty()) {
+//            ProductImage newDisplayImage2 = fileStore.storeFile(form.getHoverImage(), ImageType.HOVER);
+//            product.updateImage(newDisplayImage2);
 //        }
 //
 //        if (!form.getDetailsImages().isEmpty()) {
 //            List<ProductImage> productImages = fileStore.storeFiles(form.getDetailsImages(), ImageType.DETAILS);
-//            product.addDetailsImage(productImages);
+//            product.updateImages(productImages);
 //        }
-//    }
-
-
-    /**
-     * Ajax 상품명 중복 검사
-     */
-    public boolean isAvailableName(String name) {
-        return productRepository.findByName(name).isEmpty();
     }
 
     /**
@@ -147,5 +165,20 @@ public class AdminProductService {
             //Product 삭제
             productRepository.delete(product);
         });
+    }
+
+    /**
+     * Ajax 상품명 중복 검사
+     */
+    public boolean isAvailableName(String name) {
+        return productRepository.findByName(name).isEmpty();
+    }
+
+    /**
+     * 팝업창
+     * 상품 목록 조회 + 페이지네이션
+     */
+    public Page<ProductPopupDto> getPopupProducts(String keyword, Pageable pageable) {
+        return productRepository.findDtoAllPopup(keyword, pageable);
     }
 }

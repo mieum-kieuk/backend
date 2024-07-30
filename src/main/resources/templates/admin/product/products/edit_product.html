@@ -71,41 +71,45 @@
                     </div>
                     <div class="field-error" th:errors="*{notice}"></div>
                     <div class="input_box_wrap desc">
-                        <label for="displayImage1" class="ess_tit">섬네일 사진1</label>
-                        <input type="file" id="displayImage1" th:field="*{displayImage1}">
+                        <label for="displayImage" class="ess_tit">섬네일 사진1</label>
+                        <input type="file" id="displayImage" th:field="*{displayImage}">
                         <div class="file_btn_wrap">
-                            <button type="button" class="btn1 file_btn" id="displayImage1Btn">파일 선택</button>
+                            <button type="button" class="btn1 file_btn" id="displayImageBtn">파일 선택</button>
                         </div>
                     </div>
-                    <div class="field-error exc" th:errors="*{displayImage1}"></div>
+                    <input type="hidden" id="displayImageUpdated" th:field="*{displayImageUpdated}"/>
+                    <div class="field-error exc" th:errors="*{displayImage}"></div>
                     <div id="previewContainer1" class="preview_container">
                         <div class="preview_images">
-                            <img th:src="|/productImages/${product.displayImages[0].storeImageName}|" alt="섬네일 사진1" class="preview_image">
+                            <img th:src="|/productImages/${product.originDisplayImage.storeImageName}|" alt="섬네일 사진1" class="preview_image">
                             <div class="filename_container">
-                                <span>파일명: </span><span class="file_name" th:text="${product.displayImages[0].uploadImageName}"></span>
+                                <span>파일명: </span><span class="file_name" th:text="${product.originDisplayImage.uploadImageName}"></span>
                             </div>
                         </div>
                         <div class="btn_wrap">
-                            <button type="button" class="delete_btn"><span class="material-symbols-outlined">close</span></button>
+                            <button type="button" class="display_delete_btn">
+                                <span class="material-symbols-outlined">close</span>
+                            </button>
                         </div>
                     </div>
                     <div class="text description"><span>상품 목록에서 보여질 사진입니다.</span></div>
                     <div class="input_box_wrap desc">
-                        <label for="displayImage2">섬네일 사진2</label>
-                        <input type="file" id="displayImage2" th:field="*{displayImage2}">
+                        <label for="hoverImage">섬네일 사진2</label>
+                        <input type="file" id="hoverImage" th:field="*{hoverImage}">
                         <div class="file_btn_wrap">
-                            <button type="button" class="btn1 file_btn" id="displayImage2Btn">파일 선택</button>
+                            <button type="button" class="btn1 file_btn" id="hoverImageBtn">파일 선택</button>
                         </div>
                     </div>
-                    <div id="previewContainer2" class="preview_container" th:if="${product.displayImages.size() == 2}">
+                    <input type="hidden" id="hoverImageUpdated" th:field="*{hoverImageUpdated}"/>
+                    <div id="previewContainer2" class="preview_container">
                         <div class="preview_images">
-                            <img th:src="|/productImages/${product.displayImages[1].storeImageName}|" alt="섬네일 사진2" class="preview_image">
+                            <img th:src="${product.originHoverImage != null} ? '/productImages/${product.originHoverImage.storeImageName'" alt="섬네일 사진2" class="preview_image">
                             <div class="filename_container">
-                                <span>파일명: </span><span class="file_name" th:text="${product.displayImages[1].uploadImageName}"></span>
+                                <span>파일명: </span><span class="file_name" th:text="${product.originHoverImage != null} ? ${product.originHoverImage.uploadImageName}"></span>
                             </div>
                         </div>
                         <div class="btn_wrap">
-                            <button type="button" class="delete_btn"><span class="material-symbols-outlined">close</span></button>
+                            <button type="button" class="hover_delete_btn"><span class="material-symbols-outlined">close</span></button>
                         </div>
                     </div>
                     <div class="text description"><span>상품 목록에서 커서를 올리면 보여질 사진입니다.</span></div>
@@ -118,7 +122,7 @@
                     </div>
                     <div class="field-error exc" th:errors="*{detailsImages}"></div>
                     <div id="previewContainer3" class="preview_container column">
-                        <div class="preview_image_container" th:each="detailsImage : ${product.detailsImages}">
+                        <div class="preview_image_container" th:each="detailsImage : ${product.originDetailsImages}">
                             <div class="preview_images">
                                 <img th:src="|/productImages/${detailsImage.storeImageName}|" alt="섬네일 사진2" class="preview_image">
                                 <div class="filename_container">

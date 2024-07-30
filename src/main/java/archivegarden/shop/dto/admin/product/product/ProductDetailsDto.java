@@ -23,7 +23,8 @@ public class ProductDetailsDto {
     private String sizeGuide;
     private String shipping;
     private String notice;
-    private List<String> displayImages = new ArrayList<>();
+    private String displayImage;
+    private String hoverImage;
     private List<String> detailsImages = new ArrayList<>();
 
     public ProductDetailsDto(Product product) {
@@ -33,7 +34,7 @@ public class ProductDetailsDto {
         this.price = new DecimalFormat("###,###원").format(product.getPrice());
 
         Discount discount = product.getDiscount();
-        if(discount != null) {
+        if (discount != null) {
             this.discountName = "[" + product.getDiscount().getDiscountPercent() + "%] " + product.getDiscount().getName();
             double salePriceDouble = product.getPrice() - (double) product.getPrice() * discount.getDiscountPercent() / 100;
             this.salePrice = new DecimalFormat("###,###원").format(Math.round(salePriceDouble));
@@ -49,7 +50,9 @@ public class ProductDetailsDto {
         this.notice = product.getNotice();
         product.getProductImages().forEach(image -> {
             if (image.getImageType() == ImageType.DISPLAY) {
-                this.displayImages.add(image.getStoreImageName());
+                this.displayImage = image.getStoreImageName();
+            } else if (image.getImageType() == ImageType.HOVER) {
+                this.hoverImage = image.getStoreImageName();
             } else {
                 this.detailsImages.add(image.getStoreImageName());
             }

@@ -72,7 +72,7 @@
                         </th>
                         <td>
                             <div class="details_images_container">
-                                <img th:src="|/productImages/${product.displayImages[0]}|">
+                                <img th:src="|/productImages/${product.displayImage}|">
                             </div>
                         </td>
                     </tr>
@@ -81,9 +81,9 @@
                             <div class="input_tit details">섬네일 사진2</div>
                         </th>
                         <td>
-                            <span th:if="${product.displayImages.size()} == 1">첨부파일이 없습니다.</span>
+                            <span th:if="${product.hoverImage} == null">첨부파일이 없습니다.</span>
                             <div class="details_images_container">
-                                <img th:if="${product.displayImages.size()} == 2" th:src="|/productImages/${product.displayImages[1]}|">
+                                <img th:if="${product.hoverImage} != null" th:src="|/productImages/${product.hoverImage}|">
                             </div>
                         </td>
 

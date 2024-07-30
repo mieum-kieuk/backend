@@ -1,6 +1,5 @@
 package archivegarden.shop.dto.admin.product.product;
 
-import archivegarden.shop.entity.ImageType;
 import archivegarden.shop.entity.ProductImage;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,14 +9,12 @@ import lombok.Setter;
 public class ProductImageDto {
 
     private Long id;
-    private String uploadImageName;
     private String storeImageName;
-    private ImageType imageType;
+    private String uploadImageName;
 
     public ProductImageDto(ProductImage image) {
-        id = image.getId();
-        uploadImageName = image.getUploadImageName();
-        storeImageName = image.getStoreImageName();
-        imageType = image.getImageType();
+        this.id = image.getId();
+        this.storeImageName = image.getStoreImageName();
+        this.uploadImageName = image.getUploadImageName();
     }
 }

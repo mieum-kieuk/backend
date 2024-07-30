@@ -69,6 +69,13 @@ public class Product extends BaseTimeEntity {
     }
 
     /**
+     * 이미지 한장 삭제
+     */
+    public void removeImage(ProductImage productImage) {
+        this.productImages.remove(productImage);
+    }
+
+    /**
      * 이미지 여러장 추가
      */
     public void addProductImages(List<ProductImage> productImages) {
@@ -90,35 +97,17 @@ public class Product extends BaseTimeEntity {
     }
 
     /**
-     * 섬네일 사진 1 변경
-     * <p>
-     * 1. 수정: 기존에 존재하던 이미지 삭제 -> 추가
-     * 2. 삭제 -> 추가: Ajax 통신 통해 삭제 이미 이루어짐 -> 추가
+     * 사진 한장 수정
      */
-    public void updateDisplayImage(ProductImage displayImage) {
-        //1. 수정의 경우 기존에 존재하던 사진 제거
-//        this.productImages.stream()
-//                .filter(image -> image.getImageType() == ImageType.DISPLAY)
-//                .collect(Collectors.toList())
-//                .forEach(image -> images.remove(image));
-
-
-        addProductImage(displayImage);
+    public void updateImage(ProductImage productImage) {
+        addProductImage(productImage);
     }
 
     /**
-     * 섬네일 사진 2 변경
-     * <p>
-     * 1. 수정: 기존에 존재하던 이미지 삭제 -> 추가
-     * 2. 삭제 -> 추가: Ajax 통신 통해 삭제 이미 이루어짐 -> 추가
+     * 사진 여러장 수정
      */
-    public void updateHoverImage(ProductImage hoverImage) {
-//        this.images.stream()
-//                .filter(image -> image.getImageType() == ImageType.HOVER)
-//                .collect(Collectors.toList())
-//                .forEach(image -> images.remove(image));
-
-        addProductImage(hoverImage);
+    public void updateImages(List<ProductImage> productImages) {
+        productImages.forEach(this::addProductImage);
     }
 
     /**

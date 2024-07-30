@@ -1,5 +1,5 @@
 package archivegarden.shop.entity;
 
 public enum ImageType {
-    DISPLAY, DETAILS
+    DISPLAY, HOVER, DETAILS
 }
