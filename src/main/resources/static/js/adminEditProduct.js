@@ -284,5 +284,6 @@ $('.details_delete_btn').click(function() {
     previewContainer.find('.preview_image').attr('src', '');
     let fileInput = previewContainer.prev('.input_box_wrap').find('input[type="file"]');
     fileInput.val('');
-    previewContainer.remove();
+    previewContainer.find('.delete_file').remove();
+    previewContainer.hide();
 });

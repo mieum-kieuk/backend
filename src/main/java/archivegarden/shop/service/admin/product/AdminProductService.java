@@ -7,6 +7,7 @@ import archivegarden.shop.entity.Product;
 import archivegarden.shop.entity.ProductImage;
 import archivegarden.shop.exception.admin.AdminNotFoundException;
 import archivegarden.shop.exception.ajax.AjaxNotFoundException;
+import archivegarden.shop.repository.product.ProductImageRepository;
 import archivegarden.shop.repository.product.ProductRepository;
 import archivegarden.shop.service.upload.ProductFileStore;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -25,6 +27,7 @@ public class AdminProductService {
 
     private final ProductFileStore fileStore;
     private final ProductRepository productRepository;
+    private final ProductImageRepository productImageRepository;
 
     /**
      * 상품 저장
@@ -99,7 +102,7 @@ public class AdminProductService {
         //Product 수정
         product.update(form);
 
-        //DISPLAY ProductImage 수정
+        //==DISPLAY ProductImage 수정==//
         if (!form.getDisplayImage().isEmpty()) {
             //ProductImage 삭제
             ProductImage displayImage = product.getProductImages()
@@ -115,7 +118,7 @@ public class AdminProductService {
             product.addProductImage(newDisplayImage);
         }
 
-        //HOVER ProductImage 수정
+        //HOVER ProductImage 수정==//
         //ProductImage 삭제
         if (form.isHoverImageDeleted()) {
             ProductImage hoverImage = product.getProductImages()
@@ -127,15 +130,34 @@ public class AdminProductService {
             product.removeImage(hoverImage);
         }
 
+        //ProductImage 생성
         if(!form.getHoverImage().isEmpty()) {
             ProductImage newHoverImage = fileStore.storeFile(form.getHoverImage(), ImageType.HOVER);
             product.addProductImage(newHoverImage);
         }
 
-//        if (!form.getDetailsImages().isEmpty()) {
-//            List<ProductImage> productImages = fileStore.storeFiles(form.getDetailsImages(), ImageType.DETAILS);
-//            product.updateImages(productImages);
-//        }
+        //DETAILS ProductImage 수정==//
+        //ProductImage 삭제
+        List<Long> detailsImageIds = product.getProductImages()
+                .stream()
+                .filter(productImage -> productImage.getImageType() == ImageType.DETAILS)
+                .map(productImage -> productImage.getId())
+                .collect(Collectors.toList());
+
+        List<String> deleteDetailsImages = form.getDeleteDetailsImages();
+        for(int i = 0; i < detailsImageIds.size(); i++) {
+            String idx = "FILE_" + detailsImageIds.get(i);
+            if(!deleteDetailsImages.contains(idx)) {
+                ProductImage productImage = productImageRepository.findById(detailsImageIds.get(i)).orElseThrow(() -> new AdminNotFoundException("존재하지 않는 상품 이미지 입니다."));
+                product.removeImage(productImage);
+            }
+        }
+
+        //ProductImage 생성
+        if (!form.getDetailsImages().isEmpty()) {
+            List<ProductImage> productImages = fileStore.storeFiles(form.getDetailsImages(), ImageType.DETAILS);
+            product.addProductImages(productImages);
+        }
     }
 
     /**

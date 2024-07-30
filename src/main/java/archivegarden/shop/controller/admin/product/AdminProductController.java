@@ -76,7 +76,8 @@ public class AdminProductController {
     }
 
     @PostMapping("/{productId}/edit")
-    public String editProduct(@PathVariable("productId") Long productId, @Valid @ModelAttribute("product") EditProductForm form, BindingResult bindingResult, Model model) throws IOException {
+    public String editProduct(@PathVariable("productId") Long productId, @Valid @ModelAttribute("product") EditProductForm form,
+                              BindingResult bindingResult, Model model) throws IOException {
 
         //상세 페이지 사진 검증
         if(form.getDetailsImages().size() > 20) {
