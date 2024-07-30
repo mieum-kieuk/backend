@@ -7,7 +7,6 @@ import archivegarden.shop.entity.Product;
 import archivegarden.shop.entity.ProductImage;
 import archivegarden.shop.exception.admin.AdminNotFoundException;
 import archivegarden.shop.exception.ajax.AjaxNotFoundException;
-import archivegarden.shop.repository.product.ProductImageRepository;
 import archivegarden.shop.repository.product.ProductRepository;
 import archivegarden.shop.service.upload.ProductFileStore;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +25,6 @@ public class AdminProductService {
 
     private final ProductFileStore fileStore;
     private final ProductRepository productRepository;
-    private final ProductImageRepository productImageRepository;
 
     /**
      * 상품 저장

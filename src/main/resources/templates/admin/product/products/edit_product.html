@@ -101,7 +101,7 @@
                         </div>
                     </div>
                     <input type="hidden" id="hoverImageUpdated" th:field="*{hoverImageUpdated}"/>
-                    <div id="previewContainer2" class="preview_container">
+                    <div id="previewContainer2" class="preview_container" th:style="${product.originHoverImage == null} ? 'display:none;'">
                         <div class="preview_images">
                             <img th:src="${product.originHoverImage != null} ? '/productImages/${product.originHoverImage.storeImageName'" alt="섬네일 사진2" class="preview_image">
                             <div class="filename_container">

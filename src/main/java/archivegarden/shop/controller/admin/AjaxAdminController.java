@@ -3,15 +3,16 @@ package archivegarden.shop.controller.admin;
 import archivegarden.shop.dto.ResultResponse;
 import archivegarden.shop.dto.admin.product.answer.AnswerResponseDto;
 import archivegarden.shop.dto.admin.product.answer.EditAnswerRequestDto;
-import archivegarden.shop.dto.admin.product.product.ProductImageDto;
 import archivegarden.shop.entity.Admin;
 import archivegarden.shop.service.admin.admins.AdminAdminService;
 import archivegarden.shop.service.admin.help.AdminNoticeService;
-import archivegarden.shop.service.admin.product.*;
+import archivegarden.shop.service.admin.product.AdminDiscountService;
+import archivegarden.shop.service.admin.product.AdminProductInquiryAnswerService;
+import archivegarden.shop.service.admin.product.AdminProductInquiryService;
+import archivegarden.shop.service.admin.product.AdminProductService;
 import archivegarden.shop.web.annotation.CurrentAdmin;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,7 +26,6 @@ public class AjaxAdminController {
     private final AdminNoticeService noticeService;
     private final AdminDiscountService discountService;
     private final AdminProductService productService;
-    private final AdminProductImageService productImageService;
     private final AdminProductInquiryService inquiryService;
     private final AdminProductInquiryAnswerService answerService;
 //    private final ProductFileStore fileStore;
