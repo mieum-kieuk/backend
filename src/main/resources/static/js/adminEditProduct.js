@@ -1,4 +1,9 @@
 $(document).ready(function() {
+    let category = $('#category').val();
+
+    if (category) {
+        $('#category').addClass('selected');
+    }
     $('#displayImageBtn').on('click', function() {
         $('#displayImage').click();
     });
@@ -70,6 +75,7 @@ function validateBeforeSubmit() {
     let noticeValue = $('#notice').val().trim();
 
     let displayImageValue = $('#displayImage')[0].files;
+    let originalDisplayPreviewImage = $('#previewContainer1 .preview_image').attr('src');
     let hoverImageValue = $('#hoverImage')[0].files;
     let detailsImagesValue = $('#detailsImages')[0].files;
 
@@ -120,7 +126,7 @@ function validateBeforeSubmit() {
         return false;
     }
 
-    if (displayImageValue.length === 0) {
+    if (displayImageValue.length === 0 && originalDisplayPreviewImage === '') {
         alert('섬네일 사진1을 첨부해 주세요.');
         return false;
     }
