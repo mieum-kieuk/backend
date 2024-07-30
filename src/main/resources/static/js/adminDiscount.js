@@ -1,7 +1,7 @@
 $(document).ready(function () {
     setupDate();
     selectCheckboxes();
-    productTypeToggle();
+    productOptionToggle();
     popupButton();
     addItems();
     $('.submit_btn').click(function(event) {
@@ -39,8 +39,8 @@ function selectCheckboxes() {
     });
 }
 
-function productTypeToggle() {
-    $('input[name="productType"]').on('change', function() {
+function productOptionToggle() {
+    $('input[name="productOption"]').on('change', function() {
         if ($(this).val() === 'specific') {
             $('.input_box_wrap.product').show();
         } else {
@@ -78,13 +78,11 @@ function addItems() {
             let productName = $(this).find('.item.title').text();
             let productPrice = $(this).find('.item.price').text();
             let productImage = $(this).find('.item.img img').attr('src');
-            let productNumber = $(this).find('.item.number').text();
 
             selectedItems.push({
                 productName: productName,
                 productPrice: productPrice,
                 productImage: productImage,
-                productNumber: productNumber
             });
         });
         if (selectedItems.length === 0) {
@@ -106,7 +104,6 @@ window.getItems = function(items) {
                 <div class="item check">
                     <input type="checkbox" name="checkBox">
                 </div>
-                <div class="item number">${item.productNumber}</div>
                 <div class="item img"><img src="${item.productImage}" alt="상품 이미지"></div>
                 <div class="item title">${item.productName}</div>
                 <div class="item price">${item.productPrice}</div>
@@ -119,7 +116,7 @@ window.getItems = function(items) {
 function validateBeforeSubmit() {
     let discountName = $('#name').val().trim();
     let discountPercent = $('#discountPercent').val().trim();
-    let productType = $('input[name="productType"]:checked').val();
+    let productOption = $('input[name="productOption"]:checked').val();
     let startedAt = $('#startedAt').val().trim();
     let expiredAt = $('#expiredAt').val().trim();
 
@@ -158,11 +155,11 @@ function validateBeforeSubmit() {
         return false;
     }
 
-    if (!productType) {
+    if (!productOption) {
         alert('적용 상품을 선택해 주세요.');
         return false;
     }
-    if (productType === 'specific') {
+    if (productOption === 'specific') {
         let listItems = $('.list_item');
         if (listItems.length === 0) {
             alert('상품을 선택해 주세요.');
