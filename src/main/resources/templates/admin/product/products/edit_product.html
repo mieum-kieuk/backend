@@ -77,7 +77,6 @@
                             <button type="button" class="btn1 file_btn" id="displayImageBtn">파일 선택</button>
                         </div>
                     </div>
-                    <input type="hidden" id="displayImageUpdated" th:field="*{displayImageUpdated}"/>
                     <div class="field-error exc" th:errors="*{displayImage}"></div>
                     <div id="previewContainer1" class="preview_container">
                         <div class="preview_images">
@@ -100,10 +99,10 @@
                             <button type="button" class="btn1 file_btn" id="hoverImageBtn">파일 선택</button>
                         </div>
                     </div>
-                    <input type="hidden" id="hoverImageUpdated" th:field="*{hoverImageUpdated}"/>
+                    <input type="hidden" id="hoverImageDeleted" th:field="*{hoverImageDeleted}"/>
                     <div id="previewContainer2" class="preview_container" th:style="${product.originHoverImage == null} ? 'display:none;'">
                         <div class="preview_images">
-                            <img th:src="${product.originHoverImage != null} ? '/productImages/${product.originHoverImage.storeImageName'" alt="섬네일 사진2" class="preview_image">
+                            <img th:src="${product.originHoverImage != null ? '/productImages/' + product.originHoverImage.storeImageName : '#'}" alt="섬네일 사진2" class="preview_image">
                             <div class="filename_container">
                                 <span>파일명: </span><span class="file_name" th:text="${product.originHoverImage != null} ? ${product.originHoverImage.uploadImageName}"></span>
                             </div>

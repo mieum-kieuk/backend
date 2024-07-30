@@ -51,8 +51,7 @@ public class EditProductForm {
     private MultipartFile displayImage;
     private MultipartFile hoverImage;
     private List<MultipartFile> detailsImages;
-    private boolean displayImageUpdated;
-    private boolean hoverImageUpdated;
+    private boolean hoverImageDeleted;
 
     private ProductImageDto originDisplayImage;
     private ProductImageDto originHoverImage;

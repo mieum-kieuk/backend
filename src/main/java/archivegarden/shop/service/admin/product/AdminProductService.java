@@ -99,8 +99,9 @@ public class AdminProductService {
         //Product 수정
         product.update(form);
 
-        //ImageType == DISPLAY인 ProductImage 삭제
-        if (form.isDisplayImageUpdated()) {
+        //DISPLAY ProductImage 수정
+        if (!form.getDisplayImage().isEmpty()) {
+            //ProductImage 삭제
             ProductImage displayImage = product.getProductImages()
                     .stream()
                     .filter(productImage -> productImage.getImageType() == ImageType.DISPLAY)
@@ -108,29 +109,29 @@ public class AdminProductService {
                     .orElseThrow(() -> new AdminNotFoundException("존재하지 않는 상품 이미지 입니다."));
 
             product.removeImage(displayImage);
+
+            //ProductImage 생성
+            ProductImage newDisplayImage = fileStore.storeFile(form.getDisplayImage(), ImageType.DISPLAY);
+            product.addProductImage(newDisplayImage);
         }
 
-        //ImageType == HOVER인 ProductImage 삭제
-//        if (form.isHoverImageUpdated()) {
-//            ProductImage hoverImage = product.getProductImages()
-//                    .stream()
-//                    .filter(productImage -> productImage.getImageType() == ImageType.HOVER)
-//                    .findFirst()
-//                    .orElseThrow(() -> new AdminNotFoundException("존재하지 않는 상품 이미지 입니다."));
-//
-//            productImageRepository.delete(hoverImage);
-//        }
+        //HOVER ProductImage 수정
+        //ProductImage 삭제
+        if (form.isHoverImageDeleted()) {
+            ProductImage hoverImage = product.getProductImages()
+                    .stream()
+                    .filter(productImage -> productImage.getImageType() == ImageType.HOVER)
+                    .findFirst()
+                    .orElseThrow(() -> new AdminNotFoundException("존재하지 않는 상품 이미지 입니다."));
 
-        //DisplayImage 추가
-        if (form.isDisplayImageUpdated()) {
-            ProductImage newDisplayImage1 = fileStore.storeFile(form.getDisplayImage(), ImageType.DISPLAY);
-            product.updateImage(newDisplayImage1);
+            product.removeImage(hoverImage);
         }
-//        if (form.isHoverImageUpdated() && !form.getHoverImage().isEmpty()) {
-//            ProductImage newDisplayImage2 = fileStore.storeFile(form.getHoverImage(), ImageType.HOVER);
-//            product.updateImage(newDisplayImage2);
-//        }
-//
+
+        if(!form.getHoverImage().isEmpty()) {
+            ProductImage newHoverImage = fileStore.storeFile(form.getHoverImage(), ImageType.HOVER);
+            product.addProductImage(newHoverImage);
+        }
+
 //        if (!form.getDetailsImages().isEmpty()) {
 //            List<ProductImage> productImages = fileStore.storeFiles(form.getDetailsImages(), ImageType.DETAILS);
 //            product.updateImages(productImages);

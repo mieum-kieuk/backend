@@ -9,13 +9,12 @@ $(document).ready(function() {
     //섬네일 사진1 수정
     $('#editProduct #displayImage').change(async function() {
         await updatePreviewContainer($(this), 'previewContainer1', '섬네일 사진1');
-        $('#displayImageUpdated').val('true');
     });
 
     //섬네일 사진2 수정
     $('#editProduct #hoverImage').change(async function() {
         await updatePreviewContainer($(this), 'previewContainer2', '섬네일 사진2');
-        $('#hoverImageUpdated').val('true');
+        $('#hoverImageDeleted').val('false');
     });
 });
 
@@ -131,7 +130,7 @@ function validateBeforeSubmit() {
         let fileSize = displayImageValue[i].size;
         if (fileSize > maxSizePerFile) {
             alert('섬네일 사진1의 크기가 3MB 이하여야 합니다.');
-            $('#displayImage1').val('');
+            $('#displayImage').val('');
             return false;
         }
     }
@@ -167,8 +166,6 @@ $('.display_delete_btn').click(function() {
     let fileInput = previewContainer.prev('.input_box_wrap').find('input[type="file"]');
     fileInput.val('');
     previewContainer.hide();
-
-    $('#displayImageUpdated').val('true');
 });
 
 $('.hover_delete_btn').click(function() {
@@ -178,5 +175,5 @@ $('.hover_delete_btn').click(function() {
     fileInput.val('');
     previewContainer.hide();
 
-    $('#hoverImageUpdated').val('true');
+    $('#hoverImageDeleted').val('true');
 });

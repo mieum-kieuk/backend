@@ -61,25 +61,25 @@ public class Product extends BaseTimeEntity {
 
     //==비즈니스 로직==//
     /**
-     * 이미지 한장 추가
+     * 상품 이미지 한개 추가
      */
-    private void addProductImage(ProductImage productImage) {
+    public void addProductImage(ProductImage productImage) {
         this.productImages.add(productImage);
         productImage.setProduct(this);
     }
 
     /**
-     * 이미지 한장 삭제
-     */
-    public void removeImage(ProductImage productImage) {
-        this.productImages.remove(productImage);
-    }
-
-    /**
-     * 이미지 여러장 추가
+     * 상품 이미지 여러개 추가
      */
     public void addProductImages(List<ProductImage> productImages) {
         productImages.stream().forEach(image -> addProductImage(image));
+    }
+
+    /**
+     * 상품 이미지 제거
+     */
+    public void removeImage(ProductImage productImage) {
+        this.productImages.remove(productImage);
     }
 
     /**
@@ -94,20 +94,6 @@ public class Product extends BaseTimeEntity {
         this.sizeGuide = form.getSizeGuide();
         this.shipping = form.getShipping();
         this.notice = form.getNotice();
-    }
-
-    /**
-     * 사진 한장 수정
-     */
-    public void updateImage(ProductImage productImage) {
-        addProductImage(productImage);
-    }
-
-    /**
-     * 사진 여러장 수정
-     */
-    public void updateImages(List<ProductImage> productImages) {
-        productImages.forEach(this::addProductImage);
     }
 
     /**
