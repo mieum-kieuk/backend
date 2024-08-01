@@ -109,11 +109,14 @@ async function handleDetailsImagesChange() {
         $('#detailsImages').val(''); // 파일 입력 필드 초기화
         return false;
     }
-
+    for (let i = 0; i < newFileSize; i++) {
+        dataTransfer.items.add(newFileArr[i]);
+    }
     // 파일 미리보기 추가
     for (let i = 0; i < newFileSize; i++) {
         await addImagePreview(previewContainer, newFileArr[i]);
     }
+    $('#detailsImages')[0].files = dataTransfer.files;
 
     previewContainer.css('display', 'flex');
 }
@@ -262,7 +265,7 @@ function validateBeforeSubmit() {
 }
 
 $('.display_delete_btn').click(function() {
-    let previewContainer = $(this).closest('.preview_container');
+    let previewContainer = $(this).closest('.preview_image_container');
     previewContainer.find('.preview_image').attr('src', '');
     let fileInput = previewContainer.prev('.input_box_wrap').find('input[type="file"]');
     fileInput.val('');
@@ -285,5 +288,5 @@ $('.details_delete_btn').click(function() {
     let fileInput = previewContainer.prev('.input_box_wrap').find('input[type="file"]');
     fileInput.val('');
     previewContainer.find('.delete_file').remove();
-    previewContainer.hide();
+    previewContainer.remove();
 });

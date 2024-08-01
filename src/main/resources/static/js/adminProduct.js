@@ -10,22 +10,22 @@ $(document).ready(function() {
     });
     // 체크박스 전체 선택
     selectCheckboxes();
-    $('#displayImage1Btn').on('click', function() {
-        $('#displayImage1').click();
+    $('#displayImageBtn').on('click', function() {
+        $('#displayImage').click();
     });
-    $('#displayImage2Btn').on('click', function() {
-        $('#displayImage2').click();
+    $('#hoverImageBtn').on('click', function() {
+        $('#hoverImage').click();
     });
     $('#detailsImagesBtn').on('click', function() {
         $('#detailsImages').click();
     });
     //등록, 수정: 섬네일 사진1 첨부
-    $('#addProduct #displayImage1').change(async function() {
+    $('#addProduct #displayImage').change(async function() {
         await updatePreviewContainer($(this), 'previewContainer1', '섬네일 사진1');
     });
 
     //등록, 수정: 섬네일 사진2 첨부
-    $('#addProduct #displayImage2').change(async function() {
+    $('#addProduct #hoverImage').change(async function() {
         await updatePreviewContainer($(this), 'previewContainer2', '섬네일 사진2');
     });
 
@@ -206,8 +206,8 @@ function validateBeforeSubmit() {
     let noticeValue = $('#notice').val().trim();
 
 
-    let displayImageValue = $('#displayImage1')[0].files;
-    let hoverImageValue = $('#displayImage2')[0].files;
+    let displayImageValue = $('#displayImage')[0].files;
+    let hoverImageValue = $('#hoverImage')[0].files;
     let detailsImagesValue = $('#detailsImages')[0].files;
 
     let nameRegex = /^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9\s]+$/;
@@ -275,7 +275,7 @@ function validateBeforeSubmit() {
         let fileSize = displayImageValue[i].size;
         if (fileSize > maxSizePerFile) {
             alert('섬네일 사진1의 크기가 3MB 이하여야 합니다.');
-            $('#displayImage1').val('');
+            $('#displayImage').val('');
             return false;
         }
     }
@@ -284,7 +284,7 @@ function validateBeforeSubmit() {
         let fileSize = hoverImageValue[i].size;
         if (fileSize > maxSizePerFile) {
             alert('섬네일 사진2의 크기가 3MB 이하여야 합니다.');
-            $('#displayImage2').val('');
+            $('#hoverImage').val('');
             return false;
         }
     }
