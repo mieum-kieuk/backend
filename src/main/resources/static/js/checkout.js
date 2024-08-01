@@ -1,6 +1,5 @@
 $(document).ready(function(){
     initPopup();
-    $("#checkoutBtn").addClass("disabled");
     $('#deliveryList').on('click', 'li .delivery_item', function() {
         let deliveryData = {
             recipient: $(this).find('.recipient_info .popup_recipient_name').text().trim(),
@@ -54,7 +53,6 @@ $(document).ready(function(){
             directInputField.val('');
         }
     });
-
     $('.pay_btn.card').click(function() {
         // 모든 선택 상태 초기화
         resetSelections();
@@ -85,17 +83,17 @@ $(document).ready(function(){
     // });
 
     // 전체 동의 체크박스 기능 구현
-    $("#agreeAll").click(function() {
+    $("#agreeAll").click(function () {
         let isChecked = $(this).prop("checked");
         $(".order_agree input[type='checkbox']").prop("checked", isChecked);
-        updateSubmitButtonState();
     });
 
     // 개별 동의 체크박스 변경 시
-    $(".order_agree input[type='checkbox']").click(function() {
-        let allChecked = $(".order_agree:not(.all) input[type='checkbox']:checked").length === $(".order_agree:not(.all) input[type='checkbox']").length;
-        $(".order_agree.all input[type='checkbox']").prop("checked", allChecked);
-        updateSubmitButtonState();
+    $(".order_agree input[type='checkbox']").click(function () {
+        let totalCheckbox = $(".order_agree:not(.all) input[type='checkbox']").length;
+        let checkedCheckbox = $(".order_agree:not(.all) input[type='checkbox']:checked").length;
+        let allChecked = totalCheckbox === checkedCheckbox;
+        $("#agreeAll").prop("checked", allChecked);
     });
 });
 function resetNewDelivery() {
@@ -148,21 +146,6 @@ function updateDelivery(deliveryData) {
 function resetSelections() {
     // 선택된 카드 및 결제 옵션 초기화
     $('.payment_option').removeClass('selected');
-}
-function updateSubmitButtonState() {
-    let checked = $(".order_agree input[type='checkbox']:checked").length;
-    if (checked === 4) {
-        $("#agreeAll").prop("checked", true);
-    } else {
-        $("#agreeAll").prop("checked", false);
-    }
-    if (checked === 4) {
-        $(".submit_btn").prop("disabled", false);
-        $('.submit_btn').removeClass('disabled');
-    } else {
-        $(".submit_btn").prop("disabled", true);
-        $('.submit_btn').addClass('disabled');
-    }
 }
 function initPopup() {
     let width = 450;
@@ -411,7 +394,7 @@ function validateBeforeSubmit() {
 
     if (!$('.pay_btn').hasClass('selected')) {
         Swal.fire({
-            text: '결제방식을 선택해 주세요.',
+            text: '결제방법을 선택해 주세요.',
             showConfirmButton: true,
             confirmButtonText: '확인',
             customClass: mySwal,
@@ -423,7 +406,7 @@ function validateBeforeSubmit() {
     if ($('.pay_btn.easy').hasClass('selected')) {
         if (!$('.payment_option').hasClass('selected')) {
             Swal.fire({
-                text: '결제방식을 선택해 주세요.',
+                text: '결제방법을 선택해 주세요.',
                 showConfirmButton: true,
                 confirmButtonText: '확인',
                 customClass: mySwal,
@@ -450,6 +433,8 @@ function updateDiscount() {
     return productCouponDiscount;
 }
 function handlePoint() {
+    $("#point").val("0");
+
     let availablePointText = $("#ownedPoint").text().replace(",", "");
     let availablePoint = parseInt(availablePointText);
     $("#availablePoint").text(availablePoint.toLocaleString());
