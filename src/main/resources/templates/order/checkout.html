@@ -396,12 +396,12 @@
             storeId: [[${storeId}]],   //고객사 ID
             paymentId: [[${paymentId}]],   //고객사 주문 고유 번호
             orderName: getOrderName(),   //주문명
-            totalAmount: getTotalPrice(),   //결제 금액
+            totalAmount: 10000,   //결제 금액
             currency: 'KRW',    //결제 통화
             payMethod: payMethod,   //결제수단 구분코드
             customer: customer,
             customData: customData,
-            confirmUrl: 'https://b79c-221-149-164-102.ngrok-free.app/payment/webhook'
+            confirmUrl: 'https://dac3-118-220-129-220.ngrok-free.app/payment/webhook'
         }
 
         //일반 신용카드 결제시
@@ -413,7 +413,7 @@
         const response = PortOne.requestPayment(paymentData)
             .then(function (response) {
                 console.log(response);  //응답 객체가 개발자 도구 - 콘솔에 출력됩니다.
-                alert('respose 수신: ' + JSON.stringify(response));
+
                 //STEP3
                 //가맹점 백엔드 서버로 결과를 가져옵니다.
                 $.ajax({
@@ -427,10 +427,42 @@
                     data: JSON.stringify(response)
                 }).done(function (data) {
                     //STEP6
-                    alert("서버 처리결과: " + data.status);
                     //콜백에서 처리한 결과를 사용자에게 표시하거나 결제내역 페이지로 이동할 수 있다.
                     if(data.status == 'success') {
                         location.href = '/order/complete';
+                    }
+
+                    if(data.code === 'PAY_PROCESS_CANCELED') {
+                        Swal.fire({
+                            text: data.fail_reason,
+                            showConfirmButton: true,
+                            confirmButtonText: '확인',
+                            customClass: {
+                                container: 'my-swal-container',
+                                popup: 'my-swal-popup',
+                                htmlContainer: 'my-swal-text',
+                                confirmButton: 'my-swal-confirm-button',
+                                actions: 'my-swal-actions',
+                            },
+                            buttonsStyling: false
+                        });
+                    } else {
+                        Swal.fire({
+                            text: data.fail_reason,
+                            showConfirmButton: true,
+                            confirmButtonText: '확인',
+                            preConfirm: () => {
+                                window.location.href = '/cart';
+                            },
+                            customClass: {
+                                container: 'my-swal-container',
+                                popup: 'my-swal-popup',
+                                htmlContainer: 'my-swal-text',
+                                confirmButton: 'my-swal-confirm-button',
+                                actions: 'my-swal-actions',
+                            },
+                            buttonsStyling: false
+                        });
                     }
                 });
             });

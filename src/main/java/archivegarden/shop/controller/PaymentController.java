@@ -3,12 +3,14 @@ package archivegarden.shop.controller;
 import archivegarden.shop.dto.payment.Portone;
 import archivegarden.shop.dto.payment.Webhook;
 import archivegarden.shop.service.payment.PaymentService;
+import io.netty.util.internal.StringUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -44,16 +46,20 @@ public class PaymentController {
             log.info("message: {}", message);
 
             //웹훅 우선순위 설정에 따라 웹훅으로 DB 결과를 반영하여 콜백은 DB의 결과를 조회하여 프론트로 전달한다.
-            boolean payment = paymentService.isPaymentSuccess(paymentId);
+            boolean isPaid = paymentService.isPaymentSuccess(paymentId);
 
-            String status = "fail";
+            String status = "success";
             String fail_reason = "결제에 실패하였습니다.";
-            if (payment) {
-                status = "success";
-                fail_reason = "결제에 성공하였습니다.";
+            if (!isPaid) {
+                status = "fail";
+                if(StringUtils.hasText(message)) {
+                    code = message.split("\\[")[1].split("]")[0];
+                    fail_reason = message.split("]")[1];
+                }
             }
 
             responseObj.put("status", status);
+            responseObj.put("code", code);
             responseObj.put("fail_reason", fail_reason);
 
         } catch (Exception e) {
