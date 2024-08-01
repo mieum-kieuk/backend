@@ -53,6 +53,7 @@
 }
 #noDataMessage {
     display: flex;
+    justify-content: center;
     align-items: center;
     width: 100%;
     border: 1px solid #d7d7d7;
@@ -222,22 +223,13 @@
     width: 2%;
 }
 .order .item.number, .order .item.orderStatus, .order .item.payment {
-    width: 6%;
-}
-.order .item.product {
-    width: 12%;
-}
-.order .item.date, .order .item.orderNumber {
-    width: 15%;
-}
-.order .item.quantity {
-    width: 4%;
-}
-.order .item.productPrice, .order .item.totalPrice, .order .item.userName, .order .item.recipient {
     width: 8%;
 }
-.order .item.shippingFee {
-    width: 5%;
+.order .item.date, .order .item.orderNumber, .order .item.orderName {
+    width: 15%;
+}
+.order .item.totalPrice, .order .item.userName{
+    width: 8%;
 }
 
 /*popup*/
