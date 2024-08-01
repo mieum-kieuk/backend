@@ -1,17 +1,5 @@
 $(document).ready(function(){
     initPopup();
-    $('#checkoutBtn').click(function(event) {
-        event.preventDefault();
-        if (isOrderAgree()) {
-            Swal.fire({
-                text: '주문이 성공적으로 제출되었습니다.',
-                showConfirmButton: true,
-                confirmButtonText: '확인',
-                customClass: mySwal,
-                buttonsStyling: false
-            });
-        }
-    });
     $("#checkoutBtn").addClass("disabled");
     $('#deliveryList').on('click', 'li .delivery_item', function() {
         let deliveryData = {
@@ -109,14 +97,6 @@ $(document).ready(function(){
         $(".order_agree.all input[type='checkbox']").prop("checked", allChecked);
         updateSubmitButtonState();
     });
-
-    $('#checkoutBtn').click(function() {
-        if (validateBeforeSubmit()) {
-            payment('CARD');
-        } else {
-            return false;
-        }
-    });
 });
 function resetNewDelivery() {
     let directInputContainer = $(".direct_input_wrap");
@@ -165,31 +145,6 @@ function updateDelivery(deliveryData) {
     window.close();
 }
 
-// function handleCardClick() {
-//     let cardName = $(this).find('.card_name').text();
-//
-//     $('.card_list .card').removeClass('selected');
-//     $(this).addClass('selected');
-//     $('.card.selected .card_value span').text(cardName);
-//
-//     $('.card_list').hide();
-//     $('.card.selected').find('.material-symbols-outlined').text('expand_more');
-//
-//     return cardCompanyCode(); // 선택된 카드의 코드를 반환
-// }
-
-// function cardCompanyCode() {
-//     let cardCompanyCode = $('.card_list .card.selected').data('code');
-//     return cardCompanyCode;
-// }
-function toggleIcon() {
-    let icon = $(this).find(".material-symbols-outlined");
-    if (icon.text() === "expand_more") {
-        icon.text("expand_less");
-    } else {
-        icon.text("expand_more");
-    }
-}
 function resetSelections() {
     // 선택된 카드 및 결제 옵션 초기화
     $('.payment_option').removeClass('selected');
@@ -227,24 +182,6 @@ function initPopup() {
     });
 }
 
-// function loadAddresses() {
-//     $.ajax({
-//         type: 'GET',
-//         url: '',
-//         data:
-//         success: function() {
-//             updateAddressList();
-//         },
-//
-//     });
-// }
-// function isOrderAgree() {
-//     if (!$('#agreeAll').prop('checked')) {
-//         alert("주문 내용을 확인하고 모두 동의해주세요.");
-//         return false;
-//     }
-//     return true;
-// }
 function isOrderAgree() {
     if (!$('#agreeAll').prop('checked')) {
         Swal.fire({
@@ -496,13 +433,6 @@ function validateBeforeSubmit() {
         }
     }
 
-    Swal.fire({
-        text: '주문이 성공적으로 제출되었습니다.',
-        showConfirmButton: true,
-        confirmButtonText: '확인',
-        customClass: mySwal,
-        buttonsStyling: false
-    });
     return true;
 }
 function updateDiscount() {
@@ -638,4 +568,3 @@ function getOrderName() {
 
     return orderName;
 }
-

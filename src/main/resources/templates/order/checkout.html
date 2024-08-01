@@ -27,7 +27,6 @@
 <div class="wrap">
     <div th:replace="~{/layout/header :: header}"></div>
     <div id="order">
-<!--        <form action="" th:action th:object="${form}" method="post" th:onsubmit="return validateBeforeSubmit()">-->
         <div class="order_wrap">
             <h1 class="order_title">주문서</h1>
             <div class="order_inner">
@@ -43,7 +42,8 @@
                                 <li>
                                     <div>
                                         <label for="defaultDeliveryName" class="input_tit ess">배송지명</label>
-                                        <a href="./checkout_delivery_popup.html" class="delivery_popup_btn">이전 배송지 목록</a>
+                                        <a href="./checkout_delivery_popup.html" class="delivery_popup_btn">이전 배송지
+                                            목록</a>
                                     </div>
                                     <div class="input_box_wrap">
                                         <span id="defaultDeliveryName" class="input_box" th:text="${delivery.deliveryName}"></span>
@@ -107,7 +107,8 @@
                                         <label for="deliveryName" class="input_tit ess">배송지명</label>
                                     </div>
                                     <div class="input_box_wrap">
-                                        <input id="deliveryName" class="input_box" placeholder="" maxlength="30" type="text"/>
+                                        <input id="deliveryName" class="input_box" placeholder="" maxlength="30"
+                                               type="text"/>
                                         <span id="Msg"></span>
                                     </div>
                                 </li>
@@ -125,14 +126,19 @@
                                         <label class="input_tit ess">주소</label>
                                     </div>
                                     <div>
-                                        <input class="input_box" id="zipCode" name="zipCode" placeholder="우편번호" type="text" readonly/>
-                                        <button type="button" id="searchZipCodeBtn" class="btn1" onclick="findPostCode()">주소검색</button>
+                                        <input class="input_box" id="zipCode" name="zipCode" placeholder="우편번호"
+                                               type="text" readonly/>
+                                        <button type="button" id="searchZipCodeBtn" class="btn1"
+                                                onclick="findPostCode()">주소검색
+                                        </button>
                                     </div>
                                     <div>
-                                        <input class="input_box" id="basicAddress" name="basicAddress" placeholder="기본주소" type="text" readonly/>
+                                        <input class="input_box" id="basicAddress" name="basicAddress"
+                                               placeholder="기본주소" type="text" readonly/>
                                     </div>
                                     <div>
-                                        <input class="input_box" id="detailAddress" name="detailAddress" placeholder="상세주소(선택가능)" maxlength="40" type="text"/>
+                                        <input class="input_box" id="detailAddress" name="detailAddress"
+                                               placeholder="상세주소(선택가능)" maxlength="40" type="text"/>
                                     </div>
                                 </li>
                                 <li class="phone_number">
@@ -149,8 +155,10 @@
                                                 <option value="018">018</option>
                                                 <option value="019">019</option>
                                             </select>
-                                            <p>-</p><input id="phonenumber2" class="input_box" type="number" pattern="\d*"  maxlength="4">
-                                            <p>-</p><input id="phonenumber3" class="input_box" type="number" pattern="\d*"  maxlength="4"/>
+                                            <p>-</p><input id="phonenumber2" class="input_box" type="number"
+                                                           pattern="\d*" maxlength="4">
+                                            <p>-</p><input id="phonenumber3" class="input_box" type="number"
+                                                           pattern="\d*" maxlength="4"/>
                                         </div>
                                     </div>
                                 </li>
@@ -172,7 +180,8 @@
                                         <option value="direct_input">직접입력</option>
                                     </select>
                                     <div id="directInputContainer" class="direct_input_wrap">
-                                        <textarea id="directInput" name="directInput" placeholder="내용을 작성해 주세요.(255자 이내)"></textarea>
+                                        <textarea id="directInput" name="directInput"
+                                                  placeholder="내용을 작성해 주세요.(255자 이내)"></textarea>
                                     </div>
                                 </li>
                             </ul>
@@ -200,9 +209,12 @@
                                     <span>[[${product.count}]]개</span>
                                 </div>
                                 <div class="item price">
-                                    <span class="sale_price" id="productSalePrice" th:text="${product.totalSalePrice}"></span>
+                                    <span class="sale_price" id="productSalePrice"
+                                          th:text="${product.totalSalePrice}"></span>
                                     <div class="original_price">
-                                        <span class="sale_price" id="productPrice" th:classappend="${product.isDiscounted} ? 'line_through'" th:text="${product.totalPrice}"></span>
+                                        <span class="sale_price" id="productPrice"
+                                              th:classappend="${product.isDiscounted} ? 'line_through'"
+                                              th:text="${product.totalPrice}"></span>
                                     </div>
                                 </div>
                             </div>
@@ -226,7 +238,6 @@
                     <section class="pay_wrap">
                         <h3 class="content_title">결제방법</h3>
                         <div>
-
                         </div>
                         <ul class="payment_method">
                             <li>
@@ -239,13 +250,13 @@
                         <div class="easy_select">
                             <ul class="easy_options">
                                 <li>
-                                    <button type="button" class="payment_option">카카오페이</button>
+                                    <button type="button" class="payment_option" value="KAKAOPAY">카카오페이</button>
                                 </li>
                                 <li>
-                                    <button type="button" class="payment_option">토스페이</button>
+                                    <button type="button" class="payment_option" value="TOSSPAY">토스페이</button>
                                 </li>
                                 <li>
-                                    <button type="button" class="payment_option">페이코</button>
+                                    <button type="button" class="payment_option" value="PAYCO">페이코</button>
                                 </li>
 
                             </ul>
@@ -307,13 +318,14 @@
                             </ul>
                             <p>결제 및 계좌 안내 시 상호명은 <em>[미음키읔]</em>으로 표기되니 참고 부탁드립니다.</p></div>
                         <div class="btn_wrap">
-                            <button type="submit" class="btn1 submit_btn" id="checkoutBtn" onclick="payment('CARD')">결제하기</button>
+                            <button type="button" class="btn1 submit_btn" id="checkoutBtn">
+                                결제하기
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-<!--        </form>-->
     </div>
     <div th:replace="~{/layout/footer :: basic_footer}"></div>
 </div>
@@ -325,10 +337,15 @@
     let csrfToken = $("meta[name='_csrf']").attr('content');
     let csrfHeader = $("meta[name='_csrf_header']").attr('content');
 
-    function payment(payMethod) {
+    $('#checkoutBtn').click(function () {
+
+        //유효성 검사
+        if(!validateBeforeSubmit()) {
+            return;
+        }
+
         //STEP2
         //파라미터 세팅 후 결제창 호출
-
         //고객정보
         const customer = {
             customerId: 'cid-' + [[${member.id}]], // 구매자 고유 ID
@@ -336,6 +353,43 @@
             phoneNumber: [[${member.phonenumber}]], //구매자 연락처
             email: [[${member.email}]]  //구매자 이메일 주소
         };
+
+        //사용자 지정 정보
+        const deliveryOption = $('.delivery_tabs .active').hasClass('default_delivery') ? 'default' : 'new';
+        let shippingMsgValue = $('#defaultShippingMsg option:selected').val();
+        if (deliveryOption === 'default') {
+            customData = {
+                orderId: [[${orderId}]],
+                deliveryOption: 'default',
+                recipientName: $('#defaultRecipientName').text(),
+                zipCode: $('#defaultZipCode').text(),
+                addressLine1: $('#defaultBasicAddress').text(),
+                addressLine2: $('#defaultDetailAddress').text(),
+                phonenumber: $('#defaultPhonenumber1').text() + "-" + $('#defaultPhonenumber2').text() + "-" + $('#defaultPhonenumber3').text(),
+                deliveryRequestMsg: shippingMsgValue === 'direct_input' ? $('#defaultDirectInput').val() : (shippingMsgValue === '0' ? null : $('#defaultShippingMsg option:selected').text())
+            };
+        } else if (deliveryOption === 'new') {
+            customData = {
+                orderId: [[${orderId}]],
+                deliveryOption: 'new',
+                deliveryName: $('#deliveryName').val(),
+                recipientName: $('#recipientName').val(),
+                zipCode: $('#zipCode').val(),
+                addressLine1: $('#basicAddress').val(),
+                addressLine2: $('#detailAddress').val(),
+                phonenumber: $('#phonenumber1').val() + "-" + $('#phonenumber2').val() + "-" + $('#phonenumber3').val(),
+                deliveryRequestMsg: shippingMsgValue === 'direct_input' ? $('#defaultDirectInput').val() : (shippingMsgValue === '0' ? null : $('#defaultShippingMsg option:selected').text())
+            };
+        }
+
+        let payMethod = '';
+        let easyPayProvider = '';
+        if ($('.pay_btn.card').hasClass('selected')) {
+            payMethod = 'CARD';
+        } else if ($('.pay_btn.easy').hasClass('selected')) {
+            payMethod = 'EASY_PAY';
+            easyPayProvider = $('.payment_option.active').val();
+        }
 
         //결제 정보
         let paymentData = {
@@ -346,9 +400,8 @@
             currency: 'KRW',    //결제 통화
             payMethod: payMethod,   //결제수단 구분코드
             customer: customer,
-            customData: [[${orderId}]],
-            confirmUrl: 'https://57f6-118-220-129-220.ngrok-free.app/payment/webhook',
-            redirectUrl: 'https://57f6-118-220-129-220.ngrok-free.app/payment/redirect'
+            customData: customData,
+            confirmUrl: 'https://b79c-221-149-164-102.ngrok-free.app/payment/webhook'
         }
 
         //일반 신용카드 결제시
@@ -381,7 +434,7 @@
                     }
                 });
             });
-    }
+    });
 </script>
 </body>
 </html>

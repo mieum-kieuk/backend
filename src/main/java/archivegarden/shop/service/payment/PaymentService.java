@@ -2,10 +2,8 @@ package archivegarden.shop.service.payment;
 
 import archivegarden.shop.dto.payment.Portone;
 import archivegarden.shop.dto.payment.Webhook;
-import archivegarden.shop.entity.Order;
-import archivegarden.shop.entity.OrderStatus;
-import archivegarden.shop.entity.Payment;
-import archivegarden.shop.exception.ajax.AjaxNotFoundException;
+import archivegarden.shop.entity.*;
+import archivegarden.shop.exception.NotFoundException;
 import archivegarden.shop.repository.order.OrderRepository;
 import archivegarden.shop.repository.payment.PaymentRepository;
 import lombok.RequiredArgsConstructor;
@@ -65,6 +63,7 @@ public class PaymentService {
                 Response response = getPayment(accessToken, paymentId);
 
                 Portone payResultEntity = new Portone();
+                JSONParser parser = new JSONParser();
 
                 LocalDateTime paidAt = null;
                 LocalDateTime failedAt = null;
@@ -73,7 +72,6 @@ public class PaymentService {
 
                 if (response.isSuccessful()) {
                     //최종 결제결과
-                    JSONParser parser = new JSONParser();
                     JSONObject resultObj = (JSONObject) parser.parse(response.body().string());
                     String payStatus = (String) resultObj.get("status");
                     payResultEntity.setOrderName((String) resultObj.get("orderName"));  //주문명
@@ -81,25 +79,46 @@ public class PaymentService {
                     payResultEntity.setAmount((Long) amount.get("total"));    //총 결제금액
                     payResultEntity.setVat((Long) amount.get("vat"));    //부가세액
                     payResultEntity.setCurrency((String) resultObj.get("currency"));   //통화 단위
+
+                    //고객 정보
                     JSONObject customer = (JSONObject) resultObj.get("customer");   //고객 정보
                     if (customer != null) {
                         payResultEntity.setBuyerName((String) customer.get("name"));    //이름
                         payResultEntity.setBuyerEmail((String) customer.get("email"));    //이메일
                         payResultEntity.setBuyerPhone((String) customer.get("phoneNumber"));    //휴대전화번호
                     }
-                    JSONObject paymentMethodObj = (JSONObject) resultObj.get("method");
-                    String type = (String) paymentMethodObj.get("type");
-                    payResultEntity.setPayMethod(type.split("PaymentMethod")[1]); //결제수단 정보
-                    payResultEntity.setCustomData((String) resultObj.get("customData")); //사용자 지정 데이터
+
+                    //사용자 지정 정보
+                    JSONObject customDataObj = (JSONObject) parser.parse(resultObj.get("customData").toString());
+                    Long orderId = (Long) customDataObj.get("orderId");
+                    payResultEntity.setOrderId(orderId);
+                    Order order = orderRepository.findById(orderId).orElseThrow(() -> new NotFoundException("존재하지 않는 주문입니다."));
+                    String deliveryOption = (String) customDataObj.get("deliveryOption");
+                    String recipientName = (String) customDataObj.get("recipientName");
+                    String zipCode = (String) customDataObj.get("zipCode");
+                    String basicAddress = (String) customDataObj.get("addressLine1");
+                    String detailAddress = (String) customDataObj.get("addressLine2");
+                    Address recipientAddress = new Address(zipCode, basicAddress, detailAddress);
+                    String recipientPhonenumber = (String) customDataObj.get("phonenumber");
+                    String deliveryRequestMsg = (String) customDataObj.get("deliveryRequestMsg");
+                    order.setRecipientInfo(recipientName, recipientAddress, recipientPhonenumber, deliveryRequestMsg);
+                    //새로운 배송지의 경우 저장
+                    if(deliveryOption.equals("new")) {
+
+                    }
+
                     JSONObject channel = (JSONObject) resultObj.get("channel"); //(결제, 본인인증 등에) 선택된 채널 정보
                     payResultEntity.setPgProvider((String) channel.get("pgProvider")); //PG사 결제 모듈
 
                     payResultEntity.setStatus(payStatus);   //결제 건 상태
                     if ("PAID".equals(payStatus)) { //결제 완료
+                        JSONObject paymentMethodObj = (JSONObject) resultObj.get("method");
+                        String type = (String) paymentMethodObj.get("type");
+                        payResultEntity.setPayMethod(type.split("PaymentMethod")[1]); //결제수단 정보
+
                         payResultEntity.setPaidAt((String) resultObj.get("paidAt"));  //결제 완료 시점
                         JSONObject cardObj = (JSONObject) paymentMethodObj.get("card");  //카드 상세 정보
                         payResultEntity.setCardName((String) cardObj.get("name"));    //카드 상품명
-                        payResultEntity.setApprovalNumber((String) paymentMethodObj.get("approval_number"));  //승인 번호
                         JSONObject installment = (JSONObject) paymentMethodObj.get("installment"); //할부 정보
                         payResultEntity.setCardQuota((Long) installment.get("month"));   //할부 개월 수
                         paidAt = LocalDateTime.parse(payResultEntity.getPaidAt().replace("T", " ").substring(0, 19), formatter).plusHours(9);
@@ -121,15 +140,14 @@ public class PaymentService {
                 }
 
                 //custom_data에 주문테이블 pk를 실었다가 읽는다.
-                String orderId = payResultEntity.getCustomData();
-                Order order = orderRepository.findById(Long.parseLong(orderId)).orElseThrow(() -> new AjaxNotFoundException("존재하지 않는 상품입니다."));
+                Long orderId = payResultEntity.getOrderId();
+                Order order = orderRepository.findById(orderId).orElseThrow(() -> new NotFoundException("존재하지 않는 상품입니다."));
 
                 //결제데이터 생성
                 Payment payment = Payment.builder()
                         .order(order)
                         .amount(payResultEntity.getAmount())
                         .pgProvider(payResultEntity.getPgProvider())
-                        .approvalNumber(payResultEntity.getApprovalNumber())
                         .buyerEmail(payResultEntity.getBuyerEmail())
                         .cardName(payResultEntity.getCardName())
                         .cardQuota(payResultEntity.getCardQuota())

@@ -11,6 +11,7 @@
     <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
     <link rel="stylesheet" href="../../../../static/css/comm.css" th:href="@{/css/comm.css}">
     <link rel="stylesheet" href="../../../../static/css/admin_form.css" th:href="@{/css/admin_form.css}">
+    <link rel="stylesheet" href="../../../../static/css/list.css" th:href="@{/css/list.css}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script defer src="../../../../static/js/comm.js" th:src="@{/js/comm.js}"></script>
     <script defer src="../../../../static/js/adminDiscount.js" th:src="@{/js/adminDiscount.js}"></script>
@@ -25,14 +26,8 @@
                 <div class="form_wrap">
                     <div class="input_box_wrap">
                         <label for="name">할인명</label>
-                        <input type="text" id="name" th:field="*{name}" maxlength="30">
+                        <input type="text" id="name" th:field="*{name}" maxlength="50">
                     </div>
-                    <div class="field-error" th:errors="*{name}"></div>
-                    <div class="input_box_wrap">
-                        <label for="discountPercent">할인율</label>
-                        <input type="number" id="discountPercent" th:field="*{discountPercent}" placeholder="숫자만 입력해 주세요.">
-                    </div>
-                    <div class="field-error" th:errors="*{discountPercent}"></div>
                     <div class="discount period">
                         <span>할인 기간</span>
                         <div class="discount_cont period">
@@ -55,6 +50,51 @@
                     <div th:unless="${#fields.hasErrors('startedAt')}">
                         <p class="field-error" th:if="${#fields.hasErrors('expiredAt')}"
                            th:text="${#fields.errors('expiredAt')[0]}"></p>
+                    </div>
+                    <div class="field-error" th:errors="*{name}"></div>
+                    <div class="input_box_wrap">
+                        <label for="discountPercent">할인율</label>
+                        <input type="number" id="discountPercent" th:field="*{discountPercent}" placeholder="숫자만 입력해 주세요." maxlength="3">
+                    </div>
+                    <div class="field-error" th:errors="*{discountPercent}"></div>
+                    <div class="input_box_wrap">
+                        <label for="productType">적용 상품</label>
+                        <div id="productType">
+                            <label><input type="radio" name="productOption" value="all">전체상품</label>
+                            <label><input type="radio" name="productOption" value="specific">특정상품</label>
+                        </div>
+                    </div>
+                    <div class="input_box_wrap product">
+                        <div class="btn_wrap">
+                            <button type="button" class="btn1" id="">선택삭제</button>
+                            <button type="button" class="btn1" id="popupBtn" >불러오기</button>
+                        </div>
+                        <div class="list_content">
+                            <div class="list_head product">
+                                <div class="item check">
+                                    <input type="checkbox" name="checkBox" id="selectAll">
+                                </div>
+                                <div class="item number">번호</div>
+                                <div class="item img">사진</div>
+                                <div class="item title">상품명</div>
+                                <div class="item price">상품 정가</div>
+                            </div>
+                            <div class="list product">
+<!--                                <div class="list_item">-->
+<!--                                    <a href="./product_details.html">-->
+<!--                                        <div class="item check">-->
+<!--                                            <input type="checkbox" name="checkBox">-->
+<!--                                        </div>-->
+<!--                                        <div class="item number">2</div>-->
+<!--                                        <div class="item img">-->
+<!--                                            <img id="displayImage1" src="../../../../images/display_details1.jpeg">-->
+<!--                                        </div>-->
+<!--                                        <div class="item title">상품명</div>-->
+<!--                                        <div class="item price">상품 정가</div>-->
+<!--                                    </a>-->
+<!--                                </div>-->
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="input_box_wrap btn">

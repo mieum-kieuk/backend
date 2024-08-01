@@ -33,12 +33,18 @@ public class Order {
     @Column(name = "recipient_phone_number", length = 13, nullable = false)
     private String recipientPhonenumber;
 
+    @Column(name = "delivery_request_msg", length = 255)
+    private String deliveryRequestMsg;
+
     @Column(name = "amount", nullable = false)
-    private int amount;
+    private Integer amount;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "order_status")
     private OrderStatus orderStatus;
+
+    @Column(name = "fail_reason", length = 255)
+    private String failReason;
 
     @Column(name = "ordered_at", nullable = false, updatable = false)
     private LocalDateTime orderedAt;
@@ -52,6 +58,27 @@ public class Order {
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderProduct> orderProducts = new ArrayList<>();
+
+    //==비즈니스 로직==//
+    /**
+     * 결제 상태 수정
+     */
+    public void updateStatus(OrderStatus orderStatus, String failReason) {
+        this.orderStatus = orderStatus;
+        if(orderStatus != OrderStatus.SUCCESS) {
+            this.failReason = failReason;
+        }
+    }
+
+    /**
+     * 배송지 정보 수정
+     */
+    public void setRecipientInfo(String recipientName, Address recipientAddress, String recipientPhonenumber, String deliveryRequestMsg) {
+        this.recipientName = recipientName;
+        this.recipientAddress = recipientAddress.fullAddress();
+        this.recipientPhonenumber = recipientPhonenumber;
+        this.deliveryRequestMsg = deliveryRequestMsg;
+    }
 
     //==연관관계 메서드==//
     private void addOrderProduct(OrderProduct orderProduct) {
