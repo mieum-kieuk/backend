@@ -23,9 +23,6 @@ public class Payment {
     @Column(name = "pg_provider")
     private String pgProvider;
 
-    @Column(name = "approval_number")
-    private String approvalNumber;
-
     @Column(name = "buyer_email")
     private String buyerEmail;
 
@@ -62,11 +59,10 @@ public class Payment {
     private Order order;    //일대일 단방향
 
     @Builder
-    public Payment(Long id, Long amount, String pgProvider, String approvalNumber, String buyerEmail, String cardName, Long cardQuota, String currency, String impUid, String merchantUid, String payMethod, String status, LocalDateTime paidAt, LocalDateTime failedAt, Order order) {
+    public Payment(Long id, Long amount, String pgProvider, String buyerEmail, String cardName, Long cardQuota, String currency, String impUid, String merchantUid, String payMethod, String status, LocalDateTime paidAt, LocalDateTime failedAt, Order order) {
         this.id = id;
         this.amount = amount;
         this.pgProvider = pgProvider;
-        this.approvalNumber = approvalNumber;
         this.buyerEmail = buyerEmail;
         this.cardName = cardName;
         this.cardQuota = cardQuota;
