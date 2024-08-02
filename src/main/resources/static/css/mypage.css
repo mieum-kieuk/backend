@@ -159,6 +159,9 @@ h3 {
     align-items: flex-start;
     border-bottom: 1px solid #666;
 }
+.order_items li .order_item:last-child {
+    border-bottom: none;
+}
 .order_item {
     display: flex;
     align-items: center;
@@ -187,9 +190,19 @@ h3 {
     font-size: 14px;
     padding: 5px 10px;
 }
+.order_item .description .item.details{
+    display: flex;
+}
 .order_item .description .item_price {
     display: block;
-    padding: 0 10px;
+    padding-left: 10px;
+}
+.order_item .description .item_quantity {
+    display: block;
+}
+.order_item .description .item_price::after {
+    content: " |";
+    margin: 3px;
 }
 .order_item .status {
     width: 10%;
@@ -201,11 +214,86 @@ h3 {
     padding: 40px;
     text-align: center;
 }
+/*order*/
+.mypage.order #orderItems {
+    margin-bottom: 40px;
+}
+.mypage.order .order_summary {
+    border: none;
+    border-bottom: 1px solid #666;
+    padding: 0;
+    padding-bottom: 10px;
+}
+.mypage.order .order_summary .total_price {
+    border-top: none;
+}
+.mypage.order .order_summary .total_price .content{
+    font-size: 16px;
+    font-weight: 400;
+}
+/*order_details*/
+#orderInfo .order_details {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+#orderItems .order_summary {
+    border-bottom: none;
+}
+#orderItems .order_items > ul {
+    display: flex;
+    flex-direction: column;
+}
+#orderItems .order_items > ul .order_item {
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+}
+#orderItems .order_items > ul .order_item .description {
+    align-items: flex-start;
+    width: auto;
+}
+#orderItems .order_items > ul .order_item .description .item_details {
+    display: flex;
+}
+#orderItems .order_items > ul .order_item .status {
+    width: auto;
+    text-align: left;
+}
+#orderPayment .total_details {
+    margin-bottom: 0;
+    font-size: 14px;
+    gap: 5px;
+}
+#orderPayment .total_details .total {
+    padding: 0;
+}
+#orderPayment .order_summary {
+    padding-bottom: 0;
+    padding: 10px 0;
+}
+#orderPayment .total_details .total_price {
+    padding: 0;
+}
+#shippingInfo .shipping_details {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+#shippingInfo .shipping_details > li {
+    display: flex;
+    flex-direction: row;
+}
+#shippingInfo .shipping_details > li .title {
+    display: block;
+    /*width: 70px;*/
+}
 /*delivery_list*/
 #deliveryList {
     display: flex;
     flex-wrap: wrap;
-    width:  100%;
+    width: 100%;
     margin-left: 200px;
 }
 #deliveryList h3 {
@@ -589,6 +677,18 @@ h3 {
 }
 .board_content .qna_table th {
     width: 100px;
+}
+.board_wrap .qna_table #qnaItem {
+    display: none;
+}
+.board_wrap .qna_table #qnaItem.active {
+    display: table-cell;
+}
+.board_wrap .qna_table #orderItem {
+    display: none;
+}
+.board_wrap .qna_table #orderItem.active {
+    display: table-row;
 }
 .board_wrap.list .qna_table th, .board_wrap.list .qna_table td {
     display: table-cell;
