@@ -235,7 +235,7 @@
     width: 8%;
 }
 .order .item.date, .order .item.orderNumber, .order .item.orderName {
-    width: 15%;
+    width: 20%;
 }
 .order .item.totalPrice, .order .item.userName{
     width: 8%;

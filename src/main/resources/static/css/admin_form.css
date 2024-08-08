@@ -1015,6 +1015,9 @@ th {
 .order .search_form {
     margin-bottom: 22px;
 }
+.order.cancel .search_form {
+    margin-bottom: 0;
+}
 .order .search_form .form_wrap .option {
     display: flex;
     align-items: center;
