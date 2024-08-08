@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원탈퇴 내역| 미음키읔</title>
+
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="Archivegarden"/>
+    <meta property="og:description" content=""/>
+    <meta property="og:image" content=""/>
+    <meta property="og:url" content=""/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+    <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="../../../css/comm.css"/>
+    <link rel="stylesheet" href="../../../css/list.css">
+    <link rel="stylesheet" href="../../../css/admin_form.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
+    <script defer src="../../../js/memberList.js"></script>
+    <script defer src="../../../js/adminSearch.js"></script>
+    <script defer src="../../../js/datepicker.js"></script>
+    <script defer src="../../../js/comm.js"></script>
+
+</head>
+<body>
+<div class="admin_wrap">
+    <div class="sidebar">
+        <div class="side_menu top">
+            <ul>
+                <li class="logo">
+                    <a href="../index.html">
+                        관리자 홈
+                    </a>
+                </li>
+            </ul>
+            <hr>
+        </div>
+        <div class="side_menu menu">
+            <h2>메뉴</h2>
+            <ul class="depth1">
+                <li data-path="products">
+                    <a href="#">상품 관리</a>
+                    <ul class="depth2">
+                        <li data-path="product"><a href="../../admin/products/product/product_list.html">전체 상품관리</a>
+                        </li>
+                        <li data-path="inquiry"><a href="../../admin/products/inquiry/inquiry_list.html">상품 문의관리</a>
+                        </li>
+                        <li data-path="discount"><a href="../products/discounts/discount_list.html">전체 할인관리</a>
+                        </li>
+                    </ul>
+                </li>
+                <li data-path="orders">
+                    <a href="#">주문 관리</a>
+                    <ul class="depth2">
+                        <li data-path="order"><a href="#">전체 주문관리</a></li>
+                        <li data-path="cancel"><a href="#">취소/교환/반품/환불 관리</a></li>
+                    </ul>
+                </li>
+                <li data-path="member">
+                    <a href="#">회원 관리</a>
+                    <ul class="depth2">
+                        <li data-path="member"><a href="../../admin/member/member_list.html">회원 정보 관리</a></li>
+                        <li data-path="point"><a href="../../admin/member/point_list.html">적립금 관리</a></li>
+                    </ul>
+                </li>
+                <li data-path="help">
+                    <a href="#">고객 지원</a>
+                    <ul class="depth2">
+                        <li data-path="notice"><a href="../../admin/help/notice/notice_list.html">공지사항 관리</a></li>
+                        <li data-path="inquiry"><a href="../../admin/help/inquiry/inquiry_list.html">1:1 문의관리</a></li>
+                        <li data-path="withdrawal"><a href="../../admin/member/withdrawal_list.html">회원 탈퇴내역</a></li>
+                    </ul>
+                </li>
+                <li data-path="admins">
+                    <a href="../../admin/admins/admins_list.html">관리자 관리</a>
+                </li>
+            </ul>
+        </div>
+        <div class="side_menu account">
+            <ul>
+                <li><a href="../../admin/admins/admin_login.html">로그인</a></li>
+                <li><a href="../../admin/admins/admin_join.html">회원가입</a></li>
+                <li><a href="">로그아웃</a></li>
+            </ul>
+        </div>
+    </div>
+    <div id="admin">
+        <div class="content">
+            <h2 class="content_tit">탈퇴회원 관리</h2>
+            <div class="admins_wrap list member withdrawal">
+                <h3 class="form_title">기본검색</h3>
+                <form id="adminsSearchForm" class="search_form withdrawal" onsubmit="validateBeforeSubmitSearch()">
+                    <div class="form_container">
+                        <div class="form_wrap search">
+                            <label for="searchKeyword">검색어</label>
+                            <select id="searchKey">
+                                <option value="">전체</option>
+                                <option value="userId">아이디</option>
+                                <option value="userName">회원명</option>
+                                <option value="userEmail">이메일</option>
+                            </select>
+                            <input type="text" id="searchKeyword" name="searchKeyword">
+                        </div>
+                        <div class="form_wrap search date">
+                            <label>기간검색</label>
+                            <div class="datepicker_wrap">
+                                <input type="text" name="startDate" id="startDate" readonly>
+                                <span style="display: flex; align-items: center;">~</span>
+                                <input type="text" name="endDate" id="endDate" readonly>
+                            </div>
+                            <div class="date_option">
+                                <input type="button" onclick="setSearchDate(0);" class="btn1" value="오늘">
+                                <input type="button" onclick="setSearchDate(7);" class="btn1" value="일주일">
+                                <input type="button" onclick="setSearchDate(30);" class="btn1" value="1개월">
+                                <input type="button" onclick="setSearchDate(90);" class="btn1" value="3개월">
+                                <input type="button" onclick="setSearchDate(180);" class="btn1" value="6개월">
+                                <input type="button" onclick="setSearchDate('all');" class="btn1" value="전체">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="btn_wrap">
+                        <button type="button" class="btn1 reset_btn">초기화</button>
+                        <button type="submit" class="btn1 submit_btn">검색</button>
+                    </div>
+                </form>
+                <div class="member_list wrapper">
+                    <div class="list_content">
+                        <div class="list_head member withdrawal">
+                            <div class="item check">
+                                <input type="checkbox" name="checkBox" id="selectAll">
+                            </div>
+                            <div>
+                                <div class="item number">번호</div>
+                                <div class="item name">회원명</div>
+                                <div class="item userId">아이디</div>
+                                <div class="item membership">등급</div>
+                                <div class="item email">이메일</div>
+                                <div class="item phonenumber">휴대전화번호</div>
+                                <div class="item date">가입일시</div>
+                                <div class="item date">탈퇴일시</div>
+                                <div class="item purchase">구매수</div>
+                                <div class="item point">적립금</div>
+                            </div>
+                        </div>
+                        <div class="list member withdrawal">
+                            <div id="noDataMessage">
+                                <span>등록된 상품이 없습니다.</span>
+                            </div>
+                            <div class="list_item">
+                                <div class="item check">
+                                    <input type="checkbox" name="checkBox">
+                                </div>
+                                <div class="item number">2</div>
+                                <div class="item name">최혜원원원</div>
+                                <div class="item userId">veryvery98</div>
+                                <div class="item membership">일반</div>
+                                <div class="item email">veryvery98@gmail.com</div>
+                                <div class="item phonenumber">010-1234-5678</div>
+                                <div class="item date">2024.06.21 00:00:00</div>
+                                <div class="item date">2024.07.21 00:00:00</div>
+                                <div class="item purchase">30</div>
+                                <div class="item point">5,000</div>
+                            </div>
+                            <div class="list_item">
+                                <div class="item check">
+                                    <input type="checkbox" name="checkBox">
+                                </div>
+                                <div class="item number">1</div>
+                                <div class="item name">김지우우우</div>
+                                <div class="item userId">mary070651</div>
+                                <div class="item membership">일반</div>
+                                <div class="item email">mary070651@gmail.com</div>
+                                <div class="item phonenumber">010-4340-1954</div>
+                                <div class="item date">2024.06.20 00:00:00</div>
+                                <div class="item date">2024.07.20 00:00:00</div>
+                                <div class="item purchase">20</div>
+                                <div class="item point">3,000</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pagination">
+                <ul>
+                    <li><a href="#" class="prev_first"><span
+                            class="material-symbols-outlined navigate">navigate_before</span></a></li>
+                    <li><a href="#" class="prev">Prev</a></li>
+                    <li><a href="#">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#">4</a></li>
+                    <li><a href="#">5</a></li>
+                    <li><a href="#" class="next">Next</a></li>
+                    <li><a href="#" class="next_last"><span
+                            class="material-symbols-outlined navigate">navigate_next</span></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

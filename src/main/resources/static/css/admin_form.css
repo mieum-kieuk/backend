@@ -1032,6 +1032,9 @@ th {
     width: auto;
     margin-left: 3px;
 }
+.withdrawal .search_form.withdrawal {
+    margin-bottom: 22px;
+}
 /*modal*/
 .modal {
     display: none;

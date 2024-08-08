@@ -187,6 +187,15 @@
 .member .item.point {
     width: 10%;
 }
+.member.withdrawal .item.check {
+    width: 2%;
+}
+.member.withdrawal .item.date {
+    width: 18%;
+}
+.member.withdrawal .item.membership {
+    width: 8%;
+}
 /*admin*/
 .admin .item.userId{
     width: 16%;
