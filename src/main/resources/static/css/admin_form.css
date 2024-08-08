@@ -77,6 +77,7 @@ body {
 }
 .side_menu.menu {
     height: 100%;
+    margin-top: 60px;
 }
 .side_menu.menu .depth2 {
     display: none;
