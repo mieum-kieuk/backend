@@ -15,10 +15,13 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.js"></script>
     <link rel="stylesheet" href="../../css/comm.css" />
     <link rel="stylesheet" href="../../css/mypage.css" />
     <script src="../../js/findAddress.js"></script>
+    <script src="../../js/comm.js"></script>
     <script src="../../js/delivery.js"></script>
 
 </head>
@@ -28,7 +31,6 @@
         <nav id="gnb">
             <div class="logo">
                 <a href="../index.html">
-                    <img src="../../images/meek2.png" alt="로고">
                     미음키읔
                 </a>
             </div>
@@ -46,8 +48,8 @@
                     </li>
                     <li class="depth1_menu" id="community">Community
                         <ul class="depth2">
-                            <li><a href="../notice/notice_list.html">Notice</a></li>
-                            <li><a href="../qna/qna_list.html">Q&amp;A</a></li>
+                            <li><a href="../community/notice/notice_list.html">Notice</a></li>
+                            <li><a href="../community/inquiry/inquiry_list.html">Q&amp;A</a></li>
                             <li><a href="../review/review_list.html">Review</a></li>
                         </ul>
                     </li>
@@ -170,8 +172,8 @@
                             </li>
                             <li class="default_delivery">
                                 <div>
-                                    <input id="" class="normal" value="1" type="checkbox"/>
-                                    <label for="">기본 배송지로 저장</label>
+                                    <input id="isDefaultDelivery" class="normal" value="1" type="checkbox"/>
+                                    <label for="isDefaultDelivery">기본 배송지로 저장</label>
                                 </div>
                             </li>
                         </ul>

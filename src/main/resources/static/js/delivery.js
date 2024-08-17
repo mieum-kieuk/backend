@@ -1,12 +1,19 @@
 $(document).ready(function () {
 
-    $('#detailAddress').focus(function () {
+    $('#detailAddress').click(function () {
         let zipCode = $('#zipCode').val().trim();
         let basicAddress = $('#basicAddress').val().trim();
 
         if (zipCode === '' || basicAddress === '') {
-            alert("주소 검색을 통해 우편번호와 기본주소를 먼저 입력해 주세요.");
-            $('#searchZipCodeBtn').focus();
+            Swal.fire({
+                html: "주소 검색을 통해<br>우편번호와 기본주소를 먼저 입력해 주세요.",
+                showConfirmButton: true,
+                confirmButtonText: '확인',
+                customClass: mySwal,
+                buttonsStyling: false
+            });
+        }else {
+            $('#detailAddress').prop('readonly', false);
         }
     });
 
@@ -118,31 +125,67 @@ function validateBeforeSubmit() {
 
     // 배송지명 유효성 검사
     if (!isDeliveryNameEmpty()) {
-        alert("배송지명을 입력해 주세요.");
+        Swal.fire({
+            text: "배송지명을 입력해 주세요.",
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
         return false;
     }
 
     // 수령인 유효성 검사
     if (!isNameEmpty()) {
-        alert("수령인을 입력해 주세요.");
+        Swal.fire({
+            text: "수령인을 입력해 주세요.",
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
         return false;
     } else if (!regexName()) {
-        alert("유효한 수령인을 입력해 주세요.");
+        Swal.fire({
+            text: "유효한 수령인을 입력해 주세요.",
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
         return false;
     }
 
     // 주소 유효성 검사
     if (!isAddressEmpty()) {
-        alert("주소를 입력해 주세요.");
+        Swal.fire({
+            text: "주소를 입력해 주세요.",
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
         return false;
     }
 
     // 휴대전화번호 유효성 검사
     if (!isPhoneEmpty()) {
-        alert("휴대전화번호를 입력해 주세요.");
+        Swal.fire({
+            text: "휴대전화번호를 입력해 주세요.",
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
         return false;
     } else if (!regexPhone()) {
-        alert("유효한 휴대전화번호를 입력해 주세요.");
+        Swal.fire({
+            text: "유효한 휴대전화번호를 입력해 주세요.",
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
         return false;
     }
 
@@ -157,27 +200,50 @@ function deleteDelivery(deliveryId) {
     let csrfHeader = $("meta[name='_csrf_header']").attr("content");
     let csrfToken = $("meta[name='_csrf']").attr("content");
 
-    if (confirm("삭제하시겠습니까?")) {
-        $.ajax({
-            type: 'DELETE',
-            url: '/ajax/delivery/delete',
-            async: false,
-            data: {'deliveryId': deliveryId},
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader(csrfHeader, csrfToken)
-            },
-            success: function (data) {
-                if (data.code === 200) {
-                    window.location.href = '/mypage/delivery';
-                } else {
-                    alert(data.message);
+    Swal.fire({
+        text: '삭제하시겠습니까?',
+        showCancelButton: true,
+        cancelButtonText: '아니요',
+        confirmButtonText: '예',
+        closeOnConfirm: false,
+        closeOnCancel: true,
+        customClass: mySwalConfirm,
+        reverseButtons: true,
+        buttonsStyling: false,
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                type: 'DELETE',
+                url: '/ajax/delivery/delete',
+                data: {'deliveryId': deliveryId},
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader(csrfHeader, csrfToken);
+                },
+                success: function (data) {
+                    if (data.code === 200) {
+                        location.reload();
+                    } else {
+                        Swal.fire({
+                            text: data.message,
+                            showConfirmButton: true,
+                            confirmButtonText: '확인',
+                            customClass: mySwal,
+                            buttonsStyling: false
+                        });
+                    }
+                },
+                error: function () {
+                    Swal.fire({
+                        html: "삭제 중 오류가 발생했습니다.<br> 다시 시도해 주세요.",
+                        showConfirmButton: true,
+                        confirmButtonText: '확인',
+                        customClass: mySwal,
+                        buttonsStyling: false
+                    });
+
                 }
-            },
-            error: function () {
-                alert('삭제중 오류가 발생했습니다. 다시 시도해 주세요.');
-            }
-        })
-    } else {
-        return false;
-    }
-};
+            });
+        }
+    });
+}
+
