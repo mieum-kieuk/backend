@@ -343,6 +343,9 @@
 .join_succ_wrap .user_info li span {
   margin-left: 50px;
 }
+#memberInfoModify .auth_wrap #email_auth {
+  font-size: 14px;
+}
 .error, .success {
   font-size: 12px;
 }

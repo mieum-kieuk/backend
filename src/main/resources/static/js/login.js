@@ -14,13 +14,26 @@ function isPasswordPresent() {
 
 function validateBeforeSubmit() {
     if (!isLoginIdPresent()) {
-        alert("아이디를 입력해 주세요.");
+        Swal.fire({
+            text: "아이디를 입력해 주세요.",
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
         return false;
     }
     if (!isPasswordPresent()) {
-        alert("비밀번호를 입력해 주세요.");
+        Swal.fire({
+            text: "비밀번호를 입력해 주세요.",
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
         return false;
     }
 
+    $('.submit_btn').prop('disabled', true);
     return true;
 }

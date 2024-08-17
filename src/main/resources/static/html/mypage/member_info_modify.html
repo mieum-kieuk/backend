@@ -14,11 +14,14 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.js"></script>
   <link rel="stylesheet" href="../../css/join.css" />
   <link rel="stylesheet" href="../../css/comm.css" />
   <link rel="stylesheet" href="../../css/mypage.css" />
+  <script defer src="../../js/comm.js"></script>
   <script defer src="../../js/modify.js"></script>
   <script defer src="../../js/findAddress.js"></script>
 </head>
@@ -120,22 +123,15 @@
               <p class="join_tit ess">회원인증</p>
             </li>
             <li>
-              <div id="person_auth">
-                <div id="personal_type_wrap">
-                  <input id="personal_type0" name="personal_type" label="회원인증" type="checkbox" checked="checked"/>
-                  <label for="personal_type0">이메일인증</label>
-                </div>
                 <div id="email_auth">
                   <ul>
-                    <li>기본정보 &gt; 이메일 항목에 입력하신 정보로 본인인증을 진행합니다.</li>
-                    <li>회원가입 후에 입력하신 이메일 주소로 인증 메일이 발송되오니, 확인해 주시기 바랍니다.</li>
+                    <li><input id="personal_type0" name="personal_type" label="회원인증" type="checkbox" checked="checked" onclick="return false"/>
+                      <label for="personal_type0">이메일 인증 완료</label>
+                    </li>
+                    <li><button type="button" class="btn1">인증메일 전송</button></li>
                   </ul>
                 </div>
-              </div>
             </li>
-            <!--          <li class="isAuth">-->
-            <!--            <p class="join_tit">인증 여부</p><strong class="join_tit">미인증</strong>-->
-            <!--          </li>-->
           </ul>
         </div>
         <form action=""  method="post" id="joinForm">
