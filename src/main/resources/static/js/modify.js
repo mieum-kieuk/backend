@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    $('#submitBtn').on('click', function() {
+    $('#submitBtn').on('click', function () {
         validateBeforeSubmit();
     });
 
@@ -15,7 +15,7 @@ $(document).ready(function () {
         isNameValid();
     });
 
-    $('#newNumberBtn').on('click', function() {
+    $('#newNumberBtn').on('click', function () {
         $(this).attr('id', 'btn_action_verify_mobile');
 
         $(this).addClass('disabled');
@@ -30,7 +30,7 @@ $(document).ready(function () {
         $('#phonenumber3').removeAttr('readonly');
         $(this).text('인증번호 받기');
     });
-        $('#phonenumber2, #phonenumber3').on('focusout', function () {
+    $('#phonenumber2, #phonenumber3').on('focusout', function () {
         isPhoneValid();
     });
 
@@ -399,3 +399,33 @@ function validateBeforeSubmit() {
     return true;
 }
 
+//회원 정보 수정 전 본인 확인
+$('#memberInfoLogin .submit_btn').click(function () {
+    let csrfHeader = $("meta[name='_csrf_header']").attr("content");
+    let csrfToken = $("meta[name='_csrf']").attr("content");
+    let password = $('#password').val();
+    if (password.trim() === '') {
+        alert('비밀번호를 입력해 주세요.');
+        return false;
+    }
+
+    $.ajax({
+            type: 'POST',
+            url: '/ajax/mypage/validate/member',
+            data: {password: password},
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(csrfHeader, csrfToken);
+            },
+            success: function (result) {
+                if (result.code == 200) {
+                    window.location.href = '/mypage/info/edit'
+                } else if (result.code == 400) {
+                    alert(result.message);
+                }
+            },
+            error: function () {
+                alert('본인 확인 중 오류가 발생했습니다.\n다시 시도해 주세요.');
+            }
+        }
+    );
+});

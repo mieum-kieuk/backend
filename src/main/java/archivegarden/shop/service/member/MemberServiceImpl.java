@@ -186,12 +186,8 @@ public class MemberServiceImpl implements MemberService {
      * 마이페이지 - 회원 정보 수정 로그인
      */
     @Override
-    public boolean checkPassword(Member member, String password) {
-        if(!passwordEncoder.matches(member.getPassword(), password)) {
-            return false;
-        }
-
-        return true;
+    public boolean mypageInfoLogin(Member member, String password) {
+        return passwordEncoder.matches(password, member.getPassword());
     }
 
     /**

@@ -31,5 +31,5 @@ public interface MemberService {
 
     String checkPasswordExistsByPhonenumber(String loginId, String name, String phonenumber);
 
-    boolean checkPassword(Member member, String password);
+    boolean mypageInfoLogin(Member loginMember, String password);
 }
