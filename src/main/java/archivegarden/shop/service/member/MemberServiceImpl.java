@@ -52,14 +52,10 @@ public class MemberServiceImpl implements MemberService {
         //Member 생성
         Membership membership = membershipRepository.findByLevel("WHITE");
         Member member = Member.createMember(form, membership);
-
-        //Member 저장
         memberRepository.save(member);
 
-        //배송지 생성
+        //Delivery 생성
         Delivery delivery = Delivery.createDeliveryWhenJoin(member, form.getZipCode(), form.getBasicAddress(), form.getDetailAddress());
-
-        //배송지 저장
         deliveryRepository.save(delivery);
 
         //인증 이메일 전송

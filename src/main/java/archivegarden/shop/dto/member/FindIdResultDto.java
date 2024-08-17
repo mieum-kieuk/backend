@@ -21,13 +21,12 @@ public class FindIdResultDto {
     public FindIdResultDto(Member member) {
         this.name = member.getName();
         this.email = member.getEmail();
-
         String newLoginId = member.getLoginId().substring(0, 3);
         for(int i = 3; i < member.getLoginId().length(); i++) {
             newLoginId += "*";
         }
         this.loginId = newLoginId;
-        this.grade = member.getGrade().getDescription();
+        this.grade = member.getMembership().getLevel();
         this.createdAt = DateTimeFormatter.ofPattern("yyyy년 M월 d일").format(member.getCreatedAt());
     }
 }
