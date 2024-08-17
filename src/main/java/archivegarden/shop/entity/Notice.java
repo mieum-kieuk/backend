@@ -28,7 +28,7 @@ public class Notice extends BaseTimeEntity {
     private int hit;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "admin_id")
+    @JoinColumn(name = "admin_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Admin admin;    //다대일 단방향
 
     //==비즈니스 로직==//
