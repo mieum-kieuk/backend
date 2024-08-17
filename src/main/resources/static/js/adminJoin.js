@@ -260,55 +260,133 @@ function regexEmail() {
 function validateBeforeSubmit() {
     // 아이디 유효성 검사
     if (!isLoginIdEmpty()) {
-        alert("아이디를 입력해 주세요.");
+        Swal.fire({
+            text: "아이디를 입력해 주세요.",
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
         return false;
     } else if (!regexLoginId()) {
-        alert("5~20자의 영문 소문자, 숫자 조합을 사용해 주세요.");
+        Swal.fire({
+            text: "5~20자의 영문 소문자, 숫자 조합을 사용해 주세요.",
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
         return false;
     } else if (!isLoginIdChecked) {
-        alert("아이디 중복검사를 해주세요");
+        Swal.fire({
+            text: "아이디 중복검사를 해주세요.",
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
         return false;
     } else if (!isAvailableLoginId) {
-        alert("이미 사용중인 아이디입니다.");
+        Swal.fire({
+            text: "이미 사용중인 아이디입니다.",
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
         return false;
     }
 
     // 비밀번호 유효성 검사
     if (!isPasswordEmpty()) {
-        alert("비밀번호를 입력해 주세요.");
+        Swal.fire({
+            text: "비밀번호를 입력해 주세요.",
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
         return false;
     } else if (!regexPassword()) {
-        alert("유효한 비밀번호를 입력해 주세요.");
+        Swal.fire({
+            html: "8~16자의 영문 대/소문자, 숫자,<br>특수문자 조합을 사용해 주세요.",
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
         return false;
     }
 
     // 비밀번호 확인 유효성 검사
     if (!isPwConfirmValid()) {
-        alert("비밀번호가 일치하지 않습니다.");
+        Swal.fire({
+            text: "비밀번호가 일치하지 않습니다.",
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
         return false;
     }
 
     // 이름 유효성 검사
     if (!isNameEmpty()) {
-        alert("이름을 입력해 주세요.");
+        Swal.fire({
+            text: "이름을 입력해 주세요.",
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
         return false;
     } else if (!regexName()) {
-        alert("2~12자의 한글, 영문 대/소문자를 사용해 주세요.(특수기호, 공백 사용 불가)");
+        Swal.fire({
+            html: "2~12자의 한글, 영문 대/소문자를 사용해 주세요.<br>(특수기호, 공백 사용 불가)",
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
         return false;
     }
 
     // 이메일 유효성 검사
     if (!isEmailEmpty()) {
-        alert("이메일을 입력해 주세요.");
+        Swal.fire({
+            text: "이메일을 입력해 주세요.",
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
         return false;
     } else if (!regexEmail()) {
-        alert("이메일 형식으로 입력해 주세요.");
+        Swal.fire({
+            text: "이메일 형식으로 입력해 주세요.",
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
         return false;
     } else if (!isEmailChecked) {
-        alert("이메일 중복검사를 해주세요.");
+        Swal.fire({
+            text: "이메일 중복검사를 해주세요.",
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
         return false;
     } else if (!isAvailableEmail) {
-        alert("이미 사용중인 이메일입니다.");
+        Swal.fire({
+            text: "이미 사용중인 이메일입니다.",
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
         return false;
     }
 
