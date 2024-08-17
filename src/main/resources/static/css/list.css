@@ -206,7 +206,7 @@
 .admin .item.email {
     width: 25%;
 }
-.admin .item.approval {
+.admin .item.isAuthorized {
     width: 6%;
 }
 /*product_inquiry*/

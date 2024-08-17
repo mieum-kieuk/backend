@@ -7,8 +7,6 @@ $(document).ready(function() {
     });
 });
 
-
-
 // 폼 제출 전 유효성 검사 함수
 function validateBeforeSubmit() {
     let startDatetime = $('#startDate').val().trim();
@@ -42,13 +40,25 @@ $("#authAdminBtn").click(function() {
 
     let admin = $('.list_content .list_item input[type=checkbox]:checked')
     if (admin.length === 0) {
-        alert('승인할 관리자를 선택해 주세요.');
+        Swal.fire({
+            text: "승인할 관리자를 선택해 주세요.",
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
         return;
     }
 
-    let isAuth = admin.closest('.list_item').find('.is_authorized');
-    if(isAuth.text() === 'O') {
-        alert('이미 승인된 관리자입니다.');
+    let isAuth = admin.closest('.list_item').find('.isAuthorized');
+    if (isAuth.text() === 'O') {
+        Swal.fire({
+            text: "이미 승인된 관리자입니다.",
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
         return;
     }
 
@@ -56,17 +66,27 @@ $("#authAdminBtn").click(function() {
     let csrfToken = $("meta[name='_csrf']").attr("content");
     let csrfHeader = $("meta[name='_csrf_header']").attr("content");
 
-    if(confirm("선택한 관리자에게 관리자 권한을 부여하시겠습니까?")) {
-
-        $('#authAdminBtn').append(`
+    Swal.fire({
+        text: "선택한 관리자에게 관리자 권한을 부여하시겠습니까?",
+        showCancelButton: true,
+        cancelButtonText: '아니요',
+        confirmButtonText: '예',
+        closeOnConfirm: false,
+        closeOnCancel: true,
+        customClass: mySwalConfirm,
+        reverseButtons: true,
+        buttonsStyling: false,
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $('#authAdminBtn').append(`
             <div class="loader_wrap white" style="display: none;">
                 <div class="loader"></div>
             </div>`
-        );
+            );
 
-        let loader = $('#authAdminBtn .loader_wrap.white');
-        loader.css('display', 'block');
-
+            let loader = $('#authAdminBtn .loader_wrap.white');
+            loader.css('display', 'block');
+        }
         $.ajax({
             method: 'POST',
             url: '/ajax/admin/admins/auth',
@@ -76,26 +96,35 @@ $("#authAdminBtn").click(function() {
                 xhr.setRequestHeader(csrfHeader, csrfToken);
             },
             success: function (result) {
-                if(result.code === 200) {
+                if (result.code === 200) {
                     document.location.reload();
                 }
             },
             error: function () {
-                alert('승인 중 오류가 발생했습니다. 다시 시도해 주세요.');
+                Swal.fire({
+                    text: "승인 중 오류가 발생했습니다. 다시 시도해 주세요.",
+                    showConfirmButton: true,
+                    confirmButtonText: '확인',
+                    customClass: mySwal,
+                    buttonsStyling: false
+                });
                 loader.css('display', 'none');
             }
         });
-    } else {
-        return false;
-    }
+    });
 });
-
 //선택삭제
 $("#deleteAdminBtn").click(function() {
 
     let admin = $('.list_content .list_item input[type=checkbox]:checked');
     if (admin.length === 0) {
-        alert('삭제할 관리자를 선택해 주세요.');
+        Swal.fire({
+            text: "삭제할 관리자를 선택해 주세요.",
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
         return;
     }
 
@@ -103,24 +132,40 @@ $("#deleteAdminBtn").click(function() {
     let csrfHeader = $("meta[name='_csrf_header']").attr("content");
     let csrfToken = $("meta[name='_csrf']").attr("content");
 
-    if (confirm("선택한 관리자를 삭제하시겠습니까?")) {
-        $.ajax({
-            method: 'DELETE',
-            url: '/ajax/admin/admins/delete',
-            data: {adminId: adminId},
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader(csrfHeader, csrfToken);
-            },
-            success: function (result) {
-                if(result.code === 200) {
-                    document.location.reload();
+    Swal.fire({
+        text: "선택한 관리자를 삭제하시겠습니까?",
+        showCancelButton: true,
+        cancelButtonText: '아니요',
+        confirmButtonText: '예',
+        closeOnConfirm: false,
+        closeOnCancel: true,
+        customClass: mySwalConfirm,
+        reverseButtons: true,
+        buttonsStyling: false,
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                method: 'DELETE',
+                url: '/ajax/admin/admins/delete',
+                data: {adminId: adminId},
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader(csrfHeader, csrfToken);
+                },
+                success: function (result) {
+                    if(result.code === 200) {
+                        document.location.reload();
+                    }
+                },
+                error: function () {
+                    Swal.fire({
+                        text: "삭제 중 문제가 발생했습니다. 다시 시도해 주세요.",
+                        showConfirmButton: true,
+                        confirmButtonText: '확인',
+                        customClass: mySwal,
+                        buttonsStyling: false
+                    });
                 }
-            },
-            error: function () {
-                alert('삭제 중 오류가 발생했습니다. 다시 시도해 주세요.');
-            }
-        })
-    } else {
-        return false;
-    }
+            });
+        }
+    })
 });
