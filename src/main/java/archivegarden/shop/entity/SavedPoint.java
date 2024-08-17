@@ -34,7 +34,7 @@ public class SavedPoint {
     private LocalDateTime expiredAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
+    @JoinColumn(name = "member_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Member member;  // 다대일 양방향
 
     //==연관관계 메서드==//

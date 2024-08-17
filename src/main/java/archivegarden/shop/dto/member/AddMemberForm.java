@@ -34,11 +34,11 @@ public class AddMemberForm {
     private String email;
 
     @AssertTrue(message = "이용약관에 동의해 주세요.")
-    private boolean agree_to_terms_of_use;
+    private boolean agreeToTermsOfUse;
 
     @AssertTrue(message = "개인정보 수집 및 이용 방침에 동의해 주세요.")
-    private boolean agree_to_personal_information;
+    private boolean agreeToPersonalInformation;
 
-    private boolean agree_to_receive_sms;
-    private boolean agree_to_receive_mail;
+    private boolean agreeToReceiveSms;
+    private boolean agreeToReceiveEmail;
 }

@@ -34,22 +34,22 @@ public class Member extends BaseTimeEntity {
     @Column(length = 45, nullable = false)
     private String email;
 
-    @Column(length = 10, nullable = false)
-    @Enumerated(value = EnumType.STRING)
-    private Grade grade;
-
-    @Column(length = 30, nullable = false)
+    @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
     private Authority authority;
 
-    @Column(length = 10, nullable = false)
-    private String agree_to_receive_sms;
+    @Column(name = "agree_to_receive_sms", nullable = false)
+    private boolean agreeToReceiveSms;
 
-    @Column(length = 10, nullable = false)
-    private String agree_to_receive_mail;
+    @Column(name = "agree_to_receive_mail", nullable = false)
+    private boolean agreeTotReceiveEmail;
 
-    @Column(length = 10, nullable = false)
-    private String isEmailVerified;
+    @Column(name = "is_email_verified", nullable = false)
+    private boolean isEmailVerified;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "membership_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    private Membership membership;  //다대일 단방향
 
     @OneToMany(mappedBy = "member")
     private List<SavedPoint> savedPoints = new ArrayList<>();
@@ -59,7 +59,7 @@ public class Member extends BaseTimeEntity {
      * 이메일 인증 완료
      */
     public void completeEmailVerification() {
-        this.isEmailVerified = Boolean.toString(true).toUpperCase();
+        this.isEmailVerified = true;
     }
 
     /**
@@ -70,18 +70,18 @@ public class Member extends BaseTimeEntity {
     }
 
     //==생성자 메서드==//
-    public static Member createMember(AddMemberForm form) {
+    public static Member createMember(AddMemberForm form, Membership membership) {
         Member member = new Member();
         member.loginId = form.getLoginId();
         member.password = form.getPassword();
         member.name = form.getName();
         member.phonenumber = form.getPhonenumber1() + "-" + form.getPhonenumber2() + "-" + form.getPhonenumber3();
         member.email = form.getEmail();
-        member.grade = Grade.WHITE;
         member.authority = Authority.ROLE_USER;
-        member.agree_to_receive_sms = Boolean.toString(form.isAgree_to_receive_sms()).toUpperCase();
-        member.agree_to_receive_mail = Boolean.toString(form.isAgree_to_receive_mail()).toUpperCase();
-        member.isEmailVerified = Boolean.toString(false).toUpperCase();
+        member.agreeToReceiveSms = form.isAgreeToReceiveSms();
+        member.agreeTotReceiveEmail = form.isAgreeToReceiveEmail();
+        member.isEmailVerified = false;
+        member.membership = membership;
         return member;
     }
 }

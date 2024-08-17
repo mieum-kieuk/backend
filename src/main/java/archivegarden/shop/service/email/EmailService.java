@@ -74,7 +74,7 @@ public class EmailService {
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NoSuchMemberException("존재하지 않는 회원입니다."));
 
         if (redisUtil.existData(email)) {
-            if (Boolean.valueOf(member.getIsEmailVerified())) {    //이미 인증 완료
+            if (Boolean.valueOf(member.isEmailVerified())) {    //이미 인증 완료
                 return "email/verification_complete";
             } else if (redisUtil.getData(email).equals(uuid)) {    //처음 성공
                 updateEmailVerified(email);

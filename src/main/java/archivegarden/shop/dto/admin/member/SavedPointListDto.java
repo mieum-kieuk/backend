@@ -1,6 +1,5 @@
 package archivegarden.shop.dto.admin.member;
 
-import archivegarden.shop.entity.Grade;
 import archivegarden.shop.entity.SavedPointType;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
@@ -24,11 +23,10 @@ public class SavedPointListDto {
     private String balance;
 
     @QueryProjection
-    public SavedPointListDto(String name, String loginId, Grade grade, SavedPointType savedPointType,
+    public SavedPointListDto(String name, String loginId, SavedPointType savedPointType,
                              LocalDateTime createdAt, LocalDateTime expiredAt, int amount, int balance) {
         this.name = name;
         this.loginId = loginId;
-        this.grade = grade.getDescription();
         this.description = savedPointType.getDescription();
         this.createdAt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(createdAt);
         this.expiredAt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(expiredAt);

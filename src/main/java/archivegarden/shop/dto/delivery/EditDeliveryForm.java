@@ -45,6 +45,6 @@ public class EditDeliveryForm {
         this.phonenumber2 = phonenumber[1];
         this.phonenumber3 = phonenumber[2];
 
-        this.defaultDelivery = Boolean.parseBoolean(delivery.getIsDefaultDelivery());
+        this.defaultDelivery = delivery.isDefaultDelivery();
     }
 }

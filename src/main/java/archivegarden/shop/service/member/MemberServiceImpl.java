@@ -3,10 +3,12 @@ package archivegarden.shop.service.member;
 import archivegarden.shop.dto.member.*;
 import archivegarden.shop.entity.Delivery;
 import archivegarden.shop.entity.Member;
+import archivegarden.shop.entity.Membership;
 import archivegarden.shop.entity.SavedPointType;
 import archivegarden.shop.exception.NotFoundException;
 import archivegarden.shop.repository.DeliveryRepository;
 import archivegarden.shop.repository.member.MemberRepository;
+import archivegarden.shop.repository.member.MembershipRepository;
 import archivegarden.shop.service.email.EmailService;
 import archivegarden.shop.service.point.SavedPointService;
 import archivegarden.shop.util.RedisUtil;
@@ -32,6 +34,7 @@ public class MemberServiceImpl implements MemberService {
     private final PasswordEncoder passwordEncoder;
     private final MemberRepository memberRepository;
     private final DeliveryRepository deliveryRepository;
+    private final MembershipRepository membershipRepository;
 
     /**
      * 회원가입
@@ -46,10 +49,11 @@ public class MemberServiceImpl implements MemberService {
         //비밀번호 암호화
         encodePassword(form);
 
-        //멤버 생성
-        Member member = Member.createMember(form);
+        //Member 생성
+        Membership membership = membershipRepository.findByLevel("WHITE");
+        Member member = Member.createMember(form, membership);
 
-        //멤버 저장
+        //Member 저장
         memberRepository.save(member);
 
         //배송지 생성

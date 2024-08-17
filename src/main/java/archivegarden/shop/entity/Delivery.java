@@ -33,10 +33,10 @@ public class Delivery extends BaseTimeEntity {
     private String phonenumber;
 
     @Column(name = "is_default_delivery")
-    private String isDefaultDelivery;
+    private boolean isDefaultDelivery;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "member_id")
+    @JoinColumn(name = "member_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Member member;  //다대일 단방향
 
     //==비즈니스 로직==//
@@ -48,7 +48,7 @@ public class Delivery extends BaseTimeEntity {
         this.recipientName = form.getRecipientName();
         this.address = new Address(form.getZipCode(), form.getBasicAddress(), form.getDetailAddress());
         this.phonenumber = form.getPhonenumber1() + "-" + form.getPhonenumber2() + "-" + form.getPhonenumber3();
-        this.isDefaultDelivery = String.valueOf(form.isDefaultDelivery()).toUpperCase();
+        this.isDefaultDelivery = form.isDefaultDelivery();
     }
 
     /**
@@ -65,7 +65,7 @@ public class Delivery extends BaseTimeEntity {
      * 기본 배송지 제거
      */
     public void removeDefault() {
-        this.isDefaultDelivery = Boolean.toString(false).toUpperCase();
+        this.isDefaultDelivery = false;
     }
 
     //==생성 메서드==//
@@ -78,7 +78,7 @@ public class Delivery extends BaseTimeEntity {
         delivery.recipientName = member.getName();
         delivery.address = new Address(zipCode, basicAddress, detailAddress);
         delivery.phonenumber = member.getPhonenumber();
-        delivery.isDefaultDelivery = Boolean.toString(true).toUpperCase();
+        delivery.isDefaultDelivery = true;
         delivery.member = member;
         return delivery;
     }
@@ -92,7 +92,7 @@ public class Delivery extends BaseTimeEntity {
         delivery.recipientName = form.getRecipientName();
         delivery.address = new Address(form.getZipCode(), form.getBasicAddress(), form.getDetailAddress());
         delivery.phonenumber = form.getPhonenumber1() + "-" + form.getPhonenumber2() + "-" + form.getPhonenumber3();
-        delivery.isDefaultDelivery = Boolean.toString(form.isDefaultDelivery()).toUpperCase();
+        delivery.isDefaultDelivery = form.isDefaultDelivery();
         delivery.member = member;
         return delivery;
     }

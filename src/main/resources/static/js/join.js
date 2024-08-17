@@ -674,7 +674,7 @@ function validateBeforeSubmit() {
     }
 
     // 이용약관 동의 확인
-    if (!$('#agree_to_terms_of_use').is(':checked')) {
+    if (!$('#agreeToTermsOfUse').is(':checked')) {
         Swal.fire({
             text: '이용약관 동의를 확인해 주세요.',
             showConfirmButton: true,
@@ -685,7 +685,7 @@ function validateBeforeSubmit() {
     }
 
     // 개인정보 수집 및 이용 동의 확인
-    if (!$('#agree_to_personal_information').is(':checked')) {
+    if (!$('#agreeToPersonalInformation').is(':checked')) {
         Swal.fire({
             text: '개인정보 수집 및 이용 동의를 확인해 주세요.',
             showConfirmButton: true,
