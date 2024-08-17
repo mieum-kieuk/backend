@@ -17,9 +17,6 @@
     border: 1px solid #222;
     border-radius: 2px;
 }
-.admin_wrap {
-    max-height: 100svh;
-}
 #notice {
     display: flex;
     flex-direction: column;
@@ -59,6 +56,15 @@
     width: 49%;
 }
 /*details*/
+.mh100 {
+    max-height: 100vh;
+}
+.admin_wrap.mh100 #admin {
+    height: auto;
+}
+#admin .notice_wrap.details {
+    padding-bottom: 0;
+}
 .notice_wrap.details {
     padding-bottom: 30px;
 }

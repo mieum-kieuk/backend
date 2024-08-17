@@ -15,16 +15,18 @@
     <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css">
     <link rel="stylesheet" href="../../../../css/comm.css" />
     <link rel="stylesheet" href="../../../../css/admin_form.css">
     <link rel="stylesheet" href="../../../../css/notice.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.js"></script>
     <script defer src="../../../../js/comm.js"></script>
     <script defer src="../../../../js/notice.js"></script>
 
 </head>
 <body>
-<div class="admin_wrap">
+<div class="admin_wrap mh100">
     <div class="sidebar">
         <div class="side_menu top">
             <ul>
@@ -40,37 +42,37 @@
         <div class="side_menu menu">
             <h2>메뉴</h2>
             <ul class="depth1">
-                <li>
+                <li data-path="products">
                     <a href="#">상품 관리</a>
                     <ul class="depth2">
-                        <li data-path="product_list"><a href="../../../admin/products/product/product_list.html">전체 상품관리</a></li>
-                        <li data-path="inquiry_list"><a href="../../../admin/products/inquiry/inquiry_list.html">상품 문의관리</a></li>
-                        <li data-path="discount_list"><a href="../../../admin/promotion/discount/discount_list.html">전체 할인관리</a></li>
+                        <li data-path="product"><a href="../../../admin/products/product/product_list.html">전체 상품관리</a></li>
+                        <li data-path="inquiry"><a href="../../../admin/products/inquiry/inquiry_list.html">상품 문의관리</a></li>
+                        <li data-path="discount"><a href="../../../admin/promotion/discount/discount_list.html">전체 할인관리</a></li>
                     </ul>
                 </li>
-                <li>
+                <li data-path="orders">
                     <a href="#">주문 관리</a>
                     <ul class="depth2">
-                        <li data-path="order_list"><a href="">전체 주문관리</a></li>
-                        <li data-path="cancel_list"><a href="">취소/교환/반품/환불 관리</a></li>
+                        <li data-path="order"><a href="#">전체 주문관리</a></li>
+                        <li data-path="cancel"><a href="#">취소/교환/반품/환불 관리</a></li>
                     </ul>
                 </li>
-                <li>
+                <li data-path="member">
                     <a href="#">회원 관리</a>
                     <ul class="depth2">
-                        <li data-path="member_list"><a href="../../../admin/member/member_list.html">회원 정보 관리</a></li>
-                        <li data-path="point_list"><a href="../../../admin/member/point_list.html">적립금 관리</a></li>
+                        <li data-path="member"><a href="../../../admin/member/member_list.html">회원 정보 관리</a></li>
+                        <li data-path="point"><a href="../../../admin/member/point_list.html">적립금 관리</a></li>
                     </ul>
                 </li>
-                <li>
+                <li data-path="help">
                     <a href="#">고객 지원</a>
                     <ul class="depth2">
-                        <li data-path="notice_list"><a href="../../../admin/help/notice/notice_list.html">공지사항 관리</a></li>
-                        <li data-path="inquiry_list"><a href="../../../admin/help/inquiry/inquiry_list.html">1:1 문의관리</a></li>
-                        <li data-path="withdrawal_list"><a href="">회원 탈퇴내역</a></li>
+                        <li data-path="notice"><a href="../../../admin/help/notice/notice_list.html">공지사항 관리</a></li>
+                        <li data-path="inquiry"><a href="../../../admin/help/inquiry/inquiry_list.html">1:1 문의관리</a></li>
+                        <li data-path="withdrawal"><a href="#">회원 탈퇴내역</a></li>
                     </ul>
                 </li>
-                <li data-path="admins_list">
+                <li data-path="admins">
                     <a href="../../../admin/admins/admins_list.html">관리자 관리</a>
                 </li>
             </ul>
@@ -99,7 +101,7 @@
                             </td>
                         </tr>
                     </table>
-                    <div class="btn_wrap">
+                    <div class="btn_wrap right">
                         <button type="button" class="btn1 " onclick="location.href = '../../../admin/help/notice/notice_list.html'">취소</button>
                         <button type="submit" id="submitBtn" class="btn1 submit_btn">완료</button>
                     </div>
