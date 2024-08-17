@@ -49,9 +49,9 @@ public class DeliveryService {
      * 배송지 목록 조회
      */
     @Transactional(readOnly = true)
-    public List<DeliveryPopupDto> getDeliveries(Long memberId) {
+    public List<DeliveryListDto> getDeliveries(Long memberId) {
         return deliveryRepository.findAllByMemberId(memberId).stream()
-                .map(DeliveryPopupDto::new)
+                .map(DeliveryListDto::new)
                 .collect(Collectors.toList());
     }
 
@@ -71,9 +71,14 @@ public class DeliveryService {
     /**
      * 배송지 수정
      */
-    public void editDelivery(EditDeliveryForm form, Long deliveryId) {
+    public void editDelivery(EditDeliveryForm form, Long deliveryId, Long memberId) {
         //수정할 Delivery 조회
         Delivery delivery = deliveryRepository.findById(deliveryId).orElseThrow(() -> new NotFoundException("존재하지 않는 배송지 주소입니다."));
+
+        //기존의 기본 배송지 제거
+        if (form.isDefaultDelivery()) {
+            changeDefaultDelivery(memberId);
+        }
 
         //Delivery 수정
         delivery.update(form);

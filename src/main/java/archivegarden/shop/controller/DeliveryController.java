@@ -47,8 +47,8 @@ public class DeliveryController {
     //배송지 목록 조회
     @GetMapping("/mypage/delivery")
     public String deliveries(@CurrentUser Member loginMember, Model model) {
-//        List<DeliveryListDto> deliveries = deliveryService.getDeliveries(loginMember.getId());
-//        model.addAttribute("deliveries", deliveries);
+        List<DeliveryListDto> deliveries = deliveryService.getDeliveries(loginMember.getId());
+        model.addAttribute("deliveries", deliveries);
         return "mypage/delivery/delivery_list";
     }
 
@@ -74,7 +74,7 @@ public class DeliveryController {
             return "mypage/delivery/edit_delivery";
         }
 
-        deliveryService.editDelivery(form, deliverId);
+        deliveryService.editDelivery(form, deliverId, loginMember.getId());
         return "redirect:/mypage/delivery";
     }
 
@@ -88,8 +88,8 @@ public class DeliveryController {
 
     @GetMapping("/popup/deliveries")
     public String popupDeliveries(@CurrentUser Member loginMember, Model model) {
-        List<DeliveryPopupDto> deliveries = deliveryService.getDeliveries(loginMember.getId());
-        model.addAttribute("deliveries", deliveries);
+//        List<DeliveryPopupDto> deliveries = deliveryService.getDeliveries(loginMember.getId());
+//        model.addAttribute("deliveries", deliveries);
         return "order/checkout_delivery_popup";
     }
 
