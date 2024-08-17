@@ -36,7 +36,6 @@ dependencies {
 	implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
 	implementation group: 'com.squareup.okhttp3', name: 'okhttp', version: '4.9.1'
 
-
 	//Querydsl 추가
 	implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
 	annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
@@ -46,6 +45,7 @@ dependencies {
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
+	runtimeOnly 'com.mysql:mysql-connector-java'
 	runtimeOnly 'com.h2database:h2:2.2.224'
 
 	testCompileOnly 'org.projectlombok:lombok'
