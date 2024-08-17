@@ -19,12 +19,12 @@ public class AdminListDto {
     public String createdAt;
 
     @QueryProjection
-    public AdminListDto(Long id, String name, String loginId, String email, String isAuthorized, LocalDateTime createdAt) {
+    public AdminListDto(Long id, String name, String loginId, String email, boolean isAuthorized, LocalDateTime createdAt) {
         this.id = id;
         this.name = name;
         this.loginId = loginId;
         this.email = email;
-        this.isAuthorized = Boolean.parseBoolean(isAuthorized) ? "O" : "X";
+        this.isAuthorized = isAuthorized ? "O" : "X";
         this.createdAt = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm:ss").format(createdAt);
     }
 }

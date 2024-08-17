@@ -47,14 +47,14 @@ public class AdminAdminRepositoryImpl implements AdminAdminRepositoryCustom {
                 )
                 .orderBy(
                         new CaseBuilder()
-                                .when(admin.isAuthorized.eq("FALSE")).then(0)
-                                .when(admin.isAuthorized.eq("TRUE")).then(1)
+                                .when(admin.isAuthorized.isFalse()).then(0)
+                                .when(admin.isAuthorized.isTrue()).then(1)
                                 .otherwise(2).asc(),
                         new CaseBuilder()
-                                .when(admin.isAuthorized.eq("FALSE")).then(admin.createdAt)
+                                .when(admin.isAuthorized.isFalse()).then(admin.createdAt)
                                 .otherwise(LocalDateTime.now()).asc(),
                         new CaseBuilder()
-                                .when(admin.isAuthorized.eq("TRUE")).then(admin.createdAt)
+                                .when(admin.isAuthorized.isTrue()).then(admin.createdAt)
                                 .otherwise(LocalDateTime.now()).desc()
                 )
                 .offset(pageable.getOffset())

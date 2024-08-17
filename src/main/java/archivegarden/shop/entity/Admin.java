@@ -29,9 +29,9 @@ public class Admin extends BaseTimeEntity {
     private String email;
 
     @Column(name = "is_authorized", nullable = false)
-    private String isAuthorized;
+    private boolean isAuthorized;
 
-    @Column(length = 30, nullable = false)
+    @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
     private Authority authority;
 
@@ -40,7 +40,7 @@ public class Admin extends BaseTimeEntity {
      * 관리자 권한 부여
      */
     public void authorize() {
-        this.isAuthorized = Boolean.TRUE.toString().toUpperCase();
+        this.isAuthorized = true;
         this.authority = Authority.ROLE_ADMIN;
     }
 
@@ -51,7 +51,7 @@ public class Admin extends BaseTimeEntity {
         admin.password = form.getPassword();
         admin.name = form.getName();
         admin.email = form.getEmail();
-        admin.isAuthorized = Boolean.FALSE.toString().toUpperCase();
+        admin.isAuthorized = false;
         admin.authority = Authority.ROLE_ANONYMOUS;
         return admin;
     }
