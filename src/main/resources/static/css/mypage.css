@@ -289,6 +289,111 @@ h3 {
     display: block;
     /*width: 70px;*/
 }
+/*member_info*/
+#memberInfoModify,#memberInfoLogin {
+    display: flex;
+    justify-content: flex-start;
+    margin: 0 0 120px 200px;
+    color: #222;
+    width: 100%;
+}
+.modify_title {
+    display: block;
+    font-size: 18px;
+    margin-bottom: 20px;
+    width: 100%;
+    border-bottom: 1px solid #333;
+}
+#memberInfoLogin .join_wrap {
+    max-width: 380px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+#memberInfoLogin form {
+    width: 100%;
+}
+#memberInfoLogin .input_wrap {
+    margin-bottom: 20px;
+    width: 100%;
+    white-space: nowrap;
+}
+#memberInfoLogin .input_wrap li {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+#memberInfoLogin .input_wrap .input_box_wrap {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+#memberInfoLogin .input_wrap input {
+    width: 100%;
+    height: 35px;
+}
+#memberInfoLogin .join_wrap .join_tit {
+    margin: 4px 0 8px;
+}
+#memberInfoLogin .btn_wrap .btn1.submit_btn {
+    width: 100%;
+}
+#memberInfoModify .input_wrap input[type=radio] {
+    width: auto;
+    height: auto;
+}
+
+#memberInfoModify .input_wrap .address, #memberInfoModify .input_wrap .phone_number {
+    margin-bottom: 20px;
+}
+#memberInfoModify .input_wrap .address {
+    gap: 0;
+}
+#memberInfoModify .input_wrap .input_box {
+    display: flex;
+    align-items: center;
+    border: 1px solid #999;
+    padding: 5px 5px;
+    height: 35px;
+}
+#memberInfoModify .input_wrap .phone_number {
+    flex-wrap: wrap;
+}
+#memberInfoModify .input_wrap .phone_number.select{
+    width: 100%;
+    margin-bottom: 0;
+}
+#memberInfoModify .input_wrap .phone_number .number_sec {
+    margin-bottom: 0;
+}
+#memberInfoModify #phoneNumberMsg {
+    margin-top: 3px;
+}
+#memberInfoModify .option li{
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: row;
+    align-items: center;
+}
+#memberInfoModify .option li input ,#memberInfoModify .option li label{
+    margin-right: 5px;
+}
+#memberInfoModify .input_area .btn_wrap {
+    justify-content: flex-start;
+}
+#memberInfoModify .input_area .btn_wrap .btn1{
+    width: 100px;
+}
+#memberInfoModify .input_area .input_text {
+    display: flex;
+    align-items: center;
+    border: 1px solid #999;
+    padding: 5px 5px;
+    width: 100%;
+    height: 35px;
+}
 /*delivery_list*/
 #deliveryList {
     display: flex;
@@ -388,9 +493,11 @@ h3 {
     display: flex;
     flex-wrap: wrap;
     width:  100%;
-    max-width: 550px;
-    /*margin-left: 200px;*/
+    margin-left: 200px;
     margin-bottom: 120px;
+}
+#delivery .delivery_wrap {
+    max-width: 550px;
 }
 .delivery_title {
     margin-bottom: 10px;
