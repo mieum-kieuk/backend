@@ -40,4 +40,4 @@ out/
 .vscode/
 
 *.yml
-/src/main/resources/static/productImages/
+/src/main/resources/serviceAccountKey.json

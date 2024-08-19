@@ -2,35 +2,33 @@ package archivegarden.shop.service.upload;
 
 import archivegarden.shop.entity.ImageType;
 import archivegarden.shop.entity.ProductImage;
-import org.springframework.beans.factory.annotation.Value;
+import com.google.cloud.storage.Bucket;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Component
+@RequiredArgsConstructor
 public class ProductFileStore {
 
-    @Value("${file.dir}")
-    private String fileDir;
-
-    public String getFullPath(String filename) {
-        return fileDir + filename;
-    }
+    private final Bucket bucket;
 
     public ProductImage storeFile(MultipartFile multipartFile, ImageType type) throws IOException {
         if(multipartFile.isEmpty()) {
             return null;
         }
 
-        String originalFilename = multipartFile.getOriginalFilename();
-        String storeFilename = createStoreFilename(originalFilename);
-        multipartFile.transferTo(new File(getFullPath(storeFilename)));
-        return ProductImage.createProductImage(originalFilename, storeFilename, type);
+        String blob = "/productImages" + "/display";
+        if(bucket.get(blob) != null) {
+            bucket.get(blob).delete();
+        }
+
+        bucket.create(blob, multipartFile.getBytes());
+        return ProductImage.createProductImage(blob);
     }
 
     public List<ProductImage> storeFiles(List<MultipartFile> multipartFiles, ImageType type) throws IOException {
@@ -42,16 +40,5 @@ public class ProductFileStore {
         }
 
         return storeProductImages;
-    }
-
-    private String createStoreFilename(String originalFilename) {
-        String uuid = UUID.randomUUID().toString();
-        String ext = extractExt(originalFilename);
-        return uuid + "." + ext;
-    }
-
-    private String extractExt(String originalFilename) {
-        int pos = originalFilename.lastIndexOf(".");
-        return originalFilename.substring(pos + 1);
     }
 }
