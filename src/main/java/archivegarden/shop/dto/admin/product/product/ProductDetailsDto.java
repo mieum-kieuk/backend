@@ -1,7 +1,6 @@
 package archivegarden.shop.dto.admin.product.product;
 
 import archivegarden.shop.entity.Discount;
-import archivegarden.shop.entity.ImageType;
 import archivegarden.shop.entity.Product;
 import lombok.Getter;
 
@@ -23,11 +22,11 @@ public class ProductDetailsDto {
     private String sizeGuide;
     private String shipping;
     private String notice;
-    private String displayImage;
-    private String hoverImage;
-    private List<String> detailsImages = new ArrayList<>();
+    private String displayImageUrl;
+    private String hoverImageUrl;
+    private List<String> detailsImageUrls = new ArrayList<>();
 
-    public ProductDetailsDto(Product product) {
+    public ProductDetailsDto(Product product, List<ProductImageDto> productImageDtos) {
         this.id = product.getId();
         this.name = product.getName();
         this.categoryName = product.getCategory().getDisplayName();
@@ -48,14 +47,12 @@ public class ProductDetailsDto {
         this.sizeGuide = product.getSizeGuide();
         this.shipping = product.getShipping();
         this.notice = product.getNotice();
-        product.getProductImages().forEach(image -> {
-            if (image.getImageType() == ImageType.DISPLAY) {
-                this.displayImage = image.getStoreImageName();
-            } else if (image.getImageType() == ImageType.HOVER) {
-                this.hoverImage = image.getStoreImageName();
-            } else {
-                this.detailsImages.add(image.getStoreImageName());
+        for (ProductImageDto image : productImageDtos) {
+            switch (image.getImageType()) {
+                case DISPLAY -> this.displayImageUrl = image.getImageUrl();
+                case HOVER -> this.hoverImageUrl = image.getImageUrl();
+                case DETAILS -> this.detailsImageUrls.add(image.getImageUrl());
             }
-        });
+        }
     }
 }

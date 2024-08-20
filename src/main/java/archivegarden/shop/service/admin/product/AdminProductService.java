@@ -9,7 +9,7 @@ import archivegarden.shop.exception.admin.AdminNotFoundException;
 import archivegarden.shop.exception.ajax.AjaxNotFoundException;
 import archivegarden.shop.repository.product.ProductImageRepository;
 import archivegarden.shop.repository.product.ProductRepository;
-import archivegarden.shop.service.upload.ProductFileStore;
+import archivegarden.shop.service.upload.ProductImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,33 +26,20 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class AdminProductService {
 
-    private final ProductFileStore fileStore;
+    private final ProductImageService productImageService;
     private final ProductRepository productRepository;
     private final ProductImageRepository productImageRepository;
 
     /**
      * 상품 저장
-     *
-     * @throws AdminNotFoundException
      */
     public Long saveProduct(AddProductForm form) throws IOException {
-
-        //ProductImage 생성
-        ProductImage displayImage = fileStore.storeFile(form.getDisplayImage(), ImageType.DISPLAY);
-        ProductImage hoverImage = !form.getHoverImage().isEmpty() ? fileStore.storeFile(form.getHoverImage(), ImageType.HOVER) : null;
-        List<ProductImage> detailsImages = !form.getDetailsImages().isEmpty() ? fileStore.storeFiles(form.getDetailsImages(), ImageType.DETAILS) : null;
-
-        //Product 생성
+        List<ProductImage> productImages = createProductImages(form);
         Product product = Product.builder()
                 .form(form)
-                .displayImage1(displayImage)
-                .displayImage2(hoverImage)
-                .detailsImages(detailsImages)
+                .productImages(productImages)
                 .build();
-
-        //Product 저장
         productRepository.save(product);
-
         return product.getId();
     }
 
@@ -62,19 +50,22 @@ public class AdminProductService {
      */
     @Transactional(readOnly = true)
     public ProductDetailsDto getProduct(Long productId) {
-        //Product 조회
         Product product = productRepository.findByIdFetchJoin(productId).orElseThrow(() -> new AdminNotFoundException("존재하지 않는 상품입니다."));
-
-        return new ProductDetailsDto(product);
+        List<ProductImageDto> productImageDtos = downloadProductImages(product);
+        return new ProductDetailsDto(product, productImageDtos);
     }
 
     /**
      * 상품 목록 조회
      */
     @Transactional(readOnly = true)
-    public Page<ProductListDto> getProducts(AdminProductSearchForm form, Pageable pageable) {
-        return productRepository.findProductAll(form, pageable)
-                .map(ProductListDto::new);
+    public Page<ProductListDto> getProducts(AdminProductSearchCondition condition, Pageable pageable) {
+        return productRepository.findProductAll(condition, pageable)
+                .map(product -> {
+                    ProductImage displayImage = product.getProductImages().get(0);
+                    String displayImageUrl = productImageService.downloadImage(displayImage.getImageUrl());
+                    return new ProductListDto(product, displayImageUrl);
+                });
     }
 
     /**
@@ -84,10 +75,9 @@ public class AdminProductService {
      */
     @Transactional(readOnly = true)
     public EditProductForm getEditProductForm(Long productId) {
-        //Product 조회
         Product product = productRepository.findById(productId).orElseThrow(() -> new AdminNotFoundException("존재하지 않는 상품입니다."));
-
-        return new EditProductForm(product);
+        List<ProductImageDto> productImageDtos = downloadProductImages(product);
+        return new EditProductForm(product, productImageDtos);
     }
 
     /**
@@ -96,30 +86,24 @@ public class AdminProductService {
      * @throws AdminNotFoundException
      */
     public void updateProduct(Long productId, EditProductForm form) throws IOException {
-        //Product 조회
         Product product = productRepository.findById(productId).orElseThrow(() -> new AdminNotFoundException("존재하지 않는 상품입니다."));
-
-        //Product 수정
         product.update(form);
 
-        //==DISPLAY ProductImage 수정==//
+        //DISPLAY ProductImage 수정
         if (!form.getDisplayImage().isEmpty()) {
-            //ProductImage 삭제
             ProductImage displayImage = product.getProductImages()
                     .stream()
                     .filter(productImage -> productImage.getImageType() == ImageType.DISPLAY)
                     .findFirst()
                     .orElseThrow(() -> new AdminNotFoundException("존재하지 않는 상품 이미지 입니다."));
 
+            productImageService.deleteImage(displayImage.getImageUrl());
             product.removeImage(displayImage);
-
-            //ProductImage 생성
-            ProductImage newDisplayImage = fileStore.storeFile(form.getDisplayImage(), ImageType.DISPLAY);
+            ProductImage newDisplayImage = productImageService.uploadProductImage(form.getDisplayImage(), ImageType.DISPLAY);
             product.addProductImage(newDisplayImage);
         }
 
-        //HOVER ProductImage 수정==//
-        //ProductImage 삭제
+        //HOVER ProductImage 수정
         if (form.isHoverImageDeleted()) {
             ProductImage hoverImage = product.getProductImages()
                     .stream()
@@ -127,17 +111,17 @@ public class AdminProductService {
                     .findFirst()
                     .orElseThrow(() -> new AdminNotFoundException("존재하지 않는 상품 이미지 입니다."));
 
+            productImageService.deleteImage(hoverImage.getImageUrl());
             product.removeImage(hoverImage);
         }
 
         //ProductImage 생성
         if(!form.getHoverImage().isEmpty()) {
-            ProductImage newHoverImage = fileStore.storeFile(form.getHoverImage(), ImageType.HOVER);
+            ProductImage newHoverImage = productImageService.uploadProductImage(form.getHoverImage(), ImageType.HOVER);
             product.addProductImage(newHoverImage);
         }
 
-        //DETAILS ProductImage 수정==//
-        //ProductImage 삭제
+        //DETAILS ProductImage 수정
         List<Long> detailsImageIds = product.getProductImages()
                 .stream()
                 .filter(productImage -> productImage.getImageType() == ImageType.DETAILS)
@@ -149,13 +133,13 @@ public class AdminProductService {
             String idx = "FILE_" + detailsImageIds.get(i);
             if(!deleteDetailsImages.contains(idx)) {
                 ProductImage productImage = productImageRepository.findById(detailsImageIds.get(i)).orElseThrow(() -> new AdminNotFoundException("존재하지 않는 상품 이미지 입니다."));
+                productImageService.deleteImage(productImage.getImageUrl());
                 product.removeImage(productImage);
             }
         }
 
-        //ProductImage 생성
         if (!form.getDetailsImages().isEmpty()) {
-            List<ProductImage> productImages = fileStore.storeFiles(form.getDetailsImages(), ImageType.DETAILS);
+            List<ProductImage> productImages = productImageService.uploadProductImages(form.getDetailsImages(), ImageType.DETAILS);
             product.addProductImages(productImages);
         }
     }
@@ -201,5 +185,29 @@ public class AdminProductService {
      */
     public Page<ProductPopupDto> getPopupProducts(String keyword, Pageable pageable) {
         return productRepository.findDtoAllPopup(keyword, pageable);
+    }
+
+    private List<ProductImage> createProductImages(AddProductForm form) throws IOException {
+        List<ProductImage> productImages = new ArrayList<>();
+        productImages.add(productImageService.uploadProductImage(form.getDisplayImage(), ImageType.DISPLAY));
+        ProductImage hoverImage = productImageService.uploadProductImage(form.getHoverImage(), ImageType.HOVER);
+        if (hoverImage != null) {
+            productImages.add(hoverImage);
+        }
+
+        List<ProductImage> detailsImages = productImageService.uploadProductImages(form.getDetailsImages(), ImageType.DETAILS);
+        if (detailsImages != null && !detailsImages.isEmpty()) {
+            productImages.addAll(detailsImages);
+        }
+        return productImages;
+    }
+
+    private List<ProductImageDto> downloadProductImages(Product product) {
+        return product.getProductImages().stream()
+                .map(image -> {
+                    String encodedImage = productImageService.downloadImage(image.getImageUrl());
+                    return new ProductImageDto(image, encodedImage);
+                })
+                .collect(Collectors.toList());
     }
 }

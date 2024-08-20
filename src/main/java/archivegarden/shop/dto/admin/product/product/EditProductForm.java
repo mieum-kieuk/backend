@@ -1,7 +1,6 @@
 package archivegarden.shop.dto.admin.product.product;
 
 import archivegarden.shop.entity.Category;
-import archivegarden.shop.entity.ImageType;
 import archivegarden.shop.entity.Product;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -56,7 +55,7 @@ public class EditProductForm {
     private ProductImageDto originHoverImage;
     private List<ProductImageDto> originDetailsImages = new ArrayList<>();
 
-    public EditProductForm(Product product) {
+    public EditProductForm(Product product, List<ProductImageDto> productImageDtos) {
         this.name = product.getName();
         this.category = product.getCategory();
         this.price = product.getPrice();
@@ -65,14 +64,12 @@ public class EditProductForm {
         this.sizeGuide = product.getSizeGuide();
         this.shipping = product.getShipping();
         this.notice = product.getNotice();
-        product.getProductImages().forEach(image -> {
-            if (image.getImageType() == ImageType.DISPLAY) {
-                this.originDisplayImage = new ProductImageDto(image);
-            } else if (image.getImageType() == ImageType.HOVER) {
-                this.originHoverImage = new ProductImageDto(image);
-            } else {
-                this.originDetailsImages.add(new ProductImageDto(image));
+        for (ProductImageDto productImageDto : productImageDtos) {
+            switch (productImageDto.getImageType()) {
+                case DISPLAY -> this.originDisplayImage = productImageDto;
+                case HOVER -> this.originHoverImage = productImageDto;
+                case DETAILS -> this.originDetailsImages.add(productImageDto);
             }
-        });
+        }
     }
 }

@@ -115,7 +115,7 @@ public class Product extends BaseTimeEntity {
 
     //==생성자==//
     @Builder
-    public Product(AddProductForm form, ProductImage displayImage1, ProductImage displayImage2, List<ProductImage> detailsImages) {
+    public Product(AddProductForm form, List<ProductImage> productImages) {
         this.name = form.getName();
         this.category = form.getCategory();
         this.price = form.getPrice();
@@ -124,8 +124,6 @@ public class Product extends BaseTimeEntity {
         this.sizeGuide = form.getSizeGuide();
         this.shipping = form.getShipping();
         this.notice = form.getNotice();
-        this.addProductImage(displayImage1);
-        Optional.ofNullable(displayImage2).ifPresent(this::addProductImage);
-        Optional.ofNullable(detailsImages).ifPresent(this::addProductImages);
+        productImages.forEach(m -> this.addProductImage(m));
     }
 }

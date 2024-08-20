@@ -26,19 +26,15 @@ public class AdminProductController {
 
     private final AdminProductService productService;
 
-    //상품 저장 폼
     @GetMapping("/add")
     public String addProductForm(@ModelAttribute("product") AddProductForm form, Model model) {
         model.addAttribute("categories", categorySelectBox());
         return "admin/product/products/add_product";
     }
 
-    //상품 저장
     @PostMapping("/add")
     public String addProduct(@Valid @ModelAttribute("product") AddProductForm form, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) throws IOException {
-
         validateAttachImage(form.getDisplayImage(), form.getDetailsImages(), bindingResult);
-
         if (bindingResult.hasErrors()) {
             model.addAttribute("categories", categorySelectBox());
             return "admin/product/products/add_product";
@@ -49,7 +45,6 @@ public class AdminProductController {
         return "redirect:/admin/products/{productId}";
     }
 
-    //상품 단건 조회
     @GetMapping("/{productId}")
     public String productDetails(@PathVariable("productId") Long productId, Model model) {
         ProductDetailsDto productDetailsDto = productService.getProduct(productId);
@@ -57,16 +52,14 @@ public class AdminProductController {
         return "admin/product/products/product_details";
     }
 
-    //상품 여러건 조회
     @GetMapping
-    public String products(@ModelAttribute("form") AdminProductSearchForm form, @RequestParam(name = "page", defaultValue = "1") int page, Model model) {
+    public String products(@ModelAttribute("form") AdminProductSearchCondition condition, @RequestParam(name = "page", defaultValue = "1") int page, Model model) {
         PageRequest pageRequest = PageRequest.of(page - 1, 10);
-        Page<ProductListDto> products = productService.getProducts(form, pageRequest);
+        Page<ProductListDto> products = productService.getProducts(condition, pageRequest);
         model.addAttribute("products", products);
         return "admin/product/products/product_list";
     }
 
-   //상품 수정 폼
     @GetMapping("/{productId}/edit")
     public String editProductForm(@PathVariable("productId") Long productId, Model model) {
         EditProductForm product = productService.getEditProductForm(productId);
@@ -78,13 +71,11 @@ public class AdminProductController {
     @PostMapping("/{productId}/edit")
     public String editProduct(@PathVariable("productId") Long productId, @Valid @ModelAttribute("product") EditProductForm form,
                               BindingResult bindingResult, Model model) throws IOException {
-
-        //상세 페이지 사진 검증
-        if(form.getDetailsImages().size() > 20) {
+        if (form.getDetailsImages().size() > 20) {
             bindingResult.rejectValue("detailsImages", "imageCountLimit", "상세 페이지 사진은 20장까지 첨부가능합니다.");
         }
 
-        if(bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             model.addAttribute("categories", categorySelectBox());
             return "admin/product/products/edit_product";
         }
@@ -93,7 +84,7 @@ public class AdminProductController {
         return "redirect:/admin/products/{productId}";
     }
 
-    //카테고리 셀렉트 박스
+    //카테고리 셀렉트 박스 조회
     public List<Category> categorySelectBox() {
         List<Category> categories = new ArrayList<>();
         Collections.addAll(categories, Category.values());
@@ -108,7 +99,7 @@ public class AdminProductController {
         }
 
         //상세 페이지 사진 검증
-        if(detailsImages.size() > 20) {
+        if (detailsImages.size() > 20) {
             bindingResult.rejectValue("detailsImages", "imageCountLimit", "상세 페이지 사진은 20장까지 첨부가능합니다.");
         }
     }

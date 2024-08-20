@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class AdminProductSearchForm {
+public class AdminProductSearchCondition {
 
     private String searchKey;
     private String keyword;

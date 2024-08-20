@@ -1,8 +1,7 @@
 package archivegarden.shop.repository.product;
 
-import archivegarden.shop.dto.admin.product.product.AdminProductSearchForm;
+import archivegarden.shop.dto.admin.product.product.AdminProductSearchCondition;
 import archivegarden.shop.dto.community.inquiry.ProductPopupDto;
-import archivegarden.shop.dto.community.inquiry.QProductPopupDto;
 import archivegarden.shop.dto.product.ProductSearchCondition;
 import archivegarden.shop.entity.Category;
 import archivegarden.shop.entity.ImageType;
@@ -108,39 +107,40 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 
     @Override
     public Page<ProductPopupDto> findDtoAllPopup(String keyword, Pageable pageable) {
-        List<ProductPopupDto> content = queryFactory.select(new QProductPopupDto(
-                        product.id,
-                        product.name,
-                        product.price,
-                        productImage.storeImageName
-                ))
-                .from(product)
-                .leftJoin(product.productImages, productImage)
-                .on(
-                        product.id.eq(productImage.product.id),
-                        productImage.imageType.eq(ImageType.DISPLAY))
-                .where(keywordLike(keyword))
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .fetch();
-
-        JPAQuery<Long> countQuery = queryFactory
-                .select(product.count())
-                .from(product)
-                .where(keywordLike(keyword));
-
-        return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
+//        List<ProductPopupDto> content = queryFactory.select(new QProductPopupDto(
+//                        product.id,
+//                        product.name,
+//                        product.price,
+//                        productImage.storeImageName
+//                ))
+//                .from(product)
+//                .leftJoin(product.productImages, productImage)
+//                .on(
+//                        product.id.eq(productImage.product.id),
+//                        productImage.imageType.eq(ImageType.DISPLAY))
+//                .where(keywordLike(keyword))
+//                .offset(pageable.getOffset())
+//                .limit(pageable.getPageSize())
+//                .fetch();
+//
+//        JPAQuery<Long> countQuery = queryFactory
+//                .select(product.count())
+//                .from(product)
+//                .where(keywordLike(keyword));
+//
+//        return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
+        return null;
     }
 
     @Override
-    public Page<Product> findProductAll(AdminProductSearchForm form, Pageable pageable) {
+    public Page<Product> findProductAll(AdminProductSearchCondition condition, Pageable pageable) {
         List<Product> content = queryFactory
                 .selectFrom(product)
                 .leftJoin(product.discount, discount).fetchJoin()
                 .leftJoin(product.productImages, productImage).fetchJoin()
                 .where(
-                        adminKeywordLike(form.getSearchKey(), form.getKeyword()),
-                        adminCategoryEq(form.getCategory()),
+                        adminKeywordLike(condition.getSearchKey(), condition.getKeyword()),
+                        adminCategoryEq(condition.getCategory()),
                         imageTypeDisplay()
                 )
                 .orderBy(product.createdAt.desc())
@@ -151,8 +151,8 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
         JPAQuery<Long> countQuery = queryFactory
                 .select(product.count())
                 .where(
-                        adminKeywordLike(form.getSearchKey(), form.getKeyword()),
-                        adminCategoryEq(form.getCategory())
+                        adminKeywordLike(condition.getSearchKey(), condition.getKeyword()),
+                        adminCategoryEq(condition.getCategory())
                 )
                 .from(product);
 
@@ -223,9 +223,13 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
      * 공백 제거, 대소문자 구분 안함
      */
     private BooleanExpression keywordLike(String keyword) {
-        String replaceKeyword = StringUtils.replace(keyword, " ", "");
-        StringTemplate replaceProductName = Expressions.stringTemplate("function('replace',{0},{1},{2})", product.name, " ", "");
-        return hasText(keyword) ? replaceProductName.containsIgnoreCase(replaceKeyword) : null;
+        if(hasText(keyword)) {
+            String replaceKeyword = StringUtils.replace(keyword, " ", "");
+            StringTemplate replaceProductName = Expressions.stringTemplate("function('replace',{0},{1},{2})", product.name, " ", "");
+            return replaceProductName.containsIgnoreCase(replaceKeyword);
+        }
+
+        return null;
     }
 
     /**

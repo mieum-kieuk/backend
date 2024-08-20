@@ -1,7 +1,7 @@
 package archivegarden.shop.controller;
 
 import archivegarden.shop.dto.community.inquiry.ProductPopupDto;
-import archivegarden.shop.dto.community.inquiry.InquiryPopupSearchCondition;
+import archivegarden.shop.dto.community.inquiry.PopupProductSearchCondition;
 import archivegarden.shop.dto.product.ProductDetailsDto;
 import archivegarden.shop.dto.product.ProductListDto;
 import archivegarden.shop.dto.product.ProductSearchCondition;
@@ -52,7 +52,7 @@ public class ProductController {
     }
 
     @GetMapping("/search")
-    public String searchPopupProducts(@ModelAttribute("condition") InquiryPopupSearchCondition condition, Model model) {
+    public String searchPopupProducts(@ModelAttribute("condition") PopupProductSearchCondition condition, Model model) {
         if (StringUtils.hasText(condition.getKeyword())) {
             PageRequest pageRequest = PageRequest.of(condition.getPage() - 1, condition.getLimit());
             Page<ProductPopupDto> productPopupDtos = productService.getPopupProducts(condition.getKeyword(), pageRequest);

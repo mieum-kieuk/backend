@@ -15,11 +15,11 @@ import java.io.IOException;
 @Configuration
 public class FirebaseConfig {
 
-    @Value("${firebase.accountKey.path}")
+    @Value("${firebase.account-key-path}")
     private String accountKeyPath;
 
-    @Value("${firebase.storage.address}")
-    private String storageAddress;
+    @Value("${firebase.storage-url}")
+    private String storageUrl;
 
     @Bean
     public FirebaseApp firebaseApp() throws IOException {
@@ -28,7 +28,7 @@ public class FirebaseConfig {
 
         FirebaseOptions options = FirebaseOptions.builder()
                 .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-                .setStorageBucket(storageAddress)
+                .setStorageBucket(storageUrl)
                 .build();
 
         return FirebaseApp.initializeApp(options);
