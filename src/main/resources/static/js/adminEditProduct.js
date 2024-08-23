@@ -46,7 +46,13 @@ async function updatePreviewContainer(input, containerId, thumbnailType) {
         previewImages.find('.preview_image').attr('src', '');
         container.find('.filename_container').empty();
         container.css('display', 'none');
-        alert(thumbnailType + `의 크기가 3MB 이하여야 합니다.`);
+        Swal.fire({
+            text: thumbnailType + '의 크기가 3MB 이하여야 합니다.',
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
         return;
     }
 
@@ -99,13 +105,25 @@ async function handleDetailsImagesChange() {
 
     // 파일 사이즈 초과 시 알림
     if (exceedsMaxSize) {
-        alert('상세 페이지 사진 한 장의 크기가 3MB 이하여야 합니다.');
+        Swal.fire({
+            text: "상세 페이지 사진 한 장의 크기가 3MB 이하여야 합니다.",
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
         $('#detailsImages').val('');
         return false;
     }
 
     if (exceedsMaxFiles) {
-        alert(`상세 페이지 사진은 최대 20장까지 가능합니다.`);
+        Swal.fire({
+            text: "상세 페이지 사진은 최대 20장까지 가능합니다.",
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
         $('#detailsImages').val(''); // 파일 입력 필드 초기화
         return false;
     }
@@ -179,53 +197,119 @@ function validateBeforeSubmit() {
 
     let nameRegex = /^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9\s]+$/;
     if(nameValue === '') {
-        alert('상품명을 입력해 주세요.');
+        Swal.fire({
+            text: "상품명을 입력해 주세요.",
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
         return false;
     } else if (!nameRegex.test(nameValue)) {
-        alert('상품명은 한글, 영문, 숫자, 공백만 허용됩니다.');
+        Swal.fire({
+            text: "상품명은 한글, 영문, 숫자, 공백만 허용됩니다.",
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
         return false;
     }
 
     if (priceValue === '') {
-        alert('상품 가격을 입력해 주세요.');
+        Swal.fire({
+            text: "상품 가격을 입력해 주세요.",
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
         return false;
     }
     if (parseInt(priceValue) < 0) {
-        alert('유효한 상품 가격을 입력해 주세요.');
+        Swal.fire({
+            text: "유효한 상품 가격을 입력해 주세요.",
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
         return false;
     }
 
     if (stockQuantityValue === '') {
-        alert('재고 수량을 입력해 주세요.');
+        Swal.fire({
+            text: "재고 수량을 입력해 주세요.",
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
         return false;
     }
     if (parseInt(stockQuantityValue) < 0) {
-        alert('유효한 재고를 입력해 주세요.');
+        Swal.fire({
+            text: "유효한 재고를 입력해 주세요.",
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
         return false;
     }
 
     if (detailsValue === '') {
-        alert('상세 정보를 입력해 주세요.');
+        Swal.fire({
+            text: "상세 정보를 입력해 주세요.",
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
         return false;
     }
 
     if (sizeGuideValue === '') {
-        alert('상품 크기를 입력해 주세요.');
+        Swal.fire({
+            text: "상품 크기를 입력해 주세요.",
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
         return false;
     }
 
     if (shippingValue === '') {
-        alert('배송 정보를 입력해 주세요.');
+        Swal.fire({
+            text: "배송 정보를 입력해 주세요.",
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
         return false;
     }
 
     if (noticeValue === '') {
-        alert('주의 사항을 입력해 주세요.');
+        Swal.fire({
+            text: "주의 사항을 입력해 주세요.",
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
         return false;
     }
 
     if (displayImageValue.length === 0 && originalDisplayPreviewImage === '') {
-        alert('섬네일 사진1을 첨부해 주세요.');
+        Swal.fire({
+            text: "섬네일 사진1을 첨부해 주세요.",
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
         return false;
     }
 
@@ -233,7 +317,13 @@ function validateBeforeSubmit() {
     for (let i = 0; i < displayImageValue.length; i++) {
         let fileSize = displayImageValue[i].size;
         if (fileSize > maxSizePerFile) {
-            alert('섬네일 사진1의 크기가 3MB 이하여야 합니다.');
+            Swal.fire({
+                text: "섬네일 사진1의 크기가 3MB 이하여야 합니다.",
+                showConfirmButton: true,
+                confirmButtonText: '확인',
+                customClass: mySwal,
+                buttonsStyling: false
+            });
             $('#displayImage').val('');
             return false;
         }
@@ -242,7 +332,13 @@ function validateBeforeSubmit() {
     for (let i = 0; i < hoverImageValue.length; i++) {
         let fileSize = hoverImageValue[i].size;
         if (fileSize > maxSizePerFile) {
-            alert('섬네일 사진2의 크기가 3MB 이하여야 합니다.');
+            Swal.fire({
+                text: "섬네일 사진2의 크기가 3MB 이하여야 합니다.",
+                showConfirmButton: true,
+                confirmButtonText: '확인',
+                customClass: mySwal,
+                buttonsStyling: false
+            });
             $('#hoverImage').val('');
             return false;
         }
@@ -250,14 +346,26 @@ function validateBeforeSubmit() {
     for (let i = 0; i < detailsImagesValue.length; i++) {
         let fileSize = detailsImagesValue[i].size;
         if (fileSize > maxSizePerFile) {
-            alert('상세 페이지 사진 한 장의 크기가 3MB 이하여야 합니다.');
+            Swal.fire({
+                text: "상세 페이지 사진 한 장의 크기가 3MB 이하여야 합니다.",
+                showConfirmButton: true,
+                confirmButtonText: '확인',
+                customClass: mySwal,
+                buttonsStyling: false
+            });
             $('#detailsImages').val('');
             return false;
         }
     }
 
     if (detailsImagesValue.length > 20) {
-        alert('상세 페이지 사진은 최대 20장까지 가능합니다.');
+        Swal.fire({
+            text: "상세 페이지 사진은 최대 20장까지 가능합니다.",
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
         $('#detailsImages').val('');
         return false;
     }
@@ -265,7 +373,7 @@ function validateBeforeSubmit() {
 }
 
 $('.display_delete_btn').click(function() {
-    let previewContainer = $(this).closest('.preview_image_container');
+    let previewContainer = $(this).closest('.preview_container');
     previewContainer.find('.preview_image').attr('src', '');
     let fileInput = previewContainer.prev('.input_box_wrap').find('input[type="file"]');
     fileInput.val('');

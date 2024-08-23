@@ -44,8 +44,6 @@
   margin-top: 15px;
 }
 .btn_wrap #loginBtn[disabled] {
-  background-color: #fff;
-  color: #222;
   cursor: not-allowed;
 }
 
