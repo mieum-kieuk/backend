@@ -32,17 +32,18 @@
                     <div class="field-error" th:errors="*{name}"></div>
                     <div class="input_box_wrap">
                         <label for="discountPercent">할인율</label>
-                        <input type="number" id="discountPercent" th:field="*{discountPercent}" placeholder="숫자만 입력해 주세요.">
+                        <input type="number" id="discountPercent" th:field="*{discountPercent}" placeholder="할인율을 입력해 주세요.">
                     </div>
                     <div class="field-error" th:errors="*{discountPercent}"></div>
                     <div class="discount period">
-                        <span>할인 기간</span>
+                        <span class="label">할인 기간</span>
                         <div class="discount_cont period">
                             <div class="input_box_wrap">
-                                <input type="datetime-local" id="startedAt" class='datetimepicker' th:field="*{startedAt}">
+                                <input type="text" id="startedAt" class='datetimepicker' th:field="*{startedAt}">
                             </div>
+                            <span class="tilde">~</span>
                             <div class="input_box_wrap">
-                                <input type="datetime-local" id="expiredAt" class='datetimepicker' th:field="*{expiredAt}">
+                                <input type="text" id="expiredAt" class='datetimepicker' th:field="*{expiredAt}">
                             </div>
                         </div>
                     </div>

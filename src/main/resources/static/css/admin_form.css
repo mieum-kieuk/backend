@@ -476,10 +476,18 @@ input::-webkit-inner-spin-button {
 }
 
 .discount_cont.period .input_box_wrap {
-    margin-right: 20px;
     margin-bottom: 5px;
 }
-
+.discount_cont.period .tilde {
+    display: flex;
+    align-items: center;
+    width: 10px;
+    justify-content: center;
+    margin: 0 0 5px 0;
+    font-size: 14px;
+    font-weight: 400;
+    color: #222;
+}
 .discount .input_box_wrap {
     width: auto;
 }
@@ -544,7 +552,7 @@ input::-webkit-inner-spin-button {
     display: flex;
 }
 
-#discountForm .discount span, #editDiscountForm .discount span {
+.discount .label, .discount .label {
     display: block;
     margin-right: 20px;
     width: 120px;

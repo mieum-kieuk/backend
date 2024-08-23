@@ -1,5 +1,7 @@
 $(document).ready(function () {
+    setupDateTimePicker();
     setupDate();
+    selectCheckbox();
     selectCheckboxes();
     productOptionToggle();
     popupButton();
@@ -13,11 +15,35 @@ $(document).ready(function () {
 
 let discountPopup = null;
 
+function setupDateTimePicker() {
+    $('.datetimepicker').datetimepicker({
+        format: 'Y-m-d H:i',
+        step: 5,
+        minDate: 0,
+        minTime: 0,
+        onShow: function (ct) {
+            this.setOptions({
+                minTime: 0 // 선택된 날짜가 오늘인 경우, 현재 시간 이후만 선택 가능
+            });
+        }
+    });
+}
+
 function setupDate() {
     let currentDate = new Date();
     let minDate = currentDate.toISOString().slice(0, 16);
     $('#startedAt').attr('min', minDate);
     $('#expiredAt').attr('min', minDate);
+}
+
+function selectCheckbox() {
+    $('.search_result input[type="checkbox"]').on('change', function () {
+        let isChecked = $(this).prop('checked');
+
+        if (isChecked) {
+            $('.search_result input[type="checkbox"]').not(this).prop('checked', false);
+        }
+    });
 }
 
 function selectCheckboxes() {
@@ -72,21 +98,10 @@ function closeDiscountPopup() {
 
 function addItems() {
     $('.add_btn').on('click', function () {
-        let items = $('.search_result .list.product .list_item').has('input:checked').closest('.list_item');
-        let selectedItems = [];
+        let item = $('.search_result .list.product .list_item').has('input:checked').closest('.list_item');
+        let selectedItem = [];
 
-        items.each(function () {
-            let productName = $(this).find('.item.title').text();
-            let productPrice = $(this).find('.item.price').text();
-            let productImage = $(this).find('.item.img img').attr('src');
-
-            selectedItems.push({
-                productName: productName,
-                productPrice: productPrice,
-                productImage: productImage,
-            });
-        });
-        if (selectedItems.length === 0) {
+        if (selectedItem.length === 0) {
             Swal.fire({
                 text: "상품을 선택해 주세요.",
                 showConfirmButton: true,
@@ -96,14 +111,62 @@ function addItems() {
             });
             return;
         }
-        if (window.opener) {
-            window.opener.getItems(selectedItems);
-            window.close();
-        }
+
+        item.each(function () {
+            let productName = $(this).find('.item.title').text();
+            let productPrice = $(this).find('.item.price').text();
+            let productImage = $(this).find('.item.img img').attr('src');
+
+            selectedItem.push({
+                productName: productName,
+                productPrice: productPrice,
+                productImage: productImage,
+            });
+        });
+
+        $.ajax({
+            type: 'POST',
+            url: '/ajax/',
+            data:
+            success: function (response) {
+                if (response.hasDiscount) {
+                    Swal.fire({
+                            text: "이미 적용된 할인이 있습니다. 변경하시겠습니까?",
+                        showCancelButton: true,
+                        cancelButtonText: '아니요',
+                        confirmButtonText: '예',
+                        customClass: mySwalConfirm,
+                        reverseButtons: true,
+                        buttonsStyling: false
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            if (window.opener) {
+                                window.opener.getItem(selectedItem);
+                                window.close();
+                            }
+                        }
+                    });
+                } else {
+                    if (window.opener) {
+                        window.opener.getItem(selectedItem);
+                        window.close();
+                    }
+                }
+            },
+            error: function () {
+                Swal.fire({
+                    html: "오류가 발생했습니다.<br>다시 시도해 주세요.",
+                    showConfirmButton: true,
+                    confirmButtonText: '확인',
+                    customClass: mySwal,
+                    buttonsStyling: false
+                });
+            }
+        });
     });
 }
 
-window.getItems = function (items) {
+window.getItem = function (items) {
     let listContainer = $('.input_box_wrap.product .list.product');
     items.forEach(function (item) {
         let newItemHtml = `
@@ -119,6 +182,82 @@ window.getItems = function (items) {
         listContainer.append(newItemHtml);
     });
 }
+$('.input_box_wrap.product #deleteBtn').click(function () {
+    let productId = [];
+    let checkbox = $('input[name=checkBox]:checked');
+    let productItems = $('.list.product').children();
+    if (productItems.length === 0) {
+        Swal.fire({
+            text: "삭제할 상품이 없습니다.",
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
+        return false;
+    }
+    if (checkbox.length === 0) {
+        Swal.fire({
+            text: "삭제할 상품을 선택해 주세요.",
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
+        return false;
+    } else {
+        Swal.fire({
+            text: '상품을 삭제하시겠습니까?',
+            showCancelButton: true,
+            cancelButtonText: '아니요',
+            confirmButtonText: '예',
+            closeOnConfirm: false,
+            closeOnCancel: true,
+            customClass: mySwalConfirm,
+            reverseButtons: true,
+            buttonsStyling: false,
+        }).then((result) => {
+            if (result.isConfirmed) {
+                checkbox.each(function () {
+                    let productId = $(this).attr('id').split('checkbox')[1];
+                    productId.push(productId);
+                });
+
+                $.ajax({
+                    type: 'DELETE',
+                    url: '/ajax/admin/',
+                    contentType: 'application/json',
+                    data: JSON.stringify(),
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader(csrfHeader, csrfToken);
+                    },
+                    success: function (data) {
+                        if (data.code === 200) {
+                            window.location.reload();
+                        } else {
+                            Swal.fire({
+                                text: data.message,
+                                showConfirmButton: true,
+                                confirmButtonText: '확인',
+                                customClass: mySwal,
+                                buttonsStyling: false
+                            });
+                        }
+                    },
+                    error: function () {
+                        Swal.fire({
+                            html: "삭제 중 문제가 발생했습니다.<br>다시 시도해 주세요.",
+                            showConfirmButton: true,
+                            confirmButtonText: '확인',
+                            customClass: mySwal,
+                            buttonsStyling: false
+                        });
+                    }
+                });
+            }
+        });
+    }
+});
 
 function validateBeforeSubmit() {
     let discountName = $('#name').val().trim();
@@ -294,7 +433,7 @@ $('#deleteDiscountsBtn').click(function () {
 
     if (checkboxes.length == 0) {
         Swal.fire({
-            text: "삭제할 항목들을 선택해 주세요.",
+            text: "삭제할 할인을 선택해 주세요.",
             showConfirmButton: true,
             confirmButtonText: '확인',
             customClass: mySwal,

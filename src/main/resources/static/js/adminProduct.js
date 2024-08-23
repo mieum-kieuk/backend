@@ -511,14 +511,14 @@ function deleteProduct(productId) {
 }
 
 //상품 여러건 삭제
-$('#deleteProductsBtn').click(function () {
+$('#deleteProductsBtn').click(function () {ㅔ
 
     let productIds = [];
     let checkboxes = $('input[name=checkbox]:checked');
 
     if (checkboxes.length == 0) {
         Swal.fire({
-            text: "삭제할 상품들을 선택해 주세요.",
+            text: "삭제할 상품을 선택해 주세요.",
             showConfirmButton: true,
             confirmButtonText: '확인',
             customClass: mySwal,
