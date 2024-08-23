@@ -159,8 +159,6 @@ async function handleDetailsImagesChange() {
         $('#detailsImages')[0].files = dataTransfer.files;
     }
 
-    console.log($('#detailsImages')[0].files);
-
     for (let i = 0; i < newFileSize; i++) {
         await addImagePreview(previewContainer, newFileArr[i]);
     }
@@ -479,7 +477,7 @@ function deleteProduct(productId) {
         if (result.isConfirmed) {
             $.ajax({
                 type: 'DELETE',
-                url: '/ajax/admin/product/delete',
+                url: '/ajax/admin/product',
                 async: false,
                 data: {productId: productId},
                 beforeSend: function (xhr) {
@@ -547,7 +545,7 @@ $('#deleteProductsBtn').click(function () {
 
                 $.ajax({
                     type: 'DELETE',
-                    url: '/ajax/admin/products/delete',
+                    url: '/ajax/admin/products',
                     async: false,
                     contentType: 'application/json',
                     data: JSON.stringify(productIds),

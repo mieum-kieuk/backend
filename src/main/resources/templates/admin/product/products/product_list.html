@@ -62,8 +62,8 @@
             </div>
             <div class="list_content">
                 <div class="list_head product">
-                    <div class="item check" >
-                        <input type="checkbox" name="checkBox">
+                    <div class="item check">
+                        <input type="checkbox" id="selectAll">
                     </div>
                     <div class="item number">번호</div>
                     <div class="item img">섬네일 사진</div>
@@ -85,7 +85,7 @@
                     <div class="list_item" th:each="product, productStat : ${products}">
                         <a href="./product_details.html" th:href="@{/admin/products/{productId}(productId=${product.id})}">
                             <div class="item check">
-                                <input type="checkbox" name="checkBox" th:id="'checkbox' + ${product.id}">
+                                <input type="checkbox" name="checkbox" th:id="'checkbox' + ${product.id}">
                             </div>
                             <div class="item number" th:text="${products.totalElements - (products.number * products.pageable.pageSize) - productStat.index}"></div>
                             <div class="item img"><img id="displayImage1" th:src="${product.displayImageUrl}" alt="상품이미지"></div>

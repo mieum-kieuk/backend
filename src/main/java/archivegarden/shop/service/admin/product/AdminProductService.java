@@ -150,10 +150,9 @@ public class AdminProductService {
      * @throws AjaxNotFoundException
      */
     public void deleteProduct(Long productId) {
-        //Product 조회
         Product product = productRepository.findById(productId).orElseThrow(() -> new AjaxNotFoundException("존재하지 않는 상품입니다."));
-
-        //Product 삭제
+        List<ProductImage> productImages = product.getProductImages();
+        productImageService.deleteImages(productImages);
         productRepository.delete(product);
     }
 
@@ -164,10 +163,9 @@ public class AdminProductService {
      */
     public void deleteProducts(List<Long> productIds) {
         productIds.stream().forEach(productId -> {
-            //Product 조회
             Product product = productRepository.findById(productId).orElseThrow(() -> new AjaxNotFoundException("존재하지 않는 상품입니다."));
-
-            //Product 삭제
+            List<ProductImage> productImages = product.getProductImages();
+            productImageService.deleteImages(productImages);
             productRepository.delete(product);
         });
     }

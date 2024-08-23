@@ -61,7 +61,12 @@ public class ProductImageService {
     }
 
     public void deleteImage(String imageUrl) {
-        Bucket bucket = StorageClient.getInstance().bucket(firebaseStorageUrl);
         bucket.get(imageUrl).delete();
+    }
+
+    public void deleteImages(List<ProductImage> productImages) {
+        for (ProductImage productImage : productImages) {
+            deleteImage(productImage.getImageUrl());
+        }
     }
 }

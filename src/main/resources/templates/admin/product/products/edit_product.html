@@ -44,12 +44,12 @@
                     <div class="field-error" th:errors="*{category}"></div>
                     <div class="input_box_wrap">
                         <label for="price" class="ess_tit">상품 가격</label>
-                        <input type="number" id="price" th:field="*{price}">
+                        <input type="number" id="price" th:field="*{price}" placeholder="가격을 입력해 주세요.">
                     </div>
                     <div class="field-error" th:errors="*{price}"></div>
                     <div class="input_box_wrap">
                         <label for="stockQuantity" class="ess_tit">재고</label>
-                        <input type="number" id="stockQuantity" th:field="*{stockQuantity}">
+                        <input type="number" id="stockQuantity" th:field="*{stockQuantity}" placeholder="수량을 입력해 주세요.">
                     </div>
                     <div class="field-error" th:errors="*{stockQuantity}"></div>
                     <div class="input_box_wrap">
@@ -82,9 +82,9 @@
                     <div class="field-error exc" th:errors="*{displayImage}"></div>
                     <div id="previewContainer1" class="preview_container">
                         <div class="preview_images">
-                            <img th:src="|/productImages/${product.originDisplayImage.storeImageName}|" alt="섬네일 사진1" class="preview_image">
+                            <img th:src="${product.originDisplayImage.imageUrl}" alt="섬네일 사진1" class="preview_image">
                             <div class="filename_container">
-                                <span>파일명: </span><span class="file_name" th:text="${product.originDisplayImage.uploadImageName}"></span>
+                                <span>파일명: </span><span class="file_name" th:text="${product.originDisplayImage.imageName}"></span>
                             </div>
                         </div>
                         <div class="btn_wrap">
@@ -104,9 +104,9 @@
                     <input type="hidden" id="hoverImageDeleted" th:field="*{hoverImageDeleted}"/>
                     <div id="previewContainer2" class="preview_container" th:style="${product.originHoverImage == null} ? 'display:none;'">
                         <div class="preview_images">
-                            <img th:src="${product.originHoverImage != null ? '/productImages/' + product.originHoverImage.storeImageName : '#'}" alt="섬네일 사진2" class="preview_image">
+                            <img th:src="${product.originHoverImage != null ? product.originHoverImage.imageUrl : '#'}" alt="섬네일 사진2" class="preview_image">
                             <div class="filename_container">
-                                <span>파일명: </span><span class="file_name" th:text="${product.originHoverImage != null} ? ${product.originHoverImage.uploadImageName}"></span>
+                                <span>파일명: </span><span class="file_name" th:text="${product.originHoverImage != null} ? ${product.originHoverImage.imageName}"></span>
                             </div>
                         </div>
                         <div class="btn_wrap">
@@ -125,9 +125,9 @@
                     <div id="previewContainer3" class="preview_container column">
                         <div class="preview_image_container" th:each="detailsImage : ${product.originDetailsImages}">
                             <div class="preview_images">
-                                <img th:src="|/productImages/${detailsImage.storeImageName}|" alt="섬네일 사진2" class="preview_image">
+                                <img th:src="${detailsImage.imageUrl}" alt="섬네일 사진2" class="preview_image">
                                 <div class="filename_container">
-                                    <span>파일명: </span><span class="file_name" th:text="${detailsImage.uploadImageName}"></span>
+                                    <span>파일명: </span><span class="file_name" th:text="${detailsImage.imageName}"></span>
                                 </div>
                             </div>
                             <div class="btn_wrap">

@@ -28,7 +28,6 @@ public class AjaxAdminController {
     private final AdminProductService productService;
     private final AdminProductInquiryService inquiryService;
     private final AdminProductInquiryAnswerService answerService;
-//    private final ProductFileStore fileStore;
 
     //전체 관리자 관리페이지에서 관리자 단건 삭제
     @ResponseStatus(HttpStatus.OK)
@@ -70,25 +69,6 @@ public class AjaxAdminController {
         return new ResultResponse(HttpStatus.OK.value(), "삭제가 완료되었습니다.");
     }
 
-//    @ResponseBody
-//    @GetMapping("/images/{filename}")
-//    public Resource downloadImage(@PathVariable String filename) throws MalformedURLException {
-//        return new UrlResource("file:" + fileStore.getFullPath(filename));
-//    }
-
-//    //상품 수정 폼에서 페이지 로딩시 첨부된 이미지 조회
-//    @ResponseStatus(HttpStatus.OK)
-//    @GetMapping("/productImages/{productId}")
-//    public List<ProductImageDto> getProductImages(@PathVariable("productId") Long productId) {
-//        return productImageService.findProductImages(productId);
-//    }
-
-//    //상품 수정 폼에서 이미지 단건 삭제
-//    @PostMapping("/productImages/{productImageId}/delete")
-//    public void deleteImage(@PathVariable("productImageId") Long productImageId) {
-//        productImageService.deleteImage(productImageId);
-//    }
-
     //상품명 중복 검사
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/products/check/name")
@@ -103,7 +83,7 @@ public class AjaxAdminController {
 
     //상품 단건 삭제
     @ResponseStatus(HttpStatus.OK)
-    @DeleteMapping("/product/delete")
+    @DeleteMapping("/product")
     public ResultResponse deleteProduct(@RequestParam("productId") Long productId) {
         productService.deleteProduct(productId);
         return new ResultResponse(HttpStatus.OK.value(), "삭제가 완료되었습니다.");
@@ -111,7 +91,7 @@ public class AjaxAdminController {
 
     //상품 여러건 삭제
     @ResponseStatus(HttpStatus.OK)
-    @DeleteMapping("/products/delete")
+    @DeleteMapping("/products")
     public ResultResponse deleteProducts(@RequestBody List<Long> productIds) {
         productService.deleteProducts(productIds);
         return new ResultResponse(HttpStatus.OK.value(), "삭제가 완료되었습니다.");
