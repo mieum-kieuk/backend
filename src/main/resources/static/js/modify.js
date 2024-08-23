@@ -3,6 +3,10 @@ $(document).ready(function () {
         validateBeforeSubmit();
     });
 
+    $('#verificationEmailBtn').on('click', function() {
+        sendVerificationEmail();
+    });
+
     $('#password').on('focusout', function () {
         isPasswordValid();
     });
@@ -20,12 +24,10 @@ $(document).ready(function () {
 
         $(this).addClass('disabled');
 
-        $(this).attr('onclick', 'userVerifyMobile.joinSendVerificationNumber(); return true;');
-
         $('#phonenumber1').val('010');
         $('#phonenumber2').val('');
         $('#phonenumber3').val('');
-        $('#phonenumber1').removeAttr('disabled');
+        $('#phonenumber1').removeAttr('readonly');
         $('#phonenumber2').removeAttr('readonly');
         $('#phonenumber3').removeAttr('readonly');
         $(this).text('인증번호 받기');
@@ -51,12 +53,51 @@ $(document).ready(function () {
     $('#agree_group').on('click', "#agree_all", function () {
         toggleAgreement(this);
     });
+    $('#withdrawBtn').on('click', function () {
+        withdrawal();
+    });
 });
 
 let csrfToken = $("meta[name='_csrf']").attr("content");
 let csrfHeader = $("meta[name='_csrf_header']").attr("content");
 
-
+function sendVerificationEmail() {
+    $.ajax({
+        type: 'POST',
+        url: '/ajax/', // 실제 인증메일 전송을 처리할 URL로 변경
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader(csrfHeader, csrfToken);
+        },
+        success: function(data) {
+            if (data.code === 200) {
+                Swal.fire({
+                    text: "인증 메일이 전송되었습니다.",
+                    showConfirmButton: true,
+                    confirmButtonText: '확인',
+                    customClass: mySwal,
+                    buttonsStyling: false
+                });
+            } else {
+                Swal.fire({
+                    text: "인증 메일 전송 중 오류가 발생했습니다.",
+                    showConfirmButton: true,
+                    confirmButtonText: '확인',
+                    customClass: mySwal,
+                    buttonsStyling: false
+                });
+            }
+        },
+        error: function() {
+            Swal.fire({
+                html: "인증 메일 전송 중 오류가 발생했습니다.<br>다시 시도해 주세요.",
+                showConfirmButton: true,
+                confirmButtonText: '확인',
+                customClass: mySwal,
+                buttonsStyling: false
+            });
+        }
+    });
+}
 //비밀번호 검증
 function isPasswordValid() {
     let password = $('#password').val();
@@ -94,6 +135,7 @@ function regexPassword() {
     let regex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&^()])[a-zA-Z\d@$!%*?&^()]{8,16}$/;
     if (!regex.test(password)) {
         $('#pwMsg').text('8~16자의 영문 대/소문자, 숫자, 특수문자 조합을 사용해 주세요.');
+        $('#pwMsg').removeClass('success error').addClass('error');
         return false;
     }
 
@@ -110,6 +152,8 @@ function isPwConfirmValid() {
         return true;
     } else {
         $('#pwconfirmMsg').text('비밀번호가 일치하지 않습니다.');
+        $('#pwconfirmMsg').removeClass('success error').addClass('error');
+
         return false;
     }
 }
@@ -155,6 +199,7 @@ function isEmailEmpty() {
 
     if (email.trim() === '') {
         $('#emailMsg').text('이메일을 입력해 주세요.');
+        $('#emailMsg').removeClass('success').addClass('error');
         return false;
     }
 
@@ -191,6 +236,7 @@ function isPhoneEmpty() {
 
     if (phonenumber2.trim() === '' && phonenumber3.trim() === '') {
         $('#phoneNumberMsg').text('휴대전화번호를 입력해 주세요.');
+        $('#phoneNumberMsg').removeClass('success').addClass('error');
         return false;
     }
 
@@ -206,6 +252,7 @@ function regexPhone() {
         return true;
     } else {
         $('#phoneNumberMsg').text('유효한 휴대전화번호를 입력해 주세요.');
+        $('#phoneNumberMsg').removeClass('success').addClass('error');
         return false;
     }
 }
@@ -463,6 +510,59 @@ function validateBeforeSubmit() {
     }
 
     return true;
+}
+function withdrawal() {
+    Swal.fire({
+        text: "탈퇴하시겠습니까?",
+        showCancelButton: true,
+        cancelButtonText: '아니요',
+        confirmButtonText: '예',
+        closeOnConfirm: false,
+        closeOnCancel: true,
+        customClass: mySwalConfirm,
+        reverseButtons: true,
+        buttonsStyling: false,
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                type: 'POST',
+                url: '/ajax/', // 실제 탈퇴 요청 URL로 변경
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader(csrfHeader, csrfToken); // CSRF 토큰 설정
+                },
+                success: function (data) {
+                    if (data.code === 200) {
+                        Swal.fire({
+                            text: "성공적으로 탈퇴되었습니다.",
+                            showConfirmButton: true,
+                            confirmButtonText: '확인',
+                            customClass: mySwal,
+                            buttonsStyling: false
+                        }).then(() => {
+                            window.location.href = '/login'; // 탈퇴 후 리디렉션할 URL
+                        });
+                    } else {
+                        Swal.fire({
+                            text: "탈퇴 중 오류가 발생했습니다.",
+                            showConfirmButton: true,
+                            confirmButtonText: '확인',
+                            customClass: mySwal,
+                            buttonsStyling: false
+                        });
+                    }
+                },
+                error: function () {
+                    Swal.fire({
+                        html: "탈퇴 중 오류가 발생했습니다.<br>다시 시도해 주세요.",
+                        showConfirmButton: true,
+                        confirmButtonText: '확인',
+                        customClass: mySwal,
+                        buttonsStyling: false
+                    });
+                }
+            });
+        }
+    });
 }
 
 //회원 정보 수정 전 본인 확인

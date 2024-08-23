@@ -39,7 +39,7 @@
                   <li><input id="personal_type0" name="personal_type" label="회원인증" type="checkbox" checked="checked" onclick="return false"/>
                     <label for="personal_type0">이메일 인증 완료</label>
                   </li>
-                  <li><button type="button" class="btn1">인증메일 전송</button></li>
+                  <li><button type="button" id="verificationEmailBtn" class="btn1">인증메일 전송</button></li>
                 </ul>
               </div>
             </li>
@@ -109,7 +109,7 @@
                 </li>
                 <li class="phone_number select">
                   <div class="number_sec">
-                    <select id="phonenumber1" disabled>
+                    <select id="phonenumber1" readonly>
                       <option value="010">010</option>
                       <option value="011">011</option>
                       <option value="016">016</option>
@@ -127,17 +127,17 @@
                 <span id="phoneNumberMsg"></span>
               </ul>
               <ul class="displaynone" id="confirm_verify_mobile">
-                <li class="verify_sec">
+                <li class="verify_sec1">
                   <label for="verificationNo" class="join_tit ess">인증번호</label>
+                </li>
+                <li class="verify_sec2">
                   <div class="verify">
                     <input id="verificationNo" class="input_box inputTypeText" placeholder=""
                            maxlength="6" type="text"/>
                     <span class="time" id="expiryTime"></span>
                   </div>
+                  <button type="button" class="btn1" id="btn_verify_mobile_confirm" >확인</button>
                 </li>
-                <button type="button" class="btn1" id="btn_verify_mobile_confirm"
-                        onclick="userVerifyMobile.joinVerifySmsNumberConfirm(); return false;">확인
-                </button>
               </ul>
               <span id="verificationMsg"></span>
               <ul>
@@ -174,7 +174,7 @@
             </div>
           </div>
           <div class="btn_wrap">
-            <button type="button" class="btn1">
+            <button type="button" id="withdrawBtn" class="btn1">
               탈퇴하기
             </button>
             <button type="submit" id="submitBtn" onclick="" class="btn1 submit_btn">

@@ -292,7 +292,7 @@ h3 {
 /*member_info*/
 #memberInfoModify,#memberInfoLogin {
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     margin: 0 0 120px 200px;
     color: #222;
     width: 100%;
@@ -313,6 +313,9 @@ h3 {
 }
 #memberInfoLogin form {
     width: 100%;
+}
+#memberInfoModify .input_wrap {
+    margin-bottom: 40px;
 }
 #memberInfoLogin .input_wrap {
     margin-bottom: 20px;
@@ -357,6 +360,9 @@ h3 {
     border: 1px solid #999;
     padding: 5px 5px;
     height: 35px;
+}
+#memberInfoModify .input_wrap .input_box_wrap [id*="Msg"] {
+    height: 0;
 }
 #memberInfoModify .input_wrap .phone_number {
     flex-wrap: wrap;

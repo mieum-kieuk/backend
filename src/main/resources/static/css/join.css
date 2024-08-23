@@ -172,6 +172,7 @@
   display: flex;
   width: 70%;
   align-items: flex-start;
+  justify-content: flex-start;
 }
 .input_wrap #confirm_verify_mobile .verify_sec1 .join_tit {
   margin-bottom: 4px;
