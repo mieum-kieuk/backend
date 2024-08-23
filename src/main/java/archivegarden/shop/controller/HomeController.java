@@ -25,11 +25,6 @@ public class HomeController {
         return "index";
     }
 
-    @GetMapping("/about")
-    public String about() {
-        return "about/about";
-    }
-
     @GetMapping("/search")
     public String search(@RequestParam(name = "keyword") String keyword, @RequestParam(value = "page", defaultValue = "1") Integer page, Model model) {
         PageRequest pageRequest = PageRequest.of(page - 1, 12);
@@ -37,5 +32,10 @@ public class HomeController {
         model.addAttribute("products", products);
         model.addAttribute("keyword", keyword);
         return "search/search_complete";
+    }
+
+    @GetMapping("/about")
+    public String about() {
+        return "about/about";
     }
 }

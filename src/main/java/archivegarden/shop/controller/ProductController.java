@@ -1,7 +1,7 @@
 package archivegarden.shop.controller;
 
-import archivegarden.shop.dto.community.inquiry.ProductPopupDto;
-import archivegarden.shop.dto.community.inquiry.PopupProductSearchCondition;
+import archivegarden.shop.dto.product.ProductPopupDto;
+import archivegarden.shop.dto.product.PopupProductSearchCondition;
 import archivegarden.shop.dto.product.ProductDetailsDto;
 import archivegarden.shop.dto.product.ProductListDto;
 import archivegarden.shop.dto.product.ProductSearchCondition;
@@ -28,10 +28,8 @@ public class ProductController {
     @GetMapping
     public String products(@ModelAttribute("condition") ProductSearchCondition condition,
                            @RequestParam(value = "page", defaultValue = "1") Integer page, Model model) {
-
         PageRequest pageRequest = PageRequest.of(page - 1, 12);
         Page<ProductListDto> pageProducts = productService.getProducts(condition, pageRequest);
-
         String pathVariable = condition.getCategory() != null ? condition.getCategory().getPathVariable() : null;
         String sortedCode = condition.getSorted_type() != null ? condition.getSorted_type().getSortedCode() : null;
         model.addAttribute("pathVariable", pathVariable);
@@ -44,8 +42,6 @@ public class ProductController {
     public String product(@PathVariable("productId") Long productId, @CurrentUser Member loginMember, Model model) {
         ProductDetailsDto productDto = productService.getProduct(productId);
         model.addAttribute("product", productDto);
-
-
         boolean isWish = wishService.isWish(productId, loginMember);
         model.addAttribute("wish", isWish);
         return "product/product_details";

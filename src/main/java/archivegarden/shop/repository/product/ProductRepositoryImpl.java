@@ -1,8 +1,9 @@
 package archivegarden.shop.repository.product;
 
 import archivegarden.shop.dto.admin.product.product.AdminProductSearchCondition;
-import archivegarden.shop.dto.community.inquiry.ProductPopupDto;
+import archivegarden.shop.dto.product.ProductPopupDto;
 import archivegarden.shop.dto.product.ProductSearchCondition;
+import archivegarden.shop.dto.product.QProductPopupDto;
 import archivegarden.shop.entity.Category;
 import archivegarden.shop.entity.ImageType;
 import archivegarden.shop.entity.Product;
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static archivegarden.shop.entity.QAdmin.admin;
 import static archivegarden.shop.entity.QDiscount.discount;
 import static archivegarden.shop.entity.QProduct.product;
 import static archivegarden.shop.entity.QProductImage.productImage;
@@ -54,7 +56,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                 .selectFrom(product)
                 .leftJoin(product.discount, discount).fetchJoin()
                 .leftJoin(product.productImages, productImage).fetchJoin()
-                .where(imageTypeDisplay())
+                .where(productImage.imageType.ne(ImageType.DETAILS))
                 .orderBy(product.createdAt.desc())
                 .offset(0)
                 .limit(9)
@@ -62,8 +64,27 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
     }
 
     @Override
-    public Page<Product> findAllByCategory(ProductSearchCondition condition, Pageable pageable) {
+    public Page<Product> searchProducts(String keyword, Pageable pageable) {
+        List<Product> content = queryFactory
+                .selectFrom(product)
+                .leftJoin(product.discount, discount).fetchJoin()
+                .leftJoin(product.productImages, productImage).fetchJoin()
+                .where(keywordLike(keyword))
+                .orderBy(orderSoldOutLast())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
 
+        JPAQuery<Long> countQuery = queryFactory
+                .select(product.count())
+                .from(product)
+                .where(keywordLike(keyword));
+
+        return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
+    }
+
+    @Override
+    public Page<Product> findAllByCategory(ProductSearchCondition condition, Pageable pageable) {
         List<Product> content = queryFactory
                 .selectFrom(product)
                 .leftJoin(product.discount, discount).fetchJoin()
@@ -86,13 +107,20 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
     }
 
     @Override
-    public Page<Product> search(String keyword, Pageable pageable) {
-        List<Product> content = queryFactory
-                .selectFrom(product)
-                .leftJoin(product.discount, discount).fetchJoin()
-                .leftJoin(product.productImages, productImage).fetchJoin()
+    public Page<ProductPopupDto> findDtoAllPopup(String keyword, Pageable pageable) {
+        List<ProductPopupDto> content = queryFactory.select(new QProductPopupDto(
+                        product.id,
+                        product.name,
+                        product.price,
+                        productImage.imageUrl
+                ))
+                .from(product)
+                .leftJoin(product.productImages, productImage)
+                .on(
+                        product.id.eq(productImage.product.id),
+                        imageTypeDisplay()
+                )
                 .where(keywordLike(keyword))
-                .orderBy(orderSoldOutLast())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
@@ -103,33 +131,6 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                 .where(keywordLike(keyword));
 
         return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
-    }
-
-    @Override
-    public Page<ProductPopupDto> findDtoAllPopup(String keyword, Pageable pageable) {
-//        List<ProductPopupDto> content = queryFactory.select(new QProductPopupDto(
-//                        product.id,
-//                        product.name,
-//                        product.price,
-//                        productImage.storeImageName
-//                ))
-//                .from(product)
-//                .leftJoin(product.productImages, productImage)
-//                .on(
-//                        product.id.eq(productImage.product.id),
-//                        productImage.imageType.eq(ImageType.DISPLAY))
-//                .where(keywordLike(keyword))
-//                .offset(pageable.getOffset())
-//                .limit(pageable.getPageSize())
-//                .fetch();
-//
-//        JPAQuery<Long> countQuery = queryFactory
-//                .select(product.count())
-//                .from(product)
-//                .where(keywordLike(keyword));
-//
-//        return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
-        return null;
     }
 
     @Override
@@ -205,8 +206,9 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
      * sold out 상품 정렬에서 맨 뒤로
      */
     private OrderSpecifier<?> orderSoldOutLast() {
-        return Expressions.stringTemplate("decode({0}, {1}, {2})", product.stockQuantity, 0, 1)
-                .asc();
+        return new CaseBuilder()
+                .when(product.stockQuantity.eq(0)).then(0)
+                .otherwise(1).desc();
     }
 
     /**

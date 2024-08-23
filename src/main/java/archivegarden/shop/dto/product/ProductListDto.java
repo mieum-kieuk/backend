@@ -9,7 +9,6 @@ import lombok.Setter;
 
 import java.text.DecimalFormat;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -18,22 +17,21 @@ public class ProductListDto {
 
     private Long id;
     private String name;
-    private String price;   //정가
+    private String price;
     private boolean isDiscounted;
-    private Integer discountPercent;    //할인율
-    private String salePrice;   //할인가
+    private Integer discountPercent;
+    private String salePrice;
     private boolean isSoldOut;
-    private List<String> displayImages;
+    private List<String> displayImageUrls;
 
-    public ProductListDto(Product product) {
+    public ProductListDto(Product product, List<String> displayImageUrls) {
         this.id = product.getId();
         this.name = product.getName();
         this.price = new DecimalFormat("###,###원").format(product.getPrice());
-
         Discount discount = product.getDiscount();
         if (discount != null) {
             this.isDiscounted = true;
-            this.discountPercent = Integer.valueOf(discount.getDiscountPercent());
+            this.discountPercent = discount.getDiscountPercent();
             int discountAmount = product.getPrice() * discountPercent / 100;
             this.salePrice = new DecimalFormat("###,###원").format(product.getPrice() - discountAmount);
         }
@@ -42,9 +40,6 @@ public class ProductListDto {
             this.isSoldOut = true;
         }
 
-        this.displayImages = product.getImages()
-                .stream()
-                .map((image) -> image.getStoreImageName())
-                .collect(Collectors.toList());
+        this.displayImageUrls = displayImageUrls;
     }
 }

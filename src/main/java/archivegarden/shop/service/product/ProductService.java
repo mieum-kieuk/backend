@@ -1,9 +1,9 @@
 package archivegarden.shop.service.product;
 
-import archivegarden.shop.dto.community.inquiry.ProductPopupDto;
 import archivegarden.shop.dto.order.OrderProductListDto;
 import archivegarden.shop.dto.product.ProductDetailsDto;
 import archivegarden.shop.dto.product.ProductListDto;
+import archivegarden.shop.dto.product.ProductPopupDto;
 import archivegarden.shop.dto.product.ProductSearchCondition;
 import archivegarden.shop.entity.Member;
 import archivegarden.shop.entity.Product;
@@ -11,20 +11,25 @@ import archivegarden.shop.exception.NotFoundException;
 import archivegarden.shop.exception.ProductNotFoundException;
 import archivegarden.shop.repository.order.CartRepository;
 import archivegarden.shop.repository.product.ProductRepository;
+import archivegarden.shop.service.upload.ProductImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class ProductService {
 
+    private final ProductImageService productImageService;
     private final ProductRepository productRepository;
     private final CartRepository cartRepository;
 
@@ -33,23 +38,26 @@ public class ProductService {
      * 최신 상품 9개 조회
      */
     public List<ProductListDto> getMainProducts() {
-        return productRepository.findMainProducts().stream()
-                .map(ProductListDto::new)
-                .collect(Collectors.toList());
+        List<Product> products = productRepository.findMainProducts();
+        return getProductListDto(products.stream());
     }
 
     /**
      * 검색 + 페이지네이션
      */
     public Page<ProductListDto> searchProducts(String keyword, Pageable pageable) {
-        return productRepository.search(keyword, pageable).map(ProductListDto::new);
+        Page<Product> productPages = productRepository.searchProducts(keyword, pageable);
+        List<ProductListDto> productListDtos = getProductListDto(productPages.stream());
+        return new PageImpl<>(productListDtos, pageable, productPages.getTotalElements());
     }
 
     /**
      * 상품 목록 조회 + 페이지네이션
      */
     public Page<ProductListDto> getProducts(ProductSearchCondition condition, Pageable pageable) {
-        return productRepository.findAllByCategory(condition, pageable).map(ProductListDto::new);
+        Page<Product> productPages = productRepository.findAllByCategory(condition, pageable);
+        List<ProductListDto> productListDtos = getProductListDto(productPages.stream());
+        return new PageImpl<>(productListDtos, pageable, productPages.getTotalElements());
     }
 
     /**
@@ -60,7 +68,7 @@ public class ProductService {
     public ProductDetailsDto getProduct(Long productId) {
         //Product 조회
         Product product = productRepository.findProduct(productId);
-        if(product == null) {
+        if (product == null) {
             throw new ProductNotFoundException("존재하지 않는 상품입니다.");
         }
 
@@ -88,5 +96,28 @@ public class ProductService {
                 .stream()
                 .map(OrderProductListDto::new)
                 .collect(Collectors.toList());
+    }
+
+    private List<ProductListDto> getProductListDto(Stream<Product> products) {
+        List<CompletableFuture<ProductListDto>> productListDtoFutures = products
+                .map(product -> CompletableFuture.supplyAsync(() -> {
+                    List<CompletableFuture<String>> imageFutures = product.getProductImages().stream()
+                            .map(productImage -> CompletableFuture.supplyAsync(() ->
+                                    productImageService.downloadImage(productImage.getImageUrl())))
+                            .collect(Collectors.toList());
+
+                    List<String> displayImageUrls = imageFutures.stream()
+                            .map(CompletableFuture::join)
+                            .collect(Collectors.toList());
+
+                    return new ProductListDto(product, displayImageUrls);
+                }))
+                .collect(Collectors.toList());
+
+        List<ProductListDto> productListDtos = productListDtoFutures.stream()
+                .map(CompletableFuture::join)
+                .collect(Collectors.toList());
+
+        return productListDtos;
     }
 }

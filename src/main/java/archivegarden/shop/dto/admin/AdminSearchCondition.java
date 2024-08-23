@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @NoArgsConstructor
-public class AdminSearchForm {
+public class AdminSearchCondition {
 
     private String searchKey;
     private String keyword;

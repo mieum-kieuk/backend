@@ -49,9 +49,9 @@
                         <div class="thumb">
                             <a href="./product_details.html"
                                th:href="@{/products/{productId}(productId=${product.id})}">
-                                <img class="thumb1" th:src="|/productImages/${product.displayImages[0]}|" alt="제품 이미지">
-                                <img class="thumb2" th:if="${product.displayImages.size() == 2}"
-                                     th:src="|/productImages/${product.displayImages[1]}|" alt="제품 이미지">
+                                <img class="thumb1" th:src="${product.displayImageUrls[0]}|" alt="제품 이미지">
+                                <img class="thumb2" th:if="${product.displayImageUrls.size() == 2}"
+                                     th:src="${product.displayImageUrls[1]}" alt="제품 이미지">
                             </a>
                         </div>
                         <div class="description">
