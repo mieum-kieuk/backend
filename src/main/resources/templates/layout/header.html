@@ -45,13 +45,19 @@
             <div class="account">
                 <ul class="depth1">
                     <li class="depth1_menu">Account
-                        <ul class="depth2">
-                            <li sec:authorize="!hasRole('USER')"><a href="../login.html" th:href="@{/login}">로그인</a></li>
-                            <li sec:authorize="!hasRole('USER')"><a href="../members/join.html" th:href="@{/members/join}">회원가입</a></li>
-                            <li sec:authorize="hasRole('USER')"><a href="../mypage/wish_list.html" th:href="@{/mypage/wish}">위시리스트</a></li>
-                            <li sec:authorize="hasRole('USER')"><a href="../mypage/delivery/delivery_list.html" th:href="@{/mypage/delivery}">배송지 관리</a></li>
-                            <li><a href="../mypage/mypage_home.html" th:href="@{/mypage}">Mypage</a></li>
-                            <li sec:authorize="hasRole('USER')">
+                        <ul class="depth2" sec:authorize="!hasRole('USER')">
+                            <li><a href="../login.html" th:href="@{/login}">로그인</a></li>
+                            <li><a href="../members/join.html" th:href="@{/members/join}">회원가입</a></li>
+                        </ul>
+                        <ul class="depth2" sec:authorize="hasRole('USER')">
+                            <li><a href="../mypage/mypage_home.html" th:href="@{/mypage}">주문 내역</a></li>
+                            <li><a>적립금 내역</a></li>
+                            <li><a href="../mypage/wish_list.html" th:href="@{/mypage/wish}">위시리스트</a></li>
+                            <li><a>상품 후기</a></li>
+                            <li><a>상품 문의</a></li>
+                            <li><a href="../mypage/delivery/delivery_list.html" th:href="@{/mypage/delivery}">배송지 관리</a></li>
+                            <li><a href="../mypage/member/member_info_login.html" th:href="@{/mypage/info}">개인 정보 수정</a></li>
+                            <li>
                                 <form th:action="@{/logout}" method="post">
                                     <button type="submit">로그아웃</button>
                                     <input type="hidden" name="${ _csrf.parameterName }" value="${ _csrf.token }">
