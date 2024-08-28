@@ -12,20 +12,20 @@
     <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css">
-    <link rel="stylesheet" href="../../../static/css/join.css" th:href="@{/css/join.css}"/>
-    <link rel="stylesheet" href="../../../static/css/comm.css" th:href="@{/css/comm.css}"/>
-    <link rel="stylesheet" href="../../../static/css/admin_form.css" th:href="@{/css/admin_form.css}">
+    <link rel="stylesheet" href="../../../static/css/common/join.css" th:href="@{/css/common/join.css}"/>
+    <link rel="stylesheet" href="../../../static/css/common/comm.css" th:href="@{/css/common/comm.css}"/>
+    <link rel="stylesheet" href="../../../static/css/admin/admin.css" th:href="@{/css/admin/admin.css}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.js"></script>
-    <script defer src="../../../static/js/comm.js" th:src="@{/js/comm.js}"></script>
-    <script defer src="../../../static/js/adminJoin.js" th:src="@{/js/adminJoin.js}"></script>
+    <script defer src="../../../static/js/common/comm.js" th:src="@{/js/common/comm.js}"></script>
+    <script defer src="../../../static/js/admin/join.js" th:src="@{/js/admin/join.js}"></script>
 </head>
 <body>
 <div class="admin_wrap ml0">
     <div id="join" class="admin_member">
         <div class="content">
             <h2 class="content_tit">관리자 회원가입</h2>
-            <form action="" th:action th:object="${form}" method="post" id="joinForm" th:onsubmit="return validateBeforeSubmit()">
+            <form action="" th:action th:object="${joinForm}" method="post" id="joinForm" th:onsubmit="return validateBeforeSubmit()">
             <div class="auth_wrap">
                 <ul id="user_auth">
                     <li><p class="join_tit ess">관리자인증</p></li>

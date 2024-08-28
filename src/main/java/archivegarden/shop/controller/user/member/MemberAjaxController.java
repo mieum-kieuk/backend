@@ -3,7 +3,7 @@ package archivegarden.shop.controller.user.member;
 import archivegarden.shop.dto.ResultResponse;
 import archivegarden.shop.dto.user.member.PhonenumberRequestDto;
 import archivegarden.shop.dto.user.member.VerificationRequestDto;
-import archivegarden.shop.service.member.MemberService;
+import archivegarden.shop.service.user.member.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;

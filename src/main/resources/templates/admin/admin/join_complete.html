@@ -9,9 +9,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
-    <link rel="stylesheet" href="../../../static/css/join.css" th:href="@{/css/join.css}"/>
-    <link rel="stylesheet" href="../../../static/css/comm.css" th:href="@{/css/comm.css}"/>
-    <link rel="stylesheet" href="../../../static/css/admin_form.css" th:href="@{/css/admin_form.css}"/>
+    <link rel="stylesheet" href="../../../static/css/common/join.css" th:href="@{/css/common/join.css}"/>
+    <link rel="stylesheet" href="../../../static/css/common/comm.css" th:href="@{/css/common/comm.css}"/>
+    <link rel="stylesheet" href="../../../static/css/admin/admin.css" th:href="@{/css/admin/admin.css}"/>
 </head>
 <body>
 <div class="admin_wrap ml0">
@@ -23,9 +23,9 @@
                     <span>관리자 인증이 완료되면 입력하신 이메일 주소로<br>인증완료 메일이 발송되오니, 확인해 주시기 바랍니다.</span>
                 </div>
                 <ul class="user_info">
-                    <li><p>아이디</p>  <span id="userId" th:text="${admin.loginId}"></span></li>
-                    <li><p>이름</p>  <span id="userName" th:text="${admin.name}"></span></li>
-                    <li><p>이메일</p>  <span id="userEmail" th:text="${admin.email}"></span></li>
+                    <li><p>아이디</p>  <span id="userId" th:text="${adminInfo.loginId}"></span></li>
+                    <li><p>이름</p>  <span id="userName" th:text="${adminInfo.name}"></span></li>
+                    <li><p>이메일</p>  <span id="userEmail" th:text="${adminInfo.email}"></span></li>
                 </ul>
                 <div class="btn_wrap">
                     <a class="btn1 submit_btn" href="../login.html" th:href="@{/admin/login}">관리자 로그인</a>

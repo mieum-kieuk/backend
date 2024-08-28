@@ -1,6 +1,7 @@
-package archivegarden.shop.service.member;
+package archivegarden.shop.service.user.member;
 
 import archivegarden.shop.dto.admin.member.MemberListDto;
+import archivegarden.shop.dto.common.JoinCompletionInfoDto;
 import archivegarden.shop.dto.user.member.*;
 import archivegarden.shop.entity.Delivery;
 import archivegarden.shop.entity.Member;
@@ -43,24 +44,18 @@ public class MemberServiceImpl implements MemberService {
      */
     @Transactional
     @Override
-    public Long join(AddMemberForm form) {
-
-        //중복 회원 검증
+    public Long join(JoinMemberForm form) {
         validateDuplicateMember(form);
 
-        //비밀번호 암호화
         encodePassword(form);
 
-        //Member 생성
         Membership membership = membershipRepository.findByLevel("WHITE");
         Member member = Member.createMember(form, membership);
         memberRepository.save(member);
 
-        //Delivery 생성
         Delivery delivery = Delivery.createDeliveryWhenJoin(member, form.getZipCode(), form.getBasicAddress(), form.getDetailAddress());
         deliveryRepository.save(delivery);
 
-        //인증 이메일 전송
         emailService.sendValidationRequestEmail(member.getEmail(), member.getCreatedAt());
 
         //1000원 회원가입 축하 적립금 지급
@@ -75,9 +70,9 @@ public class MemberServiceImpl implements MemberService {
      * @throws NotFoundException
      */
     @Override
-    public MemberJoinInfoDto joinComplete(Long memberId) {
+    public JoinCompletionInfoDto joinComplete(Long memberId) {
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new NotFoundException("존재하지 않는 회원입니다."));
-        return new MemberJoinInfoDto(member.getLoginId(), member.getName(), member.getEmail());
+        return new JoinCompletionInfoDto(member.getLoginId(), member.getName(), member.getEmail());
     }
 
     /**
@@ -219,7 +214,7 @@ public class MemberServiceImpl implements MemberService {
      *
      * @throws IllegalStateException 이미 존재하는 회원일 경우
      */
-    private void validateDuplicateMember(AddMemberForm form) {
+    private void validateDuplicateMember(JoinMemberForm form) {
         String phonenumber = form.getPhonenumber1() + form.getPhonenumber2() + form.getPhonenumber3();
         memberRepository.findDuplicateMember(form.getLoginId(), phonenumber, form.getEmail())
                 .ifPresent(m -> {
@@ -230,7 +225,7 @@ public class MemberServiceImpl implements MemberService {
     /**
      * 비밀번호 암호화
      */
-    private void encodePassword(AddMemberForm form) {
+    private void encodePassword(JoinMemberForm form) {
         String encodedPassword = passwordEncoder.encode(form.getPassword());
         form.setPassword(encodedPassword);
     }

@@ -18,18 +18,18 @@
     <div class="join_succ_wrap">
         <div class="success_message">
             <h1>회원가입이 완료되었습니다.</h1>
-            <p style="margin-bottom: 10px"><span th:text="${memberJoinInfo.loginId}" style="font-weight: bold">테스터</span><span>님은 </span><span style="font-weight: bold">[일반회원] </span><span>입니다.</span></p>
+            <p style="margin-bottom: 10px"><span th:text="${memberInfo.loginId}" style="font-weight: bold"></span><span>님은 </span><span style="font-weight: bold">[일반회원] </span><span>입니다.</span></p>
             <p>가입한 이메일 주소로 발송된 이메일을 확인해주세요.</p>
         </div>
         <ul class="user_info">
             <li>
-                <p>아이디</p><span id="userId" th:text="${memberJoinInfo.loginId}">tester</span>
+                <p>아이디</p><span id="userId" th:text="${memberInfo.loginId}">tester</span>
             </li>
             <li>
-                <p>이름</p><span id="userName" th:text="${memberJoinInfo.name}">테스터</span>
+                <p>이름</p><span id="userName" th:text="${memberInfo.name}">테스터</span>
             </li>
             <li>
-                <p>이메일</p><span id="userEmail" th:text="${memberJoinInfo.email}">test@gmail.com</span>
+                <p>이메일</p><span id="userEmail" th:text="${memberInfo.email}">test@gmail.com</span>
             </li>
         </ul>
         <div class="btn_wrap">

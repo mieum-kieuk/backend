@@ -1,6 +1,7 @@
-package archivegarden.shop.service.member;
+package archivegarden.shop.service.user.member;
 
 import archivegarden.shop.dto.admin.member.MemberListDto;
+import archivegarden.shop.dto.common.JoinCompletionInfoDto;
 import archivegarden.shop.dto.user.member.*;
 import archivegarden.shop.entity.Member;
 
@@ -8,9 +9,9 @@ import java.util.List;
 
 public interface MemberService {
 
-    Long join(AddMemberForm dto);
+    Long join(JoinMemberForm dto);
 
-    MemberJoinInfoDto joinComplete(Long memberId);
+    JoinCompletionInfoDto joinComplete(Long memberId);
 
     boolean isAvailableLoginId(String loginId);
 

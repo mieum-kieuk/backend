@@ -1,6 +1,6 @@
 package archivegarden.shop.entity;
 
-import archivegarden.shop.dto.member.AddMemberForm;
+import archivegarden.shop.dto.user.member.JoinMemberForm;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -54,6 +54,9 @@ public class Member extends BaseTimeEntity {
     @OneToMany(mappedBy = "member")
     private List<SavedPoint> savedPoints = new ArrayList<>();
 
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
+    private List<Wish> wishList = new ArrayList<>();
+
     //==비즈니스 로직==//
     /**
      * 이메일 인증 완료
@@ -70,7 +73,7 @@ public class Member extends BaseTimeEntity {
     }
 
     //==생성자 메서드==//
-    public static Member createMember(AddMemberForm form, Membership membership) {
+    public static Member createMember(JoinMemberForm form, Membership membership) {
         Member member = new Member();
         member.loginId = form.getLoginId();
         member.password = form.getPassword();

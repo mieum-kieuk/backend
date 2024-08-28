@@ -1,6 +1,6 @@
 package archivegarden.shop.entity;
 
-import archivegarden.shop.dto.admin.admin.AddAdminForm;
+import archivegarden.shop.dto.admin.admin.JoinAdminForm;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -45,7 +45,7 @@ public class Admin extends BaseTimeEntity {
     }
 
     //==생성자 메서드==//
-    public static Admin createAdmin(AddAdminForm form) {
+    public static Admin createAdmin(JoinAdminForm form) {
         Admin admin = new Admin();
         admin.loginId = form.getLoginId();
         admin.password = form.getPassword();

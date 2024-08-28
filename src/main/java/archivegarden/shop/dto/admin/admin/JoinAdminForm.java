@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class AddAdminForm {
+public class JoinAdminForm {
 
     @Pattern(regexp = "^(?=.*[a-z])(?=.*\\d)[a-z\\d]{5,20}+", message = "5~20자의 영문 소문자, 숫자 조합을 사용해 주세요.")
     private String loginId;

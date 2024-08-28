@@ -1,9 +1,9 @@
 package archivegarden.shop.controller.user.member;
 
-import archivegarden.shop.dto.user.member.AddMemberForm;
+import archivegarden.shop.dto.user.member.JoinMemberForm;
 import archivegarden.shop.dto.user.member.FindIdResultDto;
-import archivegarden.shop.dto.user.member.MemberJoinInfoDto;
-import archivegarden.shop.service.member.MemberService;
+import archivegarden.shop.dto.common.JoinCompletionInfoDto;
+import archivegarden.shop.service.user.member.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +27,7 @@ public class MemberController {
      * 회원가입 폼을 반환하는 메서드
      */
     @GetMapping("/join")
-    public String addMemberForm(@ModelAttribute("memberForm") AddMemberForm form) {
+    public String addMemberForm(@ModelAttribute("joinForm") JoinMemberForm form) {
         return "user/member/join";
     }
 
@@ -35,7 +35,7 @@ public class MemberController {
      * 회원가입 요청을 처리하는 메서드
      */
     @PostMapping("/join")
-    public String join(@Validated @ModelAttribute("memberForm") AddMemberForm form, BindingResult bindingResult, HttpSession session) {
+    public String join(@Validated @ModelAttribute("joinForm") JoinMemberForm form, BindingResult bindingResult, HttpSession session) {
         validateJoin(form, bindingResult);
         if (bindingResult.hasErrors()) {
             return "user/member/join";
@@ -58,8 +58,8 @@ public class MemberController {
         }
         session.removeAttribute("join:memberId");
 
-        MemberJoinInfoDto memberJoinInfoDto = memberService.joinComplete(memberId);
-        model.addAttribute("memberJoinInfo", memberJoinInfoDto);
+        JoinCompletionInfoDto joinCompletionInfoDto = memberService.joinComplete(memberId);
+        model.addAttribute("memberInfo", joinCompletionInfoDto);
         return "user/member/join_complete";
     }
 
@@ -133,7 +133,7 @@ public class MemberController {
      * - 주소: 우편번호와 기본 주소의 형식을 검사합니다.
      * - 휴대전화번호: 휴대전화번호의 형식이 올바른지 검사합니다.
      */
-    private void validateJoin(AddMemberForm form, BindingResult bindingResult) {
+    private void validateJoin(JoinMemberForm form, BindingResult bindingResult) {
         if (StringUtils.hasText(form.getPassword())) {
             if (!form.getPassword().equals(form.getPasswordConfirm())) {
                 bindingResult.rejectValue("passwordConfirm", "mismatch");

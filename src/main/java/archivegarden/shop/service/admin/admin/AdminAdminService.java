@@ -1,11 +1,17 @@
-package archivegarden.shop.service.admin.admins;
+package archivegarden.shop.service.admin.admin;
 
-import archivegarden.shop.dto.admin.admin.AddAdminForm;
-import archivegarden.shop.dto.member.NewMemberInfo;
+import archivegarden.shop.dto.admin.admin.AdminListDto;
+import archivegarden.shop.dto.admin.AdminSearchCondition;
+import archivegarden.shop.dto.admin.admin.JoinAdminForm;
+import archivegarden.shop.dto.common.JoinCompletionInfoDto;
 import archivegarden.shop.entity.Admin;
 import archivegarden.shop.exception.NotFoundException;
+import archivegarden.shop.exception.ajax.AjaxNotFoundException;
 import archivegarden.shop.repository.admin.AdminAdminRepository;
+import archivegarden.shop.service.email.EmailService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,26 +19,21 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class AdminJoinService {
+public class AdminAdminService {
 
     private final PasswordEncoder passwordEncoder;
+    private final EmailService emailService;
     private final AdminAdminRepository adminRepository;
 
     /**
      * 관리자 회원가입
      */
-    public Long join(AddAdminForm form) {
-
-        //중복 관리자 검증
+    public Long join(JoinAdminForm form) {
         validateDuplicateAdmin(form);
 
-        //비밀번호 암호화
         encodePassword(form);
 
-        //관리자 생성
         Admin admin = Admin.createAdmin(form);
-
-        //관리자 저장
         adminRepository.save(admin);
 
         return admin.getId();
@@ -43,11 +44,9 @@ public class AdminJoinService {
      *
      * @throws NotFoundException
      */
-    public NewMemberInfo getNewAdminInfo(Long adminId) {
-        //Admin 조회
+    public JoinCompletionInfoDto getJoinCompletionInfo(Long adminId) {
         Admin admin = adminRepository.findById(adminId).orElseThrow(() -> new NotFoundException("존재하지 않는 관리자입니다."));
-
-        return new NewMemberInfo(admin.getLoginId(), admin.getName(), admin.getEmail());
+        return new JoinCompletionInfoDto(admin.getLoginId(), admin.getName(), admin.getEmail());
     }
 
     /**
@@ -67,7 +66,7 @@ public class AdminJoinService {
     /**
      * 비밀번호 암호화
      */
-    private void encodePassword(AddAdminForm form) {
+    private void encodePassword(JoinAdminForm form) {
         String encodedPassword = passwordEncoder.encode(form.getPassword());
         form.setPassword(encodedPassword);
     }
@@ -77,10 +76,40 @@ public class AdminJoinService {
      *
      * @throws IllegalStateException
      */
-    private void validateDuplicateAdmin(AddAdminForm form) {
+    private void validateDuplicateAdmin(JoinAdminForm form) {
         adminRepository.findDuplicateAdmin(form.getLoginId(), form.getEmail())
                 .ifPresent(a -> {
                     throw new IllegalStateException("이미 존재하는 관리자입니다.");
                 });
+    }
+
+    /**
+     * 관리자 목록 조회
+     */
+    @Transactional(readOnly = true)
+    public Page<AdminListDto> getAdmins(AdminSearchCondition form, Pageable pageable) {
+        return adminRepository.findDtoAll(form, pageable);
+    }
+
+    /**
+     * 관리자 단건 삭제
+     *
+     * @throws AjaxNotFoundException
+     */
+    public void deleteAdmin(Long adminId) {
+        Admin admin = adminRepository.findById(adminId).orElseThrow(() -> new AjaxNotFoundException("존재하지 않는 관리자입니다."));
+        adminRepository.delete(admin);
+    }
+
+    /**
+     * 관리자 권한 부여
+     *
+     * @throws AjaxNotFoundException
+     */
+    public void authorizeAdmin(Long adminId) {
+        Admin admin = adminRepository.findById(adminId).orElseThrow(() -> new AjaxNotFoundException("존재하지 않는 관리자입니다."));
+        admin.authorize();
+
+        emailService.sendAuthComplete(admin.getEmail(), admin.getName());
     }
 }

@@ -88,7 +88,7 @@ function isLoginIdValid() {
 
     $.ajax({
         type: 'POST',
-        url: '/members/check/loginId',
+        url: '/ajax/members/check/loginId',
         data: {loginId: loginId},
         beforeSend: function (xhr) {
             xhr.setRequestHeader(csrfHeader, csrfToken);
@@ -247,7 +247,7 @@ function isEmailValid() {
 
     $.ajax({
         type: 'POST',
-        url: '/members/check/email',
+        url: '/ajax/members/check/email',
         data: {email: email},
         beforeSend: function (xhr) {
             xhr.setRequestHeader(csrfHeader, csrfToken);
@@ -378,7 +378,7 @@ function requestVerificationCode() {
 
     $.ajax({
         type: 'POST',
-        url: '/members/send/verificationNo',
+        url: '/ajax/members/send/verificationNo',
         data: {phonenumber1: phonenumber1, phonenumber2: phonenumber2, phonenumber3: phonenumber3},
         dataType: 'json',
         beforeSend: function (xhr) {
@@ -449,7 +449,7 @@ function isVerificationValid() {
 
     $.ajax({
         type: 'POST',
-        url: '/members/check/verificationNo',
+        url: '/ajax/members/check/verificationNo',
         data: {
             phonenumber1: phonenumber1,
             phonenumber2: phonenumber2,

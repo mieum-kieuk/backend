@@ -25,7 +25,7 @@ public class AjaxSecurityConfig {
         http
                 .securityMatcher("/ajax/**")
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/ajax/members/**").permitAll()
+                        .requestMatchers("/ajax/members/**", "/ajax/admin/join/**").permitAll()
                         .requestMatchers("/ajax/admin/**").hasRole("ADMIN")
                         .requestMatchers("/ajax/**").hasRole("USER")
                         .anyRequest().authenticated()
