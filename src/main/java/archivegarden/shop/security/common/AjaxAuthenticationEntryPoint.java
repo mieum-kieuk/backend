@@ -15,20 +15,8 @@ public class AjaxAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
-
-        if(!isAjax(request)) {
-            String redirectUrl = "/";
-            this.redirectStrategy.sendRedirect(request, response, redirectUrl);
-            return;
-        }
-
-        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "로그인이 필요한 서비스입니다.");
-    }
-
-    private boolean isAjax(HttpServletRequest request) {
-        if("XMLHttpRequest".equals(request.getHeader("X-Requested-With"))) {
-            return true;
-        }
-        return false;
+        String redirectUrl = "/";
+        this.redirectStrategy.sendRedirect(request, response, redirectUrl);
+        return;
     }
 }
