@@ -18,10 +18,10 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.js"></script>
-    <link rel="stylesheet" href="../../../static/css/comm.css" th:href="@{/css/comm.css}"/>
+    <link rel="stylesheet" href="../../../static/css/common/comm.css" th:href="@{/css/comm.css}"/>
     <link rel="stylesheet" href="../../../static/css/mypage.css" th:href="@{/css/mypage.css}"/>
-    <script src="../../js/findAddress.js" th:sr></script>
-    <script src="../../js/comm.js" th:sr></script>
+    <script src="../../js/user/findAddress.js" th:sr></script>
+    <script src="../../js/common/comm.js" th:sr></script>
     <script src="../../js/delivery.js"></script>
 
 </head>
@@ -31,7 +31,6 @@
         <nav id="gnb">
             <div class="logo">
                 <a href="../index.html">
-                    <img src="../../images/meek2.png" alt="로고">
                     미음키읔
                 </a>
             </div>
@@ -75,9 +74,9 @@
                     <ul class="depth1">
                         <li class="depth1_menu">Account
                             <ul class="depth2">
-                                <li><a href="../members/login.html">Login</a></li>
-                                <li><a href="../members/join.html">Join</a></li>
-                                <li><a href="../members/order.html">Order</a></li>
+                                <li><a href="../login.html">Login</a></li>
+                                <li><a href="../user/member/join.html">Join</a></li>
+                                <li><a href="../user/member/order.html">Order</a></li>
                                 <li><a href="../mypage/mypage_home.html">Mypage</a></li>
                             </ul>
                         </li>
@@ -115,7 +114,7 @@
                 </li>
             </ul>
         </nav>
-        <div id="delivery">
+        <div id="delivery" class="mypage_content">
             <div class="delivery_wrap wrapper">
                 <h3 class="delivery_title">배송지 수정</h3>
                 <form action=""  method="post" id="joinForm">

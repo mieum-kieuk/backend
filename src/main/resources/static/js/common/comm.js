@@ -28,6 +28,16 @@ $(function () {
     }, 10000)
 })
 $(document).ready(function() {
+
+    $(window).on('scroll', function() {
+
+        if ($(this).scrollTop() > 80) {
+            $('#header').addClass('scrolled');
+        } else {
+            $('#header').removeClass('scrolled');
+        }
+    });
+
     initializeDropdownMenus();
 
     $('input[type="text"]').on('input', function (e) {
