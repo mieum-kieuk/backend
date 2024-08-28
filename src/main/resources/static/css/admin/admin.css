@@ -298,7 +298,12 @@ input::-webkit-inner-spin-button {
 }
 
 .input_box_wrap.desc {
-    margin-bottom: 0px;
+    margin-bottom: 0;
+}
+.input_box_wrap.msg {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0;
 }
 
 .ess_tit::after {

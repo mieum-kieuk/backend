@@ -203,6 +203,7 @@ async function addImagePreview(container, file) {
     });
 }
 
+let isNameChecked = false;
 let isAvailableName = false;
 
 $(document).ready(function () {
@@ -240,6 +241,15 @@ function validateBeforeSubmit() {
     } else if (!nameRegex.test(nameValue)) {
         Swal.fire({
             text: "상품명은 한글, 영문, 숫자, 공백만 허용됩니다.",
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
+        return false;
+    } else if (!isNameChecked)  {
+        Swal.fire({
+            text: '상품명 중복검사를 해주세요.',
             showConfirmButton: true,
             confirmButtonText: '확인',
             customClass: mySwal,
@@ -447,14 +457,21 @@ function isNameValid() {
             xhr.setRequestHeader(csrfHeader, csrfToken);
         },
         success: function (result) {
+            isNameChecked = true;
             if (result.code == 200) {
                 isAvailableName = true;
+                $('#nameMsg').text(result.message);
+                $('#nameMsg').removeClass('error').addClass('success');
             } else {
                 isAvailableName = false;
+                $('#nameMsg').text(result.message);
+                $('#nameMsg').removeClass('success').addClass('error');
             }
         },
         error: function () {
             isAvailableName = false;
+            $('#nameMsg').text('중복 확인 중 오류가 발생했습니다. 다시 시도해 주세요.');
+            $('#nameMsg').removeClass('success').addClass('error');
         }
     });
 

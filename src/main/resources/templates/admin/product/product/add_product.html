@@ -31,7 +31,10 @@
                 <div class="form_wrap">
                     <div class="input_box_wrap">
                         <label for="name" class="ess_tit">상품명</label>
-                        <input type="text" id="name" th:field="*{name}" class="ess_tit" maxlength="50">
+                        <div class="input_box_wrap msg">
+                            <input type="text" id="name" th:field="*{name}" class="ess_tit" maxlength="50">
+                            <span id="nameMsg"></span>
+                        </div>
                     </div>
                     <div class="field-error" th:errors="*{name}"></div>
                     <div class="input_box_wrap">
