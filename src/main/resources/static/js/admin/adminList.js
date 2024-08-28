@@ -74,6 +74,7 @@ $("#authAdminBtn").click(function() {
         return;
     }
 
+    let loader = $('#authAdminBtn .loader_wrap.white');
     let adminId = admin.attr('id').split('checkbox')[1];
     let csrfToken = $("meta[name='_csrf']").attr("content");
     let csrfHeader = $("meta[name='_csrf_header']").attr("content");
@@ -101,7 +102,7 @@ $("#authAdminBtn").click(function() {
         }
         $.ajax({
             method: 'POST',
-            url: '/ajax/admin/admins/auth',
+            url: '/ajax/admin/admin/auth',
             async: true,
             data: {adminId: adminId},
             beforeSend: function (xhr) {
@@ -161,7 +162,7 @@ $("#deleteAdminBtn").click(function() {
         if (result.isConfirmed) {
             $.ajax({
                 method: 'DELETE',
-                url: '/ajax/admin/admins/delete',
+                url: '/ajax/admin/admin',
                 data: {adminId: adminId},
                 beforeSend: function (xhr) {
                     xhr.setRequestHeader(csrfHeader, csrfToken);

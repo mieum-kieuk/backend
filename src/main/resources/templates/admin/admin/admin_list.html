@@ -16,21 +16,21 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css">
     <link rel="stylesheet" href="../../../static/css/common/comm.css" th:href="@{/css/common/comm.css}"/>
     <link rel="stylesheet" href="../../../static/css/list.css" th:href="@{/css/list.css}"/>
-    <link rel="stylesheet" href="../../../static/css/admin_form.css" th:href="@{/css/admin_form.css}">
+    <link rel="stylesheet" href="../../../static/css/admin/admin.css" th:href="@{/css/admin/admin.css}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.js"></script>
     <script defer src="../../../static/js/common/comm.js" th:src="@{/js/common/comm.js}"></script>
-    <script defer src="../../../static/js/adminsList.js" th:src="@{/js/adminsList.js}"></script>
-    <script defer src="../../../static/js/datepicker.js" th:src="@{/js/datepicker.js}"></script>
-    <script defer src="../../../static/js/adminSearch.js" th:src="@{/js/adminSearch.js}"></script>
+    <script defer src="../../../static/js/admin/adminList.js" th:src="@{/js/admin/adminList.js}"></script>
+    <script defer src="../../../static/js/admin/datepicker.js" th:src="@{/js/admin/datepicker.js}"></script>
+    <script defer src="../../../static/js/admin/search.js" th:src="@{/js/admin/search.js}"></script>
 </head>
 <body>
 <div class="admin_wrap">
     <div th:replace="~{/layout/menu :: admin_menu}"></div>
     <div id="admin">
         <div class="content">
-            <h2 class="content_tit">관리자 정보관리</h2>
+            <h2 class="content_tit">관리자 정보 관리</h2>
             <div class="admins_wrap list member">
                 <h3 class="form_title">기본검색</h3>
                 <form id="adminsSearchForm" class="search_form" action="" th:action method="get" th:onsubmit="return validateBeforeSubmit()">
@@ -106,7 +106,7 @@
                     <ul th:if="${form.keyword == null}"
                         th:with="startPage=${(admins.number/5)*5+1},
                                  endPage=${T(java.lang.Math).min((admins.number/5)*5+5, admins.totalPages)}">
-                        <li><a href="./admin_list.html" th:href="@{/admin/admins}" class="prev_first">
+                        <li><a href="./admin_list.html" th:href="@{/templates/admin/admins}" class="prev_first">
                             <span class="material-symbols-outlined navigate">navigate_before</span></a></li>
                         <li><a href="./admin_list.html" th:href="@{/admin/admins(page=${startPage - 1})}"
                                class="prev" th:classappend="${startPage == 1} ? 'disabled'">Prev</a></li>
@@ -122,20 +122,20 @@
                         th:with="startPage=${(admins.number/5)*5+1},
                                  endPage=${T(java.lang.Math).min((admins.number/5)*5+5, admins.totalPages)}">
                         <li><a class="prev_first" href="./admin_list.html"
-                               th:href="@{/admin/admins(searchKey=${form.searchKey}, keyword=${form.keyword}, startDate=${form.startDate}, endDate=${form.endDate})}">
+                               th:href="@{/templates/admin/admins(searchKey=${form.searchKey}, keyword=${form.keyword}, startDate=${form.startDate}, endDate=${form.endDate})}">
                             <span class="material-symbols-outlined navigate">navigate_before</span></a></li>
                         <li><a href="./admin_list.html"
-                               th:href="@{/admin/admins(searchKey=${form.searchKey}, keyword=${form.keyword}, startDate=${form.startDate}, endDate=${form.endDate}, page=${startPage - 1})}"
+                               th:href="@{/templates/admin/admins(searchKey=${form.searchKey}, keyword=${form.keyword}, startDate=${form.startDate}, endDate=${form.endDate}, page=${startPage - 1})}"
                                class="prev" th:classappend="${startPage == 1} ? 'disabled'">Prev</a></li>
                         <li th:each="page : ${#numbers.sequence(1, admins.totalPages)}">
                             <a href="./admin_list.html"
-                               th:href="@{/admin/admins(searchKey=${form.searchKey}, keyword=${form.keyword}, startDate=${form.startDate}, endDate=${form.endDate}, page=${page})}"
+                               th:href="@{/templates/admin/admins(searchKey=${form.searchKey}, keyword=${form.keyword}, startDate=${form.startDate}, endDate=${form.endDate}, page=${page})}"
                                th:text="${page}" class="page" th:classappend="${page == admins.number + 1} ? 'active'">1</a></li>
                         <li><a href="./admin_list.html"
-                               th:href="@{/admin/admins(searchKey=${form.searchKey}, keyword=${form.keyword}, startDate=${form.startDate}, endDate=${form.endDate}, page=${endPage} + 1)}"
+                               th:href="@{/templates/admin/admins(searchKey=${form.searchKey}, keyword=${form.keyword}, startDate=${form.startDate}, endDate=${form.endDate}, page=${endPage} + 1)}"
                                class="next" th:classappend="${endPage + 1 > admins.totalPages} ? 'disabled'">Next</a></li>
                         <li><a href="./admin_list.html"
-                               th:href="@{/admin/admins(searchKey=${form.searchKey}, keyword=${form.keyword}, startDate=${form.startDate}, endDate=${form.endDate}, page=${admins.totalPages})}"
+                               th:href="@{/templates/admin/admins(searchKey=${form.searchKey}, keyword=${form.keyword}, startDate=${form.startDate}, endDate=${form.endDate}, page=${admins.totalPages})}"
                                class="next_last"><span class="material-symbols-outlined navigate">navigate_next</span></a></li>
                     </ul>
                 </div>

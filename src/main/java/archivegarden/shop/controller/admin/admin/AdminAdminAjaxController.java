@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/ajax/admin/join")
+@RequestMapping("/ajax/admin")
 @RequiredArgsConstructor
 public class AdminAdminAjaxController {
 
@@ -17,7 +17,7 @@ public class AdminAdminAjaxController {
      *  관리자 로그인 아이디 중복 여부를 검사하는 메서드
      */
     @ResponseStatus(HttpStatus.OK)
-    @PostMapping("/loginId/check")
+    @PostMapping("/join/loginId/check")
     public ResultResponse checkLoginId(@RequestParam(name = "loginId") String loginId) {
         boolean isAvailableLoginId = adminService.isAvailableLoginId(loginId);
         if(isAvailableLoginId) {
@@ -31,7 +31,7 @@ public class AdminAdminAjaxController {
      *  관리자 이메일 중복 여부를 검사하는 메서드
      */
     @ResponseStatus(HttpStatus.OK)
-    @PostMapping("/email/check")
+    @PostMapping("/join/email/check")
     public ResultResponse checkEmail(@RequestParam(name = "email") String email) {
         boolean isAvailableEmail = adminService.isAvailableEmail(email);
         if(isAvailableEmail) {
@@ -39,5 +39,25 @@ public class AdminAdminAjaxController {
         } else {
             return new ResultResponse(HttpStatus.BAD_REQUEST.value(), "이미 사용 중인 이메일입니다.");
         }
+    }
+
+    /**
+     * 관리자 삭제 요청을 처리하는 메서드
+     */
+    @ResponseStatus(HttpStatus.OK)
+    @DeleteMapping("/admin")
+    public ResultResponse deleteAdmin(@RequestParam("adminId") Long adminId) {
+        adminService.deleteAdmin(adminId);
+        return new ResultResponse(HttpStatus.OK.value(), "삭제되었습니다.");
+    }
+
+    /**
+     * 관리자 권한 부여 요청을 처리하는 메서드
+     */
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping("/admin/auth")
+    public ResultResponse authorizeAdmin(@RequestParam("adminId") Long adminId) {
+        adminService.authorizeAdmin(adminId);
+        return new ResultResponse(HttpStatus.OK.value(), "승인되었습니다.");
     }
 }
