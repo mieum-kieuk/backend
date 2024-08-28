@@ -9,8 +9,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
-    <link rel="stylesheet" href="../../static/css/comm.css" th:href="@{/css/comm.css}"/>
-    <link rel="stylesheet" href="../../static/css/join.css" th:href="@{/css/join.css}"/>
+    <link rel="stylesheet" href="../../../static/css/common/comm.css" th:href="@{/css/common/comm.css}"/>
+    <link rel="stylesheet" href="../../../static/css/common/join.css" th:href="@{/css/common/join.css}"/>
 </head>
 <body>
 <div th:replace="~{/layout/header :: header}"></div>
@@ -18,22 +18,22 @@
     <div class="join_succ_wrap">
         <div class="success_message">
             <h1>회원가입이 완료되었습니다.</h1>
-            <p style="margin-bottom: 10px"><span th:text="${member.loginId}" style="font-weight: bold">테스터</span><span>님은 </span><span style="font-weight: bold">[일반회원] </span><span>입니다.</span></p>
+            <p style="margin-bottom: 10px"><span th:text="${memberJoinInfo.loginId}" style="font-weight: bold">테스터</span><span>님은 </span><span style="font-weight: bold">[일반회원] </span><span>입니다.</span></p>
             <p>가입한 이메일 주소로 발송된 이메일을 확인해주세요.</p>
         </div>
         <ul class="user_info">
             <li>
-                <p>아이디</p><span id="userId" th:text="${member.loginId}">tester</span>
+                <p>아이디</p><span id="userId" th:text="${memberJoinInfo.loginId}">tester</span>
             </li>
             <li>
-                <p>이름</p><span id="userName" th:text="${member.name}">테스터</span>
+                <p>이름</p><span id="userName" th:text="${memberJoinInfo.name}">테스터</span>
             </li>
             <li>
-                <p>이메일</p><span id="userEmail" th:text="${member.email}">test@gmail.com</span>
+                <p>이메일</p><span id="userEmail" th:text="${memberJoinInfo.email}">test@gmail.com</span>
             </li>
         </ul>
         <div class="btn_wrap">
-            <button type="button" class="btn1 submit_btn" onclick="location.href='../login.html'" th:onclick="|location.href='@{/login}'|">로그인</button>
+            <button type="button" class="btn1 submit_btn" onclick="location.href='../../login.html'" th:onclick="|location.href='@{/login}'|">로그인</button>
         </div>
     </div>
 </div>

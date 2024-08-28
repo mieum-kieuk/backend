@@ -1,15 +1,16 @@
 package archivegarden.shop.service.member;
 
-import archivegarden.shop.dto.member.*;
+import archivegarden.shop.dto.admin.member.MemberListDto;
+import archivegarden.shop.dto.user.member.*;
 import archivegarden.shop.entity.Member;
 
-import java.util.Optional;
+import java.util.List;
 
 public interface MemberService {
 
     Long join(AddMemberForm dto);
 
-    NewMemberInfo joinComplete(Long memberId);
+    MemberJoinInfoDto joinComplete(Long memberId);
 
     boolean isAvailableLoginId(String loginId);
 
@@ -32,4 +33,8 @@ public interface MemberService {
     String checkPasswordExistsByPhonenumber(String loginId, String name, String phonenumber);
 
     boolean mypageInfoLogin(Member loginMember, String password);
+
+    List<MemberListDto> getLatestJoinMembers();
+
+    MemberInfo getMemberInfo(Long id);
 }

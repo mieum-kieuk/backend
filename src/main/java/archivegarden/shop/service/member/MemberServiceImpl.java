@@ -1,6 +1,7 @@
 package archivegarden.shop.service.member;
 
-import archivegarden.shop.dto.member.*;
+import archivegarden.shop.dto.admin.member.MemberListDto;
+import archivegarden.shop.dto.user.member.*;
 import archivegarden.shop.entity.Delivery;
 import archivegarden.shop.entity.Member;
 import archivegarden.shop.entity.Membership;
@@ -19,6 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Random;
 
 @Slf4j
@@ -73,9 +75,9 @@ public class MemberServiceImpl implements MemberService {
      * @throws NotFoundException
      */
     @Override
-    public NewMemberInfo joinComplete(Long memberId) {
+    public MemberJoinInfoDto joinComplete(Long memberId) {
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new NotFoundException("존재하지 않는 회원입니다."));
-        return new NewMemberInfo(member.getLoginId(), member.getName(), member.getEmail());
+        return new MemberJoinInfoDto(member.getLoginId(), member.getName(), member.getEmail());
     }
 
     /**
@@ -188,6 +190,28 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public boolean mypageInfoLogin(Member member, String password) {
         return passwordEncoder.matches(password, member.getPassword());
+    }
+
+    /**
+     * 마이페이지 - 회원 정보 수정 폼 조회
+     *
+     * @throws NotFoundException
+     */
+    @Override
+    public MemberInfo getMemberInfo(Long memberId) {
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new NotFoundException("존재하지 않는 회원입니다."));
+        return new MemberInfo(member);
+    }
+
+    /**
+     * 관리자 페이지 홈
+     *
+     * @return
+     */
+    @Override
+    public List<MemberListDto> getLatestJoinMembers() {
+//        memberRepository.findLatestJoinMemberDtos()
+        return null;
     }
 
     /**

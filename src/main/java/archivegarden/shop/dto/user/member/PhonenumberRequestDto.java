@@ -1,4 +1,4 @@
-package archivegarden.shop.dto.member;
+package archivegarden.shop.dto.user.member;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;

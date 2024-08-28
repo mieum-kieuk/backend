@@ -12,14 +12,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css">
-    <link rel="stylesheet" href="../../static/css/comm.css" th:href="@{/css/comm.css}"/>
-    <link rel="stylesheet" href="../../static/css/join.css" th:href="@{/css/join.css}"/>
+    <link rel="stylesheet" href="../../../static/css/common/comm.css" th:href="@{/css/common/comm.css}"/>
+    <link rel="stylesheet" href="../../../static/css/common/join.css" th:href="@{/css/common/join.css}"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.js"></script>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-    <script defer src="../../static/js/comm.js" th:src="@{/js/comm.js}"></script>
-    <script defer src="../../static/js/join.js" th:src="@{/js/join.js}"></script>
-    <script defer src="../../static/js/findAddress.js" th:src="@{/js/findAddress.js}"></script>
+    <script defer src="../../../static/js/common/comm.js" th:src="@{/js/common/comm.js}"></script>
+    <script defer src="../../../static/js/user/join.js" th:src="@{/js/user/join.js}"></script>
+    <script defer src="../../../static/js/user/findAddress.js" th:src="@{/js/user/findAddress.js}"></script>
 </head>
 <body>
 <div th:replace="~{/layout/header :: header}"></div>
@@ -46,7 +46,7 @@
                 </li>
             </ul>
         </div>
-        <form action="" th:action th:object="${form}" method="post" id="joinForm" th:onsubmit="return validateBeforeSubmit()">
+        <form action="" th:action th:object="${memberForm}" method="post" id="joinForm" th:onsubmit="return validateBeforeSubmit()">
             <div class="input_area">
                 <div class="input_wrap">
                     <ul>
@@ -489,7 +489,7 @@
             </div>
             <div class="btn_wrap">
                 <button type="button" class="btn1 cancel_btn"
-                        onclick="location.href='../index.html'" th:onclick="|location.href='@{/}'|">취소</button>
+                        onclick="location.href='../../index.html'" th:onclick="|location.href='@{/}'|">취소</button>
                 <button type="submit" class="btn1 submit_btn">
                     가입
                     <div class="loader_wrap">

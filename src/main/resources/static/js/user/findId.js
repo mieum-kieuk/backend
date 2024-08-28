@@ -1,7 +1,5 @@
-//뒤로가기로 접속하는 경우 input 데이터 초기화
 $(window).on('unload', function () {
     $('input[type="text"]').val('');
-    $('#phonenumber1').val('010');
     $('#findType1').prop('checked', true);
 });
 const mySwal = {
@@ -11,9 +9,7 @@ const mySwal = {
     confirmButton: 'my-swal-confirm-button',
     actions: 'my-swal-actions',
 };
-
-//비밀번호 찾기
-$('#find #findPwBtn').click(function () {
+$('.submit_btn').click(function () {
     // 유효성 검사 실행
     if (!validateBeforeSubmit()) {
         return;
@@ -23,20 +19,19 @@ $('#find #findPwBtn').click(function () {
     let csrfToken = $("meta[name='_csrf']").attr("content");
 
     if ($('input[name="findType"]:checked').val() === 'EMAIL') {
-        let loginId = $('#loginId').val();
         let name = $('#name').val();
         let email = $('#email').val();
 
         $.ajax({
+            url: '/ajax/members/find-id/email',
             type: 'POST',
-            url: '/members/find-password/email',
-            data: {loginId: loginId, name: name, email: email},
+            data: {name: name, email: email},
             beforeSend: function (xhr) {
                 xhr.setRequestHeader(csrfHeader, csrfToken)
             },
             success: function (result) {
                 if (result.code == 200) {
-                    window.location.href = '/members/find-password/send';
+                    window.location.href = '/members/find-id/complete';
                 } else {
                     Swal.fire({
                         html: result.message.replace('\n', '<br>'),
@@ -49,7 +44,7 @@ $('#find #findPwBtn').click(function () {
             },
             error: function () {
                 Swal.fire({
-                    html: '비밀번호 찾기 중 오류가 발생했습니다.<br>다시 시도해 주세요.',
+                    html: '아이디 찾기 중 오류가 발생했습니다.<br>다시 시도해 주세요.',
                     showConfirmButton: true,
                     confirmButtonText: '확인',
                     customClass: mySwal,
@@ -58,20 +53,20 @@ $('#find #findPwBtn').click(function () {
             }
         });
     } else if ($('input[name="findType"]:checked').val() === 'PHONENUMBER') {
-        let loginId = $('#loginId').val();
         let name = $('#name').val();
         let phonenumber = $('#phonenumber1').val() + '-' + $('#phonenumber2').val() + '-' + $('#phonenumber3').val();
 
+        // 휴대전화로 데이터 가져오기
         $.ajax({
+            url: '/ajax/members/find-id/phonenumber',
             type: 'POST',
-            url: '/members/find-password/phonenumber',
-            data: {loginId: loginId, name: name, phonenumber: phonenumber},
+            data: {name: name, phonenumber: phonenumber},
             beforeSend: function (xhr) {
                 xhr.setRequestHeader(csrfHeader, csrfToken)
             },
             success: function (result) {
                 if (result.code == 200) {
-                    window.location.href = '/members/find-password/send';
+                    window.location.href = '/members/find-id/complete';
                 } else {
                     Swal.fire({
                         html: result.message.replace('\n', '<br>'),
@@ -84,7 +79,7 @@ $('#find #findPwBtn').click(function () {
             },
             error: function () {
                 Swal.fire({
-                    html: '비밀번호 찾기 중 오류가 발생했습니다.<br>다시 시도해 주세요.',
+                    html: '아이디 찾기 중 오류가 발생했습니다.<br>다시 시도해 주세요.',
                     showConfirmButton: true,
                     confirmButtonText: '확인',
                     customClass: mySwal,
@@ -94,61 +89,6 @@ $('#find #findPwBtn').click(function () {
         });
     }
 });
-
-//임시 비밀번호 전송
-$('#find_pw #sendPwBtn').click(function () {
-    $('.loader_wrap').css('display', 'block');
-    $('#find_pw #sendPwBtn').prop('disabled', 'true');
-    let csrfHeader = $("meta[name='_csrf_header']").attr("content");
-    let csrfToken = $("meta[name='_csrf']").attr("content");
-    let email = $('#email').text();
-
-    $.ajax({
-        type: 'POST',
-        url: '/email/temp-password',
-        data: {email: email},
-        beforeSend: function (xhr) {
-            xhr.setRequestHeader(csrfHeader, csrfToken);
-        },
-        success: function (result) {
-            if(result.code == 200) {
-                window.location.href = '/members/find-password/complete';
-            } else {
-                Swal.fire({
-                    html: result.message.replace('\n', '<br>'),
-                    showConfirmButton: true,
-                    confirmButtonText: '확인',
-                    customClass: mySwal,
-                    buttonsStyling: false
-                });
-            }
-        },
-        error: function () {
-            Swal.fire({
-                html: '임시 비밀번호 전송 중 오류가 발생했습니다.<br>다시 시도해 주세요.',
-                showConfirmButton: true,
-                confirmButtonText: '확인',
-                customClass: mySwal,
-                buttonsStyling: false
-            });
-        }
-    })
-});
-
-// 아이디 입력란 유효성 검사
-function isLoginIdPresent() {
-    let loginId = $('#loginId').val();
-    let result = loginId.trim() === '' ? false : true;
-    return result;
-}
-
-function regexId() {
-    let loginId = $('#loginId').val();
-    const regex = /^(?=.*[a-z])(?=.*\d)[a-z\d]{5,20}$/;
-
-    let result = regex.test(loginId) ? true : false;
-    return result;
-}
 
 // 이름 입력란 유효성 검사
 function isNamePresent() {
@@ -183,6 +123,7 @@ function regexEmail() {
     return result;
 }
 
+
 // 휴대전화번호 입력란 유효성 검사
 function isPhonenumberPresent() {
     let phonenumber2 = $('#phonenumber2').val();
@@ -198,6 +139,7 @@ function regexPhonenumber() {
     const regex1 = /^[0-9]{3,4}$/;
     const regex2 = /^[0-9]{4}$/;
 
+
     let result = regex1.test(phonenumber2) && regex2.test(phonenumber3) ? true : false;
     return result;
 }
@@ -206,28 +148,6 @@ function validateBeforeSubmit() {
 
     let byEmail = $('#findType1').is(':checked');
     let byPhonenumber = $('#findType2').is(':checked');
-
-    if (!isLoginIdPresent()) {
-        Swal.fire({
-            text: '아이디를 입력해 주세요.',
-            showConfirmButton: true,
-            confirmButtonText: '확인',
-            customClass: mySwal,
-            buttonsStyling: false
-        });
-        return false;
-    }
-
-    if (!regexId()) {
-        Swal.fire({
-            text: '5~20자의 영문 소문자, 숫자 조합을 사용해 주세요.',
-            showConfirmButton: true,
-            confirmButtonText: '확인',
-            customClass: mySwal,
-            buttonsStyling: false
-        });
-        return false;
-    }
 
     if (!isNamePresent()) {
         Swal.fire({
@@ -297,15 +217,12 @@ function validateBeforeSubmit() {
             return false;
         }
     }
-
-    $('.loader_wrap').css('display', 'block');
     return true;
 }
-
 $('input[name="findType"]').change(function () {
     if ($('#findType1').is(':checked')) {
-        $('#loginId').val('');
         $('#name').val('');
+        $('#email').val('');
         $('#phonenumber1').val('010');
         $('#phonenumber2').val('');
         $('#phonenumber3').val('');
@@ -313,11 +230,11 @@ $('input[name="findType"]').change(function () {
         $('#phonenumber_view').hide();
         $('.field-error').empty();
     } else if ($('#findType2').is(':checked')) {
-        $('#loginId').val('');
         $('#name').val('');
         $('#email').val('');
         $('#email_view').hide();
         $('#phonenumber_view').show();
+        $('.phone_number').css("display", "block");
         $('.field-error').empty();
     }
 })

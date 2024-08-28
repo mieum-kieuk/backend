@@ -1,4 +1,4 @@
-package archivegarden.shop.dto.member;
+package archivegarden.shop.dto.user.member;
 
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Pattern;
@@ -22,10 +22,9 @@ public class AddMemberForm {
     @Pattern(regexp = "^[a-zA-z가-힣]{2,12}$", message = "2~12자의 한글, 영문 대/소문자를 사용해 주세요. (특수기호, 공백 사용 불가)")
     private String name;
 
-    private String zipCode;     //우편번호
-    private String basicAddress;    //기본주소
-    private String detailAddress;    //상세주소
-
+    private String zipCode;
+    private String basicAddress;
+    private String detailAddress;
     private String phonenumber1;
     private String phonenumber2;
     private String phonenumber3;
