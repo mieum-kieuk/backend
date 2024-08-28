@@ -31,7 +31,7 @@ $('.submit_btn').click(function () {
             },
             success: function (result) {
                 if (result.code == 200) {
-                    window.location.href = '/members/find-id/complete';
+                    window.location.href = '/member/find-id/complete';
                 } else {
                     Swal.fire({
                         html: result.message.replace('\n', '<br>'),
@@ -66,7 +66,7 @@ $('.submit_btn').click(function () {
             },
             success: function (result) {
                 if (result.code == 200) {
-                    window.location.href = '/members/find-id/complete';
+                    window.location.href = '/member/find-id/complete';
                 } else {
                     Swal.fire({
                         html: result.message.replace('\n', '<br>'),

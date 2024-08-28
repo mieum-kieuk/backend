@@ -350,6 +350,9 @@
 .error, .success {
   font-size: 12px;
 }
+.error {
+  color: #d94747;
+}
 .address .field-error {
   margin-top: -7px;
 }

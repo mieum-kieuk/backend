@@ -1,26 +1,28 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>아이디 찾기 | 미음키읔</title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>로그인 | Tickers</title>
+
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="미음키읔" />
+    <meta property="og:title" content="Tickers" />
     <meta property="og:description" content="" />
     <meta property="og:image" content="" />
     <meta property="og:url" content="" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.js"></script>
-
-    <link rel="stylesheet" href="../../css/find.css" />
-    <link rel="stylesheet" href="../../css/comm.css" />
-    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-    <script defer src="../../js/findId.js"></script>
+    <link rel="stylesheet" href="../css/login.css" />
+    <link rel="stylesheet" href="../css/common/comm.css" />
+    <script defer src="../js/login.js"></script>
 </head>
 <body>
 <div class="wrap">
@@ -62,8 +64,8 @@
                         <div class="search_bg"></div>
                         <div class="search_form_wrap">
                             <form action="./search/search_complete.html" method="get">
-                                <input type="text" placeholder="검색어를 입력해 주세요.">
-                                <button type="submit" class="search_btn"><span class="material-symbols-outlined">search</span></button>
+                                <input type="text" placeholder="검색어를 입력하세요.">
+                                <button type="submit" class="search_btn">Search</button>
                             </form>
                         </div>
                     </div>
@@ -87,60 +89,46 @@
             </div>
         </nav>
     </header>
-    <div id="find" class="find">
-    <div id="findIdForm" class="find_form">
-    <h2 class="find_title">아이디 찾기</h2>
-        <div class="auth_select">
-            <p>인증방법</p>
-            <div class="radio_wrap">
-                <div><input type="radio" id="findType1" name="findType" value="EMAIL" checked="checked">
-                    <label for="findType1">이메일</label></div>
-                <div><input type="radio" id="findType2" name="findType" value="PHONENUMBER">
-                    <label for="findType2">휴대전화번호</label></div>
+<div id="login">
+    <div class="login_wrap">
+        <form action=""  method="post">
+            <div class="input_wrap">
+                <ul>
+                    <li>
+                        <p class="login_tit">아이디</p>
+                    </li>
+                    <li class="input_box_wrap">
+                        <input id="loginId" class="inputTypeText" placeholder="" maxlength="20" type="text"/>
+                    </li>
+                </ul>
+                <ul>
+                    <li>
+                        <p class="login_tit">비밀번호</p>
+                    </li>
+                    <li class="input_box_wrap">
+                        <input id="password" class="input_box" autocomplete="off" maxlength="16" 0="disabled" type="password"/>
+                    </li>
+                </ul>
             </div>
-        </div>
-        <div class="input_wrap">
-            <ul>
-                <li id="name_title">
-                    <p>이름</p>
-                </li>
-                <li id="name_content" class="input_box_wrap">
-                    <input id="name" class="input_box" placeholder="" maxlength="12" type="text"/>
-                </li>
-            </ul>
-            <ul id="email_view">
-                <li>
-                    <p>이메일</p>
-                </li>
-                <li class="input_box_wrap">
-                    <input id="email" class="input_box" placeholder="" maxlength="45" type="text"/>
-                </li>
-            </ul>
-            <ul class="phone_number" id="phonenumber_view">
-                <li class="">
-                    <p>휴대전화번호</p>
-                </li>
-                <li class="phone_number select">
-                    <div class="number_sec">
-                        <select id="phonenumber1" >
-                            <option value="010">010</option>
-                            <option value="011">011</option>
-                            <option value="016">016</option>
-                            <option value="017">017</option>
-                            <option value="018">018</option>
-                            <option value="019">019</option>
-                        </select>
-                        <p>-</p><input id="phonenumber2" class="input_box" placeholder="" value="" maxlength="4" type="number"/>
-                        <p>-</p><input id="phonenumber3" class="input_box" placeholder="" value="" maxlength="4" type="number"/>
-                    </div>
-                </li>
-            </ul>
-        </div>
-        <div class="btn_wrap">
-            <button type="button" class="btn1 submit_btn" >확인</button>
-        </div>
+            <div class="btn_wrap">
+                <button type="submit" id="loginBtn" class="btn1 submit_btn">
+                    로그인
+                </button>
+            </div>
+            <div class="account_btns">
+                <ul class="find_btn">
+                    <li class="btn2"> <a href="/member/id/find_id.html">아이디 찾기</a>
+                    </li>
+                    <li class="btn2"><a href="/member/passwd/find_passwd_info.html">/ 비밀번호 찾기</a>
+                    </li>
+                </ul>
+                <ul class="create_btn">
+                    <li class="btn2"><a href="/member/join.html">회원가입</a></li>
+                </ul>
+            </div>
+        </form>
     </div>
-    </div>
+</div>
     <footer id="footer" class="footer fixed">
         <div class="footer_wrap">
             <div class="footer_inner">

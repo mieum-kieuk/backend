@@ -36,7 +36,7 @@ $('#find #findPwBtn').click(function () {
             },
             success: function (result) {
                 if (result.code == 200) {
-                    window.location.href = '/members/find-password/send';
+                    window.location.href = '/member/find-password/send';
                 } else {
                     Swal.fire({
                         html: result.message.replace('\n', '<br>'),
@@ -71,7 +71,7 @@ $('#find #findPwBtn').click(function () {
             },
             success: function (result) {
                 if (result.code == 200) {
-                    window.location.href = '/members/find-password/send';
+                    window.location.href = '/member/find-password/send';
                 } else {
                     Swal.fire({
                         html: result.message.replace('\n', '<br>'),
@@ -112,7 +112,7 @@ $('#find_pw #sendPwBtn').click(function () {
         },
         success: function (result) {
             if(result.code == 200) {
-                window.location.href = '/members/find-password/complete';
+                window.location.href = '/member/find-password/complete';
             } else {
                 Swal.fire({
                     html: result.message.replace('\n', '<br>'),
