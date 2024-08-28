@@ -440,7 +440,7 @@ function isNameValid() {
 
     $.ajax({
         type: 'POST',
-        url: '/ajax/admin/products/check/name',
+        url: '/ajax/admin/product/check/name',
         async: false,
         data: {name: name},
         beforeSend: function (xhr) {
@@ -468,8 +468,6 @@ function deleteProduct(productId) {
         showCancelButton: true,
         cancelButtonText: '아니요',
         confirmButtonText: '예',
-        closeOnConfirm: false,
-        closeOnCancel: true,
         customClass: mySwalConfirm,
         reverseButtons: true,
         buttonsStyling: false,
@@ -511,7 +509,7 @@ function deleteProduct(productId) {
 }
 
 //상품 여러건 삭제
-$('#deleteProductsBtn').click(function () {ㅔ
+$('#deleteProductsBtn').click(function () {
 
     let productIds = [];
     let checkboxes = $('input[name=checkbox]:checked');
@@ -531,8 +529,6 @@ $('#deleteProductsBtn').click(function () {ㅔ
             showCancelButton: true,
             cancelButtonText: '아니요',
             confirmButtonText: '예',
-            closeOnConfirm: false,
-            closeOnCancel: true,
             customClass: mySwalConfirm,
             reverseButtons: true,
             buttonsStyling: false,

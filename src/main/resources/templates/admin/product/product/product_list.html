@@ -16,11 +16,12 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css">
     <link rel="stylesheet" href="../../../../static/css/common/comm.css" th:href="@{/css/common/comm.css}">
     <link rel="stylesheet" href="../../../../static/css/admin/admin.css" th:href="@{/css/admin/admin.css}">
-    <link rel="stylesheet" href="../../../../static/css/list.css" th:href="@{/css/list.css}">
+    <link rel="stylesheet" href="../../../../static/css/admin/list.css" th:href="@{/css/admin/list.css}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.js"></script>
     <script defer src="../../../../static/js/common/comm.js" th:src="@{/js/common/comm.js}"></script>
-    <script defer src="../../../../static/js/adminProduct.js" th:src="@{/js/adminProduct.js}"></script>
+    <script defer src="../../../../static/js/admin/search.js" th:src="@{/js/admin/search.js}"></script>
+    <script defer src="../../../../static/js/admin/product.js" th:src="@{/js/admin/product.js}"></script>
 </head>
 <body>
 <div class="admin_wrap">
@@ -30,7 +31,7 @@
             <div>
                 <h2 class="content_tit">전체 상품관리</h2>
                 <h3 class="form_title">기본검색</h3>
-                <form id="adminsSearchForm" class="search_form" action="" th:action method="get" onsubmit="return validateBeforeSubmit()">
+                <form id="adminsSearchForm" class="search_form" action="" th:action method="get" onsubmit="return validateBeforeSearch()">
                     <div class="form_container">
                         <div class="form_wrap search">
                             <label for="searchKeyword">검색어</label>
