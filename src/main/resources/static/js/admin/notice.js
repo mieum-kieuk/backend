@@ -52,8 +52,6 @@ function deleteNotice(noticeId) {
         showCancelButton: true,
         cancelButtonText: '아니요',
         confirmButtonText: '예',
-        closeOnConfirm: false,
-        closeOnCancel: true,
         customClass: mySwalConfirm,
         reverseButtons: true,
         buttonsStyling: false,
@@ -61,7 +59,7 @@ function deleteNotice(noticeId) {
         if (result.isConfirmed) {
             $.ajax({
                 type: 'DELETE',
-                url: '/ajax/admin/notice/delete',
+                url: '/ajax/admin/notice',
                 async: false,
                 data: {noticeId: noticeId},
                 beforeSend: function (xhr) {

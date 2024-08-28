@@ -4,8 +4,7 @@ import archivegarden.shop.dto.ResultResponse;
 import archivegarden.shop.dto.admin.product.answer.AnswerResponseDto;
 import archivegarden.shop.dto.admin.product.answer.EditAnswerRequestDto;
 import archivegarden.shop.entity.Admin;
-import archivegarden.shop.service.admin.admins.AdminAdminService;
-import archivegarden.shop.service.admin.help.AdminNoticeService;
+import archivegarden.shop.service.admin.admin.AdminAdminService;
 import archivegarden.shop.service.admin.product.AdminDiscountService;
 import archivegarden.shop.service.admin.product.AdminProductInquiryAnswerService;
 import archivegarden.shop.service.admin.product.AdminProductInquiryService;
@@ -23,7 +22,6 @@ import java.util.List;
 public class AjaxAdminController {
 
     private final AdminAdminService adminService;
-    private final AdminNoticeService noticeService;
     private final AdminDiscountService discountService;
     private final AdminProductService productService;
     private final AdminProductInquiryService inquiryService;
@@ -43,14 +41,6 @@ public class AjaxAdminController {
     public ResultResponse authorizeAdmin(@RequestParam("adminId") Long adminId) {
         adminService.authorizeAdmin(adminId);
         return new ResultResponse(HttpStatus.OK.value(), "승인되었습니다.");
-    }
-
-    //공지사항 삭제
-    @ResponseStatus(HttpStatus.OK)
-    @DeleteMapping("/notice/delete")
-    public ResultResponse deleteNotice(@RequestParam("noticeId") Long noticeId) {
-        noticeService.deleteNotice(noticeId);
-        return new ResultResponse(HttpStatus.OK.value(), "삭제가 완료되었습니다.");
     }
 
     //상품할인 단건 삭제

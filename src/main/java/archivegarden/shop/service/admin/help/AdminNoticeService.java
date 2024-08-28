@@ -1,6 +1,6 @@
 package archivegarden.shop.service.admin.help;
 
-import archivegarden.shop.dto.admin.AdminSearchForm;
+import archivegarden.shop.dto.admin.AdminSearchCondition;
 import archivegarden.shop.dto.admin.help.notice.AddNoticeForm;
 import archivegarden.shop.dto.admin.help.notice.EditNoticeForm;
 import archivegarden.shop.dto.admin.help.notice.NoticeDetailsDto;
@@ -27,12 +27,8 @@ public class AdminNoticeService {
      * 공지사항 저장
      */
     public Long saveNotice(AddNoticeForm form, Admin admin) {
-        //Notice 생성
         Notice notice = Notice.createNotice(form, admin);
-
-        //Notice 저장
         noticeRepository.save(notice);
-
         return notice.getId();
     }
 
@@ -43,9 +39,7 @@ public class AdminNoticeService {
      */
     @Transactional(readOnly = true)
     public NoticeDetailsDto getNotice(Long noticeId) {
-        //Notice 조회
         Notice notice = noticeRepository.findById(noticeId).orElseThrow(() -> new AdminNotFoundException("존재하지 않는 공지사항 입니다."));
-
         return new NoticeDetailsDto(notice);
     }
 
@@ -53,7 +47,7 @@ public class AdminNoticeService {
      * 공지사항 목록 조회
      */
     @Transactional(readOnly = true)
-    public Page<NoticeListDto> getNotices(AdminSearchForm form, Pageable pageable) {
+    public Page<NoticeListDto> getNotices(AdminSearchCondition form, Pageable pageable) {
         return noticeRepository.findAdminNoticeAll(form, pageable).map(NoticeListDto::new);
     }
 
@@ -64,9 +58,7 @@ public class AdminNoticeService {
      */
     @Transactional(readOnly = true)
     public EditNoticeForm getEditNoticeForm(Long noticeId) {
-        //Notice 조회
         Notice notice = noticeRepository.findById(noticeId).orElseThrow(() -> new AdminNotFoundException("존재하지 않는 공지사항입니다."));
-
         return new EditNoticeForm(notice);
     }
 
@@ -76,10 +68,7 @@ public class AdminNoticeService {
      * @throws AdminNotFoundException
      */
     public void editNotice(Long noticeId, EditNoticeForm form) {
-        //Notice 조회
         Notice notice = noticeRepository.findById(noticeId).orElseThrow(() -> new AdminNotFoundException("존재하지 않는 공지사항입니다."));
-
-        //Notice 수정
         notice.update(form.getTitle(), form.getContent());
     }
 
@@ -89,10 +78,7 @@ public class AdminNoticeService {
      * @throws AjaxNotFoundException
      */
     public void deleteNotice(Long noticeId) {
-        //Notice 조회
         Notice notice = noticeRepository.findById(noticeId).orElseThrow(() -> new AjaxNotFoundException("존재하지 않는 공지사항 입니다."));
-
-        //Notice 삭제
         noticeRepository.delete(notice);
     }
 }

@@ -1,6 +1,6 @@
 package archivegarden.shop.repository.notice;
 
-import archivegarden.shop.dto.admin.AdminSearchForm;
+import archivegarden.shop.dto.admin.AdminSearchCondition;
 import archivegarden.shop.dto.community.notice.NoticeSearchForm;
 import archivegarden.shop.entity.Notice;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -53,7 +53,7 @@ public class NoticeRepositoryImpl implements NoticeRepositoryCustom {
     }
 
     @Override
-    public Page<Notice> findAdminNoticeAll(AdminSearchForm form, Pageable pageable) {
+    public Page<Notice> findAdminNoticeAll(AdminSearchCondition form, Pageable pageable) {
         List<Notice> content = queryFactory
                 .selectFrom(notice)
                 .where(keywordLike(form.getSearchKey(), form.getKeyword()))
