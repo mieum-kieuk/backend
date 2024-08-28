@@ -18,8 +18,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="../../css/comm.css" />
+    <link rel="stylesheet" href="../../css/common/comm.css" />
     <link rel="stylesheet" href="../../css/mypage.css" />
+    <script defer src="../../js/common/comm.js"></script>
 
 </head>
 <body>
@@ -28,7 +29,6 @@
         <nav id="gnb">
             <div class="logo">
                 <a href="../index.html">
-                    <img src="../../images/meek2.png" alt="로고">
                     미음키읔
                 </a>
             </div>
@@ -72,9 +72,9 @@
                     <ul class="depth1">
                         <li class="depth1_menu">Account
                             <ul class="depth2">
-                                <li><a href="../members/login.html">Login</a></li>
-                                <li><a href="../members/join.html">Join</a></li>
-                                <li><a href="../members/order.html">Order</a></li>
+                                <li><a href="../login.html">Login</a></li>
+                                <li><a href="../user/member/join.html">Join</a></li>
+                                <li><a href="../user/member/order.html">Order</a></li>
                                 <li><a href="../mypage/mypage_home.html">Mypage</a></li>
                             </ul>
                         </li>
@@ -88,156 +88,185 @@
         </nav>
     </header>
     <div class="mypage" id="mypage">
-        <nav id="snb">
-            <ul class="depth1">
-                <li>
-                    <ul class="depth2">
-                    <li><a href="">주문 내역 조회</a></li>
-                    <li><a href="">적립금 내역</a></li>
-                    <li><a href="">쿠폰 내역</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <ul class="depth2">
-                    <li><a href="./wish_list.html">위시리스트</a></li>
-                    <li><a href="./my_review.html">상품 후기</a></li>
-                    <li><a href="./my_qna.html">상품 문의</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <ul class="depth2">
-                    <li><a href="./member_info_modify.html">회원 정보 수정</a></li>
-                    <li><a href="delivery_list.html">배송지 관리</a></li>
-                    <li><a href="">로그아웃</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </nav>
-        <div class="mypage_content">
-            <div id="benefit">
-                <ul class="member_benefit">
+            <nav id="snb">
+                <ul class="depth1">
                     <li>
-                        <a href="">
-                            <span class="title">쿠폰</span>
-                            <span class="content" id="coupon">1</span>
-                        </a>
+                        <h2 class="snb_title">자주찾는 메뉴</h2>
+                        <ul class="depth2">
+                            <!--                    <li><a href="mypage_home.html">마이 페이지</a></li>-->
+                            <li><a href="">주문 내역</a></li>
+                            <li><a href="point_list.html">적립금 내역</a></li>
+                            <li><a href="./wish_list.html">위시리스트</a></li>
+                        </ul>
                     </li>
                     <li>
-                        <a href="">
-                            <span class="title">적립금</span>
-                            <span class="content" id="mileage">100</span>
-                        </a>
+                        <h2 class="snb_title">쇼핑</h2>
+                        <ul class="depth2">
+                            <li><a href="./my_review.html">상품 후기</a></li>
+                            <li><a href="./inquiry/product/inquiry_list.html">상품 문의</a></li>
+                        </ul>
                     </li>
                     <li>
-                        <a href="">
-                            <span class="title">총주문</span>
-                            <span class="content" id="orderPrice">0원(<span id="orderCount">0</span>회)</span>
-                        </a>
+                        <h2 class="snb_title">내 정보관리</h2>
+                        <ul class="depth2">
+                            <li><a href="./member_info_modify.html">회원 정보 수정</a></li>
+                            <li><a href="./delivery_list.html">배송지 관리</a></li>
+                            <li><a href="">로그아웃</a></li>
+                        </ul>
                     </li>
                 </ul>
-            </div>
-            <div id="orderStatus">
-                <h3>주문 처리 현황</h3>
-                <div class="order_status_wrap">
-                <ul class="order_status">
-                    <li>
-                        <a href=""><span id="pendingCount" class="content">0</span></a>
-                        <span class="title">입금전</span>
-                    </li>
-                    <li>
-                        <a href=""><span id="preparingCount" class="content">0</span></a>
-                        <span class="title">배송준비중</span>
-                    </li>
-                    <li>
-                        <a href=""><span id="shippingCount" class="content">0</span></a>
-                        <span class="title">배송중</span>
-                    </li>
-                    <li>
-                        <a href=""><span id="completedCount" class="content">1</span></a>
-                        <span class="title">배송완료</span>
-                    </li>
-                </ul>
-                <ul class="order_status result">
-                    <li>
-                        <a href=""><span id="cancel" class="content">0</span></a>
-                        <span class="title">취소</span>
-                    </li>
-                    <li>
-                        <a href=""><span id="exchange" class="content">0</span></a>
-                        <span class="title">교환</span>
-                    </li>
-                    <li>
-                        <a href=""><span id="return" class="content">0</span></a>
-                        <span class="title">반품</span>
-                    </li>
-                </ul>
-                </div>
-            </div>
-            <div id="orderHistory">
-                <h3>주문 내역 조회</h3>
-                <div class="order_history">
-                    <ul class="order_items">
+            </nav>
+            <div class="mypage_content home">
+                <div id="benefit">
+                    <ul class="member_benefit">
                         <li>
-                            <div class="order_item_head">
-                                <h4><a href="">2024-04-25 (123456-123456)</a></h4>
-                                <a href="">상세보기</a>
-                            </div>
-                            <div id="orderItem" class="order_item">
-                                <div class="thumbnail">
-                                    <a href=""><img id="productImg" class="item_img" src="../../images/display_thumb2.jpeg" alt="상품 이미지"></a>
-                                </div>
-                                <div class="description">
-                                    <a href=""><span id="productName" class="item_name">Display masking tape</span></a>
-                                    <a href=""><span id="productPrice" class="item_price">3,000원</span></a>
-                                </div>
-                            </div>
-                            <p>구매확정</p>
+                            <a href="">
+                                <span class="title">쿠폰</span>
+                                <span class="content" id="coupon">1</span>
+                            </a>
                         </li>
                         <li>
-                            <p id="noDataMessage">주문 내역이 없습니다.</p>
+                            <a href="">
+                                <span class="title">적립금</span>
+                                <span class="content" id="mileage">100</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="">
+                                <span class="title">총주문</span>
+                                <span class="content" id="orderPrice">0원(<span id="orderCount">0</span>회)</span>
+                            </a>
                         </li>
                     </ul>
                 </div>
-                <div class="pagination">
+                <div id="orderStatus">
+                    <h3>주문 처리 현황</h3>
+                    <div class="order_status_wrap">
+                        <ul class="order_status">
+                            <li>
+                                <a href=""><span id="pendingCount" class="content">0</span></a>
+                                <span class="title">입금전</span>
+                            </li>
+                            <li>
+                                <a href=""><span id="preparingCount" class="content">0</span></a>
+                                <span class="title">배송준비중</span>
+                            </li>
+                            <li>
+                                <a href=""><span id="shippingCount" class="content">0</span></a>
+                                <span class="title">배송중</span>
+                            </li>
+                            <li>
+                                <a href=""><span id="completedCount" class="content">1</span></a>
+                                <span class="title">배송완료</span>
+                            </li>
+                        </ul>
+                        <ul class="order_status result">
+                            <li>
+                                <a href=""><span id="cancel" class="content">0</span></a>
+                                <span class="title">취소</span>
+                            </li>
+                            <li>
+                                <a href=""><span id="exchange" class="content">0</span></a>
+                                <span class="title">교환</span>
+                            </li>
+                            <li>
+                                <a href=""><span id="return" class="content">0</span></a>
+                                <span class="title">반품</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="orderHistory">
+                    <h3>주문 내역 조회</h3>
+                    <div class="order_history">
+                        <ul class="order_items">
+                            <li>
+                                <div class="order_item_head">
+                                    <h4><a href="">2024-04-25 (123456-123456)</a></h4>
+                                    <a href="">상세보기</a>
+                                </div>
+                                <div id="orderItem" class="order_item">
+                                    <div class="thumbnail">
+                                        <a href=""><img id="productImg" class="item_img" src="../../images/display_thumb2.jpeg" alt="상품 이미지"></a>
+                                    </div>
+                                    <div class="description">
+                                        <a href=""><span id="productName" class="item_name">Display masking tape</span></a>
+                                        <a href=""><span id="productPrice" class="item_price">3,000원</span></a>
+                                    </div>
+                                </div>
+                                <!--                            <p>구매확정</p>-->
+                            </li>
+                            <li>
+                                <p id="noDataMessage">주문 내역이 없습니다.</p>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="pagination">
+                        <ul>
+                            <li><a href="#" class="prev_first"><span class="material-symbols-outlined">navigate_before</span></a></li>
+                            <li><a href="#">1</a></li>
+                            <li><a href="#" class="next_last"><span class="material-symbols-outlined">navigate_next</span></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer id="footer" class="footer">
+            <div class="footer_wrap">
+                <div class="footer_inner">
                     <ul>
-                        <li><a href="#" class="prev_first"><span class="material-symbols-outlined">navigate_before</span></a></li>
-                        <li><a href="#">1</a></li>
-                        <li><a href="#" class="next_last"><span class="material-symbols-outlined">navigate_next</span></a></li>
+                        <li><a href="">Instagram</a></li>
+                    </ul>
+                </div>
+                <div class="footer_inner">
+                    <ul>
+                        <li><a href="">Terms of Use</a></li>
+                        <li><a href="">Privacy Policy</a></li>
+                        <li><a href="">Shop Guide</a></li>
+                    </ul>
+                </div>
+                <div class="footer_inner">
+                    <ul>
+                        <li>Company : 미음키읔</li>
+                        <li>전화번호 : 010-1234-5678</li>
+                        <li>이메일 : meek@gmail.com</li>
+                    </ul>
+                </div>
+                <div class="footer_inner">
+                    <ul>
+                        <li>사업자 번호 : 070-61-01100</li>
+                        <li>주소 : 서울시 미음구 키읔로 123</li>
+                        <li>Copyright ©미음키읔 All rights reserved.</li>
                     </ul>
                 </div>
             </div>
-        </div>
+        </footer>
     </div>
-    <footer id="footer" class="footer">
-        <div class="footer_wrap">
-            <div class="footer_inner">
-                <ul>
-                    <li><a href="">Instagram</a></li>
-                </ul>
-            </div>
-            <div class="footer_inner">
-                <ul>
-                    <li><a href="">Terms of Use</a></li>
-                    <li><a href="">Privacy Policy</a></li>
-                    <li><a href="">Shop Guide</a></li>
-                </ul>
-            </div>
-            <div class="footer_inner">
-                <ul>
-                    <li>Company : 미음키읔</li>
-                    <li>전화번호 : 010-1234-5678</li>
-                    <li>이메일 : meek@gmail.com</li>
-                </ul>
-            </div>
-            <div class="footer_inner">
-                <ul>
-                    <li>사업자 번호 : 070-61-01100</li>
-                    <li>주소 : 서울시 미음구 키읔로 123</li>
-                    <li>Copyright ©미음키읔 All rights reserved.</li>
-                </ul>
-            </div>
-        </div>
-    </footer>
-</div>
+    <script>
+        $(document).ready(function() {
+            // 현재 페이지의 URL을 가져옵니다.
+            var currentPageUrl = window.location.href;
+
+            // 각 메뉴 항목에 대해 반복합니다.
+            $('#snb .depth2 a').each(function() {
+                var menuItemUrl = $(this).attr('href');
+
+                // 현재 페이지의 URL과 메뉴 항목의 링크 URL을 정확하게 비교합니다.
+                if (currentPageUrl === menuItemUrl) {
+                    // 일치하는 경우 해당 메뉴 아이템에 active 클래스를 추가합니다.
+                    $(this).addClass('active');
+                    $(this).closest('ul.depth2').parent().addClass('active');
+                    return false; // 반복문 종료
+                } else if (currentPageUrl.includes(menuItemUrl)) {
+                    // 메뉴 항목의 링크 URL이 현재 페이지의 URL에 포함되는 경우에도 active 클래스를 추가합니다.
+                    $(this).addClass('active');
+                    $(this).closest('ul.depth2').parent().addClass('active');
+                    return false; // 반복문 종료
+                }
+            });
+        });
+
+
+    </script>
 </body>
 </html>
