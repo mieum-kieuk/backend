@@ -14,7 +14,13 @@ function validateBeforeSubmit() {
 
     // 시작일과 종료일 중 하나만 입력되어 있을 경우
     if ((startDatetime === '' && endDatetime !== '') || (startDatetime !== '' && endDatetime === '')) {
-        alert('시작일시와 종료일시를 모두 입력해 주세요.');
+        Swal.fire({
+            text: "시작일시와 종료일시를 모두 입력해 주세요.",
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
         return false;
     }
 
@@ -28,7 +34,13 @@ function validateBeforeSubmit() {
     let endDate = new Date(endDatetime);
 
     if (startDate > endDate) {
-        alert('시작일시는 종료일시보다 이전이어야 합니다.');
+        Swal.fire({
+            text: "시작일시는 종료일시보다 이전이어야 합니다.",
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
         return false;
     }
 
@@ -78,12 +90,12 @@ $("#authAdminBtn").click(function() {
         buttonsStyling: false,
     }).then((result) => {
         if (result.isConfirmed) {
+            $('#authAdminBtn').prop('disabled', true);
             $('#authAdminBtn').append(`
             <div class="loader_wrap white" style="display: none;">
                 <div class="loader"></div>
             </div>`
             );
-
             let loader = $('#authAdminBtn .loader_wrap.white');
             loader.css('display', 'block');
         }
@@ -96,6 +108,8 @@ $("#authAdminBtn").click(function() {
                 xhr.setRequestHeader(csrfHeader, csrfToken);
             },
             success: function (result) {
+                $('#authAdminBtn').prop('disabled', false);
+                loader.css('display', 'none');
                 if (result.code === 200) {
                     document.location.reload();
                 }
@@ -108,6 +122,7 @@ $("#authAdminBtn").click(function() {
                     customClass: mySwal,
                     buttonsStyling: false
                 });
+                $('#authAdminBtn').prop('disabled', false);
                 loader.css('display', 'none');
             }
         });
