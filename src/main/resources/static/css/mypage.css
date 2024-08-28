@@ -6,7 +6,7 @@
     max-width: 1800px;
     width: 100%;
     margin-top: 100px;
-    min-height: calc( 100svh - 232px);
+    min-height: calc(100svh - 232px);
     background: #f1f1f1;
     padding: 40px 0 20px;
 }
@@ -37,9 +37,11 @@
     background: #ffffff;
     border-radius: 20px;
 }
+
 .mypage_content form {
-    padding: 0 20px;
+    padding: 20px;
 }
+
 #snb .snb_title {
     font-size: 14px;
     font-weight: 400;
@@ -395,21 +397,25 @@ h3 {
     width: 100%;
     border-bottom: 1px solid #333;
 }
+
 #memberInfoModify .join_wrap {
     max-width: unset;
 }
+
 #memberInfoModify .join_wrap #joinForm, #memberInfoModify .auth_wrap {
     padding: 0 20px;
 }
+
 #memberInfoLogin .join_wrap {
-    max-width: 380px;
     width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    align-items: center;
 }
+
 #memberInfoLogin form {
-    width: 100%;
+    max-width: 460px;
 }
 
 #memberInfoModify .input_wrap {
@@ -422,10 +428,20 @@ h3 {
     white-space: nowrap;
 }
 
+#memberInfoLogin .input_wrap ul {
+    display: flex;
+    align-items: center;
+}
+
+#memberInfoLogin .input_wrap > ul > li:first-child {
+    height: 35px;
+    width: 80px;
+}
+
 #memberInfoLogin .input_wrap li {
     display: flex;
     justify-content: space-between;
-    align-items: flex-end;
+    /*align-items: flex-end;*/
 }
 
 #memberInfoLogin .input_wrap .input_box_wrap {
@@ -433,6 +449,7 @@ h3 {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    width: 380px;
 }
 
 #memberInfoLogin .input_wrap input {

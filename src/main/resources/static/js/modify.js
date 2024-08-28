@@ -99,37 +99,42 @@ function sendVerificationEmail() {
     });
 }
 //비밀번호 검증
+
 function isPasswordValid() {
-    let password = $('#password').val();
-    let confirmPassword = $('#passwordConfirm').val();
-
-    if (!isPasswordEmpty()) {
-        return;
-    } else if (!regexPassword()) {
-        return;
-    }
-
-    if (password === confirmPassword) {
-        $('#pwconfirmMsg').text('');
-    }
-
-    $('#pwMsg').text('');
-
-    return;
-}
-
-function isPasswordEmpty() {
     let password = $("#password").val();
+    let passwordConfirm = $("#passwordConfirm").val();
 
-    if (password.trim() === '') {
-        $('#pwMsg').text('비밀번호를 입력해 주세요.');
-        $('#pwMsg').removeClass('success error').addClass('error');
+    // 비밀번호 입력란이 비어 있을 때
+    if (password.trim() === "" && passwordConfirm.trim() === "") {
+        return true;
+    }
+
+    // 비밀번호 정규식 검사
+    if (!regexPassword()) {
+        Swal.fire({
+            text: "유효한 비밀번호를 입력해 주세요.",
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
         return false;
     }
 
+    if (!isPwConfirmValid()) {
+        Swal.fire({
+            text: "비밀번호가 일치하지 않습니다.",
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
+        return false;
+    }
+
+    $('#pwMsg').text(''); // 모든 검사를 통과하면 메시지 초기화
     return true;
 }
-
 function regexPassword() {
     let password = $("#password").val();
     let regex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&^()])[a-zA-Z\d@$!%*?&^()]{8,16}$/;
@@ -220,14 +225,30 @@ function regexEmail() {
 
 //휴대전화번호 검증
 function isPhoneValid() {
-    if (!isPhoneEmpty()) {
-        return;
-    } else if (!regexPhone()) {
-        return;
-    }
+    if (!$('#phonenumber1').prop('readonly') && !$('#phonenumber2').prop('readonly') && !$('#phonenumber3').prop('readonly')) {
+        // 비어 있는지 여부 검사
+        if (!isPhoneEmpty()) {
+            return;
+        }
+        // 정규식 유효성 검사
+        if (!regexPhone()) {
+            return;
+        }
 
-    $('#phoneNumberMsg').text('');
-    return;
+        $('#phoneNumberMsg').text('');
+
+        // 인증 번호 유효성 검사
+        if (!isVerificationCompelte()) {
+            Swal.fire({
+                text: "휴대전화번호를 인증해 주세요.",
+                showConfirmButton: true,
+                confirmButtonText: '확인',
+                customClass: mySwal,
+                buttonsStyling: false
+            });
+            return false;
+        }
+    }
 }
 
 function isPhoneEmpty() {
@@ -397,27 +418,7 @@ function toggleAgreement(element) {
 }
 
 function validateBeforeSubmit() {
-
-    // 비밀번호 유효성 검사
-    if (!isPasswordEmpty()) {
-        Swal.fire({
-            text: "비밀번호를 입력해 주세요.",
-            showConfirmButton: true,
-            confirmButtonText: '확인',
-            customClass: mySwal,
-            buttonsStyling: false
-        });
-        return false;
-    } else if (!regexPassword()) {
-        Swal.fire({
-            text: "유효한 비밀번호를 입력해 주세요.",
-            showConfirmButton: true,
-            confirmButtonText: '확인',
-            customClass: mySwal,
-            buttonsStyling: false
-        });
-        return false;
-    }
+    isPasswordValid();    // 비밀번호 유효성 검사
 
     // 비밀번호 확인 유효성 검사
     if (!isPwConfirmValid()) {
@@ -432,37 +433,7 @@ function validateBeforeSubmit() {
     }
 
     // 휴대전화번호 유효성 검사
-    if (!isPhoneEmpty()) {
-        Swal.fire({
-            text: "휴대전화번호를 입력해 주세요.",
-            showConfirmButton: true,
-            confirmButtonText: '확인',
-            customClass: mySwal,
-            buttonsStyling: false
-        });
-        return false;
-    } else if (!regexPhone()) {
-        Swal.fire({
-            text: "유효한 휴대전화번호를 입력해 주세요.",
-            showConfirmButton: true,
-            confirmButtonText: '확인',
-            customClass: mySwal,
-            buttonsStyling: false
-        });
-        return false;
-    }
-
-    // 인증 번호 유효성 검사
-    if (!isVerificationCompelte()) {
-        Swal.fire({
-            text: "휴대전화번호를 인증해 주세요.",
-            showConfirmButton: true,
-            confirmButtonText: '확인',
-            customClass: mySwal,
-            buttonsStyling: false
-        });
-        return false;
-    }
+    isPhoneValid();
 
     // 이메일 유효성 검사
     if (!isEmailEmpty()) {
