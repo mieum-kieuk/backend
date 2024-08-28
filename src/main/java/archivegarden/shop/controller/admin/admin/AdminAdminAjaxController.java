@@ -1,6 +1,7 @@
 package archivegarden.shop.controller.admin.admin;
 
 import archivegarden.shop.dto.ResultResponse;
+import archivegarden.shop.service.admin.admin.AdminAdminService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class AdminAdminAjaxController {
 
-    private final AdminJoinService adminService;
+    private final AdminAdminService adminService;
 
     /**
      *  관리자 로그인 아이디 중복 여부를 검사하는 메서드
