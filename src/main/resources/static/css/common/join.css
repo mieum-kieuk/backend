@@ -362,3 +362,6 @@
 #join .input_box_wrap .field-error {
   margin-top: -15px;
 }
+#join .agree_area .field-error {
+  margin: -25px 0 30px 0
+}

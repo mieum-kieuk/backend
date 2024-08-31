@@ -1,4 +1,4 @@
-package archivegarden.shop.dto.community.inquiry;
+package archivegarden.shop.dto.product;
 
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;

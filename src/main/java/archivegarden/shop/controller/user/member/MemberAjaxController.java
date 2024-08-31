@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.regex.Pattern;
 
 @RestController
-@RequestMapping("/ajax/members")
+@RequestMapping("/ajax/member")
 @RequiredArgsConstructor
 public class MemberAjaxController {
 

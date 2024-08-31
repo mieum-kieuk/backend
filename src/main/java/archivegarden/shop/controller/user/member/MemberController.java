@@ -18,7 +18,7 @@ import java.util.regex.Pattern;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/members")
+@RequestMapping("/member")
 public class MemberController {
 
     private final MemberService memberService;
@@ -43,7 +43,7 @@ public class MemberController {
 
         Long memberId = memberService.join(form);
         session.setAttribute("join:memberId", memberId);
-        return "redirect:/members/join/complete";
+        return "redirect:/member/join/complete";
     }
 
     /**
@@ -54,7 +54,7 @@ public class MemberController {
         HttpSession session = request.getSession(false);
         Long memberId = (Long) session.getAttribute("join:memberId");
         if (session == null || memberId == null) {
-            return "redirect:/members/join";
+            return "redirect:/member/join";
         }
         session.removeAttribute("join:memberId");
 
@@ -79,7 +79,7 @@ public class MemberController {
         HttpSession session = request.getSession(false);
         Long memberId = (Long) session.getAttribute("findId:memberId");
         if (session == null || memberId == null) {
-            return "redirect:/members/find-id";
+            return "redirect:/member/find-id";
         }
         session.removeAttribute("findId:memberId");
 
@@ -104,7 +104,7 @@ public class MemberController {
         HttpSession session = request.getSession(false);
         String email = (String) session.getAttribute("findPassword:email");
         if (session == null || email == null) {
-            return "redirect:/members/find-password";
+            return "redirect:/member/find-password";
         }
 
         model.addAttribute("email", email);
@@ -119,7 +119,7 @@ public class MemberController {
         HttpSession session = request.getSession(false);
         String email = (String) session.getAttribute("findPassword:email");
         if (session == null || email == null) {
-            return "redirect:/members/find-password";
+            return "redirect:/member/find-password";
         }
         session.removeAttribute("findPassword:email");
 
@@ -136,24 +136,24 @@ public class MemberController {
     private void validateJoin(JoinMemberForm form, BindingResult bindingResult) {
         if (StringUtils.hasText(form.getPassword())) {
             if (!form.getPassword().equals(form.getPasswordConfirm())) {
-                bindingResult.rejectValue("passwordConfirm", "mismatch");
+                bindingResult.rejectValue("passwordConfirm", "passwordConfirm.mismatch");
             }
         }
 
         if (StringUtils.hasText(form.getZipCode()) && StringUtils.hasText(form.getBasicAddress())) {
             if (!Pattern.matches("^[\\d]{5}$", form.getZipCode()) || !Pattern.matches("^[가-힣\\d\\W]{1,40}$", form.getBasicAddress())) {
-                bindingResult.rejectValue("zipCode", "invalid");
+                bindingResult.rejectValue("zipCode", "address.invalid");
             }
         } else {
-            bindingResult.rejectValue("zipCode", "required");
+            bindingResult.rejectValue("zipCode", "address.required");
         }
 
         if (StringUtils.hasText(form.getPhonenumber1()) && StringUtils.hasText(form.getPhonenumber2()) && StringUtils.hasText(form.getPhonenumber3())) {
             if (!Pattern.matches("^01(0|1|[6-9])$", form.getPhonenumber1()) || !Pattern.matches("^[\\d]{3,4}$", form.getPhonenumber2()) || !Pattern.matches("^[\\d]{4}$", form.getPhonenumber3())) {
-                bindingResult.rejectValue("phonenumber1", "invalid");
+                bindingResult.rejectValue("phonenumber1", "phonenumber.invalid");
             }
         } else {
-            bindingResult.rejectValue("phonenumber1", "required");
+            bindingResult.rejectValue("phonenumber1", "phonenumber.required");
         }
     }
 }

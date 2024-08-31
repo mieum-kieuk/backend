@@ -88,7 +88,7 @@ function isLoginIdValid() {
 
     $.ajax({
         type: 'POST',
-        url: '/ajax/members/check/loginId',
+        url: '/ajax/member/check/loginId',
         data: {loginId: loginId},
         beforeSend: function (xhr) {
             xhr.setRequestHeader(csrfHeader, csrfToken);
@@ -247,7 +247,7 @@ function isEmailValid() {
 
     $.ajax({
         type: 'POST',
-        url: '/ajax/members/check/email',
+        url: '/ajax/member/check/email',
         data: {email: email},
         beforeSend: function (xhr) {
             xhr.setRequestHeader(csrfHeader, csrfToken);
@@ -290,7 +290,7 @@ function regexEmail() {
     let email = $('#email').val();
     let regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!regex.test(email)) {
-        $('#emailMsg').text('유효한 이메일을 입력해 주세요.');
+        $('#emailMsg').text('이메일 입력해 주세요.');
         $('#emailMsg').removeClass('success').addClass('error');
         return false;
     }
@@ -331,7 +331,7 @@ function regexPhone() {
     if (regex1.test(phonenumber2) && regex2.test(phonenumber3)) {
         return true;
     } else {
-        $('#phoneNumberMsg').text('유효한 휴대전화번호를 입력해 주세요.');
+        $('#phoneNumberMsg').text('휴대전화번호 형식으로 입력해주세요.');
         $('#phoneNumberMsg').removeClass('success').addClass('error');
         return false;
     }
@@ -378,7 +378,7 @@ function requestVerificationCode() {
 
     $.ajax({
         type: 'POST',
-        url: '/ajax/members/send/verificationNo',
+        url: '/ajax/member/send/verificationNo',
         data: {phonenumber1: phonenumber1, phonenumber2: phonenumber2, phonenumber3: phonenumber3},
         dataType: 'json',
         beforeSend: function (xhr) {
@@ -449,7 +449,7 @@ function isVerificationValid() {
 
     $.ajax({
         type: 'POST',
-        url: '/ajax/members/check/verificationNo',
+        url: '/ajax/member/check/verificationNo',
         data: {
             phonenumber1: phonenumber1,
             phonenumber2: phonenumber2,
@@ -548,7 +548,7 @@ function validateBeforeSubmit() {
         return false;
     } else if (!regexPassword()) {
         Swal.fire({
-            text: '8~16자의 영문 대/소문자, 숫자, 특수문자 조합을 사용해 주세요.',
+            html: '8~16자의 영문 대/소문자, 숫자, 특수문자 조합을<br/>사용해 주세요.',
             showConfirmButton: true,
             confirmButtonText: '확인',
             customClass: mySwal,
@@ -679,7 +679,8 @@ function validateBeforeSubmit() {
             text: '이용약관 동의를 확인해 주세요.',
             showConfirmButton: true,
             confirmButtonText: '확인',
-            customClass: mySwal
+            customClass: mySwal,
+            buttonsStyling: false
         });
         return false;
     }
@@ -690,7 +691,8 @@ function validateBeforeSubmit() {
             text: '개인정보 수집 및 이용 동의를 확인해 주세요.',
             showConfirmButton: true,
             confirmButtonText: '확인',
-            customClass: mySwal
+            customClass: mySwal,
+            buttonsStyling: false
         });
         return false;
     }

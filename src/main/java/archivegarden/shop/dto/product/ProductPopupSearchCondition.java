@@ -1,4 +1,4 @@
-package archivegarden.shop.dto.community.inquiry;
+package archivegarden.shop.dto.product;
 
 import lombok.Getter;
 import lombok.Setter;

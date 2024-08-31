@@ -23,7 +23,7 @@ $('.submit_btn').click(function () {
         let email = $('#email').val();
 
         $.ajax({
-            url: '/ajax/members/find-id/email',
+            url: '/ajax/member/find-id/email',
             type: 'POST',
             data: {name: name, email: email},
             beforeSend: function (xhr) {
@@ -58,7 +58,7 @@ $('.submit_btn').click(function () {
 
         // 휴대전화로 데이터 가져오기
         $.ajax({
-            url: '/ajax/members/find-id/phonenumber',
+            url: '/ajax/member/find-id/phonenumber',
             type: 'POST',
             data: {name: name, phonenumber: phonenumber},
             beforeSend: function (xhr) {
