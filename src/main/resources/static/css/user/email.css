@@ -1,0 +1,11 @@
+#verification {
+    margin: 50px 0 0 50px;
+    color: #222;
+    line-height: 1.5;
+}
+.verification_tit {
+    margin-bottom: 20px;
+}
+.verification_txt a {
+    text-decoration: underline;
+}

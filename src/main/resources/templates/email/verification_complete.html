@@ -4,25 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>이메일 인증 완료 | 미음키읔</title>
-    <meta property="og:type" content="website"/>
-    <meta property="og:title" content="Archivegarden"/>
-    <meta property="og:description" content=""/>
-    <meta property="og:image" content=""/>
-    <meta property="og:url" content=""/>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../../static/css/comm.css" th:href="@{/css/comm.css}"/>
-    <link rel="stylesheet" href="../../static/css/verification.css" th:href="@{/css/verification.css}"/>
+    <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../static/css/common/comm.css" th:href="@{/css/common/comm.css}"/>
+    <link rel="stylesheet" href="../../static/css/user/email.css" th:href="@{/css/user/email.css}"/>
 </head>
 <body>
-<div id="verification" class="verification_center">
+<div id="verification">
     <div class="verification_wrap">
-        <h2 class="verification_tit">이미 이메일 인증을 완료하셨습니다.</h2>
-        <div class="btn_wrap">
-            <button type="button" class="btn1 home_btn" onclick="location.href='../login.html'"
-                    th:onclick="|location.href='@{/login}'|">로그인 하러가기
-            </button>
+        <h2 class="verification_tit">이메일 인증 완료</h2>
+        <div class="verification_txt">
+            <p>이미 이메일 인증을 완료하셨습니다.</p>
+            <p><a href="../login.html" th:href="@{/login}">로그인</a> 후 다양한 서비스를 이용하실 수 있습니다. 감사합니다.</p>
         </div>
     </div>
 </div>
