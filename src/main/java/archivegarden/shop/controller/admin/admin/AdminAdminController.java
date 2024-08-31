@@ -108,8 +108,8 @@ public class AdminAdminController {
     }
 
     /**
-     * 관리자 검색 조건 유효성 검증을 수행하는 메서드
-     * - 시작일시, 종료일시 확인
+     * 기간 검색 조건 유효성 검증을 수행하는 메서드
+     * - 시작일시, 종료일시: 유효한 날짜인지 검사합니다.
      */
     private String validateDate(LocalDate startDate, LocalDate endDate) {
         if(startDate == null && endDate != null) {

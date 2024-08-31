@@ -21,8 +21,8 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class AdminAdminService {
 
-    private final PasswordEncoder passwordEncoder;
     private final EmailService emailService;
+    private final PasswordEncoder passwordEncoder;
     private final AdminAdminRepository adminRepository;
 
     /**
@@ -64,26 +64,6 @@ public class AdminAdminService {
     }
 
     /**
-     * 비밀번호 암호화
-     */
-    private void encodePassword(JoinAdminForm form) {
-        String encodedPassword = passwordEncoder.encode(form.getPassword());
-        form.setPassword(encodedPassword);
-    }
-
-    /**
-     * 중복 관리자 검증
-     *
-     * @throws IllegalStateException
-     */
-    private void validateDuplicateAdmin(JoinAdminForm form) {
-        adminRepository.findDuplicateAdmin(form.getLoginId(), form.getEmail())
-                .ifPresent(a -> {
-                    throw new IllegalStateException("이미 존재하는 관리자입니다.");
-                });
-    }
-
-    /**
      * 관리자 목록 조회
      */
     @Transactional(readOnly = true)
@@ -111,5 +91,25 @@ public class AdminAdminService {
         admin.authorize();
 
         emailService.sendAuthComplete(admin.getEmail(), admin.getName());
+    }
+
+    /**
+     * 비밀번호 암호화
+     */
+    private void encodePassword(JoinAdminForm form) {
+        String encodedPassword = passwordEncoder.encode(form.getPassword());
+        form.setPassword(encodedPassword);
+    }
+
+    /**
+     * 중복 관리자 검증
+     *
+     * @throws IllegalStateException
+     */
+    private void validateDuplicateAdmin(JoinAdminForm form) {
+        adminRepository.findDuplicateAdmin(form.getLoginId(), form.getEmail())
+                .ifPresent(a -> {
+                    throw new IllegalStateException("이미 존재하는 관리자입니다.");
+                });
     }
 }

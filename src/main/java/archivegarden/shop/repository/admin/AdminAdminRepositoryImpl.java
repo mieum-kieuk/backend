@@ -1,7 +1,7 @@
 package archivegarden.shop.repository.admin;
 
 import archivegarden.shop.dto.admin.admin.AdminListDto;
-import archivegarden.shop.dto.admin.AdminSearchForm;
+import archivegarden.shop.dto.admin.AdminSearchCondition;
 import archivegarden.shop.dto.admin.admin.QAdminListDto;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -31,7 +31,7 @@ public class AdminAdminRepositoryImpl implements AdminAdminRepositoryCustom {
     }
 
     @Override
-    public Page<AdminListDto> findDtoAll(AdminSearchForm form, Pageable pageable) {
+    public Page<AdminListDto> findDtoAll(AdminSearchCondition form, Pageable pageable) {
         List<AdminListDto> content = queryFactory.select(new QAdminListDto(
                         admin.id,
                         admin.name,
