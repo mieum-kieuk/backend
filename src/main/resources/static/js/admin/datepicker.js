@@ -21,6 +21,10 @@ function setSearchDate(days) {
         $('#startDate').datepicker('setDate', formatDate(startDate));
         $('#endDate').datepicker('setDate', formatDate(endDate));
     }
+    $('.hasDatepicker').attr('readonly', true).on('click', function () {
+        $(this).hasDatepicker('show');
+    });
+    $('.hasDatepicker').css('pointer-events', 'auto');
 }
 
 function formatDate(date) {

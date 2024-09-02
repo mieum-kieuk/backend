@@ -20,13 +20,12 @@ function setupDateTimePicker() {
         format: 'Y-m-d H:i',
         step: 5,
         minDate: 0,
-        minTime: 0,
-        onShow: function (ct) {
-            this.setOptions({
-                minTime: 0 // 선택된 날짜가 오늘인 경우, 현재 시간 이후만 선택 가능
-            });
-        }
+
     });
+    $('.datetimepicker').attr('readonly', true).on('click', function () {
+        $(this).datetimepicker('show');
+    });
+    $('.datetimepicker').css('pointer-events', 'auto');
 }
 
 function setupDate() {
@@ -127,11 +126,11 @@ function addItems() {
         $.ajax({
             type: 'POST',
             url: '/ajax/',
-            data:
+            // data:,
             success: function (response) {
                 if (response.hasDiscount) {
                     Swal.fire({
-                            text: "이미 적용된 할인이 있습니다. 변경하시겠습니까?",
+                        text: "이미 적용된 할인이 있습니다. 변경하시겠습니까?",
                         showCancelButton: true,
                         cancelButtonText: '아니요',
                         confirmButtonText: '예',

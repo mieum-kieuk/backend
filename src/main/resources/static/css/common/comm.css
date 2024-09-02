@@ -117,6 +117,9 @@ select:focus {
 select[readonly] {
   pointer-events: none;
 }
+input[readonly] {
+  pointer-events: none;
+}
 textarea:focus {
   outline: none;
 }

@@ -14,16 +14,16 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css">
-    <link rel="stylesheet" href="../../../../css/comm.css">
-    <link rel="stylesheet" href="../../../../css/admin_form.css">
-    <link rel="stylesheet" href="../../../../css/list.css">
+    <link rel="stylesheet" href="../../../../css/common/comm.css">
+    <link rel="stylesheet" href="../../../../css/admin/admin.css">
+    <link rel="stylesheet" href="../../../../css/admin/list.css">
     <link rel="stylesheet" type="text/css" media="screen"
           href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.js"></script>
-    <script defer src="../../../../js/comm.js"></script>
-    <script defer src="../../../../js/adminDiscount.js"></script>
+    <script defer src="../../../../js/common/comm.js"></script>
+    <script defer src="../../../../js/admin/discount.js"></script>
 </head>
 <body>
 <div class="admin_wrap">
@@ -73,13 +73,13 @@
                     </ul>
                 </li>
                 <li data-path="admins">
-                    <a href="../../admins/admins_list.html">관리자 관리</a>
+                    <a href="../../admin/admin_list.html">관리자 관리</a>
                 </li>
             </ul>
         </div>
         <div class="side_menu account">
             <ul>
-                <li><a href="../../admins/admin_login.html">로그인</a></li>
+                <li><a href="../../login.html">로그인</a></li>
                 <li>
                     <button class="login_btn">로그아웃</button>
                 </li>
@@ -99,13 +99,13 @@
                         <span class="label">할인 기간</span>
                         <div class="discount_cont period">
                             <div class="input_box_wrap">
-                                <input type='text' id="startedAt" class='datetimepicker'
-                                       name='startedAt' placeholder="시작일시">
+                                <input type="text" id="startedAt" class="datetimepicker"
+                                       name="startedAt" placeholder="시작일시" >
                             </div>
                             <span class="tilde">~</span>
                             <div class="input_box_wrap">
-                                <input type='text' id="expiredAt" class='datetimepicker' name='expiredAt'
-                                       placeholder="종료일시">
+                                <input type="text" id="expiredAt" class="datetimepicker" name="expiredAt"
+                                       placeholder="종료일시" >
                             </div>
                         </div>
                     </div>
