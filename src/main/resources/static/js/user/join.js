@@ -320,6 +320,7 @@ function isPhoneEmpty() {
         return false;
     }
 
+    $('#phoneNumberMsg').removeClass('error').addClass('success');
     return true;
 }
 
@@ -335,6 +336,8 @@ function regexPhone() {
         $('#phoneNumberMsg').removeClass('success').addClass('error');
         return false;
     }
+    $('#phoneNumberMsg').removeClass('error').addClass('success');
+
 }
 function isAddressEmpty() {
     let zipCode = $('#zipCode').val().trim();
