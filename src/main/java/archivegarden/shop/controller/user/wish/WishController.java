@@ -1,4 +1,4 @@
-package archivegarden.shop.controller;
+package archivegarden.shop.controller.user.wish;
 
 import archivegarden.shop.dto.mypage.MyWishDto;
 import archivegarden.shop.entity.Member;
@@ -8,11 +8,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequiredArgsConstructor
@@ -31,23 +32,7 @@ public class WishController {
 
     @GetMapping("/mypage/wish/{wishId}/delete")
     public String deleteWish(@PathVariable("wishId") Long wishId) {
-        wishService.delete(wishId);
+        wishService.removeById(wishId);
         return "redirect:/mypage/wish";
-    }
-
-    @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("#loginMember.loginId == principal.username")
-    @ResponseBody
-    @PostMapping("/api/wish/add")
-    public void addWish(@RequestParam("productId") Long productId, @CurrentUser Member loginMember) {
-        wishService.add(productId, loginMember.getId());
-    }
-
-    @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("#loginMember.loginId == principal.username")
-    @ResponseBody
-    @PostMapping("/api/wish/remove")
-    public void removeWish(@RequestParam("productId") Long productId, @CurrentUser Member loginMember) {
-        wishService.remove(productId, loginMember.getId());
     }
 }

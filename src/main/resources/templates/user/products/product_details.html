@@ -23,6 +23,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.js"></script>
     <script defer src="../../../static/js/common/comm.js" th:src="@{/js/common/comm.js}"></script>
     <script defer src="../../../static/js/user/product.js" th:src="@{/js/user/product.js}"></script>
+    <script defer src="../../../static/js/user/wish.js" th:src="@{/js/user/wish.js}"></script>
     <script defer src="../../../static/js/review.js" th:src="@{/js/review.js}"></script>
 </head>
 <body>
@@ -471,59 +472,5 @@
     </div>
     <div th:replace="~{/layout/footer :: basic_footer}"></div>
 </div>
-<script th:inline="javascript">
-    let csrfToken = $("meta[name='_csrf']").attr("content");
-    let csrfHeader = $("meta[name='_csrf_header']").attr("content");
-
-    // $('.wish').click(function () {
-    //
-    //     let heart = $(this);
-    //     let productId = heart.attr('id');
-    //
-    //     if (heart.hasClass('filled')) {
-    //         $.ajax({
-    //             url: '/api/wish/remove',
-    //             type: 'POST',
-    //             data: {productId: productId},
-    //             beforeSend: function (xhr) {
-    //                 xhr.setRequestHeader(csrfHeader, csrfToken);
-    //                 xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-    //             },
-    //             success: function () {
-    //                 heart.removeClass('filled');
-    //             },
-    //             statusCode: {
-    //                 401: function() {
-    //                     window.location.href = '/login';
-    //                 },
-    //                 400: function() {
-    //                     alert("요청사항 진행 중 오류가 발생했습니다.\n다시 시도해 주세요.");
-    //                 }
-    //             }
-    //         })
-    //     } else {
-    //         $.ajax({
-    //             type: 'POST',
-    //             url: '/api/wish/add',
-    //             data: {productId: productId},
-    //             beforeSend: function (xhr) {
-    //                 xhr.setRequestHeader(csrfHeader, csrfToken);
-    //                 xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-    //             },
-    //             success: function () {
-    //                 heart.addClass('filled')
-    //             },
-    //             statusCode: {
-    //                 401: function() {
-    //                     window.location.href = '/login';
-    //                 },
-    //                 400: function() {
-    //                     alert("요청사항 진행 중 오류가 발생했습니다.\n다시 시도해 주세요.");
-    //                 }
-    //             }
-    //         })
-    //     }
-    // });
-</script>
 </body>
 </html>

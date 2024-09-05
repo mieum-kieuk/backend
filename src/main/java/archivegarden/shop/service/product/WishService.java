@@ -5,10 +5,9 @@ import archivegarden.shop.entity.Member;
 import archivegarden.shop.entity.Product;
 import archivegarden.shop.entity.Wish;
 import archivegarden.shop.exception.NoSuchWishException;
-import archivegarden.shop.exception.ajax.NoSuchMemberAjaxException;
-import archivegarden.shop.exception.ajax.NoSuchProductAjaxException;
+import archivegarden.shop.exception.ajax.AjaxNotFoundException;
 import archivegarden.shop.repository.member.MemberRepository;
-import archivegarden.shop.repository.shop.ProductRepository;
+import archivegarden.shop.repository.product.ProductRepository;
 import archivegarden.shop.repository.wish.WishRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -48,38 +47,30 @@ public class WishService {
     }
 
     /**
-     * 위시 추가
+     * 위시리스트에 상품 추가
      *
-     * @throws NoSuchProductAjaxException
-     * @throws NoSuchMemberAjaxException
+     * @throws AjaxNotFoundException
      */
     public Long add(Long productId, Long memberId) {
-        //회원, 상품 엔티티 조회
-        Product product = productRepository.findById(productId).orElseThrow(() -> new NoSuchProductAjaxException("존재하지 않는 상품입니다."));
-        Member member = memberRepository.findById(memberId).orElseThrow(() -> new NoSuchMemberAjaxException("존재하지 않는 회원입니다."));
+        Product product = productRepository.findById(productId).orElseThrow(() -> new AjaxNotFoundException("존재하지 않는 상품입니다."));
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new AjaxNotFoundException("존재하지 않는 회원입니다."));
 
-        //위시 엔티티 생성
         Wish wish = Wish.builder()
                 .member(member)
                 .product(product)
                 .build();
-
-        //위시 엔티티 저장
         wishRepository.save(wish);
 
         return wish.getId();
     }
 
     /**
-     * 위시 삭제
+     * 위시리스트에 상품 삭제
      *
      * @throws NoSuchElementException
      */
     public void remove(Long productId, Long memberId) {
-        //위시 조회
-        Wish wish = wishRepository.findWish(productId, memberId).orElseThrow(() -> new NoSuchElementException("존재하지 않는 위시입니다."));
-
-        //위시 삭제
+        Wish wish = wishRepository.findWish(productId, memberId).orElseThrow(() -> new AjaxNotFoundException("존재하지 않는 위시입니다."));
         wishRepository.delete(wish);
     }
 
@@ -88,7 +79,7 @@ public class WishService {
      *
      * @throws NoSuchWishException
      */
-    public void delete(Long wishId) {
+    public void removeById(Long wishId) {
         //위시 조회
         Wish wish = wishRepository.findById(wishId).orElseThrow(() -> new NoSuchElementException("존재하지 않는 위시입니다."));
 

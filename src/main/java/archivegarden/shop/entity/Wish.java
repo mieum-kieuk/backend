@@ -19,11 +19,11 @@ public class Wish {
     private Long id;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;  //다대일 단방향
+    @JoinColumn(name = "member_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    private Member member;  //다대일 양방향
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "product_id")
+    @JoinColumn(name = "product_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Product product;    //다대일 단방향
 
     //==생성자==//
