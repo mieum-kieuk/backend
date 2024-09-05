@@ -1,7 +1,7 @@
-package archivegarden.products.controller;
+package archivegarden.shop.controller;
 
-import archivegarden.products.dto.product.ProductListDto;
-import archivegarden.products.service.product.ProductService;
+import archivegarden.shop.dto.product.ProductListDto;
+import archivegarden.shop.service.product.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+
 
 @Controller
 @RequiredArgsConstructor
@@ -25,7 +26,7 @@ public class HomeController {
         return "index";
     }
 
-    @GetMapping("user/search")
+    @GetMapping("/search")
     public String search(@RequestParam(name = "keyword") String keyword, @RequestParam(value = "page", defaultValue = "1") Integer page, Model model) {
         PageRequest pageRequest = PageRequest.of(page - 1, 12);
         Page<ProductListDto> products = productService.searchProducts(keyword, pageRequest);
