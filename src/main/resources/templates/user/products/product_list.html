@@ -10,11 +10,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
-    <link rel="stylesheet" href="../../static/css/common/comm.css" th:href="@{/css/common/comm.css}"/>
-    <link rel="stylesheet" href="../../static/css/product_list.css" th:href="@{/css/product_list.css}"/>
+    <link rel="stylesheet" href="../../../static/css/common/comm.css" th:href="@{/css/common/comm.css}"/>
+    <link rel="stylesheet" href="../../../static/css/user/product_list.css" th:href="@{/css/user/product_list.css}"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script defer src="../../static/js/common/comm.js" th:src="@{/js/common/comm.js}"></script>
-    <script defer src="../../static/js/product.js" th:src="@{/js/product.js}"></script>
+    <script defer src="../../../static/js/common/comm.js" th:src="@{/js/common/comm.js}"></script>
+    <script defer src="../../../static/js/user/product.js" th:src="@{/js/user/product.js}"></script>
 </head>
 <body>
 <div class="wrap">
@@ -47,7 +47,7 @@
                 <ul class="prd_list">
                     <li th:each="product : ${products}">
                         <div class="thumb">
-                            <a href="./product_details.html"
+                            <a href="product_details.html"
                                th:href="@{/products/{productId}(productId=${product.id})}">
                                 <img class="thumb1" th:src="${product.displayImageUrls[0]}|" alt="제품 이미지">
                                 <img class="thumb2" th:if="${product.displayImageUrls.size() == 2}"
@@ -56,7 +56,7 @@
                         </div>
                         <div class="description">
                             <div class="prd_name">
-                                <a href="./product_details.html" th:href="@{/products/{productId}(productId=${product.id})}">
+                                <a href="product_details.html" th:href="@{/products/{productId}(productId=${product.id})}">
                                     <span th:text="${product.name}">Masking Tape01</span></a>
                             </div>
                             <ul class="prd_price">

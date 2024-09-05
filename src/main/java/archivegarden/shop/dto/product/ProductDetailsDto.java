@@ -1,7 +1,7 @@
 package archivegarden.shop.dto.product;
 
+import archivegarden.shop.dto.admin.product.product.ProductImageDto;
 import archivegarden.shop.entity.Discount;
-import archivegarden.shop.entity.ImageType;
 import archivegarden.shop.entity.Product;
 import lombok.Getter;
 
@@ -20,15 +20,16 @@ public class ProductDetailsDto {
     private int discountPercent;
     private String salePrice;
     private boolean isSoldOut;
-    private int point;
+    private long point;
     private String details;
     private String sizeGuide;
     private String shipping;
     private String notice;
-    private List<String> displayImages = new ArrayList<>();
-    private List<String> detailsImages = new ArrayList<>();
+    private String displayImageUrl;
+    private String hoverImageUrl;
+    private List<String> detailsImageUrls = new ArrayList<>();
 
-    public ProductDetailsDto(Product product) {
+    public ProductDetailsDto(Product product, List<ProductImageDto> productImageDtos) {
         this.id = product.getId();
         this.name = product.getName();
         this.category = product.getCategory().getDisplayName();
@@ -40,7 +41,7 @@ public class ProductDetailsDto {
             this.discountPercent = discount.getDiscountPercent();
             double salePriceDouble = product.getPrice() - (double) product.getPrice() * discount.getDiscountPercent() / 100;
             this.salePrice = new DecimalFormat("###,###원").format(Math.round(salePriceDouble));
-//            this.point =  Math.round(salePriceDouble));
+            this.point = Math.round(salePriceDouble);
         } else {
             this.point = Math.round((float)product.getPrice() / 100);
         }
@@ -53,12 +54,12 @@ public class ProductDetailsDto {
         sizeGuide = product.getSizeGuide();
         shipping = product.getShipping();
         notice = product.getNotice();
-        product.getProductImages().forEach(image -> {
-            if (image.getImageType() == ImageType.DISPLAY) {
-                this.displayImages.add(image.getStoreImageName());
-            } else {
-                this.detailsImages.add(image.getStoreImageName());
+        for (ProductImageDto image : productImageDtos) {
+            switch (image.getImageType()) {
+                case DISPLAY -> this.displayImageUrl = image.getImageUrl();
+                case HOVER -> this.hoverImageUrl = image.getImageUrl();
+                case DETAILS -> this.detailsImageUrls.add(image.getImageUrl());
             }
-        });
+        }
     }
 }

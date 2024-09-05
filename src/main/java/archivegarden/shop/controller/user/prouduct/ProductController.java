@@ -1,7 +1,7 @@
-package archivegarden.shop.controller;
+package archivegarden.shop.controller.user.prouduct;
 
-import archivegarden.shop.dto.product.ProductPopupDto;
-import archivegarden.shop.dto.product.PopupProductSearchCondition;
+import archivegarden.shop.dto.product.ProductPopupResultDto;
+import archivegarden.shop.dto.product.ProductPopupSearchCondition;
 import archivegarden.shop.dto.product.ProductDetailsDto;
 import archivegarden.shop.dto.product.ProductListDto;
 import archivegarden.shop.dto.product.ProductSearchCondition;
@@ -25,6 +25,22 @@ public class ProductController {
     private final ProductService productService;
     private final WishService wishService;
 
+
+    /**
+     * 상품 상세 페이지를 조회하는 요청을 처리하는 메서드
+     */
+    @GetMapping("/{productId}")
+    public String product(@PathVariable("productId") Long productId, @CurrentUser Member loginMember, Model model) {
+        ProductDetailsDto productDto = productService.getProduct(productId);
+        boolean isWish = wishService.isWish(productId, loginMember);
+        model.addAttribute("product", productDto);
+        model.addAttribute("wish", isWish);
+        return "user/products/product_details";
+    }
+
+    /**
+     * 상품 목록을 조회하는 요청을 처리하는 메서드
+     */
     @GetMapping
     public String products(@ModelAttribute("condition") ProductSearchCondition condition,
                            @RequestParam(value = "page", defaultValue = "1") Integer page, Model model) {
@@ -35,23 +51,14 @@ public class ProductController {
         model.addAttribute("pathVariable", pathVariable);
         model.addAttribute("sortedCode", sortedCode);
         model.addAttribute("products", pageProducts);
-        return "product/product_list";
-    }
-
-    @GetMapping("/{productId}")
-    public String product(@PathVariable("productId") Long productId, @CurrentUser Member loginMember, Model model) {
-        ProductDetailsDto productDto = productService.getProduct(productId);
-        model.addAttribute("product", productDto);
-        boolean isWish = wishService.isWish(productId, loginMember);
-        model.addAttribute("wish", isWish);
-        return "product/product_details";
+        return "user/products/product_list";
     }
 
     @GetMapping("/search")
-    public String searchPopupProducts(@ModelAttribute("condition") PopupProductSearchCondition condition, Model model) {
+    public String searchPopupProducts(@ModelAttribute("condition") ProductPopupSearchCondition condition, Model model) {
         if (StringUtils.hasText(condition.getKeyword())) {
             PageRequest pageRequest = PageRequest.of(condition.getPage() - 1, condition.getLimit());
-            Page<ProductPopupDto> productPopupDtos = productService.getPopupProducts(condition.getKeyword(), pageRequest);
+            Page<ProductPopupResultDto> productPopupDtos = productService.getPopupProducts(condition.getKeyword(), pageRequest);
             model.addAttribute("products", productPopupDtos);
         } else {
             model.addAttribute("products", null);

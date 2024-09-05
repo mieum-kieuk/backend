@@ -1,9 +1,10 @@
 package archivegarden.shop.service.product;
 
+import archivegarden.shop.dto.admin.product.product.ProductImageDto;
 import archivegarden.shop.dto.order.OrderProductListDto;
 import archivegarden.shop.dto.product.ProductDetailsDto;
 import archivegarden.shop.dto.product.ProductListDto;
-import archivegarden.shop.dto.product.ProductPopupDto;
+import archivegarden.shop.dto.product.ProductPopupResultDto;
 import archivegarden.shop.dto.product.ProductSearchCondition;
 import archivegarden.shop.entity.Member;
 import archivegarden.shop.entity.Product;
@@ -66,20 +67,20 @@ public class ProductService {
      * @throws ProductNotFoundException
      */
     public ProductDetailsDto getProduct(Long productId) {
-        //Product 조회
         Product product = productRepository.findProduct(productId);
         if (product == null) {
             throw new ProductNotFoundException("존재하지 않는 상품입니다.");
         }
 
-        return new ProductDetailsDto(product);
+        List<ProductImageDto> productImageDtos = downloadProductImages(product);
+        return new ProductDetailsDto(product, productImageDtos);
     }
 
     /**
      * 팝업창
      * 상품 목록 조회 + 페이지네이션
      */
-    public Page<ProductPopupDto> getPopupProducts(String keyword, Pageable pageable) {
+    public Page<ProductPopupResultDto> getPopupProducts(String keyword, Pageable pageable) {
         return productRepository.findDtoAllPopup(keyword, pageable);
     }
 
@@ -119,5 +120,14 @@ public class ProductService {
                 .collect(Collectors.toList());
 
         return productListDtos;
+    }
+
+    private List<ProductImageDto> downloadProductImages(Product product) {
+        return product.getProductImages().stream()
+                .map(image -> {
+                    String encodedImage = productImageService.downloadImage(image.getImageUrl());
+                    return new ProductImageDto(image, encodedImage);
+                })
+                .collect(Collectors.toList());
     }
 }

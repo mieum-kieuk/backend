@@ -14,16 +14,16 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css">
-    <link rel="stylesheet" href="../../static/css/common/comm.css" th:href="@{/css/common/comm.css}"/>
-    <link rel="stylesheet" href="../../static/css/product_details.css" th:href="@{/css/product_details.css}"/>
-    <link rel="stylesheet" href="../../static/css/cart.css" th:href="@{/css/cart.css}"/>
-    <link rel="stylesheet" href="../../static/css/review.css" th:href="@{/css/review.css}"/>
-    <link rel="stylesheet" href="../../static/css/qna.css" th:href="@{/css/qna.css}"/>
+    <link rel="stylesheet" href="../../../static/css/common/comm.css" th:href="@{/css/common/comm.css}"/>
+    <link rel="stylesheet" href="../../../static/css/user/product_details.css" th:href="@{/css/user/product_details.css}"/>
+    <link rel="stylesheet" href="../../../static/css/cart.css" th:href="@{/css/cart.css}"/>
+    <link rel="stylesheet" href="../../../static/css/review.css" th:href="@{/css/review.css}"/>
+    <link rel="stylesheet" href="../../../static/css/qna.css" th:href="@{/css/qna.css}"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.js"></script>
-    <script defer src="../../static/js/common/comm.js" th:src="@{/js/common/comm.js}"></script>
-    <script defer src="../../static/js/product.js" th:src="@{/js/product.js}"></script>
-    <script defer src="../../static/js/review.js" th:src="@{/js/review.js}"></script>
+    <script defer src="../../../static/js/common/comm.js" th:src="@{/js/common/comm.js}"></script>
+    <script defer src="../../../static/js/user/product.js" th:src="@{/js/user/product.js}"></script>
+    <script defer src="../../../static/js/review.js" th:src="@{/js/review.js}"></script>
 </head>
 <body>
 <div class="wrap">
@@ -33,14 +33,14 @@
             <div class="prd_desc">
                 <div class="prd_left">
                     <div class="prd_img">
-                        <img th:src="|/productImages/${product.displayImages[0]}|" alt="제품 이미지">
+                        <img th:src="${product.displayImageUrl}" alt="제품 이미지">
                     </div>
                     <div class="prd_display">
                         <div class="display_img">
-                            <img th:src="|/productImages/${product.displayImages[0]}|" alt="제품 이미지">
+                            <img th:src="${product.displayImageUrl}" alt="제품 이미지">
                         </div>
-                        <div class="display_img" th:if="${product.displayImages.size() == 2}">
-                            <img th:src="|/productImages/${product.displayImages[1]}|" alt="제품 이미지">
+                        <div class="display_img" th:if="${product.hoverImageUrl} != null">
+                            <img th:src="${product.hoverImageUrl}" alt="제품 이미지">
                         </div>
                     </div>
                 </div>
@@ -74,7 +74,7 @@
                     <div class="buy_btn" th:unless="${product.isSoldOut}">
                         <button type="button" id="CartBtn" class="btn1 cart">장바구니에 담기</button>
                         <button type="button" id="BuyBtn" class="btn1 buy"
-                                onclick="location.href='../order/cart.html'" th:onclick="|location.href='@{/order/cart}'|">구매하기</button>
+                                onclick="location.href='../../order/cart.html'" th:onclick="|location.href='@{/order/cart}'|">구매하기</button>
                     </div>
                     <div class="sold_out_btn" th:if="${product.isSoldOut}">
                         <button type="button" id="SoldOutBtn" class="btn1 buy">
@@ -121,9 +121,9 @@
                 </div>
             </div>
             <div class="prd_detail">
-                <tr th:each="image : ${product.detailsImages}">
+                <tr th:each="detailsImageUrl : ${product.detailsImageUrls}">
                     <td>
-                        <img th:src="|/productImages/${image}|" alt="제품 상세 이미지">
+                        <img th:src="${detailsImageUrl}" alt="제품 상세 이미지">
                     </td>
                 </tr>
             </div>
