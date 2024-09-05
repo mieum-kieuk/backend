@@ -1,7 +1,7 @@
-package archivegarden.shop.controller;
+package archivegarden.products.controller;
 
-import archivegarden.shop.dto.product.ProductListDto;
-import archivegarden.shop.service.product.ProductService;
+import archivegarden.products.dto.product.ProductListDto;
+import archivegarden.products.service.product.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,13 +25,13 @@ public class HomeController {
         return "index";
     }
 
-    @GetMapping("/search")
+    @GetMapping("user/search")
     public String search(@RequestParam(name = "keyword") String keyword, @RequestParam(value = "page", defaultValue = "1") Integer page, Model model) {
         PageRequest pageRequest = PageRequest.of(page - 1, 12);
         Page<ProductListDto> products = productService.searchProducts(keyword, pageRequest);
         model.addAttribute("products", products);
         model.addAttribute("keyword", keyword);
-        return "search/search_complete";
+        return "user/search/search_complete";
     }
 
     @GetMapping("/about")
