@@ -19,9 +19,24 @@ $('.wish').click(function () {
             },
             error: function (xhr) {
                 if(xhr.status == 401) {
-                    alert("로그인이 필요한 서비스입니다.");
+                    Swal.fire({
+                        text: "로그인이 필요한 서비스입니다.",
+                        showConfirmButton: true,
+                        confirmButtonText: '확인',
+                        customClass: mySwal,
+                        buttonsStyling: false,
+                        preConfirm: () => {
+                            window.location.href = '/login';
+                        }
+                    });
                 } else {
-                    alert("요청사항 진행 중 오류가 발생했습니다.\n다시 시도해 주세요.");
+                    Swal.fire({
+                        html: "요청사항 진행 중 오류가 발생했습니다.<br>다시 시도해 주세요.",
+                        showConfirmButton: true,
+                        confirmButtonText: '확인',
+                        customClass: mySwal,
+                        buttonsStyling: false
+                    });
                 }
             }
         })
@@ -38,9 +53,24 @@ $('.wish').click(function () {
             },
             error: function (xhr) {
                 if(xhr.status == 401) {
-                    alert("로그인이 필요한 서비스입니다.");
+                    Swal.fire({
+                        text: "로그인이 필요한 서비스입니다.",
+                        showConfirmButton: true,
+                        confirmButtonText: '확인',
+                        customClass: mySwal,
+                        buttonsStyling: false,
+                        preConfirm: () => {
+                            window.location.href = '/login';
+                        }
+                    });
                 } else {
-                    alert("요청사항 진행 중 오류가 발생했습니다.\n다시 시도해 주세요.");
+                    Swal.fire({
+                        html: "요청사항 진행 중 오류가 발생했습니다.<br>다시 시도해 주세요.",
+                        showConfirmButton: true,
+                        confirmButtonText: '확인',
+                        customClass: mySwal,
+                        buttonsStyling: false
+                    });
                 }
             }
         })
@@ -58,7 +88,14 @@ function addCart(productId) {
             xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
         },
         success: function (message) {
-            alert(message);
+            Swal.fire({
+                text: message,
+                showConfirmButton: true,
+                confirmButtonText: '확인',
+                customClass: mySwal,
+                buttonsStyling: false
+            });
+
         },
         error: function() {
             window.location.href = '/login';
@@ -67,10 +104,21 @@ function addCart(productId) {
 }
 
 function deleteOk(wishId) {
-    if (!confirm('선택한 상품을 삭제하시겠습니까?')) {
-        return false;
-    } else {
-        window.location.href = '/mypage/wish/' + wishId + "/delete";
-        return true;
-    }
+    Swal.fire({
+        text: "선택한 상품을 삭제하시겠습니까?",
+        showCancelButton: true,
+        cancelButtonText: '아니요',
+        confirmButtonText: '예',
+        closeOnConfirm: false,
+        closeOnCancel: true,
+        customClass: mySwalConfirm,
+        reverseButtons: true,
+        buttonsStyling: false,
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.href = '/mypage/wish/' + wishId + "/delete";
+        } else {
+            return false;
+        }
+    })
 }
