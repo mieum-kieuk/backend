@@ -1,4 +1,4 @@
-package archivegarden.shop.controller;
+package archivegarden.shop.controller.user.community;
 
 import archivegarden.shop.dto.admin.help.notice.NoticeDetailsDto;
 import archivegarden.shop.dto.community.notice.NoticeSearchForm;
@@ -18,18 +18,24 @@ public class NoticeController {
 
     private final NoticeService noticeService;
 
+    /**
+     * 공지사항 상세 페이지를 조회하는 요청을 처리하는 메서드
+     */
     @GetMapping("/{noticeId}")
     public String notice(@PathVariable("noticeId") Long noticeId, Model model) {
         NoticeDetailsDto noticeDto = noticeService.getNotice(noticeId);
         model.addAttribute("notice", noticeDto);
-        return "community/notice/notice_details";
+        return "user/community/notice/notice_details";
     }
 
+    /**
+     * 공지사항 목록을 조회하는 요청을 처리하는 메서드
+     */
     @GetMapping
     public String notices(@RequestParam(name = "page", defaultValue = "1") int page, @ModelAttribute("form") NoticeSearchForm form, Model model) {
         PageRequest pageRequest = PageRequest.of(page - 1, 10);
         Page<NoticeListDto> noticeDtos = noticeService.getNotices(form, pageRequest);
         model.addAttribute("notices", noticeDtos);
-        return "community/notice/notice_list";
+        return "user/community/notice/notice_list";
     }
 }

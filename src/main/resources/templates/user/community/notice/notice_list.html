@@ -11,10 +11,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
-    <link rel="stylesheet" href="../../../static/css/comm.css" th:href="@{/css/comm.css}">
-    <link rel="stylesheet" href="../../../static/css/notice.css" th:href="@{/css/notice.css}">
+    <link rel="stylesheet" href="../../../../static/css/common/comm.css" th:href="@{/css/common/comm.css}">
+    <link rel="stylesheet" href="../../../../static/css/user/notice.css" th:href="@{/css/user/notice.css}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script defer src="../../../static/js/comm.js" th:src="@{/js/comm.js}"></script>
+    <script defer src="../../../../static/js/common/comm.js" th:src="@{/js/common/comm.js}"></script>
 </head>
 <body>
 <div class="wrap">
@@ -39,7 +39,7 @@
                 <tr th:each="notice, noticeStat : ${notices}">
                     <td th:text="${notices.totalElements - (notices.number * notices.pageable.pageSize) - noticeStat.index}"></td>
                     <td class="title_td">
-                        <a href="./notice_details.html" th:href="@{/community/notice/{noticeId}(noticeId=${notice.id})}">
+                        <a href="notice_details.html" th:href="@{/community/notice/{noticeId}(noticeId=${notice.id})}">
                             <span id="title" class="title" th:text="${notice.title}">제목</span>
                         </a>
                     </td>
@@ -51,10 +51,10 @@
             <div class="notice_foot">
                 <form id="noticeSearchForm" action="" th:action method="get">
                     <select id="searchDate" name="searchDate">
-                        <option value="week" th:selected="${form.searchDate} == 'week'">일주일</option>
-                        <option value="month" th:selected="${form.searchDate} == 'month'">한달</option>
-                        <option value="3month" th:selected="${form.searchDate} == '3month'">세달</option>
                         <option value="all" th:selected="${form.searchDate} == 'all'">전체</option>
+                        <option value="3month" th:selected="${form.searchDate} == '3month'">세달</option>
+                        <option value="month" th:selected="${form.searchDate} == 'month'">한달</option>
+                        <option value="week" th:selected="${form.searchDate} == 'week'">일주일</option>
                     </select>
                     <select id="searchKey" name="searchKey">
                         <option value="title" th:selected="${form.searchKey} == 'title'">제목</option>

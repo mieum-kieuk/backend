@@ -11,10 +11,10 @@
     <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
-    <link rel="stylesheet" href="../../../static/css/comm.css" th:href="@{/css/comm.css}">
-    <link rel="stylesheet" href="../../../static/css/qna.css" th:href="@{/css/qna.css}">
+    <link rel="stylesheet" href="../../../../static/css/common/comm.css" th:href="@{/css/common/comm.css}">
+    <link rel="stylesheet" href="../../../../static/css/qna.css" th:href="@{/css/qna.css}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script defer src="../../../static/js/comm.js" th:src="@{/js/comm.js}"></script>
+    <script defer src="../../../../static/js/common/comm.js" th:src="@{/js/common/comm.js}"></script>
     <script defer src="../../../static/js/productInquiry.js" th:src="@{/js/productInquiry.js}"></script>
 </head>
 <body>
@@ -33,7 +33,7 @@
                         </div>
                     </div>
                     <div class="qna_cont" id="content">
-                        <a href="../../product/product_details.html"
+                        <a href="../../products/product_details.html"
                            th:href="@{/shop/products/{productId}(productId=${inquiry.productId})}">
                             <div id="qnaItem" class="qna_item">
                                 <div class="thumbnail">
@@ -52,15 +52,15 @@
                 </div>
             </div>
             <div class="btn_wrap details right">
-                <button type="button" class="btn1" onclick="location.href='./edit_inquiry.html'"
+                <button type="button" class="btn1" onclick="location.href='edit_inquiry.html'"
                         th:onclick="|location.href='@{/community/inquiry/{inquiryId}/edit(inquiryId=${inquiry.id})}'|"
                         sec:authorize="hasRole('USER')" th:if="${#authentication.principal.username} == ${inquiry.writerLoginId}">수정
                 </button>
-                <button type="button" class="btn1" onclick="location.href='./inquiry_list.html'"
+                <button type="button" class="btn1" onclick="location.href='inquiry_list.html'"
                         th:onclick="|deleteOk(${inquiry.id})|"
                         sec:authorize="hasRole('USER')" th:if="${#authentication.principal.username} == ${inquiry.writerLoginId}">삭제
                 </button>
-                <button type="button" class="btn1 list_btn" onclick="location.href ='./inquiry_list.html'"
+                <button type="button" class="btn1 list_btn" onclick="location.href ='inquiry_list.html'"
                         th:onclick="|location.href='@{/community/inquiry}'|">목록
                 </button>
             </div>
