@@ -136,7 +136,10 @@
     background: #fff;
     cursor: pointer;
 }
-
+.prd_quantity .btn3.disabled {
+    cursor: default;
+    color: #d7d7d7;
+}
 .prd_total {
     display: flex;
     flex-direction: column;

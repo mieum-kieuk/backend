@@ -434,9 +434,9 @@ legend {
   text-align: left;
   font-size: 14px;
   transition: all 0.3s ease-in-out;
-  background: #fff;
+  background: transparent;
   width: 120px;
-  border: 0.5px solid #fff;
+  border: 0.5px solid transparent;
   border-radius: 3px;
 }
 .gnb_menu .account .depth2 {
@@ -627,7 +627,7 @@ legend {
   cursor: pointer;
 }
 .btn3.disabled {
-  cursor: default;
+  cursor: pointer;
   color: #d7d7d7;
 }
 .btn_wrap.center {
