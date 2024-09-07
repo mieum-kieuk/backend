@@ -14,7 +14,7 @@ import java.util.List;
 @Repository
 public interface CartRepository extends JpaRepository<Cart, Long> {
 
-    @Query("select c from Cart c where c.member = :member")
+    @Query("select c from Cart c join fetch c.product where c.member = :member")
     List<Cart> findAll(@Param("member") Member member);
 
     Cart findByMemberAndProduct(Member member, Product product);

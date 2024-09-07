@@ -196,7 +196,6 @@ function increaseCount(productId) {
             url: '/ajax/cart/increase',
             beforeSend: function (xhr) {
                 xhr.setRequestHeader(csrfHeader, csrfToken);
-                xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
             },
             data: {productId: productId},
             success: function (result) {
@@ -230,55 +229,53 @@ function increaseCount(productId) {
         increaseBtn.addClass('disabled');
     }
 }
-//상품 단건 삭제
-function deleteProduct(productId) {
-    Swal.fire({
-        text: '삭제하시겠습니까?',
-        showCancelButton: true,
-        cancelButtonText: '아니요',
-        confirmButtonText: '예',
-        closeOnConfirm: false,
-        closeOnCancel: true,
-        customClass: mySwalConfirm,
-        reverseButtons: true,
-        buttonsStyling: false,
-    }).then((result) => {
-        if (result.isConfirmed) {
-            $.ajax({
-                type: 'DELETE',
-                url: '/ajax/cart/' + productId + '/delete',
-                beforeSend: function (xhr) {
-                    xhr.setRequestHeader(csrfHeader, csrfToken);
-                    xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-                },
-                success: function (result) {
-                    if(result.code == 200) {
-                        location.reload();
-                    } else {
-                        Swal.fire({
-                            html: result.message.replace('\n', '<br>'),
-                            showConfirmButton: true,
-                            confirmButtonText: '확인',
-                            customClass: mySwal,
-                            buttonsStyling: false
-                        });
-                    }
-                },
-                error: function () {
-                    Swal.fire({
-                        html: '삭제 중 문제가 발생하였습니다.<br>다시 시도해주세요.',
-                        showConfirmButton: true,
-                        confirmButtonText: '확인',
-                        customClass: mySwal,
-                        buttonsStyling: false
-                    });
-                }
-            });
-        }
-    });
-}
+// //상품 단건 삭제
+// function deleteProduct(productId) {
+//     Swal.fire({
+//         text: '삭제하시겠습니까?',
+//         showCancelButton: true,
+//         cancelButtonText: '아니요',
+//         confirmButtonText: '예',
+//         customClass: mySwalConfirm,
+//         reverseButtons: true,
+//         buttonsStyling: false,
+//     }).then((result) => {
+//         if (result.isConfirmed) {
+//             $.ajax({
+//                 type: 'DELETE',
+//                 url: '/ajax/cart',
+//                 data: JSON.stringify(productId),
+//                 beforeSend: function (xhr) {
+//                     xhr.setRequestHeader(csrfHeader, csrfToken);
+//                 },
+//                 success: function (result) {
+//                     if(result.code == 200) {
+//                         location.reload();
+//                     } else {
+//                         Swal.fire({
+//                             html: result.message.replace('\n', '<br>'),
+//                             showConfirmButton: true,
+//                             confirmButtonText: '확인',
+//                             customClass: mySwal,
+//                             buttonsStyling: false
+//                         });
+//                     }
+//                 },
+//                 error: function () {
+//                     Swal.fire({
+//                         html: '삭제 중 문제가 발생하였습니다.<br>다시 시도해주세요.',
+//                         showConfirmButton: true,
+//                         confirmButtonText: '확인',
+//                         customClass: mySwal,
+//                         buttonsStyling: false
+//                     });
+//                 }
+//             });
+//         }
+//     });
+// }
 //상품 여러개 삭제
-function deleteProducts() {
+function deleteProducts(productId) {
     let productIds = [];
     let checkboxes = $('.cart_content input[type=checkbox]:checked');
 
@@ -293,30 +290,33 @@ function deleteProducts() {
         return false;
     } else {
         Swal.fire({
-            text: checkboxes.length + '개의 상품을 삭제하시겠습니까?',
+            text: productId == null ? checkboxes.length + '개의 상품을 삭제하시겠습니까?' : '선택하신 상품을 삭제하시겠습니까?',
             showCancelButton: true,
             cancelButtonText: '아니요',
             confirmButtonText: '예',
-            closeOnConfirm: false,
-            closeOnCancel: true,
             customClass: mySwalConfirm,
             reverseButtons: true,
             buttonsStyling: false,
         }).then((result) => {
             if (result.isConfirmed) {
-                checkboxes.each(function (v) {
-                    let productId = checkboxes[v].id.split('checkbox')[1];
+                console.log(productId)
+                console.log(productId == null)
+                if(productId == null) {
+                    checkboxes.each(function (v) {
+                        let productId = checkboxes[v].id.split('checkbox')[1];
+                        productIds.push(productId);
+                    });
+                } else {
                     productIds.push(productId);
-                });
+                }
 
                 $.ajax({
                     type: 'DELETE',
-                    url: '/ajax/cart/delete',
+                    url: '/ajax/cart',
                     contentType: 'application/json',
                     data: JSON.stringify(productIds),
                     beforeSend: function (xhr) {
                         xhr.setRequestHeader(csrfHeader, csrfToken);
-                        xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
                     },
                     success: function (result) {
                         if (result.code == 200) {
@@ -380,12 +380,11 @@ function deleteSoldOutProducts() {
 
                 $.ajax({
                     type: 'DELETE',
-                    url: '/ajax/cart/delete',
+                    url: '/ajax/cart',
                     contentType: 'application/json',
                     data: JSON.stringify(productIds),
                     beforeSend: function (xhr) {
                         xhr.setRequestHeader(csrfHeader, csrfToken);
-                        xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
                     },
                     success: function (result) {
                         if (result.code == 200) {

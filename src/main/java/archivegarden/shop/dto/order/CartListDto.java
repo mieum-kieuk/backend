@@ -15,27 +15,19 @@ public class CartListDto {
     private Long id;    //productId
     private String name;
     private int count;
-    private String displayImage;
-
-    private String price;    //상품 1개 정가
-
+    private String displayImageUrl;
+    private String price;
     private boolean isDiscounted;
     private boolean isSoldOut;
+    private int discountPercent;
+    private String salePrice;
+    private String totalPrice;
 
-    private int discountPercent;    //상품 할인율
-    private String salePrice;    //상품 1개 판매가
-    private String totalPrice;   //상품 1개 판매가 * 개수
-
-    public CartListDto(Product product, int count) {
+    public CartListDto(Product product, int count, String displayImageUrl) {
         this.id = product.getId();
         this.name = product.getName();
         this.count = count;
-
-        product.getProductImages().stream()
-                .filter(image -> image.getImageType() == ImageType.DISPLAY)
-                .findFirst()
-                .ifPresent(displayImage -> this.displayImage = displayImage.getStoreImageName());
-
+        this.displayImageUrl = displayImageUrl;
         this.price = new DecimalFormat("###,###원").format(product.getPrice());
 
         Discount discount = product.getDiscount();

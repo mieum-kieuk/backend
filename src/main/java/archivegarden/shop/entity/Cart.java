@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import static jakarta.persistence.ConstraintMode.NO_CONSTRAINT;
 import static jakarta.persistence.FetchType.LAZY;
 
 @Entity
@@ -21,11 +22,11 @@ public class Cart {
     private int count;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "member_id")
+    @JoinColumn(name = "member_id", foreignKey = @ForeignKey(NO_CONSTRAINT))
     private Member member;  //다대일 단방향
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "product_id")
+    @JoinColumn(name = "product_id", foreignKey = @ForeignKey(NO_CONSTRAINT))
     private Product product;    //다대일 단방향
 
     //==비즈니스 로직==//
