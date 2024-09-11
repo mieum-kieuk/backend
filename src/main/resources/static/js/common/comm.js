@@ -18,6 +18,7 @@ $(function () {
     let now = 0
     const slideCount = $('.main_slide > ul > li').length
     const slideList = $('.main_slide > ul > li')
+    slideList.hide().eq(now).show();
 
     setInterval(function () {
         let next = (now + 1) % slideCount
