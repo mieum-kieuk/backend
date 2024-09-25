@@ -11,19 +11,19 @@
         <div class="gnb_menu center">
             <ul class="depth1">
                 <li class="depth1_menu" id="shop">
-                    <a href="../product/product_list.html" th:href="@{/products}">Shop</a>
+                    <a href="../user/products/product_list.html" th:href="@{/products}">Shop</a>
                     <ul class="depth2">
-                        <li><a href="../product/product_list.html" th:href="@{/products(category='cafe')}">Cafe</a></li>
-                        <li><a href="../product/product_list.html" th:href="@{/products(category='ocean')}">Ocean</a></li>
-                        <li><a href="../product/product_list.html" th:href="@{/products(category='sunset')}">Sunset</a>
+                        <li><a href="../user/products/product_list.html" th:href="@{/products(category='cafe')}">Cafe</a></li>
+                        <li><a href="../user/products/product_list.html" th:href="@{/products(category='ocean')}">Ocean</a></li>
+                        <li><a href="../user/products/product_list.html" th:href="@{/products(category='sunset')}">Sunset</a>
                         </li>
                     </ul>
                 </li>
-                <li class="depth1_menu" id="about"><a href="../about/about.html" th:href="@{/about}">About</a></li>
+                <li class="depth1_menu" id="about"><a href="../user/about/about.html" th:href="@{/about}">About</a></li>
                 <li class="depth1_menu" id="community">Community
                     <ul class="depth2">
-                        <li><a href="../community/notice/notice_list.html" th:href="@{/community/notice}">공지사항</a></li>
-                        <li><a href="../community/inquiry/inquiry_list.html" th:href="@{/community/inquiry}">샹품문의</a></li>
+                        <li><a href="../user/community/notice/notice_list.html" th:href="@{/community/notice}">공지사항</a></li>
+                        <li><a href="../user/community/inquiry/inquiry_list.html" th:href="@{/community/inquiry}">샹품문의</a></li>
                         <li><a href="javascript:void(0)">상품후기</a></li>
                     </ul>
                 </li>
@@ -47,7 +47,7 @@
                     <li class="depth1_menu">Account
                         <ul class="depth2" sec:authorize="!hasRole('USER')">
                             <li><a href="../login.html" th:href="@{/login}">로그인</a></li>
-                            <li><a href="../members/join.html" th:href="@{/members/join}">회원가입</a></li>
+                            <li><a href="../user/member/join.html" th:href="@{/members/join}">회원가입</a></li>
                         </ul>
                         <ul class="depth2" sec:authorize="hasRole('USER')">
                             <li><a href="../mypage/mypage_home.html" th:href="@{/mypage}">주문 내역</a></li>
@@ -68,8 +68,8 @@
                 </ul>
             </div>
             <div class="cart">
-                <a sec:authorize="isAnonymous()" href="../order/cart.html" th:href="@{/cart}"id="cartLink">Cart</a>
-                <a sec:authorize="isAuthenticated()" href="../order/cart.html" th:href="@{/cart}" id="cartLink">Cart(0)</a>
+                <a sec:authorize="isAnonymous()" href="../user/order/cart.html" th:href="@{/cart}" id="cartLink">Cart</a>
+                <a sec:authorize="isAuthenticated()" href="../user/order/cart.html" th:href="@{/cart}" id="cartLink">Cart(0)</a>
             </div>
         </div>
     </nav>

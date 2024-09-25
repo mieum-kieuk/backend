@@ -11,11 +11,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css">
-    <link rel="stylesheet" href="../static/css/comm.css" th:href="@{/css/comm.css}"/>
-    <link rel="stylesheet" href="../static/css/product_list.css" th:href="@{/css/product_list.css}"/>
+    <link rel="stylesheet" href="../static/css/common/comm.css" th:href="@{/css/common/comm.css}"/>
+    <link rel="stylesheet" href="../static/css/user/product_list.css" th:href="@{/css/user/product_list.css}"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.js"></script>
-    <script defer src="../static/js/comm.js" th:src="@{/js/comm.js}"></script>
+    <script defer src="../static/js/common/comm.js" th:src="@{/js/common/comm.js}"></script>
 </head>
 <body>
 <div class="wrap">
@@ -25,7 +25,7 @@
             <div class="main_slide">
                 <ul>
                     <li><img src="../static/images/main1.jpg" th:src="@{/images/main1.jpg}" alt="메인이미지1"></li>
-                    <li><img src="../static/images/main2.jpg" th:src="@{/images/main2.jpg}" alt="메인이미지2"></li>
+                    <li><img src="../static/images/main2.jpeg" th:src="@{/images/main2.jpeg}" alt="메인이미지2"></li>
                 </ul>
             </div>
             <div>
@@ -35,22 +35,22 @@
                             <div class="thumb">
                                 <a href="./product_details.html"
                                    th:href="@{/products/{productId}(productId=${product.id})}">
-                                    <img class="thumb1" th:src="|/productImages/${product.displayImages[0]}|" alt="제품 이미지">
-                                    <img class="thumb2" th:if="${product.displayImages.size() == 2}"
-                                         th:src="|/productImages/${product.displayImages[1]}|" alt="제품 이미지">
+                                    <img class="thumb1" th:src="${product.displayImageUrls[0]}" alt="제품 이미지">
+                                    <img class="thumb2" th:if="${product.displayImageUrls.size() == 2}"
+                                         th:src="${product.displayImageUrls[1]}" alt="제품 이미지">
                                 </a>
                             </div>
                             <div class="description">
                                 <div class="prd_name">
                                     <a href="./product_details.html"
                                        th:href="@{/products/{productId}(productId=${product.id})}">
-                                        <span th:text="${product.name}">Masking Tape01</span></a>
+                                        <span th:text="${product.name}"></span></a>
                                 </div>
                                 <ul class="prd_price">
                                     <span class="original_price"
                                           th:classappend="${product.isDiscounted} ? 'line_through'" th:text="${product.price}"></span>
                                     <li th:if="${product.isDiscounted} and !${product.isSoldOut}" class="discount">
-                                        <span class="discount_rate">[[${product.discountPercent}]]%</span>
+                                        <span class="discount_rate" th:text="${product.discountPercent}"></span>
                                         <span class="discounted_price" th:text="${product.salePrice}"></span>
                                     </li>
                                     <li th:if="${product.isSoldOut}" class="soldout">

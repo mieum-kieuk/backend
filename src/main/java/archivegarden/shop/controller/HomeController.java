@@ -1,6 +1,6 @@
 package archivegarden.shop.controller;
 
-import archivegarden.shop.dto.product.ProductListDto;
+import archivegarden.shop.dto.user.product.ProductListDto;
 import archivegarden.shop.service.product.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -19,6 +19,9 @@ public class HomeController {
 
     private final ProductService productService;
 
+    /**
+     * 홈 페이지를 조회하는 요청을 처리하는 메서드
+     */
     @GetMapping
     public String home(Model model) {
         List<ProductListDto> products = productService.getMainProducts();
@@ -26,6 +29,9 @@ public class HomeController {
         return "index";
     }
 
+    /**
+     * 상품 검색 요청을 처리하는 메서드
+     */
     @GetMapping("/search")
     public String search(@RequestParam(name = "keyword") String keyword, @RequestParam(value = "page", defaultValue = "1") Integer page, Model model) {
         PageRequest pageRequest = PageRequest.of(page - 1, 12);
@@ -35,8 +41,11 @@ public class HomeController {
         return "user/search/search_complete";
     }
 
+    /**
+     * About 페이지 조회하는 요청을 처리하는 메서드
+     */
     @GetMapping("/about")
     public String about() {
-        return "about/about";
+        return "user/about/about";
     }
 }

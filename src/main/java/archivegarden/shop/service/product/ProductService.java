@@ -2,10 +2,9 @@ package archivegarden.shop.service.product;
 
 import archivegarden.shop.dto.admin.product.product.ProductImageDto;
 import archivegarden.shop.dto.order.OrderProductListDto;
-import archivegarden.shop.dto.product.ProductDetailsDto;
-import archivegarden.shop.dto.product.ProductListDto;
-import archivegarden.shop.dto.product.ProductPopupResultDto;
-import archivegarden.shop.dto.product.ProductSearchCondition;
+import archivegarden.shop.dto.user.product.ProductSearchCondition;
+import archivegarden.shop.dto.user.product.ProductDetailsDto;
+import archivegarden.shop.dto.user.product.ProductListDto;
 import archivegarden.shop.entity.Member;
 import archivegarden.shop.entity.Product;
 import archivegarden.shop.exception.NotFoundException;
@@ -35,16 +34,16 @@ public class ProductService {
     private final CartRepository cartRepository;
 
     /**
-     * 홈 화면
      * 최신 상품 9개 조회
      */
     public List<ProductListDto> getMainProducts() {
         List<Product> products = productRepository.findMainProducts();
-        return getProductListDto(products.stream());
+        List<ProductListDto> productListDto = getProductListDto(products.stream());
+        return productListDto;
     }
 
     /**
-     * 검색 + 페이지네이션
+     * 상품 검색
      */
     public Page<ProductListDto> searchProducts(String keyword, Pageable pageable) {
         Page<Product> productPages = productRepository.searchProducts(keyword, pageable);
@@ -53,7 +52,7 @@ public class ProductService {
     }
 
     /**
-     * 상품 목록 조회 + 페이지네이션
+     * 상품 목록 조회
      */
     public Page<ProductListDto> getProducts(ProductSearchCondition condition, Pageable pageable) {
         Page<Product> productPages = productRepository.findAllByCategory(condition, pageable);
@@ -80,9 +79,9 @@ public class ProductService {
      * 팝업창
      * 상품 목록 조회 + 페이지네이션
      */
-    public Page<ProductPopupResultDto> getPopupProducts(String keyword, Pageable pageable) {
-        return productRepository.findDtoAllPopup(keyword, pageable);
-    }
+//    public Page<ProductPopupResultDto> getPopupProducts(String keyword, Pageable pageable) {
+//        return productRepository.findDtoAllPopup(keyword, pageable);
+//    }
 
     /**
      * 주문하려는 상품 목록 조회

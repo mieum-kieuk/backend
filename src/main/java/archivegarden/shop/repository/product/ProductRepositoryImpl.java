@@ -1,9 +1,8 @@
 package archivegarden.shop.repository.product;
 
 import archivegarden.shop.dto.admin.product.product.AdminProductSearchCondition;
-import archivegarden.shop.dto.product.ProductPopupDto;
-import archivegarden.shop.dto.product.ProductSearchCondition;
-import archivegarden.shop.dto.product.QProductPopupDto;
+import archivegarden.shop.dto.user.product.ProductPopupDto;
+import archivegarden.shop.dto.user.product.ProductSearchCondition;
 import archivegarden.shop.entity.Category;
 import archivegarden.shop.entity.ImageType;
 import archivegarden.shop.entity.Product;
@@ -24,7 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static archivegarden.shop.entity.QAdmin.admin;
 import static archivegarden.shop.entity.QDiscount.discount;
 import static archivegarden.shop.entity.QProduct.product;
 import static archivegarden.shop.entity.QProductImage.productImage;
@@ -108,29 +106,30 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 
     @Override
     public Page<ProductPopupDto> findDtoAllPopup(String keyword, Pageable pageable) {
-        List<ProductPopupDto> content = queryFactory.select(new QProductPopupDto(
-                        product.id,
-                        product.name,
-                        product.price,
-                        productImage.imageUrl
-                ))
-                .from(product)
-                .leftJoin(product.productImages, productImage)
-                .on(
-                        product.id.eq(productImage.product.id),
-                        imageTypeDisplay()
-                )
-                .where(keywordLike(keyword))
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .fetch();
-
-        JPAQuery<Long> countQuery = queryFactory
-                .select(product.count())
-                .from(product)
-                .where(keywordLike(keyword));
-
-        return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
+//        List<ProductPopupDto> content = queryFactory.select(new QProductPopupDto(
+//                        product.id,
+//                        product.name,
+//                        product.price,
+//                        productImage.imageUrl
+//                ))
+//                .from(product)
+//                .leftJoin(product.productImages, productImage)
+//                .on(
+//                        product.id.eq(productImage.product.id),
+//                        imageTypeDisplay()
+//                )
+//                .where(keywordLike(keyword))
+//                .offset(pageable.getOffset())
+//                .limit(pageable.getPageSize())
+//                .fetch();
+//
+//        JPAQuery<Long> countQuery = queryFactory
+//                .select(product.count())
+//                .from(product)
+//                .where(keywordLike(keyword));
+//
+//        return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
+        return null;
     }
 
     @Override
