@@ -415,7 +415,7 @@ legend {
 }
 .depth1 .depth1_menu:hover .depth2 {
   padding: 10px 0;
-  max-height: 200px;
+  max-height: 220px;
   background: #fff;
   width: 120px;
   border: 0.5px solid #666;

@@ -43,7 +43,11 @@ $(document).ready(function () {
         let imgUrl = $(this).find('img').attr('src');
         $('.prd_img img').attr('src', imgUrl);
     });
-
+    if ($('#productList').length > 0) {
+        if ($('#productList #noDataMessage').length > 0) {
+            $('footer').addClass('fixed');
+        }
+    }
     // 페이지 로드 시 각 quant_input 요소의 초기 값을 확인하여 감소 버튼을 초기 상태로 설정
     $('.quant_input').each(function () {
         let currentValue = parseInt($(this).val());

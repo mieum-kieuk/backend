@@ -67,6 +67,14 @@
 .prd_list_wrap {
     display: flex;
     justify-content: center;
+    width: 100%;
+}
+.prd_list_wrap > #noDataMessage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin: 40px;
 }
 .prd_list {
     display: grid;

@@ -3,7 +3,9 @@ $(document).ready(function () {
     $('#popupBtn').click(function () {
         window.open("/products/search", "_blank", "width=600px,height=450px");
     });
-
+    if ($('.qna_list #noDataMessage').length > 0) {
+        $('.footer').addClass('fixed');
+    }
     // 상품후기, 상품문의
     let inquiryModal = $("#inquiryModal");
     let closeBtn = $(".close");
@@ -23,7 +25,7 @@ $(document).ready(function () {
         }
     });
 
-    $("#product .qna_wrap .edit_btn").click(function() {
+    $(" .qna_table .edit_btn").click(function() {
         let questionText = $(this).closest(".qna_question").find(".qna_text").text();
         let answerText = $(this).closest(".qna_content").find(".qna_answer").text();
 
@@ -33,6 +35,26 @@ $(document).ready(function () {
         $("#inquiryModal .submit_btn").text("완료");
         showInquiryModal();
     });
+
+    // $('#qnaType').change(function() {
+    //     var selectedValue = $(this).val();
+    //
+    //     if (selectedValue == "1") {
+    //         $('#qnaItem').addClass('active');
+    //         $('#orderItem').removeClass('active');
+    //     } else if (selectedValue == "2" || selectedValue == "3" || selectedValue == "4") {
+    //         $('#qnaItem').removeClass('active');
+    //         $('#orderItem').addClass('active');
+    //     } else {
+    //         $('#orderItem').removeClass('active');
+    //         $('#qnaItem').removeClass('active');
+    //     }
+    // });
+
+    // $(".qna_items").click(function() {
+    //     let currentContent = $(this).next(".qna_content");
+    //     toggleContent(currentContent);
+    // });
 });
 
 let csrfHeader = $("meta[name='_csrf_header']").attr("content");
@@ -48,11 +70,11 @@ function addAnswer(inquiryId) {
     let content = $('#cmtInput').val().trim()
 
     if (content !== '') {
-        // if ($('.comment .cmt_content').text().trim() !== '') {
-        //     if (!confirm('이미 작성된 답변이 있습니다. 기존의 답변을 덮어쓰시겠습니까?')) {
-        //         return;
-        //     }
-        // }
+        if ($('.comment .cmt_content').text().trim() !== '') {
+            if (!confirm('이미 작성된 답변이 있습니다. 기존의 답변을 덮어쓰시겠습니까?')) {
+                return;
+            }
+        }
 
         $.ajax({
             type: 'POST',
@@ -69,15 +91,33 @@ function addAnswer(inquiryId) {
                     $('#addCommentBtn').css('display', 'none');
                     loadAnswer(inquiryId);
                 } else {
-                    alert(data.message);
+                    Swal.fire({
+                        text: data.message,
+                        showConfirmButton: true,
+                        confirmButtonText: '확인',
+                        customClass: mySwal,
+                        buttonsStyling: false
+                    });
                 }
             },
             error: function () {
-                alert('요청을 처리하는 동안 오류가 발생했습니다. 다시 시도해 주세요.');
+                Swal.fire({
+                    html: "요청을 처리하는 동안 오류가 발생했습니다.<br>다시 시도해 주세요.",
+                    showConfirmButton: true,
+                    confirmButtonText: '확인',
+                    customClass: mySwal,
+                    buttonsStyling: false
+                });
             }
         });
     } else {
-        alert('답변을 작성해 주세요.');
+        Swal.fire({
+            text: "답변을 작성해 주세요.",
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
     }
 }
 
@@ -105,7 +145,13 @@ function loadAnswer(inquiryId) {
             }
         },
         error: function() {
-            alert('댓글을 불러오는 중 오류가 발생했습니다.');
+            Swal.fire({
+                text: "댓글을 불러오는 중 오류가 발생했습니다.",
+                showConfirmButton: true,
+                confirmButtonText: '확인',
+                customClass: mySwal,
+                buttonsStyling: false
+            });
         }
     });
 }
@@ -138,29 +184,59 @@ function updateAnswer(inquiryId, answerId) {
                 if (data.code === 200) {
                     loadAnswer(inquiryId);
                 } else {
-                    alert(data.message);
+                    Swal.fire({
+                        text: data.message,
+                        showConfirmButton: true,
+                        confirmButtonText: '확인',
+                        customClass: mySwal,
+                        buttonsStyling: false
+                    });
                 }
             },
             error: function () {
-                alert('수정 중 오류가 발생했습니다. 다시 시도해 주세요.');
+                Swal.fire({
+                    html: "수정 중 오류가 발생했습니다.<br>다시 시도해 주세요.",
+                    showConfirmButton: true,
+                    confirmButtonText: '확인',
+                    customClass: mySwal,
+                    buttonsStyling: false
+                });
             }
         })
     } else {
-        alert('답변을 입력해 주세요.');
+        Swal.fire({
+            text: "답변을 입력해 주세요.",
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
     }
 }
 
-function validateInquiryBeforeSubmit() {
+function validateBeforeSubmit() {
+    let title = $('#title').val().trim();
     let content = $('#content').val().trim();
-    let title = $('#inquiryModal #title').val().trim();
 
     if (title === '') {
-        alert('제목을 작성해 주세요.');
+        Swal.fire({
+            text: "제목을 작성해 주세요.",
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
         return false;
     }
 
     if (content === '') {
-        alert('내용을 작성해 주세요.');
+        Swal.fire({
+            text: "내용을 작성해 주세요.",
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
         return false;
     }
     return true;
@@ -171,29 +247,51 @@ function deleteAnswer(inquiryId, answerId) {
 
     console.log('deleteAnswer!!');
 
-    if (confirm("삭제하시겠습니까?")) {
-        $.ajax({
-            type: 'DELETE',
-            url: '/ajax/admin/product/inquiry/delete',
-            async: false,
-            data: {'answerId' : answerId},
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader(csrfHeader, csrfToken);
-            },
-            success: function (data) {
-                if (data.code === 200) {
-                    $('#cmtInput').css('display', 'block');
-                    $('#addCommentBtn').css('display', 'block');
-                    loadAnswer(inquiryId);
-                } else {
-                    alert(data.message);
+    Swal.fire({
+        text: "삭제하시겠습니까?",
+        showCancelButton: true,
+        cancelButtonText: '아니요',
+        confirmButtonText: '예',
+        closeOnConfirm: false,
+        closeOnCancel: true,
+        customClass: mySwalConfirm,
+        reverseButtons: true,
+        buttonsStyling: false,
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                type: 'DELETE',
+                url: '/ajax/admin/product/inquiry/delete',
+                async: false,
+                data: {'answerId': answerId},
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader(csrfHeader, csrfToken);
+                },
+                success: function (data) {
+                    if (data.code === 200) {
+                        $('#cmtInput').css('display', 'block');
+                        $('#addCommentBtn').css('display', 'block');
+                        loadAnswer(inquiryId);
+                    } else {
+                        Swal.fire({
+                            text: data.message,
+                            showConfirmButton: true,
+                            confirmButtonText: '확인',
+                            customClass: mySwal,
+                            buttonsStyling: false
+                        });
+                    }
+                },
+                error: function () {
+                    Swal.fire({
+                        html: "삭제 중 오류가 발생했습니다.<br>다시 시도해 주세요.",
+                        showConfirmButton: true,
+                        confirmButtonText: '확인',
+                        customClass: mySwal,
+                        buttonsStyling: false
+                    });
                 }
-            },
-            error: function () {
-                alert('삭제 중 오류가 발생했습니다. 다시 시도해 주세요.');
-            }
-        })
-    } else {
-        return false;
-    }
+            });
+        }
+    });
 }
