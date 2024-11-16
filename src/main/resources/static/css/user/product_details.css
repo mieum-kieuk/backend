@@ -331,3 +331,6 @@
 .modal .qna_title, .modal .review_title {
     margin-bottom: 0;
 }
+#reviewModal, #inquiryModal {
+    z-index: 1000;
+}
