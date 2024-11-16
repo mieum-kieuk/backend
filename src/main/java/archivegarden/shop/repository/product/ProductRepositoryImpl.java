@@ -49,7 +49,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
     }
 
     @Override
-    public List<Product> findMainProducts() {
+    public List<Product> findLatestProducts() {
         return queryFactory
                 .selectFrom(product)
                 .leftJoin(product.discount, discount).fetchJoin()
@@ -67,7 +67,10 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                 .selectFrom(product)
                 .leftJoin(product.discount, discount).fetchJoin()
                 .leftJoin(product.productImages, productImage).fetchJoin()
-                .where(keywordLike(keyword))
+                .where(
+                        keywordLike(keyword),
+                        productImage.imageType.ne(ImageType.DETAILS)
+                )
                 .orderBy(orderSoldOutLast())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -89,7 +92,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                 .leftJoin(product.productImages, productImage).fetchJoin()
                 .where(
                         categoryEq(condition.getCategory()),
-                        imageTypeDisplay()
+                        productImage.imageType.ne(ImageType.DETAILS)
                 )
                 .orderBy(getOrderSpecifier(condition.getSorted_type()).stream().toArray(OrderSpecifier[]::new))
                 .offset(pageable.getOffset())
@@ -224,7 +227,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
      * 공백 제거, 대소문자 구분 안함
      */
     private BooleanExpression keywordLike(String keyword) {
-        if(hasText(keyword)) {
+        if (hasText(keyword)) {
             String replaceKeyword = StringUtils.replace(keyword, " ", "");
             StringTemplate replaceProductName = Expressions.stringTemplate("function('replace',{0},{1},{2})", product.name, " ", "");
             return replaceProductName.containsIgnoreCase(replaceKeyword);
@@ -258,7 +261,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
     }
 
     private BooleanExpression adminCategoryEq(String category) {
-        if(StringUtils.hasText(category)) {
+        if (StringUtils.hasText(category)) {
             return product.category.eq(Category.of(category));
         }
 

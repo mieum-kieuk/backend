@@ -2,9 +2,9 @@ package archivegarden.shop.service.product;
 
 import archivegarden.shop.dto.admin.product.product.ProductImageDto;
 import archivegarden.shop.dto.order.OrderProductListDto;
-import archivegarden.shop.dto.user.product.ProductSearchCondition;
 import archivegarden.shop.dto.user.product.ProductDetailsDto;
 import archivegarden.shop.dto.user.product.ProductListDto;
+import archivegarden.shop.dto.user.product.ProductSearchCondition;
 import archivegarden.shop.entity.Member;
 import archivegarden.shop.entity.Product;
 import archivegarden.shop.exception.NotFoundException;
@@ -22,7 +22,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 @Transactional(readOnly = true)
@@ -36,9 +35,9 @@ public class ProductService {
     /**
      * 최신 상품 9개 조회
      */
-    public List<ProductListDto> getMainProducts() {
-        List<Product> products = productRepository.findMainProducts();
-        List<ProductListDto> productListDto = getProductListDto(products.stream());
+    public List<ProductListDto> getLatestProducts() {
+        List<Product> products = productRepository.findLatestProducts();
+        List<ProductListDto> productListDto = getProductListDto(products);
         return productListDto;
     }
 
@@ -47,7 +46,7 @@ public class ProductService {
      */
     public Page<ProductListDto> searchProducts(String keyword, Pageable pageable) {
         Page<Product> productPages = productRepository.searchProducts(keyword, pageable);
-        List<ProductListDto> productListDtos = getProductListDto(productPages.stream());
+        List<ProductListDto> productListDtos = getProductListDto(productPages.getContent());
         return new PageImpl<>(productListDtos, pageable, productPages.getTotalElements());
     }
 
@@ -56,7 +55,7 @@ public class ProductService {
      */
     public Page<ProductListDto> getProducts(ProductSearchCondition condition, Pageable pageable) {
         Page<Product> productPages = productRepository.findAllByCategory(condition, pageable);
-        List<ProductListDto> productListDtos = getProductListDto(productPages.stream());
+        List<ProductListDto> productListDtos = getProductListDto(productPages.getContent());
         return new PageImpl<>(productListDtos, pageable, productPages.getTotalElements());
     }
 
@@ -98,22 +97,26 @@ public class ProductService {
                 .collect(Collectors.toList());
     }
 
-    private List<ProductListDto> getProductListDto(Stream<Product> products) {
-        List<CompletableFuture<ProductListDto>> productListDtoFutures = products
+    private List<ProductListDto> getProductListDto(List<Product> products) {
+        List<CompletableFuture<ProductListDto>> productListDtoFutures = products.stream()
                 .map(product -> CompletableFuture.supplyAsync(() -> {
+                    //각 Product의 이미지 다운로드 작업
                     List<CompletableFuture<String>> imageFutures = product.getProductImages().stream()
                             .map(productImage -> CompletableFuture.supplyAsync(() ->
                                     productImageService.downloadImage(productImage.getImageUrl())))
                             .collect(Collectors.toList());
 
+                    //다운로드된 이미지 URL 리스트 생성
                     List<String> displayImageUrls = imageFutures.stream()
                             .map(CompletableFuture::join)
                             .collect(Collectors.toList());
 
+                    //ProductListDto 생성
                     return new ProductListDto(product, displayImageUrls);
                 }))
                 .collect(Collectors.toList());
 
+        //모든 비동기 작업 완료 후 ProductListDto 리스트 생성
         List<ProductListDto> productListDtos = productListDtoFutures.stream()
                 .map(CompletableFuture::join)
                 .collect(Collectors.toList());

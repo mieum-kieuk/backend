@@ -14,7 +14,7 @@ public interface ProductRepositoryCustom {
 
     Product findProduct(Long productId);
 
-    List<Product> findMainProducts();
+    List<Product> findLatestProducts();
 
     Page<Product> searchProducts(String keyword, Pageable pageable);
 

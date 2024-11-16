@@ -24,7 +24,7 @@ public class HomeController {
      */
     @GetMapping
     public String home(Model model) {
-        List<ProductListDto> products = productService.getMainProducts();
+        List<ProductListDto> products = productService.getLatestProducts();
         model.addAttribute("products", products);
         return "index";
     }

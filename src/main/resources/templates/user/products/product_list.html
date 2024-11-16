@@ -44,12 +44,13 @@
                 </ul>
             </div>
             <div class="prd_list_wrap">
+                <div th:if="${products.content.size()} == 0" id="noDataMessage">등록된 상품이 없습니다.</div>
                 <ul class="prd_list">
                     <li th:each="product : ${products}">
                         <div class="thumb">
                             <a href="product_details.html"
                                th:href="@{/products/{productId}(productId=${product.id})}">
-                                <img class="thumb1" th:src="${product.displayImageUrls[0]}|" alt="제품 이미지">
+                                <img class="thumb1" th:src="${product.displayImageUrls[0]}" alt="제품 이미지">
                                 <img class="thumb2" th:if="${product.displayImageUrls.size() == 2}"
                                      th:src="${product.displayImageUrls[1]}" alt="제품 이미지">
                             </a>
