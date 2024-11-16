@@ -17,14 +17,15 @@
     <link rel="stylesheet" href="../../../static/css/common/comm.css" th:href="@{/css/common/comm.css}"/>
     <link rel="stylesheet" href="../../../static/css/user/product_details.css" th:href="@{/css/user/product_details.css}"/>
     <link rel="stylesheet" href="../../../static/css/cart.css" th:href="@{/css/cart.css}"/>
-    <link rel="stylesheet" href="../../../static/css/review.css" th:href="@{/css/review.css}"/>
-    <link rel="stylesheet" href="../../../static/css/qna.css" th:href="@{/css/qna.css}"/>
+    <link rel="stylesheet" href="../../../static/css/user/review.css" th:href="@{/css/user/review.css}"/>
+    <link rel="stylesheet" href="../../../static/css/user/inquiry.css" th:href="@{/css/user/inquiry.css}"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.js"></script>
     <script defer src="../../../static/js/common/comm.js" th:src="@{/js/common/comm.js}"></script>
     <script defer src="../../../static/js/user/product.js" th:src="@{/js/user/product.js}"></script>
     <script defer src="../../../static/js/user/wish.js" th:src="@{/js/user/wish.js}"></script>
     <script defer src="../../../static/js/review.js" th:src="@{/js/review.js}"></script>
+    <script defer src="../../../static/js/inquiry.js" th:src="@{/js/inquiry.js}"></script>
 </head>
 <body>
 <div class="wrap">
@@ -132,7 +133,7 @@
                 <div class="review_head">
                     <h1 class="review_title">상품 후기</h1>
                     <div class="btn_wrap">
-                        <button type="button" id="writeBtn" class="btn1 write_btn">작성하기</button>
+                        <button type="button" id="writeBtn" class="btn1 write_btn" onclick="showReviewModal()">작성하기</button>
                     </div>
                 </div>
                 <table class="review_table">
@@ -218,7 +219,7 @@
                         </ul>
                     </div>
                     <div class="btn_wrap">
-                        <button type="button" id="writeBtn" class="btn1 write_btn" >문의하기</button>
+                        <button type="button" id="writeBtn" class="btn1 write_btn" onclick="showInquiryModal()">문의하기</button>
                     </div>
                 </div>
                 <table class="qna_table">
@@ -423,9 +424,8 @@
                             </tr>
                         </table>
                         <div class="btn_wrap">
-                            <button type="button" class="btn1" onclick="location.href = './review_list.html'">취소</button>
+                            <button type="button" class="btn1 cancel_btn" >취소</button>
                             <button type="submit" id="submitBtn" class="btn1 submit_btn">등록</button>
-                            <button type="submit" id="editSubmitBtn" class="btn1 submit_btn">완료</button>
                         </div>
                     </form>
                 </div>
@@ -460,9 +460,8 @@
                             </tr>
                         </table>
                         <div class="btn_wrap">
-                            <button type="button" class="btn1">취소</button>
+                            <button type="button" class="btn1 cancel_btn">취소</button>
                             <button type="submit" id="submitBtn" class="btn1 submit_btn">등록</button>
-                            <button type="submit" id="editSubmitBtn" class="btn1 submit_btn">완료</button>
 
                         </div>
                     </form>

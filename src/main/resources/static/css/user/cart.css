@@ -257,6 +257,10 @@
     border: 1px solid #999;
     background-color: #fff;
 }
+.btn3.disabled {
+    cursor: default;
+    pointer-events: none;
+}
 .cart_total_wrap {
     position: relative;
     width: 28%;
