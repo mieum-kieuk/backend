@@ -11,11 +11,11 @@
     <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
-    <link rel="stylesheet" href="../../../../static/css/common/comm.css" th:href="@{/css/common/comm.css}">
-    <link rel="stylesheet" href="../../../../static/css/qna.css" th:href="@{/css/qna.css}">
+    <link rel="stylesheet" href="../../../static/css/common/comm.css" th:href="@{/css/common/comm.css}">
+    <link rel="stylesheet" href="../../../static/css/user/inquiry.css" th:href="@{/css/user/inquiry.css}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script defer src="../../../../static/js/common/comm.js" th:src="@{/js/common/comm.js}"></script>
-    <script defer src="../../../../static/js/inquiry.js" th:src="@{/js/inquiry.js}"></script>
+    <script defer src="../../../static/js/common/comm.js" th:src="@{/js/common/comm.js}"></script>
+    <script defer src="../../../static/js/user/inquiry.js" th:src="@{/js/user/inquiry.js}"></script>
 </head>
 <body class="popup">
 <div class="popup_content">
@@ -60,7 +60,7 @@
                     </thead>
                     <tbody>
                     <tr th:each="product : ${products}">
-                        <td><img th:src="|/productImages/${product.displayImage}|" alt="상품이미지" style="width:80px"></td>
+                        <td><img th:src="${product.displayImageUrl}" alt="상품이미지" style="width:80px"></td>
                         <td>
                             <div class="prd_info">
                                 <span th:text="${product.name}"></span>
@@ -69,7 +69,7 @@
                         </td>
                         <td>
                             <a href="javascript:void(0)" class="btn1"
-                               th:onclick="sendResult([[${product.id}]], [[${product.name}]], [[${product.price}]], [[${product.displayImage}]])">선택
+                               th:onclick="sendResult([[${product.id}]], [[${product.name}]], [[${product.price}]], [[${product.displayImageUrl}]])">선택
                             </a>
                         </td>
                     </tr>
@@ -78,21 +78,21 @@
                 <div class="pagination" th:if="${products != null and products.totalPages > 0}">
                     <ul th:with="startPage=${(products.number/5)*5+1},
                         endPage=${T(java.lang.Math).min((products.number/5)*5+5, products.totalPages)}">
-                        <li><a href="./inquiry_popup.html" class="prev_first"
+                        <li><a href="./product_popup.html" class="prev_first"
                                th:href="@{/products/search(keyword=${condition.keyword}, limit=${condition.limit})}">
                                 <span class="material-symbols-outlined">navigate_before</span></a></li>
-                        <li><a href="./inquiry_popup.html"
+                        <li><a href="./product_popup.html"
                                th:href="@{/products/search(keyword=${condition.keyword}, page=${startPage} - 1, limit=${condition.limit})}"
                                class="prev" th:classappend="${startPage == 1} ? 'disabled'">Prev</a></li>
                         <li th:each="page : ${#numbers.sequence(startPage, endPage)}">
-                            <a onclick="location.href='./inquiry_popup.html'"
+                            <a onclick="location.href='./product_popup.html'"
                                th:onclick="|location.href='@{/products/search(keyword=${condition.keyword}, page=${page}, limit=${condition.limit})}'|"
                                class="page" th:classappend="${page == products.number + 1} ? 'active'" th:text="${page}"></a></li>
-                        <li><a href="./inquiry_popup.html"
+                        <li><a href="./product_popup.html"
                                th:href="@{/products/search(keyword=${condition.keyword}, page=${endPage} + 1, limit=${condition.limit})}"
-                               class="prev" th:classappend="${endPage+1 > products.totalPages} ? 'disabled'">Prev</a></li>
+                               class="prev" th:classappend="${endPage+1 > products.totalPages} ? 'disabled'">Next</a></li>
                         <li>
-                            <a href="./inquiry_popup.html" class="next_last"
+                            <a href="./product_popup.html" class="next_last"
                                th:href="@{/products/search(keyword=${condition.keyword}, page=${products.totalPages}, limit=${condition.limit})}">
                                 <span class="material-symbols-outlined">navigate_next</span></a></li>
                     </ul>

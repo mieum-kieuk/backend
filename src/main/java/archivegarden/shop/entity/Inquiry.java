@@ -10,13 +10,12 @@ import static jakarta.persistence.FetchType.LAZY;
 
 @Entity
 @Getter
-@Table(name = "PRODUCT_INQUIRY")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ProductInquiry extends BaseTimeEntity {
+public class Inquiry extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "product_inquiry_id")
+    @Column(name = "inquiry_id")
     private Long id;
 
     @Column(length = 50, nullable = false)
@@ -27,10 +26,10 @@ public class ProductInquiry extends BaseTimeEntity {
     private String content;
 
     @Column(name = "is_secret", nullable = false)
-    private String isSecret;
+    private boolean isSecret;
 
     @Column(name = "is_answered", nullable = false)
-    private String isAnswered;
+    private boolean isAnswered;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
@@ -57,15 +56,15 @@ public class ProductInquiry extends BaseTimeEntity {
      * 답변 상태 수정
      */
     public void updateAnswerStatus(boolean isAnswered) {
-        this.isAnswered = String.valueOf(isAnswered).toUpperCase();
+        this.isAnswered = true;
     }
 
     @Builder
-    public ProductInquiry(String title, String content, boolean isSecret, Member member, Product product) {
+    public Inquiry(String title, String content, boolean isSecret, Member member, Product product) {
         this.title = title;
         this.content = content;
-        this.isSecret = String.valueOf(isSecret).toUpperCase();
-        this.isAnswered = Boolean.FALSE.toString().toUpperCase();
+        this.isSecret = isSecret;
+        this.isAnswered = false;
         this.member = member;
         this.product = product;
     }

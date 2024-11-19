@@ -57,8 +57,9 @@ $(document).ready(function () {
     // });
 });
 
-let csrfHeader = $("meta[name='_csrf_header']").attr("content");
-let csrfToken = $("meta[name='_csrf']").attr("content");
+// let csrfHeader = $("meta[name='_csrf_header']").attr("content");
+// let csrfToken = $("meta[name='_csrf']").attr("content");
+
 function showInquiryModal() {
     let inquiryModal = $("#inquiryModal");
     inquiryModal.css("display", "flex");

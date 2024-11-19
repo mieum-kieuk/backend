@@ -1,8 +1,8 @@
 package archivegarden.shop.service.community;
 
 import archivegarden.shop.dto.admin.help.notice.NoticeDetailsDto;
-import archivegarden.shop.dto.community.notice.NoticeListDto;
-import archivegarden.shop.dto.community.notice.NoticeSearchForm;
+import archivegarden.shop.dto.user.community.notice.NoticeListDto;
+import archivegarden.shop.dto.user.community.notice.NoticeSearchForm;
 import archivegarden.shop.entity.Notice;
 import archivegarden.shop.exception.NotFoundException;
 import archivegarden.shop.repository.notice.NoticeRepository;

@@ -1,4 +1,4 @@
-package archivegarden.shop.dto.community.notice;
+package archivegarden.shop.dto.user.community.notice;
 
 import archivegarden.shop.entity.Notice;
 import lombok.Getter;

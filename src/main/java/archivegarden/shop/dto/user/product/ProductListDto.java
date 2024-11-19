@@ -24,7 +24,7 @@ public class ProductListDto {
     private boolean isSoldOut;
     private List<String> displayImageUrls;
 
-    public ProductListDto(Product product, List<String> displayImageUrls) {
+    public ProductListDto(Product product, List<String> imageUrls) {
         this.id = product.getId();
         this.name = product.getName();
         this.price = new DecimalFormat("###,###원").format(product.getPrice());
@@ -40,6 +40,6 @@ public class ProductListDto {
             this.isSoldOut = true;
         }
 
-        this.displayImageUrls = displayImageUrls;
+        this.displayImageUrls = imageUrls;
     }
 }

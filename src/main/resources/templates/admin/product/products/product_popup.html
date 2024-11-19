@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>상품 할인관리 | 미음키읔</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../../../static/css/common/comm.css" th:href="@{/css/common/comm.css}">
+    <link rel="stylesheet" href="../../../../static/css/admin/admin.css" th:href="@{/css/admin/admin.css}">
+    <link rel="stylesheet" href="../../../../static/css/admin/list.css" th:href="@{/css/admin/list.css}">
+    <link rel="stylesheet" type="text/css" media="screen" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
+    <script defer src="../../../../static/js/adminDiscount.js.js" th:src="@{/js/admin/discount.js}"></script>
+</head>
+<body class="popup">
+<div class="popup_content">
+    <div class="popup_tit">
+        <h2>상품 정보 검색</h2>
+    </div>
+    <div class="content">
+        <form id="popupSearchForm" action="" th:action th:object="${condition}" method="get">
+            <fieldset>
+                <legend>상품검색</legend>
+                <input type="text" id="keyword" th:field="*{keyword}" class="keyword" placeholder="상품명을 입력해 주세요." maxlength="50">
+                <div class="btn_wrap">
+                    <button type="submit" id="prdSearchBtn" class="btn1">검색</button>
+                </div>
+            </fieldset>
+            <div class="result">
+                <p class="total">총 <strong th:text="${products != null} ? ${products.totalElements} : 0"></strong>개의 상품이 검색되었습니다.</p>
+                <p class="limit">
+                    <select id="limit" th:field="*{limit}">
+                        <option value="5">5개씩 보기</option>
+                        <option value="10">10개씩 보기</option>
+                        <option value="15">15개씩 보기</option>
+                        <option value="20">20개씩 보기</option>
+                    </select>
+                </p>
+            </div>
+        </form>
+        <div class="search_result" th:if="${products != null and products.totalElements > 0} ">
+            <table class="result_table">
+                <colgroup>
+                    <col style="width:10px">
+                    <col style="width:100px">
+                    <col style="width:auto">
+                    <col style="width:80px">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th scope="col">
+                        <input type="checkbox" name="checkBox" id="selectAll">
+                    </th>
+                    <th scope="col">이미지</th>
+                    <th scope="col">상품 정보</th>
+                    <th scope="col">선택</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="product : ${products}">
+                    <td><input type="checkbox" name="checkBox"></td>
+                    <td><img th:src="${product.displayImageUrl}" alt="상품이미지" style="width:80px"></td>
+                    <td>
+                        <div class="prd_info">
+                            <span th:text="${product.name}"></span>
+                            <span th:text="${product.price}"></span>
+                        </div>
+                    </td>
+                    <td>
+                        <a href="javascript:void(0)" class="btn1"
+                           th:onclick="sendResult([[${product.id}]], [[${product.name}]], [[${product.price}]], [[${product.displayImageUrl}]])">선택
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="pagination" th:if="${products != null and products.totalPages > 0}">
+                <ul th:with="startPage=${(products.number/5)*5+1},
+                        endPage=${T(java.lang.Math).min((products.number/5)*5+5, products.totalPages)}">
+                    <li><a href="./inquiry_popup.html" class="prev_first"
+                           th:href="@{/products/search(keyword=${condition.keyword}, limit=${condition.limit})}">
+                        <span class="material-symbols-outlined">navigate_before</span></a></li>
+                    <li><a href="./inquiry_popup.html"
+                           th:href="@{/products/search(keyword=${condition.keyword}, page=${startPage} - 1, limit=${condition.limit})}"
+                           class="prev" th:classappend="${startPage == 1} ? 'disabled'">Prev</a></li>
+                    <li th:each="page : ${#numbers.sequence(startPage, endPage)}">
+                        <a onclick="location.href='./inquiry_popup.html'"
+                           th:onclick="|location.href='@{/products/search(keyword=${condition.keyword}, page=${page}, limit=${condition.limit})}'|"
+                           class="page" th:classappend="${page == products.number + 1} ? 'active'" th:text="${page}"></a></li>
+                    <li><a href="./inquiry_popup.html"
+                           th:href="@{/products/search(keyword=${condition.keyword}, page=${endPage} + 1, limit=${condition.limit})}"
+                           class="prev" th:classappend="${endPage+1 > products.totalPages} ? 'disabled'">Prev</a></li>
+                    <li>
+                        <a href="./inquiry_popup.html" class="next_last"
+                           th:href="@{/products/search(keyword=${condition.keyword}, page=${products.totalPages}, limit=${condition.limit})}">
+                            <span class="material-symbols-outlined">navigate_next</span></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+

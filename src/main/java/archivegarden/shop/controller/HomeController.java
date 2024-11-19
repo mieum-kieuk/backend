@@ -20,7 +20,7 @@ public class HomeController {
     private final ProductService productService;
 
     /**
-     * 홈 페이지를 조회하는 요청을 처리하는 메서드
+     * 홈 페이지 조회 요청을 처리하는 메서드
      */
     @GetMapping
     public String home(Model model) {
@@ -42,7 +42,7 @@ public class HomeController {
     }
 
     /**
-     * About 페이지 조회하는 요청을 처리하는 메서드
+     * About 페이지 조회 요청을 처리하는 메서드
      */
     @GetMapping("/about")
     public String about() {
