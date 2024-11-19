@@ -16,14 +16,14 @@
     <link rel="stylesheet" href="../../../static/css/user/search_complete.css" th:href="@{/css/user/search_complete.css}"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.js"></script>
-    <script defer src="../../../static/js/common/comm.js" th:src="@{/js/comm.js}"></script>
+    <script defer src="../../../static/js/common/comm.js" th:src="@{/js/common/comm.js}"></script>
 </head>
 <body>
 <div class="wrap">
     <div th:replace="~{/layout/header :: header}"></div>
     <div id="search_complete">
         <div class="search_form_wrap">
-            <form action="./search_complete.html" th:action="@{/templates/user/search}" method="get">
+            <form action="./search_complete.html" th:action="@{/search}" method="get">
                 <input type="text" placeholder="검색어를 입력해 주세요." name="keyword" th:value="${keyword}" maxlength="50">
                 <button type="submit" class="search_btn2"><span class="material-symbols-outlined">search</span></button>
             </form>
