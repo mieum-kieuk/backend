@@ -109,10 +109,6 @@ $(document).ready(function () {
         return false;
     });
 
-    $(".qna_items, .review_items").click(function() {
-        let currentContent = $(this).next(".qna_content, .review_content");
-        toggleContent(currentContent);
-    });
 
 });
 
@@ -147,23 +143,10 @@ function updateTotal() {
     $('#totalQuantity').text(quantity + '개');
     $('#totalPrice').text(totalPrice.toLocaleString() + '원');
 }
-function toggleContent(content) {
-    if (content.is(":visible")) {
-        content.slideUp("fast", function() {
-            content.css("border-bottom", "");
-            content.prev(".qna_items, .review_items").css("border-bottom", "");
-        });
-    } else {
-        $(".qna_content, .review_content").not(content).slideUp("fast").promise().done(function() {
-            $(this).css("border-bottom", "").prev(".qna_items, .review_items").css("border-bottom", "");
-            content.slideDown().css("border-bottom", "1px solid #333");
-            content.prev(".qna_items").css("border-bottom", "1px solid #333");
-        });
-    }
-}
 
-// let csrfToken = $("meta[name='_csrf']").attr("content");
-// let csrfHeader = $("meta[name='_csrf_header']").attr("content");
+
+let csrfToken = $("meta[name='_csrf']").attr("content");
+let csrfHeader = $("meta[name='_csrf_header']").attr("content");
 
 //장바구니 담기
 $('#CartBtn').click(function () {
