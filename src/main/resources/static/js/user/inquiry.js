@@ -24,7 +24,10 @@ $(document).ready(function () {
             inquiryModal.hide();
         }
     });
-
+    $(".qna_items").click(function() {
+        let currentContent = $(this).next(".qna_content");
+        toggleContent(currentContent);
+    });
     $(" .qna_table .edit_btn").click(function() {
         let questionText = $(this).closest(".qna_question").find(".qna_text").text();
         let answerText = $(this).closest(".qna_content").find(".qna_answer").text();
@@ -36,30 +39,24 @@ $(document).ready(function () {
         showInquiryModal();
     });
 
-    // $('#qnaType').change(function() {
-    //     var selectedValue = $(this).val();
-    //
-    //     if (selectedValue == "1") {
-    //         $('#qnaItem').addClass('active');
-    //         $('#orderItem').removeClass('active');
-    //     } else if (selectedValue == "2" || selectedValue == "3" || selectedValue == "4") {
-    //         $('#qnaItem').removeClass('active');
-    //         $('#orderItem').addClass('active');
-    //     } else {
-    //         $('#orderItem').removeClass('active');
-    //         $('#qnaItem').removeClass('active');
-    //     }
-    // });
 
-    // $(".qna_items").click(function() {
-    //     let currentContent = $(this).next(".qna_content");
-    //     toggleContent(currentContent);
-    // });
 });
-
-// let csrfHeader = $("meta[name='_csrf_header']").attr("content");
-// let csrfToken = $("meta[name='_csrf']").attr("content");
-
+function toggleContent(content) {
+    if (content.is(":visible")) {
+        content.slideUp("fast", function() {
+            content.css("border-bottom", "");
+            content.prev(".qna_items").css("border-bottom", "");
+        });
+    } else {
+        $(".qna_content").not(content).slideUp("fast").promise().done(function() {
+            $(this).css("border-bottom", "").prev(".qna_items").css("border-bottom", "");
+            content.slideDown().css("border-bottom", "1px solid #333");
+            content.prev(".qna_items").css("border-bottom", "1px solid #333");
+        });
+    }
+}
+let csrfHeader = $("meta[name='_csrf_header']").attr("content");
+let csrfToken = $("meta[name='_csrf']").attr("content");
 function showInquiryModal() {
     let inquiryModal = $("#inquiryModal");
     inquiryModal.css("display", "flex");

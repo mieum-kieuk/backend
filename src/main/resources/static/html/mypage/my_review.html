@@ -15,12 +15,14 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="../../css/comm.css" />
-    <link rel="stylesheet" href="../../css/review.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.js"></script>
+    <link rel="stylesheet" href="../../css/common/comm.css" />
+    <link rel="stylesheet" href="../../css/user/review.css" />
     <link rel="stylesheet" href="../../css/mypage.css" />
-    <script src="../../js/comm.js"></script>
-    <script src="../../js/product.js"></script>
+    <script src="../../js/common/comm.js"></script>
+    <script src="../../js/user/product.js"></script>
     <script src="../../js/review.js"></script>
 <!--    <script src="../../js/.js"></script>-->
 
@@ -115,7 +117,7 @@
                 </li>
             </ul>
         </nav>
-        <div id="boardList">
+        <div id="boardList" class="mypage_content">
             <div class="board_wrap list wrapper">
                 <h3 class="board_title">상품 후기</h3>
                 <div class="board_content">
@@ -186,9 +188,9 @@
                                         </div>
                                     </div>
                                     <div class="review_img">
-                                        <img id="image1" src="../../images/meek2.png" alt="첨부 파일1">
-                                        <img id="image2" src="../../images/meek2.png" alt="첨부 파일2">
-                                        <img id="image3" src="../../images/meek2.png" alt="첨부 파일3">
+                                        <img src="../../images/meek2.png" alt="첨부 파일1">
+                                        <img src="../../images/meek2.png" alt="첨부 파일2">
+                                        <img src="../../images/meek2.png" alt="첨부 파일3">
                                     </div>
                                 </div>
 
@@ -261,7 +263,6 @@
                         <div class="btn_wrap">
                             <button type="button" class="btn1" onclick="location.href = './review_list.html'">취소</button>
                             <button type="submit" id="submitBtn" class="btn1 submit_btn">등록</button>
-                            <button type="submit" id="editSubmitBtn" class="btn1 submit_btn">완료</button>
                         </div>
                     </form>
                 </div>

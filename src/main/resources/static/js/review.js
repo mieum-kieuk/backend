@@ -13,8 +13,15 @@ $(document).ready(function() {
         // 이전 파일들이 선택되었는지 확인
         for (let i = 1; i < currentIndex; i++) {
             let previousInput = $('#image' + i);
-            if (previousInput.val() === '') {
-                alert('첨부 파일' + i + '을(를) 먼저 선택해 주세요.');
+            console.log('image' + i + ':', previousInput[0].files);
+            if (previousInput.length > 0 && previousInput[0].files.length === 0) {
+                Swal.fire({
+                    text: "첨부 파일 " + i + "을(를) 먼저 선택해 주세요.",
+                    showConfirmButton: true,
+                    confirmButtonText: '확인',
+                    customClass: mySwal,
+                    buttonsStyling: false
+                });
                 event.preventDefault();
                 return;
             }
@@ -26,7 +33,14 @@ $(document).ready(function() {
         if (fileInput.files.length > 0) {
             let fileSize = fileInput.files[0].size;
             if (fileSize > maxSizePerFile) {
-                alert('첨부 파일 ' + fileInput.id.replace('image', '') + '의 크기가 1MB 이하여야 합니다.');
+                Swal.fire({
+                    text: "첨부 파일 " + fileInput.id.replace('image', '') + "의 크기가 1MB 이하여야 합니다.",
+                    showConfirmButton: true,
+                    confirmButtonText: '확인',
+                    customClass: mySwal,
+                    buttonsStyling: false
+                });
+
                 $(this).val(''); // 파일 선택 취소
             }
         }
@@ -51,8 +65,12 @@ $(document).ready(function() {
             reviewModal.hide();
         }
     });
+    $(".review_items").click(function() {
+            let currentContent = $(this).next(".review_content");
+            toggleContent(currentContent);
+        });
 
-    $("#product .review_wrap .edit_btn").click(function() {
+    $(".review_content .edit_btn").click(function() {
         let reviewText = $(this).closest(".review_text_wrap").find(".review_text").text().trim();
         let reviewRating = $(this).closest(".review_cont").find(".star.filled_star").length;
 
@@ -69,32 +87,71 @@ function showReviewModal() {
     reviewModal.css("display", "flex");
 
 }
+function toggleContent(content) {
+    if (content.is(":visible")) {
+        content.slideUp("fast", function() {
+            content.css("border-bottom", "");
+            content.prev(".review_items").css("border-bottom", "");
+        });
+    } else {
+        $(".review_content").not(content).slideUp("fast").promise().done(function() {
+            $(this).css("border-bottom", "").prev(".review_items").css("border-bottom", "");
+            content.slideDown().css("border-bottom", "1px solid #333");
+            content.prev(".review_items").css("border-bottom", "1px solid #333");
 
+        });
+    }
+}
 function validateReviewBeforeSubmit() {
     let productElement = $('#productId');
     if (productElement.length > 0) {
         let product = productElement.val().trim();
         if (product === '') {
-            alert('상품을 선택해 주세요.');
+            Swal.fire({
+                text: "상품을 선택해 주세요.",
+                showConfirmButton: true,
+                confirmButtonText: '확인',
+                customClass: mySwal,
+                buttonsStyling: false
+            });
             return false;
         }
     }
     let filledStars = $('.star_rating .star.filled_star').length; // 채워진 별의 개수를 가져옴
 
     if (filledStars === 0) {
-        alert('별점을 입력해주세요.'); // 별점이 입력되지 않은 경우 경고창 표시
+        Swal.fire({
+            text: "별점을 입력해주세요.",
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
+
         return false;
     }
     let titleValue = $('#title').val().trim(); // 제목 입력값 가져오기
     let contentValue = $('#content').val().trim(); // 리뷰 입력값 가져오기
 
     if (titleValue === '') {
-        alert('제목을 작성해 주세요.'); // 제목이 비어있을 경우 경고창 표시
+        Swal.fire({
+            text: "제목을 작성해 주세요.",
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });// 제목이 비어있을 경우 경고창 표시
         return false;
     }
 
     if (contentValue === '') {
-        alert('리뷰를 작성해 주세요.'); // 리뷰가 비어있을 경우 경고창 표시
+        Swal.fire({
+            text: "리뷰를 작성해 주세요.",
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });// 리뷰가 비어있을 경우 경고창 표시
         return false;
     }
 

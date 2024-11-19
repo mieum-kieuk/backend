@@ -8,7 +8,7 @@
     margin-top: 100px;
     min-height: calc(100svh - 232px);
     background: #f1f1f1;
-    padding: 40px 0 20px;
+    padding: 40px 20px 20px;
 }
 
 #snb {
@@ -27,11 +27,11 @@
 }
 
 .mypage_content {
-    /*flex: 1;*/
+    flex: 1;
     /*position: absolute;*/
     display: flex;
     flex-direction: column;
-    width: 700px;
+    /*width: 700px;*/
     /*margin-left: 200px;*/
     padding: 20px;
     background: #ffffff;
@@ -209,10 +209,9 @@ h3 {
     display: flex;
     width: 100%;
     justify-content: space-between;
-    padding: 20px;
+    padding: 10px;
     background: #eee;
 }
-
 .order_items li {
     display: flex;
     flex-direction: column;
@@ -258,7 +257,7 @@ h3 {
     padding: 5px 10px;
 }
 
-.order_item .description .item.details {
+.order_item .description .item_details {
     display: flex;
 }
 
@@ -350,6 +349,7 @@ h3 {
     margin-bottom: 0;
     font-size: 14px;
     gap: 5px;
+    padding-inline-start: unset;
 }
 
 #orderPayment .total_details .total {
@@ -359,6 +359,7 @@ h3 {
 #orderPayment .order_summary {
     padding-bottom: 0;
     padding: 10px 0;
+    width: auto;
 }
 
 #orderPayment .total_details .total_price {
@@ -1101,7 +1102,7 @@ h3 {
 .modal {
     display: none;
     position: fixed;
-    z-index: 1;
+    z-index: 1000;
     left: 0;
     top: 0;
     width: 100%;
@@ -1146,7 +1147,9 @@ h3 {
     flex-direction: row;
     align-items: center;
 }
-
+.modal form {
+    padding: 0;
+}
 .modal .review_table td textarea {
     height: 250px;
 }
