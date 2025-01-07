@@ -44,13 +44,13 @@ public class EmailService {
 
         Context context = new Context();
         context.setVariable("name", name);
-        context.setVariable("created", DateTimeFormatter.ofPattern("yyyy년 MM월 dd일").format(created));
+        context.setVariable("created", DateTimeFormatter.ofPattern("yyyy년 M월 d일").format(created));
         context.setVariable("verificationUrl", verificationUrl);
 
         MimeMessagePreparator preparator = mimeMessage -> {
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "UTF-8");
 
-            String content = templateEngine.process("email/template/verification_link", context);
+            String content = templateEngine.process("email/template/join_complete", context);
 
             helper.setTo(to);
             helper.setFrom(from);
