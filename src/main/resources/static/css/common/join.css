@@ -98,6 +98,9 @@
 .input_wrap .address input[disabled] {
   background-color: transparent;
 }
+.input_wrap .address #detailAddress[readonly] {
+  pointer-events: auto;
+}
 .input_wrap .address li:nth-child(2) {
   justify-content: flex-start;
   width: 70%;

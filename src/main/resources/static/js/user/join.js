@@ -22,7 +22,7 @@ $(document).ready(function () {
     $('#name').on('focusout', function () {
         isNameValid();
     });
-
+    // $('#detailAddress').prop('readonly', true);
     $('#detailAddress').click(function() {
         let zipCode = $('#zipCode').val().trim();
         let basicAddress = $('#basicAddress').val().trim();
@@ -71,8 +71,8 @@ $(document).ready(function () {
     });
 });
 
-let csrfToken = $("meta[name='_csrf']").attr("content");
-let csrfHeader = $("meta[name='_csrf_header']").attr("content");
+// let csrfToken = $("meta[name='_csrf']").attr("content");
+// let csrfHeader = $("meta[name='_csrf_header']").attr("content");
 
 //아이디 검증
 function isLoginIdValid() {
@@ -290,7 +290,7 @@ function regexEmail() {
     let email = $('#email').val();
     let regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!regex.test(email)) {
-        $('#emailMsg').text('이메일 입력해 주세요.');
+        $('#emailMsg').text('이메일 형식으로 입력해 주세요.');
         $('#emailMsg').removeClass('success').addClass('error');
         return false;
     }
@@ -332,7 +332,7 @@ function regexPhone() {
     if (regex1.test(phonenumber2) && regex2.test(phonenumber3)) {
         return true;
     } else {
-        $('#phoneNumberMsg').text('휴대전화번호 형식으로 입력해주세요.');
+        $('#phoneNumberMsg').text('휴대전화번호 형식으로 입력해 주세요.');
         $('#phoneNumberMsg').removeClass('success').addClass('error');
         return false;
     }
@@ -393,6 +393,7 @@ function requestVerificationCode() {
 
             if (result.code == 200) {
                 $('#phoneNumberMsg').text(result.message);
+                $('#phoneNumberMsg').removeClass('error').addClass('success');
                 $('#confirm_verify_mobile').css('display', 'flex');
                 $('#btn_action_verify_mobile').text('재전송');
                 $('#verificationNo').val('');
@@ -400,6 +401,7 @@ function requestVerificationCode() {
             } else {
                 $('#confirm_verify_mobile').css('display', 'none');
                 $('#phoneNumberMsg').text(result.message);
+                $('#phoneNumberMsg').removeClass('success').addClass('error');
             }
         },
         error: function () {
@@ -450,6 +452,16 @@ function isVerificationValid() {
     let phonenumber3 = $('#phonenumber3').val();
     let verificationNo = $('#verificationNo').val();
 
+    if (verificationNo.trim() === '') {
+        Swal.fire({
+            text: '인증번호를 입력해 주세요.',
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
+        return;
+    }
     $.ajax({
         type: 'POST',
         url: '/ajax/member/check/verificationNo',
@@ -479,7 +491,7 @@ function isVerificationValid() {
             } else {
                 $('#verificationNo').val('');
                 Swal.fire({
-                    text: result.message,
+                    html: result.message.replace('\n', '<br>'),
                     showConfirmButton: true,
                     confirmButtonText: '확인',
                     customClass: mySwal,
@@ -628,7 +640,7 @@ function validateBeforeSubmit() {
     // 인증 번호 유효성 검사
     if (!isVerificationCompelte()) {
         Swal.fire({
-            text: '휴대전화번호를 인증해 주세요.',
+            text: '휴대전화번호 인증을 진행해 주세요.',
             showConfirmButton: true,
             confirmButtonText: '확인',
             customClass: mySwal,

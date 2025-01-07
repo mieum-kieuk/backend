@@ -47,7 +47,7 @@
                     <li class="depth1_menu">Account
                         <ul class="depth2" sec:authorize="!hasRole('USER')">
                             <li><a href="../login.html" th:href="@{/login}">로그인</a></li>
-                            <li><a href="../user/member/join.html" th:href="@{/members/join}">회원가입</a></li>
+                            <li><a href="../user/member/join.html" th:href="@{/member/join}">회원가입</a></li>
                         </ul>
                         <ul class="depth2" sec:authorize="hasRole('USER')">
                             <li><a href="../mypage/mypage_home.html" th:href="@{/mypage}">주문 내역</a></li>
