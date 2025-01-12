@@ -11,14 +11,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css">
-    <link rel="stylesheet" href="../../../static/css/common/comm.css" th:href="@{/css/common/comm.css}"/>
-    <link rel="stylesheet" href="../../../static/css/mypage.css" th:href="@{/css/mypage.css}"/>
+    <link rel="stylesheet" href="../../../../static/css/common/comm.css" th:href="@{/css/common/comm.css}"/>
+    <link rel="stylesheet" href="../../../../static/css/user/mypage.css" th:href="@{/css/user/mypage.css}"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.js"></script>
-    <script src="../../../static/js/user/findAddress.js" th:src="@{/js/user/findAddress.js}"></script>
-    <script src="../../../static/js/common/comm.js" th:src="@{/js/common/comm.js}"></script>
-    <script src="../../../static/js/user/delivery.js" th:src="@{/js/user/delivery.js}"></script>
+    <script src="../../../../static/js/user/findAddress.js" th:src="@{/js/user/findAddress.js}"></script>
+    <script src="../../../../static/js/common/comm.js" th:src="@{/js/common/comm.js}"></script>
+    <script src="../../../../static/js/user/delivery.js" th:src="@{/js/user/delivery.js}"></script>
 </head>
 <body>
 <div class="wrap">
@@ -94,7 +94,7 @@
                         </ul>
                     </div>
                     <div class="btn_wrap">
-                        <button type="button" class="btn1 cancel_btn" onclick="location.href='./delivery_list.html'"
+                        <button type="button" class="btn1 cancel_btn" onclick="location.href='delivery_list.html'"
                             th:onclick="|location.href='@{/mypage/delivery}'|">취소</button>
                         <button type="submit" id="submitBtn" class="btn1 submit_btn">완료</button>
                     </div>
