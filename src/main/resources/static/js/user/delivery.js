@@ -147,7 +147,7 @@ function validateBeforeSubmit() {
         return false;
     } else if (!regexName()) {
         Swal.fire({
-            text: "유효한 수령인을 입력해 주세요.",
+            text: "수령인 이름을 정확히 입력해 주세요.",
             showConfirmButton: true,
             confirmButtonText: '확인',
             customClass: mySwal,

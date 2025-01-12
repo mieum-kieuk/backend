@@ -612,7 +612,9 @@ h3 {
 .delivery_wrap .item.address {
     width: 40%;
 }
-
+.delivery_wrap #detailAddress[readonly] {
+    pointer-events: auto;
+}
 .delivery_wrap .btn {
     width: 20%;
 }
@@ -747,7 +749,7 @@ h3 {
 }
 
 #delivery .btn_wrap .btn1 {
-    width: 48%;
+    width: 49%;
     height: 45px;
 }
 
