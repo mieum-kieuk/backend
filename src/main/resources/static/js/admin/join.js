@@ -50,7 +50,7 @@ function isLoginIdValid() {
 
     $.ajax({
         type: 'POST',
-        url: '/ajax/admin/join/loginId/check',
+        url: '/ajax/admin/loginId/exists',
         data: {loginId: loginId},
         beforeSend: function (xhr) {
             xhr.setRequestHeader(csrfHeader, csrfToken);
@@ -125,7 +125,7 @@ function isPasswordEmpty() {
 
     if (password.trim() === '') {
         $('#pwMsg').text('비밀번호를 입력해 주세요.');
-        $('#pwMsg').removeClass('success error').addClass('error');
+        $('#pwMsg').removeClass('success').addClass('error');
         return false;
     }
 
@@ -207,7 +207,7 @@ function isEmailValid() {
 
     $.ajax({
         type: 'POST',
-        url: '/ajax/admin/join/email/check',
+        url: '/ajax/admin/email/exists',
         data: {email: email},
         beforeSend: function (xhr) {
             xhr.setRequestHeader(csrfHeader, csrfToken);
@@ -342,7 +342,7 @@ function validateBeforeSubmit() {
         return false;
     } else if (!regexName()) {
         Swal.fire({
-            html: "2~12자의 한글, 영문 대/소문자를 사용해 주세요.<br>(특수기호, 공백 사용 불가)",
+            html: "2~5자의 한글을 사용해 주세요.<br>(특수기호, 공백 사용 불가)",
             showConfirmButton: true,
             confirmButtonText: '확인',
             customClass: mySwal,

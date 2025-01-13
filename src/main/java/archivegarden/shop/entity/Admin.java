@@ -35,16 +35,6 @@ public class Admin extends BaseTimeEntity {
     @Enumerated(value = EnumType.STRING)
     private Authority authority;
 
-    //==비즈니스 로직==//
-    /**
-     * 관리자 권한 부여
-     */
-    public void authorize() {
-        this.isAuthorized = true;
-        this.authority = Authority.ROLE_ADMIN;
-    }
-
-    //==생성자 메서드==//
     public static Admin createAdmin(JoinAdminForm form) {
         Admin admin = new Admin();
         admin.loginId = form.getLoginId();
@@ -54,5 +44,13 @@ public class Admin extends BaseTimeEntity {
         admin.isAuthorized = false;
         admin.authority = Authority.ROLE_ANONYMOUS;
         return admin;
+    }
+
+    /**
+     * 관리자 권한 부여
+     */
+    public void authorize() {
+        this.isAuthorized = true;
+        this.authority = Authority.ROLE_ADMIN;
     }
 }

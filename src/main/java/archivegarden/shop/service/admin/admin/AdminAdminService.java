@@ -1,14 +1,15 @@
 package archivegarden.shop.service.admin.admin;
 
-import archivegarden.shop.dto.admin.admin.AdminListDto;
 import archivegarden.shop.dto.admin.AdminSearchCondition;
+import archivegarden.shop.dto.admin.admin.AdminListDto;
 import archivegarden.shop.dto.admin.admin.JoinAdminForm;
-import archivegarden.shop.dto.common.JoinCompletionInfoDto;
+import archivegarden.shop.dto.common.JoinSuccessDto;
 import archivegarden.shop.entity.Admin;
-import archivegarden.shop.exception.NotFoundException;
 import archivegarden.shop.exception.ajax.AjaxNotFoundException;
+import archivegarden.shop.exception.common.DuplicateEntityException;
+import archivegarden.shop.exception.common.EntityNotFoundException;
 import archivegarden.shop.repository.admin.AdminAdminRepository;
-import archivegarden.shop.service.email.EmailService;
+import archivegarden.shop.service.admin.email.AdminEmailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class AdminAdminService {
 
-    private final EmailService emailService;
+    private final AdminEmailService emailService;
     private final PasswordEncoder passwordEncoder;
     private final AdminAdminRepository adminRepository;
 
@@ -29,37 +30,48 @@ public class AdminAdminService {
      * 관리자 회원가입
      */
     public Long join(JoinAdminForm form) {
-        validateDuplicateAdmin(form);
-
         encodePassword(form);
 
         Admin admin = Admin.createAdmin(form);
+
         adminRepository.save(admin);
 
         return admin.getId();
     }
 
     /**
-     * 회원 가입 완료페이지에서 필요한 정보 조회
+     * 관리자 회원가입 완료 페이지에서 필요한 정보 조회
      *
-     * @throws NotFoundException
+     * @throws EntityNotFoundException
      */
-    public JoinCompletionInfoDto getJoinCompletionInfo(Long adminId) {
-        Admin admin = adminRepository.findById(adminId).orElseThrow(() -> new NotFoundException("존재하지 않는 관리자입니다."));
-        return new JoinCompletionInfoDto(admin.getLoginId(), admin.getName(), admin.getEmail());
+    public JoinSuccessDto getJoinSuccessInfo(Long adminId) {
+        Admin admin = adminRepository.findById(adminId).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 관리자입니다."));
+        return new JoinSuccessDto(admin.getLoginId(), admin.getName(), admin.getEmail());
+    }
+
+    /**
+     * 관리자 중복 검사
+     *
+     * @throws DuplicateEntityException
+     */
+    public void checkAdminDuplicate(JoinAdminForm form) {
+        adminRepository.findDuplicateAdmin(form.getLoginId(), form.getEmail())
+                .ifPresent(a -> {
+                    throw new DuplicateEntityException("이미 존재하는 관리자입니다.");
+                });
     }
 
     /**
      * 관리자 아이디 중복 검사
      */
-    public boolean isAvailableLoginId(String loginId) {
+    public boolean isLoginIdAvailable(String loginId) {
         return adminRepository.findByLoginId(loginId).isEmpty();
     }
 
     /**
      * 관리자 이메일 중복 검사
      */
-    public boolean isAvailableEmail(String email) {
+    public boolean isEmailAvailable(String email) {
         return adminRepository.findByEmail(email).isEmpty();
     }
 
@@ -90,7 +102,7 @@ public class AdminAdminService {
         Admin admin = adminRepository.findById(adminId).orElseThrow(() -> new AjaxNotFoundException("존재하지 않는 관리자입니다."));
         admin.authorize();
 
-        emailService.sendAuthComplete(admin.getEmail(), admin.getName());
+        emailService.sendAdminAuthComplete(admin.getEmail(), admin.getName());
     }
 
     /**
@@ -99,17 +111,5 @@ public class AdminAdminService {
     private void encodePassword(JoinAdminForm form) {
         String encodedPassword = passwordEncoder.encode(form.getPassword());
         form.setPassword(encodedPassword);
-    }
-
-    /**
-     * 중복 관리자 검증
-     *
-     * @throws IllegalStateException
-     */
-    private void validateDuplicateAdmin(JoinAdminForm form) {
-        adminRepository.findDuplicateAdmin(form.getLoginId(), form.getEmail())
-                .ifPresent(a -> {
-                    throw new IllegalStateException("이미 존재하는 관리자입니다.");
-                });
     }
 }

@@ -3,7 +3,8 @@ package archivegarden.shop.controller.admin.admin;
 import archivegarden.shop.dto.admin.AdminSearchCondition;
 import archivegarden.shop.dto.admin.admin.AdminListDto;
 import archivegarden.shop.dto.admin.admin.JoinAdminForm;
-import archivegarden.shop.dto.common.JoinCompletionInfoDto;
+import archivegarden.shop.dto.common.JoinSuccessDto;
+import archivegarden.shop.exception.common.DuplicateEntityException;
 import archivegarden.shop.service.admin.admin.AdminAdminService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -56,6 +57,12 @@ public class AdminAdminController {
             return "admin/admin/join";
         }
 
+        try {
+            adminService.checkAdminDuplicate(form);
+        } catch (DuplicateEntityException e) {
+            return "redirect:/admin/join";
+        }
+
         Long adminId = adminService.join(form);
         session.setAttribute("join:adminId", adminId);
         return "redirect:/admin/join/complete";
@@ -73,8 +80,8 @@ public class AdminAdminController {
         }
         session.removeAttribute("join:adminId");
 
-        JoinCompletionInfoDto joinCompletionInfo = adminService.getJoinCompletionInfo(adminId);
-        model.addAttribute("adminInfo", joinCompletionInfo);
+        JoinSuccessDto joinSuccessDto = adminService.getJoinSuccessInfo(adminId);
+        model.addAttribute("adminInfo", joinSuccessDto);
         return "admin/admin/join_complete";
     }
 
