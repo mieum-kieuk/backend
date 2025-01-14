@@ -12,12 +12,12 @@
     <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
     <link rel="stylesheet" href="../../../../static/css/common/comm.css" th:href="@{/css/common/comm.css}"/>
     <link rel="stylesheet" href="../../../../static/css/admin/admin.css" th:href="@{/css/admin/admin.css}">
-    <link rel="stylesheet" href="../../../../static/css/notice.css" th:href="@{/css/notice.css}">
-    <link rel="stylesheet" href="../../../../static/css/list.css" th:href="@{/css/list.css}">
+    <link rel="stylesheet" href="../../../../static/css/user/notice.css" th:href="@{/css/user/notice.css}">
+    <link rel="stylesheet" href="../../../../static/css/admin/list.css" th:href="@{/css/admin/list.css}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script defer src="../../../../static/js/common/comm.js" th:src="@{/js/common/comm.js}"></script>
     <script defer src="../../../../static/js/admin/notice.js" th:src="@{/js/admin/notice.js}"></script>
-    <script defer src="../../../../static/js/adminSearch.js" th:src="@{/js/adminSearch.js}"></script>
+    <script defer src="../../../../static/js/admin/search.js" th:src="@{/js/admin/search.js}"></script>
 </head>
 <body>
 <div class="admin_wrap">
@@ -59,7 +59,7 @@
                                 <a href="./notice_details.html" th:href="@{/admin/notice/{noticeId}(noticeId=${notice.id})}">
                                     <div class="item number" th:text="${notices.totalElements - (notices.number * notices.pageable.pageSize) - noticeStat.index}"></div>
                                     <div class="item title" th:text="${notice.title}"></div>
-                                    <div class="item date" th:text="${notice.createdAt}">>작성일</div>
+                                    <div class="item date" th:text="${notice.createdAt}">작성일</div>
                                 </a>
                             </div>
                             <div id="noDataMessage" th:if="${notices.content.size()} == 0">

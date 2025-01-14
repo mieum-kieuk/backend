@@ -1,9 +1,9 @@
 package archivegarden.shop.controller.user.community;
 
 import archivegarden.shop.dto.admin.help.notice.NoticeDetailsDto;
-import archivegarden.shop.dto.community.notice.NoticeSearchForm;
-import archivegarden.shop.dto.community.notice.NoticeListDto;
-import archivegarden.shop.service.community.NoticeService;
+import archivegarden.shop.dto.user.community.notice.NoticeSearchForm;
+import archivegarden.shop.dto.user.community.notice.NoticeListDto;
+import archivegarden.shop.service.user.community.NoticeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

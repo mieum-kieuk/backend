@@ -1,8 +1,6 @@
 package archivegarden.shop.controller.exception;
 
-import archivegarden.shop.exception.NotFoundException;
-import archivegarden.shop.exception.ProductNotFoundException;
-import archivegarden.shop.exception.common.DuplicateEntityException;
+import archivegarden.shop.exception.common.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -11,23 +9,17 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class ExceptionController {
 
-    @ExceptionHandler(DuplicateEntityException.class)
-    public String duplicateEntityException(DuplicateEntityException e) {
-        log.warn("[{}] cause={}, message={}", e.getStackTrace()[0], "DuplicateEntityException", e.getMessage());
+    @ExceptionHandler(EntityNotFoundException.class)
+    public String entityNotFoundException(EntityNotFoundException e) {
+        log.warn("[{}] cause={}, message={}", e.getStackTrace()[0], "EntityNotFoundException", e.getMessage());
         return "error/common/entity_not_found.html";
     }
 
-//    @ExceptionHandler(NotFoundException.class)
-//    public String notFoundException(NotFoundException e) {
-//        log.warn("[{}] cause={}, message={}", e.getStackTrace()[0], "NotFoundException", e.getMessage());
-//        return "error/not_found_exception.html";
+//    @ExceptionHandler(ProductNotFoundException.class)
+//    public String productNotFoundException(ProductNotFoundException e) {
+//        log.warn("[{}] cause={}, message={}", e.getStackTrace()[0], "ProductNotFoundException", e.getMessage());
+//        return "error/product_not_found_exception.html";
 //    }
-
-    @ExceptionHandler(ProductNotFoundException.class)
-    public String productNotFoundException(ProductNotFoundException e) {
-        log.warn("[{}] cause={}, message={}", e.getStackTrace()[0], "ProductNotFoundException", e.getMessage());
-        return "error/product_not_found_exception.html";
-    }
 
 //    @ExceptionHandler(AdminNotFoundException.class)
 //    public String adminNoSuchElementException(AdminNotFoundException e) {

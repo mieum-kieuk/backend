@@ -29,14 +29,14 @@ public class Notice extends BaseTimeEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "admin_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
-    private Admin admin;    //다대일 단방향
+    private Admin admin;    //단방향
 
-    //==비즈니스 로직==//
-    /**
-     * 게시글 조회수 증가
-     */
-    public void addHit() {
-        hit++;
+    public static Notice createNotice(AddNoticeForm form, Admin admin) {
+        Notice notice = new Notice();
+        notice.title = form.getTitle();
+        notice.content = form.getContent();
+        notice.admin = admin;
+        return notice;
     }
 
     /**
@@ -47,12 +47,10 @@ public class Notice extends BaseTimeEntity {
         this.content = content;
     }
 
-    //==생성자 메서드==//
-    public static Notice createNotice(AddNoticeForm form, Admin admin) {
-        Notice notice = new Notice();
-        notice.title = form.getTitle();
-        notice.content = form.getContent();
-        notice.admin = admin;
-        return notice;
+    /**
+     * 게시글 조회수 증가
+     */
+    public void addHit() {
+        this.hit++;
     }
 }

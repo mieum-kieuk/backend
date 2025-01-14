@@ -7,9 +7,9 @@ import archivegarden.shop.dto.admin.help.notice.NoticeDetailsDto;
 import archivegarden.shop.dto.admin.help.notice.NoticeListDto;
 import archivegarden.shop.entity.Admin;
 import archivegarden.shop.entity.Notice;
-import archivegarden.shop.exception.admin.AdminNotFoundException;
-import archivegarden.shop.exception.ajax.AjaxNotFoundException;
-import archivegarden.shop.repository.notice.NoticeRepository;
+import archivegarden.shop.exception.ajax.AjaxEntityNotFoundException;
+import archivegarden.shop.exception.common.EntityNotFoundException;
+import archivegarden.shop.repository.admin.help.notice.NoticeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -35,11 +35,11 @@ public class AdminNoticeService {
     /**
      * 공지사항 단건 조회
      *
-     * @throws AdminNotFoundException
+     * @throws EntityNotFoundException
      */
     @Transactional(readOnly = true)
     public NoticeDetailsDto getNotice(Long noticeId) {
-        Notice notice = noticeRepository.findById(noticeId).orElseThrow(() -> new AdminNotFoundException("존재하지 않는 공지사항 입니다."));
+        Notice notice = noticeRepository.findById(noticeId).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 공지사항 입니다."));
         return new NoticeDetailsDto(notice);
     }
 
@@ -54,31 +54,31 @@ public class AdminNoticeService {
     /**
      * 공지사항 수정 폼 조회
      *
-     * @throws AdminNotFoundException
+     * @throws EntityNotFoundException
      */
     @Transactional(readOnly = true)
     public EditNoticeForm getEditNoticeForm(Long noticeId) {
-        Notice notice = noticeRepository.findById(noticeId).orElseThrow(() -> new AdminNotFoundException("존재하지 않는 공지사항입니다."));
+        Notice notice = noticeRepository.findById(noticeId).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 공지사항입니다."));
         return new EditNoticeForm(notice);
     }
 
     /**
      * 공지사항 수정
      *
-     * @throws AdminNotFoundException
+     * @throws EntityNotFoundException
      */
     public void editNotice(Long noticeId, EditNoticeForm form) {
-        Notice notice = noticeRepository.findById(noticeId).orElseThrow(() -> new AdminNotFoundException("존재하지 않는 공지사항입니다."));
+        Notice notice = noticeRepository.findById(noticeId).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 공지사항입니다."));
         notice.update(form.getTitle(), form.getContent());
     }
 
     /**
      * 공지사항 단건 삭제
      *
-     * @throws AjaxNotFoundException
+     * @throws AjaxEntityNotFoundException
      */
     public void deleteNotice(Long noticeId) {
-        Notice notice = noticeRepository.findById(noticeId).orElseThrow(() -> new AjaxNotFoundException("존재하지 않는 공지사항 입니다."));
+        Notice notice = noticeRepository.findById(noticeId).orElseThrow(() -> new AjaxEntityNotFoundException("존재하지 않는 공지사항 입니다."));
         noticeRepository.delete(notice);
     }
 }

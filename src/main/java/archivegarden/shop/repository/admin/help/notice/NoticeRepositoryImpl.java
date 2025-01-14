@@ -1,7 +1,7 @@
-package archivegarden.shop.repository.notice;
+package archivegarden.shop.repository.admin.help.notice;
 
 import archivegarden.shop.dto.admin.AdminSearchCondition;
-import archivegarden.shop.dto.community.notice.NoticeSearchForm;
+import archivegarden.shop.dto.user.community.notice.NoticeSearchForm;
 import archivegarden.shop.entity.Notice;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
