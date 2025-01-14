@@ -5,10 +5,10 @@ import archivegarden.shop.dto.admin.admin.AdminListDto;
 import archivegarden.shop.dto.admin.admin.JoinAdminForm;
 import archivegarden.shop.dto.common.JoinSuccessDto;
 import archivegarden.shop.entity.Admin;
-import archivegarden.shop.exception.ajax.AjaxNotFoundException;
+import archivegarden.shop.exception.ajax.AjaxEntityNotFoundException;
 import archivegarden.shop.exception.common.DuplicateEntityException;
 import archivegarden.shop.exception.common.EntityNotFoundException;
-import archivegarden.shop.repository.admin.AdminAdminRepository;
+import archivegarden.shop.repository.admin.admin.AdminAdminRepository;
 import archivegarden.shop.service.admin.email.AdminEmailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -86,20 +86,20 @@ public class AdminAdminService {
     /**
      * 관리자 단건 삭제
      *
-     * @throws AjaxNotFoundException
+     * @throws AjaxEntityNotFoundException
      */
     public void deleteAdmin(Long adminId) {
-        Admin admin = adminRepository.findById(adminId).orElseThrow(() -> new AjaxNotFoundException("존재하지 않는 관리자입니다."));
+        Admin admin = adminRepository.findById(adminId).orElseThrow(() -> new AjaxEntityNotFoundException("존재하지 않는 관리자입니다."));
         adminRepository.delete(admin);
     }
 
     /**
      * 관리자 권한 부여
      *
-     * @throws AjaxNotFoundException
+     * @throws AjaxEntityNotFoundException
      */
     public void authorizeAdmin(Long adminId) {
-        Admin admin = adminRepository.findById(adminId).orElseThrow(() -> new AjaxNotFoundException("존재하지 않는 관리자입니다."));
+        Admin admin = adminRepository.findById(adminId).orElseThrow(() -> new AjaxEntityNotFoundException("존재하지 않는 관리자입니다."));
         admin.authorize();
 
         emailService.sendAdminAuthComplete(admin.getEmail(), admin.getName());
