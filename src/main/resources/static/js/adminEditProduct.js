@@ -78,7 +78,7 @@ async function updatePreviewContainer(input, containerId, thumbnailType) {
     });
 }
 
-const dataTransfer = new DataTransfer();
+let dataTransfer = new DataTransfer();
 
 //상세 페이지 사진 유효성 검사 -> 첨부
 async function handleDetailsImagesChange() {
@@ -127,9 +127,29 @@ async function handleDetailsImagesChange() {
         $('#detailsImages').val(''); // 파일 입력 필드 초기화
         return false;
     }
+    // 기존 파일 목록 가져오기
+    let existingFiles = Array.from(dataTransfer.files);
+    let newFileNames = Array.from(newFileArr).map(file => file.name);
+
+    // 중복 파일 검사
+    for (let i = 0; i < newFileNames.length; i++) {
+        if (existingFiles.some(file => file.name === newFileNames[i])) {
+            Swal.fire({
+                text: '이미 추가된 파일입니다.',
+                showConfirmButton: true,
+                confirmButtonText: '확인',
+                customClass: mySwal,
+                buttonsStyling: false
+            });
+            $('#detailsImages').val('');
+            return false;
+        }
+    }
+
     for (let i = 0; i < newFileSize; i++) {
         dataTransfer.items.add(newFileArr[i]);
     }
+
     // 파일 미리보기 추가
     for (let i = 0; i < newFileSize; i++) {
         await addImagePreview(previewContainer, newFileArr[i]);

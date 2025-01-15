@@ -106,7 +106,7 @@ async function updatePreviewContainer(input, containerId, thumbnailType) {
     });
 }
 
-const dataTransfer = new DataTransfer();
+let dataTransfer = new DataTransfer();
 
 //등록, 수정: 상세 페이지 사진 유효성 검사 -> 첨부
 async function handleDetailsImagesChange() {
@@ -152,12 +152,29 @@ async function handleDetailsImagesChange() {
         return false;
     }
 
-    if (newFileArr != null && newFileSize > 0) {
-        for (let i = 0; i < newFileSize; i++) {
-            dataTransfer.items.add(newFileArr[i])
+    // 기존 파일 목록 가져오기
+    let existingFiles = Array.from(dataTransfer.files);
+    let newFileNames = Array.from(newFileArr).map(file => file.name);
+
+    // 중복 파일 검사
+    for (let i = 0; i < newFileNames.length; i++) {
+        if (existingFiles.some(file => file.name === newFileNames[i])) {
+            Swal.fire({
+                text: '이미 추가된 파일입니다.',
+                showConfirmButton: true,
+                confirmButtonText: '확인',
+                customClass: mySwal,
+                buttonsStyling: false
+            });
+            $('#detailsImages').val('');
+            return false;
         }
-        $('#detailsImages')[0].files = dataTransfer.files;
     }
+
+    for (let i = 0; i < newFileSize; i++) {
+        dataTransfer.items.add(newFileArr[i]);
+    }
+    $('#detailsImages')[0].files = dataTransfer.files;
 
     for (let i = 0; i < newFileSize; i++) {
         await addImagePreview(previewContainer, newFileArr[i]);
@@ -172,6 +189,9 @@ async function addImagePreview(container, file) {
 
     return new Promise((resolve) => {
         reader.onload = function (e) {
+
+            container.find('.preview_image_container:has(.preview_image[src=""])').remove();
+
             let containerDiv = $('<div>').addClass('preview_image_container');
             let previewImages = $('<div>').addClass('preview_images');
             let previewImage = $('<img>').addClass('preview_image').attr('src', e.target.result);
@@ -500,7 +520,7 @@ function deleteProduct(productId) {
                 },
                 success: function (result) {
                     if (result.code == 200) {
-                        window.location.href = '/admin/products';
+                        window.location.href = '/admin/product';
                     } else {
                         Swal.fire({
                             text: result.message,

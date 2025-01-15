@@ -40,12 +40,25 @@
         <div class="side_menu menu">
             <h2>메뉴</h2>
             <ul class="depth1">
-                <li data-path="products">
+                <li data-path="member">
+                    <a href="#">회원 관리</a>
+                    <ul class="depth2">
+                        <li data-path="member"><a href="../../../admin/member/member_list.html">회원 정보 관리</a></li>
+                        <li data-path="point"><a href="../../../admin/member/point_list.html">적립금 관리</a></li>
+                    </ul>
+                </li>
+                <li data-path="admin">
+                    <a href="#">관리자 관리</a>
+                    <ul class="depth2">
+                        <li data-path="admin-list"><a href="../../../admin/admin/admin_list.html">전체 관리자 관리</a></li>
+                    </ul>
+                </li>
+                <li data-path="product">
                     <a href="#">상품 관리</a>
                     <ul class="depth2">
-                        <li data-path="product"><a href="../../../admin/products/product/product_list.html">전체 상품관리</a></li>
-                        <li data-path="inquiry"><a href="../../../admin/products/inquiry/inquiry_list.html">상품 문의관리</a></li>
-                        <li data-path="discount"><a href="../../../admin/promotion/discount/discount_list.html">전체 할인관리</a></li>
+                        <li data-path="product"><a href="../product/product_list.html">전체 상품관리</a></li>
+                        <li data-path="inquiry"><a href="../inquiry/inquiry_list.html">상품 문의관리</a></li>
+                        <li data-path="discount"><a href="../discounts/discount_list.html">전체 할인관리</a></li>
                     </ul>
                 </li>
                 <li data-path="orders">
@@ -55,13 +68,7 @@
                         <li data-path="cancel"><a href="#">취소/교환/반품/환불 관리</a></li>
                     </ul>
                 </li>
-                <li data-path="member">
-                    <a href="#">회원 관리</a>
-                    <ul class="depth2">
-                        <li data-path="member"><a href="../../../admin/member/member_list.html">회원 정보 관리</a></li>
-                        <li data-path="point"><a href="../../../admin/member/point_list.html">적립금 관리</a></li>
-                    </ul>
-                </li>
+
                 <li data-path="help">
                     <a href="#">고객 지원</a>
                     <ul class="depth2">
@@ -70,9 +77,7 @@
                         <li data-path="withdrawal"><a href="#">회원 탈퇴내역</a></li>
                     </ul>
                 </li>
-                <li data-path="admins">
-                    <a href="../../../admin/admins/admins_list.html">관리자 관리</a>
-                </li>
+
             </ul>
         </div>
         <div class="side_menu account">
@@ -134,7 +139,7 @@
                     <label for="displayImage" class="ess_tit">섬네일 사진1</label>
                     <input type="file" id="displayImage" name="displayImage" class="displayImage">
                     <div class="file_btn_wrap">
-                        <button type="button" class="btn1 file_btn" id="displayImage1Btn">파일 추가</button>
+                        <button type="button" class="btn1 file_btn" id="displayImageBtn">파일 추가</button>
                     </div>
                 </div>
                 <div id="previewContainer1" class="preview_container">
@@ -150,10 +155,10 @@
                 </div>
                 <div class="text description"><span>상품 목록에서 보여질 사진입니다.</span></div>
                 <div class="input_box_wrap desc">
-                    <label for="displayImage2">섬네일 사진2</label>
-                    <input type="file" id="displayImage2" name="displayImage2" class="displayImage">
+                    <label for="hoverImage">섬네일 사진2</label>
+                    <input type="file" id="hoverImage" name="hoverImage" class="displayImage">
                     <div class="file_btn_wrap">
-                        <button type="button" class="btn1 file_btn" id="displayImage2Btn">파일 추가</button>
+                        <button type="button" class="btn1 file_btn" id="hoverImageBtn">파일 추가</button>
                     </div>
                 </div>
                 <div id="previewContainer2" class="preview_container">
