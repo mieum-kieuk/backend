@@ -350,15 +350,7 @@
 #memberInfoModify .auth_wrap #email_auth {
   font-size: 14px;
 }
-.error, .success {
-  font-size: 12px;
-}
-.error {
-  color: #d94747;
-}
-.success {
-  color: #222222;
-}
+
 .address .field-error {
   margin-top: -7px;
 }

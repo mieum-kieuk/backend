@@ -66,6 +66,20 @@ async function updatePreviewContainer(input, containerId, thumbnailType) {
     if (!file) return;
 
     let maxSizePerFile = 3 * 1024 * 1024; // 3MB
+    let validFileType = 'image/jpeg';
+
+    // 파일 형식 검사
+    if (file.type !== validFileType) {
+        Swal.fire({
+            text: "JPG 형식의 이미지 파일만 첨부 가능합니다.",
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
+        input.val(''); // 입력 초기화
+        return;
+    }
 
     if (file.size > maxSizePerFile) {
         input.val('');
@@ -116,15 +130,21 @@ async function handleDetailsImagesChange() {
     let newFileSize = newFileArr.length;
     let originalFileSize = dataTransfer.files.length;
     let maxSizePerFile = 3 * 1024 * 1024;
+    let invalidFileType = false;
 
     let exceedsMaxSize = false;
     let exceedsMaxFiles = originalFileSize + newFileSize > 20;
 
     for (let i = 0; i < newFileSize; i++) {
         let fileSize = newFileArr[i].size;
+        let fileType = newFileArr[i].type;
 
         if (fileSize > maxSizePerFile) {
             exceedsMaxSize = true;
+        }
+
+        if (fileType !== 'image/jpeg') {
+            invalidFileType = true;
         }
     }
 
@@ -151,6 +171,17 @@ async function handleDetailsImagesChange() {
         $('#detailsImages').val('');
         return false;
     }
+    if (invalidFileType) {
+        Swal.fire({
+            text: "JPG 형식의 이미지 파일만 첨부 가능합니다.",
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
+        $('#detailsImages').val('');
+        return false;
+    }
 
     // 기존 파일 목록 가져오기
     let existingFiles = Array.from(dataTransfer.files);
@@ -160,7 +191,7 @@ async function handleDetailsImagesChange() {
     for (let i = 0; i < newFileNames.length; i++) {
         if (existingFiles.some(file => file.name === newFileNames[i])) {
             Swal.fire({
-                text: '이미 추가된 파일입니다.',
+                text: '이미 첨부된 파일입니다.',
                 showConfirmButton: true,
                 confirmButtonText: '확인',
                 customClass: mySwal,
@@ -342,7 +373,7 @@ function validateBeforeSubmit() {
 
     if (detailsValue === '') {
         Swal.fire({
-            text: "상세 정보를 입력해 주세요.",
+            text: "상품 상세정보를 입력해 주세요.",
             showConfirmButton: true,
             confirmButtonText: '확인',
             customClass: mySwal,

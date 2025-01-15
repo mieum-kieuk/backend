@@ -1,4 +1,8 @@
 $(document).ready(function() {
+    $('#name').on('focusout', function () {
+        isNameValid();
+    });
+
     let category = $('#category').val();
     if (category) {
         $('#category').addClass('selected');
@@ -38,7 +42,20 @@ async function updatePreviewContainer(input, containerId, thumbnailType) {
     if (!file) return;
 
     let maxSizePerFile = 3 * 1024 * 1024; // 3MB
+    let validFileType = 'image/jpeg';
 
+    // 파일 형식 검사
+    if (file.type !== validFileType) {
+        Swal.fire({
+            text: "JPG 형식의 이미지 파일만 첨부 가능합니다.",
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
+        input.val(''); // 입력 초기화
+        return;
+    }
     if (file.size > maxSizePerFile) {
         input.val('');
         let container = $('#' + containerId);
@@ -86,6 +103,7 @@ async function handleDetailsImagesChange() {
     let newFileArr = $('#detailsImages')[0].files; // 새로 선택된 파일 목록
 
     const maxSizePerFile = 3 * 1024 * 1024;
+    let invalidFileType = false;
 
     // 기존 파일 개수
     let originalFileCount = $('#previewContainer3 .preview_image_container').length;
@@ -97,9 +115,14 @@ async function handleDetailsImagesChange() {
     // 파일 사이즈 체크
     for (let i = 0; i < newFileSize; i++) {
         let fileSize = newFileArr[i].size;
+        let fileType = newFileArr[i].type;
+
         if (fileSize > maxSizePerFile) {
             exceedsMaxSize = true;
             break; // 사이즈 초과 시 루프 종료
+        }
+        if (fileType !== 'image/jpeg') {
+            invalidFileType = true;
         }
     }
 
@@ -127,6 +150,18 @@ async function handleDetailsImagesChange() {
         $('#detailsImages').val(''); // 파일 입력 필드 초기화
         return false;
     }
+
+    if (invalidFileType) {
+        Swal.fire({
+            text: "JPG 형식의 이미지 파일만 첨부 가능합니다.",
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
+        $('#detailsImages').val('');
+        return false;
+    }
     // 기존 파일 목록 가져오기
     let existingFiles = Array.from(dataTransfer.files);
     let newFileNames = Array.from(newFileArr).map(file => file.name);
@@ -135,7 +170,7 @@ async function handleDetailsImagesChange() {
     for (let i = 0; i < newFileNames.length; i++) {
         if (existingFiles.some(file => file.name === newFileNames[i])) {
             Swal.fire({
-                text: '이미 추가된 파일입니다.',
+                text: '이미 첨부된 파일입니다.',
                 showConfirmButton: true,
                 confirmButtonText: '확인',
                 customClass: mySwal,
@@ -196,6 +231,8 @@ async function addImagePreview(container, file) {
     });
 }
 
+let isNameChecked = false;
+let isAvailableName = false;
 
 //유효성 검사
 function validateBeforeSubmit() {
@@ -228,6 +265,24 @@ function validateBeforeSubmit() {
     } else if (!nameRegex.test(nameValue)) {
         Swal.fire({
             text: "상품명은 한글, 영문, 숫자, 공백만 허용됩니다.",
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
+        return false;
+    }else if (!isNameChecked)  {
+        Swal.fire({
+            text: '상품명 중복검사를 해주세요.',
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
+        return false;
+    } else if (!isAvailableName) {
+        Swal.fire({
+            text: "이미 존재하는 상품명입니다.",
             showConfirmButton: true,
             confirmButtonText: '확인',
             customClass: mySwal,
@@ -391,7 +446,46 @@ function validateBeforeSubmit() {
     }
     return true;
 }
+function isNameValid() {
+    let name = $('#name').val().trim();
+    let nameRegex = /^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9\s]+$/;
 
+    if (name === '') {
+        return;
+    }
+    if (!nameRegex.test(name)) {
+        return;
+    }
+
+    $.ajax({
+        type: 'POST',
+        url: '/ajax/admin/product/check/name',
+        async: false,
+        data: {name: name},
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader(csrfHeader, csrfToken);
+        },
+        success: function (result) {
+            isNameChecked = true;
+            if (result.code == 200) {
+                isAvailableName = true;
+                $('#nameMsg').text(result.message);
+                $('#nameMsg').removeClass('error').addClass('success');
+            } else {
+                isAvailableName = false;
+                $('#nameMsg').text(result.message);
+                $('#nameMsg').removeClass('success').addClass('error');
+            }
+        },
+        error: function () {
+            isAvailableName = false;
+            $('#nameMsg').text('중복 확인 중 오류가 발생했습니다. 다시 시도해 주세요.');
+            $('#nameMsg').removeClass('success').addClass('error');
+        }
+    });
+
+    return;
+}
 $('.display_delete_btn').click(function() {
     let previewContainer = $(this).closest('.preview_container');
     previewContainer.find('.preview_image').attr('src', '');
