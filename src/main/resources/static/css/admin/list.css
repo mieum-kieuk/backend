@@ -115,6 +115,9 @@
 .list_head.product .item.price .item_price {
     padding: 5px;
 }
+.product .list_item a {
+    height: 100px;
+}
 .product .item.img {
     width: 10%;
 }
@@ -123,6 +126,7 @@
     max-height: 100px;
     width: 100%;
     height: 100%;
+    object-fit: cover;
 }
 .product .item.number, .product .item.stock {
     width: 8%;
