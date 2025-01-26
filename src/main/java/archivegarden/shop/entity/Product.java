@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Getter
 @Entity
@@ -56,23 +55,30 @@ public class Product extends BaseTimeEntity {
     private List<ProductImage> productImages = new ArrayList<>();  //다대일 양방향
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "discount_id")
-    private Discount discount;  //다대일 단방향
+    @JoinColumn(name = "discount_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    private Discount discount;  //단방향
 
-    //==비즈니스 로직==//
+    @Builder
+    public Product(AddProductForm form, ProductImage displayImage, ProductImage hoverImage, List<ProductImage> detailsImages) {
+        this.name = form.getName();
+        this.category = form.getCategory();
+        this.price = form.getPrice();
+        this.stockQuantity = form.getStockQuantity();
+        this.details = form.getDetails();
+        this.sizeGuide = form.getSizeGuide();
+        this.shipping = form.getShipping();
+        this.notice = form.getNotice();
+        addProductImage(displayImage);
+        if(hoverImage != null) addProductImage(hoverImage);
+        if(detailsImages.size() > 0) detailsImages.forEach(img -> this.addProductImage(img));
+    }
+
     /**
-     * 상품 이미지 한개 추가
+     * 상품 이미지 추가
      */
     public void addProductImage(ProductImage productImage) {
         this.productImages.add(productImage);
         productImage.setProduct(this);
-    }
-
-    /**
-     * 상품 이미지 여러개 추가
-     */
-    public void addProductImages(List<ProductImage> productImages) {
-        productImages.stream().forEach(image -> addProductImage(image));
     }
 
     /**
@@ -113,17 +119,4 @@ public class Product extends BaseTimeEntity {
         }
     }
 
-    //==생성자==//
-    @Builder
-    public Product(AddProductForm form, List<ProductImage> productImages) {
-        this.name = form.getName();
-        this.category = form.getCategory();
-        this.price = form.getPrice();
-        this.stockQuantity = form.getStockQuantity();
-        this.details = form.getDetails();
-        this.sizeGuide = form.getSizeGuide();
-        this.shipping = form.getShipping();
-        this.notice = form.getNotice();
-        productImages.forEach(m -> this.addProductImage(m));
-    }
 }

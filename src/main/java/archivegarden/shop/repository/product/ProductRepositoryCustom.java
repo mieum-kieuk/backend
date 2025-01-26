@@ -16,14 +16,11 @@ public interface ProductRepositoryCustom {
 
     Page<Product> searchProducts(String keyword, Pageable pageable);
 
-    Product findProduct(Long productId);
+    Optional<Product> findProduct(Long productId);
 
     Page<Product> findProductsByCategory(ProductSearchCondition condition, Pageable pageable);
 
     Page<PopupProductDto> searchProductsInPopup(String keyword, Pageable pageable);
 
-    //==관리자 페이지==//
     Page<Product> findProductAll(AdminProductSearchCondition condition, Pageable pageable);
-
-    Optional<Product> findByIdFetchJoin(Long productId);
 }

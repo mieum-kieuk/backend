@@ -1,8 +1,9 @@
 package archivegarden.shop.repository.product;
 
 import archivegarden.shop.dto.admin.product.product.AdminProductSearchCondition;
-import archivegarden.shop.dto.user.product.ProductPopupDto;
+import archivegarden.shop.dto.user.product.PopupProductDto;
 import archivegarden.shop.dto.user.product.ProductSearchCondition;
+import archivegarden.shop.dto.user.product.QPopupProductDto;
 import archivegarden.shop.entity.Category;
 import archivegarden.shop.entity.ImageType;
 import archivegarden.shop.entity.Product;
@@ -36,16 +37,6 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
     public ProductRepositoryImpl(EntityManager em) {
         this.em = em;
         this.queryFactory = new JPAQueryFactory(JPQLTemplates.DEFAULT, em);
-    }
-
-    @Override
-    public Product findProduct(Long productId) {
-        return queryFactory
-                .selectFrom(product)
-                .leftJoin(product.discount, discount).fetchJoin()
-                .leftJoin(product.productImages, productImage).fetchJoin()
-                .where(product.id.eq(productId))
-                .fetchOne();
     }
 
     @Override
@@ -85,7 +76,19 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
     }
 
     @Override
-    public Page<Product> findAllByCategory(ProductSearchCondition condition, Pageable pageable) {
+    public Optional<Product> findProduct(Long productId) {
+        Product result = queryFactory
+                .selectFrom(product)
+                .leftJoin(product.discount, discount).fetchJoin()
+                .leftJoin(product.productImages, productImage).fetchJoin()
+                .where(product.id.eq(productId))
+                .fetchOne();
+
+        return Optional.ofNullable(result);
+    }
+
+    @Override
+    public Page<Product> findProductsByCategory(ProductSearchCondition condition, Pageable pageable) {
         List<Product> content = queryFactory
                 .selectFrom(product)
                 .leftJoin(product.discount, discount).fetchJoin()
@@ -108,31 +111,30 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
     }
 
     @Override
-    public Page<ProductPopupDto> findDtoAllPopup(String keyword, Pageable pageable) {
-//        List<ProductPopupDto> content = queryFactory.select(new QProductPopupDto(
-//                        product.id,
-//                        product.name,
-//                        product.price,
-//                        productImage.imageUrl
-//                ))
-//                .from(product)
-//                .leftJoin(product.productImages, productImage)
-//                .on(
-//                        product.id.eq(productImage.product.id),
-//                        imageTypeDisplay()
-//                )
-//                .where(keywordLike(keyword))
-//                .offset(pageable.getOffset())
-//                .limit(pageable.getPageSize())
-//                .fetch();
-//
-//        JPAQuery<Long> countQuery = queryFactory
-//                .select(product.count())
-//                .from(product)
-//                .where(keywordLike(keyword));
-//
-//        return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
-        return null;
+    public Page<PopupProductDto> searchProductsInPopup(String keyword, Pageable pageable) {
+        List<PopupProductDto> content = queryFactory.select(new QPopupProductDto(
+                        product.id,
+                        product.name,
+                        product.price,
+                        productImage.imageUrl
+                ))
+                .from(product)
+                .leftJoin(product.productImages, productImage)
+                .on(
+                        product.id.eq(productImage.product.id),
+                        imageTypeDisplay()
+                )
+                .where(keywordLike(keyword))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        JPAQuery<Long> countQuery = queryFactory
+                .select(product.count())
+                .from(product)
+                .where(keywordLike(keyword));
+
+        return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
     }
 
     @Override
@@ -162,17 +164,17 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
         return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
     }
 
-    @Override
-    public Optional<Product> findByIdFetchJoin(Long productId) {
-        Product result = queryFactory
-                .selectFrom(product)
-                .leftJoin(product.discount, discount).fetchJoin()
-                .leftJoin(product.productImages, productImage).fetchJoin()
-                .where(product.id.eq(productId))
-                .fetchOne();
-
-        return Optional.ofNullable(result);
-    }
+//    @Override
+//    public Optional<Product> findByIdFetchJoin(Long productId) {
+//        Product result = queryFactory
+//                .selectFrom(product)
+//                .leftJoin(product.discount, discount).fetchJoin()
+//                .leftJoin(product.productImages, productImage).fetchJoin()
+//                .where(product.id.eq(productId))
+//                .fetchOne();
+//
+//        return Optional.ofNullable(result);
+//    }
 
     /**
      * OrderSpecifier 리스트 객체 생성
