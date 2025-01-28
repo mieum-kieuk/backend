@@ -482,6 +482,7 @@ function validateBeforeSubmit() {
         $('#detailsImages').val('');
         return false;
     }
+    $('.submit_btn').prop('disabled', true);
     return true;
 }
 

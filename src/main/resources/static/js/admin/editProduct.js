@@ -1,4 +1,5 @@
-$(document).ready(function() {
+$(document).ready(function () {
+
     $('#name').on('focusout', function () {
         isNameValid();
     });
@@ -8,32 +9,77 @@ $(document).ready(function() {
         $('#category').addClass('selected');
     }
 
-    $('#displayImageBtn').on('click', function() {
+    $('#displayImageBtn').on('click', function () {
         $('#displayImage').click();
     });
-    $('#hoverImageBtn').on('click', function() {
+    $('#hoverImageBtn').on('click', function () {
         $('#hoverImage').click();
     });
-    $('#detailsImagesBtn').on('click', function() {
+    $('#detailsImagesBtn').on('click', function () {
         $('#detailsImages').click();
     });
 
     //섬네일 사진1 첨부
-    $('#editProduct #displayImage').change(async function() {
+    $('#editProduct #displayImage').change(async function () {
         await updatePreviewContainer($(this), 'previewContainer1', '섬네일 사진1');
     });
 
     //섬네일 사진2 첨부
-    $('#editProduct #hoverImage').change(async function() {
+    $('#editProduct #hoverImage').change(async function () {
         await updatePreviewContainer($(this), 'previewContainer2', '섬네일 사진2');
         $('#hoverImageDeleted').val('false');
     });
 
     //상세 페이지 사진 첨부
-    $('#detailsImages').change(async function() {
+    $('#detailsImages').change(async function () {
         await handleDetailsImagesChange();
     });
 });
+
+let csrfHeader = $("meta[name='_csrf_header']").attr("content");
+let csrfToken = $("meta[name='_csrf']").attr("content");
+let originalName = $('#name').val().trim();
+let isAvailableName = true;
+
+function isNameValid() {
+    let name = $('#name').val().trim();
+    let nameRegex = /^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9\s]+$/;
+
+    if (name === '') {
+        return;
+    }
+    if (!nameRegex.test(name)) {
+        return;
+    }
+
+    if (name === originalName) {
+        isAvailableName = true;
+    } else {
+        $.ajax({
+            type: 'POST',
+            url: '/ajax/admin/product/check/name',
+            async: false,
+            data: {name: name},
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(csrfHeader, csrfToken);
+            },
+            success: function (result) {
+                if (result.code == 200) {
+                    isAvailableName = true;
+                } else {
+                    isAvailableName = false;
+                }
+            },
+            error: function () {
+                isAvailableName = false;
+                $('#nameMsg').text('중복 확인 중 오류가 발생했습니다. 다시 시도해 주세요.');
+                $('#nameMsg').removeClass('success').addClass('error');
+            }
+        });
+    }
+
+    return;
+}
 
 //섬네일 사진1, 섬네일 사진2 유효성 검사 -> 첨부
 async function updatePreviewContainer(input, containerId, thumbnailType) {
@@ -56,6 +102,7 @@ async function updatePreviewContainer(input, containerId, thumbnailType) {
         input.val(''); // 입력 초기화
         return;
     }
+
     if (file.size > maxSizePerFile) {
         input.val('');
         let container = $('#' + containerId);
@@ -76,7 +123,7 @@ async function updatePreviewContainer(input, containerId, thumbnailType) {
     let reader = new FileReader();
 
     return new Promise((resolve) => {
-        reader.onload = function(e) {
+        reader.onload = function (e) {
             let container = $('#' + containerId);
             let previewImages = container.find('.preview_images');
 
@@ -100,33 +147,29 @@ let dataTransfer = new DataTransfer();
 //상세 페이지 사진 유효성 검사 -> 첨부
 async function handleDetailsImagesChange() {
     let previewContainer = $('#previewContainer3');
-    let newFileArr = $('#detailsImages')[0].files; // 새로 선택된 파일 목록
+    let newFileArr = $('#detailsImages')[0].files;
 
-    const maxSizePerFile = 3 * 1024 * 1024;
+    let newFileSize = newFileArr.length;
+    let originalFileSize = dataTransfer.files.length;
+    let maxSizePerFile = 3 * 1024 * 1024;
     let invalidFileType = false;
 
-    // 기존 파일 개수
-    let originalFileCount = $('#previewContainer3 .preview_image_container').length;
-    let newFileSize = newFileArr.length;
-
     let exceedsMaxSize = false;
-    let exceedsMaxFiles = originalFileCount + newFileSize > 20;
+    let exceedsMaxFiles = originalFileSize + newFileSize > 20;
 
-    // 파일 사이즈 체크
     for (let i = 0; i < newFileSize; i++) {
         let fileSize = newFileArr[i].size;
         let fileType = newFileArr[i].type;
 
         if (fileSize > maxSizePerFile) {
             exceedsMaxSize = true;
-            break; // 사이즈 초과 시 루프 종료
         }
+
         if (fileType !== 'image/jpeg') {
             invalidFileType = true;
         }
     }
 
-    // 파일 사이즈 초과 시 알림
     if (exceedsMaxSize) {
         Swal.fire({
             text: "상세 페이지 사진 한 장의 크기가 3MB 이하여야 합니다.",
@@ -147,10 +190,9 @@ async function handleDetailsImagesChange() {
             customClass: mySwal,
             buttonsStyling: false
         });
-        $('#detailsImages').val(''); // 파일 입력 필드 초기화
+        $('#detailsImages').val('');
         return false;
     }
-
     if (invalidFileType) {
         Swal.fire({
             text: "JPG 형식의 이미지 파일만 첨부 가능합니다.",
@@ -162,6 +204,7 @@ async function handleDetailsImagesChange() {
         $('#detailsImages').val('');
         return false;
     }
+
     // 기존 파일 목록 가져오기
     let existingFiles = Array.from(dataTransfer.files);
     let newFileNames = Array.from(newFileArr).map(file => file.name);
@@ -184,22 +227,22 @@ async function handleDetailsImagesChange() {
     for (let i = 0; i < newFileSize; i++) {
         dataTransfer.items.add(newFileArr[i]);
     }
+    $('#detailsImages')[0].files = dataTransfer.files;
 
-    // 파일 미리보기 추가
     for (let i = 0; i < newFileSize; i++) {
         await addImagePreview(previewContainer, newFileArr[i]);
     }
-    $('#detailsImages')[0].files = dataTransfer.files;
 
     previewContainer.css('display', 'flex');
 }
+
 
 //상세 이미지 사진 첨부시 뷰 생성
 async function addImagePreview(container, file) {
     let reader = new FileReader();
 
     return new Promise((resolve) => {
-        reader.onload = function(e) {
+        reader.onload = function (e) {
             let containerDiv = $('<div>').addClass('preview_image_container');
             let previewImages = $('<div>').addClass('preview_images');
             let previewImage = $('<img>').addClass('preview_image').attr('src', e.target.result);
@@ -207,7 +250,7 @@ async function addImagePreview(container, file) {
             let fileName = $('<span>').addClass('file_name').text('파일명: ' + file.name);
             let deleteButton = $('<button>').addClass('delete_btn').append($('<span>').addClass('material-symbols-outlined').text('close'));
 
-            deleteButton.click(function() {
+            deleteButton.click(function () {
 
                 for (let i = 0; i < dataTransfer.items.length; i++) {
                     if (dataTransfer.items[i].getAsFile().name === file.name) {
@@ -231,9 +274,6 @@ async function addImagePreview(container, file) {
     });
 }
 
-let isNameChecked = false;
-let isAvailableName = false;
-
 //유효성 검사
 function validateBeforeSubmit() {
     let nameValue = $('#name').val().trim();
@@ -246,14 +286,12 @@ function validateBeforeSubmit() {
 
     let displayImageValue = $('#displayImage')[0].files;
     let originalDisplayPreviewImage = $('#previewContainer1 .preview_image').attr('src');
-    console.log(displayImageValue.length);
-    console.log(originalDisplayPreviewImage);
 
     let hoverImageValue = $('#hoverImage')[0].files;
     let detailsImagesValue = $('#detailsImages')[0].files;
 
     let nameRegex = /^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9\s]+$/;
-    if(nameValue === '') {
+    if (nameValue === '') {
         Swal.fire({
             text: "상품명을 입력해 주세요.",
             showConfirmButton: true,
@@ -265,15 +303,6 @@ function validateBeforeSubmit() {
     } else if (!nameRegex.test(nameValue)) {
         Swal.fire({
             text: "상품명은 한글, 영문, 숫자, 공백만 허용됩니다.",
-            showConfirmButton: true,
-            confirmButtonText: '확인',
-            customClass: mySwal,
-            buttonsStyling: false
-        });
-        return false;
-    }else if (!isNameChecked)  {
-        Swal.fire({
-            text: '상품명 중복검사를 해주세요.',
             showConfirmButton: true,
             confirmButtonText: '확인',
             customClass: mySwal,
@@ -444,49 +473,11 @@ function validateBeforeSubmit() {
         $('#detailsImages').val('');
         return false;
     }
+    $('.submit_btn').prop('disabled', true);
     return true;
 }
-function isNameValid() {
-    let name = $('#name').val().trim();
-    let nameRegex = /^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9\s]+$/;
 
-    if (name === '') {
-        return;
-    }
-    if (!nameRegex.test(name)) {
-        return;
-    }
-
-    $.ajax({
-        type: 'POST',
-        url: '/ajax/admin/product/check/name',
-        async: false,
-        data: {name: name},
-        beforeSend: function (xhr) {
-            xhr.setRequestHeader(csrfHeader, csrfToken);
-        },
-        success: function (result) {
-            isNameChecked = true;
-            if (result.code == 200) {
-                isAvailableName = true;
-                $('#nameMsg').text(result.message);
-                $('#nameMsg').removeClass('error').addClass('success');
-            } else {
-                isAvailableName = false;
-                $('#nameMsg').text(result.message);
-                $('#nameMsg').removeClass('success').addClass('error');
-            }
-        },
-        error: function () {
-            isAvailableName = false;
-            $('#nameMsg').text('중복 확인 중 오류가 발생했습니다. 다시 시도해 주세요.');
-            $('#nameMsg').removeClass('success').addClass('error');
-        }
-    });
-
-    return;
-}
-$('.display_delete_btn').click(function() {
+$('.display_delete_btn').click(function () {
     let previewContainer = $(this).closest('.preview_container');
     previewContainer.find('.preview_image').attr('src', '');
     let fileInput = previewContainer.prev('.input_box_wrap').find('input[type="file"]');
@@ -494,7 +485,7 @@ $('.display_delete_btn').click(function() {
     previewContainer.hide();
 });
 
-$('.hover_delete_btn').click(function() {
+$('.hover_delete_btn').click(function () {
     let previewContainer = $(this).closest('.preview_container');
     previewContainer.find('.preview_image').attr('src', '');
     let fileInput = previewContainer.prev('.input_box_wrap').find('input[type="file"]');
@@ -504,7 +495,7 @@ $('.hover_delete_btn').click(function() {
     $('#hoverImageDeleted').val('true');
 });
 
-$('.details_delete_btn').click(function() {
+$('.details_delete_btn').click(function () {
     let previewContainer = $(this).closest('.preview_image_container');
     previewContainer.find('.preview_image').attr('src', '');
     let fileInput = previewContainer.prev('.input_box_wrap').find('input[type="file"]');
