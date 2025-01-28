@@ -95,7 +95,7 @@ public class AdminProductController {
      */
     @PostMapping("/{productId}/edit")
     public String editProduct(@PathVariable("productId") Long productId, @Valid @ModelAttribute("product") EditProductForm form,
-                              BindingResult bindingResult, Model model) throws IOException {
+                              BindingResult bindingResult, Model model) {
         if (form.getDetailsImages().size() > 20) {
             bindingResult.rejectValue("detailsImages", "imageCountExceeded");
         }

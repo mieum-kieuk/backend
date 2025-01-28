@@ -25,18 +25,16 @@ public class ProductImage {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
-    private Product product;    //다대일 양방향
+    private Product product;    //양방향
 
-    //==연관관계 메서드==//
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
-    //==생성자 메서드==//
     public static ProductImage createProductImage(String imageUrl, ImageType imageType) {
         ProductImage productImage = new ProductImage();
         productImage.imageUrl = imageUrl;
         productImage.imageType = imageType;
         return productImage;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
     }
 }

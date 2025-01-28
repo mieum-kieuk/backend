@@ -18,7 +18,6 @@ public class AdminProductAjaxController {
     /**
      *  상품명 중복 여부를 검사하는 메서드
      */
-    @ResponseStatus(HttpStatus.OK)
     @PostMapping("/product/check/name")
     public ResultResponse checkProductName(@RequestParam("name") String name) {
         boolean isAvailable = productService.isAvailableName(name);
@@ -32,7 +31,6 @@ public class AdminProductAjaxController {
     /**
      * 상품 1개 삭제 요청을 처리하는 메서드
      */
-    @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/product")
     public ResultResponse deleteProduct(@RequestParam("productId") Long productId) {
         productService.deleteProduct(productId);
@@ -42,7 +40,6 @@ public class AdminProductAjaxController {
     /**
      * 상품 여러개 삭제 요청을 처리하는 메서드
      */
-    @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/products")
     public ResultResponse deleteProducts(@RequestBody List<Long> productIds) {
         productService.deleteProducts(productIds);

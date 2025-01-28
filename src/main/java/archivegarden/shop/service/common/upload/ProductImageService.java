@@ -1,4 +1,4 @@
-package archivegarden.shop.service.upload;
+package archivegarden.shop.service.common.upload;
 
 import archivegarden.shop.dto.admin.product.product.ProductImageDto;
 import archivegarden.shop.entity.ImageType;

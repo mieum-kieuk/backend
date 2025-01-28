@@ -2,16 +2,18 @@ package archivegarden.shop.service.product;
 
 import archivegarden.shop.dto.admin.product.product.ProductImageDto;
 import archivegarden.shop.dto.order.OrderProductListDto;
+import archivegarden.shop.dto.user.product.PopupProductDto;
 import archivegarden.shop.dto.user.product.ProductDetailsDto;
 import archivegarden.shop.dto.user.product.ProductListDto;
 import archivegarden.shop.dto.user.product.ProductSearchCondition;
 import archivegarden.shop.entity.Member;
 import archivegarden.shop.entity.Product;
+import archivegarden.shop.entity.ProductImage;
 import archivegarden.shop.exception.NotFoundException;
-import archivegarden.shop.exception.ProductNotFoundException;
+import archivegarden.shop.exception.common.EntityNotFoundException;
 import archivegarden.shop.repository.order.CartRepository;
 import archivegarden.shop.repository.product.ProductRepository;
-import archivegarden.shop.service.upload.ProductImageService;
+import archivegarden.shop.service.common.upload.ProductImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -22,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Service
 @Transactional(readOnly = true)
@@ -54,7 +57,7 @@ public class ProductService {
      * 상품 목록 조회
      */
     public Page<ProductListDto> getProducts(ProductSearchCondition condition, Pageable pageable) {
-        Page<Product> productPages = productRepository.findAllByCategory(condition, pageable);
+        Page<Product> productPages = productRepository.findProductsByCategory(condition, pageable);
         List<ProductListDto> productListDtos = getProductListDto(productPages.getContent());
         return new PageImpl<>(productListDtos, pageable, productPages.getTotalElements());
     }
@@ -62,25 +65,40 @@ public class ProductService {
     /**
      * 상품 단건 조회
      *
-     * @throws ProductNotFoundException
+     * @throws EntityNotFoundException
      */
     public ProductDetailsDto getProduct(Long productId) {
-        Product product = productRepository.findProduct(productId);
-        if (product == null) {
-            throw new ProductNotFoundException("존재하지 않는 상품입니다.");
-        }
+        Product product = productRepository.findProduct(productId).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 상품입니다."));
 
-        List<ProductImageDto> productImageDtos = downloadProductImages(product);
+        List<String> imageUrls = product.getProductImages().stream()
+                .map(ProductImage::getImageUrl)
+                .collect(Collectors.toList());
+
+        List<String> downloadedImageUrls = downloadProductImagesAsync(imageUrls);
+
+        List<ProductImageDto> productImageDtos = createProductImageDtos(product, downloadedImageUrls);
+
         return new ProductDetailsDto(product, productImageDtos);
     }
 
+
     /**
-     * 팝업창
-     * 상품 목록 조회 + 페이지네이션
+     * 팝업창에서 상품 검색
      */
-//    public Page<ProductPopupResultDto> getPopupProducts(String keyword, Pageable pageable) {
-//        return productRepository.findDtoAllPopup(keyword, pageable);
-//    }
+    public Page<PopupProductDto> getPopupProducts(String keyword, Pageable pageable) {
+        Page<PopupProductDto> productPages = productRepository.searchProductsInPopup(keyword, pageable);
+
+        List<PopupProductDto> popupProductDtos = productPages.getContent().stream()
+                .map(product ->
+                        {
+                            String donwloadedImageUrl = downloadProductImage(product.getDisplayImageUrl());
+                            product.setDisplayImageUrl(donwloadedImageUrl);
+                            return product;
+                        }
+                ).collect(Collectors.toList());
+
+        return new PageImpl<>(popupProductDtos, pageable, productPages.getTotalElements());
+    }
 
     /**
      * 주문하려는 상품 목록 조회
@@ -97,26 +115,14 @@ public class ProductService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * 상품들 비동기 처리
+     */
     private List<ProductListDto> getProductListDto(List<Product> products) {
         List<CompletableFuture<ProductListDto>> productListDtoFutures = products.stream()
-                .map(product -> CompletableFuture.supplyAsync(() -> {
-                    //각 Product의 이미지 다운로드 작업
-                    List<CompletableFuture<String>> imageFutures = product.getProductImages().stream()
-                            .map(productImage -> CompletableFuture.supplyAsync(() ->
-                                    productImageService.downloadImage(productImage.getImageUrl())))
-                            .collect(Collectors.toList());
-
-                    //다운로드된 이미지 URL 리스트 생성
-                    List<String> displayImageUrls = imageFutures.stream()
-                            .map(CompletableFuture::join)
-                            .collect(Collectors.toList());
-
-                    //ProductListDto 생성
-                    return new ProductListDto(product, displayImageUrls);
-                }))
+                .map(product -> processProductAsync(product))
                 .collect(Collectors.toList());
 
-        //모든 비동기 작업 완료 후 ProductListDto 리스트 생성
         List<ProductListDto> productListDtos = productListDtoFutures.stream()
                 .map(CompletableFuture::join)
                 .collect(Collectors.toList());
@@ -124,12 +130,53 @@ public class ProductService {
         return productListDtos;
     }
 
-    private List<ProductImageDto> downloadProductImages(Product product) {
-        return product.getProductImages().stream()
-                .map(image -> {
-                    String encodedImage = productImageService.downloadImage(image.getImageUrl());
-                    return new ProductImageDto(image, encodedImage);
+    /**
+     * 상품 비동기 처리
+     */
+    private CompletableFuture<ProductListDto> processProductAsync(Product product) {
+        return CompletableFuture.supplyAsync(() -> {
+            List<String> imageUrls = product.getProductImages().stream()
+                    .map(ProductImage::getImageUrl)
+                    .collect(Collectors.toList());
+
+            //각 상품의 이미지 비동기 다운로드
+            List<String> downloadImageUrls = downloadProductImagesAsync(imageUrls);
+
+            return new ProductListDto(product, downloadImageUrls);
+        });
+    }
+
+    /**
+     * 주어진 상품의 상품 이미지들을 비동기 다운로드
+     */
+    private List<String> downloadProductImagesAsync(List<String> imageUrls) {
+//        List<CompletableFuture<String>> imageUrlFutures = imageUrls.stream()
+//                .map(imageUrl -> CompletableFuture.supplyAsync(() -> productImageService.downloadImage(imageUrl)))
+//                .collect(Collectors.toList());
+        List<CompletableFuture<String>> imageUrlFutures = null;
+        return imageUrlFutures.stream()
+                .map(CompletableFuture::join)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * ProductImageDto 객체 생성
+     */
+    private List<ProductImageDto> createProductImageDtos(Product product, List<String> downloadedImageUrls) {
+        return IntStream.range(0, product.getProductImages().size())
+                .mapToObj(index -> {
+                    ProductImage productImage = product.getProductImages().get(index);
+                    String imageUrl = downloadedImageUrls.get(index);  // 비동기 다운로드 후 해당 인덱스의 URL
+                    return new ProductImageDto(productImage, imageUrl);
                 })
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * 상품 이미지 다운로드
+     */
+    private String downloadProductImage(String imageUrl) {
+        return null;
+//        return productImageService.downloadImage(imageUrl);
     }
 }

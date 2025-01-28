@@ -18,7 +18,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.js"></script>
     <script defer src="../../../../static/js/common/comm.js" th:src="@{/js/common/comm.js}"></script>
-    <script defer src="../../../../static/js/adminEditProduct.js" th:src="@{/js/adminEditProduct.js}"></script>
+    <script defer src="../../../../static/js/admin/editProduct.js" th:src="@{/js/admin/editProduct.js}"></script>
 </head>
 <body>
 <div class="admin_wrap">
@@ -96,7 +96,12 @@
                             </button>
                         </div>
                     </div>
-                    <div class="text description"><span>상품 목록에서 보여질 사진입니다.</span></div>
+                    <div class="text description">
+                        <ul>
+                            <li><span>상품 목록에서 보여질 사진입니다.</span></li>
+                            <li><span>JPG 형식의 이미지만 첨부할 수 있습니다.</span></li>
+                        </ul>
+                    </div>
                     <div class="input_box_wrap desc">
                         <label for="hoverImage">섬네일 사진2</label>
                         <input type="file" id="hoverImage" th:field="*{hoverImage}">
@@ -116,7 +121,12 @@
                             <button type="button" class="hover_delete_btn"><span class="material-symbols-outlined">close</span></button>
                         </div>
                     </div>
-                    <div class="text description"><span>상품 목록에서 커서를 올리면 보여질 사진입니다.</span></div>
+                    <div class="text description">
+                        <ul>
+                            <li><span>상품 목록에서 보여질 사진입니다.</span></li>
+                            <li><span>JPG 형식의 이미지만 첨부할 수 있습니다.</span></li>
+                        </ul>
+                    </div>
                     <div class="input_box_wrap desc">
                         <label for="detailsImages">상세 페이지 사진</label>
                         <input type="file" id="detailsImages" th:field="*{detailsImages}" multiple>
@@ -142,8 +152,9 @@
                     <div class="text description">
                         <ul>
                             <li><span>첨부파일 한 개 3MB 이하의 이미지만 업로드 가능합니다.</span></li>
+                            <li><span>JPG 형식의 이미지만 첨부할 수 있습니다.</span></li>
+                            <li><span>사진은 최대 20장까지 등록 가능합니다.</span></li>
                             <li><span>상품과 무관한 내용이거나 음란 및 불법적인 내용은 통보없이 삭제 될 수 있습니다.</span></li>
-                            <li><span>사진은 최대 20장까지 등록가능합니다.</span></li>
                         </ul>
                     </div>
                 </div>

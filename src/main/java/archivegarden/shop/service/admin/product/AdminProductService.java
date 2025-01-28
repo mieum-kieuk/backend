@@ -80,7 +80,7 @@ public class AdminProductService {
      */
     @Transactional(readOnly = true)
     public EditProductForm getEditProductForm(Long productId) {
-        Product product = productRepository.findById(productId).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 상품입니다."));
+        Product product = productRepository.findProduct(productId).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 상품입니다."));
         List<ProductImageDto> productImageDtos = productImageService.getProductImageDtos(product.getProductImages());
         return new EditProductForm(product, productImageDtos);
     }
@@ -90,43 +90,43 @@ public class AdminProductService {
      *
      * @throws EntityNotFoundException
      */
-    public void updateProduct(Long productId, EditProductForm form) throws IOException {
+    public void updateProduct(Long productId, EditProductForm form) {
         Product product = productRepository.findById(productId).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 상품입니다."));
         product.update(form);
 
-        //DISPLAY ProductImage 수정
+        //ImageType == DISPLAY ProductImage 수정
         if (!form.getDisplayImage().isEmpty()) {
-            ProductImage displayImage = product.getProductImages()
+            ProductImage originalDisplayImage = product.getProductImages()
                     .stream()
                     .filter(productImage -> productImage.getImageType() == ImageType.DISPLAY)
                     .findFirst()
                     .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 상품 이미지 입니다."));
 
-            productImageService.deleteProductImage(displayImage.getImageUrl());
-            product.removeImage(displayImage);
+            productImageService.deleteProductImage(originalDisplayImage.getImageUrl());
+            product.removeImage(originalDisplayImage);
+
             ProductImage newDisplayImage = productImageService.createProductImage(form.getDisplayImage(), ImageType.DISPLAY);
             product.addProductImage(newDisplayImage);
         }
 
-        //HOVER ProductImage 수정
+        //ImageType == HOVER ProductImage 수정
         if (form.isHoverImageDeleted()) {
-            ProductImage hoverImage = product.getProductImages()
+            ProductImage originalHoverImage = product.getProductImages()
                     .stream()
                     .filter(productImage -> productImage.getImageType() == ImageType.HOVER)
                     .findFirst()
                     .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 상품 이미지 입니다."));
 
-            productImageService.deleteProductImage(hoverImage.getImageUrl());
-            product.removeImage(hoverImage);
+            productImageService.deleteProductImage(originalHoverImage.getImageUrl());
+            product.removeImage(originalHoverImage);
         }
 
-        //ProductImage 생성
         if(!form.getHoverImage().isEmpty()) {
             ProductImage newHoverImage = productImageService.createProductImage(form.getHoverImage(), ImageType.HOVER);
             product.addProductImage(newHoverImage);
         }
 
-        //DETAILS ProductImage 수정
+        //ImageType == DETAILS ProductImage 수정
         List<Long> detailsImageIds = product.getProductImages()
                 .stream()
                 .filter(productImage -> productImage.getImageType() == ImageType.DETAILS)
@@ -157,7 +157,7 @@ public class AdminProductService {
     public void deleteProduct(Long productId) {
         Product product = productRepository.findById(productId).orElseThrow(() -> new AjaxEntityNotFoundException("존재하지 않는 상품입니다."));
         List<ProductImage> productImages = product.getProductImages();
-//        productImageService.deleteImages(productImages);
+        productImages.forEach((image) -> productImageService.deleteProductImage(image.getImageUrl()));
         productRepository.delete(product);
     }
 
@@ -170,7 +170,7 @@ public class AdminProductService {
         productIds.stream().forEach(productId -> {
             Product product = productRepository.findById(productId).orElseThrow(() -> new AjaxEntityNotFoundException("존재하지 않는 상품입니다."));
             List<ProductImage> productImages = product.getProductImages();
-//            productImageService.deleteImages(productImages);
+            productImages.forEach((image) -> productImageService.deleteProductImage(image.getImageUrl()));
             productRepository.delete(product);
         });
     }

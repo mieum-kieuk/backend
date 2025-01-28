@@ -14,26 +14,4 @@ public class ExceptionController {
         log.warn("[{}] cause={}, message={}", e.getStackTrace()[0], "EntityNotFoundException", e.getMessage());
         return "error/common/entity_not_found.html";
     }
-
-//    @ExceptionHandler(ProductNotFoundException.class)
-//    public String productNotFoundException(ProductNotFoundException e) {
-//        log.warn("[{}] cause={}, message={}", e.getStackTrace()[0], "ProductNotFoundException", e.getMessage());
-//        return "error/product_not_found_exception.html";
-//    }
-
-//    @ExceptionHandler(AdminNotFoundException.class)
-//    public String adminNoSuchElementException(AdminNotFoundException e) {
-//        log.warn("[{}] cause={}, message={}", e.getStackTrace()[0], "AdminNotFoundException", e.getMessage());
-//        return "error/admin/not_found_exception";
-//    }
-
-//    @ExceptionHandler(NoSuchDiscountException.class)
-//    public String noSuchDiscountException(NoSuchDiscountException e) {
-//        return "error/no_such_discount_exception.html";
-//    }
-
-//    @ExceptionHandler(NoSuchBoardException.class)
-//    public String noSuchNoticeException(NoSuchBoardException e) {
-//        return "error/no_such_board_exception";
-//    }
 }
