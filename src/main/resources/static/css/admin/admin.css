@@ -481,20 +481,25 @@ input::-webkit-inner-spin-button {
 }
 
 .discount_cont.period .input_box_wrap {
+    gap: 10px;
     margin-bottom: 5px;
+}
+.discount_cont.period .input_box_wrap .hasDatepicker {
+    width: 100px;
+}
+.discount_cont.period .input_box_wrap select {
+    position: static;
+    width: 100px;
 }
 .discount_cont.period .tilde {
     display: flex;
     align-items: center;
     width: 10px;
     justify-content: center;
-    margin: 0 0 5px 0;
+    margin: 0 5px 5px ;
     font-size: 14px;
     font-weight: 400;
     color: #222;
-}
-.discount .input_box_wrap {
-    width: auto;
 }
 
 .discount_cont label {
@@ -507,18 +512,9 @@ input::-webkit-inner-spin-button {
 .list_content .list.discount .list_item.expired .item{
     color: #d7d7d7;
 }
-.input_box_wrap #productType {
-    display: flex;
-}
-.input_box_wrap #productType label {
-    display: flex;
-    color: #000;
-    font-weight: 400;
-}
+
 .input_box_wrap.product {
-    display: none;
     flex-direction: column;
-    padding-left: 140px;
     width: 100%;
 }
 .input_box_wrap.product .btn_wrap {
@@ -582,6 +578,45 @@ input::-webkit-inner-spin-button {
     font-weight: 600;
     color: #999;
 }
+#discountDetails td {
+    white-space: unset;
+}
+#discountDetails td .list_content {
+    width: 100%;
+}
+/*discountPopup*/
+.admin_wrap.popup.discount {
+    margin-left: 0;
+    padding: 20px;
+    max-width: none;
+}
+.admin_wrap.popup.discount .search_form {
+    gap: 10px;
+}
+.admin_wrap.popup.discount .search_form input{
+    width: 250px;
+}
+.admin_wrap.popup.discount .search_form select{
+    margin: 0;
+    width: auto;
+}
+.admin_wrap.popup.discount .search_form .result .left {
+    display: flex;
+    align-items: center;
+}
+.admin_wrap.popup.discount .search_form .result .left .btn_wrap {
+    margin-bottom: 0;
+}
+.admin_wrap.popup.discount .search_form .result .total {
+    margin-right: 20px;
+}
+.admin_wrap.popup.discount .search_form .result .add_btn {
+    width: auto;
+}
+.admin_wrap.popup.discount .form_wrap {
+    border-bottom: 1px solid #d7d7d7;
+}
+
 
 /*Details*/
 .details_wrap tr {

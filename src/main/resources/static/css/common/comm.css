@@ -869,6 +869,11 @@ legend {
   0% { transform: translate(-50%, -50%) rotate(0deg); }
   100% { transform: translate(-50%, -50%) rotate(360deg); }
 }
+/*datepicker*/
+[readonly].hasDatepicker {
+  pointer-events: auto;
+}
+/*swal*/
 .swal2-actions.my-swal-actions {
   width: 100%;
   padding: 0;

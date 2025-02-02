@@ -1,9 +1,18 @@
 $(document).ready(function() {
-    $('#startDate, #endDate').datepicker({
-        dateFormat: 'yy-mm-dd',
-        maxDate: 0
-    });
+    if ($('.discount').length) {
+        $('#startDate, #endDate').datepicker({
+            dateFormat: 'yy-mm-dd',
+            minDate: 0  // 과거 날짜 선택 불가
+        });
+    } else {
+        $('#startDate, #endDate').datepicker({
+            dateFormat: 'yy-mm-dd',
+            maxDate: 0  // 미래 날짜 선택 불가
+        });
+    }
+
 });
+
 function setSearchDate(days) {
     if (days === 'all') {
         $('#startDate').datepicker('setDate', null);
@@ -21,9 +30,11 @@ function setSearchDate(days) {
         $('#startDate').datepicker('setDate', formatDate(startDate));
         $('#endDate').datepicker('setDate', formatDate(endDate));
     }
-    $('.hasDatepicker').attr('readonly', true).on('click', function () {
-        $(this).hasDatepicker('show');
+
+    $('.hasDatepicker').removeAttr('readonly').on('click', function () {
+        $(this).datepicker('show');
     });
+
     $('.hasDatepicker').css('pointer-events', 'auto');
 }
 
@@ -38,4 +49,3 @@ function formatDate(date) {
 
     return [year, month, day].join('-');
 }
-

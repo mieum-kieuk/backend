@@ -1,9 +1,4 @@
 $(document).ready(function () {
-    setupDateTimePicker();
-    setupDate();
-    selectCheckbox();
-    selectCheckboxes();
-    productOptionToggle();
     popupButton();
     addItems();
     $('.submit_btn').click(function (event) {
@@ -11,69 +6,30 @@ $(document).ready(function () {
             event.preventDefault();
         }
     });
+    // 전체 선택
+    $('.select_all_btn').on('click', function () {
+        selectAllCheckboxes();
+    });
+
+    // 선택 해제
+    $('.deselect_all_btn').on('click', function () {
+        deselectAllCheckboxes();
+    });
+
+    $('.list.product').on('change', '.item.check input[type="checkbox"]', function () {
+        updateSelectAllCheckbox();
+    });
+
+    // 체크박스 상태 변경
+    $('.list_head.product .item.check input[type="checkbox"]').on('click', function () {
+        let isChecked = $(this).prop('checked');
+        $('.list.product .item.check input[type="checkbox"]').prop('checked', isChecked);
+    });
 });
 
 let discountPopup = null;
 
-function setupDateTimePicker() {
-    $('.datetimepicker').datetimepicker({
-        format: 'Y-m-d H:i',
-        step: 5,
-        minDate: 0,
 
-    });
-    $('.datetimepicker').attr('readonly', true).on('click', function () {
-        $(this).datetimepicker('show');
-    });
-    $('.datetimepicker').css('pointer-events', 'auto');
-}
-
-function setupDate() {
-    let currentDate = new Date();
-    let minDate = currentDate.toISOString().slice(0, 16);
-    $('#startedAt').attr('min', minDate);
-    $('#expiredAt').attr('min', minDate);
-}
-
-function selectCheckbox() {
-    $('.search_result input[type="checkbox"]').on('change', function () {
-        let isChecked = $(this).prop('checked');
-
-        if (isChecked) {
-            $('.search_result input[type="checkbox"]').not(this).prop('checked', false);
-        }
-    });
-}
-
-function selectCheckboxes() {
-    $('#selectAll').click(function () {
-        let isChecked = $(this).prop('checked');
-        $('.result_table input[type="checkbox"]').prop('checked', isChecked);
-        $('.list_content input[type="checkbox"]').prop('checked', isChecked);
-    });
-
-    $('.result_table').on('change', 'input[type="checkbox"]', function () {
-        let totalCheck = $('.result_table tbody input[type="checkbox"]').length;
-        let checkedBox = $('.result_table tbody input[type="checkbox"]:checked').length;
-        $('#selectAll').prop('checked', totalCheck === checkedBox);
-    });
-
-    $('.list_content').on('change', 'input[type="checkbox"]', function () {
-        let totalCheck = $('.list_content .list input[type="checkbox"]').length;
-        let checkedBox = $('.list_content .list input[type="checkbox"]:checked').length;
-        $('#selectAll').prop('checked', totalCheck === checkedBox);
-    });
-}
-
-function productOptionToggle() {
-    $('input[name="productOption"]').on('change', function () {
-        if ($(this).val() === 'specific') {
-            $('.input_box_wrap.product').show();
-        } else {
-            $('.input_box_wrap.product').hide();
-        }
-    });
-}
 
 function popupButton() {
     $('#popupBtn').click(function () {
@@ -86,7 +42,11 @@ function openDiscountPopup() {
         discountPopup.focus();
         return;
     }
-    discountPopup = window.open("./discount_popup.html", "_blank", "width=600,height=450");
+    const width = (screen.width) / 2;
+    const height = screen.height;
+    const left = (screen.width - width) / 2;
+    const top = (screen.height - height) / 2;
+    discountPopup = window.open("./discount_popup.html", "_blank", `width=${width},height=${height},left=${left},top=${top},resizable=yes,scrollbars=yes`);
 }
 
 function closeDiscountPopup() {
@@ -94,13 +54,30 @@ function closeDiscountPopup() {
         discountPopup.close();
     }
 }
+// 전체 선택
+function selectAllCheckboxes() {
+    $('.list.product .item.check input[type="checkbox"]').prop('checked', true);
+    $('.list_head.product .item.check input[type="checkbox"]').prop('checked', true);
+}
 
+// 선택 해제
+function deselectAllCheckboxes() {
+    $('.list.product .item.check input[type="checkbox"]').prop('checked', false);
+    $('.list_head.product .item.check input[type="checkbox"]').prop('checked', false);
+}
+
+// 선택된 체크박스 상태에 따라 전체 선택 체크박스 업데이트 함수
+function updateSelectAllCheckbox() {
+    let totalCheckboxes = $('.list.product .item.check input[type="checkbox"]').length;
+    let checkedCheckboxes = $('.list.product .item.check input[type="checkbox"]:checked').length;
+    $('.list_head.product .item.check input[type="checkbox"]').prop('checked', totalCheckboxes === checkedCheckboxes);
+}
 function addItems() {
     $('.add_btn').on('click', function () {
-        let item = $('.search_result .list.product .list_item').has('input:checked').closest('.list_item');
+        let item = $('.search_result .list.product .list_item').has('input:checked');
         let selectedItem = [];
 
-        if (selectedItem.length === 0) {
+        if (item.length === 0) {
             Swal.fire({
                 text: "상품을 선택해 주세요.",
                 showConfirmButton: true,
@@ -261,7 +238,6 @@ $('.input_box_wrap.product #deleteBtn').click(function () {
 function validateBeforeSubmit() {
     let discountName = $('#name').val().trim();
     let discountPercent = $('#discountPercent').val().trim();
-    let productOption = $('input[name="productOption"]:checked').val();
     let startedAt = $('#startedAt').val().trim();
     let expiredAt = $('#expiredAt').val().trim();
 
@@ -352,19 +328,6 @@ function validateBeforeSubmit() {
         });
         return false;
     }
-    if (productOption === 'specific') {
-        let listItems = $('.list_item');
-        if (listItems.length === 0) {
-            Swal.fire({
-                text: "상품을 선택해 주세요.",
-                showConfirmButton: true,
-                confirmButtonText: '확인',
-                customClass: mySwal,
-                buttonsStyling: false
-            });
-            return false;
-        }
-    }
 
     return true;
 }
@@ -397,7 +360,7 @@ function deleteDiscount(discountId) {
                 },
                 success: function (data) {
                     if (data.code === 200) {
-                        window.location.href = '/admin/discounts';
+                        window.location.href = '/admin/discount';
                     } else {
                         Swal.fire({
                             text: data.message,
@@ -468,7 +431,7 @@ $('#deleteDiscountsBtn').click(function () {
                     },
                     success: function (data) {
                         if (data.code === 200) {
-                            window.location.href = '/admin/discounts';
+                            window.location.href = '/admin/discount';
                         } else {
                             Swal.fire({
                                 text: data.message,
