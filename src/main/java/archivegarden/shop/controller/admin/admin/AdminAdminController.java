@@ -28,7 +28,7 @@ public class AdminAdminController {
     private final AdminAdminService adminService;
 
     /**
-     * 관리자 로그인 처리하는 메서드
+     * 관리자 로그인 요청을 처리하는 메서드
      */
     @GetMapping("/login")
     public String login(@RequestParam(name = "error", required = false) boolean error,
@@ -103,7 +103,7 @@ public class AdminAdminController {
     }
 
     /**
-     * 관리자 회원가입 폼의 복합적인 유효성 검증을 수행하는 메서드
+     * 관리자 회원가입 폼의 복합적인 유효성 검증을 수행하는 메서드<br>
      * - 비밀번호 확인: 비밀번호와 비밀번호 확인이 일치하는지 검사합니다.
      */
     private void validateJoin(JoinAdminForm form, BindingResult bindingResult) {
@@ -115,7 +115,7 @@ public class AdminAdminController {
     }
 
     /**
-     * 기간 검색 조건 유효성 검증을 수행하는 메서드
+     * 기간 검색 조건 유효성 검증을 수행하는 메서드<br>
      * - 시작일시, 종료일시: 유효한 날짜인지 검사합니다.
      */
     private String validateDate(LocalDate startDate, LocalDate endDate) {

@@ -1,10 +1,8 @@
 package archivegarden.shop.dto.common;
 
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
-@Setter
 public class JoinSuccessDto {
 
     private String loginId;

@@ -50,7 +50,7 @@ function isLoginIdValid() {
 
     $.ajax({
         type: 'POST',
-        url: '/ajax/admin/loginId/exists',
+        url: '/ajax/admin/check/loginId',
         data: {loginId: loginId},
         beforeSend: function (xhr) {
             xhr.setRequestHeader(csrfHeader, csrfToken);
@@ -207,7 +207,7 @@ function isEmailValid() {
 
     $.ajax({
         type: 'POST',
-        url: '/ajax/admin/email/exists',
+        url: '/ajax/admin/check/email',
         data: {email: email},
         beforeSend: function (xhr) {
             xhr.setRequestHeader(csrfHeader, csrfToken);

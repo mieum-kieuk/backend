@@ -8,7 +8,7 @@ import archivegarden.shop.entity.Admin;
 import archivegarden.shop.exception.ajax.AjaxEntityNotFoundException;
 import archivegarden.shop.exception.common.DuplicateEntityException;
 import archivegarden.shop.exception.common.EntityNotFoundException;
-import archivegarden.shop.repository.admin.admin.AdminAdminRepository;
+import archivegarden.shop.repository.admin.AdminAdminRepository;
 import archivegarden.shop.service.admin.email.AdminEmailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -33,7 +33,6 @@ public class AdminAdminService {
         encodePassword(form);
 
         Admin admin = Admin.createAdmin(form);
-
         adminRepository.save(admin);
 
         return admin.getId();
@@ -80,7 +79,7 @@ public class AdminAdminService {
      */
     @Transactional(readOnly = true)
     public Page<AdminListDto> getAdmins(AdminSearchCondition form, Pageable pageable) {
-        return adminRepository.findDtoAll(form, pageable);
+        return adminRepository.findAllAdminsDto(form, pageable);
     }
 
     /**

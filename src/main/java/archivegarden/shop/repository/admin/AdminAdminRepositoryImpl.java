@@ -1,12 +1,10 @@
-package archivegarden.shop.repository.admin.admin;
+package archivegarden.shop.repository.admin;
 
-import archivegarden.shop.dto.admin.admin.AdminListDto;
 import archivegarden.shop.dto.admin.AdminSearchCondition;
+import archivegarden.shop.dto.admin.admin.AdminListDto;
 import archivegarden.shop.dto.admin.admin.QAdminListDto;
-import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.CaseBuilder;
-import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
@@ -31,7 +29,7 @@ public class AdminAdminRepositoryImpl implements AdminAdminRepositoryCustom {
     }
 
     @Override
-    public Page<AdminListDto> findDtoAll(AdminSearchCondition form, Pageable pageable) {
+    public Page<AdminListDto> findAllAdminsDto(AdminSearchCondition form, Pageable pageable) {
         List<AdminListDto> content = queryFactory.select(new QAdminListDto(
                         admin.id,
                         admin.name,
@@ -94,13 +92,5 @@ public class AdminAdminRepositoryImpl implements AdminAdminRepositoryCustom {
         }
 
         return null;
-    }
-
-    /**
-     * 승인 안된 관리자 우선 조회
-     */
-    private OrderSpecifier<?> anonymousFirst() {
-        return Expressions.stringTemplate("decode({0}, {1}, {2})", admin.isAuthorized, "FALSE", 1)
-                .desc();
     }
 }

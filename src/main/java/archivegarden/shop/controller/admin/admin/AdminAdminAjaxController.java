@@ -16,7 +16,7 @@ public class AdminAdminAjaxController {
     /**
      *  관리자 로그인 아이디 중복 여부를 검사하는 메서드
      */
-    @PostMapping("/loginId/exists")
+    @PostMapping("/check/loginId")
     public ResultResponse checkLoginIdDuplicate(@RequestParam(name = "loginId") String loginId) {
         boolean isLoginIdAvailable = adminService.isLoginIdAvailable(loginId);
         if(isLoginIdAvailable) {
@@ -29,7 +29,7 @@ public class AdminAdminAjaxController {
     /**
      *  관리자 이메일 중복 여부를 검사하는 메서드
      */
-    @PostMapping("/email/exists")
+    @PostMapping("/check/email")
     public ResultResponse checkEmailDuplicate(@RequestParam(name = "email") String email) {
         boolean isEmailAvailable = adminService.isEmailAvailable(email);
         if(isEmailAvailable) {

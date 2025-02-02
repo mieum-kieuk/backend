@@ -71,8 +71,8 @@ $(document).ready(function () {
     });
 });
 
-// let csrfToken = $("meta[name='_csrf']").attr("content");
-// let csrfHeader = $("meta[name='_csrf_header']").attr("content");
+let csrfToken = $("meta[name='_csrf']").attr("content");
+let csrfHeader = $("meta[name='_csrf_header']").attr("content");
 
 //아이디 검증
 function isLoginIdValid() {
