@@ -115,7 +115,7 @@ body {
     display: flex;
     flex-direction: column;
     height: 100%;
-    padding: 20px 10px 10px;
+    padding: 20px 10px;
 }
 
 .content_tit {
@@ -1135,7 +1135,7 @@ th {
 #addProduct .field-error,
 #addDiscount .field-error,
 #discountEdit .field-error {
-    margin: -17px 0 20px 140px;
+    /*margin: -17px 0 20px 140px;*/
 }
 #addProduct .field-error.exc {
     margin: 2px 0 5px 140px;

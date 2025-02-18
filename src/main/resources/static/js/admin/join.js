@@ -137,6 +137,7 @@ function regexPassword() {
     let regex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&^()])[a-zA-Z\d@$!%*?&^()]{8,16}$/;
     if (!regex.test(password)) {
         $('#pwMsg').text('8~16자의 영문 대/소문자, 숫자, 특수문자 조합을 사용해 주세요.');
+        $('#pwMsg').removeClass('success').addClass('error');
         return false;
     }
 
