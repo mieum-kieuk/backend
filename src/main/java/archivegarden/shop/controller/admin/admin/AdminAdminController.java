@@ -40,6 +40,14 @@ public class AdminAdminController {
     }
 
     /**
+     * 직접 경로를 입력해 로그아웃 시도 시 관리자 홈 화면으로 리다이렉트하는 메서드
+     */
+    @GetMapping("/logout")
+    public String redirectToHome() {
+        return "redirect:/admin";
+    }
+
+    /**
      * 관리자 회원가입 폼을 반환하는 메서드
      */
     @GetMapping("/join")

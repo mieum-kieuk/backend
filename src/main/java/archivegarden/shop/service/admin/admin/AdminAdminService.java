@@ -55,7 +55,7 @@ public class AdminAdminService {
      */
     public void checkAdminDuplicate(JoinAdminForm form) {
         adminRepository.findDuplicateAdmin(form.getLoginId(), form.getEmail())
-                .ifPresent(a -> {
+                .ifPresent(admin -> {
                     throw new DuplicateEntityException("이미 존재하는 관리자입니다.");
                 });
     }
@@ -79,7 +79,7 @@ public class AdminAdminService {
      */
     @Transactional(readOnly = true)
     public Page<AdminListDto> getAdmins(AdminSearchCondition form, Pageable pageable) {
-        return adminRepository.findAllAdminsDto(form, pageable);
+        return adminRepository.findAllAdmins(form, pageable);
     }
 
     /**

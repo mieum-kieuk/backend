@@ -29,7 +29,7 @@ public class AdminAdminRepositoryImpl implements AdminAdminRepositoryCustom {
     }
 
     @Override
-    public Page<AdminListDto> findAllAdminsDto(AdminSearchCondition form, Pageable pageable) {
+    public Page<AdminListDto> findAllAdmins(AdminSearchCondition form, Pageable pageable) {
         List<AdminListDto> content = queryFactory.select(new QAdminListDto(
                         admin.id,
                         admin.name,

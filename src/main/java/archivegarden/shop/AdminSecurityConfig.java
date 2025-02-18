@@ -8,7 +8,6 @@ import archivegarden.shop.security.handler.CustomAccessDeniedHandler;
 import archivegarden.shop.security.manager.AdminAuthenticationManager;
 import archivegarden.shop.security.provider.AdminAuthenticationProvider;
 import archivegarden.shop.security.service.AdminUserDetailsService;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -62,9 +61,6 @@ public class AdminSecurityConfig {
                                     if (session != null) {
                                         session.invalidate();
                                     }
-                                }))
-                                .logoutSuccessHandler(((request, response, authentication) -> {
-                                    response.sendRedirect("/admin/login");
                                 }))
                                 .deleteCookies("remember-me")
                 );
