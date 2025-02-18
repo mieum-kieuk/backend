@@ -1,4 +1,4 @@
-package archivegarden.shop.repository.admin.help.notice;
+package archivegarden.shop.repository.notice;
 
 import archivegarden.shop.entity.Notice;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,4 +1,4 @@
-package archivegarden.shop.repository.admin.help.notice;
+package archivegarden.shop.repository.notice;
 
 import archivegarden.shop.dto.admin.AdminSearchCondition;
 import archivegarden.shop.dto.user.community.notice.NoticeSearchForm;
@@ -8,7 +8,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface NoticeRepositoryCustom {
 
-    Page<Notice> findNoticeAll(NoticeSearchForm form, Pageable pageable);
+    Page<Notice> findAllNotice(NoticeSearchForm form, Pageable pageable);
 
-    Page<Notice> findAdminNoticeAll(AdminSearchCondition form, Pageable pageable);
+    Page<Notice> findAllAdminNotice(AdminSearchCondition form, Pageable pageable);
 }

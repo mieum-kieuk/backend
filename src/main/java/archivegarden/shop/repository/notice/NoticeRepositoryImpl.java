@@ -1,4 +1,4 @@
-package archivegarden.shop.repository.admin.help.notice;
+package archivegarden.shop.repository.notice;
 
 import archivegarden.shop.dto.admin.AdminSearchCondition;
 import archivegarden.shop.dto.user.community.notice.NoticeSearchForm;
@@ -28,7 +28,7 @@ public class NoticeRepositoryImpl implements NoticeRepositoryCustom {
     }
 
     @Override
-    public Page<Notice> findNoticeAll(NoticeSearchForm form, Pageable pageable) {
+    public Page<Notice> findAllNotice(NoticeSearchForm form, Pageable pageable) {
         List<Notice> content = queryFactory
                 .selectFrom(notice)
                 .where(
@@ -53,7 +53,7 @@ public class NoticeRepositoryImpl implements NoticeRepositoryCustom {
     }
 
     @Override
-    public Page<Notice> findAdminNoticeAll(AdminSearchCondition form, Pageable pageable) {
+    public Page<Notice> findAllAdminNotice(AdminSearchCondition form, Pageable pageable) {
         List<Notice> content = queryFactory
                 .selectFrom(notice)
                 .where(keywordLike(form.getSearchKey(), form.getKeyword()))

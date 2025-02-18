@@ -1,4 +1,4 @@
-package archivegarden.shop.service.community;
+package archivegarden.shop.service.user.community;
 
 import archivegarden.shop.dto.admin.help.notice.NoticeDetailsDto;
 import archivegarden.shop.dto.user.community.notice.NoticeListDto;
@@ -36,6 +36,6 @@ public class NoticeService {
      */
     @Transactional(readOnly = true)
     public Page<NoticeListDto> getNotices(NoticeSearchForm form, Pageable pageable) {
-        return noticeRepository.findNoticeAll(form, pageable).map(n -> new NoticeListDto(n));
+        return noticeRepository.findAllNotice(form, pageable).map(n -> new NoticeListDto(n));
     }
 }

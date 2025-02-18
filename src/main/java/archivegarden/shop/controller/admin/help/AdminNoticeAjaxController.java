@@ -16,7 +16,6 @@ public class AdminNoticeAjaxController {
     /**
      * 공지사항을 삭제 요청을 처리하는 메서드
      */
-    @ResponseStatus(HttpStatus.OK)
     @DeleteMapping
     public ResultResponse deleteNotice(@RequestParam("noticeId") Long noticeId) {
         noticeService.deleteNotice(noticeId);

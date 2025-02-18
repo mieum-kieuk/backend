@@ -9,7 +9,7 @@ import archivegarden.shop.entity.Admin;
 import archivegarden.shop.entity.Notice;
 import archivegarden.shop.exception.ajax.AjaxEntityNotFoundException;
 import archivegarden.shop.exception.common.EntityNotFoundException;
-import archivegarden.shop.repository.admin.help.notice.NoticeRepository;
+import archivegarden.shop.repository.notice.NoticeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -48,7 +48,7 @@ public class AdminNoticeService {
      */
     @Transactional(readOnly = true)
     public Page<NoticeListDto> getNotices(AdminSearchCondition form, Pageable pageable) {
-        return noticeRepository.findAdminNoticeAll(form, pageable).map(NoticeListDto::new);
+        return noticeRepository.findAllAdminNotice(form, pageable).map(NoticeListDto::new);
     }
 
     /**
