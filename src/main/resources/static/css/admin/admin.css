@@ -335,7 +335,7 @@ input::-webkit-inner-spin-button {
     display: flex;
 }
 
-#detailsImages, #displayImage1, #displayImage2, #editDisplayImage1, #editDisplayImage2, #editDetailsImages {
+#detailImages, #displayImage1, #displayImage2, #editDisplayImage1, #editDisplayImage2, #editDetailImages {
     width: 100%;
     border-left: none;
     border-right: none;
@@ -664,7 +664,7 @@ input::-webkit-inner-spin-button {
     width: 110px;
 
 }
-#detailsImages {
+#detailImages {
     display: flex;
     flex-direction: column;
 }

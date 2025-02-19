@@ -15,8 +15,8 @@ $(document).ready(function () {
     $('#hoverImageBtn').on('click', function () {
         $('#hoverImage').click();
     });
-    $('#detailsImagesBtn').on('click', function () {
-        $('#detailsImages').click();
+    $('#detailImagesBtn').on('click', function () {
+        $('#detailImages').click();
     });
 
     //섬네일 사진1 첨부
@@ -31,8 +31,8 @@ $(document).ready(function () {
     });
 
     //상세 페이지 사진 첨부
-    $('#detailsImages').change(async function () {
-        await handleDetailsImagesChange();
+    $('#detailImages').change(async function () {
+        await handleDetailImagesChange();
     });
 });
 
@@ -143,30 +143,45 @@ async function updatePreviewContainer(input, containerId, thumbnailType) {
 }
 
 let dataTransfer = new DataTransfer();
+let existingFiles = []; // 전역 배열로 기존 파일 이름 목록 관리
 
-//상세 페이지 사진 유효성 검사 -> 첨부
-async function handleDetailsImagesChange() {
+// 상세 페이지 사진 유효성 검사 -> 첨부
+async function handleDetailImagesChange() {
     let previewContainer = $('#previewContainer3');
-    let newFileArr = $('#detailsImages')[0].files;
-
+    let newFileArr = $('#detailImages')[0].files;
     let newFileSize = newFileArr.length;
     let originalFileSize = dataTransfer.files.length;
     let maxSizePerFile = 3 * 1024 * 1024;
     let invalidFileType = false;
-
     let exceedsMaxSize = false;
     let exceedsMaxFiles = originalFileSize + newFileSize > 20;
 
-    for (let i = 0; i < newFileSize; i++) {
-        let fileSize = newFileArr[i].size;
-        let fileType = newFileArr[i].type;
+    // 기존 파일 목록 업데이트
+    existingFiles = Array.from($('#previewContainer3 .file_name')).map(fileName => {
+        return $(fileName).text().replace('파일명: ', '').trim();
+    });
 
-        if (fileSize > maxSizePerFile) {
+    for (let i = 0; i < newFileSize; i++) {
+        let file = newFileArr[i];
+
+        if (file.size > maxSizePerFile) {
             exceedsMaxSize = true;
         }
-
-        if (fileType !== 'image/jpeg') {
+        if (file.type !== 'image/jpeg') {
             invalidFileType = true;
+        }
+
+        // 중복 파일 검사
+        if (existingFiles.includes(file.name)) {
+            Swal.fire({
+                text: '이미 첨부된 파일입니다.',
+                showConfirmButton: true,
+                confirmButtonText: '확인',
+                customClass: mySwal,
+                buttonsStyling: false
+            });
+            $('#detailImages').val('');
+            return false;
         }
     }
 
@@ -178,7 +193,7 @@ async function handleDetailsImagesChange() {
             customClass: mySwal,
             buttonsStyling: false
         });
-        $('#detailsImages').val('');
+        $('#detailImages').val('');
         return false;
     }
 
@@ -190,9 +205,10 @@ async function handleDetailsImagesChange() {
             customClass: mySwal,
             buttonsStyling: false
         });
-        $('#detailsImages').val('');
+        $('#detailImages').val('');
         return false;
     }
+
     if (invalidFileType) {
         Swal.fire({
             text: "JPG 형식의 이미지 파일만 첨부 가능합니다.",
@@ -201,43 +217,31 @@ async function handleDetailsImagesChange() {
             customClass: mySwal,
             buttonsStyling: false
         });
-        $('#detailsImages').val('');
+        $('#detailImages').val('');
         return false;
     }
 
-    // 기존 파일 목록 가져오기
-    let existingFiles = Array.from(dataTransfer.files);
-    let newFileNames = Array.from(newFileArr).map(file => file.name);
-
-    // 중복 파일 검사
-    for (let i = 0; i < newFileNames.length; i++) {
-        if (existingFiles.some(file => file.name === newFileNames[i])) {
-            Swal.fire({
-                text: '이미 첨부된 파일입니다.',
-                showConfirmButton: true,
-                confirmButtonText: '확인',
-                customClass: mySwal,
-                buttonsStyling: false
-            });
-            $('#detailsImages').val('');
-            return false;
-        }
-    }
-
+    // 기존 파일 목록에 새 파일 추가
     for (let i = 0; i < newFileSize; i++) {
-        dataTransfer.items.add(newFileArr[i]);
+        let file = newFileArr[i];
+        dataTransfer.items.add(file);
+        existingFiles.push(file.name); // 기존 파일 리스트에 추가
     }
-    $('#detailsImages')[0].files = dataTransfer.files;
 
+    $('#detailImages')[0].files = dataTransfer.files;
+
+    // 미리보기 생성
     for (let i = 0; i < newFileSize; i++) {
         await addImagePreview(previewContainer, newFileArr[i]);
     }
 
     previewContainer.css('display', 'flex');
+
+    // 파일 리스트 갱신 후 중복 파일을 첨부할 수 있게끔 다시 input 값을 리셋
+    $('#detailImages').val('');
 }
 
-
-//상세 이미지 사진 첨부시 뷰 생성
+// 상세 이미지 사진 첨부시 뷰 생성
 async function addImagePreview(container, file) {
     let reader = new FileReader();
 
@@ -250,21 +254,27 @@ async function addImagePreview(container, file) {
             let fileName = $('<span>').addClass('file_name').text('파일명: ' + file.name);
             let deleteButton = $('<button>').addClass('delete_btn').append($('<span>').addClass('material-symbols-outlined').text('close'));
 
+            // 기존 파일 배열에 새 파일 추가
+            existingFiles.push(file.name);
+
             deleteButton.click(function () {
+                // 기존 파일 목록에서 해당 파일 제거
+                existingFiles = existingFiles.filter(existingFile => existingFile !== file.name);
 
-                for (let i = 0; i < dataTransfer.items.length; i++) {
-                    if (dataTransfer.items[i].getAsFile().name === file.name) {
-                        dataTransfer.items.remove(i);
-                        break;
-                    }
-                }
+                // dataTransfer 파일 목록에서 해당 파일 제거
+                let newFiles = Array.from($('#detailImages')[0].files).filter(f => f.name !== file.name);
 
-                $('#detailsImages')[0].files = dataTransfer.files;
+                // dataTransfer 객체를 갱신하고 file input에 반영
+                let newDataTransfer = new DataTransfer();
+                newFiles.forEach(f => newDataTransfer.items.add(f));
+                $('#detailImages')[0].files = newDataTransfer.files;
+
+                // 미리보기 이미지 제거
                 containerDiv.remove();
             });
 
             filenameContainer.append($('<span>').text('파일명: '), fileName);
-            containerDiv.append(previewImages.append(previewImage), fileName, $('<div>').addClass('btn_wrap').append(deleteButton));
+            containerDiv.append(previewImages.append(previewImage), filenameContainer, $('<div>').addClass('btn_wrap').append(deleteButton));
             container.append(containerDiv);
 
             resolve();
@@ -273,14 +283,13 @@ async function addImagePreview(container, file) {
         reader.readAsDataURL(file);
     });
 }
-
 //유효성 검사
 function validateBeforeSubmit() {
     let nameValue = $('#name').val().trim();
     let priceValue = $('#price').val().trim();
     let stockQuantityValue = $('#stockQuantity').val().trim();
     let detailsValue = $('#details').val().trim();
-    let sizeGuideValue = $('#sizeGuide').val().trim();
+    let sizeValue = $('#size').val().trim();
     let shippingValue = $('#shipping').val().trim();
     let noticeValue = $('#notice').val().trim();
 
@@ -288,7 +297,7 @@ function validateBeforeSubmit() {
     let originalDisplayPreviewImage = $('#previewContainer1 .preview_image').attr('src');
 
     let hoverImageValue = $('#hoverImage')[0].files;
-    let detailsImagesValue = $('#detailsImages')[0].files;
+    let detailImagesValue = $('#detailImages')[0].files;
 
     let nameRegex = /^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9\s]+$/;
     if (nameValue === '') {
@@ -373,7 +382,7 @@ function validateBeforeSubmit() {
         return false;
     }
 
-    if (sizeGuideValue === '') {
+    if (sizeValue === '') {
         Swal.fire({
             text: "상품 크기를 입력해 주세요.",
             showConfirmButton: true,
@@ -447,8 +456,8 @@ function validateBeforeSubmit() {
             return false;
         }
     }
-    for (let i = 0; i < detailsImagesValue.length; i++) {
-        let fileSize = detailsImagesValue[i].size;
+    for (let i = 0; i < detailImagesValue.length; i++) {
+        let fileSize = detailImagesValue[i].size;
         if (fileSize > maxSizePerFile) {
             Swal.fire({
                 text: "상세 페이지 사진 한 장의 크기가 3MB 이하여야 합니다.",
@@ -457,12 +466,12 @@ function validateBeforeSubmit() {
                 customClass: mySwal,
                 buttonsStyling: false
             });
-            $('#detailsImages').val('');
+            $('#detailImages').val('');
             return false;
         }
     }
 
-    if (detailsImagesValue.length > 20) {
+    if (detailImagesValue.length > 20) {
         Swal.fire({
             text: "상세 페이지 사진은 최대 20장까지 가능합니다.",
             showConfirmButton: true,
@@ -470,7 +479,7 @@ function validateBeforeSubmit() {
             customClass: mySwal,
             buttonsStyling: false
         });
-        $('#detailsImages').val('');
+        $('#detailImages').val('');
         return false;
     }
     $('.submit_btn').prop('disabled', true);
@@ -495,7 +504,7 @@ $('.hover_delete_btn').click(function () {
     $('#hoverImageDeleted').val('true');
 });
 
-$('.details_delete_btn').click(function () {
+$('.detail_delete_btn').click(function () {
     let previewContainer = $(this).closest('.preview_image_container');
     previewContainer.find('.preview_image').attr('src', '');
     let fileInput = previewContainer.prev('.input_box_wrap').find('input[type="file"]');
@@ -503,3 +512,4 @@ $('.details_delete_btn').click(function () {
     previewContainer.find('.delete_file').remove();
     previewContainer.remove();
 });
+
