@@ -61,10 +61,10 @@
                     </div>
                     <div class="field-error" th:errors="*{details}"></div>
                     <div class="input_box_wrap">
-                        <label for="sizeGuide" class="ess_tit">상품 크기</label>
-                        <textarea id="sizeGuide" th:field="*{sizeGuide}" rows="4" cols="50"></textarea>
+                        <label for="size" class="ess_tit">상품 크기</label>
+                        <textarea id="size" th:field="*{size}" rows="4" cols="50"></textarea>
                     </div>
-                    <div class="field-error" th:errors="*{sizeGuide}"></div>
+                    <div class="field-error" th:errors="*{size}"></div>
                     <div class="input_box_wrap">
                         <label for="shipping" class="ess_tit">배송 정보</label>
                         <textarea id="shipping" th:field="*{shipping}" rows="4" cols="50"></textarea>
@@ -128,25 +128,25 @@
                         </ul>
                     </div>
                     <div class="input_box_wrap desc">
-                        <label for="detailsImages">상세 페이지 사진</label>
-                        <input type="file" id="detailsImages" th:field="*{detailsImages}" multiple>
+                        <label for="detailImages">상세 페이지 사진</label>
+                        <input type="file" id="detailImages" th:field="*{detailImages}" multiple>
                         <div class="file_btn_wrap">
-                            <button type="button" class="btn1 file_btn" id="detailsImagesBtn">파일 추가</button>
+                            <button type="button" class="btn1 file_btn" id="detailImagesBtn">파일 추가</button>
                         </div>
                     </div>
-                    <div class="field-error exc" th:errors="*{detailsImages}"></div>
+                    <div class="field-error exc" th:errors="*{detailImages}"></div>
                     <div id="previewContainer3" class="preview_container column">
-                        <div class="preview_image_container" th:each="detailsImage : ${product.originDetailsImages}">
+                        <div class="preview_image_container" th:each="detailImage : ${product.originDetailImages}">
                             <div class="preview_images">
-                                <img th:src="${detailsImage.imageUrl}" alt="섬네일 사진2" class="preview_image">
+                                <img th:src="${detailImage.imageUrl}" alt="섬네일 사진2" class="preview_image">
                                 <div class="filename_container">
-                                    <span>파일명: </span><span class="file_name" th:text="${detailsImage.imageName}"></span>
+                                    <span>파일명: </span><span class="file_name" th:text="${detailImage.imageName}"></span>
                                 </div>
                             </div>
                             <div class="btn_wrap">
-                                <button type="button" class="details_delete_btn"><span class="material-symbols-outlined">close</span></button>
+                                <button type="button" class="detail_delete_btn"><span class="material-symbols-outlined">close</span></button>
                             </div>
-                            <input type="hidden" class="delete_file" name="deleteDetailsImages" th:value="|FILE_${detailsImage.id}|" />
+                            <input type="hidden" class="delete_file" name="deleteDetailImages" th:value="|FILE_${detailImage.id}|" />
                         </div>
                     </div>
                     <div class="text description">

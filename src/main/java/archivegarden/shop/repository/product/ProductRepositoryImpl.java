@@ -138,7 +138,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
     }
 
     @Override
-    public Page<Product> findProductAll(AdminProductSearchCondition condition, Pageable pageable) {
+    public Page<Product> findAllAdminProduct(AdminProductSearchCondition condition, Pageable pageable) {
         List<Product> content = queryFactory
                 .selectFrom(product)
                 .leftJoin(product.discount, discount).fetchJoin()

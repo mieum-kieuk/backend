@@ -40,8 +40,8 @@ public class Product extends BaseTimeEntity {
     private String details;
 
     @Lob
-    @Column(name = "size_guide", nullable = false)
-    private String sizeGuide;
+    @Column(name = "size", nullable = false)
+    private String size;
 
     @Lob
     @Column(nullable = false)
@@ -52,25 +52,25 @@ public class Product extends BaseTimeEntity {
     private String notice;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ProductImage> productImages = new ArrayList<>();  //다대일 양방향
+    private List<ProductImage> productImages = new ArrayList<>();  //양방향
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "discount_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Discount discount;  //단방향
 
     @Builder
-    public Product(AddProductForm form, ProductImage displayImage, ProductImage hoverImage, List<ProductImage> detailsImages) {
+    public Product(AddProductForm form, ProductImage displayImage, ProductImage hoverImage, List<ProductImage> detailImages) {
         this.name = form.getName();
         this.category = form.getCategory();
         this.price = form.getPrice();
         this.stockQuantity = form.getStockQuantity();
         this.details = form.getDetails();
-        this.sizeGuide = form.getSizeGuide();
+        this.size = form.getSize();
         this.shipping = form.getShipping();
         this.notice = form.getNotice();
         addProductImage(displayImage);
         if(hoverImage != null) addProductImage(hoverImage);
-        if(detailsImages.size() > 0) detailsImages.forEach(img -> this.addProductImage(img));
+        if(detailImages.size() > 0) detailImages.forEach(img -> this.addProductImage(img));
     }
 
     /**
@@ -97,9 +97,16 @@ public class Product extends BaseTimeEntity {
         this.price = form.getPrice();
         this.stockQuantity = form.getStockQuantity();
         this.details = form.getDetails();
-        this.sizeGuide = form.getSizeGuide();
+        this.size = form.getSize();
         this.shipping = form.getShipping();
         this.notice = form.getNotice();
+    }
+
+    /**
+     * 상품에 적용된 할인 update
+     */
+    public void updateDiscount(Discount discount) {
+        this.discount = discount;
     }
 
     /**

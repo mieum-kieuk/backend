@@ -64,10 +64,10 @@
                     </div>
                     <div class="field-error" th:errors="*{details}"></div>
                     <div class="input_box_wrap">
-                        <label for="sizeGuide" class="ess_tit">상품 크기</label>
-                        <textarea id="sizeGuide" th:field="*{sizeGuide}" rows="4" cols="50"></textarea>
+                        <label for="size" class="ess_tit">상품 크기</label>
+                        <textarea id="size" th:field="*{size}" rows="4" cols="50"></textarea>
                     </div>
-                    <div class="field-error" th:errors="*{sizeGuide}"></div>
+                    <div class="field-error" th:errors="*{size}"></div>
                     <div class="input_box_wrap">
                         <label for="shipping" class="ess_tit">배송 정보</label>
                         <textarea id="shipping" th:field="*{shipping}" rows="4" cols="50"></textarea>
@@ -128,13 +128,13 @@
                         </ul>
                     </div>
                     <div class="input_box_wrap desc">
-                        <label for="detailsImages">상세 페이지 사진</label>
-                        <input type="file" multiple="multiple" id="detailsImages" th:field="*{detailsImages}" class="choose_file">
+                        <label for="detailImages">상세 페이지 사진</label>
+                        <input type="file" multiple="multiple" id="detailImages" th:field="*{detailImages}" class="choose_file">
                         <div class="file_btn_wrap">
-                            <button type="button" class="btn1 file_btn" id="detailsImagesBtn">파일 추가</button>
+                            <button type="button" class="btn1 file_btn" id="detailImagesBtn">파일 추가</button>
                         </div>
                     </div>
-                    <div class="field-error exc" th:errors="*{detailsImages}"></div>
+                    <div class="field-error exc" th:errors="*{detailImages}"></div>
                     <div id="previewContainer3" class="preview_container column"></div>
                     <div class="text description">
                         <ul>

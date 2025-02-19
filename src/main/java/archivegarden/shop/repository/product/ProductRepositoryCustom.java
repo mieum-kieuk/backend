@@ -22,5 +22,5 @@ public interface ProductRepositoryCustom {
 
     Page<PopupProductDto> searchProductsInPopup(String keyword, Pageable pageable);
 
-    Page<Product> findProductAll(AdminProductSearchCondition condition, Pageable pageable);
+    Page<Product> findAllAdminProduct(AdminProductSearchCondition condition, Pageable pageable);
 }

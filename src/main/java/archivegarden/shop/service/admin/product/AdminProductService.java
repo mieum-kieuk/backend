@@ -15,7 +15,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,13 +33,13 @@ public class AdminProductService {
     public Long saveProduct(AddProductForm form) {
         ProductImage displayImage = productImageService.createProductImage(form.getDisplayImage(), ImageType.DISPLAY);
         ProductImage hoverImage = productImageService.createProductImage(form.getHoverImage(), ImageType.HOVER);
-        List<ProductImage> detailsImages = productImageService.createProductImages(form.getDetailsImages());
+        List<ProductImage> detailImages = productImageService.createDetailProductImages(form.getDetailImages());
 
         Product product = Product.builder()
                 .form(form)
                 .displayImage(displayImage)
                 .hoverImage(hoverImage)
-                .detailsImages(detailsImages)
+                .detailImages(detailImages)
                 .build();
 
         productRepository.save(product);
@@ -65,7 +64,7 @@ public class AdminProductService {
      */
     @Transactional(readOnly = true)
     public Page<ProductListDto> getProducts(AdminProductSearchCondition condition, Pageable pageable) {
-        return productRepository.findProductAll(condition, pageable)
+        return productRepository.findAllAdminProduct(condition, pageable)
                 .map(product -> {
                     ProductImage displayImage = product.getProductImages().get(0);
                     String encodedImageUrl = productImageService.getEncodedImageUrl(displayImage);
@@ -133,7 +132,7 @@ public class AdminProductService {
                 .map(productImage -> productImage.getId())
                 .collect(Collectors.toList());
 
-        List<String> deleteDetailsImages = form.getDeleteDetailsImages();
+        List<String> deleteDetailsImages = form.getDeleteDetailImages();
         for(int i = 0; i < detailsImageIds.size(); i++) {
             String idx = "FILE_" + detailsImageIds.get(i);
             if(!deleteDetailsImages.contains(idx)) {
@@ -143,8 +142,8 @@ public class AdminProductService {
             }
         }
 
-        if (!form.getDetailsImages().isEmpty()) {
-            List<ProductImage> productImages = productImageService.createProductImages(form.getDetailsImages());
+        if (!form.getDetailImages().isEmpty()) {
+            List<ProductImage> productImages = productImageService.createDetailProductImages(form.getDetailImages());
             productImages.forEach(m -> product.addProductImage(m));
         }
     }

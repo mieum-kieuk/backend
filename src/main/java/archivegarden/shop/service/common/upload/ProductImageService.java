@@ -37,9 +37,9 @@ public class ProductImageService {
      * ImageType == DETAILS인 상품 이미지 여러장 저장
      *
      */
-    public List<ProductImage> createProductImages(List<MultipartFile> detailsImages) {
+    public List<ProductImage> createDetailProductImages(List<MultipartFile> detailImages) {
         List<ProductImage> productImages = new ArrayList<>();
-        for (MultipartFile multipartFile : detailsImages) {
+        for (MultipartFile multipartFile : detailImages) {
             if(!multipartFile.isEmpty()) {
                 productImages.add(createProductImage(multipartFile, ImageType.DETAILS));
             }

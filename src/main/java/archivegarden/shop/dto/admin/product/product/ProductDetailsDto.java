@@ -19,12 +19,12 @@ public class ProductDetailsDto {
     private String discountName;
     private String stockQuantity;
     private String details;
-    private String sizeGuide;
+    private String size;
     private String shipping;
     private String notice;
     private String displayImageUrl;
     private String hoverImageUrl;
-    private List<String> detailsImageUrls = new ArrayList<>();
+    private List<String> detailImageUrls = new ArrayList<>();
 
     public ProductDetailsDto(Product product, List<ProductImageDto> productImageDtos) {
         this.id = product.getId();
@@ -44,14 +44,14 @@ public class ProductDetailsDto {
 
         this.stockQuantity = new DecimalFormat("###,###개").format(product.getStockQuantity());
         this.details = product.getDetails();
-        this.sizeGuide = product.getSizeGuide();
+        this.size = product.getSize();
         this.shipping = product.getShipping();
         this.notice = product.getNotice();
         for (ProductImageDto image : productImageDtos) {
             switch (image.getImageType()) {
                 case DISPLAY -> this.displayImageUrl = image.getImageUrl();
                 case HOVER -> this.hoverImageUrl = image.getImageUrl();
-                case DETAILS -> this.detailsImageUrls.add(image.getImageUrl());
+                case DETAILS -> this.detailImageUrls.add(image.getImageUrl());
             }
         }
     }
