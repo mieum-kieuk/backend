@@ -808,6 +808,9 @@ legend {
   background-color: #000000; /* 선택된 페이지네이션의 배경색 */
   color: #fff; /* 선택된 페이지네이션의 글꼴 색상 */
 }
+.pagination li a.disabled {
+  pointer-events: none;
+}
 .pagination .prev, .pagination .prev_first,
 .pagination .next, .pagination .next_last {
   /*font-size: 16px;*/

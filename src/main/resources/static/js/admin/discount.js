@@ -1,13 +1,6 @@
 $(document).ready(function () {
     popupButton();
     addItems();
-    $('.submit_btn').click(function (event) {
-        $('input[name="productIds"]').val(selectedProductIds);
-
-        if (!validateBeforeSubmit()) {
-            event.preventDefault();
-        }
-    });
 
     $("select").each(function () {
         if ($(this).find("option:selected").val() !== "") {
@@ -40,6 +33,15 @@ $(document).ready(function () {
     $('.list_head.product .item.check input[type="checkbox"]').on('click', function () {
         let isChecked = $(this).prop('checked');
         $('.list.product .item.check input[type="checkbox"]').prop('checked', isChecked);
+    });
+
+    $('#limit').on('change', function() {
+        pageSize = parseInt($(this).val());
+        loadPage(0);  // 페이지 0으로 처음부터 로드
+    });
+
+    $('#prdSearchBtn').on('click', function() {
+        loadPage();
     });
 });
 
@@ -105,6 +107,7 @@ function openPopup(data) {
     // 팝업 창이 완전히 로드된 후에 renderProducts를 호출하여 데이터를 전달
     popup.onload = function () {
         popup.renderProducts(data); // 데이터를 전달하여 팝업에서 제품을 렌더링
+        popup.renderPagination(data.totalElements, data.pageable.pageNumber + 1, data.pageable.pageSize); // 페이지네이션 호출
     }
 }
 
@@ -126,6 +129,68 @@ function renderProducts(data) {
                 </div>
             `;
         productList.append(newItemHtml);
+    });
+}
+
+function renderPagination(totalElements, currentPage, limit) {
+    let pageSize = limit;  // 한 페이지당 상품 수
+    let paginationSize = 5; // 한 페이지네이션에 보여줄 페이지 번호 수
+    const totalPages = Math.ceil(totalElements / pageSize);  // 총 페이지 수
+    console.log(totalPages);
+    console.log(currentPage);
+    console.log(limit);
+
+    let pagination = $('#pagination');
+    pagination.empty(); // 기존 페이지네이션 초기화
+
+    // 이전 페이지 버튼
+    if (currentPage > 0) {
+        pagination.append(`
+            <li><a href="#" class="prev_first" data-page="${Math.max(currentPage - paginationSize, 0)}"><span class="material-symbols-outlined">navigate_before</span></a></li>
+        `);
+    } else {
+        pagination.append(`
+            <li><a href="#" class="prev_first" disabled><span class="material-symbols-outlined">navigate_before</span></a></li>
+        `);
+    }
+
+    let startPage = Math.floor(currentPage - 1 / paginationSize) * paginationSize + 1;  // 5개씩 묶어서 표시
+    let endPage = startPage + paginationSize - 1;  // startPage에서 5개 페이지 번호가 나옵니다
+
+    if (endPage > totalPages) {
+        endPage = totalPages;  // 총 페이지 수보다 크지 않게 조정
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+        let pageNumber = i - 1;
+        let isActive = (currentPage === i) ? 'active' : '';
+
+        pagination.append(`
+            <li><a href="#" class="page ${isActive}" data-page="${pageNumber}">${i}</a></li>
+        `);
+    }
+
+    // 다음 페이지 버튼
+    if (currentPage < totalPages - 1) {
+        pagination.append(`
+            <li><a href="#" class="next_last" data-page="${Math.min(currentPage + paginationSize, totalPages - 1)}"><span class="material-symbols-outlined">navigate_next</span></a></li>
+        `);
+    } else {
+        pagination.append(`
+            <li><a href="#" class="next_last" disabled><span class="material-symbols-outlined">navigate_next</span></a></li>
+        `);
+    }
+
+    // 페이지 번호 클릭 시 동작
+    $('.page').on('click', function () {
+        let pageNumber = $(this).data('page');
+        loadPage(pageNumber);  // 페이지 로드 함수 호출
+    });
+
+    // 이전, 다음 버튼 클릭 시 동작
+    $('.prev_first, .next_last').on('click', function () {
+        let pageNumber = $(this).data('page');
+        loadPage(pageNumber);
     });
 }
 
@@ -250,8 +315,14 @@ $('.input_box_wrap.product #deleteBtn').click(function () {
 function validateBeforeSubmit() {
     let discountName = $('#name').val().trim();
     let discountPercent = $('#discountPercent').val().trim();
-    let startedAt = $('#startedAt').val().trim();
-    let expiredAt = $('#expiredAt').val().trim();
+    let startDate = $('#startDate').val();
+    let startHour = $('#startHour').val();
+    let startMin = $('#startMin').val();
+    let expireDate = $('#expireDate').val();
+    let expireHour = $('#expireHour').val();
+    let expireMin = $('#expireMin').val();
+
+    $('input[name="productIds"]').val(selectedProductIds);
 
     if (discountName === '') {
         Swal.fire({
@@ -263,9 +334,9 @@ function validateBeforeSubmit() {
         });
         return false;
     }
-    if (startedAt === '' && expiredAt === '') {
+    if (startDate === '') {
         Swal.fire({
-            text: "할인 기간을 지정해 주세요.",
+            text: "시작일을 지정해 주세요.",
             showConfirmButton: true,
             confirmButtonText: '확인',
             customClass: mySwal,
@@ -273,9 +344,9 @@ function validateBeforeSubmit() {
         });
         return false;
     }
-    if (startedAt === '') {
+    if (startHour === '' || startMin === '') {
         Swal.fire({
-            text: "시작일시를 지정해 주세요.",
+            text: "시작시간을 지정해 주세요.",
             showConfirmButton: true,
             confirmButtonText: '확인',
             customClass: mySwal,
@@ -283,9 +354,19 @@ function validateBeforeSubmit() {
         });
         return false;
     }
-    if (expiredAt === '') {
+    if (expireDate === '') {
         Swal.fire({
-            text: "종료일시를 지정해 주세요.",
+            text: "종료일을 지정해 주세요.",
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
+        return false;
+    }
+    if (expireHour === '' || expireMin === '') {
+        Swal.fire({
+            text: "종료시간을 지정해 주세요.",
             showConfirmButton: true,
             confirmButtonText: '확인',
             customClass: mySwal,
@@ -294,10 +375,13 @@ function validateBeforeSubmit() {
         return false;
     }
 
-    let startDate = new Date(startedAt);
-    let endDate = new Date(expiredAt);
+    let startDateParts = startDate.split('-');  // [yyyy, mm, dd]
+    let startDateTime = new Date(startDateParts[0], startDateParts[1] - 1, startDateParts[2], startHour, startMin);
 
-    if (startDate >= endDate) {
+    let expireDateParts = expireDate.split('-');  // [yyyy, mm, dd]
+    let expireDateTime = new Date(expireDateParts[0], expireDateParts[1] - 1, expireDateParts[2], expireHour, expireMin);
+
+    if (startDateTime >= expireDateTime) {
         Swal.fire({
             text: "시작일시는 종료일시보다 이전이어야 합니다.",
             showConfirmButton: true,
@@ -329,20 +413,9 @@ function validateBeforeSubmit() {
         });
         return false;
     }
-    if (selectedProductItems.length === 0) {
-        Swal.fire({
-            text: "적용 상품을 선택해 주세요.",
-            showConfirmButton: true,
-            confirmButtonText: '확인',
-            customClass: mySwal,
-            buttonsStyling: false
-        });
-        return false;
-    }
 
     return true;
 }
-
 //상품 할인 단건 삭제
 function deleteDiscount(discountId) {
 
@@ -465,3 +538,22 @@ $('#deleteDiscountsBtn').click(function () {
         });
     }
 });
+
+function loadPage(pageNumber) {
+    $.ajax({
+        type: 'GET',
+        url: '/ajax/admin/products/search',
+        data: {
+            'selectedProductIds': selectedProductIds,
+            page: pageNumber,
+            size: pageSize,
+        },  // 서버에 선택된 상품 아이디들 전송
+        success: function (data) {
+            renderProducts(data);  // 제품 렌더링
+            resolve(data);
+        },
+        error: function () {
+            reject("상품을 불러오는 데 실패했습니다.");  // 실패 시 reject로 에러 메시지 반환
+        }
+    });
+}

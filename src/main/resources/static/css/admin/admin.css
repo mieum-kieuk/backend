@@ -537,7 +537,7 @@ input::-webkit-inner-spin-button {
 .input_box_wrap.product .list_content .product .item {
     border-left: none;
 }
-.input_box_wrap.product .list_content .product .item.title {
+.input_box_wrap.product .list_content .product .item.name {
     width: 60%;
 }
 .input_box_wrap.product .list_content .product .item.img {
@@ -608,7 +608,9 @@ input::-webkit-inner-spin-button {
 .admin_wrap.popup.discount .search_form .result .left {
     display: flex;
     align-items: center;
-    gap: 20px;
+}
+.admin_wrap.popup.discount .search_form .result .left .btn_wrap{
+    margin-left: 20px;
 }
 
 .admin_wrap.popup.discount .search_form .result .add_btn {
