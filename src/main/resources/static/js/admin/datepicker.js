@@ -1,11 +1,11 @@
 $(document).ready(function() {
     if ($('.discount').length) {
-        $('#startDate, #endDate').datepicker({
+        $('#startDate, #expireDate').datepicker({
             dateFormat: 'yy-mm-dd',
             minDate: 0  // 과거 날짜 선택 불가
         });
     } else {
-        $('#startDate, #endDate').datepicker({
+        $('#startDate, #expireDate').datepicker({
             dateFormat: 'yy-mm-dd',
             maxDate: 0  // 미래 날짜 선택 불가
         });
@@ -16,19 +16,19 @@ $(document).ready(function() {
 function setSearchDate(days) {
     if (days === 'all') {
         $('#startDate').datepicker('setDate', null);
-        $('#endDate').datepicker('setDate', null);
+        $('#expireDate').datepicker('setDate', null);
     } else {
-        let endDate = new Date();
+        let expireDate = new Date();
         let startDate = new Date();
 
         if (days === 0) {
-            startDate = endDate;
+            startDate = expireDate;
         } else {
             startDate.setDate(startDate.getDate() - days);
         }
 
         $('#startDate').datepicker('setDate', formatDate(startDate));
-        $('#endDate').datepicker('setDate', formatDate(endDate));
+        $('#expireDate').datepicker('setDate', formatDate(expireDate));
     }
 
     $('.hasDatepicker').removeAttr('readonly').on('click', function () {

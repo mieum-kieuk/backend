@@ -600,16 +600,17 @@ input::-webkit-inner-spin-button {
     margin: 0;
     width: auto;
 }
+.admin_wrap.popup.discount .search_form .result {
+    display: flex;
+    justify-content: space-between;
+
+}
 .admin_wrap.popup.discount .search_form .result .left {
     display: flex;
     align-items: center;
+    gap: 20px;
 }
-.admin_wrap.popup.discount .search_form .result .left .btn_wrap {
-    margin-bottom: 0;
-}
-.admin_wrap.popup.discount .search_form .result .total {
-    margin-right: 20px;
-}
+
 .admin_wrap.popup.discount .search_form .result .add_btn {
     width: auto;
 }

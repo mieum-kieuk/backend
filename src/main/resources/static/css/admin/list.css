@@ -156,13 +156,19 @@
 }
 
 /*discount_list*/
+/*#discountForm .list.product {*/
+/*    flex-direction: row;*/
+/*}*/
+#discountForm .list.product .product_item {
+    display: flex;
+}
 .discount .item.number {
     width: 8%;
 }
 .discount .item.percent {
     width: 10%;
 }
-.discount .item.title {
+.discount .item.name {
     width: 22%;
 }
 .discount .item.type {
@@ -258,6 +264,6 @@
 .popup .list_content .item {
     border-left: none;
 }
-.popup .list_content .item.title {
+.popup .list_content .item.name {
     width: 60%;
 }
