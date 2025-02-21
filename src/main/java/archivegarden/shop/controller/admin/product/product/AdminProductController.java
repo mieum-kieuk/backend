@@ -109,20 +109,12 @@ public class AdminProductController {
     }
 
     /**
-     * 팝업창에서 상품을 검색하고 결과를 반환하는 메서드.
+     * 상품 할인 적용할 상품 팝업창 조회하는 메서드
      */
-//    @GetMapping("/search")
-//    public String searchProductsInPopup(@ModelAttribute("condition") ProductPopupSearchCondition condition, Model model) {
-//        if (StringUtils.hasText(condition.getKeyword())) {
-//            PageRequest pageRequest = PageRequest.of(condition.getPage() - 1, condition.getLimit());
-//            Page<ProductPopupDto> productPopupDtos = productService.getPopupProducts(condition.getKeyword(), pageRequest);
-//            model.addAttribute("products", productPopupDtos);
-//        } else {
-//            model.addAttribute("products", null);
-//        }
-//
-//        return "admin/product/products/product_popup";
-//    }
+    @GetMapping("/search")
+    public String showPopup() {
+        return "admin/product/discount/product_popup";
+    }
 
     /**
      * 카테고리 목록을 조회하는 메서드

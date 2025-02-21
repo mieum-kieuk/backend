@@ -1,4 +1,4 @@
-package archivegarden.shop.repository.admin;
+package archivegarden.shop.repository.admin.admin;
 
 import archivegarden.shop.dto.admin.AdminSearchCondition;
 import archivegarden.shop.dto.admin.admin.AdminListDto;

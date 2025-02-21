@@ -1,7 +1,8 @@
 package archivegarden.shop.repository.product;
 
+import archivegarden.shop.dto.admin.product.discount.PopupProductSearchCondition;
+import archivegarden.shop.dto.admin.product.discount.ProductPopupDto;
 import archivegarden.shop.dto.admin.product.product.AdminProductSearchCondition;
-import archivegarden.shop.dto.user.product.PopupProductDto;
 import archivegarden.shop.dto.user.product.ProductSearchCondition;
 import archivegarden.shop.entity.Product;
 import org.springframework.data.domain.Page;
@@ -20,7 +21,7 @@ public interface ProductRepositoryCustom {
 
     Page<Product> findProductsByCategory(ProductSearchCondition condition, Pageable pageable);
 
-    Page<PopupProductDto> searchProductsInPopup(String keyword, Pageable pageable);
+    Page<ProductPopupDto> searchProductsInAdminPopup(PopupProductSearchCondition condition, Pageable pageable);
 
     Page<Product> findAllAdminProduct(AdminProductSearchCondition condition, Pageable pageable);
 }

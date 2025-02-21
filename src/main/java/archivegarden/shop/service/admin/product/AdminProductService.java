@@ -1,5 +1,7 @@
 package archivegarden.shop.service.admin.product;
 
+import archivegarden.shop.dto.admin.product.product.AdminProductPopupSearchCondition;
+import archivegarden.shop.dto.admin.product.product.AdminProductSummaryDto;
 import archivegarden.shop.dto.admin.product.product.*;
 import archivegarden.shop.entity.ImageType;
 import archivegarden.shop.entity.Product;
@@ -64,10 +66,10 @@ public class AdminProductService {
      */
     @Transactional(readOnly = true)
     public Page<ProductListDto> getProducts(AdminProductSearchCondition condition, Pageable pageable) {
-        return productRepository.findAllAdminProduct(condition, pageable)
+        return productRepository.findAllProduct(condition, pageable)
                 .map(product -> {
                     ProductImage displayImage = product.getProductImages().get(0);
-                    String encodedImageUrl = productImageService.getEncodedImageUrl(displayImage);
+                    String encodedImageUrl = productImageService.getEncodedImageUrl(displayImage.getImageUrl());
                     return new ProductListDto(product, encodedImageUrl);
                 });
     }
@@ -184,12 +186,13 @@ public class AdminProductService {
     /**
      * 팝업창에서 상품 검색
      */
-//    public Page<ProductPopupDto> getPopupProducts(String keyword, Pageable pageable) {
-//        Page<ProductPopupDto> ProductPopupDtos = productRepository.findDtoAllPopup(keyword, pageable);
-//        ProductPopupDtos.forEach(productDto -> {
-//            String encodedDisplayImageUrl = productImageService.downloadImage(productDto.getDisplayImageUrl());
-//            productDto.setDisplayImageUrl(encodedDisplayImageUrl);
-//        });
-//        return ProductPopupDtos;
-//    }
+    public Page<AdminProductSummaryDto> searchProductsInPopup(AdminProductPopupSearchCondition condition, Pageable pageable) {
+        Page<AdminProductSummaryDto> ProductPopupDtos = productRepository.searchProductsInDiscountPopup(condition, pageable);
+        ProductPopupDtos.forEach(p -> {
+            String encodedDisplayImageUrl = productImageService.getEncodedImageUrl(p.getDisplayImageUrl());
+            p.setDisplayImageUrl(encodedDisplayImageUrl);
+        });
+
+        return ProductPopupDtos;
+    }
 }

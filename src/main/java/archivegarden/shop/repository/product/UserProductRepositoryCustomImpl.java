@@ -1,9 +1,6 @@
 package archivegarden.shop.repository.product;
 
-import archivegarden.shop.dto.admin.product.product.AdminProductSearchCondition;
-import archivegarden.shop.dto.user.product.PopupProductDto;
 import archivegarden.shop.dto.user.product.ProductSearchCondition;
-import archivegarden.shop.dto.user.product.QPopupProductDto;
 import archivegarden.shop.entity.Category;
 import archivegarden.shop.entity.ImageType;
 import archivegarden.shop.entity.Product;
@@ -29,12 +26,12 @@ import static archivegarden.shop.entity.QProduct.product;
 import static archivegarden.shop.entity.QProductImage.productImage;
 import static org.springframework.util.StringUtils.hasText;
 
-public class ProductRepositoryImpl implements ProductRepositoryCustom {
+public class UserProductRepositoryImpl implements UserProductRepositoryCustom {
 
     private final EntityManager em;
     private final JPAQueryFactory queryFactory;
 
-    public ProductRepositoryImpl(EntityManager em) {
+    public UserProductRepositoryImpl(EntityManager em) {
         this.em = em;
         this.queryFactory = new JPAQueryFactory(JPQLTemplates.DEFAULT, em);
     }
@@ -106,60 +103,6 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                 .select(product.count())
                 .from(product)
                 .where(categoryEq(condition.getCategory()));
-
-        return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
-    }
-
-    @Override
-    public Page<PopupProductDto> searchProductsInPopup(String keyword, Pageable pageable) {
-        List<PopupProductDto> content = queryFactory.select(new QPopupProductDto(
-                        product.id,
-                        product.name,
-                        product.price,
-                        productImage.imageUrl
-                ))
-                .from(product)
-                .leftJoin(product.productImages, productImage)
-                .on(
-                        product.id.eq(productImage.product.id),
-                        imageTypeDisplay()
-                )
-                .where(keywordLike(keyword))
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .fetch();
-
-        JPAQuery<Long> countQuery = queryFactory
-                .select(product.count())
-                .from(product)
-                .where(keywordLike(keyword));
-
-        return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
-    }
-
-    @Override
-    public Page<Product> findAllAdminProduct(AdminProductSearchCondition condition, Pageable pageable) {
-        List<Product> content = queryFactory
-                .selectFrom(product)
-                .leftJoin(product.discount, discount).fetchJoin()
-                .leftJoin(product.productImages, productImage).fetchJoin()
-                .where(
-                        adminKeywordLike(condition.getSearchKey(), condition.getKeyword()),
-                        adminCategoryEq(condition.getCategory()),
-                        imageTypeDisplay()
-                )
-                .orderBy(product.createdAt.desc())
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .fetch();
-
-        JPAQuery<Long> countQuery = queryFactory
-                .select(product.count())
-                .where(
-                        adminKeywordLike(condition.getSearchKey(), condition.getKeyword()),
-                        adminCategoryEq(condition.getCategory())
-                )
-                .from(product);
 
         return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
     }
@@ -250,23 +193,5 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
      */
     private BooleanExpression imageTypeDisplay() {
         return productImage != null ? productImage.imageType.eq(ImageType.DISPLAY) : null;
-    }
-
-    private BooleanExpression adminKeywordLike(String searchKey, String keyword) {
-        if (keyword != null) {
-            if (searchKey.equals("name")) {
-                return keywordLike(keyword);
-            }
-        }
-
-        return null;
-    }
-
-    private BooleanExpression adminCategoryEq(String category) {
-        if (StringUtils.hasText(category)) {
-            return product.category.eq(Category.of(category));
-        }
-
-        return null;
     }
 }

@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface AdminDiscountRepository extends JpaRepository<Discount, Long>, AdminDiscountRepositoryCustom {
+public interface DiscountRepository extends JpaRepository<Discount, Long>, DiscountRepositoryCustom {
 
     @Query("select d from Discount d where d.startedAt > current_timestamp")
     List<Discount> findNewDiscounts();

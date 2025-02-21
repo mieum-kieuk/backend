@@ -41,6 +41,7 @@ $(document).ready(function () {
     });
 
     $('#discountPopup .submit_btn').on('click', function() {
+        $('.search_result .product .check input[type="checkbox"]').prop('checked', false);
         let limit = $('#limit').val();
         loadPage(1, limit);
     });
@@ -69,8 +70,8 @@ function popupButton() {
         $(this).prop('disabled', true);
 
         getProducts()
-            .then(data => {
-                openPopup(data);
+            .then(([data, selectedProductIds]) => {
+                openPopup(data, selectedProductIds);
             })
             .catch(error => {
                 Swal.fire({
@@ -101,7 +102,7 @@ function getProducts() {
             data: {
                 'selectedProductIds': selectedProductIds},  // 서버에 선택된 상품 아이디들 전송
             success: function (data) {
-                resolve(data);  // 요청 성공 시 받은 데이터를 resolve로 반환
+                resolve([data, selectedProductIds]);  // 요청 성공 시 받은 데이터를 resolve로 반환
             },
             error: function () {
                 reject("상품을 불러오는 데 실패했습니다.");  // 실패 시 reject로 에러 메시지 반환
@@ -110,7 +111,7 @@ function getProducts() {
     });
 }
 
-function openPopup(data) {
+function openPopup(data, selectedProductIds) {
     if (popup && !popup.closed) {
         popup.focus();
         return;
@@ -123,16 +124,17 @@ function openPopup(data) {
 
     // 팝업 창이 완전히 로드된 후에 renderProducts를 호출하여 데이터를 전달
     popup.onload = function () {
-        popup.renderProducts(data); // 데이터를 전달하여 팝업에서 제품을 렌더링
+        popup.renderProducts(data, selectedProductIds); // 데이터를 전달하여 팝업에서 제품을 렌더링
         popup.renderPagination(data.totalElements, data.pageable.pageNumber + 1, data.pageable.pageSize); // 페이지네이션 호출
     }
 }
 
-function renderProducts(data) {
+function renderProducts(data, selectedProductIds) {
     let productList = $('.search_result .list.product');
     productList.empty();    // 기존 목록을 비움
 
     $('.totalProducts').text(data.totalElements);
+    $('#productIds').val(selectedProductIds);
 
     data.content.forEach(function (item) {
         let newItemHtml = `
@@ -153,6 +155,11 @@ function renderPagination(totalElements, currentPage, limit) {
     // window.pageSize = limit;  // 한 페이지당 상품 수
     let paginationSize = 5; // 한 페이지네이션에 보여줄 페이지 번호 수
     const totalPages = Math.ceil(totalElements / limit);  // 총 페이지 수
+
+    if (totalPages === 0) {
+        $('#pagination').empty();
+        return;
+    }
 
     let pagination = $('#pagination');
     pagination.empty(); // 기존 페이지네이션 초기화
@@ -548,6 +555,7 @@ function loadPage(currentPage, limit) {
     return new Promise((resolve, reject) => {
         let keyword = $('#keyword').val();
         let category = $('#category').val();
+        let selectedProductIds = $('#productIds').val();
 
         $.ajax({
             type: 'GET',
@@ -560,7 +568,7 @@ function loadPage(currentPage, limit) {
                 'selectedProductIds': selectedProductIds,
             },
             success: function (data) {
-                renderProducts(data);
+                renderProducts(data, selectedProductIds);
                 renderPagination(data.totalElements, currentPage, limit);
                 resolve(data); // 성공 시 resolve 호출
             },

@@ -1,13 +1,15 @@
 package archivegarden.shop.entity;
 
-import archivegarden.shop.dto.admin.product.discount.AddDiscountForm;
-import archivegarden.shop.dto.admin.product.discount.EditDiscountForm;
+import archivegarden.shop.dto.admin.product.discount.AdminAddDiscountForm;
+import archivegarden.shop.dto.admin.product.discount.AdminEditDiscountForm;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.LinkedList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -31,24 +33,29 @@ public class Discount {
     @Column(name = "expired_at", nullable = false)
     private LocalDateTime expiredAt;
 
-    //==비즈니스 로직==//
-    /**
-     * 할인 수정
-     */
-    public void update(EditDiscountForm form) {
-        this.name = form.getName();
-        this.discountPercent = form.getDiscountPercent();
-        this.startedAt = form.getStartedAt();
-        this.expiredAt = form.getExpiredAt();
-    }
+    @OneToMany(mappedBy = "discount")
+    private List<Product> products = new LinkedList<>();  //양방향
 
-    //==생성자 메서드==//
-    public static Discount createDiscount(AddDiscountForm form) {
+    public static Discount createDiscount(AdminAddDiscountForm form, List<Product> products) {
         Discount discount = new Discount();
         discount.name = form.getName();
         discount.discountPercent = form.getDiscountPercent();
-        discount.startedAt = form.getStartedAt();
-        discount.expiredAt = form.getExpiredAt();
+        discount.startedAt = form.getStartDateTime();
+        discount.expiredAt = form.getExpireDateTime();
+        for (Product product : products) {
+            discount.products.add(product);
+            product.setDiscount(discount);
+        }
         return discount;
+    }
+
+    /**
+     * 할인 수정
+     */
+    public void update(AdminEditDiscountForm form) {
+        this.name = form.getName();
+        this.discountPercent = form.getDiscountPercent();
+        this.startedAt = form.getStartDateTime();
+        this.expiredAt = form.getExpireDateTime();
     }
 }

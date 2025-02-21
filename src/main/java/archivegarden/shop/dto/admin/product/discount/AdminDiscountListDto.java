@@ -8,7 +8,7 @@ import java.time.format.DateTimeFormatter;
 
 @Getter
 @Setter
-public class DiscountListDto {
+public class AdminDiscountListDto {
 
     private Long id;
     private String name;
@@ -16,11 +16,11 @@ public class DiscountListDto {
     private String startedAt;
     private String expiredAt;
 
-    public DiscountListDto(Discount discount) {
+    public AdminDiscountListDto(Discount discount) {
         this.id = discount.getId();
         this.name = discount.getName();
-        this.discountPercent = String.valueOf(discount.getDiscountPercent()) + "%";
-        this.startedAt = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH시 mm분 ss초").format(discount.getStartedAt());
-        this.expiredAt = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH시 mm분 ss초").format(discount.getExpiredAt());
+        this.discountPercent = discount.getDiscountPercent() + "%";
+        this.startedAt = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH시 mm분").format(discount.getStartedAt());
+        this.expiredAt = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH시 mm분").format(discount.getExpiredAt());
     }
 }
