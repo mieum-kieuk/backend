@@ -36,12 +36,28 @@ $(document).ready(function () {
     });
 
     $('#limit').on('change', function() {
-        pageSize = parseInt($(this).val());
-        loadPage(0);  // 페이지 0으로 처음부터 로드
+        let limit = $('#limit').val();
+        loadPage(1, limit);
     });
 
-    $('#prdSearchBtn').on('click', function() {
-        loadPage();
+    $('#discountPopup .submit_btn').on('click', function() {
+        let limit = $('#limit').val();
+        loadPage(1, limit);
+    });
+
+    $(document).on('click', '.page', function () {
+        let currentPage = $(this).data('page');
+        let limit = $('#limit').val();
+        $('.page').removeClass('active');  // 기존의 .active 클래스 제거
+        $(this).addClass('active');  // 클릭된 페이지에 .active 클래스 추가
+
+        loadPage(currentPage, limit);
+    });
+    $(document).on('click', '.prev_first, .next_last', function () {
+        let currentPage = $(this).data('page');
+        let limit = $('#limit').val();
+
+        loadPage(currentPage, limit);
     });
 });
 
@@ -82,7 +98,8 @@ function getProducts() {
         $.ajax({
             type: 'GET',
             url: '/ajax/admin/products/search',
-            data: {'selectedProductIds': selectedProductIds},  // 서버에 선택된 상품 아이디들 전송
+            data: {
+                'selectedProductIds': selectedProductIds},  // 서버에 선택된 상품 아이디들 전송
             success: function (data) {
                 resolve(data);  // 요청 성공 시 받은 데이터를 resolve로 반환
             },
@@ -133,65 +150,55 @@ function renderProducts(data) {
 }
 
 function renderPagination(totalElements, currentPage, limit) {
-    let pageSize = limit;  // 한 페이지당 상품 수
+    // window.pageSize = limit;  // 한 페이지당 상품 수
     let paginationSize = 5; // 한 페이지네이션에 보여줄 페이지 번호 수
-    const totalPages = Math.ceil(totalElements / pageSize);  // 총 페이지 수
-    console.log(totalPages);
-    console.log(currentPage);
-    console.log(limit);
+    const totalPages = Math.ceil(totalElements / limit);  // 총 페이지 수
 
     let pagination = $('#pagination');
     pagination.empty(); // 기존 페이지네이션 초기화
 
+    let totalGroups = Math.ceil(totalPages / paginationSize); // 페이지 그룹 수
+
+    // 현재 페이지가 속한 그룹 계산
+    let currentGroup = Math.floor((currentPage - 1) / paginationSize) + 1;
+
     // 이전 페이지 버튼
-    if (currentPage > 0) {
+    if (currentGroup > 1) {
+        let prevPage = (currentGroup - 1) * paginationSize;
         pagination.append(`
-            <li><a href="#" class="prev_first" data-page="${Math.max(currentPage - paginationSize, 0)}"><span class="material-symbols-outlined">navigate_before</span></a></li>
-        `);
+        <li><a class="prev_first" data-page="${prevPage}">
+            <span class="material-symbols-outlined">navigate_before</span>
+        </a></li>
+    `);
     } else {
         pagination.append(`
-            <li><a href="#" class="prev_first" disabled><span class="material-symbols-outlined">navigate_before</span></a></li>
-        `);
+        <li><a class="prev_first disabled"><span class="material-symbols-outlined">navigate_before</span></a></li>
+    `);
     }
 
-    let startPage = Math.floor(currentPage - 1 / paginationSize) * paginationSize + 1;  // 5개씩 묶어서 표시
-    let endPage = startPage + paginationSize - 1;  // startPage에서 5개 페이지 번호가 나옵니다
-
-    if (endPage > totalPages) {
-        endPage = totalPages;  // 총 페이지 수보다 크지 않게 조정
-    }
+    let startPage = (currentGroup - 1) * paginationSize + 1;  // 그룹 내 첫 번째 페이지
+    let endPage = Math.min(currentGroup * paginationSize, totalPages);  // 그룹 내 마지막 페이지
 
     for (let i = startPage; i <= endPage; i++) {
-        let pageNumber = i - 1;
         let isActive = (currentPage === i) ? 'active' : '';
-
         pagination.append(`
-            <li><a href="#" class="page ${isActive}" data-page="${pageNumber}">${i}</a></li>
+            <li><a class="page ${isActive}" data-page="${i}">${i}</a></li>
         `);
     }
 
     // 다음 페이지 버튼
-    if (currentPage < totalPages - 1) {
+    if (currentGroup < totalGroups) {
+        let nextPage = (currentGroup * paginationSize) + 1;
         pagination.append(`
-            <li><a href="#" class="next_last" data-page="${Math.min(currentPage + paginationSize, totalPages - 1)}"><span class="material-symbols-outlined">navigate_next</span></a></li>
-        `);
+        <li><a class="next_last" data-page="${nextPage}">
+            <span class="material-symbols-outlined">navigate_next</span>
+        </a></li>
+    `);
     } else {
         pagination.append(`
-            <li><a href="#" class="next_last" disabled><span class="material-symbols-outlined">navigate_next</span></a></li>
-        `);
+        <li><a class="next_last disabled"><span class="material-symbols-outlined">navigate_next</span></a></li>
+    `);
     }
-
-    // 페이지 번호 클릭 시 동작
-    $('.page').on('click', function () {
-        let pageNumber = $(this).data('page');
-        loadPage(pageNumber);  // 페이지 로드 함수 호출
-    });
-
-    // 이전, 다음 버튼 클릭 시 동작
-    $('.prev_first, .next_last').on('click', function () {
-        let pageNumber = $(this).data('page');
-        loadPage(pageNumber);
-    });
 }
 
 // 전체 선택
@@ -490,8 +497,6 @@ $('#deleteDiscountsBtn').click(function () {
             showCancelButton: true,
             cancelButtonText: '아니요',
             confirmButtonText: '예',
-            closeOnConfirm: false,
-            closeOnCancel: true,
             customClass: mySwalConfirm,
             reverseButtons: true,
             buttonsStyling: false,
@@ -539,21 +544,29 @@ $('#deleteDiscountsBtn').click(function () {
     }
 });
 
-function loadPage(pageNumber) {
-    $.ajax({
-        type: 'GET',
-        url: '/ajax/admin/products/search',
-        data: {
-            'selectedProductIds': selectedProductIds,
-            page: pageNumber,
-            size: pageSize,
-        },  // 서버에 선택된 상품 아이디들 전송
-        success: function (data) {
-            renderProducts(data);  // 제품 렌더링
-            resolve(data);
-        },
-        error: function () {
-            reject("상품을 불러오는 데 실패했습니다.");  // 실패 시 reject로 에러 메시지 반환
-        }
+function loadPage(currentPage, limit) {
+    return new Promise((resolve, reject) => {
+        let keyword = $('#keyword').val();
+        let category = $('#category').val();
+
+        $.ajax({
+            type: 'GET',
+            url: '/ajax/admin/products/search',
+            data: {
+                'keyword': keyword,
+                'category': category,
+                'page': currentPage,
+                'limit': limit,
+                'selectedProductIds': selectedProductIds,
+            },
+            success: function (data) {
+                renderProducts(data);
+                renderPagination(data.totalElements, currentPage, limit);
+                resolve(data); // 성공 시 resolve 호출
+            },
+            error: function () {
+                reject("상품을 불러오는 데 실패했습니다."); // 실패 시 reject 호출
+            }
+        });
     });
 }

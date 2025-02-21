@@ -619,7 +619,9 @@ input::-webkit-inner-spin-button {
 .admin_wrap.popup.discount .form_wrap {
     border-bottom: 1px solid #d7d7d7;
 }
-
+.pagination .prev_first.disabled, .pagination .next_last.disabled {
+    pointer-events: none;
+}
 
 /*Details*/
 .details_wrap tr {

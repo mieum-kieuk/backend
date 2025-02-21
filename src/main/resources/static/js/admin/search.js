@@ -13,6 +13,7 @@ function toggleDateBtn() {
 }
 function resetSearchForm() {
     $('#searchKeyword').val('');
+    $('#keyword').val('');
     $('select').each(function() {
         $(this).val($(this).find('option:first').val());
     });
