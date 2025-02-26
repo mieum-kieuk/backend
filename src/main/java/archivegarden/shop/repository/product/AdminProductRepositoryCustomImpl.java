@@ -38,6 +38,14 @@ public class AdminProductRepositoryCustomImpl implements AdminProductRepositoryC
     }
 
     @Override
+    public List<Product> findAllInAdmin(List<Long> productIds) {
+        return queryFactory
+                .selectFrom(product)
+                .where(product.id.in(productIds))
+                .fetch();
+    }
+
+    @Override
     public Optional<Product> findProductInAdmin(Long productId) {
         Product result = queryFactory
                 .selectFrom(product)
