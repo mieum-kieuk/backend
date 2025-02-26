@@ -20,6 +20,7 @@ import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.Optional;
 
 import static archivegarden.shop.entity.QDiscount.discount;
 import static archivegarden.shop.entity.QProduct.product;
@@ -37,31 +38,42 @@ public class AdminProductRepositoryCustomImpl implements AdminProductRepositoryC
     }
 
     @Override
-    public Page<Product> findAllProduct(AdminProductSearchCondition condition, Pageable pageable) {
-//        List<Product> content = queryFactory
-//                .selectFrom(product)
-//                .leftJoin(product.discount, discount).fetchJoin()
-//                .leftJoin(product.productImages, productImage).fetchJoin()
-//                .where(
-//                        adminKeywordLike(condition.getSearchKey(), condition.getKeyword()),
-//                        adminCategoryEq(condition.getCategory()),
-//                        imageTypeDisplay()
-//                )
-//                .orderBy(product.createdAt.desc())
-//                .offset(pageable.getOffset())
-//                .limit(pageable.getPageSize())
-//                .fetch();
-//
-//        JPAQuery<Long> countQuery = queryFactory
-//                .select(product.count())
-//                .where(
-//                        adminKeywordLike(condition.getSearchKey(), condition.getKeyword()),
-//                        adminCategoryEq(condition.getCategory())
-//                )
-//                .from(product);
-//
-//        return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
-        return null;
+    public Optional<Product> findProductInAdmin(Long productId) {
+        Product result = queryFactory
+                .selectFrom(product)
+                .leftJoin(product.discount, discount).fetchJoin()
+                .leftJoin(product.productImages, productImage).fetchJoin()
+                .where(product.id.eq(productId))
+                .fetchOne();
+
+        return Optional.ofNullable(result);
+    }
+
+    @Override
+    public Page<Product> findAllProductInAdmin(AdminProductSearchCondition condition, Pageable pageable) {
+        List<Product> content = queryFactory
+                .selectFrom(product)
+                .leftJoin(product.discount, discount).fetchJoin()
+                .leftJoin(product.productImages, productImage).fetchJoin()
+                .where(
+                        keywordLike(condition.getSearchKey(), condition.getKeyword()),
+                        categoryEq(condition.getCategory()),
+                        imageTypeDisplay()
+                )
+                .orderBy(product.createdAt.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        JPAQuery<Long> countQuery = queryFactory
+                .select(product.count())
+                .where(
+                        keywordLike(condition.getSearchKey(), condition.getKeyword()),
+                        categoryEq(condition.getCategory())
+                )
+                .from(product);
+
+        return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
     }
 
     @Override
@@ -79,7 +91,7 @@ public class AdminProductRepositoryCustomImpl implements AdminProductRepositoryC
                         imageTypeDisplay()
                 )
                 .where(
-                        keywordLike(condition.getKeyword()),
+                        nameLike(condition.getKeyword()),
                         categoryEq(condition.getCategory()),
                         product.id.notIn(condition.getSelectedProductIds())
                 )
@@ -91,7 +103,7 @@ public class AdminProductRepositoryCustomImpl implements AdminProductRepositoryC
                 .select(product.count())
                 .from(product)
                 .where(
-                        keywordLike(condition.getKeyword()),
+                        nameLike(condition.getKeyword()),
                         categoryEq(condition.getCategory()),
                         product.id.notIn(condition.getSelectedProductIds())
                 );
@@ -99,25 +111,15 @@ public class AdminProductRepositoryCustomImpl implements AdminProductRepositoryC
         return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
     }
 
-
-    private BooleanExpression adminKeywordLike(String searchKey, String keyword) {
+    private BooleanExpression keywordLike(String searchKey, String keyword) {
         if (keyword != null) {
             if (searchKey.equals("name")) {
-                return keywordLike(keyword);
+                return nameLike(keyword);
             }
         }
 
         return null;
     }
-
-//    private BooleanExpression adminCategoryEq(Category category) {
-//        if (StringUtils.hasText(category)) {
-//            return product.category.eq(Category.of(category));
-//        }
-//
-//        return null;
-//
-//    }
 
     /**
      * 카테고리
@@ -127,10 +129,10 @@ public class AdminProductRepositoryCustomImpl implements AdminProductRepositoryC
     }
 
     /**
-     * 검색어
+     * 상품명 검색
      * 공백 제거, 대소문자 구분 안함
      */
-    private BooleanExpression keywordLike(String keyword) {
+    private BooleanExpression nameLike(String keyword) {
         if (hasText(keyword)) {
             String replaceKeyword = StringUtils.replace(keyword, " ", "");
             StringTemplate replaceProductName = Expressions.stringTemplate("function('replace',{0},{1},{2})", product.name, " ", "");
