@@ -18,15 +18,15 @@ public class FirebaseConfig {
     @Value("${firebase.account-key-path}")
     private String accountKeyPath;
 
-    @Value("${firebase.storage-url}")
-    private String storageUrl;
+    @Value("${firebase.storage-bucket-name}")
+    private String storageBucketName;
 
     @Bean
     public FirebaseApp firebaseApp() throws IOException {
         FileInputStream serviceAccount = new FileInputStream(accountKeyPath);
         FirebaseOptions options = FirebaseOptions.builder()
                 .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-                .setStorageBucket(storageUrl)
+                .setStorageBucket(storageBucketName)
                 .build();
 
         return FirebaseApp.initializeApp(options);

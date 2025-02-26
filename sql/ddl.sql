@@ -38,10 +38,10 @@ CREATE TABLE product
     category       ENUM('STICKER', 'MASKINGTAPE', 'PHONECASE') NOT NULL,
     price          INT UNSIGNED NOT NULL,
     stock_quantity INT UNSIGNED NOT NULL,
-    details        VARCHAR(1000) NOT NULL,
-    size           VARCHAR(1000) NOT NULL,
-    shipping       VARCHAR(1000) NOT NULL,
-    notice         VARCHAR(1000) NOT NULL,
+    details        VARCHAR(1000),
+    size           VARCHAR(1000),
+    shipping       VARCHAR(1000),
+    notice         VARCHAR(1000),
     created_at     TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modified_at    TIMESTAMP,
     CONSTRAINT PRODUCT_UNIQUE_NAME UNIQUE (name)
@@ -51,10 +51,11 @@ CREATE TABLE product
 DROP TABLE IF EXISTS PRODUCT_IMAGE CASCADE;
 CREATE TABLE product_image
 (
-    product_image_id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    product_id       BIGINT UNSIGNED NOT NULL,
-    image_url        VARCHAR(255) NOT NULL,
-    image_type       ENUM('DISPLAY', 'HOVER', 'DETAILS') NOT NULL
+    product_image_id   BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    product_id         BIGINT UNSIGNED NOT NULL,
+    image_name  VARCHAR(255) NOT NULL,
+    image_url VARCHAR(255) NOT NULL,
+    image_type         ENUM('DISPLAY', 'HOVER', 'DETAILS') NOT NULL
 );
 
 -- 할인

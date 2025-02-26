@@ -1,4 +1,4 @@
-package archivegarden.shop.service.common.upload;
+package archivegarden.shop.service.admin.upload;
 
 import archivegarden.shop.entity.ImageType;
 import archivegarden.shop.exception.common.FileUploadException;
@@ -10,33 +10,31 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.UUID;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class FirebaseService {
+public class AdminFirebaseService {
+
+    @Value("${firebase.storage-bucket-name}")
+    private String firebaseStorageUrl;
 
     private final Bucket bucket;
-
-    @Value("${firebase.storage-url}")
-    private String firebaseStorageUrl;
 
     /**
      * 파이어베이스에 파일 저장
      */
     public String uploadImage(MultipartFile multipartFile, ImageType imageType) {
 
-        String originalFilename = multipartFile.getOriginalFilename();
+        String originalFilename = encodeFilename(multipartFile.getOriginalFilename());
         String uniqueFileName = UUID.randomUUID() + "-" + originalFilename;
-
-        String uploadedImageUrl = String.format("products/%s/%s", imageType.name().toLowerCase(), uniqueFileName);
-        if(bucket.get(uploadedImageUrl) != null) {
-            bucket.get(uploadedImageUrl).delete();
-        }
+        String uploadedImageUrl = String.format("/products/%s/%s", imageType.name().toLowerCase(), uniqueFileName);
 
         try {
-            bucket.create(uploadedImageUrl, multipartFile.getBytes());
+         bucket.create(uploadedImageUrl, multipartFile.getBytes(), multipartFile.getContentType());
         } catch (IOException e) {
             throw new FileUploadException("이미지 업로드 중 오류가 발생했습니다.");
         }
@@ -57,5 +55,18 @@ public class FirebaseService {
      */
     public void deleteImage(String imageUrl) {
         bucket.get(imageUrl).delete();
+    }
+
+    /**
+     * 파일명 인코딩
+     */
+    private String encodeFilename(String originalFilename) {
+        String encodedFilename = "";
+        try {
+            encodedFilename = URLEncoder.encode(originalFilename, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException("파일 이름 인코딩 중 오류가 발생했습니다.");
+        }
+        return encodedFilename;
     }
 }

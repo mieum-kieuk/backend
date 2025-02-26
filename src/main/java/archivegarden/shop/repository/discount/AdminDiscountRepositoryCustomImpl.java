@@ -19,11 +19,11 @@ import static archivegarden.shop.entity.QDiscount.discount;
 import static archivegarden.shop.entity.QProduct.product;
 import static archivegarden.shop.entity.QProductImage.productImage;
 
-public class DiscountRepositoryImpl implements DiscountRepositoryCustom {
+public class AdminDiscountRepositoryCustomImpl implements AdminDiscountRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
-    public DiscountRepositoryImpl(EntityManager em) {
+    public AdminDiscountRepositoryCustomImpl(EntityManager em) {
         this.queryFactory = new JPAQueryFactory(em);
     }
 
@@ -49,12 +49,9 @@ public class DiscountRepositoryImpl implements DiscountRepositoryCustom {
     public Optional<Discount> findByIdWithProducts(Long discountId) {
         return queryFactory
                 .selectFrom(discount)
-                .join(discount.products, product).fetchJoin()
-                .join(product.productImages, productImage)
-                .on(
-                        product.id.eq(productImage.product.id),
-                        productImage.imageType.eq(ImageType.DISPLAY)
-                )
+                .leftJoin(discount.products, product).fetchJoin()
+                .leftJoin(product.productImages, productImage)
+                .on(productImage.imageType.eq(ImageType.DISPLAY))
                 .where(discount.id.eq(discountId))
                 .stream().findAny();
     }

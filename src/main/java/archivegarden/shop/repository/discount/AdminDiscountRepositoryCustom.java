@@ -7,7 +7,7 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.Optional;
 
-public interface DiscountRepositoryCustom {
+public interface AdminDiscountRepositoryCustom {
 
     Page<Discount> findAll(AdminSearchCondition condition, Pageable pageable);
 

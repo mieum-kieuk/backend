@@ -1,4 +1,4 @@
-package archivegarden.shop.repository.admin.admin;
+package archivegarden.shop.repository.admin;
 
 import archivegarden.shop.dto.admin.AdminSearchCondition;
 import archivegarden.shop.dto.admin.admin.AdminListDto;
@@ -20,11 +20,11 @@ import java.util.List;
 
 import static archivegarden.shop.entity.QAdmin.admin;
 
-public class AdminAdminRepositoryImpl implements AdminAdminRepositoryCustom {
+public class AdminAdminRepositoryCustomImpl implements AdminAdminRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
-    public AdminAdminRepositoryImpl(EntityManager em) {
+    public AdminAdminRepositoryCustomImpl(EntityManager em) {
         this.queryFactory = new JPAQueryFactory(em);
     }
 

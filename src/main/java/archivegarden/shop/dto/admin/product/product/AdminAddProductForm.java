@@ -15,7 +15,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class AddProductForm {
+public class AdminAddProductForm {
 
     @NotBlank(message = "상품명을 입력해 주세요.")
     private String name;
@@ -31,19 +31,12 @@ public class AddProductForm {
     @PositiveOrZero(message = "0 이상의 값을 입력해 주세요.")
     private Integer stockQuantity;
 
-    @NotBlank(message = "상품 상세정보를 입력해 주세요.")
     private String details;
-
-    @NotBlank(message = "상품 크기를 입력해 주세요.")
-    private String sizeGuide;
-
-    @NotBlank(message = "배송 정보를 입력해 주세요.")
+    private String size;
     private String shipping;
-
-    @NotBlank(message = "주의 사항을 입력해 주세요.")
     private String notice;
 
     private MultipartFile displayImage;
     private MultipartFile hoverImage;
-    private List<MultipartFile> detailsImages;
+    private List<MultipartFile> detailImages;
 }

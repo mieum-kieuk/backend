@@ -12,7 +12,7 @@ import archivegarden.shop.exception.ajax.AjaxEntityNotFoundException;
 import archivegarden.shop.exception.common.EntityNotFoundException;
 import archivegarden.shop.repository.discount.DiscountRepository;
 import archivegarden.shop.repository.product.ProductRepository;
-import archivegarden.shop.service.common.upload.ProductImageService;
+import archivegarden.shop.service.admin.upload.AdminProductImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,7 +26,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AdminDiscountService {
 
-    private final ProductImageService productImageService;
+    private final AdminProductImageService productImageService;
     private final ProductRepository productRepository;
     private final DiscountRepository discountRepository;
 
@@ -34,7 +34,7 @@ public class AdminDiscountService {
      * 할인 저장
      */
     public Long saveDiscount(AdminAddDiscountForm form) {
-        List<Product> products = productRepository.findAllProductsById(form.getProductIds());
+        List<Product> products = productRepository.findAll(form.getProductIds());
         Discount discount = Discount.createDiscount(form, products);
         discountRepository.save(discount);
         return discount.getId();
@@ -53,8 +53,8 @@ public class AdminDiscountService {
         List<AdminProductSummaryDto> products = adminDiscountDetailsDto.getProducts();
 
         for (AdminProductSummaryDto product : products) {
-            String encodedDisplayImageUrl = productImageService.getEncodedImageUrl(product.getDisplayImageUrl());
-            product.setDisplayImageUrl(encodedDisplayImageUrl);
+            String encodedDisplayImageData = productImageService.getEncodedImageData(product.getDisplayImageData());
+            product.setDisplayImageData(encodedDisplayImageData);
         }
 
         return adminDiscountDetailsDto;

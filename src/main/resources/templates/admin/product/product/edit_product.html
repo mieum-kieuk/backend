@@ -85,7 +85,7 @@
                     <div class="field-error exc" th:errors="*{displayImage}"></div>
                     <div id="previewContainer1" class="preview_container">
                         <div class="preview_images">
-                            <img th:src="${product.originDisplayImage.imageUrl}" alt="섬네일 사진1" class="preview_image">
+                            <img th:src="${product.originDisplayImage.imageData}" alt="섬네일 사진1" class="preview_image">
                             <div class="filename_container">
                                 <span>파일명: </span><span class="file_name" th:text="${product.originDisplayImage.imageName}"></span>
                             </div>
@@ -112,7 +112,7 @@
                     <input type="hidden" id="hoverImageDeleted" th:field="*{hoverImageDeleted}"/>
                     <div id="previewContainer2" class="preview_container" th:style="${product.originHoverImage == null} ? 'display:none;'">
                         <div class="preview_images">
-                            <img th:src="${product.originHoverImage != null ? product.originHoverImage.imageUrl : '#'}" alt="섬네일 사진2" class="preview_image">
+                            <img th:src="${product.originHoverImage != null ? product.originHoverImage.imageData : '#'}" alt="섬네일 사진2" class="preview_image">
                             <div class="filename_container">
                                 <span>파일명: </span><span class="file_name" th:text="${product.originHoverImage != null} ? ${product.originHoverImage.imageName}"></span>
                             </div>
@@ -138,7 +138,7 @@
                     <div id="previewContainer3" class="preview_container column">
                         <div class="preview_image_container" th:each="detailImage : ${product.originDetailImages}">
                             <div class="preview_images">
-                                <img th:src="${detailImage.imageUrl}" alt="섬네일 사진2" class="preview_image">
+                                <img th:src="${detailImage.imageData}" alt="섬네일 사진2" class="preview_image">
                                 <div class="filename_container">
                                     <span>파일명: </span><span class="file_name" th:text="${detailImage.imageName}"></span>
                                 </div>

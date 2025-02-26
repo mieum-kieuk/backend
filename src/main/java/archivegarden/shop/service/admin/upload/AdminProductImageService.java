@@ -1,6 +1,6 @@
-package archivegarden.shop.service.common.upload;
+package archivegarden.shop.service.admin.upload;
 
-import archivegarden.shop.dto.admin.product.product.ProductImageDto;
+import archivegarden.shop.dto.admin.product.product.AdminProductImageDto;
 import archivegarden.shop.entity.ImageType;
 import archivegarden.shop.entity.ProductImage;
 import lombok.RequiredArgsConstructor;
@@ -16,25 +16,26 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class ProductImageService {
+public class AdminProductImageService {
 
-    private final FirebaseService firebaseService;
+    private final AdminFirebaseService firebaseService;
 
     /**
-     * ImageType을 파리미터로 받아 상품 이미지 한 장 저장
+     * ImageType을 파리미터로 받아 ProductImage 1개 생성
      */
     public ProductImage createProductImage(MultipartFile multipartFile, ImageType imageType) {
         if(multipartFile.isEmpty()) {
             return null;
         }
 
+        //파이어베이스에 실제 이미지 저장
         String uploadedImageUrl = firebaseService.uploadImage(multipartFile, imageType);
 
-        return ProductImage.createProductImage(uploadedImageUrl, imageType);
+        return ProductImage.createProductImage(multipartFile.getOriginalFilename(), uploadedImageUrl, imageType);
     }
 
     /**
-     * ImageType == DETAILS인 상품 이미지 여러장 저장
+     * ImageType == DETAILS인 ProductImage 여러개 생성
      *
      */
     public List<ProductImage> createDetailProductImages(List<MultipartFile> detailImages) {
@@ -51,21 +52,22 @@ public class ProductImageService {
     /**
      * 파이어베이스에서 다운로드하여 Base64로 인코딩된 데이터를 반환
      */
-    public String getEncodedImageUrl(ProductImage productImage) {
-        byte[] content= firebaseService.downloadImage(productImage.getImageUrl());
-        return "data:image/png;base64," + Base64.getEncoder().encodeToString(content);
+    public String getEncodedImageData(String imageUrl) {
+        byte[] imageData = firebaseService.downloadImage(imageUrl);
+        return "data:image/png;base64," + Base64.getEncoder().encodeToString(imageData);
     }
 
     /**
-     * 상품 실제 이미지 데이터 파이어베이스에서 조회 후 DTO 리스트로 변환
+     * ProductImage -> ProductImageDto로 변환
      */
-    public List<ProductImageDto> getProductImageDtos(List<ProductImage> productImages) {
+    public AdminProductImageDto convertToProductImageDto(ProductImage productImage) {
+        String encodedImageData = getEncodedImageData(productImage.getImageUrl());
+        return new AdminProductImageDto(productImage, encodedImageData);
+    }
+
+    public List<AdminProductImageDto> convertToProductImageDtos(List<ProductImage> productImages) {
         return productImages.stream()
-                .map(image -> {
-                    byte[] content = firebaseService.downloadImage(image.getImageUrl());
-                    String encodedImage = "data:image/png;base64," + Base64.getEncoder().encodeToString(content);
-                    return new ProductImageDto(image, encodedImage);
-                })
+                .map(this::convertToProductImageDto)
                 .collect(Collectors.toList());
     }
 

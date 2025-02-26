@@ -17,7 +17,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class EditProductForm {
+public class AdminEditProductForm {
 
     @NotBlank(message = "상품명을 입력해 주세요.")
     private String name;
@@ -33,42 +33,35 @@ public class EditProductForm {
     @PositiveOrZero(message = "0 이상의 값을 입력해 주세요.")
     private Integer stockQuantity;
 
-    @NotBlank(message = "상품 상세정보를 입력해 주세요.")
     private String details;
-
-    @NotBlank(message = "상품 크기를 입력해 주세요.")
-    private String sizeGuide;
-
-    @NotBlank(message = "배송 정보를 입력해 주세요.")
+    private String size;
     private String shipping;
-
-    @NotBlank(message = "주의 사항을 입력해 주세요.")
     private String notice;
 
     private MultipartFile displayImage;
     private MultipartFile hoverImage;
-    private List<MultipartFile> detailsImages;
+    private List<MultipartFile> detailImages;
     private boolean hoverImageDeleted;
-    private List<String> deleteDetailsImages = new ArrayList<>();
+    private List<String> deleteDetailImages = new ArrayList<>();
 
-    private ProductImageDto originDisplayImage;
-    private ProductImageDto originHoverImage;
-    private List<ProductImageDto> originDetailsImages = new ArrayList<>();
+    private AdminProductImageDto originDisplayImage;
+    private AdminProductImageDto originHoverImage;
+    private List<AdminProductImageDto> originDetailImages = new ArrayList<>();
 
-    public EditProductForm(Product product, List<ProductImageDto> productImageDtos) {
+    public AdminEditProductForm(Product product, List<AdminProductImageDto> productImageDtos) {
         this.name = product.getName();
         this.category = product.getCategory();
         this.price = product.getPrice();
         this.stockQuantity = product.getStockQuantity();
         this.details = product.getDetails();
-        this.sizeGuide = product.getSizeGuide();
+        this.size = product.getSize();
         this.shipping = product.getShipping();
         this.notice = product.getNotice();
-        for (ProductImageDto productImageDto : productImageDtos) {
+        for (AdminProductImageDto productImageDto : productImageDtos) {
             switch (productImageDto.getImageType()) {
                 case DISPLAY -> this.originDisplayImage = productImageDto;
                 case HOVER -> this.originHoverImage = productImageDto;
-                case DETAILS -> this.originDetailsImages.add(productImageDto);
+                case DETAILS -> this.originDetailImages.add(productImageDto);
             }
         }
     }

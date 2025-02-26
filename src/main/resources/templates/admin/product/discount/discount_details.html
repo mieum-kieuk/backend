@@ -58,7 +58,7 @@
                                 <div class="list product">
                                     <div class="list_item" th:each="product, productStat : ${discount.products}">
                                         <div class="item number" th:text="${productStat.count}"></div>
-                                        <img class="item img" th:src="${product.displayImageUrl}">
+                                        <img class="item img" th:src="${product.displayImageData}">
                                         <div class="item name" th:text="${product.name}"></div>
                                         <div class="item price" th:text="${product.price}"></div>
                                     </div>

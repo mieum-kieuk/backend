@@ -26,12 +26,12 @@ import static archivegarden.shop.entity.QProduct.product;
 import static archivegarden.shop.entity.QProductImage.productImage;
 import static org.springframework.util.StringUtils.hasText;
 
-public class UserProductRepositoryImpl implements UserProductRepositoryCustom {
+public class UserProductRepositoryCustomImpl implements UserProductRepositoryCustom {
 
     private final EntityManager em;
     private final JPAQueryFactory queryFactory;
 
-    public UserProductRepositoryImpl(EntityManager em) {
+    public UserProductRepositoryCustomImpl(EntityManager em) {
         this.em = em;
         this.queryFactory = new JPAQueryFactory(JPQLTemplates.DEFAULT, em);
     }

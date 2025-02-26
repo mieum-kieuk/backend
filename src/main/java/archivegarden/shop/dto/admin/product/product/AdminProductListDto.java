@@ -7,10 +7,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.text.DecimalFormat;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ProductListDto {
+public class AdminProductListDto {
 
     private Long id;
     private String name;
@@ -18,9 +19,9 @@ public class ProductListDto {
     private int stockQuantity;
     private String price;
     private String salePrice;
-    private String displayImageUrl;
+    private String displayImageData;
 
-    public ProductListDto(Product product, String downloadDisplayImage) {
+    public AdminProductListDto(Product product, List<AdminProductImageDto> productImageDtos) {
         this.id = product.getId();
         this.name = product.getName();
         this.categoryName = product.getCategory().getDisplayName();
@@ -33,6 +34,6 @@ public class ProductListDto {
         } else {
             this.salePrice = this.price;
         }
-        this.displayImageUrl = downloadDisplayImage;
+        this.displayImageData = productImageDtos.get(0).getImageData();
     }
 }

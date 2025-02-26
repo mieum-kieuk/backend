@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-public class ProductDetailsDto {
+public class AdminProductDetailsDto {
 
     private Long id;
     private String name;
@@ -22,11 +22,11 @@ public class ProductDetailsDto {
     private String size;
     private String shipping;
     private String notice;
-    private String displayImageUrl;
-    private String hoverImageUrl;
-    private List<String> detailImageUrls = new ArrayList<>();
+    private String displayImageData;
+    private String hoverImageData;
+    private List<String> detailImageDatas = new ArrayList<>();
 
-    public ProductDetailsDto(Product product, List<ProductImageDto> productImageDtos) {
+    public AdminProductDetailsDto(Product product, List<AdminProductImageDto> productImageDtos) {
         this.id = product.getId();
         this.name = product.getName();
         this.categoryName = product.getCategory().getDisplayName();
@@ -47,11 +47,11 @@ public class ProductDetailsDto {
         this.size = product.getSize();
         this.shipping = product.getShipping();
         this.notice = product.getNotice();
-        for (ProductImageDto image : productImageDtos) {
+        for (AdminProductImageDto image : productImageDtos) {
             switch (image.getImageType()) {
-                case DISPLAY -> this.displayImageUrl = image.getImageUrl();
-                case HOVER -> this.hoverImageUrl = image.getImageUrl();
-                case DETAILS -> this.detailImageUrls.add(image.getImageUrl());
+                case DISPLAY -> this.displayImageData = image.getImageData();
+                case HOVER -> this.hoverImageData = image.getImageData();
+                case DETAILS -> this.detailImageDatas.add(image.getImageData());
             }
         }
     }

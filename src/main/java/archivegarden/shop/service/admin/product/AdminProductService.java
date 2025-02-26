@@ -10,7 +10,8 @@ import archivegarden.shop.exception.ajax.AjaxEntityNotFoundException;
 import archivegarden.shop.exception.common.EntityNotFoundException;
 import archivegarden.shop.repository.product.ProductImageRepository;
 import archivegarden.shop.repository.product.ProductRepository;
-import archivegarden.shop.service.common.upload.ProductImageService;
+import archivegarden.shop.service.admin.upload.AdminFirebaseService;
+import archivegarden.shop.service.admin.upload.AdminProductImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,14 +26,15 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class AdminProductService {
 
-    private final ProductImageService productImageService;
+    private final AdminFirebaseService firebaseService;
+    private final AdminProductImageService productImageService;
     private final ProductRepository productRepository;
     private final ProductImageRepository productImageRepository;
 
     /**
      * 상품 저장
      */
-    public Long saveProduct(AddProductForm form) {
+    public Long saveProduct(AdminAddProductForm form) {
         ProductImage displayImage = productImageService.createProductImage(form.getDisplayImage(), ImageType.DISPLAY);
         ProductImage hoverImage = productImageService.createProductImage(form.getHoverImage(), ImageType.HOVER);
         List<ProductImage> detailImages = productImageService.createDetailProductImages(form.getDetailImages());
@@ -55,22 +57,21 @@ public class AdminProductService {
      * @throws EntityNotFoundException
      */
     @Transactional(readOnly = true)
-    public ProductDetailsDto getProduct(Long productId) {
-        Product product = productRepository.findProduct(productId).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 상품입니다."));
-        List<ProductImageDto> productImageDtos = productImageService.getProductImageDtos(product.getProductImages());
-        return new ProductDetailsDto(product, productImageDtos);
+    public AdminProductDetailsDto getProduct(Long productId) {
+        Product product = productRepository.findProductInAdmin(productId).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 상품입니다."));
+        List<AdminProductImageDto> productImageDtos = productImageService.convertToProductImageDtos(product.getProductImages());
+        return new AdminProductDetailsDto(product, productImageDtos);
     }
 
     /**
      * 상품 목록 조회
      */
     @Transactional(readOnly = true)
-    public Page<ProductListDto> getProducts(AdminProductSearchCondition condition, Pageable pageable) {
-        return productRepository.findAllProduct(condition, pageable)
-                .map(product -> {
-                    ProductImage displayImage = product.getProductImages().get(0);
-                    String encodedImageUrl = productImageService.getEncodedImageUrl(displayImage.getImageUrl());
-                    return new ProductListDto(product, encodedImageUrl);
+    public Page<AdminProductListDto> getProducts(AdminProductSearchCondition condition, Pageable pageable) {
+        return productRepository.findAllProductInAdmin(condition, pageable)
+                .map(product ->{
+                    List<AdminProductImageDto> productImageDtos = productImageService.convertToProductImageDtos(product.getProductImages());
+                    return new AdminProductListDto(product, productImageDtos);
                 });
     }
 
@@ -80,10 +81,10 @@ public class AdminProductService {
      * @throws EntityNotFoundException
      */
     @Transactional(readOnly = true)
-    public EditProductForm getEditProductForm(Long productId) {
+    public AdminEditProductForm getEditProductForm(Long productId) {
         Product product = productRepository.findProduct(productId).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 상품입니다."));
-        List<ProductImageDto> productImageDtos = productImageService.getProductImageDtos(product.getProductImages());
-        return new EditProductForm(product, productImageDtos);
+        List<AdminProductImageDto> productImageDtos = productImageService.convertToProductImageDtos(product.getProductImages());
+        return new AdminEditProductForm(product, productImageDtos);
     }
 
     /**
@@ -91,7 +92,7 @@ public class AdminProductService {
      *
      * @throws EntityNotFoundException
      */
-    public void updateProduct(Long productId, EditProductForm form) {
+    public void updateProduct(Long productId, AdminEditProductForm form) {
         Product product = productRepository.findById(productId).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 상품입니다."));
         product.update(form);
 
@@ -189,8 +190,8 @@ public class AdminProductService {
     public Page<AdminProductSummaryDto> searchProductsInPopup(AdminProductPopupSearchCondition condition, Pageable pageable) {
         Page<AdminProductSummaryDto> ProductPopupDtos = productRepository.searchProductsInDiscountPopup(condition, pageable);
         ProductPopupDtos.forEach(p -> {
-            String encodedDisplayImageUrl = productImageService.getEncodedImageUrl(p.getDisplayImageUrl());
-            p.setDisplayImageUrl(encodedDisplayImageUrl);
+            String encodedImageData = productImageService.getEncodedImageData(p.getDisplayImageData());
+            p.setDisplayImageData(encodedImageData);
         });
 
         return ProductPopupDtos;

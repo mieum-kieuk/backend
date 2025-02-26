@@ -30,7 +30,7 @@ public class AdminProductController {
      * 상품 등록 폼을 반환하는 메서드
      */
     @GetMapping("/add")
-    public String addProductForm(@ModelAttribute("addProductForm") AddProductForm form, Model model) {
+    public String addProductForm(@ModelAttribute("addProductForm") AdminAddProductForm form, Model model) {
         model.addAttribute("categories", categorySelectBox());
         return "admin/product/product/add_product";
     }
@@ -39,7 +39,7 @@ public class AdminProductController {
      * 상품 등록 요청을 처리하는 메서드
      */
     @PostMapping("/add")
-    public String addProduct(@Valid @ModelAttribute("addProductForm") AddProductForm form, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
+    public String addProduct(@Valid @ModelAttribute("addProductForm") AdminAddProductForm form, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
         validateAttachImage(form.getDisplayImage(), form.getDetailImages(), bindingResult);
         if (bindingResult.hasErrors()) {
             model.addAttribute("categories", categorySelectBox());
@@ -62,7 +62,7 @@ public class AdminProductController {
      */
     @GetMapping("/{productId}")
     public String productDetails(@PathVariable("productId") Long productId, Model model) {
-        ProductDetailsDto productDetailsDto = productService.getProduct(productId);
+        AdminProductDetailsDto productDetailsDto = productService.getProduct(productId);
         model.addAttribute("product", productDetailsDto);
         return "admin/product/product/product_details";
     }
@@ -73,7 +73,7 @@ public class AdminProductController {
     @GetMapping
     public String products(@ModelAttribute("form") AdminProductSearchCondition condition, @RequestParam(name = "page", defaultValue = "1") int page, Model model) {
         PageRequest pageRequest = PageRequest.of(page - 1, 10);
-        Page<ProductListDto> products = productService.getProducts(condition, pageRequest);
+        Page<AdminProductListDto> products = productService.getProducts(condition, pageRequest);
         model.addAttribute("products", products);
         return "admin/product/product/product_list";
     }
@@ -83,7 +83,7 @@ public class AdminProductController {
      */
     @GetMapping("/{productId}/edit")
     public String editProductForm(@PathVariable("productId") Long productId, Model model) {
-        EditProductForm product = productService.getEditProductForm(productId);
+        AdminEditProductForm product = productService.getEditProductForm(productId);
         model.addAttribute("product", product);
         model.addAttribute("categories", categorySelectBox());
         return "admin/product/product/edit_product";
@@ -93,8 +93,7 @@ public class AdminProductController {
      * 상품 수정 요청을 처리하는 메서드
      */
     @PostMapping("/{productId}/edit")
-    public String editProduct(@PathVariable("productId") Long productId, @Valid @ModelAttribute("product") EditProductForm form,
-                              BindingResult bindingResult, Model model) {
+    public String editProduct(@PathVariable("productId") Long productId, @Valid @ModelAttribute("product") AdminEditProductForm form, BindingResult bindingResult, Model model) {
         if (form.getDetailImages().size() > 20) {
             bindingResult.rejectValue("detailsImages", "imageCountExceeded");
         }
