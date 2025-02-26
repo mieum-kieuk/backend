@@ -1,7 +1,7 @@
 package archivegarden.shop.entity;
 
-import archivegarden.shop.dto.admin.product.product.AddProductForm;
-import archivegarden.shop.dto.admin.product.product.EditProductForm;
+import archivegarden.shop.dto.admin.product.product.AdminAddProductForm;
+import archivegarden.shop.dto.admin.product.product.AdminEditProductForm;
 import archivegarden.shop.exception.ajax.NotEnoughStockAjaxException;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -56,10 +56,10 @@ public class Product extends BaseTimeEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "discount_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
-    private Discount discount;  //단방향
+    private Discount discount;  //양방향
 
     @Builder
-    public Product(AddProductForm form, ProductImage displayImage, ProductImage hoverImage, List<ProductImage> detailImages) {
+    public Product(AdminAddProductForm form, ProductImage displayImage, ProductImage hoverImage, List<ProductImage> detailImages) {
         this.name = form.getName();
         this.category = form.getCategory();
         this.price = form.getPrice();
@@ -89,9 +89,17 @@ public class Product extends BaseTimeEntity {
     }
 
     /**
+     * 할인 적용
+     */
+    public void setDiscount(Discount discount) {
+        this.discount = discount;
+        discount.getProducts().add(this);
+    }
+
+    /**
      * 상품 수정
      */
-    public void update(EditProductForm form) {
+    public void update(AdminEditProductForm form) {
         this.name = form.getName();
         this.category = form.getCategory();
         this.price = form.getPrice();
