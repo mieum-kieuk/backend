@@ -258,6 +258,7 @@ function regexEmail() {
     return true;
 }
 
+// 폼 제출 전 유효성 검사
 function validateBeforeSubmit() {
     // 아이디 유효성 검사
     if (!isLoginIdEmpty()) {

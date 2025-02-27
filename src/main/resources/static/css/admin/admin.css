@@ -746,6 +746,9 @@ th {
     padding-top: 0;
     justify-content: center;
 }
+.admin_wrap #admin_auth {
+    pointer-events: none;
+}
 .admin_wrap .admin_member .content {
     max-width: 450px;
     width: 100%;
@@ -855,6 +858,7 @@ th {
     display: flex;
     height: 100%;
     flex-direction: column;
+    min-width: 1200px;
 }
 .admins_wrap .btn_wrap {
     display: flex;
@@ -975,6 +979,7 @@ th {
     padding-left: 10px;
     margin-right: 0;
     width: 100px;
+    min-width: 100px;
     height: 100%;
 }
 .admin_wrap .search_form input, .admin_wrap .search_form select {

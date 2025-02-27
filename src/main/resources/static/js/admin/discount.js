@@ -2,6 +2,11 @@ $(document).ready(function () {
     popupButton();
     addItems();
 
+    $('#startDate, #expireDate').datepicker({
+        dateFormat: 'yy-mm-dd',
+        minDate: 0  // 과거 날짜 선택 불가
+    });
+
     $("select").each(function () {
         if ($(this).find("option:selected").val() !== "") {
             $(this).addClass("selected");
@@ -15,6 +20,7 @@ $(document).ready(function () {
             $(this).removeClass("selected");
         }
     });
+
     // 전체 선택
     $('.select_all_btn').on('click', function () {
         selectAllCheckboxes();
@@ -54,6 +60,7 @@ $(document).ready(function () {
 
         loadPage(currentPage, limit);
     });
+
     $(document).on('click', '.prev_first, .next_last', function () {
         let currentPage = $(this).data('page');
         let limit = $('#limit').val();
@@ -220,7 +227,7 @@ function deselectAllCheckboxes() {
     $('.list_head.product .item.check input[type="checkbox"]').prop('checked', false);
 }
 
-// 선택된 체크박스 상태에 따라 전체 선택 체크박스 업데이트 함수
+// 선택된 체크박스 상태에 따라 전체 선택 체크박스 업데이트
 function updateSelectAllCheckbox() {
     let totalCheckboxes = $('.list.product .item.check input[type="checkbox"]').length;
     let checkedCheckboxes = $('.list.product .item.check input[type="checkbox"]:checked').length;
@@ -326,6 +333,7 @@ $('.input_box_wrap.product #deleteBtn').click(function () {
     }
 });
 
+// 폼 제출 전 유효성 검사
 function validateBeforeSubmit() {
     let discountName = $('#name').val().trim();
     let discountPercent = $('#discountPercent').val().trim();
@@ -430,6 +438,7 @@ function validateBeforeSubmit() {
 
     return true;
 }
+
 //상품 할인 단건 삭제
 function deleteDiscount(discountId) {
 

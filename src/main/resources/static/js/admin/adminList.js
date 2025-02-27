@@ -7,7 +7,7 @@ $(document).ready(function() {
     });
 });
 
-// 폼 제출 전 유효성 검사 함수
+// 폼 제출 전 유효성 검사
 function validateBeforeSubmit() {
     let startDatetime = $('#startDate').val().trim();
     let endDatetime = $('#endDate').val().trim();
@@ -47,7 +47,7 @@ function validateBeforeSubmit() {
     return true;
 }
 
-//선택승인
+// 선택승인
 $("#authAdminBtn").click(function() {
 
     let admin = $('.list_content .list_item input[type=checkbox]:checked')
@@ -129,7 +129,8 @@ $("#authAdminBtn").click(function() {
         });
     });
 });
-//선택삭제
+
+// 선택삭제
 $("#deleteAdminBtn").click(function() {
 
     let admin = $('.list_content .list_item input[type=checkbox]:checked');

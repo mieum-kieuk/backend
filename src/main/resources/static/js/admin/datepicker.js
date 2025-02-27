@@ -1,34 +1,27 @@
 $(document).ready(function() {
-    if ($('.discount').length) {
-        $('#startDate, #expireDate').datepicker({
-            dateFormat: 'yy-mm-dd',
-            minDate: 0  // 과거 날짜 선택 불가
-        });
-    } else {
-        $('#startDate, #expireDate').datepicker({
-            dateFormat: 'yy-mm-dd',
-            maxDate: 0  // 미래 날짜 선택 불가
-        });
-    }
-
+    $('#startDate, #endDate').datepicker({
+        dateFormat: 'yy-mm-dd',
+        maxDate: 0  // 미래 날짜 선택 불가
+    });
 });
 
+// 기간 검색
 function setSearchDate(days) {
     if (days === 'all') {
         $('#startDate').datepicker('setDate', null);
-        $('#expireDate').datepicker('setDate', null);
+        $('#endDate').datepicker('setDate', null);
     } else {
-        let expireDate = new Date();
+        let endDate = new Date();
         let startDate = new Date();
 
         if (days === 0) {
-            startDate = expireDate;
+            startDate = endDate;
         } else {
             startDate.setDate(startDate.getDate() - days);
         }
 
         $('#startDate').datepicker('setDate', formatDate(startDate));
-        $('#expireDate').datepicker('setDate', formatDate(expireDate));
+        $('#endDate').datepicker('setDate', formatDate(endDate));
     }
 
     $('.hasDatepicker').removeAttr('readonly').on('click', function () {
@@ -38,6 +31,7 @@ function setSearchDate(days) {
     $('.hasDatepicker').css('pointer-events', 'auto');
 }
 
+// 초기화
 function formatDate(date) {
     let d = new Date(date),
         month = '' + (d.getMonth() + 1),
