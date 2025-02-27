@@ -8,33 +8,42 @@ $(document).ready(function () {
             $(this).addClass('selected');
         }
     });
-    // 체크박스 전체 선택
+
     selectCheckboxes();
+
+    // 상품명 중복 검사
+    $('#name').on('focusout', function () {
+        isNameValid();
+    });
+
     $('#displayImageBtn').on('click', function () {
         $('#displayImage').click();
     });
+
     $('#hoverImageBtn').on('click', function () {
         $('#hoverImage').click();
     });
+
     $('#detailImagesBtn').on('click', function () {
         $('#detailImages').click();
     });
-    //등록, 수정: 섬네일 사진1 첨부
+
+    // 섬네일 사진1 첨부
     $('#addProduct #displayImage').change(async function () {
         await updatePreviewContainer($(this), 'previewContainer1', '섬네일 사진1');
     });
 
-    //등록, 수정: 섬네일 사진2 첨부
+    // 섬네일 사진2 첨부
     $('#addProduct #hoverImage').change(async function () {
         await updatePreviewContainer($(this), 'previewContainer2', '섬네일 사진2');
     });
 
-    //등록, 수정: 상세 페이지 사진 첨부
+    // 상세 페이지 사진 첨부
     $('#detailImages').change(async function () {
         await handleDetailImagesChange();
     });
 
-    //등록, 수정: X(삭제) 클릭 시 첨부된 이미지 삭제
+    // X(삭제) 클릭 시 첨부된 이미지 삭제
     $('.delete_btn').click(function () {
         let previewContainer = $(this).closest('.preview_container');
         previewContainer.find('.preview_image').attr('src', '');
@@ -47,6 +56,7 @@ $(document).ready(function () {
     });
 });
 
+// 체크박스 전체 선택
 function selectCheckboxes() {
     $('#selectAll').click(function () {
         let isChecked = $(this).prop('checked');
@@ -60,7 +70,7 @@ function selectCheckboxes() {
     });
 }
 
-//등록, 수정: 섬네일 사진1, 섬네일 사진2 유효성 검사 -> 첨부
+// 섬네일 사진1, 섬네일 사진2 유효성 검사 -> 첨부
 async function updatePreviewContainer(input, containerId, thumbnailType) {
     let file = input[0].files[0];
 
@@ -121,32 +131,48 @@ async function updatePreviewContainer(input, containerId, thumbnailType) {
     });
 }
 
-let dataTransfer = new DataTransfer();  // dataTransfer 객체 선언
-let existingFiles = []; // 전역 배열로 기존 파일 이름 목록 관리
+let dataTransfer = new DataTransfer();
+let existingFiles = []; // 기존 파일 목록 관리
 
-//등록, 수정: 상세 페이지 사진 유효성 검사 -> 첨부
+// 상세 페이지 사진 유효성 검사 -> 첨부
 async function handleDetailImagesChange() {
     let previewContainer = $('#previewContainer3');
     let newFileArr = $('#detailImages')[0].files;
-
     let newFileSize = newFileArr.length;
     let originalFileSize = dataTransfer.files.length;
     let maxSizePerFile = 3 * 1024 * 1024;
     let invalidFileType = false;
-
     let exceedsMaxSize = false;
     let exceedsMaxFiles = originalFileSize + newFileSize > 20;
 
-    for (let i = 0; i < newFileSize; i++) {
-        let fileSize = newFileArr[i].size;
-        let fileType = newFileArr[i].type;
+    // 기존 파일 목록 업데이트
+    existingFiles = Array.from($('#previewContainer3 .file_name')).map(fileName => {
+        return $(fileName).text().replace('파일명: ', '').trim();
+    });
 
-        if (fileSize > maxSizePerFile) {
+    // 중복된 파일을 제외한 새로운 파일만 처리
+    let filesToAdd = [];
+    for (let i = 0; i < newFileSize; i++) {
+        let file = newFileArr[i];
+
+        if (file.size > maxSizePerFile) {
             exceedsMaxSize = true;
         }
-
-        if (fileType !== 'image/jpeg') {
+        if (file.type !== 'image/jpeg') {
             invalidFileType = true;
+        }
+
+        // 중복 파일 검사
+        if (existingFiles.includes(file.name)) {
+            Swal.fire({
+                text: '이미 첨부된 파일입니다.',
+                showConfirmButton: true,
+                confirmButtonText: '확인',
+                customClass: mySwal,
+                buttonsStyling: false
+            });
+        } else {
+            filesToAdd.push(file);
         }
     }
 
@@ -158,7 +184,6 @@ async function handleDetailImagesChange() {
             customClass: mySwal,
             buttonsStyling: false
         });
-        $('#detailImages').val('');
         return false;
     }
 
@@ -170,7 +195,6 @@ async function handleDetailImagesChange() {
             customClass: mySwal,
             buttonsStyling: false
         });
-        $('#detailImages').val('');
         return false;
     }
 
@@ -182,49 +206,27 @@ async function handleDetailImagesChange() {
             customClass: mySwal,
             buttonsStyling: false
         });
-        $('#detailImages').val('');
         return false;
     }
 
-    // 기존 파일 목록 가져오기
-    let newFileNames = Array.from(newFileArr).map(file => file.name);
-
-    // 중복 파일 검사
-    for (let i = 0; i < newFileNames.length; i++) {
-        if (existingFiles.includes(newFileNames[i])) {
-            Swal.fire({
-                text: '이미 첨부된 파일입니다.',
-                showConfirmButton: true,
-                confirmButtonText: '확인',
-                customClass: mySwal,
-                buttonsStyling: false
-            });
-            $('#detailImages').val('');
-            return false;
-        }
+    // 새로운 파일 목록을 기존 목록에 추가
+    for (let file of filesToAdd) {
+        dataTransfer.items.add(file);
+        existingFiles.push(file.name); // 기존 파일 리스트에 새 파일 추가
     }
 
-    // 기존 파일 목록에 새 파일 추가
-    for (let i = 0; i < newFileSize; i++) {
-        dataTransfer.items.add(newFileArr[i]);
-        existingFiles.push(newFileArr[i].name); // 새로 추가한 파일 이름 저장
-    }
+    console.log("현재 파일 목록:", existingFiles);
 
-    // input 값 초기화 후 다시 파일 리스트 설정
     $('#detailImages')[0].files = dataTransfer.files;
 
     // 미리보기 생성
-    for (let i = 0; i < newFileSize; i++) {
-        await addImagePreview(previewContainer, newFileArr[i]);
+    for (let file of filesToAdd) {
+        await addImagePreview(previewContainer, file);
     }
 
     previewContainer.css('display', 'flex');
-
-    // 파일 리스트 갱신 후 중복 파일을 첨부할 수 있게끔 다시 input 값을 리셋
-    $('#detailImages').val(''); // 첨부 후 input 값을 리셋
 }
-
-// 등록, 수정: 상세 이미지 사진 첨부시 뷰 생성
+// 상세 이미지 사진 첨부시 뷰 생성
 async function addImagePreview(container, file) {
     let reader = new FileReader();
 
@@ -270,27 +272,12 @@ async function addImagePreview(container, file) {
     });
 }
 
-let isNameChecked = false;
-let isAvailableName = false;
-
-$(document).ready(function () {
-    $('#name').on('focusout', function () {
-        isNameValid();
-    });
-});
-
-//유효성 검사
+// 폼 제출 전 유효성 검사
 function validateBeforeSubmit() {
     let nameValue = $('#name').val().trim();
     let categoryValue = $('#category').val();
     let priceValue = $('#price').val().trim();
     let stockQuantityValue = $('#stockQuantity').val().trim();
-    let detailsValue = $('#details').val().trim();
-    let sizeValue = $('#size').val().trim();
-    let shippingValue = $('#shipping').val().trim();
-    let noticeValue = $('#notice').val().trim();
-
-
     let displayImageValue = $('#displayImage')[0].files;
     let hoverImageValue = $('#hoverImage')[0].files;
     let detailImagesValue = $('#detailImages')[0].files;
@@ -387,50 +374,6 @@ function validateBeforeSubmit() {
         return false;
     }
 
-    if (detailsValue === '') {
-        Swal.fire({
-            text: "상품 상세정보를 입력해 주세요.",
-            showConfirmButton: true,
-            confirmButtonText: '확인',
-            customClass: mySwal,
-            buttonsStyling: false
-        });
-        return false;
-    }
-
-    if (sizeValue === '') {
-        Swal.fire({
-            text: "상품 크기를 입력해 주세요.",
-            showConfirmButton: true,
-            confirmButtonText: '확인',
-            customClass: mySwal,
-            buttonsStyling: false
-        });
-        return false;
-    }
-
-    if (shippingValue === '') {
-        Swal.fire({
-            text: "배송 정보를 입력해 주세요.",
-            showConfirmButton: true,
-            confirmButtonText: '확인',
-            customClass: mySwal,
-            buttonsStyling: false
-        });
-        return false;
-    }
-
-    if (noticeValue === '') {
-        Swal.fire({
-            text: "주의 사항을 입력해 주세요.",
-            showConfirmButton: true,
-            confirmButtonText: '확인',
-            customClass: mySwal,
-            buttonsStyling: false
-        });
-        return false;
-    }
-
     if (displayImageValue.length === 0) {
         Swal.fire({
             text: "섬네일 사진1을 첨부해 주세요.",
@@ -505,6 +448,10 @@ function validateBeforeSubmit() {
 let csrfHeader = $("meta[name='_csrf_header']").attr("content");
 let csrfToken = $("meta[name='_csrf']").attr("content");
 
+let isNameChecked = false;
+let isAvailableName = false;
+
+// 이름 검증
 function isNameValid() {
     let name = $('#name').val().trim();
     let nameRegex = /^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9\s]+$/;
@@ -548,7 +495,7 @@ function isNameValid() {
 }
 
 //상품 단건 삭제
-function deleteProduct(productId) {
+$('deleteProductBtn').click(function () {
     Swal.fire({
         text: "삭제하시겠습니까?",
         showCancelButton: true,
@@ -569,7 +516,7 @@ function deleteProduct(productId) {
                 },
                 success: function (result) {
                     if (result.code == 200) {
-                        window.location.href = '/admin/product';
+                        window.location.href = '/admin/products';
                     } else {
                         Swal.fire({
                             text: result.message,
@@ -592,9 +539,9 @@ function deleteProduct(productId) {
             });
         }
     });
-}
+});
 
-//상품 여러건 삭제
+// 상품 여러건 삭제
 $('#deleteProductsBtn').click(function () {
 
     let productIds = [];

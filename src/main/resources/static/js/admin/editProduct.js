@@ -12,25 +12,27 @@ $(document).ready(function () {
     $('#displayImageBtn').on('click', function () {
         $('#displayImage').click();
     });
+
     $('#hoverImageBtn').on('click', function () {
         $('#hoverImage').click();
     });
+
     $('#detailImagesBtn').on('click', function () {
         $('#detailImages').click();
     });
 
-    //섬네일 사진1 첨부
+    // 섬네일 사진1 첨부
     $('#editProduct #displayImage').change(async function () {
         await updatePreviewContainer($(this), 'previewContainer1', '섬네일 사진1');
     });
 
-    //섬네일 사진2 첨부
+    // 섬네일 사진2 첨부
     $('#editProduct #hoverImage').change(async function () {
         await updatePreviewContainer($(this), 'previewContainer2', '섬네일 사진2');
         $('#hoverImageDeleted').val('false');
     });
 
-    //상세 페이지 사진 첨부
+    // 상세 페이지 사진 첨부
     $('#detailImages').change(async function () {
         await handleDetailImagesChange();
     });
@@ -41,6 +43,7 @@ let csrfToken = $("meta[name='_csrf']").attr("content");
 let originalName = $('#name').val().trim();
 let isAvailableName = true;
 
+// 이름 검증
 function isNameValid() {
     let name = $('#name').val().trim();
     let nameRegex = /^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9\s]+$/;
@@ -81,7 +84,7 @@ function isNameValid() {
     return;
 }
 
-//섬네일 사진1, 섬네일 사진2 유효성 검사 -> 첨부
+// 섬네일 사진1, 섬네일 사진2 유효성 검사 -> 첨부
 async function updatePreviewContainer(input, containerId, thumbnailType) {
     let file = input[0].files[0];
 
@@ -143,7 +146,7 @@ async function updatePreviewContainer(input, containerId, thumbnailType) {
 }
 
 let dataTransfer = new DataTransfer();
-let existingFiles = []; // 전역 배열로 기존 파일 이름 목록 관리
+let existingFiles = []; 기존 파일 이름 목록 관리
 
 // 상세 페이지 사진 유효성 검사 -> 첨부
 async function handleDetailImagesChange() {
@@ -236,9 +239,6 @@ async function handleDetailImagesChange() {
     }
 
     previewContainer.css('display', 'flex');
-
-    // 파일 리스트 갱신 후 중복 파일을 첨부할 수 있게끔 다시 input 값을 리셋
-    $('#detailImages').val('');
 }
 
 // 상세 이미지 사진 첨부시 뷰 생성
@@ -251,7 +251,7 @@ async function addImagePreview(container, file) {
             let previewImages = $('<div>').addClass('preview_images');
             let previewImage = $('<img>').addClass('preview_image').attr('src', e.target.result);
             let filenameContainer = $('<div>').addClass('filename_container');
-            let fileName = $('<span>').addClass('file_name').text('파일명: ' + file.name);
+            let fileName = $('<span>').addClass('file_name').text(file.name);
             let deleteButton = $('<button>').addClass('delete_btn').append($('<span>').addClass('material-symbols-outlined').text('close'));
 
             // 기존 파일 배열에 새 파일 추가
@@ -283,16 +283,12 @@ async function addImagePreview(container, file) {
         reader.readAsDataURL(file);
     });
 }
-//유효성 검사
+
+// 폼 제출 전 유효성 검사
 function validateBeforeSubmit() {
     let nameValue = $('#name').val().trim();
     let priceValue = $('#price').val().trim();
     let stockQuantityValue = $('#stockQuantity').val().trim();
-    let detailsValue = $('#details').val().trim();
-    let sizeValue = $('#size').val().trim();
-    let shippingValue = $('#shipping').val().trim();
-    let noticeValue = $('#notice').val().trim();
-
     let displayImageValue = $('#displayImage')[0].files;
     let originalDisplayPreviewImage = $('#previewContainer1 .preview_image').attr('src');
 
@@ -363,50 +359,6 @@ function validateBeforeSubmit() {
     if (parseInt(stockQuantityValue) < 0) {
         Swal.fire({
             text: "유효한 재고를 입력해 주세요.",
-            showConfirmButton: true,
-            confirmButtonText: '확인',
-            customClass: mySwal,
-            buttonsStyling: false
-        });
-        return false;
-    }
-
-    if (detailsValue === '') {
-        Swal.fire({
-            text: "상세 정보를 입력해 주세요.",
-            showConfirmButton: true,
-            confirmButtonText: '확인',
-            customClass: mySwal,
-            buttonsStyling: false
-        });
-        return false;
-    }
-
-    if (sizeValue === '') {
-        Swal.fire({
-            text: "상품 크기를 입력해 주세요.",
-            showConfirmButton: true,
-            confirmButtonText: '확인',
-            customClass: mySwal,
-            buttonsStyling: false
-        });
-        return false;
-    }
-
-    if (shippingValue === '') {
-        Swal.fire({
-            text: "배송 정보를 입력해 주세요.",
-            showConfirmButton: true,
-            confirmButtonText: '확인',
-            customClass: mySwal,
-            buttonsStyling: false
-        });
-        return false;
-    }
-
-    if (noticeValue === '') {
-        Swal.fire({
-            text: "주의 사항을 입력해 주세요.",
             showConfirmButton: true,
             confirmButtonText: '확인',
             customClass: mySwal,
