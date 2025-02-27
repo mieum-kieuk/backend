@@ -65,7 +65,7 @@ public class AdminProductRepositoryCustomImpl implements AdminProductRepositoryC
                 .leftJoin(product.productImages, productImage).fetchJoin()
                 .where(
                         keywordLike(condition.getSearchKey(), condition.getKeyword()),
-                        categoryEq(condition.getCategory()),
+                        categoryEq(Category.of(condition.getCategory())),
                         imageTypeDisplay()
                 )
                 .orderBy(product.createdAt.desc())
@@ -77,7 +77,7 @@ public class AdminProductRepositoryCustomImpl implements AdminProductRepositoryC
                 .select(product.count())
                 .where(
                         keywordLike(condition.getSearchKey(), condition.getKeyword()),
-                        categoryEq(condition.getCategory())
+                        categoryEq(Category.of(condition.getCategory()))
                 )
                 .from(product);
 

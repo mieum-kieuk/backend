@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.text.DecimalFormat;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -28,12 +29,17 @@ public class AdminProductListDto {
         this.stockQuantity = product.getStockQuantity();
         this.price = new DecimalFormat("###,###원").format(product.getPrice());
         Discount discount = product.getDiscount();
-        if(discount != null) {
+        if(discount != null && isDateBetween(discount.getStartedAt(), discount.getExpiredAt())) {
             double salePriceDouble = product.getPrice() - (double) product.getPrice() * discount.getDiscountPercent() / 100;
             this.salePrice = new DecimalFormat("###.###원").format(Math.round(salePriceDouble));
         } else {
             this.salePrice = this.price;
         }
         this.displayImageData = productImageDtos.get(0).getImageData();
+    }
+
+    private boolean isDateBetween(LocalDateTime startedAt, LocalDateTime expiredAt) {
+        LocalDateTime now = LocalDateTime.now();
+        return (now.isAfter(startedAt) || now.isEqual(startedAt)) && (now.isBefore(expiredAt) || now.isEqual(expiredAt));
     }
 }

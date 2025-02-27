@@ -5,6 +5,7 @@ import archivegarden.shop.entity.Product;
 import lombok.Getter;
 
 import java.text.DecimalFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class AdminProductDetailsDto {
         this.price = new DecimalFormat("###,###원").format(product.getPrice());
 
         Discount discount = product.getDiscount();
-        if (discount != null) {
+        if (discount != null && isDateBetween(discount.getStartedAt(), discount.getExpiredAt())) {
             this.discountName = "[" + product.getDiscount().getDiscountPercent() + "%] " + product.getDiscount().getName();
             double salePriceDouble = product.getPrice() - (double) product.getPrice() * discount.getDiscountPercent() / 100;
             this.salePrice = new DecimalFormat("###,###원").format(Math.round(salePriceDouble));
@@ -54,5 +55,10 @@ public class AdminProductDetailsDto {
                 case DETAILS -> this.detailImageDatas.add(image.getImageData());
             }
         }
+    }
+
+    private boolean isDateBetween(LocalDateTime startedAt, LocalDateTime expiredAt) {
+        LocalDateTime now = LocalDateTime.now();
+        return (now.isAfter(startedAt) || now.isEqual(startedAt)) && (now.isBefore(expiredAt) || now.isEqual(expiredAt));
     }
 }
