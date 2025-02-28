@@ -143,7 +143,7 @@ async function handleDetailImagesChange() {
     let maxSizePerFile = 3 * 1024 * 1024;
     let invalidFileType = false;
     let exceedsMaxSize = false;
-    let exceedsMaxFiles = originalFileSize + newFileSize > 20;
+    let exceedsMaxFiles = originalFileSize + newFileSize;
 
     // 기존 파일 목록 업데이트
     existingFiles = Array.from($('#previewContainer3 .file_name')).map(fileName => {
@@ -184,10 +184,11 @@ async function handleDetailImagesChange() {
             customClass: mySwal,
             buttonsStyling: false
         });
+        $('#detailImages').val('');
         return false;
     }
 
-    if (exceedsMaxFiles) {
+    if (exceedsMaxFiles > 20) {
         Swal.fire({
             text: "상세 페이지 사진은 최대 20장까지 가능합니다.",
             showConfirmButton: true,
@@ -195,6 +196,7 @@ async function handleDetailImagesChange() {
             customClass: mySwal,
             buttonsStyling: false
         });
+        $('#detailImages').val('');
         return false;
     }
 
@@ -206,6 +208,7 @@ async function handleDetailImagesChange() {
             customClass: mySwal,
             buttonsStyling: false
         });
+        $('#detailImages').val('');
         return false;
     }
 
@@ -214,8 +217,6 @@ async function handleDetailImagesChange() {
         dataTransfer.items.add(file);
         existingFiles.push(file.name); // 기존 파일 리스트에 새 파일 추가
     }
-
-    console.log("현재 파일 목록:", existingFiles);
 
     $('#detailImages')[0].files = dataTransfer.files;
 
@@ -226,6 +227,7 @@ async function handleDetailImagesChange() {
 
     previewContainer.css('display', 'flex');
 }
+
 // 상세 이미지 사진 첨부시 뷰 생성
 async function addImagePreview(container, file) {
     let reader = new FileReader();
@@ -494,8 +496,8 @@ function isNameValid() {
     return;
 }
 
-//상품 단건 삭제
-$('deleteProductBtn').click(function () {
+// 상품 단건 삭제
+$('#deleteProductBtn').click(function () {
     Swal.fire({
         text: "삭제하시겠습니까?",
         showCancelButton: true,

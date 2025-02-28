@@ -106,8 +106,7 @@
                 <button class="btn1" onclick="location.href='./edit_product.html'"
                         th:onclick="|location.href='@{/admin/products/{productId}/edit(productId=${product.id})}'|">수정
                 </button>
-                <button class="btn1" id="deleteProductBtn" onclick="location.href='./product_list.html'"
-                        th:onclick="|deleteProduct(${product.id})|">삭제
+                <button class="btn1" id="deleteProductBtn" onclick="location.href='./product_list.html'">삭제
                 </button>
                 <button class="btn1" onclick="location.href='./product_list.html'"
                         th:onclick="|location.href='@{/admin/products}'|">목록

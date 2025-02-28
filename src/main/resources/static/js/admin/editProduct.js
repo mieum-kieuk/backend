@@ -145,37 +145,37 @@ async function updatePreviewContainer(input, containerId, thumbnailType) {
     });
 }
 
-let dataTransfer = new DataTransfer();
-let existingFiles = []; 기존 파일 이름 목록 관리
+let existingFiles = []; //기존 파일 이름 목록 관리
+let fileList = []; // 파일 목록
 
 // 상세 페이지 사진 유효성 검사 -> 첨부
 async function handleDetailImagesChange() {
     let previewContainer = $('#previewContainer3');
     let newFileArr = $('#detailImages')[0].files;
     let newFileSize = newFileArr.length;
-    let originalFileSize = dataTransfer.files.length;
+    let originalFileSize = fileList.length; // fileList 배열의 길이를 사용
     let maxSizePerFile = 3 * 1024 * 1024;
     let invalidFileType = false;
     let exceedsMaxSize = false;
-    let exceedsMaxFiles = originalFileSize + newFileSize > 20;
+    let exceedsMaxFiles = originalFileSize + newFileSize;
 
     // 기존 파일 목록 업데이트
     existingFiles = Array.from($('#previewContainer3 .file_name')).map(fileName => {
         return $(fileName).text().replace('파일명: ', '').trim();
     });
 
+    let validFiles = [];
+    let hasDuplicate = false;
+
     for (let i = 0; i < newFileSize; i++) {
         let file = newFileArr[i];
+        let isDuplicate = false;
 
-        if (file.size > maxSizePerFile) {
-            exceedsMaxSize = true;
-        }
-        if (file.type !== 'image/jpeg') {
-            invalidFileType = true;
+        if (existingFiles.includes(file.name) || fileList.some(f => f.name === file.name)) {
+            isDuplicate = true;
         }
 
-        // 중복 파일 검사
-        if (existingFiles.includes(file.name)) {
+        if (isDuplicate) {
             Swal.fire({
                 text: '이미 첨부된 파일입니다.',
                 showConfirmButton: true,
@@ -183,8 +183,21 @@ async function handleDetailImagesChange() {
                 customClass: mySwal,
                 buttonsStyling: false
             });
-            $('#detailImages').val('');
-            return false;
+            hasDuplicate = true;
+        } else {
+            validFiles.push(file);
+        }
+    }
+
+    // 유효성 검사
+    for (let i = 0; i < validFiles.length; i++) {
+        let file = validFiles[i];
+
+        if (file.size > maxSizePerFile) {
+            exceedsMaxSize = true;
+        }
+        if (file.type !== 'image/jpeg') {
+            invalidFileType = true;
         }
     }
 
@@ -200,7 +213,7 @@ async function handleDetailImagesChange() {
         return false;
     }
 
-    if (exceedsMaxFiles) {
+    if (exceedsMaxFiles > 20) {
         Swal.fire({
             text: "상세 페이지 사진은 최대 20장까지 가능합니다.",
             showConfirmButton: true,
@@ -225,23 +238,25 @@ async function handleDetailImagesChange() {
     }
 
     // 기존 파일 목록에 새 파일 추가
-    for (let i = 0; i < newFileSize; i++) {
-        let file = newFileArr[i];
-        dataTransfer.items.add(file);
-        existingFiles.push(file.name); // 기존 파일 리스트에 추가
+    if (validFiles.length > 0) {
+        validFiles.forEach(file => fileList.push(file));
     }
 
-    $('#detailImages')[0].files = dataTransfer.files;
+    // dataTransfer 업데이트
+    let newDataTransfer = new DataTransfer();
+
+    fileList.forEach(file => newDataTransfer.items.add(file));
+
+    $('#detailImages')[0].files = newDataTransfer.files;
 
     // 미리보기 생성
-    for (let i = 0; i < newFileSize; i++) {
-        await addImagePreview(previewContainer, newFileArr[i]);
+    for (let i = 0; i < validFiles.length; i++) {
+        await addImagePreview(previewContainer, validFiles[i]);
     }
 
     previewContainer.css('display', 'flex');
 }
 
-// 상세 이미지 사진 첨부시 뷰 생성
 async function addImagePreview(container, file) {
     let reader = new FileReader();
 
@@ -258,15 +273,12 @@ async function addImagePreview(container, file) {
             existingFiles.push(file.name);
 
             deleteButton.click(function () {
-                // 기존 파일 목록에서 해당 파일 제거
-                existingFiles = existingFiles.filter(existingFile => existingFile !== file.name);
+                // fileList에서 해당 파일 제거
+                fileList = fileList.filter(f => f.name !== file.name);
 
-                // dataTransfer 파일 목록에서 해당 파일 제거
-                let newFiles = Array.from($('#detailImages')[0].files).filter(f => f.name !== file.name);
-
-                // dataTransfer 객체를 갱신하고 file input에 반영
+                // dataTransfer 업데이트
                 let newDataTransfer = new DataTransfer();
-                newFiles.forEach(f => newDataTransfer.items.add(f));
+                fileList.forEach(f => newDataTransfer.items.add(f));
                 $('#detailImages')[0].files = newDataTransfer.files;
 
                 // 미리보기 이미지 제거

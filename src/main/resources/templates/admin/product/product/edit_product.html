@@ -26,7 +26,7 @@
     <div id="editProduct">
         <div class="content">
             <h2 class="content_tit">상품 수정</h2>
-            <form id="ProductForm" action="" th:object="${product}" th:action method="post" enctype="multipart/form-data" th:onsubmit="return validateBeforeSubmit()">
+            <form id="productForm" action="" th:object="${product}" th:action method="post" enctype="multipart/form-data" th:onsubmit="return validateBeforeSubmit()">
                 <div class="form_wrap">
                     <div class="input_box_wrap">
                         <label for="name" class="ess_tit">상품명</label>
@@ -56,22 +56,22 @@
                     </div>
                     <div class="field-error" th:errors="*{stockQuantity}"></div>
                     <div class="input_box_wrap">
-                        <label for="details" class="ess_tit">상품 상세정보</label>
+                        <label for="details">상품 상세정보</label>
                         <textarea id="details" th:field="*{details}" rows="4" cols="50"></textarea>
                     </div>
                     <div class="field-error" th:errors="*{details}"></div>
                     <div class="input_box_wrap">
-                        <label for="size" class="ess_tit">상품 크기</label>
+                        <label for="size">상품 크기</label>
                         <textarea id="size" th:field="*{size}" rows="4" cols="50"></textarea>
                     </div>
                     <div class="field-error" th:errors="*{size}"></div>
                     <div class="input_box_wrap">
-                        <label for="shipping" class="ess_tit">배송 정보</label>
+                        <label for="shipping">배송 정보</label>
                         <textarea id="shipping" th:field="*{shipping}" rows="4" cols="50"></textarea>
                     </div>
                     <div class="field-error" th:errors="*{shipping}"></div>
                     <div class="input_box_wrap">
-                        <label for="notice" class="ess_tit">주의 사항</label>
+                        <label for="notice">주의 사항</label>
                         <textarea id="notice" th:field="*{notice}" rows="4" cols="50"></textarea>
                     </div>
                     <div class="field-error" th:errors="*{notice}"></div>
@@ -138,7 +138,7 @@
                     <div id="previewContainer3" class="preview_container column">
                         <div class="preview_image_container" th:each="detailImage : ${product.originDetailImages}">
                             <div class="preview_images">
-                                <img th:src="${detailImage.imageData}" alt="섬네일 사진2" class="preview_image">
+                                <img th:src="${detailImage.imageData}" alt="" class="preview_image">
                                 <div class="filename_container">
                                     <span>파일명: </span><span class="file_name" th:text="${detailImage.imageName}"></span>
                                 </div>
