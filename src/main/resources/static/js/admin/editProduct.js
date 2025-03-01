@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-    $('#name').on('focusout', function () {
+    $('#name').on('change', function () {
         isNameValid();
     });
 
@@ -74,9 +74,13 @@ function isNameValid() {
                 }
             },
             error: function () {
-                isAvailableName = false;
-                $('#nameMsg').text('중복 확인 중 오류가 발생했습니다. 다시 시도해 주세요.');
-                $('#nameMsg').removeClass('success').addClass('error');
+                Swal.fire({
+                    html: "상품명 중복 확인 중 오류가 발생했습니다.<br>다시 시도해 주세요.",
+                    showConfirmButton: true,
+                    confirmButtonText: '확인',
+                    customClass: mySwal,
+                    buttonsStyling: false
+                });
             }
         });
     }

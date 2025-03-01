@@ -12,7 +12,7 @@ $(document).ready(function () {
     selectCheckboxes();
 
     // 상품명 중복 검사
-    $('#name').on('focusout', function () {
+    $('#name').on('change', function () {
         isNameValid();
     });
 
@@ -459,7 +459,6 @@ function isNameValid() {
     let nameRegex = /^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9\s]+$/;
 
     if (name === '') {
-        $('#nameMsg').text('');
         return;
     }
     if (!nameRegex.test(name)) {
@@ -478,18 +477,18 @@ function isNameValid() {
             isNameChecked = true;
             if (result.code == 200) {
                 isAvailableName = true;
-                $('#nameMsg').text(result.message);
-                $('#nameMsg').removeClass('error').addClass('success');
             } else {
                 isAvailableName = false;
-                $('#nameMsg').text(result.message);
-                $('#nameMsg').removeClass('success').addClass('error');
             }
         },
         error: function () {
-            isAvailableName = false;
-            $('#nameMsg').text('중복 확인 중 오류가 발생했습니다. 다시 시도해 주세요.');
-            $('#nameMsg').removeClass('success').addClass('error');
+            Swal.fire({
+                html: "상품명 중복 확인 중 오류가 발생했습니다.<br>다시 시도해 주세요.",
+                showConfirmButton: true,
+                confirmButtonText: '확인',
+                customClass: mySwal,
+                buttonsStyling: false
+            });
         }
     });
 

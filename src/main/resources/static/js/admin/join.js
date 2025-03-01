@@ -8,27 +8,27 @@ $(window).on('unload', function() {
 });
 
 $(document).ready(function () {
-    $('#loginId').on('focusout', function () {
+    $('#loginId').on('keyup', function () {
         isLoginIdValid();
     });
 
-    $('#password').on('focusout', function () {
+    $('#password').on('keyup', function () {
         isPasswordValid();
         if($('#passwordConfirm').val().trim() != '') {
             isPwConfirmValid();
         }
     });
 
-    $('#passwordConfirm').on('focusout', function () {
+    $('#passwordConfirm').on('keyup', function () {
         isPwConfirmValid();
     });
 
-    $('#name').on('focusout', function () {
+    $('#name').on('keyup', function () {
         isNameValid();
     });
 
 
-    $('#email').on('focusout', function () {
+    $('#email').on('keyup', function () {
         isEmailValid();
     });
 });
