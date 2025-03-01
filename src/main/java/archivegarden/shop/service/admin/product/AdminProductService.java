@@ -1,7 +1,5 @@
 package archivegarden.shop.service.admin.product;
 
-import archivegarden.shop.dto.admin.product.product.AdminProductPopupSearchCondition;
-import archivegarden.shop.dto.admin.product.product.AdminProductSummaryDto;
 import archivegarden.shop.dto.admin.product.product.*;
 import archivegarden.shop.entity.ImageType;
 import archivegarden.shop.entity.Product;
@@ -10,15 +8,17 @@ import archivegarden.shop.exception.ajax.AjaxEntityNotFoundException;
 import archivegarden.shop.exception.common.EntityNotFoundException;
 import archivegarden.shop.repository.product.ProductImageRepository;
 import archivegarden.shop.repository.product.ProductRepository;
-import archivegarden.shop.service.admin.upload.AdminFirebaseService;
 import archivegarden.shop.service.admin.upload.AdminProductImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,10 +26,10 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class AdminProductService {
 
-    private final AdminFirebaseService firebaseService;
     private final AdminProductImageService productImageService;
     private final ProductRepository productRepository;
     private final ProductImageRepository productImageRepository;
+    private final Executor customAsyncExecutor;
 
     /**
      * 상품 저장
@@ -68,11 +68,21 @@ public class AdminProductService {
      */
     @Transactional(readOnly = true)
     public Page<AdminProductListDto> getProducts(AdminProductSearchCondition condition, Pageable pageable) {
-        return productRepository.findAllProductInAdmin(condition, pageable)
-                .map(product ->{
+        Page<Product> products = productRepository.findAllProductInAdmin(condition, pageable);
+
+        List<CompletableFuture<AdminProductListDto>> futures = products.getContent().stream()
+                .map(product -> CompletableFuture.supplyAsync(() -> {
+                    // 각 상품에 대해 이미지 변환 작업을 비동기적으로 수행
                     List<AdminProductImageDto> productImageDtos = productImageService.convertToProductImageDtos(product.getProductImages());
                     return new AdminProductListDto(product, productImageDtos);
-                });
+                }, customAsyncExecutor))
+                .collect(Collectors.toList());
+
+        List<AdminProductListDto> productList = futures.stream()
+                .map(CompletableFuture::join)
+                .collect(Collectors.toList());
+
+        return new PageImpl<>(productList, pageable, products.getTotalElements());
     }
 
     /**
@@ -188,12 +198,16 @@ public class AdminProductService {
      * 팝업창에서 상품 검색
      */
     public Page<AdminProductSummaryDto> searchProductsInPopup(AdminProductPopupSearchCondition condition, Pageable pageable) {
-        Page<AdminProductSummaryDto> ProductPopupDtos = productRepository.searchProductsInDiscountPopup(condition, pageable);
-        ProductPopupDtos.forEach(p -> {
-            String encodedImageData = productImageService.getEncodedImageData(p.getDisplayImageData());
-            p.setDisplayImageData(encodedImageData);
-        });
+        Page<AdminProductSummaryDto> productPopupDtos = productRepository.searchProductsInDiscountPopup(condition, pageable);
+        List<CompletableFuture<Void>> futures = productPopupDtos.stream()
+                .map(p -> CompletableFuture.runAsync(() -> {
+                    String encodedImageData = productImageService.getEncodedImageDataAsync(p.getDisplayImageData()).join();
+                    p.setDisplayImageData(encodedImageData);
+                }, customAsyncExecutor))
+                .collect(Collectors.toList());
 
-        return ProductPopupDtos;
+        CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
+
+        return productPopupDtos;
     }
 }

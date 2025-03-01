@@ -4,6 +4,7 @@ import archivegarden.shop.dto.admin.product.product.AdminProductImageDto;
 import archivegarden.shop.entity.ImageType;
 import archivegarden.shop.entity.ProductImage;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -11,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 @Service
@@ -55,6 +57,13 @@ public class AdminProductImageService {
     public String getEncodedImageData(String imageUrl) {
         byte[] imageData = firebaseService.downloadImage(imageUrl);
         return "data:image/png;base64," + Base64.getEncoder().encodeToString(imageData);
+    }
+
+    @Async("customAsyncExecutor")
+    public CompletableFuture<String> getEncodedImageDataAsync(String imageUrl) {
+        byte[] imageData = firebaseService.downloadImage(imageUrl);
+        String encodedImageData = "data:image/png;base64," + Base64.getEncoder().encodeToString(imageData);
+        return CompletableFuture.completedFuture(encodedImageData);
     }
 
     /**

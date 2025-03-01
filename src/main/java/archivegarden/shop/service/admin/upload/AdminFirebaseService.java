@@ -31,7 +31,7 @@ public class AdminFirebaseService {
 
         String originalFilename = encodeFilename(multipartFile.getOriginalFilename());
         String uniqueFileName = UUID.randomUUID() + "-" + originalFilename;
-        String uploadedImageUrl = String.format("/products/%s/%s", imageType.name().toLowerCase(), uniqueFileName);
+        String uploadedImageUrl = String.format("products/%s/%s", imageType.name().toLowerCase(), uniqueFileName);
 
         try {
          bucket.create(uploadedImageUrl, multipartFile.getBytes(), multipartFile.getContentType());

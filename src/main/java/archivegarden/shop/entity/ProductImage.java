@@ -16,6 +16,9 @@ public class ProductImage {
     @Column(name = "product_image_id")
     private Long id;
 
+    @Column(name = "image_name", nullable = false)
+    private String imageName;
+
     @Column(name = "image_url", nullable = false)
     private String imageUrl;
 
@@ -27,9 +30,10 @@ public class ProductImage {
     @JoinColumn(name = "product_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Product product;    //양방향
 
-    public static ProductImage createProductImage(String imageUrl, ImageType imageType) {
+    public static ProductImage createProductImage(String originalFilename, String imageDownloadUrl, ImageType imageType) {
         ProductImage productImage = new ProductImage();
-        productImage.imageUrl = imageUrl;
+        productImage.imageName = originalFilename;
+        productImage.imageUrl = imageDownloadUrl;
         productImage.imageType = imageType;
         return productImage;
     }

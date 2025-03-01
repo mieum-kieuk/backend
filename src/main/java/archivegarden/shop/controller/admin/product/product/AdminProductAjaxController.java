@@ -51,7 +51,7 @@ public class AdminProductAjaxController {
     }
 
     /**
-     * 할인 적용하기 위한 팝업창에서 상품 검색하는 메서드
+     * 할인 적용할 상품을 팝업창에서 검색하는 메서드
      */
     @ResponseBody
     @GetMapping("/products/search")

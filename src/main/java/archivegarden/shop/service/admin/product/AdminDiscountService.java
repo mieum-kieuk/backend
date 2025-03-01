@@ -20,6 +20,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -29,12 +32,13 @@ public class AdminDiscountService {
     private final AdminProductImageService productImageService;
     private final ProductRepository productRepository;
     private final DiscountRepository discountRepository;
+    private final Executor customAsyncExecutor;
 
     /**
      * 할인 저장
      */
     public Long saveDiscount(AdminAddDiscountForm form) {
-        List<Product> products = productRepository.findAll(form.getProductIds());
+        List<Product> products = productRepository.findAllInAdmin(form.getProductIds());
         Discount discount = Discount.createDiscount(form, products);
         discountRepository.save(discount);
         return discount.getId();
@@ -48,14 +52,18 @@ public class AdminDiscountService {
     @Transactional(readOnly = true)
     public AdminDiscountDetailsDto getDiscount(Long discountId) {
         Discount discount = discountRepository.findByIdWithProducts(discountId).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 상품 할인입니다."));
-
         AdminDiscountDetailsDto adminDiscountDetailsDto = new AdminDiscountDetailsDto(discount);
         List<AdminProductSummaryDto> products = adminDiscountDetailsDto.getProducts();
 
-        for (AdminProductSummaryDto product : products) {
-            String encodedDisplayImageData = productImageService.getEncodedImageData(product.getDisplayImageData());
-            product.setDisplayImageData(encodedDisplayImageData);
-        }
+        List<CompletableFuture<Void>> futures = products.stream()
+                .map(product -> CompletableFuture.runAsync(() -> {
+                    // 비동기적으로 이미지 다운로드
+                    String encodedImageData = productImageService.getEncodedImageDataAsync(product.getDisplayImageData()).join();
+                    product.setDisplayImageData(encodedImageData);  // 이미지 인코딩된 데이터 설정
+                }, customAsyncExecutor))  // customAsyncExecutor 사용
+                .collect(Collectors.toList());
+
+        CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
 
         return adminDiscountDetailsDto;
     }
