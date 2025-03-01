@@ -23,7 +23,7 @@
 <body>
 <div class="admin_wrap">
     <div th:replace="~{/layout/menu :: admin_menu}"></div>
-    <div id="editProduct">
+    <div id="editProduct" class="admins_wrap">
         <div class="content">
             <h2 class="content_tit">상품 수정</h2>
             <form id="productForm" action="" th:object="${product}" th:action method="post" enctype="multipart/form-data" th:onsubmit="return validateBeforeSubmit()">

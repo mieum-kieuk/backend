@@ -23,7 +23,7 @@
 <body>
 <div class="admin_wrap">
     <div th:replace="~{/layout/menu :: admin_menu}"></div>
-    <div id="addProduct">
+    <div id="addProduct" class="admins_wrap">
         <div class="content">
             <h2 class="content_tit">상품 등록</h2>
             <form id="addProductForm" action="" th:action th:object="${addProductForm}" method="post" enctype="multipart/form-data"
