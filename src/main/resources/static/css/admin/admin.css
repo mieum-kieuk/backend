@@ -557,7 +557,7 @@ input::-webkit-inner-spin-button {
 .discount .label, .discount .label {
     display: block;
     margin-right: 20px;
-    width: 120px;
+    min-width: 120px;
     font-weight: 600;
     color: #999;
 }
@@ -625,6 +625,9 @@ input::-webkit-inner-spin-button {
 }
 
 /*Details*/
+.details_wrap {
+    min-width: 800px;
+}
 .details_wrap tr {
     display: flex;
 }

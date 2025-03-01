@@ -21,57 +21,30 @@ $(document).ready(function () {
         }
     });
 
-    // 전체 선택
-    $('.select_all_btn').on('click', function () {
-        selectAllCheckboxes();
+    // 체크박스 상태 변경
+    $('.list_head .item.check input[type="checkbox"]').on('click', function () {
+        let isChecked = $(this).prop('checked');
+        $('.list .item.check input[type="checkbox"]').prop('checked', isChecked);
     });
 
-    // 선택 해제
-    $('.deselect_all_btn').on('click', function () {
-        deselectAllCheckboxes();
-    });
-
-    $('.list.product').on('change', '.item.check input[type="checkbox"]', function () {
+    $('.list.discount').on('change', '.item.check input[type="checkbox"]', function () {
         updateSelectAllCheckbox();
     });
-
-    // 체크박스 상태 변경
-    $('.list_head.product .item.check input[type="checkbox"]').on('click', function () {
-        let isChecked = $(this).prop('checked');
-        $('.list.product .item.check input[type="checkbox"]').prop('checked', isChecked);
-    });
-
-    $('#limit').on('change', function() {
-        let limit = $('#limit').val();
-        loadPage(1, limit);
-    });
-
-    $('#discountPopup .submit_btn').on('click', function() {
-        $('.search_result .product .check input[type="checkbox"]').prop('checked', false);
-        let limit = $('#limit').val();
-        loadPage(1, limit);
-    });
-
-    $(document).on('click', '.page', function () {
-        let currentPage = $(this).data('page');
-        let limit = $('#limit').val();
-        $('.page').removeClass('active');  // 기존의 .active 클래스 제거
-        $(this).addClass('active');  // 클릭된 페이지에 .active 클래스 추가
-
-        loadPage(currentPage, limit);
-    });
-
-    $(document).on('click', '.prev_first, .next_last', function () {
-        let currentPage = $(this).data('page');
-        let limit = $('#limit').val();
-
-        loadPage(currentPage, limit);
-    });
 });
+
+// 선택된 체크박스 상태에 따라 전체 선택 체크박스 업데이트
+function updateSelectAllCheckbox() {
+    let discountCheckboxes = $('.list.discount .item.check input[type="checkbox"]');
+    let totalCheckboxes = discountCheckboxes.length;
+    let checkedCheckboxes = discountCheckboxes.filter(':checked').length;
+
+    $('.list_head .item.check input[type="checkbox"]').prop('checked', totalCheckboxes === checkedCheckboxes);
+}
 
 let popup = null;
 let selectedProductIds = [];
 
+// 팝업 열기 버튼
 function popupButton() {
     $('#popupBtn').click(function () {
         $(this).prop('disabled', true);
@@ -95,6 +68,7 @@ function popupButton() {
     });
 }
 
+// 선택 상품 불러오기
 function getProducts() {
     selectedProductIds = $('.list.product .list_item')
         .map(function () {
@@ -118,6 +92,7 @@ function getProducts() {
     });
 }
 
+// 팝업 창 열기
 function openPopup(data, selectedProductIds) {
     if (popup && !popup.closed) {
         popup.focus();
@@ -136,104 +111,7 @@ function openPopup(data, selectedProductIds) {
     }
 }
 
-function renderProducts(data, selectedProductIds) {
-    let productList = $('.search_result .list.product');
-    productList.empty();    // 기존 목록을 비움
-
-    $('.totalProducts').text(data.totalElements);
-    $('#productIds').val(selectedProductIds);
-
-    data.content.forEach(function (item) {
-        let newItemHtml = `
-                <div class="list_item" data-id="${item.id}">
-                    <div class="item check">
-                        <input type="checkbox" name="checkBox">
-                    </div>
-                    <div class="item img"><img src="${item.displayImageUrl}" alt="상품 이미지"></div>
-                    <div class="item name">${item.name}</div>
-                    <div class="item price">${item.price}</div>
-                </div>
-            `;
-        productList.append(newItemHtml);
-    });
-}
-
-function renderPagination(totalElements, currentPage, limit) {
-    // window.pageSize = limit;  // 한 페이지당 상품 수
-    let paginationSize = 5; // 한 페이지네이션에 보여줄 페이지 번호 수
-    const totalPages = Math.ceil(totalElements / limit);  // 총 페이지 수
-
-    if (totalPages === 0) {
-        $('#pagination').empty();
-        return;
-    }
-
-    let pagination = $('#pagination');
-    pagination.empty(); // 기존 페이지네이션 초기화
-
-    let totalGroups = Math.ceil(totalPages / paginationSize); // 페이지 그룹 수
-
-    // 현재 페이지가 속한 그룹 계산
-    let currentGroup = Math.floor((currentPage - 1) / paginationSize) + 1;
-
-    // 이전 페이지 버튼
-    if (currentGroup > 1) {
-        let prevPage = (currentGroup - 1) * paginationSize;
-        pagination.append(`
-        <li><a class="prev_first" data-page="${prevPage}">
-            <span class="material-symbols-outlined">navigate_before</span>
-        </a></li>
-    `);
-    } else {
-        pagination.append(`
-        <li><a class="prev_first disabled"><span class="material-symbols-outlined">navigate_before</span></a></li>
-    `);
-    }
-
-    let startPage = (currentGroup - 1) * paginationSize + 1;  // 그룹 내 첫 번째 페이지
-    let endPage = Math.min(currentGroup * paginationSize, totalPages);  // 그룹 내 마지막 페이지
-
-    for (let i = startPage; i <= endPage; i++) {
-        let isActive = (currentPage === i) ? 'active' : '';
-        pagination.append(`
-            <li><a class="page ${isActive}" data-page="${i}">${i}</a></li>
-        `);
-    }
-
-    // 다음 페이지 버튼
-    if (currentGroup < totalGroups) {
-        let nextPage = (currentGroup * paginationSize) + 1;
-        pagination.append(`
-        <li><a class="next_last" data-page="${nextPage}">
-            <span class="material-symbols-outlined">navigate_next</span>
-        </a></li>
-    `);
-    } else {
-        pagination.append(`
-        <li><a class="next_last disabled"><span class="material-symbols-outlined">navigate_next</span></a></li>
-    `);
-    }
-}
-
-// 전체 선택
-function selectAllCheckboxes() {
-    $('.list.product .item.check input[type="checkbox"]').prop('checked', true);
-    $('.list_head.product .item.check input[type="checkbox"]').prop('checked', true);
-}
-
-// 선택 해제
-function deselectAllCheckboxes() {
-    $('.list.product .item.check input[type="checkbox"]').prop('checked', false);
-    $('.list_head.product .item.check input[type="checkbox"]').prop('checked', false);
-}
-
-// 선택된 체크박스 상태에 따라 전체 선택 체크박스 업데이트
-function updateSelectAllCheckbox() {
-    let totalCheckboxes = $('.list.product .item.check input[type="checkbox"]').length;
-    let checkedCheckboxes = $('.list.product .item.check input[type="checkbox"]:checked').length;
-    $('.list_head.product .item.check input[type="checkbox"]').prop('checked', totalCheckboxes === checkedCheckboxes);
-}
-
+// 팝업 창에서 선택 상품 부모 창에 추가
 function addItems() {
     $('.add_btn').on('click', function () {
         let selectedItem = $('.search_result .list.product .list_item').filter(':has(input:checked)');
@@ -282,7 +160,6 @@ function addItems() {
         window.close();
     });
 }
-
 window.getItem = function (items) {
     let listContainer = $('.input_box_wrap.product .list.product');
     items.forEach(function (item) {
@@ -300,6 +177,7 @@ window.getItem = function (items) {
     });
 }
 
+// 선택 상품 삭제
 $('.input_box_wrap.product #deleteBtn').click(function () {
     let checkbox = $('input[type="checkbox"]:checked');  // 선택된 체크박스들
 
@@ -439,7 +317,7 @@ function validateBeforeSubmit() {
     return true;
 }
 
-//상품 할인 단건 삭제
+// 상품 할인 단건 삭제
 function deleteDiscount(discountId) {
 
     let csrfHeader = $("meta[name='_csrf_header']").attr("content");
@@ -457,7 +335,7 @@ function deleteDiscount(discountId) {
         if (result.isConfirmed) {
             $.ajax({
                 type: 'DELETE',
-                url: '/ajax/admin/discount/delete',
+                url: '/ajax/admin/discount',
                 async: false,
                 data: {'discountId': discountId},
                 beforeSend: function (xhr) {
@@ -465,7 +343,7 @@ function deleteDiscount(discountId) {
                 },
                 success: function (data) {
                     if (data.code === 200) {
-                        window.location.href = '/admin/discount';
+                        window.location.href = '/admin/discounts';
                     } else {
                         Swal.fire({
                             text: data.message,
@@ -490,7 +368,7 @@ function deleteDiscount(discountId) {
     });
 };
 
-//상품 할인 여러건 삭제
+// 상품 할인 여러건 삭제
 $('#deleteDiscountsBtn').click(function () {
 
     let discountIds = [];
@@ -519,13 +397,13 @@ $('#deleteDiscountsBtn').click(function () {
         }).then((result) => {
             if (result.isConfirmed) {
                 checkboxes.each(function () {
-                    let discountId = checkboxes.id.split('checkbox')[1];
+                    let discountId = $(this).attr('id').split('checkbox')[1];
                     discountIds.push(discountId);
                 });
 
                 $.ajax({
                     type: 'DELETE',
-                    url: '/ajax/admin/discounts/delete',
+                    url: '/ajax/admin/discounts',
                     async: false,
                     contentType: 'application/json',
                     data: JSON.stringify(discountIds),
@@ -534,7 +412,7 @@ $('#deleteDiscountsBtn').click(function () {
                     },
                     success: function (data) {
                         if (data.code === 200) {
-                            window.location.href = '/admin/discount';
+                            window.location.href = '/admin/discounts';
                         } else {
                             Swal.fire({
                                 text: data.message,
@@ -560,30 +438,3 @@ $('#deleteDiscountsBtn').click(function () {
     }
 });
 
-function loadPage(currentPage, limit) {
-    return new Promise((resolve, reject) => {
-        let keyword = $('#keyword').val();
-        let category = $('#category').val();
-        let selectedProductIds = $('#productIds').val();
-
-        $.ajax({
-            type: 'GET',
-            url: '/ajax/admin/products/search',
-            data: {
-                'keyword': keyword,
-                'category': category,
-                'page': currentPage,
-                'limit': limit,
-                'selectedProductIds': selectedProductIds,
-            },
-            success: function (data) {
-                renderProducts(data, selectedProductIds);
-                renderPagination(data.totalElements, currentPage, limit);
-                resolve(data); // 성공 시 resolve 호출
-            },
-            error: function () {
-                reject("상품을 불러오는 데 실패했습니다."); // 실패 시 reject 호출
-            }
-        });
-    });
-}

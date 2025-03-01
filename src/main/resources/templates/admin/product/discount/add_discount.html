@@ -25,7 +25,7 @@
 <body>
 <div class="admin_wrap">
     <div th:replace="~{/layout/menu :: admin_menu}"></div>
-    <div id="addDiscount">
+    <div id="addDiscount" class="admins_wrap">
         <div class="content">
             <h2 class="content_tit">상품 할인관리</h2>
             <form id="discountForm" action="" th:action th:object="${form}" method="post" th:onsubmit="return validateBeforeSubmit()" novalidate>
@@ -145,7 +145,7 @@
                                 <button type="button" class="btn1" id="popupBtn">불러오기</button>
                             </div>
                             <div class="list_content">
-                                <div class="list_head product">
+                                <div class="list_head discount product">
                                     <div class="item check">
                                         <input type="checkbox" name="checkBox" id="selectAll">
                                     </div>
@@ -153,7 +153,7 @@
                                     <div class="item name">상품명</div>
                                     <div class="item price">상품 정가</div>
                                 </div>
-                                <div class="list product"></div>
+                                <div class="list discount product"></div>
                             </div>
                         </div>
                     </div>
