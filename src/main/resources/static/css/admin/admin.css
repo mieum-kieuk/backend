@@ -363,6 +363,7 @@ input::-webkit-inner-spin-button {
 .text.description span {
     font-size: 12px;
     color: #666;
+    white-space: nowrap;
 }
 
 .text.description span::before {

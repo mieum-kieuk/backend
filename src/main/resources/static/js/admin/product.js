@@ -498,6 +498,7 @@ function isNameValid() {
 
 // 상품 단건 삭제
 $('#deleteProductBtn').click(function () {
+    let productId = $('#deleteProductBtn').val();
     Swal.fire({
         text: "삭제하시겠습니까?",
         showCancelButton: true,
