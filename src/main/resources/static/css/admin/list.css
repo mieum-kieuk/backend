@@ -162,6 +162,13 @@
 #discountForm .list.product .product_item {
     display: flex;
 }
+.discount #noDataMessage {
+    border: none;
+    border-bottom: 1px solid #d7d7d7;
+}
+.discount #noDataMessage span {
+    width: auto;
+}
 .discount .item.number {
     width: 8%;
 }

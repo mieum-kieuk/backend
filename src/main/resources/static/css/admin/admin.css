@@ -185,8 +185,7 @@ input[type=radio] {
 
 label {
     display: block;
-    max-width: 120px;
-    width: 100%;
+    min-width: 120px;
     margin-right: 20px;
     white-space: nowrap;
     color: #999;
