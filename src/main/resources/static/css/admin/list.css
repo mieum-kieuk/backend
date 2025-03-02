@@ -117,6 +117,7 @@
 }
 .product .list_item a {
     height: 100px;
+    cursor: pointer;
 }
 .product .item.img {
     width: 10%;
@@ -176,13 +177,15 @@
     width: 10%;
 }
 .discount .item.name {
-    width: 22%;
+    width: 60%;
+    text-align: left;
 }
 .discount .item.type {
     width: 10%;
 }
 .discount .item.date {
     width: 30%;
+    white-space: nowrap;
 }
 
 /*member_list*/

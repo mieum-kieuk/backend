@@ -58,7 +58,7 @@
                     </div>
                 </form>
                 <div class="input_box_wrap btn">
-                    <button type="button" class="btn1" id="deleteDiscountsBtn">삭제</button>
+                    <button type="button" class="btn1" id="deleteDiscountBtn">삭제</button>
                     <button type="submit" class="btn1" onclick="location.href = './add_discount.html'"
                             th:onclick="|location.href='@{/admin/discounts/add}'|">등록
                     </button>
@@ -66,11 +66,11 @@
                 <div class="list_content">
                     <div class="list_head discount">
                         <div class="item check">
-                            <input type="checkbox" id="selectAll">
+                            <input type="checkbox" disabled>
                         </div>
                         <div>
                             <div class="item number">번호</div>
-                            <div class="item title">할인명</div>
+                            <div class="item name">할인명</div>
                             <div class="item percent">할인율</div>
                             <div class="item date">시작일시</div>
                             <div class="item date">종료일시</div>
@@ -90,7 +90,7 @@
                                th:href="@{/admin/discounts/{discountId}(discountId=${discount.id})}">
                                 <div class="item number"
                                      th:text="${discounts.totalElements - (discounts.number * discounts.pageable.pageSize) - discountStat.index}"></div>
-                                <div class="item title" th:text="${discount.name}">할인명</div>
+                                <div class="item name" th:text="${discount.name}">할인명</div>
                                 <div class="item percent" th:text="${discount.discountPercent}">할인율</div>
                                 <div class="item date" th:text="${discount.startedAt}">시작일시</div>
                                 <div class="item date" th:text="${discount.expiredAt}">종료일시</div>

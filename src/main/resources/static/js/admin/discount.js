@@ -11,11 +11,12 @@ $(document).ready(function () {
         isNameValid();
     });
 
-    $('#startDate, #expireDate').datepicker({
-        dateFormat: 'yy-mm-dd',
-        minDate: 0  // 과거 날짜 선택 불가
-    });
-
+    if ($('.period').length) {
+        $('#startDate, #expireDate').datepicker({
+            dateFormat: 'yy-mm-dd',
+            minDate: 0  // 과거 날짜 선택 불가
+        });
+    }
     $("select").each(function () {
         if ($(this).find("option:selected").val() !== "") {
             $(this).addClass("selected");
@@ -31,6 +32,10 @@ $(document).ready(function () {
     });
 
     // 체크박스 상태 변경
+    $('#discountList .list.discount').on('click', '.item.check input[type="checkbox"]', function() {
+        $('.list.discount .item.check input[type="checkbox"]').not(this).prop('checked', false);
+    });
+
     $('.list_head .item.check input[type="checkbox"]').on('click', function () {
         let isChecked = $(this).prop('checked');
         $('.list .item.check input[type="checkbox"]').prop('checked', isChecked);
@@ -458,71 +463,5 @@ $('#deleteDiscountBtn').click(function () {
     });
 });
 
-// 상품 할인 여러건 삭제
-$('#deleteDiscountsBtn').click(function () {
 
-    let discountIds = [];
-    let checkboxes = $('input[name=checkbox]:checked');
-
-    if (checkboxes.length == 0) {
-        Swal.fire({
-            text: "삭제할 할인을 선택해 주세요.",
-            showConfirmButton: true,
-            confirmButtonText: '확인',
-            customClass: mySwal,
-            buttonsStyling: false
-        });
-        return false;
-    } else {
-        Swal.fire({
-            text: checkboxes.length + '개의 할인을 삭제하시겠습니까?',
-            showCancelButton: true,
-            cancelButtonText: '아니요',
-            confirmButtonText: '예',
-            customClass: mySwalConfirm,
-            reverseButtons: true,
-            buttonsStyling: false,
-        }).then((result) => {
-            if (result.isConfirmed) {
-                checkboxes.each(function () {
-                    let discountId = $(this).attr('id').split('checkbox')[1];
-                    discountIds.push(discountId);
-                });
-
-                $.ajax({
-                    type: 'DELETE',
-                    url: '/ajax/admin/discounts',
-                    async: false,
-                    contentType: 'application/json',
-                    data: JSON.stringify(discountIds),
-                    beforeSend: function (xhr) {
-                        xhr.setRequestHeader(csrfHeader, csrfToken)
-                    },
-                    success: function (data) {
-                        if (data.code === 200) {
-                            window.location.href = '/admin/discounts';
-                        } else {
-                            Swal.fire({
-                                text: data.message,
-                                showConfirmButton: true,
-                                confirmButtonText: '확인',
-                                customClass: mySwal,
-                                buttonsStyling: false
-                            });
-                        }
-                    },
-                    error: function () {
-                        Swal.fire({
-                            html: "삭제중 오류가 발생했습니다.<br>다시 시도해 주세요.",
-                            showConfirmButton: true,
-                            confirmButtonText: '확인',
-                            customClass: mySwal,
-                            buttonsStyling: false
-                        });
-                    }
-                })
-            }
-        });
-    }
-});
 

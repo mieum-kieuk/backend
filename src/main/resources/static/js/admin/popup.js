@@ -35,6 +35,12 @@ $(document).ready(function () {
         loadPage(1, limit);
     });
 
+    $(document).on('click', '.list_item a', function(event) {
+        event.preventDefault(); // 기본 동작 방지
+        let checkbox = $(this).closest('.list_item').find('input[type=checkbox]');
+        checkbox.prop('checked', !checkbox.prop('checked'));
+    });
+
     // 페이지네이션 클릭 시 페이지 로드
     $(document).on('click', '.page', function () {
         let currentPage = $(this).data('page');
@@ -88,9 +94,11 @@ function addItems() {
                     <div class="item check">
                         <input type="checkbox">
                     </div>
+                    <a>
                     <div class="item img"><img src="${productImage}" alt="상품 이미지"></div>
                     <div class="item name">${productName}</div>
                     <div class="item price">${productPrice}</div>
+                    </a>
                 </div>
             `;
 
@@ -117,9 +125,11 @@ function renderProducts(data, selectedProductIds) {
                     <div class="item check">
                         <input type="checkbox" name="checkBox">
                     </div>
+                    <a>
                     <div class="item img"><img src="${item.displayImageData}" alt="상품 이미지"></div>
                     <div class="item name">${item.name}</div>
                     <div class="item price">${item.price}</div>
+                    </a>
                 </div>
             `;
         productList.append(newItemHtml);
