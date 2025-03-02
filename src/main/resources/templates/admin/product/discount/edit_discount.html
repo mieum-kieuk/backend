@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title>상품 할인관리 | 미음키읔</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,7 +20,7 @@
     <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.js"></script>
     <script defer src="../../../../static/js/common/comm.js" th:src="@{/js/common/comm.js}"></script>
-    <script defer src="../../../../static/js/admin/discount.js" th:src="@{/js/adminDiscount.js}"></script>
+    <script defer src="../../../../static/js/admin/discount.js" th:src="@{/js/admin/discount.js}"></script>
     <script defer src="../../../../static/js/admin/datepicker.js" th:src="@{/js/admin/datepicker.js}"></script>
 </head>
 <body>
@@ -37,9 +39,8 @@
                         <span class="label">할인 기간</span>
                         <div class="discount_cont period">
                             <div class="input_box_wrap">
-                                <input type='text' id="startDate"
-                                       th:field="*{startDate}">
-                                <select name="sDateHour">
+                                <input type='text' id="startDate" th:field="*{startDate}">
+                                <select name="sDateHour" th:field="*{startHour}">
                                     <option value="00">00시</option>
                                     <option value="01">01시</option>
                                     <option value="02">02시</option>
@@ -58,14 +59,15 @@
                                     <option value="15">15시</option>
                                     <option value="16">16시</option>
                                     <option value="17">17시</option>
-                                    <option value="18" selected="">18시</option>
+                                    <option value="18">18시</option>
                                     <option value="19">19시</option>
                                     <option value="20">20시</option>
                                     <option value="21">21시</option>
                                     <option value="22">22시</option>
                                     <option value="23">23시</option>
+
                                 </select>
-                                <select name="sDateMin" >
+                                <select name="sDateMin" th:field="*{startMin}">
                                     <option value="00">00분</option>
                                     <option value="10">10분</option>
                                     <option value="20">20분</option>
@@ -76,9 +78,8 @@
                             </div>
                             <span class="tilde">~</span>
                             <div class="input_box_wrap">
-                                <input type='text' id="endDate"
-                                       th:field="*{endDate}">
-                                <select name="eDateHour" >
+                                <input type='text' id="expireDate" th:field="*{expireDate}">
+                                <select name="eDateHour" th:field="*{expireHour}">
                                     <option value="00">00시</option>
                                     <option value="01">01시</option>
                                     <option value="02">02시</option>
@@ -97,14 +98,14 @@
                                     <option value="15">15시</option>
                                     <option value="16">16시</option>
                                     <option value="17">17시</option>
-                                    <option value="18" selected="">18시</option>
+                                    <option value="18">18시</option>
                                     <option value="19">19시</option>
                                     <option value="20">20시</option>
                                     <option value="21">21시</option>
                                     <option value="22">22시</option>
                                     <option value="23">23시</option>
                                 </select>
-                                <select name="eDateMin" >
+                                <select name="eDateMin" th:field="*{expireMin}">
                                     <option value="00">00분</option>
                                     <option value="10">10분</option>
                                     <option value="20">20분</option>
@@ -125,8 +126,8 @@
                     </div>
                     <div class="field-error" th:errors="*{startDate}"></div>
                     <div th:unless="${#fields.hasErrors('startDate')}">
-                        <p class="field-error" th:if="${#fields.hasErrors('endDate')}"
-                           th:text="${#fields.errors('endDate')[0]}"></p>
+                        <p class="field-error" th:if="${#fields.hasErrors('expireDate')}"
+                           th:text="${#fields.errors('expireDate')[0]}"></p>
                     </div>
                     <div class="field-error" th:errors="*{name}"></div>
                     <div class="input_box_wrap">
@@ -144,32 +145,31 @@
                             <div class="list_content">
                                 <div class="list_head product">
                                     <div class="item check">
-                                        <input type="checkbox" name="checkBox" id="selectAll">
+                                        <input type="checkbox" name="checkBox">
                                     </div>
                                     <div class="item number">번호</div>
                                     <div class="item img">사진</div>
                                     <div class="item title">상품명</div>
                                     <div class="item price">상품 정가</div>
                                 </div>
-                                <div class="list product">
-                                    <div class="list_item">
-                                        <a href="./product_details.html">
-                                            <div class="item check">
-                                                <input type="checkbox" name="checkBox">
-                                            </div>
-                                            <div class="item number">2</div>
-                                            <div class="item img">
-                                                사진
-                                            </div>
-                                            <div class="item title">상품명</div>
-                                            <div class="item price">상품 정가</div>
-                                        </a>
+                                <div class="list discount product">
+                                    <div class="list_item" th:each="product, productStat : ${form.products}" th:data-id="${product.id}">
+                                        <div class="item check">
+                                            <input type="checkbox" name="checkBox">
+                                        </div>
+                                        <div class="item number" th:text="${productStat.count}"></div>
+                                        <img class="item img" th:src="${product.displayImageData}">
+                                        <div class="item name" th:text="${product.name}"></div>
+                                        <div class="item price" th:text="${product.price}"></div>
+                                    </div>
+                                    <div class="list_item" id="noDataMessage" th:if="${form.products != null} and ${form.products.size()} == 0">
+                                        <span >할인 적용된 상품이 없습니다.</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
+                    <input type="hidden" th:field="*{productIds}"/>
                 </div>
                 <div class="input_box_wrap btn">
                     <button type="button" class="btn1" onclick="location.href='./discount_details.html'"
@@ -182,15 +182,5 @@
         </div>
     </div>
 </div>
-<script th:inline="javascript">
-    $(document).ready(function () {
-        let startDate = [[${form.startDate}]];
-        let endDate = [[${form.endDate}]];
-        let startDateFormat = new Date(new Date(startDate).toString().split('GMT')[0] + ' UTC').toISOString().split('.')[0];
-        $('#startDate').val(startDateFormat);
-        let endDateFormat = new Date(new Date(endDate).toString().split('GMT')[0] + ' UTC').toISOString().split('.')[0];
-        $('#endDate').val(endDateFormat);
-    })
-</script>
 </body>
 </html>

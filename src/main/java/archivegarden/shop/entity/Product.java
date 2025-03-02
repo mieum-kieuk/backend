@@ -111,10 +111,17 @@ public class Product extends BaseTimeEntity {
     }
 
     /**
-     * 상품에 적용된 할인 update
+     * 상품에 적용된 할인 업데이트
      */
     public void updateDiscount(Discount discount) {
         this.discount = discount;
+    }
+
+    /**
+     * 상품에 적용된 할인 제거
+     */
+    public void removeDiscount() {
+        this.discount = null;
     }
 
     /**
@@ -133,5 +140,4 @@ public class Product extends BaseTimeEntity {
             throw new NotEnoughStockAjaxException("재고가 부족합니다.");
         }
     }
-
 }

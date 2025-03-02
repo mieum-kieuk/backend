@@ -83,9 +83,22 @@ public class AdminDiscountService {
      */
     @Transactional(readOnly = true)
     public AdminEditDiscountForm getEditDiscountForm(Long discountId) {
-        Discount discount = discountRepository.findById(discountId)
-                .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 상품 할인입니다."));
-        return new AdminEditDiscountForm(discount);
+        Discount discount = discountRepository.findByIdWithProducts(discountId).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 상품 할인입니다."));
+        AdminEditDiscountForm adminEditDiscountForm = new AdminEditDiscountForm(discount);
+
+        List<AdminProductSummaryDto> products = adminEditDiscountForm.getProducts();
+
+        List<CompletableFuture<Void>> futures = products.stream()
+                .map(product -> CompletableFuture.runAsync(() -> {
+                    // 비동기적으로 이미지 다운로드
+                    String encodedImageData = productImageService.getEncodedImageDataAsync(product.getDisplayImageData()).join();
+                    product.setDisplayImageData(encodedImageData);  // 이미지 인코딩된 데이터 설정
+                }, customAsyncExecutor))  // customAsyncExecutor 사용
+                .collect(Collectors.toList());
+
+        CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
+
+        return adminEditDiscountForm;
     }
 
     /**
@@ -95,7 +108,39 @@ public class AdminDiscountService {
      */
     public void updateDiscount(Long discountId, AdminEditDiscountForm form) {
         Discount discount = discountRepository.findById(discountId).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 할인 혜택입니다."));
-        discount.update(form);
+
+        discount.update(form);  //적용 상품 외 필드 수정
+
+        List<Long> existingProductIds = productRepository.findByDiscountId(discountId)
+                .stream().map(p -> p.getId())
+                .collect(Collectors.toList());
+
+        List<Long> newProductIds = form.getProductIds();
+
+        // 새로 추가할 상품
+        List<Long> productsToAdd = newProductIds.stream()
+                .filter(productId -> !existingProductIds.contains(productId))
+                .collect(Collectors.toList());
+
+
+        if(productsToAdd.size() > 0){
+            for (Long productId : productsToAdd) {
+                Product product = productRepository.findById(productId).get();
+                product.updateDiscount(discount);
+            }
+        }
+
+        // 삭제할 상품
+        List<Long> productsToRemove = existingProductIds.stream()
+                .filter(productId -> !newProductIds.contains(productId))
+                .collect(Collectors.toList());
+
+        if(!productsToRemove.isEmpty()) {
+            for (Long productId : productsToRemove) {
+                Product product = productRepository.findById(productId).get();
+                product.removeDiscount();
+            }
+        }
     }
 
     /**
@@ -114,18 +159,6 @@ public class AdminDiscountService {
         }
 
         discountRepository.delete(discount);
-    }
-
-    /**
-     * Ajax: 할인 여러건 삭제
-     *
-     * @throws AjaxEntityNotFoundException
-     */
-    public void deleteDiscounts(List<Long> discountIds) {
-        discountIds.stream().forEach((discountId) -> {
-            Discount discount = discountRepository.findById(discountId).orElseThrow(() -> new AjaxEntityNotFoundException("존재하지 않는 할인입니다."));
-            discountRepository.delete(discount);
-        });
     }
 
     /**

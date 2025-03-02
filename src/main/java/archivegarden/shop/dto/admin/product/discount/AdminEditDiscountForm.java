@@ -1,6 +1,8 @@
 package archivegarden.shop.dto.admin.product.discount;
 
+import archivegarden.shop.dto.admin.product.product.AdminProductSummaryDto;
 import archivegarden.shop.entity.Discount;
+import archivegarden.shop.entity.Product;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -13,6 +15,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.LinkedList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -51,6 +55,9 @@ public class AdminEditDiscountForm {
     @NotBlank(message = "시작 시간을 지정해 주세요.")
     private String expireMin;
 
+    private List<AdminProductSummaryDto> products = new LinkedList<>(); //기존에 할인 적용된 상품 목록
+    private List<Long> productIds = new LinkedList<>(); //새롭게 할인 적용된 상품 목록
+
     public AdminEditDiscountForm(Discount discount) {
         this.id = discount.getId();
         this.name = discount.getName();
@@ -65,6 +72,11 @@ public class AdminEditDiscountForm {
         this.expireDate = expiredAt.toLocalDate();
         this.expireHour = String.format("%02d", expiredAt.getHour());
         this.expireMin = String.format("%02d", expiredAt.getMinute());
+
+        List<Product> products = discount.getProducts();
+        for (Product p : products) {
+            this.products.add(new AdminProductSummaryDto(p.getId(), p.getName(), p.getPrice(), p.getProductImages().get(0).getImageUrl()));
+        }
     }
 
     public LocalDateTime getStartDateTime() {
