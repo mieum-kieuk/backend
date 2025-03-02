@@ -119,4 +119,11 @@ public class AdminDiscountService {
             discountRepository.delete(discount);
         });
     }
+
+    /**
+     * Ajax: 할인명 중복 검사
+     */
+    public boolean isNameAvailable(String name) {
+        return discountRepository.findByName(name).isEmpty();
+    }
 }
