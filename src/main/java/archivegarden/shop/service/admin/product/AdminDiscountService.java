@@ -105,6 +105,14 @@ public class AdminDiscountService {
      */
     public void deleteDiscount(Long discountId) {
         Discount discount = discountRepository.findById(discountId).orElseThrow(() -> new AjaxEntityNotFoundException("존재하지 않는 할인입니다."));
+
+        List<Product> productsWithDiscount = productRepository.findByDiscountId(discountId);
+        if (!productsWithDiscount.isEmpty()) {
+            for (Product product : productsWithDiscount) {
+                product.removeDiscount();
+            }
+        }
+
         discountRepository.delete(discount);
     }
 

@@ -20,7 +20,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.js"></script>
     <script defer src="../../../../static/js/common/comm.js" th:src="@{/js/common/comm.js}"></script>
-    <script defer src="../../../../static/js/admin/discount.js" th:src="@{/js/adminDiscount.js}"></script>
+    <script defer src="../../../../static/js/admin/discount.js" th:src="@{/js/admin/discount.js}"></script>
 </head>
 <body>
 <div class="admin_wrap">
@@ -62,8 +62,8 @@
                                         <div class="item name" th:text="${product.name}"></div>
                                         <div class="item price" th:text="${product.price}"></div>
                                     </div>
-                                    <div class="list_item" id="noDataMessage">
-                                        <span >할인 적용된 상품 없습니다.</span>
+                                    <div class="list_item" id="noDataMessage" th:if="${discount.products != null} and ${discount.products.size()} == 0">
+                                        <span >할인 적용된 상품이 없습니다.</span>
                                     </div>
                                 </div>
                             </div>
@@ -73,12 +73,9 @@
             </div>
             <div style="display: flex; align-items: center">
                 <div class="input_box_wrap btn">
-                    <button class="btn1" th:if="${discount.editable}"
-                            onclick="location.href='./edit_discount.html'"
-                            th:onclick="|location.href='@{/admin/discounts/{discountId}/edit(discountId=${discount.id})}'|">
-                         수정</button>
-                    <button class="btn1" id="deleteDiscountBtn" onclick="location.href='./discount_list.html'"
-                            th:onclick="|deleteDiscount(${discount.id})|">삭제</button>
+                    <button class="btn1" onclick="location.href='./edit_discount.html'"
+                            th:onclick="|location.href='@{/admin/discounts/{discountId}/edit(discountId=${discount.id})}'|">수정</button>
+                    <button class="btn1" id="deleteDiscountBtn" th:value="${discount.id}">삭제</button>
                     <button class="btn1" onclick="location.href='./discount_list.html'"
                             th:onclick="|location.href='@{/admin/discounts}'|">목록</button>
                 </div>

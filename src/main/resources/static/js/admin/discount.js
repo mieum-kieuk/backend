@@ -411,6 +411,8 @@ function validateBeforeSubmit() {
 // 상품 할인 단건 삭제
 $('#deleteDiscountBtn').click(function () {
 
+    let discountId = $('#deleteDiscountBtn').val();
+
     Swal.fire({
         text: "삭제하시겠습니까?",
         showCancelButton: true,
@@ -473,7 +475,7 @@ $('#deleteDiscountsBtn').click(function () {
         return false;
     } else {
         Swal.fire({
-            text: checkboxes.length + '개의 상품을 삭제하시겠습니까?',
+            text: checkboxes.length + '개의 할인을 삭제하시겠습니까?',
             showCancelButton: true,
             cancelButtonText: '아니요',
             confirmButtonText: '예',
