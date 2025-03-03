@@ -28,27 +28,28 @@
     <header id="header" class="header">
         <nav id="gnb">
             <div class="logo">
-                <a href="index.html">
+                <a href="../../index.html">
+                    <!--                        <img src="../images/tickers_logo.png" alt="로고">-->
                     미음키읔
                 </a>
             </div>
             <div class="gnb_menu center">
                 <ul class="depth1">
                     <li class="depth1_menu" id="shop">
-                        <a href="./shop/product_list.html">Shop</a>
+                        <a href="../../user/products/product_list.html">Shop</a>
                         <ul class="depth2">
-                            <li><a href="./shop/product.html">Masking tape</a></li>
-                            <li><a href="./shop/product.html">Sticker</a></li>
-                            <li><a href="./shop/product.html">Memo</a></li>
+                            <li><a href="../../user/products/product_list.html">Masking tape</a></li>
+                            <li><a href="../../user/products/product_list.html">Sticker</a></li>
+                            <li><a href="../../user/products/product_list.html">Memo</a></li>
                         </ul>
                     </li>
-                    <li class="depth1_menu" id="about"><a href="./about.html">About</a>
+                    <li class="depth1_menu" id="about"><a href="../../user/about/about.html">About</a>
                     </li>
                     <li class="depth1_menu" id="community">Community
                         <ul class="depth2">
-                            <li><a href="./notice.html">Notice</a></li>
-                            <li><a href="./qna.html">Q&amp;A</a></li>
-                            <li><a href="./review.html">Review</a></li>
+                            <li><a href="../../community/notice/notice_list.html">Notice</a></li>
+                            <li><a href="../../community/inquiry/inquiry_list.html">Q&amp;A</a></li>
+                            <!--                            <li><a href="../../review.html">Review</a></li>-->
                         </ul>
                     </li>
                 </ul>
@@ -58,22 +59,30 @@
                     <form action="#" method="get">
                         <button type="submit" >Search</button>
                     </form>
+                    <div class="search_popup">
+                        <div class="search_bg"></div>
+                        <div class="search_form_wrap">
+                            <form action="../search/search_complete.html" method="get">
+                                <input type="text" placeholder="검색어를 입력해 주세요.">
+                                <button type="submit" class="search_btn"><span class="material-symbols-outlined">search</span></button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
                 <div class="account">
                     <ul class="depth1">
                         <li class="depth1_menu">Account
                             <ul class="depth2">
-                                <li><a href="./members/login.html">Login</a></li>
-                                <li><a href="./members/join.html">Join</a></li>
-                                <li><a href="./members/order.html">Order</a></li>
-                                <li><a href="./members/mypage.html">Mypage</a></li>
+                                <li><a href="../../login.html">Login</a></li>
+                                <li><a href="../../user/member/join.html">Join</a></li>
+                                <li><a href="../../order/order_list.html">Order</a></li>
+                                <li><a href="../../user/mypage/mypage_home.html">Mypage</a></li>
                             </ul>
                         </li>
                     </ul>
-
                 </div>
                 <div class="cart">
-                    <a href="./cart/cart.html" >Cart(0)
+                    <a href="../../cart/cart.html" >Cart(0)
                     </a>
                 </div>
             </div>
@@ -84,9 +93,9 @@
             <div class="prd_category">
                 <ul class="category_tit">
                     <li><a href="./product_list.html">All</a></li>
-                    <li><a href="./product_list.html">Masking tape</a></li>
+                    <li><a href="./product_list.html">Maskingtape</a></li>
+                    <li><a href="./product_list.html">Phonecase</a></li>
                     <li><a href="./product_list.html">Sticker</a></li>
-                    <li><a href="./product_list.html">Memo</a></li>
                 </ul>
             </div>
             <div class="prd_sort">

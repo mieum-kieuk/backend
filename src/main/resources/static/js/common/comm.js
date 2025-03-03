@@ -39,6 +39,9 @@ $(document).ready(function() {
         }
     });
 
+    let screenWidth = $(window).width();
+    $('#header, #footer').css('min-width', screenWidth + 'px');
+
     initializeDropdownMenus();
 
     $('input[type="text"]').on('input', function (e) {

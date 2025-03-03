@@ -823,6 +823,7 @@ legend {
   font-family: 'Material Symbols Outlined';
   font-weight: 300;
   line-height: 25px;
+  color: #666;
 }
 .pagination .material-symbols-outlined.navigate {
   font-weight: 300;
