@@ -4,12 +4,12 @@ $(document).ready(function () {
     if (!url.includes('category')) {
         $('#all').addClass('selected');
     } else {
-        if (url.includes('cafe')) {
-            $('#cafe').addClass('selected');
-        } else if (url.includes('ocean')) {
-            $('#ocean').addClass('selected');
-        } else if (url.includes('sunset')) {
-            $('#sunset').addClass('selected');
+        if (url.includes('sticker')) {
+            $('#sticker').addClass('selected');
+        } else if (url.includes('masking-tape')) {
+            $('#masking-tape').addClass('selected');
+        } else if (url.includes('phone-case')) {
+            $('#phone-case').addClass('selected');
         } else {
             $('#all').addClass('selected');
         }

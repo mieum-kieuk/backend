@@ -34,7 +34,6 @@ public class AdminEditDiscountForm {
     private Integer discountPercent;
 
     @NotNull(message = "시작 날짜를 지정해 주세요.")
-    @FutureOrPresent(message = "시작날짜가 현재 또는 미래의 날짜여야 합니다.")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate startDate;
 
@@ -45,7 +44,6 @@ public class AdminEditDiscountForm {
     private String startMin;
 
     @NotNull(message = "종료 날짜를 지정해 주세요.")
-    @FutureOrPresent(message = "종료일시가 현재 또는 미래의 날짜여야 합니다.")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate expireDate;
 

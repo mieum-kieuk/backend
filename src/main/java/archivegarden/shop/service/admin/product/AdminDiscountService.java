@@ -12,7 +12,6 @@ import archivegarden.shop.exception.ajax.AjaxEntityNotFoundException;
 import archivegarden.shop.exception.common.EntityNotFoundException;
 import archivegarden.shop.repository.discount.DiscountRepository;
 import archivegarden.shop.repository.product.ProductRepository;
-import archivegarden.shop.service.admin.upload.AdminProductImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

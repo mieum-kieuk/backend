@@ -1,7 +1,7 @@
-package archivegarden.shop.controller;
+package archivegarden.shop.controller.user;
 
 import archivegarden.shop.dto.user.product.ProductListDto;
-import archivegarden.shop.service.product.ProductService;
+import archivegarden.shop.service.user.product.product.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,7 +20,7 @@ public class HomeController {
     private final ProductService productService;
 
     /**
-     * 홈 페이지 조회 요청을 처리하는 메서드
+     * 메인 페이지 조회 요청을 처리하는 메서드
      */
     @GetMapping
     public String home(Model model) {

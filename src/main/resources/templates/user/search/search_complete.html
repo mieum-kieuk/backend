@@ -39,10 +39,10 @@
                             <div class="thumb">
                                 <a href="./products/product_details.html"
                                    th:href="@{/products/{productId}(productId=${product.id})}">
-                                    <img class="thumb1" th:src="${product.displayImageUrls[0]}"
+                                    <img class="thumb1" th:src="${product.displayImageDatas[0]}"
                                          alt="제품 이미지">
-                                    <img class="thumb2" th:if="${product.displayImageUrls.size() == 2}"
-                                         th:src="${product.displayImageUrls[1]}" alt="제품 이미지">
+                                    <img class="thumb2" th:if="${product.displayImageDatas.size() == 2}"
+                                         th:src="${product.displayImageDatas[1]}" alt="제품 이미지">
                                 </a>
                             </div>
                             <div class="description">
@@ -53,8 +53,7 @@
                                 </div>
                                 <ul class="prd_price">
                                     <span class="original_price"
-                                          th:classappend="${product.isDiscounted} ? 'line_through'"
-                                          th:text="${product.price}"></span>
+                                          th:classappend="${product.isDiscounted and !product.isSoldOut} ? 'line_through'" th:text="${product.price}"></span>
                                     <li th:if="${product.isDiscounted} and !${product.isSoldOut}" class="discount">
                                         <span class="discount_rate">[[${product.discountPercent}]]%</span>
                                         <span class="discounted_price" th:text="${product.salePrice}"></span>
@@ -72,11 +71,13 @@
         </div>
         <div class="pagination" th:if="${products.totalPages} > 0">
             <ul>
-                <li><a href="./search_complete.html" th:href="@{/search(keyword=${keyword})}" class="prev_first"><span class="material-symbols-outlined">navigate_before</span></a></li>
+                <li><a href="./search_complete.html" th:href="@{/search(keyword=${keyword})}" class="prev_first">
+                    <span class="material-symbols-outlined">keyboard_arrow_left</span></a></li>
                 <li th:each="page : ${#numbers.sequence(1, products.totalPages)}">
-                    <a href="./search_complete.html" th:href="@{/templates/user/search(keyword=${keyword}, page=${page})}"
-                       class="page" th:classappend="${page == products.number + 1} ? 'active'" th:text="${page}">1</a></li>
-                <li><a href="./search_complete.html" th:href="@{/templates/user/search(keyword=${keyword}, page=${products.totalPages})}" class="next_last"><span class="material-symbols-outlined">navigate_next</span></a></li>
+                    <a href="./search_complete.html" th:href="@{/search(keyword=${keyword}, page=${page})}"
+                       class="page" th:classappend="${page == products.number + 1} ? 'active'" th:text="${page}"></a></li>
+                <li><a href="./search_complete.html" th:href="@{/search(keyword=${keyword}, page=${products.totalPages})}" class="next_last">
+                    <span class="material-symbols-outlined">keyboard_arrow_right</span></a></li>
             </ul>
         </div>
     </div>

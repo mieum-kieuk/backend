@@ -1,4 +1,4 @@
-package archivegarden.shop.service.admin.upload;
+package archivegarden.shop.service.common.upload;
 
 import archivegarden.shop.entity.ImageType;
 import archivegarden.shop.exception.common.FileUploadException;
@@ -17,7 +17,7 @@ import java.util.UUID;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class AdminFirebaseService {
+public class FirebaseService {
 
     @Value("${firebase.storage-bucket-name}")
     private String firebaseStorageUrl;

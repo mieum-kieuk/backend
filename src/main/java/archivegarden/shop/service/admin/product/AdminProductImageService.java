@@ -1,8 +1,9 @@
-package archivegarden.shop.service.admin.upload;
+package archivegarden.shop.service.admin.product;
 
 import archivegarden.shop.dto.admin.product.product.AdminProductImageDto;
 import archivegarden.shop.entity.ImageType;
 import archivegarden.shop.entity.ProductImage;
+import archivegarden.shop.service.common.upload.FirebaseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class AdminProductImageService {
 
-    private final AdminFirebaseService firebaseService;
+    private final FirebaseService firebaseService;
 
     /**
      * ImageType을 파리미터로 받아 ProductImage 1개 생성

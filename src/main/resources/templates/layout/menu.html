@@ -12,31 +12,31 @@
         <div class="side_menu menu">
             <ul class="depth1">
                 <li>
-                    <a href="javascript:void(0)">회원관리</a>
+                    <a href="javascript:void(0)">회원 관리</a>
                     <ul class="depth2">
-                        <li><a data-path="members" href="../admin/members/member_list.html" th:href="@{/admin/members}">회원 정보관리</a></li>
-                        <li><a data-path="points"href="../admin/members/point_list.html" th:href="@{/admin/points}">적립금 관리</a></li>
+                        <li data-path="members"><a href="../admin/members/member_list.html" th:href="@{/admin/members}">회원 정보 관리</a></li>
+                        <li data-path="points"><a href="../admin/members/point_list.html" th:href="@{/admin/points}">적립금 관리</a></li>
                     </ul>
                 </li>
                 <li>
-                    <a href="javascript:void(0)">관리자관리</a>
+                    <a href="javascript:void(0)">관리자 관리</a>
                     <ul class="depth2">
-                        <li><a href="../admin/admins/admin_list.html" th:href="@{/admin/admins}">관리자 정보관리</a></li>
+                        <li data-path="admins"><a href="../admin/admin/admin_list.html" th:href="@{/admin/admins}">관리자 정보 관리</a></li>
                     </ul>
                 </li>
                 <li>
-                    <a href="javascript:void(0)">상품관리</a>
+                    <a href="javascript:void(0)">상품 관리</a>
                     <ul class="depth2">
-                        <li><a data-path="products" href="../admin/product/products/product_list.html" th:href="@{/admin/products}">전체 상품관리</a></li>
-                        <li><a data-path="products/inquiry" href="../admin/product/inquiry/inquiry_list.html" th:href="@{/admin/product/inquiry}">상품 문의관리</a></li>
-                        <li><a data-path="reviews" href="#">상품 후기관리</a></li>
-                        <li><a data-path="discounts" href="../admin/product/discounts/discount_list.html" th:href="@{/admin/discounts}">상품 할인관리</a></li>
+                        <li data-path="products"><a href="../admin/product/product/product_list.html" th:href="@{/admin/products}">전체 상품 관리</a></li>
+                        <li data-path="discounts"><a href="../admin/product/discount/discount_list.html" th:href="@{/admin/discounts}">상품 할인 관리</a></li>
+                        <li data-path="products/inquiry"><a href="../admin/product/inquiry/inquiry_list.html" th:href="@{/admin/product/inquiry}">상품 문의 관리</a></li>
+                        <li data-path="reviews"><a href="#">상품 후기 관리</a></li>
                     </ul>
                 </li>
                 <li>
                     <a href="javascript:void(0)">주문 관리</a>
                     <ul class="depth2">
-                        <li><a href="#">전체 주문관리</a></li>
+                        <li><a href="#">전체 주문 관리</a></li>
                         <li><a href="#">취소/교환/반품/환불 관리</a></li>
                     </ul>
                 </li>
@@ -65,22 +65,25 @@
 <nav id="snb" th:fragment="mypage_menu">
     <ul class="depth1">
         <li>
+            <h2 class="snb_title">자주찾는 메뉴</h2>
             <ul class="depth2">
-                <li><a href="">주문 내역 조회</a></li>
-                <li><a href="">적립금 내역</a></li>
+                <li><a href="">주문 내역</a></li>
+                <li><a href="">적립급 내역</a></li>
+                <li><a href="../user/mypage/wish_list.html" th:href="@{/mypage/wish}">위시리스트</a></li>
             </ul>
         </li>
         <li>
+            <h2 class="snb_title">쇼핑</h2>
             <ul class="depth2">
-                <li><a href="../mypage/wish_list.html" th:href="@{/mypage/wish}">위시리스트</a></li>
                 <li><a href="">상품 후기</a></li>
-                <li><a href="../mypage/board/qna_list.html" th:href="@{/mypage/qna}">상품 문의</a></li>
+                <li><a href="../user/mypage/board/qna_list.html" th:href="@{/mypage/qna}">상품 문의</a></li>
             </ul>
         </li>
         <li>
+            <h2 class="snb_title">내 정보 관리</h2>
             <ul class="depth2">
-                <li><a href="../mypage/member/member_info_login.html" th:href="@{/mypage/info}">개인 정보 수정</a></li>
-                <li><a href="../mypage/delivery/delivery_list.html" th:href="@{/mypage/delivery}">배송지 관리</a></li>
+                <li><a href="../user/mypage/member/member_info_login.html" th:href="@{/mypage/info}">개인 정보 수정</a></li>
+                <li><a href="../user/mypage/delivery/delivery_list.html" th:href="@{/mypage/delivery}">배송지 관리</a></li>
                 <li>
                     <form action="../login.html" th:action="@{/logout}" method="post">
                         <button type="submit">로그아웃</button>

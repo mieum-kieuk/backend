@@ -1,7 +1,8 @@
 package archivegarden.shop.controller.mypage;
 
+import archivegarden.shop.dto.user.member.MemberInfo;
 import archivegarden.shop.entity.Member;
-import archivegarden.shop.service.member.MemberService;
+import archivegarden.shop.service.user.member.MemberService;
 import archivegarden.shop.service.point.SavedPointService;
 import archivegarden.shop.web.annotation.CurrentUser;
 import lombok.RequiredArgsConstructor;
@@ -9,9 +10,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/mypage")
@@ -54,7 +53,8 @@ public class MyPageController {
     @GetMapping("/info/edit")
     @PreAuthorize("hasRole('ROLE_USER') and #loginMember.loginId == principal.username")
     public String infoModify(@CurrentUser Member loginMember, Model model) {
-        model.addAttribute("member", loginMember);
+        MemberInfo memberInfo = memberService.getMemberInfo(loginMember.getId());
+        model.addAttribute("member", memberInfo);
         return "mypage/member/member_info_modify";
     }
 }

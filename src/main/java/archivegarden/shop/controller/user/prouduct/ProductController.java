@@ -1,12 +1,8 @@
 package archivegarden.shop.controller.user.prouduct;
 
-import archivegarden.shop.dto.product.ProductPopupResultDto;
-import archivegarden.shop.dto.product.ProductPopupSearchCondition;
-import archivegarden.shop.dto.product.ProductDetailsDto;
-import archivegarden.shop.dto.product.ProductListDto;
-import archivegarden.shop.dto.product.ProductSearchCondition;
+import archivegarden.shop.dto.user.product.*;
 import archivegarden.shop.entity.Member;
-import archivegarden.shop.service.product.ProductService;
+import archivegarden.shop.service.user.product.product.ProductService;
 import archivegarden.shop.service.product.WishService;
 import archivegarden.shop.web.annotation.CurrentUser;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +21,6 @@ public class ProductController {
     private final ProductService productService;
     private final WishService wishService;
 
-
     /**
      * 상품 상세 페이지를 조회하는 요청을 처리하는 메서드
      */
@@ -35,7 +30,7 @@ public class ProductController {
         boolean isWish = wishService.isWish(productId, loginMember);
         model.addAttribute("product", productDto);
         model.addAttribute("wish", isWish);
-        return "user/products/product_details";
+        return "user/product/product_details";
     }
 
     /**
@@ -51,19 +46,19 @@ public class ProductController {
         model.addAttribute("pathVariable", pathVariable);
         model.addAttribute("sortedCode", sortedCode);
         model.addAttribute("products", pageProducts);
-        return "user/products/product_list";
+        return "user/product/product_list";
     }
 
     @GetMapping("/search")
-    public String searchPopupProducts(@ModelAttribute("condition") ProductPopupSearchCondition condition, Model model) {
+    public String searchProductsPopup(@ModelAttribute("condition") PopupProductSearchCondition condition, Model model) {
         if (StringUtils.hasText(condition.getKeyword())) {
             PageRequest pageRequest = PageRequest.of(condition.getPage() - 1, condition.getLimit());
-            Page<ProductPopupResultDto> productPopupDtos = productService.getPopupProducts(condition.getKeyword(), pageRequest);
+            Page<PopupProductDto> productPopupDtos = productService.getPopupProducts(condition.getKeyword(), pageRequest);
             model.addAttribute("products", productPopupDtos);
         } else {
             model.addAttribute("products", null);
         }
 
-        return "community/inquiry/inquiry_popup";
+        return "user/product/product_popup";
     }
 }
