@@ -166,6 +166,10 @@
 #discountForm .list.product .product_item {
     display: flex;
 }
+#discountList #noDataMessage {
+    border: 1px solid #d7d7d7;
+    border-top: none;
+}
 .discount #noDataMessage {
     border: none;
     border-bottom: 1px solid #d7d7d7;
@@ -282,4 +286,24 @@
 }
 .popup .list_content .item.name {
     width: 60%;
+}
+
+/*membership*/
+.membership .item {
+    white-space: nowrap;
+}
+.membership .level, .list_head.membership .item.level {
+    width: 5%;
+}
+.membership .name, .list_head.membership .name {
+    width: 20%;
+}
+.membership .pointRate, .list_head.membership .pointRate {
+    width: 15%;
+}
+.membership .maxBenefitPoint, .list_head.membership .maxBenefitPoint {
+    width: 30%;
+}
+.membership .minAmountSpent, .list_head.membership .minAmountSpent {
+    width: 30%;
 }

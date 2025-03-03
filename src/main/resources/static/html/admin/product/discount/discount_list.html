@@ -49,25 +49,12 @@
         <div class="side_menu menu">
             <h2>메뉴</h2>
             <ul class="depth1">
-                <li data-path="member">
-                    <a href="#">회원 관리</a>
-                    <ul class="depth2">
-                        <li data-path="member"><a href="../../../admin/member/member_list.html">회원 정보 관리</a></li>
-                        <li data-path="point"><a href="../../../admin/member/point_list.html">적립금 관리</a></li>
-                    </ul>
-                </li>
-                <li data-path="admin">
-                    <a href="#">관리자 관리</a>
-                    <ul class="depth2">
-                        <li data-path="admin-list"><a href="../../../admin/admin/admin_list.html">전체 관리자 관리</a></li>
-                    </ul>
-                </li>
                 <li data-path="product">
                     <a href="#">상품 관리</a>
                     <ul class="depth2">
-                        <li data-path="product"><a href="../product/product_list.html">전체 상품관리</a></li>
-                        <li data-path="inquiry"><a href="../inquiry/inquiry_list.html">상품 문의관리</a></li>
-                        <li data-path="discount"><a href="./discount_list.html">전체 할인관리</a></li>
+                        <li data-path="product/product"><a href="../product/product_list.html">전체 상품관리</a></li>
+                        <li data-path="product/inquiry"><a href="../inquiry/inquiry_list.html">상품 문의관리</a></li>
+                        <li data-path="product/discount"><a href="./discount_list.html">전체 할인관리</a></li>
                     </ul>
                 </li>
                 <li data-path="orders">
@@ -77,7 +64,13 @@
                         <li data-path="cancel"><a href="#">취소/교환/반품/환불 관리</a></li>
                     </ul>
                 </li>
-
+                <li data-path="member">
+                    <a href="#">회원 관리</a>
+                    <ul class="depth2">
+                        <li data-path="member"><a href="../../../admin/member/member_list.html">회원 정보 관리</a></li>
+                        <li data-path="point"><a href="../../../admin/member/point_list.html">적립금 관리</a></li>
+                    </ul>
+                </li>
                 <li data-path="help">
                     <a href="#">고객 지원</a>
                     <ul class="depth2">
@@ -86,7 +79,12 @@
                         <li data-path="withdrawal"><a href="#">회원 탈퇴내역</a></li>
                     </ul>
                 </li>
-
+                <li data-path="admin">
+                    <a href="#">관리자 관리</a>
+                    <ul class="depth2">
+                        <li data-path="admin-list"><a href="../../../admin/admin/admin_list.html">전체 관리자 관리</a></li>
+                    </ul>
+                </li>
             </ul>
         </div>
         <div class="side_menu account">
@@ -145,9 +143,8 @@
                         </div>
                         <div>
                         <div class="item number">번호</div>
-                        <div class="item title">할인명</div>
+                        <div class="item name">할인명</div>
                         <div class="item percent">할인율</div>
-                        <div class="item type">적용상품</div>
                         <div class="item date">시작일시</div>
                         <div class="item date">종료일시</div>
                         </div>
@@ -159,9 +156,8 @@
                             </div>
                             <a href="discount_details.html">
                                 <div class="item number">2</div>
-                                <div class="item title">할인명</div>
+                                <div class="item name">할인명</div>
                                 <div class="item percent">할인율</div>
-                                <div class="item type">전체상품</div>
                                 <div class="item date">시작일시</div>
                                 <div class="item date">종료일시</div>
                             </a>
@@ -172,9 +168,8 @@
                             </div>
                             <a href="discount_details.html">
                                 <div class="item number">2</div>
-                                <div class="item title">할인명</div>
+                                <div class="item name">할인명</div>
                                 <div class="item percent">할인율</div>
-                                <div class="item type">전체상품</div>
                                 <div class="item date">시작일시</div>
                                 <div class="item date">종료일시</div>
                             </a>

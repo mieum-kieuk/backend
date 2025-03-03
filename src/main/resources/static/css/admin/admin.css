@@ -1146,8 +1146,14 @@ th {
     font-weight: 400;
     width: 100%;
 }
-
-/*field error*/
+/*membership*/
+.admin_wrap #membershipDetails .input_tit {
+    min-width: 140px;
+}
+#membershipForm .form_wrap > .input_box_wrap:nth-child(4) {
+    margin-bottom: 0px;
+}
+    /*field error*/
 #addProduct .field-error,
 #addDiscount .field-error,
 #discountEdit .field-error {
