@@ -609,6 +609,9 @@ input::-webkit-inner-spin-button {
     display: flex;
     align-items: center;
 }
+.admin_wrap.popup.discount .search_form .result .left .total {
+    margin-right: 10px;
+}
 .admin_wrap.popup.discount .search_form .result .left .btn_wrap{
     margin-left: 20px;
 }

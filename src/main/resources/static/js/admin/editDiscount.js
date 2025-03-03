@@ -1,6 +1,11 @@
 $(document).ready(function () {
     popupButton();
     addItems();
+    updateNoDataMessage();
+
+    window.updateParentNoDataMessage = function() {
+        updateNoDataMessage();
+    };
 
     const productList = $('.list_content');
     const width = $(window).innerWidth() - 490;
@@ -45,31 +50,20 @@ $(document).ready(function () {
         updateSelectAllCheckbox();
     });
 
-    $('#discountList #deleteDiscountBtn').on('click', function () {
-        let checkedBox = $('#discountList input[type="checkbox"]:checked');
-
-        if (checkedBox.length === 0) {
-            Swal.fire({
-                text: "삭제할 할인을 선택해주세요.",
-                showConfirmButton: true,
-                confirmButtonText: '확인',
-                customClass: mySwal,
-                buttonsStyling: false
-            });
-            return;
-        }
-
-        let checkboxId = checkedBox.attr('id'); // 체크된 체크박스의 ID 가져오기
-        let discountId = checkboxId.replace('checkbox', ''); // 'checkbox123' → '123'
-
-        deleteDiscount(discountId);
-    });
-
-    $('#discountDetails #deleteDiscountBtn').on('click', function () {
-        let discountId = $(this).val();
-        deleteDiscount(discountId);
-    });
 });
+function updateNoDataMessage() {
+    const productList = $('.list.discount.product');
+    const listItems = productList.find('.list_item');
+    const noDataMessage = productList.find('#noDataMessage');
+
+    const itemCount = listItems.filter(':not(#noDataMessage)').length;
+
+    if (itemCount > 0) {
+        noDataMessage.hide();
+    } else {
+        noDataMessage.show();
+    }
+}
 
 // 선택된 체크박스 상태에 따라 전체 선택 체크박스 업데이트
 function updateSelectAllCheckbox() {
@@ -224,7 +218,7 @@ window.getItem = function (items) {
 
 // 선택 상품 삭제
 $('.input_box_wrap.product #deleteBtn').click(function () {
-    let listItems = $('.list.product .list_item');
+    let listItems = $('.list.product .list_item:not(#noDataMessage)');
     let checkedItems = $('input[type="checkbox"]:checked'); // 선택된 체크박스
 
     if (listItems.length === 0) { // 상품이 없는 경우
@@ -267,48 +261,55 @@ $('.input_box_wrap.product #deleteBtn').click(function () {
     });
 });
 
-let isAvailableName = false;
+let originalName = $('#editDiscountForm #name').val().trim();
 
-function isNameValid() {
+async function isNameValid() {
     let name = $('#name').val().trim();
     let nameRegex = /^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9\s]+$/;
+    console.log("name:", name); // 추가
 
     if (name === '') {
-        return;
+        return false;
     }
     if (!nameRegex.test(name)) {
-        return;
+        return false;
     }
-    $.ajax({
-        type: 'POST',
-        url: '/ajax/admin/discount/check/name',
-        data: {'name': name},
-        beforeSend: function (xhr) {
-            xhr.setRequestHeader(csrfHeader, csrfToken);
-        },
-        success: function (result) {
-            if (result.code == 200) {
-                isAvailableName = true;
-            } else {
-                isAvailableName = false;
-            }
-        },
-        error: function () {
-            Swal.fire({
-                html: "할인명 중복 확인 중 오류가 발생했습니다.<br>다시 시도해 주세요.",
-                showConfirmButton: true,
-                confirmButtonText: '확인',
-                customClass: mySwal,
-                buttonsStyling: false
-            });
-        }
-    });
 
-    return;
+    console.log("originalName:", originalName);
+
+    if (name === originalName) {
+        return true;  // 원래 이름과 같으면 중복 아님
+    }
+
+    try {
+        const result = await $.ajax({
+            type: 'POST',
+            url: '/ajax/admin/discount/check/name',
+            data: {'name': name},
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(csrfHeader, csrfToken);
+            }
+        });
+
+        if (result.code === 200) {
+            return true;  // 중복되지 않음
+        } else {
+            return false;  // 중복된 할인명
+        }
+    } catch (error) {
+        Swal.fire({
+            html: "할인명 중복 확인 중 오류가 발생했습니다.<br>다시 시도해 주세요.",
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
+        return false;  // 오류 발생
+    }
 }
 
 // 폼 제출 전 유효성 검사
-function validateBeforeSubmit() {
+async function validateBeforeSubmit() {
     let discountName = $('#name').val().trim();
     let nameRegex = /^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9\s]+$/;
     let discountPercent = $('#discountPercent').val().trim();
@@ -326,6 +327,7 @@ function validateBeforeSubmit() {
         .get();
 
     $('input[name="productIds"]').val(selectedProductIds);
+
     if (discountName === '') {
         Swal.fire({
             text: "할인명을 입력해 주세요.",
@@ -344,7 +346,11 @@ function validateBeforeSubmit() {
             buttonsStyling: false
         });
         return false;
-    } else if (!isAvailableName) {
+    }
+
+    // 이름 중복 확인
+    let isValidName = await isNameValid(); // 비동기 중복 검사
+    if (!isValidName) {
         Swal.fire({
             text: "이미 존재하는 할인명입니다.",
             showConfirmButton: true,
@@ -354,6 +360,7 @@ function validateBeforeSubmit() {
         });
         return false;
     }
+
     if (startDate === '') {
         Swal.fire({
             text: "시작일을 지정해 주세요.",
@@ -435,52 +442,4 @@ function validateBeforeSubmit() {
     }
 
     return true;
-}
-
-// 상품 할인 단건 삭제
-function deleteDiscount(discountId) {
-
-    Swal.fire({
-        text: "삭제하시겠습니까?",
-        showCancelButton: true,
-        cancelButtonText: '아니요',
-        confirmButtonText: '예',
-        customClass: mySwalConfirm,
-        reverseButtons: true,
-        buttonsStyling: false,
-    }).then((result) => {
-        if (result.isConfirmed) {
-            $.ajax({
-                type: 'DELETE',
-                url: '/ajax/admin/discount',
-                async: false,
-                data: {'discountId': discountId},
-                beforeSend: function (xhr) {
-                    xhr.setRequestHeader(csrfHeader, csrfToken)
-                },
-                success: function (data) {
-                    if (data.code === 200) {
-                        window.location.href = '/admin/discounts';
-                    } else {
-                        Swal.fire({
-                            text: data.message,
-                            showConfirmButton: true,
-                            confirmButtonText: '확인',
-                            customClass: mySwal,
-                            buttonsStyling: false
-                        });
-                    }
-                },
-                error: function () {
-                    Swal.fire({
-                        html: "삭제중 오류가 발생했습니다.<br>다시 시도해 주세요.",
-                        showConfirmButton: true,
-                        confirmButtonText: '확인',
-                        customClass: mySwal,
-                        buttonsStyling: false
-                    });
-                }
-            })
-        }
-    });
 }

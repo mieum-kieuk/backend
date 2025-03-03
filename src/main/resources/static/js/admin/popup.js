@@ -106,8 +106,12 @@ function addItems() {
                 $(window.opener.document).find('.input_box_wrap.product .list_content .list.product').append(newItemHtml);
             }
         });
-
+        if (window.opener && window.opener.updateParentNoDataMessage) {
+            window.opener.updateParentNoDataMessage();
+        }
         window.close();
+        updateNoDataMessage();
+
     });
 }
 
@@ -246,3 +250,4 @@ function loadPage(currentPage, limit) {
 // 부모창에서 사용할 함수 등록
 window.renderProducts = renderProducts;
 window.renderPagination = renderPagination;
+

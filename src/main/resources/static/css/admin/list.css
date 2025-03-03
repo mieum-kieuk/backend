@@ -15,6 +15,9 @@
     /*justify-content: space-between;*/
     width: 100%;
 }
+.list_head .item {
+    white-space: nowrap;
+}
 .list_head .item:last-child {
     border-right: none;
 }
@@ -170,6 +173,9 @@
 .discount #noDataMessage span {
     width: auto;
 }
+.discount .list_item .item.name {
+    justify-content: flex-start;
+}
 .discount .item.number {
     width: 8%;
 }
@@ -177,14 +183,14 @@
     width: 10%;
 }
 .discount .item.name {
-    width: 60%;
+    width: 50%;
     text-align: left;
 }
 .discount .item.type {
     width: 10%;
 }
 .discount .item.date {
-    width: 30%;
+    width: 40%;
     white-space: nowrap;
 }
 
