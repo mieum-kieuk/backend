@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <title>회원 등급 등록 | 미음키읔</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="../../../../static/css/common/comm.css" th:href="@{/css/common/comm.css}">
+    <link rel="stylesheet" href="../../../../static/css/admin/admin.css" th:href="@{/css/admin/admin.css}">
+    <link rel="stylesheet" href="../../../../static/css/admin/list.css" th:href="@{/css/admin/list.css}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.js"></script>
+    <script defer src="../../../../static/js/common/comm.js" th:src="@{/js/common/comm.js}"></script>
+    <script defer src="../../../../static/js/admin/membership.js" th:src="@{/js/admin/membership.js}"></script>
+</head>
+<body>
+<div class="admin_wrap">
+    <div th:replace="~{/layout/menu :: admin_menu}"></div>
+    <div id="addMembership" class="admins_wrap">
+        <div class="content">
+            <h2 class="content_tit">회원 등급 등록</h2>
+            <form id="membershipForm" action="" th:action th:object="${addMembershipForm}" method="post" th:onsubmit="return validateBeforeSubmit()" novalidate>
+                <div class="form_wrap">
+                    <div class="input_box_wrap">
+                        <label for="name">회원 등급명</label>
+                        <input type="text" id="name" th:field="*{name}" maxlength="30" placeholder="회원 등급명을 입력해 주세요.">
+                    </div>
+                    <div class="field-error" th:errors="*{name}"></div>
+                    <div class="input_box_wrap">
+                        <label for="pointRate">적립률</label>
+                        <input type="number" id="pointRate" th:field="*{pointRate}" placeholder="적립률을 입력해 주세요.">
+                    </div>
+                    <div class="field-error" th:errors="*{pointRate}"></div>
+                    <div class="input_box_wrap">
+                        <label for="maxBenefitPoint">최대 적립 가능 금액</label>
+                        <input type="number" id="maxBenefitPoint" th:field="*{maxBenefitPoint}">
+                    </div>
+                    <div class="input_box_wrap">
+                        <label for="minAmountSpent">최소 소비 금액</label>
+                        <input type="number" id="minAmountSpent" th:field="*{minAmountSpent}">
+                    </div>
+                    <div class="field-error" th:errors="*{minAmountSpent}"></div>
+                    <div class="text description">
+                        <ul><li><span>최소 소비 금액이란 회원이 등급을 유지하기 위해 최소한 소비해야 하는 금액입니다.</span></li></ul>
+                    </div>
+                </div>
+                <div class="add text description">
+                    <ul>
+                        <li>
+                            <span>등록하는 순서대로 높은 순위가 적용됩니다.</span>
+                        </li>
+                        <li>
+                            <span>순위가 높을수록 상위 등급입니다.</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="input_box_wrap btn">
+                    <button type="button" class="btn1" onclick="location.href='./membership_list.html'"
+                    th:onclick="|location.href='@{/admin/memberships}'|">취소</button>
+                    <button type="submit" class="btn1 submit_btn">등록</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
