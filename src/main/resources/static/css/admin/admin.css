@@ -563,7 +563,7 @@ input::-webkit-inner-spin-button {
 #discountDetails .form_wrap {
     padding: 0 20px 20px;
 }
-#discountDetails .text.description{
+.details_wrap .text.description, .add.text.description{
     padding: 10px 0 10px 30px;
     width: 100%;
 }

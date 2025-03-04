@@ -199,6 +199,9 @@
 }
 
 /*member_list*/
+#membershipList .list_content {
+    margin-bottom: 10px;
+}
 .member .item.userId, .member .item.membership {
     width: 12%;
 }

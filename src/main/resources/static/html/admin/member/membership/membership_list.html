@@ -49,7 +49,7 @@
           <ul class="depth2">
             <li data-path="product/product"><a href="../product/product_list.html">전체 상품관리</a></li>
             <li data-path="product/inquiry"><a href="../inquiry/inquiry_list.html">상품 문의관리</a></li>
-            <li data-path="product/discount"><a href="./discount_list.html">전체 할인관리</a></li>
+            <li data-path="product/discount"><a href="../../product/discount/discount_list.html">전체 할인관리</a></li>
           </ul>
         </li>
         <li data-path="orders">
@@ -95,13 +95,13 @@
         <h2 class="content_tit">회원 등급 목록</h2>
         <div class="admins_wrap">
           <div class="input_box_wrap btn">
-            <button type="button" class="btn1" id="deleteMembershipBtn" onclick="deleteMembership()">삭제</button>
+            <button type="button" class="btn1" id="deleteMembershipBtn" >삭제</button>
             <button type="submit" class="btn1" onclick="location.href = 'add_membership.html'"> 등록</button>
           </div>
           <div class="list_content">
             <div class="list_head membership">
               <div class="item check" >
-                <input type="checkbox" name="checkBox" id="selectAll">
+                <input type="checkbox" name="checkBox" disabled>
               </div>
               <div>
                 <div class="item level">순위</div>
@@ -117,7 +117,7 @@
                   <input type="checkbox" name="checkBox">
                 </div>
                 <a href="membership_details.html">
-                  <div class="item level">순위</div>
+                  <div class="item level">1</div>
                   <div class="item name">회원 등급명</div>
                   <div class="item pointRate">적립률</div>
                   <div class="item maxBenefitPoint">최대 적립 가능 금액</div>
@@ -129,6 +129,20 @@
               </div>
             </div>
           </div>
+          <div class="text description">
+            <ul>
+              <li>
+                <span>등록하는 순서대로 높은 순위가 적용됩니다.</span>
+              </li>
+              <li>
+                <span>순위가 높을수록 상위 등급입니다.</span>
+              </li>
+              <li>
+                <span>순위가 1인 회원 등급은 기본 등급으로 삭제가 불가능합니다.</span>
+              </li>
+            </ul>
+          </div>
+
         </div>
       </div>
     </div>

@@ -24,7 +24,7 @@ $(document).ready(function () {
     });
 
     // 체크박스 상태 변경
-    $('#membershipList .list.membership').on('click', '.item.check input[type="checkbox"]', function() {
+    $('#membershipList .list.membership').on('click', '.item.check input[type="checkbox"]', function () {
         $('.list.membership .item.check input[type="checkbox"]').not(this).prop('checked', false);
     });
 
@@ -33,8 +33,13 @@ $(document).ready(function () {
         $('.list .item.check input[type="checkbox"]').prop('checked', isChecked);
     });
 
-    $('.list.membership').on('change', '.item.check input[type="checkbox"]', function () {
-        updateSelectAllCheckbox();
+    $('.list.membership .list_item').each(function () {
+        let level = $(this).find('.item.level').text().trim();
+        let checkbox = $(this).find('input[name="checkBox"]');
+
+        if (level === "1") {
+            checkbox.prop('disabled', true); // 체크박스 비활성화
+        }
     });
 
     $('#membershipList #deleteMembershipBtn').on('click', function () {
@@ -42,7 +47,7 @@ $(document).ready(function () {
 
         if (checkedBox.length === 0) {
             Swal.fire({
-                text: "삭제할 회원등급을 선택해주세요.",
+                text: "삭제할 회원 등급을 선택해 주세요.",
                 showConfirmButton: true,
                 confirmButtonText: '확인',
                 customClass: mySwal,
@@ -59,70 +64,91 @@ $(document).ready(function () {
 
     $('#membershipDetails #deleteMembershipBtn').on('click', function () {
         let membershipId = $(this).val();
+        console.log(membershipId);
         deleteMembership(membershipId);
     });
+
+    $('#addMembershipForm').submit(async function (event) {
+        event.preventDefault();
+        const isValid = await validateBeforeSubmit();
+
+        if (isValid) {
+            this.submit();
+        }
+    });
+
+    $('#editMembershipForm').submit(async function (event) {
+        event.preventDefault();
+        const isValid = await validateBeforeSubmit();
+
+        if (isValid) {
+            this.submit();
+        }
+    });
 });
-
-// 선택된 체크박스 상태에 따라 전체 선택 체크박스 업데이트
-function updateSelectAllCheckbox() {
-    let membershipCheckboxes = $('.list.membership .item.check input[type="checkbox"]');
-    let totalCheckboxes = membershipCheckboxes.length;
-    let checkedCheckboxes = membershipCheckboxes.filter(':checked').length;
-
-    $('.list_head .item.check input[type="checkbox"]').prop('checked', totalCheckboxes === checkedCheckboxes);
-}
 
 let csrfHeader = $("meta[name='_csrf_header']").attr("content");
 let csrfToken = $("meta[name='_csrf']").attr("content");
 
 let isAvailableName = false;
+let originalName = $('#editMembershipForm').length > 0 ? $('#editMembershipForm #name').val().trim() : '';
 
-function isNameValid() {
+// 회원 등급명 중복검사
+async function isNameValid() {
     let name = $('#name').val().trim();
     let nameRegex = /^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9\s]+$/;
 
     if (name === '') {
-        return;
+        return false;
     }
     if (!nameRegex.test(name)) {
-        return;
+        return false;
     }
-    $.ajax({
-        type: 'POST',
-        url: '/ajax/admin/membership/',
-        data: {'name': name},
-        beforeSend: function (xhr) {
-            xhr.setRequestHeader(csrfHeader, csrfToken);
-        },
-        success: function (result) {
-            if (result.code == 200) {
-                isAvailableName = true;
-            } else {
-                isAvailableName = false;
-            }
-        },
-        error: function () {
-            Swal.fire({
-                html: "회원 등급명 중복 확인 중 오류가 발생했습니다.<br>다시 시도해 주세요.",
-                showConfirmButton: true,
-                confirmButtonText: '확인',
-                customClass: mySwal,
-                buttonsStyling: false
-            });
-        }
-    });
 
-    return;
+    if ($('#editMembershipForm').length > 0) {
+        if (name === originalName) {
+            return true;
+        }
+    }
+    try {
+        const result = await $.ajax({
+            type: 'POST',
+            url: '/ajax/admin/membership/check/name',
+            data: {'name': name},
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(csrfHeader, csrfToken);
+            }
+        });
+
+        if (result.code == 200) {
+            if (result.message === '사용 가능한 회원 등급명입니다.') {
+                isAvailableName = true;
+                return true;
+            } else if (result.message === '이미 존재하는 회원 등급명입니다.') {
+                isAvailableName = false;
+                return false;
+            }
+        } else {
+            return false;
+        }
+    } catch (error) {
+        Swal.fire({
+            html: "회원 등급명 중복 확인 중 오류가 발생했습니다.<br>다시 시도해 주세요.",
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
+        return false;
+    }
 }
 
 // 폼 제출 전 유효성 검사
-function validateBeforeSubmit() {
+async function validateBeforeSubmit() {
     let membershipName = $('#name').val().trim();
     let nameRegex = /^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9\s]+$/;
     let pointRate = $('#pointRate').val().trim();
-    let maxBenefitPoint = $('#maxBenefitPoint').val().trim();
     let minAmountSpent = $('#minAmountSpent').val().trim();
-
 
     if (membershipName === '') {
         Swal.fire({
@@ -142,7 +168,10 @@ function validateBeforeSubmit() {
             buttonsStyling: false
         });
         return false;
-    } else if (!isAvailableName) {
+    }
+
+    const isValid = await isNameValid();
+    if (!isValid) {
         Swal.fire({
             text: "이미 존재하는 회원 등급명입니다.",
             showConfirmButton: true,
@@ -167,18 +196,7 @@ function validateBeforeSubmit() {
     let pointRateRegex = /^(?:1|[1-9]\d?|100)$/;
     if (!pointRateRegex.test(pointRate)) {
         Swal.fire({
-            text: "1부터 100 사이의 값을 입력해 주세요.",
-            showConfirmButton: true,
-            confirmButtonText: '확인',
-            customClass: mySwal,
-            buttonsStyling: false
-        });
-        return false;
-    }
-
-    if (maxBenefitPoint === '') {
-        Swal.fire({
-            text: "최대 적립 가능 금액을 입력해 주세요.",
+            text: "유효한 최소 소비 금액을 입력해 주세요.",
             showConfirmButton: true,
             confirmButtonText: '확인',
             customClass: mySwal,
@@ -197,6 +215,18 @@ function validateBeforeSubmit() {
         });
         return false;
     }
+
+    if (parseFloat(minAmountSpent) < 0) {
+        Swal.fire({
+            text: "유효한 최소 소비 금액을 입력해 주세요.",
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
+        return false;
+    }
+
     return true;
 }
 
@@ -223,7 +253,7 @@ function deleteMembership(membershipId) {
                 },
                 success: function (data) {
                     if (data.code === 200) {
-                        window.location.href = '/admin/membership';
+                        window.location.href = '/admin/memberships';
                     } else {
                         Swal.fire({
                             text: data.message,

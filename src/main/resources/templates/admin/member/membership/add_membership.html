@@ -29,7 +29,7 @@
     <div id="addMembership" class="admins_wrap">
         <div class="content">
             <h2 class="content_tit">회원 등급 등록</h2>
-            <form id="membershipForm" action="" th:action th:object="${addMembershipForm}" method="post" th:onsubmit="return validateBeforeSubmit()" novalidate>
+            <form id="addMembershipForm" action="" th:action th:object="${addMembershipForm}" method="post" th:onsubmit="return validateBeforeSubmit()" novalidate>
                 <div class="form_wrap">
                     <div class="input_box_wrap">
                         <label for="name">회원 등급명</label>
