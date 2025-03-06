@@ -2,6 +2,8 @@ $(window).on('unload', function () {
     $('input[type="text"]').val('');
     $('#findType1').prop('checked', true);
 });
+
+// swal설정
 const mySwal = {
     container: 'my-swal-container',
     popup: 'my-swal-popup',
@@ -10,7 +12,7 @@ const mySwal = {
     actions: 'my-swal-actions',
 };
 $('.submit_btn').click(function () {
-    // 유효성 검사 실행
+
     if (!validateBeforeSubmit()) {
         return;
     }
@@ -18,6 +20,7 @@ $('.submit_btn').click(function () {
     let csrfHeader = $("meta[name='_csrf_header']").attr("content");
     let csrfToken = $("meta[name='_csrf']").attr("content");
 
+    // 이메일 또는 휴대전화번호로 아이디 찾기
     if ($('input[name="findType"]:checked').val() === 'EMAIL') {
         let name = $('#name').val();
         let email = $('#email').val();
@@ -144,6 +147,7 @@ function regexPhonenumber() {
     return result;
 }
 
+// 폼 제출 전 유효성 검사
 function validateBeforeSubmit() {
 
     let byEmail = $('#findType1').is(':checked');

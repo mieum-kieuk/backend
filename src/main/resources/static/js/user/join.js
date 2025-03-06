@@ -1,10 +1,8 @@
-let isLoginIdChecked = false;
-let isEmailChecked = false;
 let isAvailableLoginId = false;
-let isAvailableEmail = false
+let isAvailableEmail = false;
 
 $(document).ready(function () {
-    $('#loginId').on('focusout', function () {
+    $('#loginId').on('keyup', function () {
         isLoginIdValid();
     });
 
@@ -22,7 +20,7 @@ $(document).ready(function () {
     $('#name').on('focusout', function () {
         isNameValid();
     });
-    // $('#detailAddress').prop('readonly', true);
+
     $('#detailAddress').click(function() {
         let zipCode = $('#zipCode').val().trim();
         let basicAddress = $('#basicAddress').val().trim();
@@ -45,19 +43,22 @@ $(document).ready(function () {
         isPhoneValid();
     });
 
-    $('#email').on('focusout', function () {
+    $('#email').on('keyup', function () {
         isEmailValid();
     });
 
     $('#btn_action_verify_mobile').on('click', function () {
         requestVerificationCode();
     });
+
     $('#btn_verify_mobile_confirm').click(function () {
         isVerificationValid();
     });
+
     $('input[id^="phonenumber"]').on('input', function () {
         verificationBtnState();
     });
+
     // 전체 체크
     $('#agree_group').on('click', "#agree_all", function() {
         let isChecked = $(this).prop("checked");
@@ -74,7 +75,7 @@ $(document).ready(function () {
 let csrfToken = $("meta[name='_csrf']").attr("content");
 let csrfHeader = $("meta[name='_csrf_header']").attr("content");
 
-//아이디 검증
+// 아이디 검증
 function isLoginIdValid() {
     let loginId = $("#loginId").val();
 
@@ -94,7 +95,6 @@ function isLoginIdValid() {
             xhr.setRequestHeader(csrfHeader, csrfToken);
         },
         success: function (result) {
-            isLoginIdChecked = true;
             if (result.code == 200) {
                 isAvailableLoginId = true;
                 $('#idMsg').text(result.message);
@@ -138,7 +138,7 @@ function regexLoginId() {
     return true;
 }
 
-//비밀번호 검증
+// 비밀번호 검증
 function isPasswordValid() {
     let password = $('#password').val();
     let confirmPassword = $('#passwordConfirm').val();
@@ -183,7 +183,7 @@ function regexPassword() {
     return true;
 }
 
-//비밀번호 확인 검증
+// 비밀번호 확인 검증
 function isPwConfirmValid() {
     let password = $('#password').val();
     let confirmPassword = $('#passwordConfirm').val();
@@ -198,7 +198,7 @@ function isPwConfirmValid() {
     }
 }
 
-//이름 검증
+// 이름 검증
 function isNameValid() {
     if (!isNameEmpty()) {
         return;
@@ -233,7 +233,7 @@ function regexName() {
     return true;
 }
 
-//이메일 검증
+// 이메일 검증
 function isEmailValid() {
     let email = $('#email').val();
 
@@ -253,7 +253,6 @@ function isEmailValid() {
             xhr.setRequestHeader(csrfHeader, csrfToken);
         },
         success: function (result) {
-            isEmailChecked = true;
             if (result.code == 200) {
                 isAvailableEmail = true;
                 $('#emailMsg').text(result.message);
@@ -298,7 +297,7 @@ function regexEmail() {
     return true;
 }
 
-//휴대전화번호 검증
+// 휴대전화번호 검증
 function isPhoneValid() {
     if (!isPhoneEmpty()) {
         return;
@@ -349,7 +348,7 @@ function isAddressEmpty() {
 
     return true;
 }
-//타이머 설정
+// 타이머 설정
 let interval;
 
 function startTimer() {
@@ -530,17 +529,7 @@ function validateBeforeSubmit() {
             buttonsStyling: false
         });
         return false;
-    } else if (!isLoginIdChecked)  {
-        Swal.fire({
-            text: '아이디 중복검사를 해주세요.',
-            showConfirmButton: true,
-            confirmButtonText: '확인',
-            customClass: mySwal,
-            buttonsStyling: false
-        });
-        return false;
-    }
-    else if (!isAvailableLoginId) {
+    } else if (!isAvailableLoginId) {
         Swal.fire({
             text: '이미 사용중인 아이디입니다.',
             showConfirmButton: true,
@@ -605,7 +594,6 @@ function validateBeforeSubmit() {
         return false;
     }
     if (!isAddressEmpty()) {
-        console.log("hi");
         Swal.fire({
             text: '주소를 입력해 주세요.',
             showConfirmButton: true,
@@ -662,15 +650,6 @@ function validateBeforeSubmit() {
     } else if (!regexEmail()) {
         Swal.fire({
             text: '이메일 형식으로 입력해 주세요.',
-            showConfirmButton: true,
-            confirmButtonText: '확인',
-            customClass: mySwal,
-            buttonsStyling: false
-        });
-        return false;
-    } else if (!isEmailChecked) {
-        Swal.fire({
-            text: '이메일 중복검사를 해주세요.',
             showConfirmButton: true,
             confirmButtonText: '확인',
             customClass: mySwal,
