@@ -35,14 +35,14 @@
             <div class="prd_desc">
                 <div class="prd_left">
                     <div class="prd_img">
-                        <img th:src="${product.displayImageUrl}" alt="제품 이미지">
+                        <img th:src="${product.displayImageData}" alt="제품 이미지">
                     </div>
                     <div class="prd_display">
                         <div class="display_img">
-                            <img th:src="${product.displayImageUrl}" alt="제품 이미지">
+                            <img th:src="${product.displayImageData}" alt="제품 이미지">
                         </div>
-                        <div class="display_img" th:if="${product.hoverImageUrl} != null">
-                            <img th:src="${product.hoverImageUrl}" alt="제품 이미지">
+                        <div class="display_img" th:if="${product.hoverImageData} != null">
+                            <img th:src="${product.hoverImageData}" alt="제품 이미지">
                         </div>
                     </div>
                 </div>
@@ -118,9 +118,9 @@
                 </div>
             </div>
             <div class="prd_detail">
-                <tr th:each="detailsImageUrl : ${product.detailsImageUrls}">
+                <tr th:each="detailsImageData : ${product.detailsImageDatas}">
                     <td>
-                        <img th:src="${detailsImageUrl}" alt="제품 상세 이미지">
+                        <img th:src="${detailsImageData}" alt="제품 상세 이미지">
                     </td>
                 </tr>
             </div>

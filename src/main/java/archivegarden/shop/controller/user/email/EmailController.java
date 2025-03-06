@@ -1,7 +1,7 @@
 package archivegarden.shop.controller.user.email;
 
 import archivegarden.shop.dto.ResultResponse;
-import archivegarden.shop.service.email.EmailService;
+import archivegarden.shop.service.user.email.EmailService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

@@ -25,11 +25,11 @@ public class ProductDetailsDto {
     private String sizeGuide;
     private String shipping;
     private String notice;
-    private String displayImageUrl;
-    private String hoverImageUrl;
-    private List<String> detailsImageUrls = new ArrayList<>();
+    private String displayImageData;
+    private String hoverImageData;
+    private List<String> detailsImageDatas = new ArrayList<>();
 
-    public ProductDetailsDto(Product product, List<AdminProductImageDto> productImageDtos) {
+    public ProductDetailsDto(Product product, List<ProductImageDto> productImageDtos) {
         this.id = product.getId();
         this.name = product.getName();
         this.category = product.getCategory().getDisplayName();
@@ -54,11 +54,11 @@ public class ProductDetailsDto {
         sizeGuide = product.getSize();
         shipping = product.getShipping();
         notice = product.getNotice();
-        for (AdminProductImageDto image : productImageDtos) {
+        for (ProductImageDto image : productImageDtos) {
             switch (image.getImageType()) {
-                case DISPLAY -> this.displayImageUrl = image.getImageData();
-                case HOVER -> this.hoverImageUrl = image.getImageData();
-                case DETAILS -> this.detailsImageUrls.add(image.getImageName());
+                case DISPLAY -> this.displayImageData = image.getImageData();
+                case HOVER -> this.hoverImageData = image.getImageData();
+                case DETAILS -> this.detailsImageDatas.add(image.getImageData());
             }
         }
     }

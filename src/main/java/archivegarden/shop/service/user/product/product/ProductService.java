@@ -1,11 +1,7 @@
 package archivegarden.shop.service.user.product.product;
 
-import archivegarden.shop.dto.admin.product.product.AdminProductImageDto;
 import archivegarden.shop.dto.order.OrderProductListDto;
-import archivegarden.shop.dto.user.product.PopupProductDto;
-import archivegarden.shop.dto.user.product.ProductDetailsDto;
-import archivegarden.shop.dto.user.product.ProductListDto;
-import archivegarden.shop.dto.user.product.ProductSearchCondition;
+import archivegarden.shop.dto.user.product.*;
 import archivegarden.shop.entity.Discount;
 import archivegarden.shop.entity.Member;
 import archivegarden.shop.entity.Product;
@@ -21,12 +17,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 @Service
 @Transactional(readOnly = true)
@@ -43,37 +37,7 @@ public class ProductService {
      */
     public List<ProductListDto> getLatestProducts() {
         List<Product> products = productRepository.findLatestProducts();
-
-        List<CompletableFuture<ProductListDto>> futures = new ArrayList<>();
-        for (Product product : products) {
-            List<ProductImage> productImages = product.getProductImages();
-
-            // 이미지 데이터를 비동기적으로 가져오기
-            List<CompletableFuture<String>> imageDataFutures = new ArrayList<>();
-            for (ProductImage productImage : productImages) {
-                CompletableFuture<String> imageDataFuture = productImageService
-                        .getEncodedImageDataAsync(productImage.getImageUrl());
-                imageDataFutures.add(imageDataFuture);
-            }
-
-            // 이미지 데이터가 모두 준비되면 ProductListDto 생성
-            CompletableFuture<ProductListDto> productListDtoFuture = CompletableFuture
-                    .allOf(imageDataFutures.toArray(new CompletableFuture[0]))
-                    .thenApplyAsync(v -> {
-                        // 비동기적으로 이미지를 모두 가져왔을 때, 이미지 데이터를 리스트로 모은 후 ProductListDto 생성
-                        List<String> imageDatas = imageDataFutures.stream()
-                                .map(CompletableFuture::join)
-                                .collect(Collectors.toList());
-                        return new ProductListDto(product, imageDatas);
-                    });
-
-            futures.add(productListDtoFuture);
-        }
-
-        // 모든 ProductListDto가 준비될 때까지 기다리기
-        return futures.stream()
-                .map(CompletableFuture::join) // 각 future가 완료될 때까지 기다림
-                .collect(Collectors.toList());
+        return createProductListDtos(products);
     }
 
     /**
@@ -81,38 +45,7 @@ public class ProductService {
      */
     public Page<ProductListDto> searchProducts(String keyword, Pageable pageable) {
         Page<Product> products = productRepository.searchProducts(keyword, pageable);
-
-        List<CompletableFuture<ProductListDto>> futures = new ArrayList<>();
-        for (Product product : products) {
-            List<ProductImage> productImages = product.getProductImages();
-
-            // 이미지 데이터를 비동기적으로 가져오기
-            List<CompletableFuture<String>> imageDataFutures = new ArrayList<>();
-            for (ProductImage productImage : productImages) {
-                CompletableFuture<String> imageDataFuture = productImageService
-                        .getEncodedImageDataAsync(productImage.getImageUrl());
-                imageDataFutures.add(imageDataFuture);
-            }
-
-            // 이미지 데이터가 모두 준비되면 ProductListDto 생성
-            CompletableFuture<ProductListDto> productListDtoFuture = CompletableFuture
-                    .allOf(imageDataFutures.toArray(new CompletableFuture[0]))
-                    .thenApplyAsync(v -> {
-                        // 비동기적으로 이미지를 모두 가져왔을 때, 이미지 데이터를 리스트로 모은 후 ProductListDto 생성
-                        List<String> imageDatas = imageDataFutures.stream()
-                                .map(CompletableFuture::join)
-                                .collect(Collectors.toList());
-                        return new ProductListDto(product, imageDatas);
-                    });
-
-            futures.add(productListDtoFuture);
-        }
-
-        // 모든 ProductListDto가 준비될 때까지 기다리기
-        List<ProductListDto> productListDtos = futures.stream()
-                .map(CompletableFuture::join) // 각 future가 완료될 때까지 기다림
-                .collect(Collectors.toList());
-
+        List<ProductListDto> productListDtos = createProductListDtos(products.getContent());
         return new PageImpl<>(productListDtos, pageable, products.getTotalElements());
     }
 
@@ -121,38 +54,7 @@ public class ProductService {
      */
     public Page<ProductListDto> getProducts(ProductSearchCondition condition, Pageable pageable) {
         Page<Product> products = productRepository.findProductsByCategory(condition, pageable);
-
-        List<CompletableFuture<ProductListDto>> futures = new ArrayList<>();
-        for (Product product : products) {
-            List<ProductImage> productImages = product.getProductImages();
-
-            // 이미지 데이터를 비동기적으로 가져오기
-            List<CompletableFuture<String>> imageDataFutures = new ArrayList<>();
-            for (ProductImage productImage : productImages) {
-                CompletableFuture<String> imageDataFuture = productImageService
-                        .getEncodedImageDataAsync(productImage.getImageUrl());
-                imageDataFutures.add(imageDataFuture);
-            }
-
-            // 이미지 데이터가 모두 준비되면 ProductListDto 생성
-            CompletableFuture<ProductListDto> productListDtoFuture = CompletableFuture
-                    .allOf(imageDataFutures.toArray(new CompletableFuture[0]))
-                    .thenApplyAsync(v -> {
-                        // 비동기적으로 이미지를 모두 가져왔을 때, 이미지 데이터를 리스트로 모은 후 ProductListDto 생성
-                        List<String> imageDatas = imageDataFutures.stream()
-                                .map(CompletableFuture::join)
-                                .collect(Collectors.toList());
-                        return new ProductListDto(product, imageDatas);
-                    });
-
-            futures.add(productListDtoFuture);
-        }
-
-        // 모든 ProductListDto가 준비될 때까지 기다리기
-        List<ProductListDto> productListDtos = futures.stream()
-                .map(CompletableFuture::join) // 각 future가 완료될 때까지 기다림
-                .collect(Collectors.toList());
-
+        List<ProductListDto> productListDtos = createProductListDtos(products.getContent());
         return new PageImpl<>(productListDtos, pageable, products.getTotalElements());
     }
 
@@ -163,26 +65,16 @@ public class ProductService {
      */
     public ProductDetailsDto getProduct(Long productId) {
         Product product = productRepository.findProduct(productId).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 상품입니다."));
-
-        List<String> imageUrls = product.getProductImages().stream()
-                .map(ProductImage::getImageUrl)
-                .collect(Collectors.toList());
-
-        List<String> downloadedImageUrls = downloadProductImagesAsync(imageUrls);
-
-        List<AdminProductImageDto> productImageDtos = createProductImageDtos(product, downloadedImageUrls);
-
+        List<ProductImageDto> productImageDtos = productImageService.convertToProductImageDtos(product.getProductImages());
         return new ProductDetailsDto(product, productImageDtos);
     }
 
     public void updateProductsWithNewDiscount(Discount discount) {
         List<Product> products = productRepository.findAll();
-
         for (Product product : products) {
             product.updateDiscount(discount);
         }
     }
-
 
     /**
      * 팝업창에서 상품 검색
@@ -218,68 +110,41 @@ public class ProductService {
                 .collect(Collectors.toList());
     }
 
+
     /**
-     * 상품들 비동기 처리
+     *  상품별 DTO를 병렬로 생성하는 공통 로직
      */
-    private List<ProductListDto> getProductListDto(List<Product> products) {
-        List<CompletableFuture<ProductListDto>> productListDtoFutures = products.stream()
-                .map(product -> processProductAsync(product))
+    private List<ProductListDto> createProductListDtos(List<Product> products) {
+        // 상품별 DTO를 병렬로 생성
+        List<CompletableFuture<ProductListDto>> futures = products.stream()
+                .map(product -> CompletableFuture.supplyAsync(() -> createProductListDto(product), customAsyncExecutor))
                 .collect(Collectors.toList());
 
-        List<ProductListDto> productListDtos = productListDtoFutures.stream()
-                .map(CompletableFuture::join)
-                .collect(Collectors.toList());
-
-        return productListDtos;
-    }
-
-    /**
-     * 상품 비동기 처리
-     */
-    private CompletableFuture<ProductListDto> processProductAsync(Product product) {
-        return CompletableFuture.supplyAsync(() -> {
-            List<String> imageUrls = product.getProductImages().stream()
-                    .map(ProductImage::getImageUrl)
-                    .collect(Collectors.toList());
-
-            //각 상품의 이미지 비동기 다운로드
-            List<String> downloadImageUrls = downloadProductImagesAsync(imageUrls);
-
-            return new ProductListDto(product, downloadImageUrls);
-        });
-    }
-
-    /**
-     * 주어진 상품의 상품 이미지들을 비동기 다운로드
-     */
-    private List<String> downloadProductImagesAsync(List<String> imageUrls) {
-//        List<CompletableFuture<String>> imageUrlFutures = imageUrls.stream()
-//                .map(imageUrl -> CompletableFuture.supplyAsync(() -> productImageService.downloadImage(imageUrl)))
-//                .collect(Collectors.toList());
-        List<CompletableFuture<String>> imageUrlFutures = null;
-        return imageUrlFutures.stream()
+        // 모든 DTO가 준비될 때까지 기다리기
+        return futures.stream()
                 .map(CompletableFuture::join)
                 .collect(Collectors.toList());
     }
 
     /**
-     * AdminProductImageDto 객체 생성
+     * ProductListDto를 생성하는 공통 로직
      */
-    private List<AdminProductImageDto> createProductImageDtos(Product product, List<String> downloadedImageUrls) {
-        return IntStream.range(0, product.getProductImages().size())
-                .mapToObj(index -> {
-                    ProductImage productImage = product.getProductImages().get(index);
-                    String imageUrl = downloadedImageUrls.get(index);  // 비동기 다운로드 후 해당 인덱스의 URL
-                    return new AdminProductImageDto(productImage, imageUrl);
-                })
-                .collect(Collectors.toList());
+    private ProductListDto createProductListDto(Product product) {
+        List<String> imageDatas = getImageData(product.getProductImages());
+        return new ProductListDto(product, imageDatas);
     }
 
     /**
-     * 상품 이미지 다운로드
+     * 비동기적으로 이미지 데이터를 가져오는 공통 로직
      */
-    private String downloadProductImage(String imageUrl) {
-        return null;
-//        return productImageService.downloadImage(imageUrl);
+    private List<String> getImageData(List<ProductImage> productImages) {
+        List<CompletableFuture<String>> imageDataFutures = productImages.stream()
+                .map(productImage -> productImageService.getEncodedImageDataAsync(productImage.getImageUrl()))
+                .collect(Collectors.toList());
+
+        // 모든 이미지 데이터가 준비될 때까지 기다리기
+        return imageDataFutures.stream()
+                .map(CompletableFuture::join)
+                .collect(Collectors.toList());
     }
 }

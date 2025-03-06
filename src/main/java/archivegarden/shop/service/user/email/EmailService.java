@@ -1,4 +1,4 @@
-package archivegarden.shop.service.email;
+package archivegarden.shop.service.user.email;
 
 import archivegarden.shop.entity.Member;
 import archivegarden.shop.exception.NotFoundException;
