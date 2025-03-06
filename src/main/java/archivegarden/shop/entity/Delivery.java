@@ -39,36 +39,6 @@ public class Delivery extends BaseTimeEntity {
     @JoinColumn(name = "member_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Member member;  //다대일 단방향
 
-    //==비즈니스 로직==//
-    /**
-     * 배송지 주소 수정
-     */
-    public void update(EditDeliveryForm form) {
-        this.deliveryName = form.getDeliveryName();
-        this.recipientName = form.getRecipientName();
-        this.address = new Address(form.getZipCode(), form.getBasicAddress(), form.getDetailAddress());
-        this.phonenumber = form.getPhonenumber1() + "-" + form.getPhonenumber2() + "-" + form.getPhonenumber3();
-        this.isDefaultDelivery = form.isDefaultDelivery();
-    }
-
-    /**
-     * 주문서 페이지 팝업창
-     * 배송지 주소 수정
-     */
-    public void updatePopup(EditPopupDeliveryForm form) {
-        this.address.updateDetailAddress(form.getDetailAddress());
-        this.recipientName = form.getRecipientName();
-        this.phonenumber = form.getPhonenumber1() + "-" + form.getPhonenumber2() + "-" + form.getPhonenumber3();
-    }
-
-    /**
-     * 기본 배송지 제거
-     */
-    public void removeDefault() {
-        this.isDefaultDelivery = false;
-    }
-
-    //==생성 메서드==//
     /**
      * 회원가입할 때 호출
      */
@@ -95,5 +65,33 @@ public class Delivery extends BaseTimeEntity {
         delivery.isDefaultDelivery = form.isDefaultDelivery();
         delivery.member = member;
         return delivery;
+    }
+
+    /**
+     * 배송지 주소 수정
+     */
+    public void update(EditDeliveryForm form) {
+        this.deliveryName = form.getDeliveryName();
+        this.recipientName = form.getRecipientName();
+        this.address = new Address(form.getZipCode(), form.getBasicAddress(), form.getDetailAddress());
+        this.phonenumber = form.getPhonenumber1() + "-" + form.getPhonenumber2() + "-" + form.getPhonenumber3();
+        this.isDefaultDelivery = form.isDefaultDelivery();
+    }
+
+    /**
+     * 주문서 페이지 팝업창
+     * 배송지 주소 수정
+     */
+    public void updatePopup(EditPopupDeliveryForm form) {
+        this.address.updateDetailAddress(form.getDetailAddress());
+        this.recipientName = form.getRecipientName();
+        this.phonenumber = form.getPhonenumber1() + "-" + form.getPhonenumber2() + "-" + form.getPhonenumber3();
+    }
+
+    /**
+     * 기본 배송지 제거
+     */
+    public void removeDefault() {
+        this.isDefaultDelivery = false;
     }
 }

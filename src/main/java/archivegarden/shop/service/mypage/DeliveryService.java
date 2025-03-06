@@ -4,7 +4,7 @@ import archivegarden.shop.dto.delivery.*;
 import archivegarden.shop.entity.Delivery;
 import archivegarden.shop.entity.Member;
 import archivegarden.shop.exception.NotFoundException;
-import archivegarden.shop.exception.ajax.AjaxNotFoundException;
+import archivegarden.shop.exception.ajax.AjaxEntityNotFoundException;
 import archivegarden.shop.repository.DeliveryRepository;
 import archivegarden.shop.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -88,11 +88,11 @@ public class DeliveryService {
      * Ajax
      * 배송지 삭제
      *
-     * @throws AjaxNotFoundException
+     * @throws AjaxEntityNotFoundException
      */
     public void deleteDelivery(Long deliveryId) {
         //Delivery 조회
-        Delivery delivery = deliveryRepository.findById(deliveryId).orElseThrow(() -> new AjaxNotFoundException("존재하지 않는 배송지입니다."));
+        Delivery delivery = deliveryRepository.findById(deliveryId).orElseThrow(() -> new AjaxEntityNotFoundException("존재하지 않는 배송지입니다."));
 
         //Delivery 삭제
         deliveryRepository.delete(delivery);

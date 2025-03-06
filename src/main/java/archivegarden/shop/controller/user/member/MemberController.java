@@ -2,7 +2,8 @@ package archivegarden.shop.controller.user.member;
 
 import archivegarden.shop.dto.user.member.JoinMemberForm;
 import archivegarden.shop.dto.user.member.FindIdResultDto;
-import archivegarden.shop.dto.common.JoinCompletionInfoDto;
+import archivegarden.shop.dto.common.JoinSuccessDto;
+import archivegarden.shop.exception.common.DuplicateEntityException;
 import archivegarden.shop.service.user.member.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -41,6 +42,12 @@ public class MemberController {
             return "user/member/join";
         }
 
+        try {
+            memberService.checkMemberDuplicate(form);
+        } catch(DuplicateEntityException e) {
+            return "redirect:/admin/join";
+        }
+
         Long memberId = memberService.join(form);
         session.setAttribute("join:memberId", memberId);
         return "redirect:/member/join/complete";
@@ -58,7 +65,7 @@ public class MemberController {
         }
         session.removeAttribute("join:memberId");
 
-        JoinCompletionInfoDto joinCompletionInfoDto = memberService.joinComplete(memberId);
+        JoinSuccessDto joinCompletionInfoDto = memberService.joinComplete(memberId);
         model.addAttribute("memberInfo", joinCompletionInfoDto);
         return "user/member/join_complete";
     }

@@ -1,18 +1,22 @@
 package archivegarden.shop.service.user.member;
 
-import archivegarden.shop.dto.admin.member.MemberListDto;
-import archivegarden.shop.dto.common.JoinCompletionInfoDto;
-import archivegarden.shop.dto.user.member.*;
+import archivegarden.shop.dto.common.JoinSuccessDto;
+import archivegarden.shop.dto.user.member.FindIdResultDto;
+import archivegarden.shop.dto.user.member.JoinMemberForm;
+import archivegarden.shop.dto.user.member.MemberInfo;
+import archivegarden.shop.dto.user.member.VerificationRequestDto;
 import archivegarden.shop.entity.Delivery;
 import archivegarden.shop.entity.Member;
 import archivegarden.shop.entity.Membership;
 import archivegarden.shop.entity.SavedPointType;
 import archivegarden.shop.exception.NotFoundException;
+import archivegarden.shop.exception.common.DuplicateEntityException;
+import archivegarden.shop.exception.common.EntityNotFoundException;
 import archivegarden.shop.repository.DeliveryRepository;
 import archivegarden.shop.repository.member.MemberRepository;
-import archivegarden.shop.repository.member.MembershipRepository;
-import archivegarden.shop.service.email.EmailService;
+import archivegarden.shop.repository.membership.MembershipRepository;
 import archivegarden.shop.service.point.SavedPointService;
+import archivegarden.shop.service.user.email.EmailService;
 import archivegarden.shop.util.RedisUtil;
 import archivegarden.shop.util.SmsUtil;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +25,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Random;
 
 @Slf4j
@@ -45,39 +48,49 @@ public class MemberServiceImpl implements MemberService {
     @Transactional
     @Override
     public Long join(JoinMemberForm form) {
-        validateDuplicateMember(form);
-
         encodePassword(form);
 
-        Membership membership = membershipRepository.findByLevel("WHITE");
+        Membership membership = membershipRepository.findDefaultLevel();
         Member member = Member.createMember(form, membership);
         memberRepository.save(member);
 
         Delivery delivery = Delivery.createDeliveryWhenJoin(member, form.getZipCode(), form.getBasicAddress(), form.getDetailAddress());
         deliveryRepository.save(delivery);
 
-        emailService.sendValidationRequestEmail(member.getEmail(), member.getCreatedAt());
+        emailService.sendValidationRequestEmail(member.getEmail(), member.getName(), member.getCreatedAt());
 
-        //1000원 회원가입 축하 적립금 지급
-        savedPointService.addPoint(member.getId(), SavedPointType.JOIN, 1000);
+        savedPointService.addPoint(member.getId(), SavedPointType.JOIN, 1000);  //회원가입 축하 적립금 지급
 
         return member.getId();
     }
 
     /**
-     * 회원 가입 완료페이지에서 필요한 정보 조회
+     * 중복 회원 검사
      *
-     * @throws NotFoundException
+     * @throws DuplicateEntityException
      */
     @Override
-    public JoinCompletionInfoDto joinComplete(Long memberId) {
-        Member member = memberRepository.findById(memberId).orElseThrow(() -> new NotFoundException("존재하지 않는 회원입니다."));
-        return new JoinCompletionInfoDto(member.getLoginId(), member.getName(), member.getEmail());
+    public void checkMemberDuplicate(JoinMemberForm form) {
+        String phonenumber = form.getPhonenumber1() + form.getPhonenumber2() + form.getPhonenumber3();
+        memberRepository.findDuplicateMember(form.getLoginId(), phonenumber, form.getEmail())
+                .ifPresent(m -> {
+                    throw new DuplicateEntityException("이미 존재하는 회원입니다.");
+                });
     }
 
     /**
-     * 사용 가능한 아이디 -> true
-     * 이미 존재하는 아이디 -> false
+     * 회원가입 완료 페이지에서 필요한 정보 조회
+     *
+     * @throws EntityNotFoundException
+     */
+    @Override
+    public JoinSuccessDto joinComplete(Long memberId) {
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 회원입니다."));
+        return new JoinSuccessDto(member.getLoginId(), member.getName(), member.getEmail());
+    }
+
+    /**
+     * 로그인 아이디 중복 검사
      */
     @Override
     public boolean isAvailableLoginId(String loginId) {
@@ -85,8 +98,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     /**
-     * 사용 가능한 이메일 -> true
-     * 이미 존재하는 이메일 -> false
+     * 이메일 중복 검사
      */
     @Override
     public boolean isAvailableEmail(String email) {
@@ -94,8 +106,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     /**
-     * 사용 가능한 핸드폰 번호 -> true
-     * 이미 존재하는 핸드폰 번호 -> false
+     * 핸드폰 중복 검사
      */
     @Override
     public boolean isAvailablePhonenumber(String phonenumber) {
@@ -196,30 +207,6 @@ public class MemberServiceImpl implements MemberService {
     public MemberInfo getMemberInfo(Long memberId) {
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new NotFoundException("존재하지 않는 회원입니다."));
         return new MemberInfo(member);
-    }
-
-    /**
-     * 관리자 페이지 홈
-     *
-     * @return
-     */
-    @Override
-    public List<MemberListDto> getLatestJoinMembers() {
-//        memberRepository.findLatestJoinMemberDtos()
-        return null;
-    }
-
-    /**
-     * 중복 회원 검증
-     *
-     * @throws IllegalStateException 이미 존재하는 회원일 경우
-     */
-    private void validateDuplicateMember(JoinMemberForm form) {
-        String phonenumber = form.getPhonenumber1() + form.getPhonenumber2() + form.getPhonenumber3();
-        memberRepository.findDuplicateMember(form.getLoginId(), phonenumber, form.getEmail())
-                .ifPresent(m -> {
-                    throw new IllegalStateException("이미 존재하는 회원입니다.");
-                });
     }
 
     /**

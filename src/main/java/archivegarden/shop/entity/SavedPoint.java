@@ -35,15 +35,8 @@ public class SavedPoint {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
-    private Member member;  // 다대일 양방향
+    private Member member;  //양방향
 
-    //==연관관계 메서드==//
-    private void setMember(Member member) {
-        this.member = member;
-        member.getSavedPoints().add(this);
-    }
-
-    //==생성자 메서드==//
     public static SavedPoint createSavedPoint(int amount, SavedPointType type, Member member) {
         SavedPoint savedPoint = new SavedPoint();
         savedPoint.amount = amount;
@@ -53,5 +46,10 @@ public class SavedPoint {
         savedPoint.expiredAt = savedPoint.createdAt.plusYears(1);
         savedPoint.setMember(member);
         return savedPoint;
+    }
+
+    private void setMember(Member member) {
+        this.member = member;
+        member.getSavedPoints().add(this);
     }
 }

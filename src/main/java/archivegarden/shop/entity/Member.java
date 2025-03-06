@@ -49,7 +49,7 @@ public class Member extends BaseTimeEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "membership_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
-    private Membership membership;  //다대일 단방향
+    private Membership membership;  //단방향
 
     @OneToMany(mappedBy = "member")
     private List<SavedPoint> savedPoints = new ArrayList<>();
@@ -57,22 +57,6 @@ public class Member extends BaseTimeEntity {
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<Wish> wishList = new ArrayList<>();
 
-    //==비즈니스 로직==//
-    /**
-     * 이메일 인증 완료
-     */
-    public void completeEmailVerification() {
-        this.isEmailVerified = true;
-    }
-
-    /**
-     * 비밀번호 변경
-     */
-    public void updatePassword(String password) {
-        this.password = password;
-    }
-
-    //==생성자 메서드==//
     public static Member createMember(JoinMemberForm form, Membership membership) {
         Member member = new Member();
         member.loginId = form.getLoginId();
@@ -86,5 +70,19 @@ public class Member extends BaseTimeEntity {
         member.isEmailVerified = false;
         member.membership = membership;
         return member;
+    }
+
+    /**
+     * 이메일 인증 완료
+     */
+    public void completeEmailVerification() {
+        this.isEmailVerified = true;
+    }
+
+    /**
+     * 비밀번호 변경
+     */
+    public void updatePassword(String password) {
+        this.password = password;
     }
 }

@@ -27,7 +27,7 @@ public class MemberAjaxController {
      */
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/check/loginId")
-    public ResultResponse checkLoginId(@RequestParam(name = "loginId") String loginId) {
+    public ResultResponse checkLoginIdDuplicate(@RequestParam(name = "loginId") String loginId) {
         boolean isAvailable = memberService.isAvailableLoginId(loginId);
         if(isAvailable) {
             return new ResultResponse(HttpStatus.OK.value(), "사용 가능한 아이디입니다.");
@@ -41,7 +41,7 @@ public class MemberAjaxController {
      */
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/check/email")
-    public ResultResponse checkEmail(@RequestParam(name = "email") String email) {
+    public ResultResponse checkEmailDuplicate(@RequestParam(name = "email") String email) {
         boolean isAvailable = memberService.isAvailableEmail(email);
         if(isAvailable) {
             return new ResultResponse(HttpStatus.OK.value(), "사용 가능한 이메일입니다.");
