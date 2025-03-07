@@ -19,11 +19,11 @@ import java.util.List;
 
 import static archivegarden.shop.entity.QNotice.notice;
 
-public class NoticeRepositoryImpl implements NoticeRepositoryCustom {
+public class NoticeRepositoryCustomImpl implements NoticeRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
-    public NoticeRepositoryImpl(EntityManager em) {
+    public NoticeRepositoryCustomImpl(EntityManager em) {
         this.queryFactory = new JPAQueryFactory(em);
     }
 
@@ -53,7 +53,7 @@ public class NoticeRepositoryImpl implements NoticeRepositoryCustom {
     }
 
     @Override
-    public Page<Notice> findAllAdminNotice(AdminSearchCondition form, Pageable pageable) {
+    public Page<Notice> findAllNoticeInAdmin(AdminSearchCondition form, Pageable pageable) {
         List<Notice> content = queryFactory
                 .selectFrom(notice)
                 .where(keywordLike(form.getSearchKey(), form.getKeyword()))

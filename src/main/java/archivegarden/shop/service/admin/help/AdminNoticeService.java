@@ -48,7 +48,7 @@ public class AdminNoticeService {
      */
     @Transactional(readOnly = true)
     public Page<NoticeListDto> getNotices(AdminSearchCondition form, Pageable pageable) {
-        return noticeRepository.findAllAdminNotice(form, pageable).map(NoticeListDto::new);
+        return noticeRepository.findAllNoticeInAdmin(form, pageable).map(NoticeListDto::new);
     }
 
     /**
@@ -73,7 +73,7 @@ public class AdminNoticeService {
     }
 
     /**
-     * 공지사항 단건 삭제
+     * Ajax: 공지사항 단건 삭제
      *
      * @throws AjaxEntityNotFoundException
      */

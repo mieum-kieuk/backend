@@ -23,8 +23,8 @@ public class NoticeController {
      */
     @GetMapping("/{noticeId}")
     public String notice(@PathVariable("noticeId") Long noticeId, Model model) {
-        NoticeDetailsDto noticeDto = noticeService.getNotice(noticeId);
-        model.addAttribute("notice", noticeDto);
+        NoticeDetailsDto noticeDetailsDto = noticeService.getNotice(noticeId);
+        model.addAttribute("notice", noticeDetailsDto);
         return "user/community/notice/notice_details";
     }
 
@@ -34,8 +34,8 @@ public class NoticeController {
     @GetMapping
     public String notices(@RequestParam(name = "page", defaultValue = "1") int page, @ModelAttribute("form") NoticeSearchForm form, Model model) {
         PageRequest pageRequest = PageRequest.of(page - 1, 10);
-        Page<NoticeListDto> noticeDtos = noticeService.getNotices(form, pageRequest);
-        model.addAttribute("notices", noticeDtos);
+        Page<NoticeListDto> noticeListDtos = noticeService.getNotices(form, pageRequest);
+        model.addAttribute("notices", noticeListDtos);
         return "user/community/notice/notice_list";
     }
 }

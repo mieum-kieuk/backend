@@ -10,5 +10,5 @@ public interface NoticeRepositoryCustom {
 
     Page<Notice> findAllNotice(NoticeSearchForm form, Pageable pageable);
 
-    Page<Notice> findAllAdminNotice(AdminSearchCondition form, Pageable pageable);
+    Page<Notice> findAllNoticeInAdmin(AdminSearchCondition form, Pageable pageable);
 }
