@@ -2,7 +2,6 @@ package archivegarden.shop.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -20,16 +19,17 @@ public class Wish {
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
-    private Member member;  //다대일 양방향
+    private Member member;  //양방향
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "product_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
-    private Product product;    //다대일 단방향
+    private Product product;    //단방향
 
-    //==생성자==//
-    @Builder
-    public Wish(Member member, Product product) {
-        this.member = member;
-        this.product = product;
+    public static Wish createWish(Product product, Member member) {
+        Wish wish = new Wish();
+        wish.product = product;
+        wish.member = member;
+        member.getWishList().add(wish);
+        return wish;
     }
 }

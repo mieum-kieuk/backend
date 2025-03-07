@@ -13,50 +13,54 @@
     <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css">
-    <link rel="stylesheet" href="../../static/css/common/comm.css" th:href="@{/css/common/comm.css}"/>
-    <link rel="stylesheet" href="../../static/css/mypage.css" th:href="@{/css/mypage.css}"/>
+    <link rel="stylesheet" href="../../../static/css/common/comm.css" th:href="@{/css/common/comm.css}"/>
+    <link rel="stylesheet" href="../../../static/css/user/mypage.css" th:href="@{/css/user/mypage.css}"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.js"></script>
-    <script src="../../static/js/common/comm.js" th:src="@{/js/common/comm.js}"></script>
-    <script src="../../static/js/user/wish.js" th:src="@{/js/user/wish.js}"></script>
+    <script src="../../../static/js/common/comm.js" th:src="@{/js/common/comm.js}"></script>
+    <script src="../../../static/js/user/wish.js" th:src="@{/js/user/wish.js}"></script>
 </head>
 <body>
 <div class="wrap">
     <div th:replace="~{/layout/header :: header}"></div>
     <div class="mypage" id="mypage">
         <div th:replace="~{layout/menu :: mypage_menu}"></div>
-        <div id="wishList">
+        <div id="wishList" class="mypage_content">
             <div class="wish_wrap wrapper">
                 <h3 class="wish_title">나의 위시리스트</h3>
                 <div class="wish_content">
                     <div class="wish_list">
                         <div class="wish_item" th:each="product : ${products}">
                             <div class="item img">
-                                <a th:href="@{/shop/products/{productId}(productId=${product.productId})}">
-                                    <img th:src="|/productImages/${product.displayImage}|" alt="제품이미지">
+                                <a th:href="@{/products/{productId}(productId=${product.productId})}">
+                                    <img th:src="${product.displayImageData}" alt="제품이미지">
                                 </a>
                             </div>
                             <div class="item info">
                                 <div class="name">
-                                    <a th:href="@{/shop/products/{productId}(productId=${product.productId})}"
-                                       th:text="${product.name}"></a>
+                                    <a th:href="@{/products/{productId}(productId=${product.productId})}" th:text="${product.name}"></a>
                                 </div>
                                 <div class="price">
-                                    <div class="original_price"><span id="productPrice" th:text="${product.price}">3,000원</span>
-                                    </div>
-                                    <div class="sale_price discount_rate" th:if="${product.isDiscounted}">
-                                        [<span th:text="${product.discountPercent}"></span>%] <span id="productDiscountPrice" class="discount_price" th:text="${product.salePrice}">2,700원</span>
-                                    </div>
+                                    <li class="original_price"
+                                        th:classappend="${product.isDiscounted and !product.isSoldOut} ? 'line_through'" th:text="${product.price}">
+                                    </li>
+                                    <li th:if="${product.isDiscounted} and !${product.isSoldOut}" class="discount">
+                                        <span class="discount_rate">[[${product.discountPercent}]]</span>
+                                        <span class="discounted_price" th:text="${product.salePrice}"></span>
+                                    </li>
+                                    <li th:if="${product.isSoldOut}" class="soldout">
+                                        <span class="sold_out">sold out</span>
+                                    </li>
                                 </div>
                             </div>
                             <div class="btn_wrap">
-                                <button type="button" id="deleteBtn" class="btn1" th:onclick="|deleteOk(${product.wishId})|">삭제</button>
-                                <button type="button" id="cartBtn" class="btn1" th:unless="${product.isSoldOut}" th:onclick="|addCart(${product.productId})|">장바구니에 담기</button>
+                                <button type="button" class="btn1 deleteBtn" th:data-id="${product.productId}">삭제</button>
+                                <button type="button" class="btn1 cartBtn" th:data-id="${!product.isSoldOut} ? ${product.productId} : ''">장바구니에 담기</button>
                             </div>
                         </div>
                         <div class="wish_item" th:if="${products.content.size() == 0}">
                             <div id="noDataMessage">
-                                <span>관심있는 상품이 없습니다.</span>
+                                <span>관심 상품이 없습니다.</span>
                             </div>
                         </div>
                     </div>
@@ -66,17 +70,17 @@
                 <ul>
                     <li>
                         <a href="./wish_list.html" th:href="@{/mypage/wish}" class="prev_first">
-                            <span class="material-symbols-outlined">navigate_before</span>
+                            <span class="material-symbols-outlined">keyboard_arrow_left</span>
                         </a>
                     </li>
                     <li th:each="page : ${#numbers.sequence(1, products.totalPages)}">
                         <a href="./wish_list.html" th:href="@{/mypage/wish(page=${page})}"
                            class="page" th:classappend="${page == products.number + 1} ? 'active'"
-                           th:text="${page}">1</a>
+                           th:text="${page}"></a>
                     </li>
                     <li>
                         <a href="./wish_list.html" th:href="@{/mypage/wish(page=${products.totalPages})}" class="next_last">
-                            <span class="material-symbols-outlined">navigate_next</span>
+                            <span class="material-symbols-outlined">keyboard_arrow_right</span>
                         </a>
                     </li>
                 </ul>

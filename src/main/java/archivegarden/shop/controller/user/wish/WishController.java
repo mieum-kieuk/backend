@@ -1,6 +1,6 @@
 package archivegarden.shop.controller.user.wish;
 
-import archivegarden.shop.dto.mypage.MyWishDto;
+import archivegarden.shop.dto.user.wish.MyWishDto;
 import archivegarden.shop.entity.Member;
 import archivegarden.shop.service.product.WishService;
 import archivegarden.shop.web.annotation.CurrentUser;
@@ -21,18 +21,15 @@ public class WishController {
 
     private final WishService wishService;
 
+    /**
+     * 위시 상품 목록을 조회하는 요청을 처리하는 메서드
+     */
     @GetMapping("/mypage/wish")
     @PreAuthorize("hasRole('ROLE_USER') and #loginMember.loginId == principal.username")
     public String wishlist(@RequestParam(name = "page", defaultValue = "1") int page, @CurrentUser Member loginMember, Model model) {
-        PageRequest pageRequest = PageRequest.of(page - 1, 10, Sort.Direction.ASC, "id");
+        PageRequest pageRequest = PageRequest.of(page - 1, 10, Sort.Direction.DESC, "createdAt");
         Page<MyWishDto> wishlist = wishService.getWishList(loginMember.getId(), pageRequest);
         model.addAttribute("products", wishlist);
-        return "mypage/wish_list";
-    }
-
-    @GetMapping("/mypage/wish/{wishId}/delete")
-    public String deleteWish(@PathVariable("wishId") Long wishId) {
-        wishService.removeById(wishId);
-        return "redirect:/mypage/wish";
+        return "user/mypage/wish_list";
     }
 }

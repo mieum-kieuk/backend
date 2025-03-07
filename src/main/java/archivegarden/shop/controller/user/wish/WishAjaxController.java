@@ -20,7 +20,7 @@ public class WishAjaxController {
      */
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("#loginMember.loginId == principal.username")
-    @PostMapping("/add")
+    @PostMapping
     public void addWish(@RequestParam("productId") Long productId, @CurrentUser Member loginMember) {
         wishService.add(productId, loginMember.getId());
     }
@@ -30,7 +30,7 @@ public class WishAjaxController {
      */
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("#loginMember.loginId == principal.username")
-    @PostMapping("/remove")
+    @DeleteMapping
     public void removeWish(@RequestParam("productId") Long productId, @CurrentUser Member loginMember) {
         wishService.remove(productId, loginMember.getId());
     }

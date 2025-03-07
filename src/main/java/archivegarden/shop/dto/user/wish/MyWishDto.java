@@ -1,4 +1,4 @@
-package archivegarden.shop.dto.mypage;
+package archivegarden.shop.dto.user.wish;
 
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
@@ -10,25 +10,23 @@ import java.text.DecimalFormat;
 @Setter
 public class MyWishDto {
 
-    Long wishId;
-    Long productId;
-    String name;
-    String price;
-    boolean isDiscounted;
-    Integer discountPercent;
-    String salePrice;
-    String displayImage;
-    boolean isSoldOut;
+    private Long productId;
+    private String name;
+    private String price;
+    private boolean isDiscounted;
+    private String discountPercent;
+    private String salePrice;
+    private boolean isSoldOut;
+    private String displayImageData;
 
     @QueryProjection
-    public MyWishDto(Long wishId, Long productId, String name, int price, int stockQuantity, Integer discountPercent, String displayImage) {
-        this.wishId = wishId;
+    public MyWishDto(Long productId, String name, int price, int stockQuantity, Integer discountPercent, String displayImageData) {
         this.productId = productId;
         this.name = name;
         this.price = new DecimalFormat("###.###원").format(price);
-        this.discountPercent = discountPercent;
         if(discountPercent != null) {
             this.isDiscounted = true;
+            this.discountPercent = discountPercent + "%";
             int discountAmount = price * discountPercent / 100;
             this.salePrice = new DecimalFormat("###.###원").format(price - discountAmount);
         } else {
@@ -39,6 +37,6 @@ public class MyWishDto {
             this.isSoldOut = true;
         }
 
-        this.displayImage = displayImage;
+        this.displayImageData = displayImageData;
     }
 }

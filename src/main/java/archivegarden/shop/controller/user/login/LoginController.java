@@ -1,4 +1,4 @@
-package archivegarden.shop.controller;
+package archivegarden.shop.controller.user.login;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

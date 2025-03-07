@@ -1,6 +1,6 @@
 package archivegarden.shop.repository.wish;
 
-import archivegarden.shop.dto.mypage.MyWishDto;
+import archivegarden.shop.dto.user.wish.MyWishDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
