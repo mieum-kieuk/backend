@@ -24,7 +24,7 @@
 <body>
 <div class="admin_wrap mh100">
     <div th:replace="~{/layout/menu :: admin_menu}"></div>
-    <div id="admin">
+    <div class="admins_wrap">
         <div class="content">
             <h2 class="content_tit">공지사항</h2>
             <div class="notice_wrap details">
@@ -43,8 +43,7 @@
                 <div class="btn_wrap details right">
                     <button type="button" class="btn1" onclick="location.href='./edit_notice.html'"
                             th:onclick="|location.href='@{/admin/notice/{noticeId}/edit(noticeId=${notice.id})}'|">수정</button>
-                    <button type="button" class="btn1" onclick="location.href='./notice_list.html'"
-                            th:onclick="|deleteNotice(${notice.id})|">삭제</button>
+                    <button type="button" class="btn1 delete_btn" th:data-id="${notice.id}">삭제</button>
                     <button type="button" class="btn1" onclick="location.href='./notice_list.html'"
                             th:onclick="|location.href='@{/admin/notice}'|">목록</button>
                 </div>

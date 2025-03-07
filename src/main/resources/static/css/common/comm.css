@@ -172,6 +172,7 @@ input:-webkit-autofill:active {
   font-family: 'Material Symbols Outlined';
   font-weight: 300;
   line-height: 25px;
+  font-size: 20px;
 }
 /* mobile */
 body {
@@ -466,6 +467,9 @@ legend {
 }
 .wrapper {
   flex: 1;
+}
+#content {
+  height: auto;
 }
 #main {
   max-width: 2800px;
@@ -805,7 +809,7 @@ legend {
   cursor: pointer;
 }
 .pagination li a.selected {
-  background-color: #000000; /* 선택된 페이지네이션의 배경색 */
+  background-color: #666666; /* 선택된 페이지네이션의 배경색 */
   color: #fff; /* 선택된 페이지네이션의 글꼴 색상 */
 }
 .pagination li a.disabled {

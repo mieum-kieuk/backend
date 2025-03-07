@@ -903,12 +903,8 @@ th {
     max-width: none;
     min-height: 500px;
 }
-#admin #noticeList th, #admin #noticeList td {
-    text-align: center;
-}
-
-#admin #noticeList .title span {
-    text-align: left;
+.admin_wrap .notice_wrap.details {
+    padding-bottom: 0;
 }
 .admin_wrap .notice_wrap .btn_wrap {
     margin-bottom: 10px;

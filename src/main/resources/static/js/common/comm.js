@@ -30,6 +30,10 @@ $(function () {
 })
 $(document).ready(function() {
 
+    const wrapper = $('.wrapper');
+    const width = $(window).innerWidth() - 490;
+    wrapper.css('min-width', width + 'px');
+
     $(window).on('scroll', function() {
 
         if ($(this).scrollTop() > 80) {

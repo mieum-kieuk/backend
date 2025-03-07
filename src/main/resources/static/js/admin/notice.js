@@ -1,4 +1,4 @@
-//유효성 검사
+// 유효성 검사
 function validateBeforeSubmit() {
     let titleValue = $('#title').val().trim();
     let contentValue = $('#content').val().trim();
@@ -41,8 +41,10 @@ function validateBeforeSubmit() {
     return true;
 }
 
-//공지사항 삭제
-function deleteNotice(noticeId) {
+// 공지사항 삭제
+$('.delete_btn').on('click', function () {
+
+    let noticeId = $(this).data('id');
 
     let csrfHeader = $("meta[name='_csrf_header']").attr("content");
     let csrfToken = $("meta[name='_csrf']").attr("content");
@@ -90,4 +92,4 @@ function deleteNotice(noticeId) {
             });
         }
     });
-}
+});
