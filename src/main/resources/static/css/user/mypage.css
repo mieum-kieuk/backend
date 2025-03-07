@@ -24,6 +24,7 @@
     background: #ffffff;
     border-radius: 20px;
     font-size: 18px;
+    white-space: nowrap;
 }
 
 .mypage_content {
@@ -572,6 +573,7 @@ h3 {
     align-items: center;
     width: 100%;
     border-bottom: 1px solid #999;
+    white-space: nowrap;
 }
 
 .delivery_wrap .item {
@@ -792,7 +794,12 @@ h3 {
     border-right: none;
     border-left: none;
 }
-
+.wish_item .item_link {
+    display: flex;
+    width: 100%;
+    min-width: 450px;
+    cursor: pointer;
+}
 .wish_wrap .item {
     display: flex;
     justify-content: center;
@@ -804,46 +811,59 @@ h3 {
     display: block;
     width: 80px;
     height: 80px;
+    object-fit: contain;
 }
 
 .wish_wrap .info {
-    display: inline-block;
+    display: flex;
     width: 100%;
     text-align: left;
+    white-space: nowrap;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: column;
 }
 
 .wish_wrap .wish_item .info {
     text-align: left;
 }
-
 .wish_item .info .name {
     margin-bottom: 10px;
     font-size: 16px;
 }
-
 .wish_item .info .remove_btn {
     font-size: 12px;
     color: #999;
 }
-
 .wish_item .btn_wrap {
     display: flex;
     gap: 10px;
 }
-
 .wish_item .btn_wrap .btn1 {
     width: 120px;
 }
-
-.wish_item .btn_wrap #deleteBtn {
-    width: 60px;
+.wish_item .btn_wrap .cartBtn.disabled {
+    cursor: default;
+    border: 1px solid #999;
+    color: #999;
 }
-
 .wish_wrap .price {
     display: inline-block;
     width: 20%;
 }
-
+.wish_wrap .price .line_through {
+    text-decoration: line-through;
+    color: #666;
+    font-size: 16px;
+}
+.wish_wrap .price .discount .discount_rate {
+    color: #d94747;
+    margin-right: 3px;
+}
+.wish_wrap .price .soldout .sold_out{
+    color: #d94747;
+    font-size: 16px;
+}
 .wish_foot .btn_wrap {
     display: flex;
     justify-content: flex-end;
