@@ -2,11 +2,13 @@ package archivegarden.shop.service.order;
 
 import archivegarden.shop.dto.ResultResponse;
 import archivegarden.shop.dto.order.CartListDto;
+import archivegarden.shop.dto.user.cart.CartResultResponse;
 import archivegarden.shop.entity.Cart;
 import archivegarden.shop.entity.Member;
 import archivegarden.shop.entity.Product;
 import archivegarden.shop.exception.ajax.AjaxEntityNotFoundException;
 import archivegarden.shop.exception.ajax.NotEnoughStockAjaxException;
+import archivegarden.shop.exception.common.EntityNotFoundException;
 import archivegarden.shop.repository.cart.CartRepository;
 import archivegarden.shop.repository.member.MemberRepository;
 import archivegarden.shop.repository.product.ProductRepository;
@@ -48,7 +50,7 @@ public class CartService {
      *
      * @throws AjaxEntityNotFoundException
      */
-    public ResultResponse addCart(int count, Long memberId, Long productId) {
+    public CartResultResponse addCart(int count, Long memberId, Long productId) {
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new AjaxEntityNotFoundException("존재하지 않는 회원입니다."));
         Product product = productRepository.findById(productId).orElseThrow(() -> new AjaxEntityNotFoundException("존재하지 않는 상품입니다.."));
         Cart cart = cartRepository.findByMemberAndProduct(member, product);
@@ -59,10 +61,10 @@ public class CartService {
                     .product(product)
                     .build();
             cartRepository.save(cart);
-            return new ResultResponse(HttpStatus.OK.value(), "장바구니에 상품이 담겼습니다.");
+            return new CartResultResponse(HttpStatus.OK.value(), "장바구니에 상품이 담겼습니다.");
         } else {
             cart.updateCount(count);
-            return new ResultResponse(HttpStatus.OK.value(), "장바구니에 상품이 담겼습니다.\n이미 담긴 상품의 수량을 추가했습니다.");
+            return new CartResultResponse(HttpStatus.OK.value(), "장바구니에 상품이 담겼습니다.\n이미 담긴 상품의 수량을 추가했습니다.");
         }
     }
 
@@ -112,6 +114,15 @@ public class CartService {
             Product product = productRepository.findById(productId).orElseThrow(() -> new AjaxEntityNotFoundException("존재하지 않는 상품입니다."));
             cartRepository.deleteByMemberAndProduct(loginMember, product);
         });
+    }
+
+    /**
+     * 카트에 담긴 상품 개수<br>
+     * 로그인 한 경우 AuthenticationSuccessHandler 에서 호출
+     */
+    public int getCartItemCount(String loginId) {
+        Member member = memberRepository.findByLoginId(loginId).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 회원입니다."));
+        return cartRepository.countByMember(member);
     }
 
     /**

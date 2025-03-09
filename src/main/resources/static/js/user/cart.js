@@ -314,7 +314,7 @@ function deleteProducts() {
         return false;
     } else {
         Swal.fire({
-            text: checkboxes.length == 1 ? '선택하신 상품을 삭제하시겠습니까?' : checkboxes.length + '개의 상품을 삭제하시겠습니까?',
+            text: checkboxes.length === 1 ? '선택하신 상품을 삭제하시겠습니까?' : checkboxes.length + '개의 상품을 삭제하시겠습니까?',
             showCancelButton: true,
             cancelButtonText: '아니요',
             confirmButtonText: '예',
@@ -323,15 +323,10 @@ function deleteProducts() {
             buttonsStyling: false,
         }).then((result) => {
             if (result.isConfirmed) {
-                if(checkboxes.length == 1) {
-                    let productId = checkboxes[v].id.split('checkbox')[1]
+                checkboxes.each(function () {
+                    let productId = $(this).attr('id').split('checkbox')[1];
                     productIds.push(productId);
-                } else {
-                    checkboxes.each(function (v) {
-                        let productId = checkboxes[v].id.split('checkbox')[1];
-                        productIds.push(productId);
-                    });
-                }
+                });
 
                 $.ajax({
                     type: 'DELETE',

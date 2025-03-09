@@ -164,6 +164,7 @@ $('#CartBtn').click(function () {
             xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
         },
         success: function (result) {
+            $('#cartItemCount').text(result.cartItemCount);
             Swal.fire({
                 html: result.message.replace('\n', '<br>'),
                 showConfirmButton: true,
@@ -173,7 +174,6 @@ $('#CartBtn').click(function () {
             });
         },
         error: function(xhr) {
-            console.log(xhr.status);
             if(xhr.status == 401) {
                 window.location.href = '/login';
             } else {

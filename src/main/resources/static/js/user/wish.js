@@ -134,7 +134,8 @@ function addCart(productId) {
             xhr.setRequestHeader(csrfHeader, csrfToken);
             xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
         },
-        success: function () {
+        success: function (result) {
+            $('#cartItemCount').text(result.cartItemCount);
             Swal.fire({
                 text: '장바구니에 상품이 담겼습니다.',
                 showConfirmButton: true,

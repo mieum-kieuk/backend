@@ -23,22 +23,20 @@ public class Cart {
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id", foreignKey = @ForeignKey(NO_CONSTRAINT))
-    private Member member;  //다대일 단방향
+    private Member member;  //단방향
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "product_id", foreignKey = @ForeignKey(NO_CONSTRAINT))
-    private Product product;    //다대일 단방향
+    private Product product;    //단방향
 
-    //==비즈니스 로직==//
-    public void updateCount(int count) {
-        this.count += count;
-    }
-
-    //==생성자==//
     @Builder
     public Cart(int count, Member member, Product product) {
         this.count = count;
         this.member = member;
         this.product = product;
+    }
+
+    public void updateCount(int count) {
+        this.count += count;
     }
 }

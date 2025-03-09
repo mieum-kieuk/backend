@@ -69,7 +69,7 @@
             </div>
             <div class="cart">
                 <a sec:authorize="isAnonymous()" href="../user/order/cart.html" th:href="@{/cart}" id="cartLink">Cart</a>
-                <a sec:authorize="isAuthenticated()" href="../user/order/cart.html" th:href="@{/cart}" id="cartLink">Cart(0)</a>
+                <a sec:authorize="isAuthenticated()" href="../user/order/cart.html" th:href="@{/cart}" id="cartLink">Cart(<span id="cartItemCount" th:text="${session.cartItemCount}"></span>)</a>
             </div>
         </div>
     </nav>
