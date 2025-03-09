@@ -59,10 +59,10 @@ public class CartService {
                     .product(product)
                     .build();
             cartRepository.save(cart);
-            return new ResultResponse(HttpStatus.OK.value(), "장바구니에 상품을 담았습니다.");
+            return new ResultResponse(HttpStatus.OK.value(), "장바구니에 상품이 담겼습니다.");
         } else {
             cart.updateCount(count);
-            return new ResultResponse(HttpStatus.OK.value(), "장바구니에 상품을 담았습니다.\n이미 담은 상품의 수량을 추가했습니다.");
+            return new ResultResponse(HttpStatus.OK.value(), "장바구니에 상품이 담겼습니다.\n이미 담긴 상품의 수량을 추가했습니다.");
         }
     }
 

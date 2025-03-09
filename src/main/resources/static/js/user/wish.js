@@ -1,7 +1,13 @@
 $(document).ready(function () {
+
     $('.deleteBtn').on('click', function () {
         let productId = $(this).data('id');
         deleteProduct(productId);
+    });
+
+    $('.cartBtn').on('click', function () {
+        let productId = $(this).data('id');
+        addCart(productId);
     });
 });
 
@@ -117,26 +123,34 @@ function deleteProduct(productId) {
 
 function addCart(productId) {
 
+    let csrfToken = $("meta[name='_csrf']").attr("content");
+    let csrfHeader = $("meta[name='_csrf_header']").attr("content");
+
     $.ajax({
         type: 'POST',
-        url: '/api/cart/add',
-        data: {productId: productId, count: 1},
+        url: '/ajax/cart/add',
+        data: {'productId': productId, 'count': 1},
         beforeSend: function (xhr) {
             xhr.setRequestHeader(csrfHeader, csrfToken);
             xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
         },
-        success: function (message) {
+        success: function () {
             Swal.fire({
-                text: message,
+                text: '장바구니에 상품이 담겼습니다.',
                 showConfirmButton: true,
                 confirmButtonText: '확인',
                 customClass: mySwal,
                 buttonsStyling: false
             });
-
         },
         error: function () {
-            window.location.href = '/login';
+            Swal.fire({
+                html: '장바구니에 삼품을 담는 중 오류가 발생했습니다.<br>다시 시도해 주세요.',
+                showConfirmButton: true,
+                confirmButtonText: '확인',
+                customClass: mySwal,
+                buttonsStyling: false
+            });
         }
     })
 };

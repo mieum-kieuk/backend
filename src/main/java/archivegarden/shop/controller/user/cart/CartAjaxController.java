@@ -21,7 +21,6 @@ public class CartAjaxController {
     /**
      * 상품 상세페이지에서 상품을 장바구니에 담는 요청을 처리하는 메서드
      */
-    @ResponseStatus(HttpStatus.OK)
     @PostMapping("/add")
     public ResultResponse addCart(@RequestParam(name = "productId") Long productId, @RequestParam(name = "count") int count, @CurrentUser Member loginMember) {
         return cartService.addCart(count, loginMember.getId(), productId);
@@ -30,7 +29,6 @@ public class CartAjaxController {
     /**
      * 카트에서 상품 1개 수량 증가 요청을 처리하는 메서드
      */
-    @ResponseStatus(HttpStatus.OK)
     @PostMapping("/increase")
     @PreAuthorize("#loginMember.loginId == principal.username")
     public ResultResponse increaseCount(@RequestParam("productId") Long productId, @CurrentUser Member loginMember) {
@@ -40,7 +38,6 @@ public class CartAjaxController {
     /**
      * 카트에서 상품 1개 수량 감소 요청을 처리하는 메서드
      */
-    @ResponseStatus(HttpStatus.OK)
     @PostMapping("/decrease")
     @PreAuthorize("#loginMember.loginId == principal.username")
     public ResultResponse decreaseCount(@RequestParam("productId") Long productId, @CurrentUser Member loginMember) {
@@ -50,7 +47,6 @@ public class CartAjaxController {
     /**
      * 카트에 담긴 상품 삭제 요청을 처리하는 메서드
      */
-    @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("#loginMember.loginId == principal.username")
     @DeleteMapping
     public ResultResponse deleteCarts(@RequestBody List<Long> productIds, @CurrentUser Member loginMember) {
