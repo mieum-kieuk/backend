@@ -1,4 +1,4 @@
-package archivegarden.shop.repository.order;
+package archivegarden.shop.repository.cart;
 
 import archivegarden.shop.entity.Cart;
 import archivegarden.shop.entity.Member;
@@ -12,10 +12,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface CartRepository extends JpaRepository<Cart, Long> {
-
-    @Query("select c from Cart c join fetch c.product where c.member = :member")
-    List<Cart> findAll(@Param("member") Member member);
+public interface CartRepository extends JpaRepository<Cart, Long>, CartRepositoryCustom {
 
     Cart findByMemberAndProduct(Member member, Product product);
 

@@ -1,8 +1,7 @@
 package archivegarden.shop.dto.order;
 
 import archivegarden.shop.entity.Discount;
-import archivegarden.shop.entity.ImageType;
-import archivegarden.shop.entity.Product;
+import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,37 +11,37 @@ import java.text.DecimalFormat;
 @Setter
 public class CartListDto {
 
-    private Long id;    //productId
+    private Long id;
     private String name;
-    private int count;
-    private String displayImageUrl;
     private String price;
+    private int count;
+    private String displayImageData;
     private boolean isDiscounted;
     private boolean isSoldOut;
     private int discountPercent;
     private String salePrice;
     private String totalPrice;
 
-    public CartListDto(Product product, int count, String displayImageUrl) {
-        this.id = product.getId();
-        this.name = product.getName();
+    @QueryProjection
+    public CartListDto(Long productId, String name, int price, int count, String displayImageData, Discount discount, int stockQuantity) {
+        this.id = productId;
+        this.name = name;
         this.count = count;
-        this.displayImageUrl = displayImageUrl;
-        this.price = new DecimalFormat("###,###원").format(product.getPrice());
+        this.displayImageData = displayImageData;
+        this.price = new DecimalFormat("###,###원").format(price);
 
-        Discount discount = product.getDiscount();
         if (discount == null) { //할인 중인 상품 X
             this.salePrice = this.price;
-            this.totalPrice = new DecimalFormat("###,###원").format(product.getPrice() * count);
+            this.totalPrice = new DecimalFormat("###,###원").format(price * count);
         } else { //할인 중인 상품 O
             this.isDiscounted = Boolean.TRUE;
             this.discountPercent = discount.getDiscountPercent();
-            int discountAmount = product.getPrice() * discountPercent / 100;
-            this.salePrice = new DecimalFormat("###,###원").format(product.getPrice() - discountAmount);
-            this.totalPrice= new DecimalFormat("###,###원").format((product.getPrice() - discountAmount) * count);
+            int discountAmount = price * discountPercent / 100;
+            this.salePrice = new DecimalFormat("###,###원").format(price - discountAmount);
+            this.totalPrice = new DecimalFormat("###,###원").format((price - discountAmount) * count);
         }
 
-        if (product.getStockQuantity() <= 0) {
+        if (stockQuantity <= 0) {
             this.isSoldOut = Boolean.TRUE;
         }
     }

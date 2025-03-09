@@ -2,13 +2,15 @@ package archivegarden.shop.service.order;
 
 import archivegarden.shop.dto.ResultResponse;
 import archivegarden.shop.dto.order.CartListDto;
-import archivegarden.shop.entity.*;
-import archivegarden.shop.exception.ajax.AjaxNotFoundException;
+import archivegarden.shop.entity.Cart;
+import archivegarden.shop.entity.Member;
+import archivegarden.shop.entity.Product;
+import archivegarden.shop.exception.ajax.AjaxEntityNotFoundException;
 import archivegarden.shop.exception.ajax.NotEnoughStockAjaxException;
+import archivegarden.shop.repository.cart.CartRepository;
 import archivegarden.shop.repository.member.MemberRepository;
-import archivegarden.shop.repository.order.CartRepository;
 import archivegarden.shop.repository.product.ProductRepository;
-import archivegarden.shop.service.upload.ProductImageService;
+import archivegarden.shop.service.user.product.product.ProductImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -31,29 +33,25 @@ public class CartService {
      * 장바구니 조회
      */
     @Transactional(readOnly = true)
-    public List<CartListDto> getCart(Member member) {
-        return cartRepository.findAll(member)
+    public List<CartListDto> getCarts(Long memberId) {
+        return cartRepository.findAllProducts(memberId)
                 .stream()
                 .map(c -> {
-                    String displayImageUrl = downloadProductDisplayImage(c.getProduct());
-                    return new CartListDto(c.getProduct(), c.getCount(), displayImageUrl);
-                })
-                .collect(Collectors.toList());
+                    String encodedImageData = productImageService.getEncodedImageData(c.getDisplayImageData());
+                    c.setDisplayImageData(encodedImageData);
+                    return c;
+                }).collect(Collectors.toList());
     }
 
     /**
      * 장바구니에 상품 추가
      *
-     * @throws AjaxNotFoundException
+     * @throws AjaxEntityNotFoundException
      */
     public ResultResponse addCart(int count, Long memberId, Long productId) {
-        Member member = memberRepository.findById(memberId).orElseThrow(() -> new AjaxNotFoundException("존재하지 않는 회원입니다."));
-        Product product = productRepository.findById(productId).orElseThrow(() -> new AjaxNotFoundException("존재하지 않는 상품입니다.."));
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new AjaxEntityNotFoundException("존재하지 않는 회원입니다."));
+        Product product = productRepository.findById(productId).orElseThrow(() -> new AjaxEntityNotFoundException("존재하지 않는 상품입니다.."));
         Cart cart = cartRepository.findByMemberAndProduct(member, product);
-        if(product.getStockQuantity() < count) {
-            return new ResultResponse(HttpStatus.BAD_REQUEST.value(), "재고가 부족합니다.");
-        }
-
         if(cart == null) {
             cart = Cart.builder()
                     .count(count)
@@ -71,10 +69,10 @@ public class CartService {
     /**
      * 장바구니에 담긴 상품 수량 1개 증가
      *
-     * @throws AjaxNotFoundException
+     * @throws AjaxEntityNotFoundException
      */
     public ResultResponse increaseCount(Long productId, Member loginMember) {
-        Product product = productRepository.findById(productId).orElseThrow(() -> new AjaxNotFoundException("존재하지 않는 상품입니다."));
+        Product product = productRepository.findById(productId).orElseThrow(() -> new AjaxEntityNotFoundException("존재하지 않는 상품입니다."));
         Cart cart = cartRepository.findByMemberAndProduct(loginMember, product);
         if(cart == null) {
             return new ResultResponse(HttpStatus.BAD_REQUEST.value(), "장바구니에 존재하지 않는 상품입니다.\n다시 시도해 주세요.");
@@ -91,10 +89,10 @@ public class CartService {
     /**
      * 장바구니에 담긴 상품 수량 1개 감소
      *
-     * @throws AjaxNotFoundException
+     * @throws AjaxEntityNotFoundException
      */
     public ResultResponse decreaseCount(Long productId, Member loginMember) {
-        Product product = productRepository.findById(productId).orElseThrow(() -> new AjaxNotFoundException("존재하지 않는 상품입니다."));
+        Product product = productRepository.findById(productId).orElseThrow(() -> new AjaxEntityNotFoundException("존재하지 않는 상품입니다."));
         Cart cart = cartRepository.findByMemberAndProduct(loginMember, product);
         if(cart == null) {
             return new ResultResponse(HttpStatus.BAD_REQUEST.value(), "장바구니에 존재하지 않는 상품입니다.\n다시 시도해 주세요.");
@@ -107,11 +105,11 @@ public class CartService {
     /**
      * 장바구니에 담긴 상품 삭제
      *
-     * @throws AjaxNotFoundException
+     * @throws AjaxEntityNotFoundException
      */
     public void deleteCarts(List<Long> productIds, Member loginMember) {
         productIds.stream().forEach(productId -> {
-            Product product = productRepository.findById(productId).orElseThrow(() -> new AjaxNotFoundException("존재하지 않는 상품입니다."));
+            Product product = productRepository.findById(productId).orElseThrow(() -> new AjaxEntityNotFoundException("존재하지 않는 상품입니다."));
             cartRepository.deleteByMemberAndProduct(loginMember, product);
         });
     }
@@ -119,31 +117,15 @@ public class CartService {
     /**
      *  재고 확인
      *
-     *  @throws AjaxNotFoundException
+     *  @throws AjaxEntityNotFoundException
      */
     public void validateStockQuantity(List<Long> productIds, Member loginMember) {
         for (Long productId : productIds) {
-            //Product 조회
-            Product product = productRepository.findById(productId).orElseThrow(() -> new AjaxNotFoundException("존재하지 않는 상품입니다."));
-
-            //Cart 조회
+            Product product = productRepository.findById(productId).orElseThrow(() -> new AjaxEntityNotFoundException("존재하지 않는 상품입니다."));
             Cart cart = cartRepository.findByMemberAndProduct(loginMember, product);
             if(cart.getCount() > product.getStockQuantity()) {
                 throw new NotEnoughStockAjaxException("[" + product.getName() + "] 상품의 재고가 부족합니다.");
             }
         }
-    }
-
-    /**
-     * 파이어베이스 서버에서 파일 조회
-     *
-     * @throws
-     */
-    private String downloadProductDisplayImage(Product product) {
-        ProductImage displayImage = product.getProductImages().stream()
-                .filter(productImage -> productImage.getImageType().equals(ImageType.DISPLAY))
-                .findFirst().get();
-
-        return productImageService.downloadImage(displayImage.getImageUrl());
     }
 }

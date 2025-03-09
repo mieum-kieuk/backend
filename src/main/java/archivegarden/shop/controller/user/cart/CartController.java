@@ -20,10 +20,13 @@ public class CartController {
 
     private final CartService cartService;
 
+    /**
+     * 카트 목록을 조회하는 요청을 처리하는 메서드
+     */
     @GetMapping
     @PreAuthorize("#loginMember.loginId == principal.username")
     public String cart(@CurrentUser Member loginMember, Model model) {
-        List<CartListDto> products = cartService.getCart(loginMember);
+        List<CartListDto> products = cartService.getCarts(loginMember.getId());
         model.addAttribute("products", products);
         return "user/order/cart";
     }
