@@ -118,7 +118,6 @@ public class CartService {
 
     /**
      * 카트에 담긴 상품 개수<br>
-     * 로그인 한 경우 AuthenticationSuccessHandler 에서 호출
      */
     public int getCartItemCount(String loginId) {
         Member member = memberRepository.findByLoginId(loginId).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 회원입니다."));
