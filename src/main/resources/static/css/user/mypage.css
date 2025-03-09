@@ -854,7 +854,7 @@ h3 {
 .wish_wrap .price .line_through {
     text-decoration: line-through;
     color: #666;
-    font-size: 16px;
+    font-size: 14px;
 }
 .wish_wrap .price .discount .discount_rate {
     color: #d94747;

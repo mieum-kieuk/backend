@@ -55,12 +55,12 @@
                             <div class="item info">
                                 <div class="name">
                                     <a th:href="@{/products/{productId}(productId=${product.id})}"
-                                       th:text="${product.name}">Gzy</a>
+                                       th:text="${product.name}"></a>
                                 </div>
                                 <div class="price">
-                                    <div class="original_price"><span id="productPrice" th:text="${product.price}"></span></div>
-                                    <div  th:if="${product.isDiscounted}">
-                                        <div class="sale_price discount_rate">[<span th:text="${product.discountPercent}">10</span>%] <span class="discount_price" id="productDiscountPrice" th:text="${product.salePrice}"></span></div>
+                                    <div class="original_price" th:classappend="${product.isDiscounted() ? 'line_through' : ''}"><span id="productPrice" th:text="${product.price}"></span></div>
+                                    <div th:if="${product.isDiscounted}">
+                                        <div class="sale_price discount_rate">[<span th:text="${product.discountPercent}"></span>%] <span class="discount_price" id="productDiscountPrice" th:text="${product.salePrice}"></span></div>
                                     </div>
                                 </div>
                             </div>
@@ -70,17 +70,17 @@
                                 <a href="javascript:void(0)" th:id="increaseBtn + ${product.Id}" class="btn3 increase" th:classappend="${product.isSoldOut} ? 'disabled'" th:onclick="|increaseCount(${product.id})|">+</a>
                             </div>
                             <div class="item price">
-                                <span class="sale_price" th:id="${productSalePrice}" th:unless="${product.isSoldOut}" th:text="${product.totalPrice}">2,700원</span>
+                                <span class="sale_price" th:id="${productSalePrice}" th:unless="${product.isSoldOut}" th:text="${product.totalPrice}"></span>
                                 <span class="sale_price" th:if="${product.isSoldOut}">SOLD OUT</span>
                             </div>
                             <div class="item delete">
-                                <button type="button" class="remove_btn" th:onclick="|deleteProducts(${product.id})|"><span class="material-symbols-outlined">close</span></button>
+                                <button type="button" class="remove_btn" th:data-id="${product.id}"><span class="material-symbols-outlined">close</span></button>
                             </div>
                         </div>
                     </div>
                     <div class="btn_wrap" th:unless="${products.size() == 0}">
-                        <button type="button" id="deleteBtn" class="btn1" th:onclick="deleteProducts()">선택 상품 삭제</button>
-                        <button type="button" id="deleteSoldOutBtn" class="btn1" th:onclick="deleteSoldOutProducts()">품절 상품 삭제</button>
+                        <button type="button" id="deleteBtn" class="btn1">선택 상품 삭제</button>
+                        <button type="button" id="deleteSoldOutBtn" class="btn1">품절 상품 삭제</button>
                     </div>
                 </div>
                 <div class="cart_total_wrap">
@@ -88,25 +88,25 @@
                         <ul class="total_details">
                             <li class="total price">
                                 <div class="title">상품 금액</div>
-                               <div class="content" id="cartProductPrice"></div>
-                         </li>
+                                <div class="content" id="cartProductPrice"></div>
+                            </li>
                             <li class="total discount">
                                 <div class="title">상품할인금액</div>
                                 <div class="content" id="cartDiscountPrice"></div>
                             </li>
                             <li class="total shipping">
-                               <div class="title">배송비</div>
+                                <div class="title">배송비</div>
                                 <div class="content" id="shippingFee">3000원</div>
                             </li>
                             <li class="total_price">
                                 <div class="title">결제예정금액</div>
                                 <div class="content" id="cartTotalPrice"></div>
-                           </li>
+                            </li>
                         </ul>
                         <div class="btn_wrap">
                             <button type="button" class="btn1 submit_btn" onclick="location.href='checkout.html'"
                                     th:onclick="checkout()">구매하기</button>
-                      </div>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -1,5 +1,9 @@
 $(document).ready(function () {
 
+    const wrapper = $('.cart_wrap');
+    const width = $(window).innerWidth() - 400;
+    wrapper.css('min-width', width + 'px');
+
     updateTotalPrice();
     updateShippingFee();
 
@@ -49,6 +53,19 @@ $(document).ready(function () {
             $('.submit_btn').addClass('disabled');
         }
     }
+
+    $('#deleteBtn').click(function () {
+        deleteProducts();  // 삭제 함수 호출
+    });
+
+    $('#deleteSoldOutBtn').click(function () {
+        deleteSoldOutProducts();  // 삭제 함수 호출
+    });
+
+    $('.remove_btn').on('click', function () {
+        let productId = $(this).data('id');
+        deleteProduct(productId);
+    });
 });
 
 // 가격 업데이트 함수
@@ -135,7 +152,7 @@ function addCommas(num) {
 let csrfToken = $("meta[name='_csrf']").attr("content");
 let csrfHeader = $("meta[name='_csrf_header']").attr("content");
 
-//상품 개수 감소
+// 상품 개수 감소
 function decreaseCount(productId) {
     let decreaseBtn = $('#decreaseBtn' + productId);
     let input = decreaseBtn.siblings('.quant_input');
@@ -182,7 +199,7 @@ function decreaseCount(productId) {
     }
 }
 
-//상품 개수 증가
+// 상품 개수 증가
 function increaseCount(productId) {
     let increaseBtn = $('#increaseBtn' + productId);
     let input = increaseBtn.siblings('.quant_input');
@@ -229,53 +246,60 @@ function increaseCount(productId) {
         increaseBtn.addClass('disabled');
     }
 }
-// //상품 단건 삭제
-// function deleteProduct(productId) {
-//     Swal.fire({
-//         text: '삭제하시겠습니까?',
-//         showCancelButton: true,
-//         cancelButtonText: '아니요',
-//         confirmButtonText: '예',
-//         customClass: mySwalConfirm,
-//         reverseButtons: true,
-//         buttonsStyling: false,
-//     }).then((result) => {
-//         if (result.isConfirmed) {
-//             $.ajax({
-//                 type: 'DELETE',
-//                 url: '/ajax/cart',
-//                 data: JSON.stringify(productId),
-//                 beforeSend: function (xhr) {
-//                     xhr.setRequestHeader(csrfHeader, csrfToken);
-//                 },
-//                 success: function (result) {
-//                     if(result.code == 200) {
-//                         location.reload();
-//                     } else {
-//                         Swal.fire({
-//                             html: result.message.replace('\n', '<br>'),
-//                             showConfirmButton: true,
-//                             confirmButtonText: '확인',
-//                             customClass: mySwal,
-//                             buttonsStyling: false
-//                         });
-//                     }
-//                 },
-//                 error: function () {
-//                     Swal.fire({
-//                         html: '삭제 중 문제가 발생하였습니다.<br>다시 시도해주세요.',
-//                         showConfirmButton: true,
-//                         confirmButtonText: '확인',
-//                         customClass: mySwal,
-//                         buttonsStyling: false
-//                     });
-//                 }
-//             });
-//         }
-//     });
-// }
-//상품 여러개 삭제
-function deleteProducts(productId) {
+
+// x 로 단건 삭제
+function deleteProduct(productId) {
+
+    let productIds = []
+    productIds.push(productId);
+
+    Swal.fire({
+        text: '삭제하시겠습니까?',
+        showCancelButton: true,
+        cancelButtonText: '아니요',
+        confirmButtonText: '예',
+        customClass: mySwalConfirm,
+        reverseButtons: true,
+        buttonsStyling: false,
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                type: 'DELETE',
+                url: '/ajax/cart',
+                contentType: 'application/json',
+                data: JSON.stringify(productIds),
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader(csrfHeader, csrfToken);
+                },
+                success: function (result) {
+                    if(result.code == 200) {
+                        location.reload();
+                    } else {
+                        Swal.fire({
+                            html: result.message.replace('\n', '<br>'),
+                            showConfirmButton: true,
+                            confirmButtonText: '확인',
+                            customClass: mySwal,
+                            buttonsStyling: false
+                        });
+                    }
+                },
+                error: function () {
+                    Swal.fire({
+                        html: '삭제 중 문제가 발생하였습니다.<br>다시 시도해주세요.',
+                        showConfirmButton: true,
+                        confirmButtonText: '확인',
+                        customClass: mySwal,
+                        buttonsStyling: false
+                    });
+                }
+            });
+        }
+    });
+}
+
+// 상품 여러개 삭제
+function deleteProducts() {
     let productIds = [];
     let checkboxes = $('.cart_content input[type=checkbox]:checked');
 
@@ -290,7 +314,7 @@ function deleteProducts(productId) {
         return false;
     } else {
         Swal.fire({
-            text: productId == null ? checkboxes.length + '개의 상품을 삭제하시겠습니까?' : '선택하신 상품을 삭제하시겠습니까?',
+            text: checkboxes.length == 1 ? '선택하신 상품을 삭제하시겠습니까?' : checkboxes.length + '개의 상품을 삭제하시겠습니까?',
             showCancelButton: true,
             cancelButtonText: '아니요',
             confirmButtonText: '예',
@@ -299,15 +323,14 @@ function deleteProducts(productId) {
             buttonsStyling: false,
         }).then((result) => {
             if (result.isConfirmed) {
-                console.log(productId)
-                console.log(productId == null)
-                if(productId == null) {
+                if(checkboxes.length == 1) {
+                    let productId = checkboxes[v].id.split('checkbox')[1]
+                    productIds.push(productId);
+                } else {
                     checkboxes.each(function (v) {
                         let productId = checkboxes[v].id.split('checkbox')[1];
                         productIds.push(productId);
                     });
-                } else {
-                    productIds.push(productId);
                 }
 
                 $.ajax({
@@ -346,7 +369,7 @@ function deleteProducts(productId) {
     }
 }
 
-//솔드아웃된 상품 삭제
+// 솔드아웃된 상품 삭제
 function deleteSoldOutProducts() {
     let productIds = [];
     let checkboxes = $('.cart_checkbox.sold_out');
@@ -414,6 +437,7 @@ function deleteSoldOutProducts() {
     }
 }
 
+// 구매하기
 async function checkout() {
     let productIds = [];
     let checkboxes = $('.cart_content input[type=checkbox]:checked');
