@@ -1,6 +1,7 @@
 .list_content {
     margin-bottom: 20px;
 }
+
 .list_head {
     display: flex;
     justify-content: space-between;
@@ -10,41 +11,50 @@
     background: #eee;
     font-weight: 500;
 }
+
 .list_head > div:last-child {
     display: flex;
     /*justify-content: space-between;*/
     width: 100%;
 }
+
 .list_head .item {
     white-space: nowrap;
 }
+
 .list_head .item:last-child {
     border-right: none;
 }
+
 .list_item .item:last-child {
     border-right: none;
 }
+
 .list_head .item.title {
     width: 80%;
 }
+
 .list {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
-.list_item{
+
+.list_item {
     display: flex;
     justify-content: space-between;
     width: 100%;
     border: 1px solid #d7d7d7;
     border-top: none;
 }
+
 .list_item a {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     width: 100%;
 }
+
 .item {
     display: flex;
     justify-content: center;
@@ -54,6 +64,7 @@
     width: 15%;
     border-left: 1px solid #d7d7d7;
 }
+
 #noDataMessage {
     display: flex;
     justify-content: center;
@@ -64,14 +75,17 @@
     padding: 8px;
     text-align: center;
 }
+
 #noDataMessage span {
     width: 100%;
 }
+
 .list_item .item.title {
     text-align: left;
     justify-content: flex-start;
     width: 80%;
 }
+
 .item.check {
     display: flex;
     width: 3%;
@@ -81,10 +95,12 @@
     border-right: none;
     border-left: none;
 }
+
 .item.number {
     width: 8%;
     border-left: 1px solid #d7d7d7;
 }
+
 .item.date {
     width: 22%;
 }
@@ -94,9 +110,11 @@
     width: 8%;
     border-left: none;
 }
+
 .notice .item.title {
     width: 70%;
 }
+
 .notice .item.date {
     width: 22%;
 }
@@ -108,23 +126,28 @@
     flex-direction: column;
     padding-top: 5px;
 }
-.list_head.product .item.price > ul{
+
+.list_head.product .item.price > ul {
     display: flex;
     width: 100%;
     border-left: none;
     border-top: 1px solid #d7d7d7;
     margin-top: 5px;
 }
+
 .list_head.product .item.price .item_price {
     padding: 5px;
 }
+
 .product .list_item a {
     height: 100px;
     cursor: pointer;
 }
+
 .product .item.img {
     width: 10%;
 }
+
 .product .item.img img {
     max-width: 100px;
     max-height: 100px;
@@ -132,25 +155,32 @@
     height: 100%;
     object-fit: cover;
 }
+
 .product .item.number, .product .item.stock {
     width: 8%;
 }
+
 .product .item.title {
     width: 30%;
 }
+
 .product .item.category {
     width: 13%;
 }
+
 .product .item.price {
     width: 28%;
     padding: 0;
 }
+
 .product .item.discount {
     width: 10%;
 }
+
 .product .item.price .item_price:first-child {
     border-right: 1px solid #d7d7d7;
 }
+
 .product .item.price .item_price {
     display: flex;
     align-items: center;
@@ -166,33 +196,42 @@
 #discountForm .list.product .product_item {
     display: flex;
 }
+
 #discountList #noDataMessage {
     border: 1px solid #d7d7d7;
     border-top: none;
 }
+
 .discount #noDataMessage {
     border: none;
     border-bottom: 1px solid #d7d7d7;
 }
+
 .discount #noDataMessage span {
     width: auto;
 }
+
 .discount .list_item .item.name {
     justify-content: flex-start;
 }
+
 .discount .item.number {
     width: 8%;
 }
+
 .discount .item.percent {
     width: 10%;
 }
+
 .discount .item.name {
     width: 50%;
     text-align: left;
 }
+
 .discount .item.type {
     width: 10%;
 }
+
 .discount .item.date {
     width: 40%;
     white-space: nowrap;
@@ -202,60 +241,78 @@
 #membershipList .list_content {
     margin-bottom: 10px;
 }
+
 .member .item.userId, .member .item.membership {
     width: 12%;
 }
+
 .member .item.name {
     width: 10%;
 }
+
 .member .item.email {
     width: 20%;
 }
+
 .member .item.phonenumber {
     width: 15%;
 }
+
 .member .item.purchase {
     width: 8%;
 }
+
 .member .item.point {
     width: 10%;
 }
+
 .member.withdrawal .item.check {
     width: 2%;
 }
+
 .member.withdrawal .item.date {
     width: 18%;
 }
+
 .member.withdrawal .item.membership {
     width: 8%;
 }
+
 /*admin*/
-.admin .item.userId{
+.admin .item.userId {
     width: 16%;
 }
+
 .admin .item.name {
     width: 16%;
 }
+
 .admin .item.email {
     width: 25%;
 }
+
 .admin .item.isAuthorized {
     width: 6%;
 }
+
 /*product_inquiry*/
 .inquiry .item.number {
     width: 8%;
     border-left: none;
 }
+
 .inquiry .item.name {
     width: 10%;
 }
+
 .inquiry .item.title {
     width: 52%;
 }
+
 .inquiry .item.date {
     width: 22%;
 }
+
 .inquiry .item.answer {
     width: 8%;
 }
@@ -264,13 +321,16 @@
 .order .item.check {
     width: 2%;
 }
+
 .order .item.number, .order .item.orderStatus, .order .item.payment {
     width: 8%;
 }
+
 .order .item.date, .order .item.orderNumber, .order .item.orderName {
     width: 20%;
 }
-.order .item.totalPrice, .order .item.userName{
+
+.order .item.totalPrice, .order .item.userName {
     width: 8%;
 }
 
@@ -280,13 +340,16 @@
     border-left: none;
     background: #fff;
 }
+
 .popup .list_item {
     border-right: none;
     border-left: none;
 }
+
 .popup .list_content .item {
     border-left: none;
 }
+
 .popup .list_content .item.name {
     width: 60%;
 }
@@ -295,18 +358,23 @@
 .membership .item {
     white-space: nowrap;
 }
+
 .membership .level, .list_head.membership .item.level {
     width: 5%;
 }
+
 .membership .name, .list_head.membership .name {
     width: 20%;
 }
+
 .membership .pointRate, .list_head.membership .pointRate {
     width: 15%;
 }
+
 .membership .maxBenefitPoint, .list_head.membership .maxBenefitPoint {
     width: 30%;
 }
+
 .membership .minAmountSpent, .list_head.membership .minAmountSpent {
     width: 30%;
 }

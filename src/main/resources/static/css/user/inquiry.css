@@ -1,7 +1,6 @@
 .popup {
     display: flex;
     width: 100%;
-    max-width: 600px;
     padding: 20px;
     border-radius: 10px;
     z-index: 1000;
@@ -172,10 +171,10 @@
     color: #999;
     padding-left: 10px;
 }
-.qna_table td textarea {
+.qna_table td #content {
     width: 100%;
-    height: 450px;
-    resize: vertical;
+    height: calc(100vh - 500px);
+    resize: none;
 }
 .qna_table th, .qna_table td {
     padding: 5px;
@@ -232,6 +231,7 @@
 }
 .qna_item .description {
     display: flex;
+    flex-wrap: wrap;
     flex-direction: column;
     justify-content: center;
     height: 80px;
@@ -478,11 +478,6 @@
 .qna_table th label {
     font-weight: 600;
     color: #999;
-}
-.qna_table td textarea {
-    width: 100%;
-    height: 450px;
-    resize: none;
 }
 .qna_table tbody .title_td {
     /*min-width: 690px;*/
