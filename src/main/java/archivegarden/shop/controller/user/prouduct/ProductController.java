@@ -1,16 +1,17 @@
 package archivegarden.shop.controller.user.prouduct;
 
-import archivegarden.shop.dto.user.product.*;
+import archivegarden.shop.dto.user.product.ProductDetailsDto;
+import archivegarden.shop.dto.user.product.ProductListDto;
+import archivegarden.shop.dto.user.product.ProductSearchCondition;
 import archivegarden.shop.entity.Member;
-import archivegarden.shop.service.user.product.product.ProductService;
 import archivegarden.shop.service.product.WishService;
+import archivegarden.shop.service.user.product.product.ProductService;
 import archivegarden.shop.web.annotation.CurrentUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -49,16 +50,11 @@ public class ProductController {
         return "user/product/product_list";
     }
 
+    /**
+     * 상품 할인 적용할 상품 팝업창 조회하는 메서드
+     */
     @GetMapping("/search")
-    public String searchProductsPopup(@ModelAttribute("condition") PopupProductSearchCondition condition, Model model) {
-        if (StringUtils.hasText(condition.getKeyword())) {
-            PageRequest pageRequest = PageRequest.of(condition.getPage() - 1, condition.getLimit());
-            Page<PopupProductDto> productPopupDtos = productService.getPopupProducts(condition.getKeyword(), pageRequest);
-            model.addAttribute("products", productPopupDtos);
-        } else {
-            model.addAttribute("products", null);
-        }
-
-        return "user/product/product_popup";
+    public String showPopup() {
+        return "user/community/inquiry/product_popup";
     }
 }

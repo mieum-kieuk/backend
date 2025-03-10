@@ -1,4 +1,4 @@
-package archivegarden.shop.repository.user.community.inquiry;
+package archivegarden.shop.repository.community.inquiry;
 
 import archivegarden.shop.entity.Inquiry;
 import org.springframework.data.jpa.repository.JpaRepository;

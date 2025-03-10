@@ -1,6 +1,8 @@
 package archivegarden.shop.repository.product;
 
+import archivegarden.shop.dto.user.product.ProductPopupSearchCondition;
 import archivegarden.shop.dto.user.product.ProductSearchCondition;
+import archivegarden.shop.dto.user.product.ProductSummaryDto;
 import archivegarden.shop.entity.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,6 +15,8 @@ public interface UserProductRepositoryCustom {
     List<Product> findLatestProducts();
 
     Page<Product> searchProducts(String keyword, Pageable pageable);
+
+    Page<ProductSummaryDto> searchProductsInInquiryPopup(ProductPopupSearchCondition condition, Pageable pageable);
 
     Optional<Product> findProduct(Long productId);
 

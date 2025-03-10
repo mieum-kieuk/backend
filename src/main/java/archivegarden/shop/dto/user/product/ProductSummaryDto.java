@@ -8,18 +8,18 @@ import java.text.DecimalFormat;
 
 @Getter
 @Setter
-public class PopupProductDto {
+public class ProductSummaryDto {
 
     private Long id;
     private String name;
     private String price;
-    private String displayImageUrl;
+    private String displayImageData;
 
     @QueryProjection
-    public PopupProductDto(Long id, String name, int price, String displayImageUrl) {
+    public ProductSummaryDto(Long id, String name, int price, String displayImageData) {
         this.id = id;
         this.name = name;
         this.price = new DecimalFormat("###,###원").format(price);
-        this.displayImageUrl = displayImageUrl;
+        this.displayImageData = displayImageData;
     }
 }

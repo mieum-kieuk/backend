@@ -58,6 +58,9 @@ public class Product extends BaseTimeEntity {
     @JoinColumn(name = "discount_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Discount discount;  //양방향
 
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Inquiry> inquiries = new ArrayList<>();    //양방향
+
     @Builder
     public Product(AdminAddProductForm form, ProductImage displayImage, ProductImage hoverImage, List<ProductImage> detailImages) {
         this.name = form.getName();

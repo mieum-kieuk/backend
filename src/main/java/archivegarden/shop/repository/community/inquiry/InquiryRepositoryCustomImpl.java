@@ -1,55 +1,51 @@
-package archivegarden.shop.repository.user.community.inquiry;
+package archivegarden.shop.repository.community.inquiry;
 
 import archivegarden.shop.dto.user.community.inquiry.InquiryDetailsDto;
 import archivegarden.shop.dto.user.community.inquiry.InquiryListDto;
 import archivegarden.shop.dto.user.community.inquiry.QInquiryDetailsDto;
-import archivegarden.shop.dto.user.community.inquiry.QInquiryListDto;
 import archivegarden.shop.entity.ImageType;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
-import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.util.StringUtils;
-
-import java.util.List;
 
 import static archivegarden.shop.entity.QInquiry.inquiry;
 import static archivegarden.shop.entity.QMember.member;
 import static archivegarden.shop.entity.QProduct.product;
 import static archivegarden.shop.entity.QProductImage.productImage;
 
-public class InquiryRepositoryImpl implements InquiryRepositoryCustom {
+public class InquiryRepositoryCustomImpl implements InquiryRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
-    public InquiryRepositoryImpl(EntityManager em) {
+    public InquiryRepositoryCustomImpl(EntityManager em) {
         this.queryFactory = new JPAQueryFactory(em);
     }
 
     @Override
     public InquiryDetailsDto findInquiry(Long inquiryId) {
-        return queryFactory.select(new QInquiryDetailsDto(
-                        inquiry,
-                        member.name,
-                        member.loginId,
-                        product.id,
-                        product.name,
-                        product.price,
-                        productImage.imageUrl
-                ))
-                .from(inquiry)
-                .leftJoin(inquiry.member, member)
-                .leftJoin(inquiry.product, product)
-                .leftJoin(productImage).on(productImage.product.eq(inquiry.product))
-                .where(
-                        inquiryIdEq(inquiryId),
-                        imageTypeEqDisplay()
-                )
-                .fetchOne();
+//        return queryFactory.select(new QInquiryDetailsDto(
+//                        inquiry,
+//                        member.name,
+//                        member.loginId,
+//                        product.id,
+//                        product.name,
+//                        product.price,
+//                        productImage.imageUrl
+//                ))
+//                .from(inquiry)
+//                .leftJoin(inquiry.member, member)
+//                .leftJoin(inquiry.product, product)
+//                .leftJoin(productImage).on(productImage.product.eq(inquiry.product))
+//                .where(
+//                        inquiryIdEq(inquiryId),
+//                        imageTypeEqDisplay()
+//                )
+//                .fetchOne();
+        return null;
     }
 
     @Override

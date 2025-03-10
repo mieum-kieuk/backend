@@ -1,4 +1,4 @@
-package archivegarden.shop.dto.community.inquiry;
+package archivegarden.shop.dto.user.community.inquiry;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -7,7 +7,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class AddProductInquiryForm {
+public class AddInquiryForm {
+
+    @NotNull(message = "상품을 선택해 주세요.")
+    private Long productId;
 
     @NotBlank(message = "제목을 작성해 주세요.")
     private String title;
@@ -16,7 +19,4 @@ public class AddProductInquiryForm {
     private String content;
 
     private Boolean isSecret;
-
-    @NotNull(message = "상품을 선택해 주세요.")
-    private Long productId;
 }

@@ -32,19 +32,25 @@ public class Inquiry extends BaseTimeEntity {
     private boolean isAnswered;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;  //다대일 단방향
+    @JoinColumn(name = "member_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    private Member member;  //양방향
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "product_id")
-    private Product product;  //다대일 단방향
+    @JoinColumn(name = "product_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    private Product product;  //단방향
 
-//    @OneToOne(fetch = LAZY, cascade = CascadeType.REMOVE)
-//    private Answer answer;  //일대일 양방향
+    @Builder
+    public Inquiry(String title, String content, boolean isSecret, Member member, Product product) {
+        this.title = title;
+        this.content = content;
+        this.isSecret = isSecret;
+        this.isAnswered = false;
+        this.member = member;
+        this.product = product;
+    }
 
-    //==비즈니스 로직==//
     /**
-     * 수정
+     * 상품 문의 수정
      */
     public void update(String title, String content, Product product) {
         this.title = title;
@@ -57,15 +63,5 @@ public class Inquiry extends BaseTimeEntity {
      */
     public void updateAnswerStatus(boolean isAnswered) {
         this.isAnswered = true;
-    }
-
-    @Builder
-    public Inquiry(String title, String content, boolean isSecret, Member member, Product product) {
-        this.title = title;
-        this.content = content;
-        this.isSecret = isSecret;
-        this.isAnswered = false;
-        this.member = member;
-        this.product = product;
     }
 }

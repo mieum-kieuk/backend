@@ -14,7 +14,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet" href="../../../../static/css/common/comm.css" th:href="@{/css/common/comm.css}">
-    <link rel="stylesheet" href="../../../../static/css/qna.css" th:href="@{/css/qna.css}">
+    <link rel="stylesheet" href="../../../../static/css/user/inquiry.css" th:href="@{/css/user/inquiry.css}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script defer src="../../../../static/js/common/comm.js" th:src="@{/js/common/comm.js}"></script>
     <script defer src="../../../static/js/productInquiry.js" th:src="@{/js/productInquiry.js}"></script>
@@ -25,7 +25,7 @@
     <div id="qna">
         <div class="qna_wrap">
             <h1 class="qna_title">상품문의</h1>
-            <form id="addQnaForm" action="" th:action th:object="${form}" method="post" th:onsubmit="return validateBeforeSubmit()"  novalidate>
+            <form id="addQnaForm" action="" th:action th:object="${inquiry}" method="post" th:onsubmit="return validateBeforeSubmit()"  novalidate>
                 <table class="qna_table">
                     <tr>
                         <th colspan="2">

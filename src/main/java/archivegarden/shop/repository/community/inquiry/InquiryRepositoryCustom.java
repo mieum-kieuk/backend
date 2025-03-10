@@ -1,4 +1,4 @@
-package archivegarden.shop.repository.user.community.inquiry;
+package archivegarden.shop.repository.community.inquiry;
 
 import archivegarden.shop.dto.user.community.inquiry.InquiryDetailsDto;
 import archivegarden.shop.dto.user.community.inquiry.InquiryListDto;

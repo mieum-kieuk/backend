@@ -57,6 +57,9 @@ public class Member extends BaseTimeEntity {
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<Wish> wishList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Inquiry> inquiries = new ArrayList<>();
+
     public static Member createMember(JoinMemberForm form, Membership membership) {
         Member member = new Member();
         member.loginId = form.getLoginId();

@@ -1,6 +1,6 @@
-package archivegarden.shop.dto.community.inquiry;
+package archivegarden.shop.dto.user.community.inquiry;
 
-import archivegarden.shop.entity.ProductInquiry;
+import archivegarden.shop.entity.Inquiry;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,7 +10,7 @@ import java.time.format.DateTimeFormatter;
 
 @Getter
 @Setter
-public class ProductInquiryDetailsDto {
+public class InquiryDetailsDto {
 
     private Long id;
     private String title;
@@ -24,8 +24,8 @@ public class ProductInquiryDetailsDto {
     private String productImage;
 
     @QueryProjection
-    public ProductInquiryDetailsDto(ProductInquiry inquiry, String writer, String writerLoginId,
-                                    Long productId, String productName, int productPrice, String productImage) {
+    public InquiryDetailsDto(Inquiry inquiry, String writer, String writerLoginId,
+                             Long productId, String productName, int productPrice, String productImage) {
         this.id = inquiry.getId();
         this.title = inquiry.getTitle();
         this.content = inquiry.getContent();

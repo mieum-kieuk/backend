@@ -1,6 +1,9 @@
 package archivegarden.shop.repository.product;
 
+import archivegarden.shop.dto.user.product.ProductPopupSearchCondition;
 import archivegarden.shop.dto.user.product.ProductSearchCondition;
+import archivegarden.shop.dto.user.product.ProductSummaryDto;
+import archivegarden.shop.dto.user.product.QProductSummaryDto;
 import archivegarden.shop.entity.Category;
 import archivegarden.shop.entity.ImageType;
 import archivegarden.shop.entity.Product;
@@ -56,7 +59,7 @@ public class UserProductRepositoryCustomImpl implements UserProductRepositoryCus
                 .leftJoin(product.discount, discount).fetchJoin()
                 .leftJoin(product.productImages, productImage).fetchJoin()
                 .where(
-                        keywordLike(keyword),
+                        nameLike(keyword),
                         productImage.imageType.ne(ImageType.DETAILS)
                 )
                 .orderBy(orderSoldOutLast())
@@ -67,7 +70,40 @@ public class UserProductRepositoryCustomImpl implements UserProductRepositoryCus
         JPAQuery<Long> countQuery = queryFactory
                 .select(product.count())
                 .from(product)
-                .where(keywordLike(keyword));
+                .where(nameLike(keyword));
+
+        return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
+    }
+
+    @Override
+    public Page<ProductSummaryDto> searchProductsInInquiryPopup(ProductPopupSearchCondition condition, Pageable pageable) {
+        List<ProductSummaryDto> content = queryFactory.select(new QProductSummaryDto(
+                        product.id,
+                        product.name,
+                        product.price,
+                        productImage.imageUrl
+                ))
+                .from(product)
+                .leftJoin(product.productImages, productImage)
+                .on(
+                        product.id.eq(productImage.product.id),
+                        imageTypeDisplay()
+                )
+                .where(
+                        nameLike(condition.getKeyword()),
+                        categoryEq(condition.getCategory())
+                )
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        JPAQuery<Long> countQuery = queryFactory
+                .select(product.count())
+                .from(product)
+                .where(
+                        nameLike(condition.getKeyword()),
+                        categoryEq(condition.getCategory())
+                );
 
         return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
     }
@@ -106,18 +142,6 @@ public class UserProductRepositoryCustomImpl implements UserProductRepositoryCus
 
         return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
     }
-
-//    @Override
-//    public Optional<Product> findByIdFetchJoin(Long productId) {
-//        Product result = queryFactory
-//                .selectFrom(product)
-//                .leftJoin(product.discount, discount).fetchJoin()
-//                .leftJoin(product.productImages, productImage).fetchJoin()
-//                .where(product.id.eq(productId))
-//                .fetchOne();
-//
-//        return Optional.ofNullable(result);
-//    }
 
     /**
      * OrderSpecifier 리스트 객체 생성
@@ -168,10 +192,10 @@ public class UserProductRepositoryCustomImpl implements UserProductRepositoryCus
     }
 
     /**
-     * 검색어
+     * 상품명 검색
      * 공백 제거, 대소문자 구분 안함
      */
-    private BooleanExpression keywordLike(String keyword) {
+    private BooleanExpression nameLike(String keyword) {
         if (hasText(keyword)) {
             String replaceKeyword = StringUtils.replace(keyword, " ", "");
             StringTemplate replaceProductName = Expressions.stringTemplate("function('replace',{0},{1},{2})", product.name, " ", "");

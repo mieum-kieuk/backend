@@ -1,7 +1,7 @@
 package archivegarden.shop.dto.user.community.inquiry;
 
 import archivegarden.shop.entity.Product;
-import archivegarden.shop.entity.ProductInquiry;
+import archivegarden.shop.entity.Inquiry;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -13,7 +13,7 @@ import java.text.DecimalFormat;
 @Getter
 @Setter
 @NoArgsConstructor
-public class EditProductInquiryForm {
+public class EditInquiryForm {
 
     @NotBlank(message = "제목을 작성해 주세요.")
     private String title;
@@ -30,19 +30,13 @@ public class EditProductInquiryForm {
     private String productPrice;
     private String productImage;
 
-    public EditProductInquiryForm(ProductInquiry inquiry) {
+    public EditInquiryForm(Inquiry inquiry) {
         this.title = inquiry.getTitle();
         this.content = inquiry.getContent();
-//        this.isSecret = inquiry.isSecret();
+        this.isSecret = inquiry.isSecret();
         Product product = inquiry.getProduct();
         this.productId = product.getId();
         this.productName = product.getName();
         this.productPrice = new DecimalFormat("###,###원").format(product.getPrice());
-//        List<ProductImage> images = product.getImages();
-//        for (ProductImage image : images) {
-//            if(image.getImageType() == ImageType.DISPLAY) {
-//                this.productImage = image.getStoreImageName();
-//            }
-//        }
     }
 }

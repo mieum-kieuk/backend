@@ -1,4 +1,4 @@
-package archivegarden.shop.dto.community.inquiry;
+package archivegarden.shop.dto.user.community.inquiry;
 
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
@@ -11,11 +11,11 @@ import java.time.format.DateTimeFormatter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class ProductInquiryListDto {
+public class InquiryListDto {
 
     private Long id;
     private String title;
-    private Boolean isSecret;
+    private boolean isSecret;
     private String isAnswered;
     private String createdAt;
     private Long productId;
@@ -24,16 +24,16 @@ public class ProductInquiryListDto {
     private String writerLoginId;
 
     @QueryProjection
-    public ProductInquiryListDto(Long productInqueryId, String title, String isSecret, String isAnswered, LocalDateTime createdAt,
-                             String writer, String writerLoginId, Long productId, String productImage) {
-        this.id = productInqueryId;
+    public InquiryListDto(Long inqueryId, String title, boolean isSecret, boolean isAnswered, LocalDateTime createdAt,
+                          String writer, String writerLoginId, Long productId, String productImage) {
+        this.id = inqueryId;
         this.productId = productId;
         this.productImage = productImage;
         this.title = title;
         this.writer = writer.substring(0, 1) + "****";
         this.writerLoginId = writerLoginId;
-        this.isSecret = Boolean.parseBoolean(isSecret);
-        this.isAnswered = Boolean.parseBoolean(isAnswered) ? "답변완료" : "답변대기";
+        this.isSecret = isSecret;
+        this.isAnswered = isAnswered ? "답변완료" : "답변대기";
         this.createdAt = DateTimeFormatter.ofPattern("yyyy.MM.dd").format(createdAt);
     }
 }
