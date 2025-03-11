@@ -10,8 +10,9 @@ import archivegarden.shop.entity.Product;
 import archivegarden.shop.exception.NoSuchBoardException;
 import archivegarden.shop.exception.NoSuchProductException;
 import archivegarden.shop.exception.common.EntityNotFoundException;
-import archivegarden.shop.repository.community.inquiry.InquiryRepository;
+import archivegarden.shop.repository.inquiry.InquiryRepository;
 import archivegarden.shop.repository.product.ProductRepository;
+import archivegarden.shop.service.user.product.product.ProductImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class InquiryService {
 
+    private final ProductImageService productImageService;
     private final ProductRepository productRepository;
     private final InquiryRepository inquiryRepository;
 
@@ -50,14 +52,23 @@ public class InquiryService {
      * 상품 문의 단건 조회
      */
     public InquiryDetailsDto getInquiry(Long inquiryId) {
-        return inquiryRepository.findInquiry(inquiryId);
+        InquiryDetailsDto inquiryDetailsDto = inquiryRepository.findInquiry(inquiryId);
+        String encodedImageData = productImageService.getEncodedImageData(inquiryDetailsDto.getProductImageData());
+        inquiryDetailsDto.setProductImageData(encodedImageData);
+        return inquiryDetailsDto;
     }
 
     /**
      * 상품 문의 목록 조회
      */
     public Page<InquiryListDto> getInquires(Pageable pageable) {
-        return inquiryRepository.findInquiries(pageable);
+        Page<InquiryListDto> inquiryListDtos = inquiryRepository.findInquiries(pageable);
+        inquiryListDtos.forEach(i -> {
+            String encodedImageData = productImageService.getEncodedImageData(i.getProductImageData());
+            i.setProductImageData(encodedImageData);
+        });
+
+        return inquiryListDtos;
     }
 
     /**

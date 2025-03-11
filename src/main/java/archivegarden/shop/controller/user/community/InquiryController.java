@@ -66,7 +66,7 @@ public class InquiryController {
         PageRequest pageRequest = PageRequest.of(page - 1, 10);
         Page<InquiryListDto> inquiryDtos = inquiryService.getInquires(pageRequest);
         model.addAttribute("inquiries", inquiryDtos);
-        return "community/inquiry/inquiry_list";
+        return "user/community/inquiry/inquiry_list";
     }
 
     @GetMapping("/{inquiryId}/edit")
@@ -74,7 +74,7 @@ public class InquiryController {
     public String editInquiryForm(@PathVariable("inquiryId") Long inquiryId, @CurrentUser Member loginMember, Model model) {
         EditInquiryForm form = inquiryService.getEditForm(inquiryId);
         model.addAttribute("form", form);
-        return "community/inquiry/edit_inquiry";
+        return "user/community/inquiry/edit_inquiry";
     }
 
     @PostMapping("/{inquiryId}/edit")
@@ -83,7 +83,7 @@ public class InquiryController {
                               @PathVariable("inquiryId") Long inquiryId, @CurrentUser Member loginMember) {
 
         if(bindingResult.hasErrors()) {
-            return "community/inquiry/edit_inquiry";
+            return "user/community/inquiry/edit_inquiry";
         }
 
         inquiryService.editInquiry(form, inquiryId);

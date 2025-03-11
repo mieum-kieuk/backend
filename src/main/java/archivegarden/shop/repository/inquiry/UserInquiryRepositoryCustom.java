@@ -1,17 +1,13 @@
-package archivegarden.shop.repository.community.inquiry;
+package archivegarden.shop.repository.inquiry;
 
 import archivegarden.shop.dto.user.community.inquiry.InquiryDetailsDto;
 import archivegarden.shop.dto.user.community.inquiry.InquiryListDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-public interface InquiryRepositoryCustom {
+public interface UserInquiryRepositoryCustom {
 
     InquiryDetailsDto findInquiry(Long inquiryId);
 
     Page<InquiryListDto> findInquiries(Pageable pageable);
-
-//    ProductInquiryAdminDetailsDto findAdminDto(Long inquiryId);
-
-//    Page<ProductInquiryAdminListDto> findAdminDtoAll(AdminSearchCondition form, Pageable pageable);
 }

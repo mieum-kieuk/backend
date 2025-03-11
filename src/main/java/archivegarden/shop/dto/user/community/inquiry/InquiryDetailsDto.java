@@ -21,11 +21,11 @@ public class InquiryDetailsDto {
     private Long productId;
     private String productName;
     private String productPrice;
-    private String productImage;
+    private String productImageData;
 
     @QueryProjection
     public InquiryDetailsDto(Inquiry inquiry, String writer, String writerLoginId,
-                             Long productId, String productName, int productPrice, String productImage) {
+                             Long productId, String productName, int productPrice, String productImageUrl) {
         this.id = inquiry.getId();
         this.title = inquiry.getTitle();
         this.content = inquiry.getContent();
@@ -35,6 +35,6 @@ public class InquiryDetailsDto {
         this.productId = productId;
         this.productName = productName;
         this.productPrice = new DecimalFormat("###,###원").format(productPrice);
-        this.productImage = productImage;
+        this.productImageData = productImageUrl;
     }
 }

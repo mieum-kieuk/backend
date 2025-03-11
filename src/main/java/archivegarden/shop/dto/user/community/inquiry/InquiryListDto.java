@@ -19,16 +19,16 @@ public class InquiryListDto {
     private String isAnswered;
     private String createdAt;
     private Long productId;
-    private String productImage;
+    private String productImageData;
     private String writer;
     private String writerLoginId;
 
     @QueryProjection
     public InquiryListDto(Long inqueryId, String title, boolean isSecret, boolean isAnswered, LocalDateTime createdAt,
-                          String writer, String writerLoginId, Long productId, String productImage) {
+                          String writer, String writerLoginId, Long productId, String productImageUrl) {
         this.id = inqueryId;
         this.productId = productId;
-        this.productImage = productImage;
+        this.productImageData = productImageUrl;
         this.title = title;
         this.writer = writer.substring(0, 1) + "****";
         this.writerLoginId = writerLoginId;

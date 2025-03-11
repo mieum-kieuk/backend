@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>상품문의 | 미음키읔</title>
+    <title>상품 문의 | 미음키읔</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -37,7 +37,7 @@
                            th:href="@{/shop/products/{productId}(productId=${inquiry.productId})}">
                             <div id="qnaItem" class="qna_item">
                                 <div class="thumbnail">
-                                    <img id="productImg" class="item_img" th:src="|/productImages/${inquiry.productImage}|" alt="상품 이미지">
+                                    <img id="productImg" class="item_img" th:src="${inquiry.productImageData}" alt="상품 이미지">
                                 </div>
                                 <div class="description">
                                     <span id="productName" class="item_name" th:text="${inquiry.productName}"></span>
