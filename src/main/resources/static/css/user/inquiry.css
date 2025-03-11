@@ -173,7 +173,7 @@
 }
 .qna_table td #content {
     width: 100%;
-    height: calc(100vh - 500px);
+    height: calc(100vh - 400px);
     resize: none;
 }
 .qna_table th, .qna_table td {
