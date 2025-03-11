@@ -11,13 +11,15 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css">
     <link rel="stylesheet" href="../../../../static/css/common/comm.css" th:href="@{/css/common/comm.css}">
     <link rel="stylesheet" href="../../../../static/css/user/inquiry.css" th:href="@{/css/user/inquiry.css}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.js"></script>
     <script defer src="../../../../static/js/common/comm.js" th:src="@{/js/common/comm.js}"></script>
-    <script defer src="../../../static/js/productInquiry.js" th:src="@{/js/productInquiry.js}"></script>
+    <script defer src="../../../../static/js/user/inquiry.js" th:src="@{/js/user/inquiry.js}"></script>
 </head>
 <body>
 <div class="wrap">
@@ -25,21 +27,21 @@
     <div id="qna">
         <div class="qna_wrap">
             <h1 class="qna_title">상품문의</h1>
-            <form id="addQnaForm" action="" th:action th:object="${inquiry}" method="post" th:onsubmit="return validateBeforeSubmit()"  novalidate>
+            <form id="addQnaForm" action="" th:action th:object="${form}" method="post" th:onsubmit="return validateBeforeSubmit()" novalidate>
                 <table class="qna_table">
                     <tr>
                         <th colspan="2">
                             <div id="qnaItem" class="qna_item">
                                 <div class="item_wrap">
                                     <div class="thumbnail">
-                                        <img id="productImage" class="item_img" th:src="|/productImages/${form.productImage}|" alt="상품 이미지">
+                                        <img id="productImage" class="item_img" th:src="${form.productImageData}" alt="상품 이미지">
                                     </div>
                                     <div class="description">
                                         <span id="productName" class="item_name" th:text="${form.productName}"></span>
                                         <span id="productPrice" class="item_price" th:text="${form.productPrice}"></span>
                                         <input type="hidden" id="productId" th:field="*{productId}">
                                         <div class="btn_wrap">
-                                            <button type="button" class="popup_btn info" th:onclick="|location.href='@{/shop/products/{productId}(productId=${form.productId})}'|">상품상세정보</button>
+                                            <button type="button" class="popup_btn info">상품상세정보</button>
                                             <button type="button" id="popupBtn" class="popup_btn">상품 선택</button>
                                         </div>
                                     </div>
@@ -52,14 +54,14 @@
                         <td colspan="2">
                             <div class="title_wrap">
                                 <label for="title">제목</label>
-                                <input type="text" id="title" th:field="*{title}" placeholder="제목을 작성해 주세요.">
+                                <input type="text" id="title" th:field="*{title}" maxlength="50" placeholder="제목을 작성해 주세요.">
                             </div>
                             <div><span class="field-error ml100" th:errors="*{title}"></span></div>
                         </td>
                     </tr>
                     <tr>
                         <td colspan="2">
-                            <textarea id="content" th:field="*{content}" rows="8" placeholder="내용을 작성해 주세요."></textarea>
+                            <textarea id="content" th:field="*{content}" maxlength="1000" placeholder="내용을 작성해 주세요."></textarea>
                             <div class="field-error" th:errors="*{content}"></div>
                         </td>
                     </tr>
@@ -72,7 +74,7 @@
                     </tr>
                 </table>
                 <div class="btn_wrap">
-                    <button type="button" class="btn1" onclick="location.href='inquiry_list.html'"
+                    <button type="button" class="btn1" onclick="location.href='./inquiry_list.html'"
                             th:onclick="|location.href='@{/community/inquiry}'|">취소</button>
                     <button type="submit" id="submitBtn" class="btn1 submit_btn">완료</button>
                 </div>
@@ -81,16 +83,5 @@
     </div>
     <div th:replace="~{/layout/footer :: basic_footer}"></div>
 </div>
-<script th:inline="javascript">
-    //팝업창에서 보낸 데이터 채우기
-    function setProductInfo(id, name, price, image) {
-        $('#productId').val(id);
-        $('#productName').text(name);
-        $('#productPrice').text(price + '원');
-        $('#productImage').attr('src', '/productImages/' + image);
-        $('.popup_btn.info').attr("onclick", "location.href='/shop/products/" + id + "'");
-        $('.popup_btn.info').show();
-    }
-</script>
 </body>
 </html>

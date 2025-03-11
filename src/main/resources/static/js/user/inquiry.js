@@ -1,7 +1,11 @@
 $(document).ready(function () {
 
     popupButton();
-    addItem();
+
+    $('.delete_btn').on('click', function () {
+        let inquiryId = $(this).data('id');
+        deleteInquiry(inquiryId);
+    });
 
     if ($('.qna_list #noDataMessage').length > 0) {
         $('.footer').addClass('fixed');
@@ -19,6 +23,7 @@ $(document).ready(function () {
     cancelBtn.click(function() {
         inquiryModal.hide();
     });
+
     // 외부 클릭 시 모달 닫기
     $(window).click(function(event) {
         if (event.target.id === "inquiryModal") {
@@ -68,6 +73,8 @@ function popupButton() {
             });
     });
 }
+let csrfHeader = $("meta[name='_csrf_header']").attr("content");
+let csrfToken = $("meta[name='_csrf']").attr("content");
 
 function getProducts() {
     return new Promise((resolve, reject) => {
@@ -120,6 +127,46 @@ window.getItem = function (items) {
     });
 }
 
+// 상품 문의 삭제
+function deleteInquiry(inquiryId) {
+
+    Swal.fire({
+        text: "삭제하시겠습니까?",
+        showCancelButton: true,
+        cancelButtonText: '아니요',
+        confirmButtonText: '예',
+        customClass: mySwalConfirm,
+        reverseButtons: true,
+        buttonsStyling: false,
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                type: 'DELETE',
+                url: '/ajax/inquiry',
+                async: false,
+                data: {'inquiryId': inquiryId},
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader(csrfHeader, csrfToken)
+                },
+                success: function (data) {
+                    if (data.code === 200) {
+                        window.location.href = '/community/inquiry';
+                    }
+                },
+                error: function () {
+                    Swal.fire({
+                        html: "삭제중 오류가 발생했습니다.<br>다시 시도해 주세요.",
+                        showConfirmButton: true,
+                        confirmButtonText: '확인',
+                        customClass: mySwal,
+                        buttonsStyling: false
+                    });
+                }
+            })
+        }
+    });
+}
+
 function toggleContent(content) {
     if (content.is(":visible")) {
         content.slideUp("fast", function() {
@@ -135,9 +182,6 @@ function toggleContent(content) {
     }
 }
 
-let csrfHeader = $("meta[name='_csrf_header']").attr("content");
-let csrfToken = $("meta[name='_csrf']").attr("content");
-
 function showInquiryModal() {
     let inquiryModal = $("#inquiryModal");
     inquiryModal.css("display", "flex");
@@ -145,7 +189,6 @@ function showInquiryModal() {
 }
 
 function validateBeforeSubmit() {
-
     let selectedProduct = $('#productName').text().length;
     let title = $('#title').val().trim();
     let content = $('#content').val().trim();
@@ -182,7 +225,7 @@ function validateBeforeSubmit() {
         });
         return false;
     }
+
+    $('.submit_btn').prop('disabled', true);
     return true;
 }
-
-

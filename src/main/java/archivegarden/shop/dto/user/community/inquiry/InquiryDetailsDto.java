@@ -29,7 +29,7 @@ public class InquiryDetailsDto {
         this.id = inquiry.getId();
         this.title = inquiry.getTitle();
         this.content = inquiry.getContent();
-        this.createdAt = DateTimeFormatter.ofPattern("yyyy.MM.dd").format(inquiry.getCreatedAt());
+        this.createdAt = DateTimeFormatter.ofPattern("yyyy.MM.dd H:m").format(inquiry.getCreatedAt());
         this.writer = writer.substring(0, 1) + "****";
         this.writerLoginId = writerLoginId;
         this.productId = productId;

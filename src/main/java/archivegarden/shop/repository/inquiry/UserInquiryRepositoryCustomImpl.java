@@ -1,9 +1,6 @@
 package archivegarden.shop.repository.inquiry;
 
-import archivegarden.shop.dto.user.community.inquiry.InquiryDetailsDto;
-import archivegarden.shop.dto.user.community.inquiry.InquiryListDto;
-import archivegarden.shop.dto.user.community.inquiry.QInquiryDetailsDto;
-import archivegarden.shop.dto.user.community.inquiry.QInquiryListDto;
+import archivegarden.shop.dto.user.community.inquiry.*;
 import archivegarden.shop.entity.ImageType;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
@@ -80,6 +77,28 @@ public class UserInquiryRepositoryCustomImpl implements UserInquiryRepositoryCus
                 .from(inquiry);
 
         return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
+    }
+
+    @Override
+    public EditInquiryForm findInquiryForEdit(Long inquiryId) {
+        return queryFactory.select(new QEditInquiryForm(
+                inquiry.title,
+                inquiry.content,
+                inquiry.isSecret,
+                product.id,
+                product.name,
+                product.price,
+                productImage.imageUrl
+        ))
+                .from(inquiry)
+                .leftJoin(inquiry.member, member)
+                .leftJoin(inquiry.product, product)
+                .leftJoin(productImage).on(productImage.product.eq(inquiry.product))
+                .where(
+                        inquiryIdEq(inquiryId),
+                        imageTypeEqDisplay()
+                )
+                .fetchOne();
     }
 
 

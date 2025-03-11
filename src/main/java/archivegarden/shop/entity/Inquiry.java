@@ -1,5 +1,6 @@
 package archivegarden.shop.entity;
 
+import archivegarden.shop.dto.user.community.inquiry.EditInquiryForm;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -52,9 +53,10 @@ public class Inquiry extends BaseTimeEntity {
     /**
      * 상품 문의 수정
      */
-    public void update(String title, String content, Product product) {
-        this.title = title;
-        this.content = content;
+    public void update(EditInquiryForm form, Product product) {
+        this.title = form.getTitle();
+        this.content = form.getContent();
+        this.isSecret = form.getIsSecret();
         this.product = product;
     }
 

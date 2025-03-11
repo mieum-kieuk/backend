@@ -4,7 +4,6 @@ import archivegarden.shop.dto.user.wish.MyWishDto;
 import archivegarden.shop.entity.Member;
 import archivegarden.shop.entity.Product;
 import archivegarden.shop.entity.Wish;
-import archivegarden.shop.exception.NoSuchWishException;
 import archivegarden.shop.exception.ajax.AjaxEntityNotFoundException;
 import archivegarden.shop.repository.member.MemberRepository;
 import archivegarden.shop.repository.product.ProductRepository;
@@ -15,8 +14,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.NoSuchElementException;
 
 @Service
 @Transactional

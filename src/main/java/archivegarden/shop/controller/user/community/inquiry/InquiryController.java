@@ -1,4 +1,4 @@
-package archivegarden.shop.controller.user.community;
+package archivegarden.shop.controller.user.community.inquiry;
 
 import archivegarden.shop.dto.user.community.inquiry.AddInquiryForm;
 import archivegarden.shop.dto.user.community.inquiry.EditInquiryForm;
@@ -69,31 +69,29 @@ public class InquiryController {
         return "user/community/inquiry/inquiry_list";
     }
 
+    /**
+     * 상품 문의 수정 폼을 반환하는 메서드
+     */
     @GetMapping("/{inquiryId}/edit")
     @PreAuthorize("hasRole('ROLE_USER') and #loginMember.loginId == principal.username")
     public String editInquiryForm(@PathVariable("inquiryId") Long inquiryId, @CurrentUser Member loginMember, Model model) {
-        EditInquiryForm form = inquiryService.getEditForm(inquiryId);
+        EditInquiryForm form = inquiryService.getInquiryEditForm(inquiryId);
         model.addAttribute("form", form);
         return "user/community/inquiry/edit_inquiry";
     }
 
+    /**
+     * 상품 문의 수정 요청을 처리하는 메서드
+     */
     @PostMapping("/{inquiryId}/edit")
     @PreAuthorize("hasRole('ROLE_USER') and #loginMember.loginId == principal.username")
     public String editInquiry(@Valid @ModelAttribute("form") EditInquiryForm form, BindingResult bindingResult,
                               @PathVariable("inquiryId") Long inquiryId, @CurrentUser Member loginMember) {
-
         if(bindingResult.hasErrors()) {
             return "user/community/inquiry/edit_inquiry";
         }
 
         inquiryService.editInquiry(form, inquiryId);
         return "redirect:/community/inquiry/{inquiryId}";
-    }
-
-    @GetMapping("/{inquiryId}/delete")
-    @PreAuthorize("hasRole('ROLE_USER') and #loginMember.loginId == principal.username")
-    public String deleteQna(@PathVariable("inquiryId") Long inquiryId, @CurrentUser Member loginMember) {
-        inquiryService.deleteInquiry(inquiryId);
-        return "redirect:/community/inquiry";
     }
 }

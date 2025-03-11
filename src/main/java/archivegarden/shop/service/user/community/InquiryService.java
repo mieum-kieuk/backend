@@ -7,8 +7,7 @@ import archivegarden.shop.dto.user.community.inquiry.InquiryListDto;
 import archivegarden.shop.entity.Inquiry;
 import archivegarden.shop.entity.Member;
 import archivegarden.shop.entity.Product;
-import archivegarden.shop.exception.NoSuchBoardException;
-import archivegarden.shop.exception.NoSuchProductException;
+import archivegarden.shop.exception.ajax.AjaxEntityNotFoundException;
 import archivegarden.shop.exception.common.EntityNotFoundException;
 import archivegarden.shop.repository.inquiry.InquiryRepository;
 import archivegarden.shop.repository.product.ProductRepository;
@@ -72,44 +71,35 @@ public class InquiryService {
     }
 
     /**
-     * 상품문의 수정 폼 조회
+     * 상품 문의 수정 폼 조회
      *
-     * @throws NoSuchBoardException
+     * @throws EntityNotFoundException
      */
-    public EditInquiryForm getEditForm(Long inquiryId) {
-        //Inquiry 조회
-        Inquiry productInquiry = inquiryRepository.findByIdWithProduct(inquiryId).orElseThrow(() -> new NoSuchBoardException("존재하지 않는 게시글 입니다."));
-
-        return new EditInquiryForm(productInquiry);
+    public EditInquiryForm getInquiryEditForm(Long inquiryId) {
+        EditInquiryForm editInquiryForm = inquiryRepository.findInquiryForEdit(inquiryId);
+        String encodedImageData = productImageService.getEncodedImageData(editInquiryForm.getProductImageData());
+        editInquiryForm.setProductImageData(encodedImageData);
+        return editInquiryForm;
     }
 
     /**
-     * 상품문의 수정
+     * 상품 문의 수정
      *
-     * @throws NoSuchProductException
-     * @throws NoSuchBoardException
+     * @throws EntityNotFoundException
      */
     public void editInquiry(EditInquiryForm form, Long inquiryId) {
-        //Product 엔티티 조회
-        Product product = productRepository.findById(form.getProductId()).orElseThrow(() -> new NoSuchProductException("존재하지 않는 상품입니다."));
-
-        //Inquiry 조회
-        Inquiry productInquiry = inquiryRepository.findByIdWithProduct(inquiryId).orElseThrow(() -> new NoSuchBoardException("존재하지 않는 게시글 입니다."));
-
-        //수정
-        productInquiry.update(form.getTitle(), form.getContent(), product);
+        Product product = productRepository.findById(form.getProductId()).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 상품입니다."));
+        Inquiry inquiry = inquiryRepository.findById(inquiryId).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 게시글 입니다."));
+        inquiry.update(form, product);
     }
 
     /**
-     * 상품문의 삭제
+     * Ajax: 상품 문의 삭제
      *
-     * @throws NoSuchBoardException
+     * @throws AjaxEntityNotFoundException
      */
-    public void deleteInquiry(Long qnaId) {
-        //Inquiry 조회
-        Inquiry productInquiry = inquiryRepository.findById(qnaId).orElseThrow(() -> new NoSuchBoardException("존재하지 않는 게시글 입니다."));
-
-        //Inquiry 삭제
+    public void deleteInquiry(Long inquiryId) {
+        Inquiry productInquiry = inquiryRepository.findById(inquiryId).orElseThrow(() -> new AjaxEntityNotFoundException("존재하지 않는 게시글 입니다."));
         inquiryRepository.delete(productInquiry);
     }
 }
