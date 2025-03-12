@@ -1,13 +1,19 @@
 package archivegarden.shop.controller.user.community.inquiry;
 
 import archivegarden.shop.dto.ResultResponse;
+import archivegarden.shop.dto.user.community.inquiry.AddInquiryForm;
+import archivegarden.shop.dto.user.community.inquiry.InquiryListDto;
+import archivegarden.shop.entity.Member;
 import archivegarden.shop.service.user.community.InquiryService;
+import archivegarden.shop.web.annotation.CurrentUser;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @RestController
 @RequestMapping("/ajax/inquiry")
@@ -15,6 +21,30 @@ import org.springframework.web.bind.annotation.RestController;
 public class InquiryAjaxController {
 
     private final InquiryService inquiryService;
+
+    /**
+     * 상품 문의 등록 요청을 처리하는 메서드
+     */
+    @PostMapping("/add")
+    public ResultResponse addInquiry(@Valid @ModelAttribute("form") AddInquiryForm form, BindingResult bindingResult,
+                             @CurrentUser Member loginMember, RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            new ResultResponse(HttpStatus.BAD_REQUEST.value(), "상품 문의 등록 중 오류가 발생했습니다.");
+        }
+
+        Long inquiryId = inquiryService.saveInquiry(form, loginMember);
+        redirectAttributes.addAttribute("inquiryId", inquiryId);
+        return new ResultResponse(HttpStatus.OK.value(), "상품 문의가 등록되었습니다.");
+    }
+
+    /**
+     * 상품 문의 목록 조회 요청을 처리하는 메서드
+     */
+    public Page<InquiryListDto> inquiries(@RequestParam(name = "page", defaultValue = "1") int page) {
+        PageRequest pageRequest = PageRequest.of(page - 1, 10);
+        Page<InquiryListDto> inquiryDtos = inquiryService.getInquires(pageRequest);
+        return inquiryDtos;
+    }
 
     /**
      * 상품 문의 삭제 요청을 처리하는 메서드

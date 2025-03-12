@@ -51,7 +51,9 @@ public class AdminInquiryRepositoryCustomImpl implements AdminInquiryRepositoryC
                 .leftJoin(inquiry.product, product)
                 .leftJoin(product.productImages, productImage)
                 .leftJoin(inquiry.member, member)
-                .where(inquiry.id.eq(inquiryId))
+                .where(
+                        inquiry.id.eq(inquiryId),
+                        imageTypeDisplay())
                 .fetchOne();
 
         return Optional.ofNullable(result);

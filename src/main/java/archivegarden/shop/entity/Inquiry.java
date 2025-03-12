@@ -40,6 +40,10 @@ public class Inquiry extends BaseTimeEntity {
     @JoinColumn(name = "product_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Product product;  //단방향
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "answer_id")
+    private Answer answer;  //단방향
+
     @Builder
     public Inquiry(String title, String content, boolean isSecret, Member member, Product product) {
         this.title = title;
@@ -61,9 +65,18 @@ public class Inquiry extends BaseTimeEntity {
     }
 
     /**
+     * 답변 달림
+     */
+    public void writeAnswer(Answer answer) {
+        this.answer = answer;
+        updateAnswerStatus(true);
+    }
+
+    /**
      * 답변 상태 수정
      */
     public void updateAnswerStatus(boolean isAnswered) {
-        this.isAnswered = true;
+        this.isAnswered = isAnswered;
     }
+
 }

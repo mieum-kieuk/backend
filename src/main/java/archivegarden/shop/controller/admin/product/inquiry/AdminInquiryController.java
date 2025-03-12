@@ -1,5 +1,6 @@
 package archivegarden.shop.controller.admin.product.inquiry;
 
+import archivegarden.shop.dto.admin.product.answer.AdminAnswerDto;
 import archivegarden.shop.dto.admin.product.inquiry.AdminInquiryDetailsDto;
 import archivegarden.shop.dto.admin.product.inquiry.AdminInquiryListDto;
 import archivegarden.shop.dto.admin.product.product.AdminProductSearchCondition;
@@ -12,7 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/admin/inquiry")
+@RequestMapping("/admin/inquiries")
 @RequiredArgsConstructor
 public class AdminInquiryController {
 
