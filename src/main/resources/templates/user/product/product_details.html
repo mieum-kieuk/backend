@@ -204,164 +204,120 @@
                     </ul>
                 </div>
             </div>
-            <div class="qna_wrap list">
+            <div id="inquiryModal" class="modal">
+                <div class="modal_content">
+                    <form id="addQnaForm" action="" th:action th:object="${form}" method="post" th:onsubmit="return validateBeforeInquiryModalSubmit()" novalidate>
+                        <table class="qna_table">
+                            <tr>
+                                <td colspan="2">
+                                    <div class="title_wrap">
+                                        <label for="title">제목</label>
+                                        <input id="title" type="text" maxlength="30" placeholder="제목을 작성해 주세요.">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <textarea id="content" name="content" maxlength="1000" placeholder="내용을 작성해 주세요."></textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" class="isSecret_cell">
+                                    <div class="isSecret secret">
+                                        <input id="secret" name="isSecret" value="true" type="checkbox"><label for="secret">비밀글로 문의하기</label>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        <ul class="text description">
+                            <li><span>상품에 대한 문의를 남기는 공간입니다. 해당 게시판의 성격과 다른 글은 사전동의 없이 담당 게시판으로 이동될 수 있습니다.</span></li>
+                        </ul>
+                        <div class="btn_wrap">
+                            <button type="button" class="btn1 close_btn">닫기</button>
+                            <button type="submit" class="btn1 submit_btn">등록</button>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div id="inquiryList" class="qna_wrap list">
                 <div class="qna_head">
                     <div class="qna_head_inner">
                         <h1 class="qna_title">상품 문의</h1>
-                        <ul class="text description">
-                            <li><span>상품에 대한 문의를 남기는 공간입니다. 해당 게시판의 성격과 다른 글은 사전동의 없이 담당 게시판으로 이동될 수 있습니다.</span></li>
-                            <li><span>배송관련, 주문(취소/교환/환불)관련 문의 및 요청사항은 마이페이지 내 <a class="link" href="../mypage/inquiry/personal/add_inquiry.html">1:1문의</a>에 남겨주세요.</span></li>
-                        </ul>
+                        <span class="qna_count">(<span class="totalCount"></span>)</span>
                     </div>
-                    <div class="btn_wrap">
-                        <button type="button" id="writeBtn" class="btn1 write_btn" onclick="showInquiryModal()">문의하기</button>
-                    </div>
+                        <div class="btn_wrap">
+                            <button type="button" id="inquiryBtn" class="btn1 write_btn">문의하기</button>
+                        </div>
                 </div>
-                <table class="qna_table">
-                    <thead>
-                    <tr>
-                        <th class="title">제목</th>
-                        <th>작성자</th>
-                        <th>작성일</th>
-                        <th>답변상태</th>
-                    </tr>
-                    </thead>
-                    <tr id="noDataMessage">
-                        <td colspan="4">등록된 상품문의가 없습니다.</td>
-                    </tr>
-                    <tr class="qna_items">
-                        <td class="title_td">
-                            <div class="title">
-                                재입고 문의
-                            </div>
-                        </td>
-                        <td><span class="writer">작성자</span></td>
-                        <td><span class="date">2024.04.08</span></td>
-                        <td><span class="answer pending">답변대기</span></td>
-                    </tr>
-                    <tr class="qna_items">
-                        <td class="title_td">
-                            <div class="title">
-                                <span class="material-symbols-outlined">lock</span>
-                                <span class="title">비밀글입니다.</span>
-                            </div>
-                        </td>
-                        <td><span class="writer">작성자</span></td>
-                        <td><span class="date">2024.04.08</span></td>
-                        <td><span class="answer pending">답변대기</span></td>
-                    </tr>
-                    <tr class="qna_content">
-                        <td colspan="4">
-                            <div class="qna_cont" id="content">
-                                <div class="qna_question">
-                                    <div class="qna_text">
-                                        <span>Q</span>
-                                        <span>재입고 언제 되나요?</span>
-                                    </div>
-                                    <div class="menu">
-                                        <button class="menu_toggle">
-                                            <span class="material-symbols-outlined">more_horiz</span>
-                                        </button>
-                                        <div class="dropdown_menu">
-                                            <ul>
-                                                <li>
-                                                    <button type="button" class="edit_btn">수정</button>
-                                                </li>
-                                                <li>
-                                                    <button type="button" class="delete_btn">삭제</button>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="qna_answer">
-                                    <span>A</span>
-                                    <span>안녕하세요. 고객님
+                    <table id="inquiryTable" class="qna_table">
+                        <tr id="noDataMessage">
+                            <td colspan="4">등록된 상품문의가 없습니다.</td>
+                        </tr>
+    <!--                    <tr class="qna_items">-->
+    <!--                        <td class="title_td">-->
+    <!--                            <div class="title">-->
+    <!--                                재입고 문의-->
+    <!--                            </div>-->
+    <!--                        </td>-->
+    <!--                        <td><span class="writer">작성자</span></td>-->
+    <!--                        <td><span class="date">2024.04.08</span></td>-->
+    <!--                        <td><span class="answer pending">답변대기</span></td>-->
+    <!--                    </tr>-->
+    <!--                    <tr class="qna_items">-->
+    <!--                        <td class="title_td">-->
+    <!--                            <div class="title">-->
+    <!--                                <span class="material-symbols-outlined">lock</span>-->
+    <!--                                <span class="title">비밀글입니다.</span>-->
+    <!--                            </div>-->
+    <!--                        </td>-->
+    <!--                        <td><span class="writer">작성자</span></td>-->
+    <!--                        <td><span class="date">2024.04.08</span></td>-->
+    <!--                        <td><span class="answer pending">답변대기</span></td>-->
+    <!--                    </tr>-->
+    <!--                    <tr class="qna_content">-->
+    <!--                        <td colspan="4">-->
+    <!--                            <div class="qna_cont" id="content">-->
+    <!--                                <div class="qna_question">-->
+    <!--                                    <div class="qna_text">-->
+    <!--                                        <span>Q</span>-->
+    <!--                                        <span>재입고 언제 되나요?</span>-->
+    <!--                                    </div>-->
+    <!--                                    <div class="menu">-->
+    <!--                                        <button class="menu_toggle">-->
+    <!--                                            <span class="material-symbols-outlined">more_horiz</span>-->
+    <!--                                        </button>-->
+    <!--                                        <div class="dropdown_menu">-->
+    <!--                                            <ul>-->
+    <!--                                                <li>-->
+    <!--                                                    <button type="button" class="edit_btn">수정</button>-->
+    <!--                                                </li>-->
+    <!--                                                <li>-->
+    <!--                                                    <button type="button" class="delete_btn">삭제</button>-->
+    <!--                                                </li>-->
+    <!--                                            </ul>-->
+    <!--                                        </div>-->
+    <!--                                    </div>-->
+    <!--                                </div>-->
+    <!--                                <div class="qna_answer">-->
+    <!--                                    <span>A</span>-->
+    <!--                                    <span>안녕하세요. 고객님-->
 
-                                    우선, 즐거운 마음으로 구매하여 주신 상품이나 이렇게 불편하게 하여 죄송합니다.
+    <!--                                    우선, 즐거운 마음으로 구매하여 주신 상품이나 이렇게 불편하게 하여 죄송합니다.-->
 
-                                    고객님께서 문의하신 내용은 유선상으로 안내 도와드렸습니다
+    <!--                                    고객님께서 문의하신 내용은 유선상으로 안내 도와드렸습니다-->
 
-                                    문의하신 상품이 온전한 상태로 배송되지 않아 많이 놀라시고 당황하셨을 것 같아 죄송한 말씀 다시 한번 드리며, 바쁘셨을 텐데 시간 내 주셔서 진심으로 감사드립니다.
+    <!--                                    문의하신 상품이 온전한 상태로 배송되지 않아 많이 놀라시고 당황하셨을 것 같아 죄송한 말씀 다시 한번 드리며, 바쁘셨을 텐데 시간 내 주셔서 진심으로 감사드립니다.-->
 
-                                    기대하고 주문해주셨을 텐데, 온전한 상품으로 배송 도움 드리지 못하여 다시한번 사과 말씀드리며, 추후 같은 불편으로 찾아뵙지 않도록 남겨주신 말씀은 유관 부서로 전달하여 더욱더 좋은 상품과 서비스로 찾아뵐 것을 약속드리며 고객님의 말씀 귀 기울여 보다 나은 상품과 즐거운 쇼핑이 될 수 있도록 노력하는 컬리가 되겠습니다.
-                                    </span>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr class="qna_items">
-                        <td class="title_td">
-                            <div class="title">
-                                재입고 문의
-                            </div>
-                        </td>
-                        <td><span class="writer">작성자</span></td>
-                        <td><span class="date">2024.04.08</span></td>
-                        <td><span class="answer complete">답변완료</span></td>
-                    </tr>
-                    <tr class="qna_content">
-                        <td colspan="4">
-                            <div class="qna_cont" id="content">
-                                <div class="qna_question">
-                                    <div class="qna_text">
-                                        <span>Q</span>
-                                        <span>재입고 언제 되나요?</span>
-                                    </div>
-                                    <div class="menu">
-                                        <button class="menu_toggle">
-                                            <span class="material-symbols-outlined">more_horiz</span>
-                                        </button>
-                                        <div class="dropdown_menu">
-                                            <ul>
-                                                <li>
-                                                    <button type="button" class="edit_btn">수정</button>
-                                                </li>
-                                                <li>
-                                                    <button type="button" class="delete_btn">삭제</button>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="qna_answer">
-                                    <span>A</span>
-                                    <span>안녕하세요. 고객님
-
-                                    우선, 즐거운 마음으로 구매하여 주신 상품이나 이렇게 불편하게 하여 죄송합니다.
-
-                                    고객님께서 문의하신 내용은 유선상으로 안내 도와드렸습니다
-
-                                    문의하신 상품이 온전한 상태로 배송되지 않아 많이 놀라시고 당황하셨을 것 같아 죄송한 말씀 다시 한번 드리며, 바쁘셨을 텐데 시간 내 주셔서 진심으로 감사드립니다.
-
-                                    기대하고 주문해주셨을 텐데, 온전한 상품으로 배송 도움 드리지 못하여 다시한번 사과 말씀드리며, 추후 같은 불편으로 찾아뵙지 않도록 남겨주신 말씀은 유관 부서로 전달하여 더욱더 좋은 상품과 서비스로 찾아뵐 것을 약속드리며 고객님의 말씀 귀 기울여 보다 나은 상품과 즐거운 쇼핑이 될 수 있도록 노력하는 컬리가 되겠습니다.
-                                    </span>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                </table>
-
-                <!--                <ul class="qna_list">-->
-                <!--                    <li class="qna_items">-->
-                <!--                        <div class="qna_tit">-->
-                <!--                            <h3>문의 드립니다.</h3>-->
-                <!--                            <div class="description">-->
-                <!--                                <span class="id">작성자</span>-->
-                <!--                                <span class="date">작성일</span>-->
-                <!--                            </div>-->
-                <!--                        </div>-->
-                <!--                        <div class="qna_content">-->
-                <!--                            <p>질문 내용입니다. 여기에 상세한 질문 내용이 들어갑니다.</p>-->
-                <!--                            <p>답변 내용입니다. 여기에 상세한 답변 내용이 들어갑니다.</p>-->
-                <!--                        </div>-->
-                <!--                    </li>-->
-                <!--                </ul>-->
+    <!--                                    기대하고 주문해주셨을 텐데, 온전한 상품으로 배송 도움 드리지 못하여 다시한번 사과 말씀드리며, 추후 같은 불편으로 찾아뵙지 않도록 남겨주신 말씀은 유관 부서로 전달하여 더욱더 좋은 상품과 서비스로 찾아뵐 것을 약속드리며 고객님의 말씀 귀 기울여 보다 나은 상품과 즐거운 쇼핑이 될 수 있도록 노력하는 컬리가 되겠습니다.-->
+    <!--                                    </span>-->
+    <!--                                </div>-->
+    <!--                            </div>-->
+    <!--                        </td>-->
+    <!--                    </tr>-->
+                    </table>
                 <div class="pagination">
-                    <ul>
-                        <li><a href="#" class="prev_first"><span class="material-symbols-outlined">navigate_before</span></a></li>
-                        <li><a href="#">1</a></li>
-                        <li><a href="#" class="next_last"><span class="material-symbols-outlined">navigate_next</span></a></li>
+                    <ul id="pagination">
                     </ul>
                 </div>
             </div>
@@ -421,43 +377,6 @@
                         <div class="btn_wrap">
                             <button type="button" class="btn1 cancel_btn" >취소</button>
                             <button type="submit" id="submitBtn" class="btn1 submit_btn">등록</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <div id="inquiryModal" class="modal">
-                <div class="modal_content">
-                    <div class="qna_head">
-                        <h1 class="qna_title">상품문의</h1>
-                        <span class="material-symbols-outlined close">close</span>
-                    </div>
-                    <form id="addQnaForm" action="#" method="post" novalidate>
-                        <table class="qna_table">
-                            <tr>
-                                <td colspan="2">
-                                    <div class="title_wrap">
-                                        <label for="title">제목</label>
-                                        <input id="title" type="text" placeholder="제목을 작성해 주세요.">
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">
-                                    <textarea id="content" name="content" rows="8" placeholder="내용을 작성해 주세요."></textarea>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2" class="isSecret_cell">
-                                    <div class="isSecret secret">
-                                        <input id="secret" name="isSecret" value="true" type="checkbox"><label for="secret">비밀글로 문의하기</label>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
-                        <div class="btn_wrap">
-                            <button type="button" class="btn1 cancel_btn">취소</button>
-                            <button type="submit" id="submitBtn" class="btn1 submit_btn">등록</button>
-
                         </div>
                     </form>
                 </div>
