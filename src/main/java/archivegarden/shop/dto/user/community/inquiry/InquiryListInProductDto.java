@@ -11,7 +11,7 @@ import java.time.format.DateTimeFormatter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class InquiryListDto {
+public class InquiryListInProductDto {
 
     private Long id;
     private String title;
@@ -22,10 +22,11 @@ public class InquiryListDto {
     private String productImageData;
     private String writer;
     private String writerLoginId;
+    private String answer;
 
     @QueryProjection
-    public InquiryListDto(Long inqueryId, String title, boolean isSecret, boolean isAnswered, LocalDateTime createdAt,
-                          String writer, String writerLoginId, Long productId, String productImageUrl) {
+    public InquiryListInProductDto(Long inqueryId, String title, boolean isSecret, boolean isAnswered, LocalDateTime createdAt,
+                                   String writer, String writerLoginId, Long productId, String productImageUrl, String answer) {
         this.id = inqueryId;
         this.productId = productId;
         this.productImageData = productImageUrl;
@@ -35,5 +36,6 @@ public class InquiryListDto {
         this.isSecret = isSecret;
         this.isAnswered = isAnswered ? "답변완료" : "답변대기";
         this.createdAt = DateTimeFormatter.ofPattern("yyyy.MM.dd").format(createdAt);
+        this.answer = answer;
     }
 }

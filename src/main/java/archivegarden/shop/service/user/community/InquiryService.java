@@ -1,9 +1,6 @@
 package archivegarden.shop.service.user.community;
 
-import archivegarden.shop.dto.user.community.inquiry.AddInquiryForm;
-import archivegarden.shop.dto.user.community.inquiry.EditInquiryForm;
-import archivegarden.shop.dto.user.community.inquiry.InquiryDetailsDto;
-import archivegarden.shop.dto.user.community.inquiry.InquiryListDto;
+import archivegarden.shop.dto.user.community.inquiry.*;
 import archivegarden.shop.entity.Inquiry;
 import archivegarden.shop.entity.Member;
 import archivegarden.shop.entity.Product;
@@ -71,6 +68,19 @@ public class InquiryService {
     }
 
     /**
+     * 상품 상세페이지에서 상품 문의 목록 조회
+     */
+    public Page<InquiryListInProductDto> getInquiresInProduct(Long productId, Pageable pageable) {
+        Page<InquiryListInProductDto> inquiryListDtos = inquiryRepository.findInquiriesByProductId(productId, pageable);
+        inquiryListDtos.forEach(i -> {
+            String encodedImageData = productImageService.getEncodedImageData(i.getProductImageData());
+            i.setProductImageData(encodedImageData);
+        });
+
+        return inquiryListDtos;
+    }
+
+    /**
      * 상품 문의 수정 폼 조회
      *
      * @throws EntityNotFoundException
@@ -94,7 +104,7 @@ public class InquiryService {
     }
 
     /**
-     * Ajax: 상품 문의 삭제
+     * 상품 문의 삭제
      *
      * @throws AjaxEntityNotFoundException
      */

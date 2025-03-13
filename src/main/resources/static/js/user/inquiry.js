@@ -1,12 +1,13 @@
 $(document).ready(function () {
-    let currentPage = 1;
+
+    let productId = $('#product').data('id');
 
     popupButton();
-    loadInquiries(currentPage);
+    loadInquiries(productId, 1);
 
     $('.delete_btn').on('click', function () {
         let inquiryId = $(this).data('id');
-        deleteInquiry(inquiryId);
+        deleteInquiry(productId, inquiryId);
     });
 
     if ($('.qna_list #noDataMessage').length > 0) {
@@ -16,22 +17,6 @@ $(document).ready(function () {
     $(document).on("click", ".qna_items", function () {
         let currentContent = $(this).next(".qna_content");
         toggleContent(currentContent);
-    });
-
-    // 문의하기 버튼
-    $('#inquiryBtn').on('click', function () {
-        openInquiryModal();
-        let inquiryModal = $('#inquiryModal');
-        let qnaHead = $('.qna_head');
-        // 모달을 qna_head 아래로 삽입
-        inquiryModal.insertAfter(qnaHead).css({
-            position: 'relative',
-        });
-
-        // 첫 번째 tr에 border-top 스타일 변경
-        $('#product .qna_wrap.list .qna_table tbody tr:first-child').css({
-            'border-top': '1px solid #d7d7d7'
-        });
     });
 
     // 수정 버튼
@@ -82,11 +67,10 @@ $(document).ready(function () {
     });
 });
 
-function loadInquiries(currentPage) {
+function loadInquiries(productId, currentPage) {
     $.ajax({
         type: 'GET',
-        url: '/ajax/inquiries',
-        data: {'page': currentPage},
+        url: '/ajax/inquiries/' + productId,
         success: function (data) {
             renderPagination(data.totalElements, currentPage);
             let totalCount = $('.totalCount');
@@ -227,6 +211,7 @@ function renderPagination(totalElements, currentPage) {
     `);
     }
 }
+
 // 상품문의 폼 열기
 function openInquiryModal() {
     let inquiryModal = $("#inquiryModal");
@@ -410,6 +395,7 @@ function popupButton() {
             });
     });
 }
+
 //
 // let csrfHeader = $("meta[name='_csrf_header']").attr("content");
 // let csrfToken = $("meta[name='_csrf']").attr("content");
@@ -468,7 +454,7 @@ window.getItem = function (items) {
 }
 
 // 상품 문의 삭제
-function deleteInquiry(inquiryId) {
+function deleteInquiry(productId, inquiryId) {
 
     Swal.fire({
         text: "삭제하시겠습니까?",
@@ -483,19 +469,19 @@ function deleteInquiry(inquiryId) {
             $.ajax({
                 type: 'DELETE',
                 url: '/ajax/inquiry',
-                async: false,
                 data: {'inquiryId': inquiryId},
+                async: false,
                 beforeSend: function (xhr) {
                     xhr.setRequestHeader(csrfHeader, csrfToken)
                 },
                 success: function (data) {
                     if (data.code === 200) {
-                        window.location.href = '/community/inquiry';
+                        loadInquiries(productId, 1);
                     }
                 },
                 error: function () {
                     Swal.fire({
-                        html: "삭제중 오류가 발생했습니다.<br>다시 시도해 주세요.",
+                        html: "삭제 중 오류가 발생했습니다.<br>다시 시도해 주세요.",
                         showConfirmButton: true,
                         confirmButtonText: '확인',
                         customClass: mySwal,
@@ -506,6 +492,49 @@ function deleteInquiry(inquiryId) {
         }
     });
 }
+
+$('#inquiryBtn').on('click', function () {
+    $.ajax({
+        url: '/ajax/check/login',
+        type: 'GET',
+        success: function (result) {
+            if (result.code == 401) {
+                Swal.fire({
+                    html: result.message,
+                    showConfirmButton: true,
+                    confirmButtonText: '확인',
+                    customClass: mySwal,
+                    buttonsStyling: false,
+                    preConfirm: () => {
+                        window.location.href = '/login';
+                    }
+                });
+            } else if (result.code == 200) {
+                openInquiryModal();
+                let inquiryModal = $('#inquiryModal');
+                let qnaHead = $('.qna_head');
+                // 모달을 qna_head 아래로 삽입
+                inquiryModal.insertAfter(qnaHead).css({
+                    position: 'relative',
+                });
+
+                // 첫 번째 tr에 border-top 스타일 변경
+                $('#product .qna_wrap.list .qna_table tbody tr:first-child').css({
+                    'border-top': '1px solid #d7d7d7'
+                });
+            }
+        },
+        error: function () {
+            Swal.fire({
+                text: "로그인 상태를 확인하는 중 오류가 발생했습니다.",
+                showConfirmButton: true,
+                confirmButtonText: '확인',
+                customClass: mySwal,
+                buttonsStyling: false
+            });
+        }
+    });
+});
 
 // 폼 제출 전 유효성 검사
 function validateBeforeSubmit() {

@@ -30,7 +30,7 @@
 <body>
 <div class="wrap">
     <div th:replace="~{/layout/header :: header}"></div>
-    <div id="product">
+    <div id="product" th:data-id="${product.id}">
         <div class="product_wrap">
             <div class="prd_desc">
                 <div class="prd_left">
