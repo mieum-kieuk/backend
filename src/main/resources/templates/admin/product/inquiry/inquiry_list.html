@@ -24,7 +24,7 @@
     <div id="admin">
         <div class="content">
             <h2 class="content_tit">상품 문의 관리</h2>
-            <div class="qna_wrap list">
+            <div class="admins_wrap qna_wrap list">
                 <h3 class="form_title">기본검색</h3>
                 <form id="adminsSearchForm" class="search_form" action="" th:action method="get" onsubmit="return validateBeforeSearch()">
                     <div class="form_container">
@@ -57,15 +57,17 @@
                         <div class="list_head inquiry">
                             <div class="item number">번호</div>
                             <div class="item product">상품</div>
-                            <div class="item title">제목</div>
-                            <div class="item name">작성자명</div>
-                            <div class="item date">작성일시</div>
-                            <div class="item answer">답변상태</div>
+                            <div>
+                                <div class="item title">제목</div>
+                                <div class="item name">작성자명</div>
+                                <div class="item date">작성일시</div>
+                                <div class="item answer">답변상태</div>
+                            </div>
                         </div>
                         <div class="list inquiry">
                             <div class="list_item" th:each="inquiry, inquiryStat : ${inquiries}">
                                 <div class="item number" th:text="${inquiries.totalElements - (inquiries.number * inquiries.pageable.pageSize) - inquiryStat.index}"></div>
-                                <a class="item img" th:href="@{/admin/products/{productId}(productId=${inquiry.productId})}"><img id="displayImage1" th:src="${inquiry.productImageData}" alt="상품이미지"></a>
+                                <a class="item product" th:href="@{/admin/products/{productId}(productId=${inquiry.productId})}"><img th:src="${inquiry.productImageData}" alt="상품이미지"></a>
                                 <a href="./inquiry_details.html" th:href="@{/admin/inquiries/{inquiryId}(inquiryId=${inquiry.id})}">
                                     <div class="item title" th:text="${inquiry.title}"></div>
                                     <div class="item name" th:text="${inquiry.writerLoginId}"></div>

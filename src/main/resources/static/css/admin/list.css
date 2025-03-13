@@ -63,6 +63,7 @@
     padding: 8px;
     width: 15%;
     border-left: 1px solid #d7d7d7;
+    white-space: nowrap;
 }
 
 #noDataMessage {
@@ -296,17 +297,30 @@
 }
 
 /*product_inquiry*/
+.inquiry .list_item a {
+    /*display: -webkit-inline-box;*/
+}
+.inquiry .item.product  > img {
+    width: 80px;
+    max-height: 80px;
+    height: 100%;
+    object-fit: cover;
+}
 .inquiry .item.number {
     width: 8%;
     border-left: none;
 }
-
+.inquiry .item.product {
+    justify-content: center;
+    width: 12%;
+    min-width: 100px;
+}
 .inquiry .item.name {
-    width: 10%;
+    width: 20%;
 }
 
 .inquiry .item.title {
-    width: 52%;
+    width: 50%;
 }
 
 .inquiry .item.date {
@@ -314,7 +328,7 @@
 }
 
 .inquiry .item.answer {
-    width: 8%;
+    width: 10%;
 }
 
 /*order_list*/

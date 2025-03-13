@@ -579,6 +579,7 @@
 }
 #product .qna_wrap .qna_items {
     border-top: 1px solid #d7d7d7;
+    cursor: pointer;
 }
 #product .qna_wrap .qna_tit {
     display: flex;
@@ -618,7 +619,7 @@
 #product .qna_cont {
     height: auto;
     min-height: auto;
-    padding: 10px;
+    padding: 20px 10px;
     border: none;
 }
 #product .qna_question {

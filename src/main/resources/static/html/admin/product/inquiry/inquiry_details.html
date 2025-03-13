@@ -14,12 +14,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
-    <link rel="stylesheet" href="../../../../css/comm.css" />
-    <link rel="stylesheet" href="../../../../css/admin_form.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="../../../../css/common/comm.css" />
+    <link rel="stylesheet" href="../../../../css/admin/admin.css">
     <link rel="stylesheet" href="../../../../css/user/inquiry.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script defer src="../../../../js/comm.js"></script>
-    <script defer src="../../../../js/inquiry.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.js"></script>
+    <script defer src="../../../../js/common/comm.js"></script>
+    <script defer src="../../../../js/admin/inquiry.js"></script>
 
 </head>
 <body>
@@ -39,12 +41,25 @@
         <div class="side_menu menu">
             <h2>메뉴</h2>
             <ul class="depth1">
-                <li data-path="products">
+                <li data-path="member">
+                    <a href="#">회원 관리</a>
+                    <ul class="depth2">
+                        <li data-path="member"><a href="../../../admin/member/member_list.html">회원 정보 관리</a></li>
+                        <li data-path="point"><a href="../../../admin/member/point_list.html">적립금 관리</a></li>
+                    </ul>
+                </li>
+                <li data-path="admin">
+                    <a href="#">관리자 관리</a>
+                    <ul class="depth2">
+                        <li data-path="admin-list"><a href="../../../admin/admin/admin_list.html">전체 관리자 관리</a></li>
+                    </ul>
+                </li>
+                <li data-path="product">
                     <a href="#">상품 관리</a>
                     <ul class="depth2">
-                        <li data-path="product"><a href="../../../admin/products/product/product_list.html">전체 상품관리</a></li>
-                        <li data-path="inquiry"><a href="../../../admin/products/inquiry/inquiry_list.html">상품 문의관리</a></li>
-                        <li data-path="discount"><a href="../../../admin/promotion/discount/discount_list.html">전체 할인관리</a></li>
+                        <li data-path="product"><a href="../product/product_list.html">전체 상품관리</a></li>
+                        <li data-path="inquiry"><a href="./inquiry_list.html">상품 문의관리</a></li>
+                        <li data-path="discount"><a href="../discount/discount_list.html">전체 할인관리</a></li>
                     </ul>
                 </li>
                 <li data-path="orders">
@@ -54,30 +69,22 @@
                         <li data-path="cancel"><a href="#">취소/교환/반품/환불 관리</a></li>
                     </ul>
                 </li>
-                <li data-path="member">
-                    <a href="#">회원 관리</a>
-                    <ul class="depth2">
-                        <li data-path="member"><a href="../../../admin/member/member_list.html">회원 정보 관리</a></li>
-                        <li data-path="point"><a href="../../../admin/member/point_list.html">적립금 관리</a></li>
-                    </ul>
-                </li>
+
                 <li data-path="help">
                     <a href="#">고객 지원</a>
                     <ul class="depth2">
                         <li data-path="notice"><a href="../../../admin/help/notice/notice_list.html">공지사항 관리</a></li>
-                        <li data-path="inquiry"><a href="../../../admin/help/inquiry/inquiry_list.html">1:1 문의관리</a></li>
+<!--                        <li data-path="inquiry"><a href="../../../admin/product/inquiry/inquiry_list.html">1:1 문의관리</a></li>-->
                         <li data-path="withdrawal"><a href="#">회원 탈퇴내역</a></li>
                     </ul>
                 </li>
-                <li data-path="admins">
-                    <a href="../../../admin/admins/admins_list.html">관리자 관리</a>
-                </li>
+
             </ul>
         </div>
         <div class="side_menu account">
             <ul>
-                <li><a href="../../admins/admin_login.html">로그인</a></li>
-                <li><a href="../../admins/admin_join.html">회원가입</a></li>
+                <li><a href="../../admin/login.html">로그인</a></li>
+                <li><a href="../../admin/join.html">회원가입</a></li>
                 <li><a href="">로그아웃</a></li>
             </ul>
         </div>
@@ -151,8 +158,8 @@
                     <span>상품문의 답변은 한 개만 작성 가능합니다.</span>
                 </div>
                 <textarea type="text" id="cmtInput" placeholder="댓글을 입력해 주세요."></textarea>
-                <button type="button" id="submitCmt" onclick="submitComment()" class="btn1">작성</button>
-                <button type="button" id="updateCmt" onclick="updateComment()" class="btn1" style="display: none;">완료</button>
+                <button type="button" id="submitCmt" onclick="addAnswer()" class="btn1">작성</button>
+                <button type="button" id="updateCmt" onclick="updateAnswer()" class="btn1" style="display: none;">완료</button>
             </div>
         </div>
     </div>

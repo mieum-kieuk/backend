@@ -25,7 +25,7 @@
     <script defer src="../../../static/js/user/product.js" th:src="@{/js/user/product.js}"></script>
     <script defer src="../../../static/js/user/wish.js" th:src="@{/js/user/wish.js}"></script>
     <script defer src="../../../static/js/review.js" th:src="@{/js/review.js}"></script>
-    <script defer src="../../../static/js/user/inquiry.js" th:src="@{/js/user/inquiry.js}"></script>
+    <script defer src="../../../static/js/user/inquiryPopup.js" th:src="@{/js/user/inquiryPopup.js}"></script>
 </head>
 <body>
 <div class="wrap">
@@ -206,7 +206,7 @@
             </div>
             <div id="inquiryModal" class="modal">
                 <div class="modal_content">
-                    <form id="addQnaForm" action="" th:action th:object="${form}" method="post" th:onsubmit="return validateBeforeInquiryModalSubmit()" novalidate>
+                    <div id="addQnaForm" action="" th:action th:object="${form}" method="post" th:onsubmit="return validateBeforeInquiryModalSubmit()" novalidate>
                         <table class="qna_table">
                             <tr>
                                 <td colspan="2">
@@ -237,7 +237,7 @@
                             <button type="submit" class="btn1 submit_btn">등록</button>
 
                         </div>
-                    </form>
+                    </div>
                 </div>
             </div>
             <div id="inquiryList" class="qna_wrap list">
@@ -251,9 +251,11 @@
                         </div>
                 </div>
                     <table id="inquiryTable" class="qna_table">
-                        <tr id="noDataMessage">
-                            <td colspan="4">등록된 상품문의가 없습니다.</td>
-                        </tr>
+                        <tbody>
+<!--                        <tr id="noDataMessage">-->
+<!--                            <td colspan="4">등록된 상품문의가 없습니다.</td>-->
+<!--                        </tr>-->
+                        </tbody>
     <!--                    <tr class="qna_items">-->
     <!--                        <td class="title_td">-->
     <!--                            <div class="title">-->

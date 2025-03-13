@@ -336,7 +336,7 @@
     display: none;
     z-index: 1;
     width: 100%;
-    height: 100%;
+    /*height: 100%;*/
     justify-content: center;
     align-items: center;
 }
@@ -366,7 +366,7 @@
     align-items: center;
 }
 
-.modal_content form {
+.modal_content #addQnaForm {
     display: flex;
     flex-direction: column;
     padding: 20px;
