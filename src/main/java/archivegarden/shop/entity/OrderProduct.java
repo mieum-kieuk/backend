@@ -5,8 +5,6 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import static jakarta.persistence.FetchType.LAZY;
-
 @Entity
 @Getter
 @Table(name = "ORDER_PRODUCT")
@@ -21,11 +19,11 @@ public class OrderProduct {
     @Column(nullable = false)
     private int count;
 
-    @ManyToOne(fetch = LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
-    private Product product;    //다대일 단방향
+    private Product product;    //양방향
 
-    @ManyToOne(fetch = LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
     private Order order;    //다대일 양방향
 

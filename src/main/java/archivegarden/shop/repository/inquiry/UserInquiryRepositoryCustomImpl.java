@@ -99,7 +99,7 @@ public class UserInquiryRepositoryCustomImpl implements UserInquiryRepositoryCus
                 .leftJoin(inquiry.member, member)
                 .leftJoin(inquiry.product, product)
                 .leftJoin(product.productImages, productImage)
-                .join(inquiry.answer, answer)
+                .leftJoin(inquiry.answer, answer)
                 .where(
                         inquiry.product.id.eq(productId),
                         imageTypeEqDisplay()

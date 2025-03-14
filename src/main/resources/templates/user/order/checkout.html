@@ -13,15 +13,14 @@
     <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css">
-    <link rel="stylesheet" href="../../static/css/common/comm.css" th:href="@{/css/common/comm.css}"/>
-    <link rel="stylesheet" href="../../static/css/checkout.css" th:href="@{/css/checkout.css}"/>
-    <link rel="stylesheet" href="../../static/css/search_complete.css" th:href="@{/css/search_complete.css}"/>
+    <link rel="stylesheet" href="../../../static/css/common/comm.css" th:href="@{/css/common/comm.css}"/>
+    <link rel="stylesheet" href="../../../static/css/user/checkout.css" th:href="@{/css/user/checkout.css}"/>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-    <script defer src="../../static/js/common/comm.js" th:src="@{/js/common/comm.js}"></script>
-    <script defer src="../../static/js/user/findAddress.js" th:src="@{/js/user/findAddress.js}"></script>
-    <script defer src="../../static/js/checkout.js" th:src="@{/js/checkout.js}"></script>
+    <script defer src="../../../static/js/common/comm.js" th:src="@{/js/common/comm.js}"></script>
+    <script defer src="../../../static/js/user/findAddress.js" th:src="@{/js/user/findAddress.js}"></script>
+    <script defer src="../../../static/js/user/checkout.js" th:src="@{/js/user/checkout.js}"></script>
 </head>
 <body>
 <div class="wrap">
@@ -42,8 +41,7 @@
                                 <li>
                                     <div>
                                         <label for="defaultDeliveryName" class="input_tit ess">배송지명</label>
-                                        <a href="./checkout_delivery_popup.html" class="delivery_popup_btn">이전 배송지
-                                            목록</a>
+                                        <a href="checkout_delivery_popup.html" class="delivery_popup_btn">이전 배송지 목록</a>
                                     </div>
                                     <div class="input_box_wrap">
                                         <span id="defaultDeliveryName" class="input_box" th:text="${delivery.deliveryName}"></span>

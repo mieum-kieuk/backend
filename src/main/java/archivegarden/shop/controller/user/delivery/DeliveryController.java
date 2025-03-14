@@ -85,26 +85,34 @@ public class DeliveryController {
         return "redirect:/mypage/delivery";
     }
 
+    /**
+     * 주문서 페이지에서 이전 배송지 목록을 조회하는 요청을 처리하는 메서드
+     */
     @GetMapping("/popup/deliveries")
     public String popupDeliveries(@CurrentUser Member loginMember, Model model) {
-//        List<DeliveryPopupDto> deliveries = deliveryService.getDeliveries(loginMember.getId());
-//        model.addAttribute("deliveries", deliveries);
-        return "order/checkout_delivery_popup";
+        List<DeliveryPopupDto> deliveries = deliveryService.getDeliveriesInPopup(loginMember.getId());
+        model.addAttribute("deliveries", deliveries);
+        return "user/order/checkout_delivery_popup";
     }
 
+    /**
+     * 주문서 페이지에서 배송지 수정 폼을 반환하는 메서드
+     */
     @GetMapping("/popup/deliveries/{deliveryId}/edit")
     public String popupDeliveryEditForm(@PathVariable("deliveryId") Long deliveryId, Model model) {
         EditPopupDeliveryForm editDeliveryForm = deliveryService.getEditPopupDeliveryForm(deliveryId);
         model.addAttribute("form", editDeliveryForm);
-        return "order/checkout_edit_delivery";
+        return "user/order/checkout_edit_delivery";
     }
 
+    /**
+     * 주문서 페이지에서 배송지 배송지 수정 요청을 처리하는 메서드
+     */
     @PostMapping("/popup/deliveries/{deliveryId}/edit")
     public String popupDeliveryEdit(@ModelAttribute("form") EditPopupDeliveryForm form, @PathVariable("deliveryId") Long deliveryId) {
         deliveryService.editPopupDelivery(form, deliveryId);
         return "redirect:/popup/deliveries";
     }
-
 
     /**
      * 주소 검증을 수행하는 메서드

@@ -1,4 +1,4 @@
-package archivegarden.shop.controller;
+package archivegarden.shop.controller.user.order;
 
 import archivegarden.shop.dto.delivery.DeliveryDto;
 import archivegarden.shop.dto.order.MemberDto;
@@ -31,7 +31,9 @@ public class OrderController {
     private final DeliveryService deliveryService;
     private final SavedPointService savedPointService;
 
-    //주문페이지 요청
+    /**
+     * 주문서 폼을 반환하는 메서드
+     */
     @GetMapping("/checkout")
     public String checkout(HttpServletRequest request, @CurrentUser Member loginMember, Model model) {
 
@@ -40,11 +42,11 @@ public class OrderController {
 
         //주문 상품 목록
         HttpSession session = request.getSession(false);
-        if(session == null || session.getAttribute("checkoutProducts") == null) {
+        if(session == null || session.getAttribute("checkout:products") == null) {
             return "redirect:/cart";
         }
-        List<Long> productIds = (List<Long>) session.getAttribute("checkoutProducts");
-        session.removeAttribute("checkoutProducts");
+        List<Long> productIds = (List<Long>) session.getAttribute("checkout:products");
+        session.removeAttribute("checkout:products");
         List<OrderProductListDto> products = productService.getOrderProducts(loginMember, productIds);
 
         //기본 배송지 주소
@@ -76,11 +78,11 @@ public class OrderController {
         model.addAttribute("point", point);
         model.addAttribute("products", products);
 
-        return "order/checkout";
+        return "user/order/checkout";
     }
 
     @GetMapping("/complete")
     public String orderComplete() {
-        return "order/checkout_complete";
+        return "user/order/checkout_complete";
     }
 }

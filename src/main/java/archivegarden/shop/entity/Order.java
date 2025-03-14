@@ -53,19 +53,34 @@ public class Order {
     private LocalDateTime deliveredAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;  //다대일 양방향
+    @JoinColumn(name = "member_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    private Member member;  //양방향
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "payment_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    private Payment payment;    //단방향
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderProduct> orderProducts = new ArrayList<>();
 
-    //==비즈니스 로직==//
+    @Builder
+    public Order(Member member, String merchantUid, int amount, OrderStatus orderStatus, List<OrderProduct> orderProducts) {
+        this.member = member;
+        this.merchantUid = merchantUid;
+        this.amount = amount;
+        this.orderStatus = orderStatus;
+        this.orderedAt = LocalDateTime.now();
+        for (OrderProduct orderProduct : orderProducts) {
+            addOrderProduct(orderProduct);
+        }
+    }
+
     /**
      * 결제 상태 수정
      */
     public void updateStatus(OrderStatus orderStatus, String failReason) {
         this.orderStatus = orderStatus;
-        if(orderStatus != OrderStatus.SUCCESS) {
+        if (orderStatus != OrderStatus.SUCCESS) {
             this.failReason = failReason;
         }
     }
@@ -84,17 +99,5 @@ public class Order {
     private void addOrderProduct(OrderProduct orderProduct) {
         this.orderProducts.add(orderProduct);
         orderProduct.setOrder(this);
-    }
-
-    @Builder
-    public Order(Member member, String merchantUid, int amount, OrderStatus orderStatus, List<OrderProduct> orderProducts) {
-        this.member = member;
-        this.merchantUid = merchantUid;
-        this.amount = amount;
-        this.orderStatus = orderStatus;
-        this.orderedAt = LocalDateTime.now();
-        for (OrderProduct orderProduct : orderProducts) {
-            addOrderProduct(orderProduct);
-        }
     }
 }
