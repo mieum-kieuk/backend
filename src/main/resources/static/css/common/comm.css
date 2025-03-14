@@ -623,6 +623,7 @@ legend {
   background: #fff;
   color: #222;
   cursor: pointer;
+  white-space: nowrap;
 }
 .btn1.disabled {
   cursor: default;

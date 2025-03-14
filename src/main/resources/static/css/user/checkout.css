@@ -300,11 +300,15 @@ section {
     gap: 10px;
     width: 80%;
 }
+.point_input #point {
+    height: 32px;
+}
 .point_input .btn1 {
     width: 80px;
 }
 .point_details span {
     line-height: 32px;
+    white-space: nowrap;
 }
 /*pay*/
 .payment_method {
@@ -456,7 +460,6 @@ section {
 }
 .popup_content {
     background: #fff;
-    padding: 20px;
     width: 100%;
     max-width: 450px;
     min-height: 450px;

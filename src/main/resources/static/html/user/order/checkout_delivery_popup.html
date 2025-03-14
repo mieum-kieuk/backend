@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>배송지 목록 | 미음키읔</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.js"></script>
+    <link rel="stylesheet" href="../../../css/common/comm.css" />
+    <link rel="stylesheet" href="../../../css/user/checkout.css" />
+    <script defer src="../../../js/common/comm.js"></script>
+    <script defer src="../../../js/user/checkout.js"></script>
+</head>
+<body>
+    <div id="deliveryPopup" class="popup">
+        <div class="popup_content">
+            <div class="popup_tit">
+                <h2>배송지 목록</h2>
+            </div>
+            <div class="content">
+                <ul class="delivery_list" id="deliveryList">
+                    <li>
+                        <div class="delivery_item">
+                            <div class="delivery_name default_delivery"><span class="popup_delivery_name">우리집</span></div>
+                            <div class="delivery_details"><span class="popup_zip_code">(13529) </span><span class="popup_basic_address">경기 성남시 분당구 판교역로 166</span><span class="popup_detail_address"></span></div>
+                            <div class="recipient_info"><span class="popup_recipient_name">김철수</span><span class="popup_phonenumber">010-1111-1111</span></div>
+                        </div>
+                        <a href="checkout_edit_delivery.html">수정</a>
+                    </li>
+                    <li>
+                        <div class="delivery_item">
+                            <div class="delivery_name"><span class="popup_delivery_name">회사</span></div>
+                            <div class="delivery_details"><span class="popup_zip_code">(13529) </span><span class="popup_basic_address">경기 성남시 분당구 백현동 532</span><span class="popup_detail_address"></span></div>
+                            <div class="recipient_info"><span class="popup_recipient_name">이영희</span><span class="popup_phonenumber">010-2222-2222</span></div>
+                        </div>
+                        <a href="checkout_edit_delivery.html">수정</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
