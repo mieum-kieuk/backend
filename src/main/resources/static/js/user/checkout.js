@@ -479,7 +479,7 @@ function handlePoint() {
         let point = $(this).val().replace(/[^0-9]/g, "");
         $(this).val(point.replace(/\B(?=(\d{3})+(?!\d))/g, ""));
 
-        let pointInput = parseInt($(this).val().replace(/[^0-9]/g, "") || ''); // 입력된 값이 없을 때는 0으로 설정
+        let pointInput = parseInt($(this).val().replace(/[^0-9]/g, "") || '0'); // 입력된 값이 없을 때는 0으로 설정
         let ownedPoint = availablePoint - pointInput;
         ownedPoint = Math.max(ownedPoint, 0); // 음수인 경우 0으로 설정
 
