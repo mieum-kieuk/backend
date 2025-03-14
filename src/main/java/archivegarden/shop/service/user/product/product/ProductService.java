@@ -1,13 +1,9 @@
 package archivegarden.shop.service.user.product.product;
 
-import archivegarden.shop.dto.order.OrderProductListDto;
 import archivegarden.shop.dto.user.product.*;
-import archivegarden.shop.entity.Member;
 import archivegarden.shop.entity.Product;
 import archivegarden.shop.entity.ProductImage;
-import archivegarden.shop.exception.NotFoundException;
 import archivegarden.shop.exception.common.EntityNotFoundException;
-import archivegarden.shop.repository.cart.CartRepository;
 import archivegarden.shop.repository.product.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -19,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executor;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,9 +23,7 @@ import java.util.stream.Collectors;
 public class ProductService {
 
     private final ProductRepository productRepository;
-    private final CartRepository cartRepository;
     private final ProductImageService productImageService;
-    private final Executor customAsyncExecutor;
 
     /**
      * 최신 상품 9개 조회
@@ -172,58 +165,5 @@ public class ProductService {
         });
 
         return productSummaryDtos;
-    }
-
-    /**
-     * 주문하려는 상품 목록 조회
-     *
-     * @throws NotFoundException
-     */
-    public List<OrderProductListDto> getOrderProducts(Member loginMember, List<Long> productIds) {
-        //Product 조회
-        productIds.forEach(id -> productRepository.findById(id).orElseThrow(() -> new NotFoundException("존재하지 않는 상품입니다.")));
-
-        return cartRepository.findOrderProducts(loginMember, productIds)
-                .stream()
-                .map(OrderProductListDto::new)
-                .collect(Collectors.toList());
-    }
-
-
-    /**
-     *  상품별 DTO를 병렬로 생성하는 공통 로직
-     */
-    private List<ProductListDto> createProductListDtos(List<Product> products) {
-        // 상품별 DTO를 병렬로 생성
-        List<CompletableFuture<ProductListDto>> futures = products.stream()
-                .map(product -> CompletableFuture.supplyAsync(() -> createProductListDto(product), customAsyncExecutor))
-                .collect(Collectors.toList());
-
-        // 모든 DTO가 준비될 때까지 기다리기
-        return futures.stream()
-                .map(CompletableFuture::join)
-                .collect(Collectors.toList());
-    }
-
-    /**
-     * ProductListDto를 생성하는 공통 로직
-     */
-    private ProductListDto createProductListDto(Product product) {
-        List<String> imageDatas = getImageData(product.getProductImages());
-        return new ProductListDto(product, imageDatas);
-    }
-
-    /**
-     * 비동기적으로 이미지 데이터를 가져오는 공통 로직
-     */
-    private List<String> getImageData(List<ProductImage> productImages) {
-        List<CompletableFuture<String>> imageDataFutures = productImages.stream()
-                .map(productImage -> productImageService.getEncodedImageDataAsync(productImage.getImageUrl()))
-                .collect(Collectors.toList());
-
-        // 모든 이미지 데이터가 준비될 때까지 기다리기
-        return imageDataFutures.stream()
-                .map(CompletableFuture::join)
-                .collect(Collectors.toList());
     }
 }

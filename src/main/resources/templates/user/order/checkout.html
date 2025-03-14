@@ -196,7 +196,7 @@
                         <div class="cart_content" th:each="product : ${products}">
                             <div class="cart_item">
                                 <div class="item img">
-                                    <img th:src="|/productImages/${product.displayImage}|" alt="제품 이미지">
+                                    <img th:src="${product.displayImageData}" alt="제품 이미지">
                                 </div>
                                 <div class="item info">
                                     <div class="name">
@@ -207,8 +207,7 @@
                                     <span>[[${product.count}]]개</span>
                                 </div>
                                 <div class="item price">
-                                    <span class="sale_price" id="productSalePrice"
-                                          th:text="${product.totalSalePrice}"></span>
+                                    <span class="sale_price" id="productSalePrice" th:text="${product.totalSalePrice}"></span>
                                     <div class="original_price">
                                         <span class="sale_price" id="productPrice"
                                               th:classappend="${product.isDiscounted} ? 'line_through'"

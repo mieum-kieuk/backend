@@ -54,10 +54,6 @@ public class Payment {
     @Column(name = "cancelled_at")
     private LocalDateTime cancelledAt;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_id")
-    private Order order;    //일대일 단방향
-
     @Builder
     public Payment(Long id, Long amount, String pgProvider, String buyerEmail, String cardName, Long cardQuota, String currency, String impUid, String merchantUid, String payMethod, String status, LocalDateTime paidAt, LocalDateTime failedAt, Order order) {
         this.id = id;
@@ -73,7 +69,6 @@ public class Payment {
         this.status = status;
         this.paidAt = paidAt;
         this.failedAt = failedAt;
-        this.order = order;
     }
 
     public void updateStatus(String status, LocalDateTime cancelledAt) {

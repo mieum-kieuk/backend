@@ -60,6 +60,9 @@ public class Member extends BaseTimeEntity {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Inquiry> inquiries = new ArrayList<>();
 
+    @OneToMany(mappedBy = "member")
+    private List<Order> orders = new ArrayList<>();
+
     public static Member createMember(JoinMemberForm form, Membership membership) {
         Member member = new Member();
         member.loginId = form.getLoginId();

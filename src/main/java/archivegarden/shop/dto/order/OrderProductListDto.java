@@ -1,13 +1,11 @@
 package archivegarden.shop.dto.order;
 
-import archivegarden.shop.entity.Cart;
 import archivegarden.shop.entity.Discount;
-import archivegarden.shop.entity.Product;
+import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.text.DecimalFormat;
-import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -16,28 +14,22 @@ public class OrderProductListDto {
     private Long id;    //productId
     private String name;
     private int count;
-    private String displayImage;
+    private String displayImageData;
     private boolean isDiscounted;
     private String totalPrice;    //상품 정가 합
     private String totalSalePrice;  //상품 판매가 합
 
-    public OrderProductListDto(Cart cart) {
-        Product product = cart.getProduct();
-
-        this.id = product.getId();
-        this.name = product.getName();
-        this.count = cart.getCount();
-        this.displayImage = product.getProductImages().stream()
-                .map((image) -> image.getStoreImageName())
-                .collect(Collectors.toList())
-                .get(0);
-        this.totalPrice = new DecimalFormat("###,###원").format( product.getPrice() * count);
-
-        Discount discount = product.getDiscount();
-        if (discount != null) { //할인 중인 상품 O
+    @QueryProjection
+    public OrderProductListDto(Long productId, String name, int price, int count, String displayImageUrl, Discount discount) {
+        this.id = productId;
+        this.name = name;
+        this.count = count;
+        this.displayImageData = displayImageUrl;
+        this.totalPrice = new DecimalFormat("###,###원").format(price * count);
+        if (discount != null) {
             this.isDiscounted = Boolean.TRUE;
-            double salePriceDouble = product.getPrice() - (double) product.getPrice() * discount.getDiscountPercent() / 100;
-            this.totalSalePrice = new DecimalFormat("###.###원").format(Math.round(salePriceDouble * this.count));
+            double salePriceDouble = price - (double) price * discount.getDiscountPercent() / 100;
+            this.totalSalePrice = new DecimalFormat("###,###원").format(Math.round(salePriceDouble * this.count));
         }
     }
 }

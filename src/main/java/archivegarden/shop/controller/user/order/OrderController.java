@@ -40,14 +40,11 @@ public class OrderController {
         //로그인 된 회원 정보
         MemberDto member = new MemberDto(loginMember);
 
-        //주문 상품 목록
+        //주문 상품이 없는 경우 cart로 리다이렉션
         HttpSession session = request.getSession(false);
         if(session == null || session.getAttribute("checkout:products") == null) {
             return "redirect:/cart";
         }
-        List<Long> productIds = (List<Long>) session.getAttribute("checkout:products");
-        session.removeAttribute("checkout:products");
-        List<OrderProductListDto> products = productService.getOrderProducts(loginMember, productIds);
 
         //기본 배송지 주소
         DeliveryDto defaultDelivery = deliveryService.getDefaultDelivery(loginMember.getId());
@@ -57,7 +54,13 @@ public class OrderController {
         String paymentId = "pid-" + nano;
 
         //상품 주문 정보 생성
+        List<Long> productIds = (List<Long>) session.getAttribute("checkout:products");
+        session.removeAttribute("checkout:products");
         Long orderId = orderService.createOrder(paymentId, productIds, loginMember.getId());
+
+        //주문 상품 목록
+//        List<OrderProductListDto> products = productService.getOrderProducts(loginMember, productIds);
+        List<OrderProductListDto> products = orderService.getOrderProducts(orderId);
 
         //적립금 조회
         int point = savedPointService.getPoint(loginMember.getId());
