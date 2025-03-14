@@ -117,7 +117,7 @@ public class CartService {
     }
 
     /**
-     * 카트에 담긴 상품 개수<br>
+     * 카트에 담긴 상품 개수
      */
     public int getCartItemCount(String loginId) {
         Member member = memberRepository.findByLoginId(loginId).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 회원입니다."));
@@ -133,8 +133,8 @@ public class CartService {
         for (Long productId : productIds) {
             Product product = productRepository.findById(productId).orElseThrow(() -> new AjaxEntityNotFoundException("존재하지 않는 상품입니다."));
             Cart cart = cartRepository.findByMemberAndProduct(loginMember, product);
-            if(cart.getCount() > product.getStockQuantity()) {
-                throw new NotEnoughStockAjaxException("[" + product.getName() + "] 상품의 재고가 부족합니다.");
+            if(product.getStockQuantity() == 0 || cart.getCount() > product.getStockQuantity()) {
+                throw new NotEnoughStockAjaxException("[" + product.getName() + "] 재고가 부족합니다.");
             }
         }
     }

@@ -4,7 +4,7 @@ import archivegarden.shop.entity.Member;
 import lombok.Getter;
 
 @Getter
-public class MemberInfo {
+public class EditMemberInfoForm {
 
     private String loginId;
     private String name;
@@ -16,7 +16,7 @@ public class MemberInfo {
     private boolean agreeToReceiveSms;
     private boolean agreeToReceiveEmail;
 
-    public MemberInfo(Member member) {
+    public EditMemberInfoForm(Member member) {
         this.loginId = member.getLoginId();
         this.name = member.getName();
         String[] phonenumber = member.getPhonenumber().split("-");

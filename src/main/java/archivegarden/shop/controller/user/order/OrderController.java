@@ -7,7 +7,7 @@ import archivegarden.shop.entity.Member;
 import archivegarden.shop.service.mypage.DeliveryService;
 import archivegarden.shop.service.order.OrderService;
 import archivegarden.shop.service.point.SavedPointService;
-import archivegarden.shop.service.product.ProductService;
+import archivegarden.shop.service.user.product.product.ProductService;
 import archivegarden.shop.web.annotation.CurrentUser;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;

@@ -3,7 +3,6 @@ package archivegarden.shop.controller;
 import archivegarden.shop.dto.payment.Portone;
 import archivegarden.shop.dto.payment.Webhook;
 import archivegarden.shop.service.payment.PaymentService;
-import io.netty.util.internal.StringUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
