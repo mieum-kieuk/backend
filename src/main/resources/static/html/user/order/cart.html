@@ -4,11 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>장바구니 | 미음키읔</title>
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="Tickers" />
-    <meta property="og:description" content="" />
-    <meta property="og:image" content="" />
-    <meta property="og:url" content="" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
@@ -18,11 +14,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.min.js" integrity="sha512-Ysw1DcK1P+uYLqprEAzNQJP+J4hTx4t/3X2nbVwszao8wD+9afLjBQYjz7Uk4ADP+Er++mJoScI42ueGtQOzEA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.js"></script>
-    <link rel="stylesheet" href="../../css/common/comm.css" />
-    <link rel="stylesheet" href="../../css/user/cart.css" />
-    <link rel="stylesheet" href="../../css/user/search_complete.css" />
-    <script defer src="../../js/common/comm.js"></script>
-    <script defer src="../../js/user/cart.js"></script>
+    <link rel="stylesheet" href="../../../css/common/comm.css" />
+    <link rel="stylesheet" href="../../../css/user/cart.css" />
+    <script defer src="../../../js/common/comm.js"></script>
+    <script defer src="../../../js/user/cart.js"></script>
 </head>
 <body>
 <div class="wrap">
@@ -48,7 +43,7 @@
                         <input type="checkbox" name="cartCheckBox" class="cart_checkbox" checked="checked">
                     </div>
                     <div class="item img">
-                        <img src="../../images/maskingtape1.jpeg" alt="제품1">
+                        <img src="../../../images/maskingtape1.jpeg" alt="제품1">
                     </div>
                     <div class="item info">
                         <div class="name">
@@ -74,7 +69,7 @@
                         <input type="checkbox" name="cartCheckBox" class="cart_checkbox sold_out" checked="checked">
                     </div>
                     <div class="item img">
-                        <img src="../../images/maskingtape1.jpeg" alt="제품1">
+                        <img src="../../../images/maskingtape1.jpeg" alt="제품1">
                     </div>
                     <div class="item info">
                         <div class="name">
@@ -121,7 +116,7 @@
                     </li>
                     </ul>
                     <div class="btn_wrap">
-                    <button type="submit" class="btn1 submit_btn" onclick="checkout()">구매하기</button>
+                    <button type="submit" id="checkoutBtn" class="btn1 submit_btn">구매하기</button>
                     </div>
                 </div>
                 </div>

@@ -7,9 +7,9 @@ $(document).ready(function () {
     updateTotalPrice();
     updateShippingFee();
 
-    // 전체 선택 체크박스 변경 시
+    // 전체 선택 체크박스 변경 시 총 가격, 배송비 업데이트
     $('#checkAll').change(function () {
-        var isChecked = $(this).prop('checked');
+        let isChecked = $(this).prop('checked');
         $('.cart_checkbox').prop('checked', isChecked);
         updateTotalPrice();
 
@@ -17,7 +17,8 @@ $(document).ready(function () {
             updateShippingFee(0);
         }
     });
-    // 체크박스 변경 시
+
+    // 체크박스 변경 시 총 가격, 구매 버튼 상태 업데이트
     $('.cart_checkbox').change(function () {
         let allChecked = $('.cart_content .cart_checkbox').length === $('.cart_content .cart_checkbox:checked').length;
         $('#checkAll').prop('checked', allChecked);
@@ -25,7 +26,7 @@ $(document).ready(function () {
         updatePurchaseButton();
     });
 
-
+    // 수량 1일 때 감소 버튼 비활성화
     $('.quant_input').each(function () {
         let currentValue = parseInt($(this).val());
         let decreaseBtn = $(this).siblings('.decrease');
@@ -34,56 +35,40 @@ $(document).ready(function () {
         }
     });
 
-    // 구매하기 버튼 상태 업데이트 함수
-    function updatePurchaseButton() {
-        var isChecked = false;
-
-        $('.cart_checkbox').each(function () {
-            if ($(this).prop('checked')) {
-                isChecked = true;
-                return false; // 반복문 종료
-            }
-        });
-
-        if (isChecked) {
-            $('.submit_btn').prop('disabled', false);
-            $('.submit_btn').removeClass('disabled'); // 버튼 활성화 시 disabled 클래스 제거
-        } else {
-            $('.submit_btn').prop('disabled', true);
-            $('.submit_btn').addClass('disabled');
-        }
-    }
-
     $('#deleteBtn').click(function () {
-        deleteProducts();  // 삭제 함수 호출
+        deleteProducts();
     });
 
     $('#deleteSoldOutBtn').click(function () {
-        deleteSoldOutProducts();  // 삭제 함수 호출
+        deleteSoldOutProducts();
     });
 
     $('.remove_btn').on('click', function () {
         let productId = $(this).data('id');
         deleteProduct(productId);
     });
+
+    $('#checkoutBtn').click(async function () {
+        checkout();
+    });
 });
 
-// 가격 업데이트 함수
+// 가격 업데이트
 function updateTotalPrice() {
 
-    var totalPrice = 0;
-    var cartProductPrice = 0;
-    var cartDiscountPrice = 0;
+    let totalPrice = 0;
+    let cartProductPrice = 0;
+    let cartDiscountPrice = 0;
 
     // 선택된 상품의 가격 합계 및 할인 금액 계산
     $('.cart_item').each(function () {
-        var isChecked = $(this).find('.cart_checkbox').prop('checked');
+        let isChecked = $(this).find('.cart_checkbox').prop('checked');
         if (isChecked) {
-            var quantity = parseInt($(this).find('.quant_input').val());
-            var originalPrice = parseFloat($(this).find('.item.info .original_price #productPrice').text().replace('원', '').replace(',', ''));
+            let quantity = parseInt($(this).find('.quant_input').val());
+            let originalPrice = parseFloat($(this).find('.item.info .original_price #productPrice').text().replace('원', '').replace(',', ''));
 
-            var discountPriceElement = $(this).find('.item.info .sale_price #productDiscountPrice');
-            var discountPrice = 0;
+            let discountPriceElement = $(this).find('.item.info .sale_price #productDiscountPrice');
+            let discountPrice = 0;
             if (discountPriceElement.length > 0) {
                 // 할인가가 있는 경우
                 discountPrice = parseFloat(discountPriceElement.text().replace('원', '').replace(',', ''));
@@ -91,13 +76,13 @@ function updateTotalPrice() {
             } else {
                 // 할인가가 없는 경우
                 discountPrice = originalPrice;
-                var salePrice = originalPrice;
+                let salePrice = originalPrice;
                 $(this).find('.item.price #productSalePrice').text(addCommas(salePrice * quantity) + '원');
             }
 
-            var itemTotalPrice = quantity * discountPrice; // 할인된 가격으로 계산
-            var itemOriginalPrice = quantity * originalPrice;
-            var itemDiscountPrice = itemOriginalPrice - itemTotalPrice;
+            let itemTotalPrice = quantity * discountPrice; // 할인된 가격으로 계산
+            let itemOriginalPrice = quantity * originalPrice;
+            let itemDiscountPrice = itemOriginalPrice - itemTotalPrice;
 
             totalPrice += itemTotalPrice;
             cartProductPrice += itemOriginalPrice; // 할인 적용 전 가격 합계
@@ -117,11 +102,12 @@ function updateTotalPrice() {
     }
 
     // 결제 예정 금액 계산 및 업데이트
-    var paymentAmount = cartProductPrice - cartDiscountPrice;
+    let paymentAmount = cartProductPrice - cartDiscountPrice;
     paymentAmount += updateShippingFee();
     $('.total_price .content').text(addCommas(paymentAmount) + '원');
 }
 
+// 배송비 업데이트
 function updateShippingFee() {
     let shippingFee = 3000; // 기본 배송비는 3000원으로 설정
 
@@ -144,16 +130,36 @@ function updateShippingFee() {
     return shippingFee; // 배송비 반환
 }
 
-// 콤마 추가 함수
+// 구매하기 버튼 상태 업데이트
+function updatePurchaseButton() {
+    let isChecked = false;
+
+    $('.cart_checkbox').each(function () {
+        if ($(this).prop('checked')) {
+            isChecked = true;
+            return false;
+        }
+    });
+
+    if (isChecked) {
+        $('.submit_btn').prop('disabled', false);
+        $('.submit_btn').removeClass('disabled');
+    } else {
+        $('.submit_btn').prop('disabled', true);
+        $('.submit_btn').addClass('disabled');
+    }
+}
+
+// 콤마 추가
 function addCommas(num) {
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-let csrfToken = $("meta[name='_csrf']").attr("content");
-let csrfHeader = $("meta[name='_csrf_header']").attr("content");
-
 // 상품 개수 감소
 function decreaseCount(productId) {
+    let csrfToken = $("meta[name='_csrf']").attr("content");
+    let csrfHeader = $("meta[name='_csrf_header']").attr("content");
+
     let decreaseBtn = $('#decreaseBtn' + productId);
     let input = decreaseBtn.siblings('.quant_input');
     let currentValue = parseInt(input.val());
@@ -166,9 +172,9 @@ function decreaseCount(productId) {
             beforeSend: function (xhr) {
                 xhr.setRequestHeader(csrfHeader, csrfToken);
             },
-            data: {productId: productId},
+            data: {'productId': productId},
             success: function (result) {
-                if(result.code == 200) {
+                if (result.code == 200) {
                     input.val(currentValue - 1);
                     if (currentValue === 2) {
                         decreaseBtn.addClass('disabled');
@@ -201,6 +207,9 @@ function decreaseCount(productId) {
 
 // 상품 개수 증가
 function increaseCount(productId) {
+    let csrfToken = $("meta[name='_csrf']").attr("content");
+    let csrfHeader = $("meta[name='_csrf_header']").attr("content");
+
     let increaseBtn = $('#increaseBtn' + productId);
     let input = increaseBtn.siblings('.quant_input');
     let currentValue = parseInt(input.val());
@@ -214,9 +223,9 @@ function increaseCount(productId) {
             beforeSend: function (xhr) {
                 xhr.setRequestHeader(csrfHeader, csrfToken);
             },
-            data: {productId: productId},
+            data: {'productId': productId},
             success: function (result) {
-                if(result.code == 200) {
+                if (result.code == 200) {
                     input.val(currentValue + 1);
                     if (currentValue === 1) {
                         decreaseBtn.removeClass('disabled');
@@ -249,6 +258,8 @@ function increaseCount(productId) {
 
 // x 로 단건 삭제
 function deleteProduct(productId) {
+    let csrfToken = $("meta[name='_csrf']").attr("content");
+    let csrfHeader = $("meta[name='_csrf_header']").attr("content");
 
     let productIds = []
     productIds.push(productId);
@@ -272,7 +283,7 @@ function deleteProduct(productId) {
                     xhr.setRequestHeader(csrfHeader, csrfToken);
                 },
                 success: function (result) {
-                    if(result.code == 200) {
+                    if (result.code == 200) {
                         location.reload();
                     } else {
                         Swal.fire({
@@ -300,6 +311,9 @@ function deleteProduct(productId) {
 
 // 상품 여러개 삭제
 function deleteProducts() {
+    let csrfToken = $("meta[name='_csrf']").attr("content");
+    let csrfHeader = $("meta[name='_csrf_header']").attr("content");
+
     let productIds = [];
     let checkboxes = $('.cart_content input[type=checkbox]:checked');
 
@@ -366,6 +380,9 @@ function deleteProducts() {
 
 // 솔드아웃된 상품 삭제
 function deleteSoldOutProducts() {
+    let csrfToken = $("meta[name='_csrf']").attr("content");
+    let csrfHeader = $("meta[name='_csrf_header']").attr("content");
+
     let productIds = [];
     let checkboxes = $('.cart_checkbox.sold_out');
 
@@ -434,54 +451,48 @@ function deleteSoldOutProducts() {
 
 // 구매하기
 async function checkout() {
-    let productIds = [];
-    let checkboxes = $('.cart_content input[type=checkbox]:checked');
+    try {
+        let csrfToken = $("meta[name='_csrf']").attr("content");
+        let csrfHeader = $("meta[name='_csrf_header']").attr("content");
 
-    checkboxes.each(function (v) {
-        let productId = checkboxes[v].id.split('checkbox')[1];
-        productIds.push(productId);
-    })
+        let productIds = $('.cart_content input[type=checkbox]:checked').map(function () {
+            return this.id.split('checkbox')[1];
+        }).get();
 
-    $.ajax({
-        type: 'POST',
-        url: '/ajax/checkout',
-        contentType: 'application/json',
-        data: JSON.stringify(productIds),
-        async: false,
-        beforeSend: function (xhr) {
-            xhr.setRequestHeader(csrfHeader, csrfToken);
-            xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-        },
-        success: function (result) {
-            if(result.code == 200) {
-                window.location.href = '/order/checkout'
-            } else {
-                Swal.fire({
-                    html: result.message.replace('\n', '<br>'),
-                    showConfirmButton: true,
-                    confirmButtonText: '확인',
-                    customClass: mySwal,
-                    buttonsStyling: false
-                });            }
-        },
-        error: function (xhr) {
-            if(xhr.responseJSON.code == 400) {
-                Swal.fire({
-                    html: xhr.responseJSON.message,
-                    showConfirmButton: true,
-                    confirmButtonText: '확인',
-                    customClass: mySwal,
-                    buttonsStyling: false
-                });
-            } else {
-                Swal.fire({
-                    html: '요청 사항 진행 중 문제가 발생했습니다.<br>다시 시도해 주세요.',
-                    showConfirmButton: true,
-                    confirmButtonText: '확인',
-                    customClass: mySwal,
-                    buttonsStyling: false
-                });
+        const response = await $.ajax({
+            type: 'POST',
+            url: '/ajax/checkout',
+            contentType: 'application/json',
+            data: JSON.stringify(productIds),
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(csrfHeader, csrfToken);
+                xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
             }
+        });
+
+        if (response.code === 200) {
+            window.location.href = '/order/checkout';
+        } else {
+            Swal.fire({
+                html: response.message.replace('\n', '<br>'),
+                showConfirmButton: true,
+                confirmButtonText: '확인',
+                customClass: mySwal,
+                buttonsStyling: false
+            });
         }
-    })
-}
+    } catch (error) {
+        let errorMessage = '요청 사항 진행 중 문제가 발생했습니다.<br>다시 시도해 주세요.';
+        if (error.responseJSON && error.responseJSON.code === 400) {
+            errorMessage = error.responseJSON.message;
+        }
+
+        Swal.fire({
+            html: errorMessage,
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
+    }
+};
