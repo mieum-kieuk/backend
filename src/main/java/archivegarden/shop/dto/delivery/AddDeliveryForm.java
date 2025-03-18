@@ -25,4 +25,17 @@ public class AddDeliveryForm {
     private String phonenumber3;
 
     private boolean defaultDelivery;
+
+    public AddDeliveryForm(String deliveryName, String recipientName, String zipCode, String basicAddress, String detailAddress, String phonenumber, boolean defaultDelivery) {
+        this.deliveryName = deliveryName;
+        this.recipientName = recipientName;
+        this.zipCode = zipCode;
+        this.basicAddress = basicAddress;
+        this.detailAddress = detailAddress;
+        String[] phonenumbers = phonenumber.split("-");
+        this.phonenumber1 = phonenumbers[0];
+        this.phonenumber2 = phonenumbers[1];
+        this.phonenumber3 = phonenumbers[2];
+        this.defaultDelivery = defaultDelivery;
+    }
 }

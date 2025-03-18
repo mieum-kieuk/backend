@@ -56,7 +56,7 @@ public class Delivery extends BaseTimeEntity {
     /**
      * 마이페이지 배송지 관리에서 배송지 등록할 때 호출
      */
-    public static Delivery createDeliveryInMypage(AddDeliveryForm form, Member member) {
+    public static Delivery createDelivery(AddDeliveryForm form, Member member) {
         Delivery delivery = new Delivery();
         delivery.deliveryName = form.getDeliveryName();
         delivery.recipientName = form.getRecipientName();

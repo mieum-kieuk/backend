@@ -558,3 +558,9 @@ function getOrderName() {
 
     return orderName;
 }
+
+function getTotalPrice() {
+    let orderTotalPrice = parseInt($('#orderTotalPrice').text().replace(/[^0-9]/g, ''), 10);
+
+    return orderTotalPrice
+}

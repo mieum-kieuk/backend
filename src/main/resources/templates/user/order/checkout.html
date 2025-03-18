@@ -162,7 +162,7 @@
                                 </li>
                                 <li class="default_delivery">
                                     <div>
-                                        <input class="normal" value="1" type="checkbox"/>
+                                        <input class="normal" id="isDefaultDelivery" value="1" type="checkbox"/>
                                         <label>기본 배송지로 저장</label>
                                     </div>
                                 </li>
@@ -224,7 +224,7 @@
                                 <label for="point">사용 금액 입력</label>
                             </div>
                             <div class="point_input">
-                                <input type="text" id="point" th:value="${point}">
+                                <input type="text" id="point">
                                 <button type="button" class="btn1" id="useAll">모두 사용</button>
                                 <div class="point_details">
                                     <span>사용가능 <em id="availablePoint"></em>P / <span>보유 <em id="ownedPoint" th:text="${point}"></em>P</span></span>
@@ -375,6 +375,7 @@
                 addressLine1: $('#basicAddress').val(),
                 addressLine2: $('#detailAddress').val(),
                 phonenumber: $('#phonenumber1').val() + "-" + $('#phonenumber2').val() + "-" + $('#phonenumber3').val(),
+                isDefaultDelivery: $('#isDefaultDelivery').prop('checked'),
                 deliveryRequestMsg: shippingMsgValue === 'direct_input' ? $('#defaultDirectInput').val() : (shippingMsgValue === '0' ? null : $('#defaultShippingMsg option:selected').text())
             };
         }
@@ -393,12 +394,12 @@
             storeId: [[${storeId}]],   //고객사 ID
             paymentId: [[${paymentId}]],   //고객사 주문 고유 번호
             orderName: getOrderName(),   //주문명
-            totalAmount: 10000,   //결제 금액
+            totalAmount: getTotalPrice(),   //결제 금액
             currency: 'KRW',    //결제 통화
             payMethod: payMethod,   //결제수단 구분코드
             customer: customer,
             customData: customData,
-            confirmUrl: 'https://dac3-118-220-129-220.ngrok-free.app/payment/webhook'
+            confirmUrl: 'https://5962-118-220-129-220.ngrok-free.app/payment/webhook'
         }
 
         //일반 신용카드 결제시
@@ -411,16 +412,17 @@
             .then(function (response) {
                 //STEP3
                 //가맹점 백엔드 서버로 결과를 가져옵니다.
+                console.log(response);
                 $.ajax({
                     url: '/payment/callback',
                     method: 'POST',
                     headers: {"Content-Type": "application/json"},
                     beforeSend: function (xhr) {
                         xhr.setRequestHeader(csrfHeader, csrfToken)
-                        xhr.setRequestHeader('XMLHttpRequest', 'X-Requested-With')
                     },
                     data: JSON.stringify(response)
                 }).done(function (data) {
+                    console.log(data);
                     //STEP6
                     //콜백에서 처리한 결과를 사용자에게 표시하거나 결제내역 페이지로 이동할 수 있다.
                     if(data.status == 'success') {

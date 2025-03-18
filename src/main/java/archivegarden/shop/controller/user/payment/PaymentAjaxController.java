@@ -1,7 +1,8 @@
-package archivegarden.shop.controller;
+package archivegarden.shop.controller.user.payment;
 
 import archivegarden.shop.dto.payment.Portone;
 import archivegarden.shop.dto.payment.Webhook;
+import archivegarden.shop.service.mypage.DeliveryService;
 import archivegarden.shop.service.payment.PaymentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,19 +13,22 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
 
 @Slf4j
 @RestController
+@RequestMapping("/payment")
 @RequiredArgsConstructor
-public class PaymentController {
+public class PaymentAjaxController {
 
     private final PaymentService paymentService;
+    private final DeliveryService deliveryService;
 
     //콜백수신처리 - 콜백은 네트워크 상황에 따라 유실 될 수 있어 웹훅은 필수로 구현
-    @PostMapping("/payment/callback")
+    @PostMapping("/callback")
     public ResponseEntity<?> callback(@RequestBody Portone portone) {
         //응답 header 생성
         HttpHeaders responseHeaders = new HttpHeaders();
@@ -67,11 +71,11 @@ public class PaymentController {
             responseObj.put("fail_reason", "관리자에게 문의해 주세요.");
         }
 
-        return new ResponseEntity<String>(responseObj.toString(), responseHeaders, HttpStatus.OK);
+        return new ResponseEntity<>(responseObj.toString(), responseHeaders, HttpStatus.OK);
     }
 
     //웹훅 수신 처리
-    @PostMapping("/payment/webhook")
+    @PostMapping("/webhook")
     public ResponseEntity<?> webhook_receive(@RequestBody Webhook webhook) {
         //응답 header 생성
         HttpHeaders responseHeaders = new HttpHeaders();
@@ -90,12 +94,11 @@ public class PaymentController {
             log.info("data: {}", data);
 
             String status = paymentService.doResult(webhook);
-
         } catch (Exception e) {
             e.printStackTrace();
             responseObj.put("status", "결제실패: 관리자에게 문의해 주세요.");
         }
 
-        return new ResponseEntity<String>(responseObj.toString(), responseHeaders, HttpStatus.OK);
+        return new ResponseEntity<>(responseObj.toString(), responseHeaders, HttpStatus.OK);
     }
 }

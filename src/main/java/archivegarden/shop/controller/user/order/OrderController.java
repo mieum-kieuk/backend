@@ -7,7 +7,6 @@ import archivegarden.shop.entity.Member;
 import archivegarden.shop.service.mypage.DeliveryService;
 import archivegarden.shop.service.order.OrderService;
 import archivegarden.shop.service.point.SavedPointService;
-import archivegarden.shop.service.user.product.product.ProductService;
 import archivegarden.shop.web.annotation.CurrentUser;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -26,7 +25,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderController {
 
-    private final ProductService productService;
     private final OrderService orderService;
     private final DeliveryService deliveryService;
     private final SavedPointService savedPointService;
@@ -37,7 +35,6 @@ public class OrderController {
     @GetMapping("/checkout")
     public String checkout(HttpServletRequest request, @CurrentUser Member loginMember, Model model) {
 
-        //로그인 된 회원 정보
         MemberDto member = new MemberDto(loginMember);
 
         //주문 상품이 없는 경우 cart로 리다이렉션
@@ -59,7 +56,6 @@ public class OrderController {
         Long orderId = orderService.createOrder(paymentId, productIds, loginMember.getId());
 
         //주문 상품 목록
-//        List<OrderProductListDto> products = productService.getOrderProducts(loginMember, productIds);
         List<OrderProductListDto> products = orderService.getOrderProducts(orderId);
 
         //적립금 조회
@@ -85,7 +81,7 @@ public class OrderController {
     }
 
     @GetMapping("/complete")
-    public String orderComplete() {
+    public String orderComplete(Model model) {
         return "user/order/checkout_complete";
     }
 }

@@ -35,7 +35,7 @@ public class DeliveryService {
             updateDefaultDelivery(memberId);
         }
 
-        Delivery delivery = Delivery.createDeliveryInMypage(form, member);
+        Delivery delivery = Delivery.createDelivery(form, member);
         deliveryRepository.save(delivery);
 
         return delivery.getId();

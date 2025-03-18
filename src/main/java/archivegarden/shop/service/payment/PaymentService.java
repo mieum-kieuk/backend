@@ -1,9 +1,12 @@
 package archivegarden.shop.service.payment;
 
+import archivegarden.shop.dto.delivery.AddDeliveryForm;
 import archivegarden.shop.dto.payment.Portone;
 import archivegarden.shop.dto.payment.Webhook;
 import archivegarden.shop.entity.*;
-import archivegarden.shop.exception.NotFoundException;
+import archivegarden.shop.exception.common.EntityNotFoundException;
+import archivegarden.shop.repository.DeliveryRepository;
+import archivegarden.shop.repository.member.MemberRepository;
 import archivegarden.shop.repository.order.OrderRepository;
 import archivegarden.shop.repository.payment.PaymentRepository;
 import lombok.RequiredArgsConstructor;
@@ -29,16 +32,15 @@ import java.time.format.DateTimeFormatter;
 @RequiredArgsConstructor
 public class PaymentService {
 
+    private final MemberRepository memberRepository;
+    private final DeliveryRepository deliveryRepository;
     private final OrderRepository orderRepository;
     private final PaymentRepository paymentRepository;
 
-    @Value("${portone.storeId}")
+    @Value("${portone.store-id}")
     private String storeId;
 
-    @Value("${portone.apiKey}")
-    private String apiKey;
-
-    @Value("${portone.apiSecret}")
+    @Value("${portone.api-secret}")
     private String apiSecret;
 
     /**
@@ -47,6 +49,8 @@ public class PaymentService {
      * 2. 결제 단건 조회
      * 3. 결제 데이터 생성
      * 4. 주문 요청과 실제 결제 금액이 같은지 비교
+     *
+     * @throws EntityNotFoundException
      */
     public String doResult(Webhook webhook) {
 
@@ -70,9 +74,10 @@ public class PaymentService {
                 LocalDateTime cancelledAt = null;
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
+                JSONObject resultObj = null;
                 if (response.isSuccessful()) {
                     //최종 결제결과
-                    JSONObject resultObj = (JSONObject) parser.parse(response.body().string());
+                    resultObj = (JSONObject) parser.parse(response.body().string());
                     String payStatus = (String) resultObj.get("status");
                     payResultEntity.setOrderName((String) resultObj.get("orderName"));  //주문명
                     JSONObject amount = (JSONObject) resultObj.get("amount"); //결제 금액 세부 정보
@@ -92,8 +97,7 @@ public class PaymentService {
                     JSONObject customDataObj = (JSONObject) parser.parse(resultObj.get("customData").toString());
                     Long orderId = (Long) customDataObj.get("orderId");
                     payResultEntity.setOrderId(orderId);
-                    Order order = orderRepository.findById(orderId).orElseThrow(() -> new NotFoundException("존재하지 않는 주문입니다."));
-                    String deliveryOption = (String) customDataObj.get("deliveryOption");
+                    Order order = orderRepository.findById(orderId).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 주문입니다."));
                     String recipientName = (String) customDataObj.get("recipientName");
                     String zipCode = (String) customDataObj.get("zipCode");
                     String basicAddress = (String) customDataObj.get("addressLine1");
@@ -102,10 +106,6 @@ public class PaymentService {
                     String recipientPhonenumber = (String) customDataObj.get("phonenumber");
                     String deliveryRequestMsg = (String) customDataObj.get("deliveryRequestMsg");
                     order.setRecipientInfo(recipientName, recipientAddress, recipientPhonenumber, deliveryRequestMsg);
-                    //새로운 배송지의 경우 저장
-                    if(deliveryOption.equals("new")) {
-
-                    }
 
                     JSONObject channel = (JSONObject) resultObj.get("channel"); //(결제, 본인인증 등에) 선택된 채널 정보
                     payResultEntity.setPgProvider((String) channel.get("pgProvider")); //PG사 결제 모듈
@@ -141,7 +141,7 @@ public class PaymentService {
 
                 //custom_data에 주문테이블 pk를 실었다가 읽는다.
                 Long orderId = payResultEntity.getOrderId();
-                Order order = orderRepository.findById(orderId).orElseThrow(() -> new NotFoundException("존재하지 않는 상품입니다."));
+                Order order = orderRepository.findById(orderId).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 상품입니다."));
 
                 //결제데이터 생성
                 Payment payment = Payment.builder()
@@ -161,6 +161,9 @@ public class PaymentService {
                         .build();
 
                 paymentRepository.save(payment);
+
+                //주문의 결제 정보 업데이트
+                order.setPayment(payment);
 
                 //주문요청 금액과 실 결제금액이 같은지 비교
                 if (order.getAmount().toString().equals(payResultEntity.getAmount().toString())) {
@@ -186,6 +189,30 @@ public class PaymentService {
                 }
 
                 status = payResultEntity.getStatus();
+
+                if("PAID".equals(status)) {
+                    JSONObject customDataObj = (JSONObject) parser.parse(resultObj.get("customData").toString());
+                    String deliveryOption = (String) customDataObj.get("deliveryOption");
+
+                    //새로운 배송지인 경우 저장
+                    if("new".equals(deliveryOption)) {
+                        JSONObject customer = (JSONObject) resultObj.get("customer");
+                        String email = (String) customer.get("email");
+
+                        String deliveryName = (String) customDataObj.get("deliveryName");
+                        String recipientName = (String) customDataObj.get("recipientName");
+                        String zipCode = (String) customDataObj.get("zipCode");
+                        String basicAddress = (String) customDataObj.get("addressLine1");
+                        String detailAddress = (String) customDataObj.get("addressLine2");
+                        String phonenumber = (String) customDataObj.get("phonenumber");
+                        boolean isDefaultDelivery = (boolean) customDataObj.get("isDefaultDelivery");
+
+                        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 회원입니다."));
+                        AddDeliveryForm addDeliveryForm = new AddDeliveryForm(deliveryName, recipientName, zipCode, basicAddress, detailAddress, phonenumber, isDefaultDelivery);
+                        Delivery delivery = Delivery.createDelivery(addDeliveryForm, member);
+                        deliveryRepository.save(delivery);
+                    }
+                }
             } else {
                 status = "결제실패";
             }
@@ -250,8 +277,7 @@ public class PaymentService {
     }
 
     /**
-     * 아임포트
-     * 결제 취소
+     * 아임포트 결제 취소
      */
     private void cancelPayment(String accessToken, String paymentId) throws IOException {
         JSONObject json = new JSONObject();

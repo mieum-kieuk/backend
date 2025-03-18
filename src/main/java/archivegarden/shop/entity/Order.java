@@ -86,6 +86,13 @@ public class Order {
     }
 
     /**
+     * 결제 정보 수정
+     */
+    public void setPayment(Payment payment) {
+        this.payment = payment;
+    }
+
+    /**
      * 배송지 정보 수정
      */
     public void setRecipientInfo(String recipientName, Address recipientAddress, String recipientPhonenumber, String deliveryRequestMsg) {
@@ -95,7 +102,6 @@ public class Order {
         this.deliveryRequestMsg = deliveryRequestMsg;
     }
 
-    //==연관관계 메서드==//
     private void addOrderProduct(OrderProduct orderProduct) {
         this.orderProducts.add(orderProduct);
         orderProduct.setOrder(this);
