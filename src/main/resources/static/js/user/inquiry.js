@@ -119,9 +119,7 @@ function deleteInquiry(productId, inquiryId) {
                     xhr.setRequestHeader(csrfHeader, csrfToken)
                 },
                 success: function (data) {
-                    if (data.code === 200) {
-                        loadInquiries(productId, 1);
-                    }
+                    window.location.href = '/community/inquiry';
                 },
                 error: function () {
                     Swal.fire({

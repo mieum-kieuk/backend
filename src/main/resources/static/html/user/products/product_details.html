@@ -177,7 +177,7 @@
                             </ul>
                         </div>
                         <div class="btn_wrap">
-                            <a href="../../cart/cart.html">장바구니 보기</a>
+                            <a href="../order/cart.html">장바구니 보기</a>
                             <a href="">계속 쇼핑하기</a>
                         </div>
                         <button type="button" class="close_btn"><span class="material-symbols-outlined">close</span></button>
@@ -327,9 +327,9 @@
                     <div class="qna_head_inner">
                     <h1 class="qna_title">상품 문의</h1>
                         <span class="qna_count">(<span class="totalCount"></span>)</span>
+                    </div>
                     <div class="btn_wrap">
                         <button type="button" id="inquiryBtn" class="btn1 write_btn" >문의하기</button>
-                    </div>
                     </div>
                 </div>
                 <table id="inquiryTable" class="qna_table">
@@ -354,7 +354,10 @@
                                 <div class="qna_question">
                                     <div class="qna_text">
                                         <span>Q</span>
+                                        <div class="contents">
+                                        <span class="question">재입고 언제 되나요?</span>
                                         <span>재입고 언제 되나요?</span>
+                                        </div>
                                     </div>
                                     <div class="menu">
                                         <button class="menu_toggle">
@@ -458,7 +461,7 @@
                     </form>
                 </div>
             </div>
-            <div id="inquiryModal" class="modal">
+            <div id="inquiryModal" class="modal" data-id="${inquiryId}">
                 <div class="modal_content">
                     <div class="qna_head">
                         <h1 class="qna_title">상품문의</h1>
@@ -469,13 +472,13 @@
                                 <td colspan="2">
                                     <div class="title_wrap">
                                         <label for="title">제목</label>
-                                        <input id="title" type="text" placeholder="제목을 작성해 주세요.">
+                                        <input id="title" type="text" maxlength="30" placeholder="제목을 작성해 주세요.">
                                     </div>
                                 </td>
                             </tr>
                             <tr>
                                 <td colspan="2">
-                                    <textarea id="content" name="content" rows="8" placeholder="내용을 작성해 주세요."></textarea>
+                                    <textarea id="content" name="content" rows="8" maxlength="1000" placeholder="내용을 작성해 주세요."></textarea>
                                 </td>
                             </tr>
                             <tr>

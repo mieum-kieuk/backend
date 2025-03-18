@@ -206,7 +206,7 @@
             </div>
             <div id="inquiryModal" class="modal">
                 <div class="modal_content">
-                    <div id="addQnaForm" action="" th:action th:object="${form}" method="post" th:onsubmit="return validateBeforeInquiryModalSubmit()" novalidate>
+                    <div id="addQnaForm">
                         <table class="qna_table">
                             <tr>
                                 <td colspan="2">
@@ -235,7 +235,6 @@
                         <div class="btn_wrap">
                             <button type="button" class="btn1 close_btn">닫기</button>
                             <button type="submit" class="btn1 submit_btn">등록</button>
-
                         </div>
                     </div>
                 </div>
@@ -252,9 +251,6 @@
                 </div>
                     <table id="inquiryTable" class="qna_table">
                         <tbody>
-<!--                        <tr id="noDataMessage">-->
-<!--                            <td colspan="4">등록된 상품문의가 없습니다.</td>-->
-<!--                        </tr>-->
                         </tbody>
     <!--                    <tr class="qna_items">-->
     <!--                        <td class="title_td">-->

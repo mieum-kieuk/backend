@@ -1,6 +1,7 @@
 $(document).ready(function () {
 
     let productId = $('#product').data('id');
+    let currentPage = 1;
 
     loadInquiries(productId, 1);
 
@@ -10,11 +11,18 @@ $(document).ready(function () {
 
     $(document).on("click", ".qna_items", function () {
         let currentContent = $(this).next(".qna_content");
+        let isSecret = $(this).find('.material-symbols-outlined.secretItem').length > 0;
+        let isWriter = $(this).data('isWriter');
+
+        if (isSecret && !isWriter) {
+            return;
+        }
+
         toggleContent(currentContent);
     });
 
     // 수정 버튼
-    $(document).on("click", "#product .qna_table .edit_btn", function () {
+    $(document).on("click", "#inquiryTable .edit_btn", function () {
         editInquiryModal(this);
     });
 
@@ -28,7 +36,7 @@ $(document).ready(function () {
         let inquiryContent = inquiryItem.next(".qna_content");
         let inquiryId = $(this).data("id");
 
-        deleteProductInquiry(inquiryId, inquiryItem, inquiryContent)
+        deleteProductInquiry(productId, currentPage, inquiryId, inquiryItem, inquiryContent);
     });
 
     // 모달 닫기 버튼
@@ -59,17 +67,42 @@ $(document).ready(function () {
         let currentPage = $(this).data('page');
         loadInquiries(currentPage);
     });
-    $('#inquiryModal .submit_btn').on('click', function () {
-        validateBeforeInquiryModalSubmit();
+
+    $('#inquiryBtn').on('click', function () {
         $.ajax({
-            url: '/ajax/inquiries',
-            type: 'POST',
-            success: function () {
-                loadInquiries(productId, currentPage);
+            url: '/ajax/check/login',
+            type: 'GET',
+            success: function (result) {
+                if (result.code == 401) {
+                    Swal.fire({
+                        html: result.message,
+                        showConfirmButton: true,
+                        confirmButtonText: '확인',
+                        customClass: mySwal,
+                        buttonsStyling: false,
+                        preConfirm: () => {
+                            window.location.href = '/login';
+                        }
+                    });
+                } else if (result.code == 200) {
+                    closeInquiryModal();
+                    openInquiryModal();
+                    let inquiryModal = $('#inquiryModal');
+                    let qnaHead = $('.qna_head');
+                    inquiryModal.insertAfter(qnaHead).css({
+                        position: 'relative',
+                    });
+
+                    // 첫 번째 tr에 border-top 스타일 변경
+                    $('#product .qna_wrap.list .qna_table tbody tr:first-child').css({
+                        'border-top': '1px solid #d7d7d7'
+                    });
+
+                }
             },
-            error: function (error) {
+            error: function () {
                 Swal.fire({
-                    text: "상품 문의를 등록하는 중 오류가 발생했습니다.",
+                    text: "로그인 상태를 확인하는 중 오류가 발생했습니다.",
                     showConfirmButton: true,
                     confirmButtonText: '확인',
                     customClass: mySwal,
@@ -79,30 +112,73 @@ $(document).ready(function () {
         });
     });
 
+    $('#inquiryModal .submit_btn').on('click', function () {
+        let csrfToken = $("meta[name='_csrf']").attr("content");
+        let csrfHeader = $("meta[name='_csrf_header']").attr("content");
+
+        let title = $('#inquiryModal #title').val().trim();
+        let content = $('#inquiryModal #content').val().trim();
+        let isSecret = $('#inquiryModal #secret').prop('checked');
+        let inquiryId = $('#inquiryModal').data('id');
+
+        if (validateBeforeInquiryModalSubmit()) {
+            let requestType = $(this).text() === '등록' ? 'POST' : 'PUT';
+            let requestUrl = $(this).text() === '등록' ? '/ajax/inquiries/add' : '/ajax/inquiries/edit';
+
+            let requestData = {
+                'productId': productId,
+                'title': title,
+                'content': content,
+                'isSecret': isSecret
+            };
+            if (requestType === 'PUT') {
+                requestData['inquiryId'] = inquiryId;
+            }
+            $.ajax({
+                url: requestUrl,
+                type: requestType,
+                data: requestData,
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader(csrfHeader, csrfToken)
+                },
+                success: function () {
+                    loadInquiries(productId, 1);
+                    closeInquiryModal();
+                },
+                error: function (error) {
+                    let errorMessage = requestType === 'POST' ? "상품 문의를 등록하는 중 오류가 발생했습니다." : "상품 문의를 수정하는 중 오류가 발생했습니다.";
+                    Swal.fire({
+                        text: errorMessage,
+                        showConfirmButton: true,
+                        confirmButtonText: '확인',
+                        customClass: mySwal,
+                        buttonsStyling: false
+                    });
+                }
+            });
+        }
+    });
+
 });
+
 
 function loadInquiries(productId, currentPage) {
     $.ajax({
         type: 'GET',
         url: '/ajax/inquiries/' + productId,
+
         success: function (data) {
             renderPagination(data.totalElements, currentPage);
             let totalCount = $('.totalCount');
             totalCount.text(data.totalElements);
+            let inquiryTable = $('#inquiryTable');
+            let tbody = inquiryTable.find('tbody');
+
             if (data && data.content.length > 0) {
-                let inquiryTable = $('#inquiryTable');
-                let tbody = inquiryTable.find('tbody'); // tbody 요소 찾기
-
-                if (tbody.length === 0) {
-                    tbody = $('<tbody></tbody>');
-                    inquiryTable.append(tbody);
-                } else {
-                    tbody.empty();
-                }
-
+                tbody.empty();
                 data.content.forEach(function (item) {
                     let inquiryItem = `
-                        <tr class="qna_items">
+                        <tr class="qna_items" data-isWriter="${item.isWriter}">
                             <td class="title_td">
                                 <div class="title">
                                     ${item.isSecret ? '<span class="material-symbols-outlined secretItem">lock</span>' : ''}
@@ -119,22 +195,27 @@ function loadInquiries(productId, currentPage) {
                                     <div class="qna_question">
                                         <div class="qna_text">
                                             <span>Q</span>
+                                            <div class="contents">
                                             <span class="question">${item.title}</span>
+                                            <span>${item.content}</span>
+                                            </div>
                                         </div>
                                         <div class="menu">
-                                            <button class="menu_toggle">
-                                                <span class="material-symbols-outlined">more_horiz</span>
-                                            </button>
-                                            <div class="dropdown_menu">
-                                                <ul>
-                                                    <li>
-                                                        <button type="button" class="edit_btn" data-id="${item.id}">수정</button>
-                                                    </li>
-                                                    <li>
-                                                        <button type="button" class="delete_btn" data-id="${item.id}">삭제</button>
-                                                    </li>
-                                                </ul>
-                                            </div>
+                                            ${item.isWriter ?
+                                                `<button class="menu_toggle">
+                                                    <span class="material-symbols-outlined">more_horiz</span>
+                                                </button>
+                                                <div class="dropdown_menu">
+                                                    <ul>
+                                                        <li>
+                                                            <button type="button" class="edit_btn" data-id="${item.id}">수정</button>
+                                                        </li>
+                                                        <li>
+                                                            <button type="button" class="delete_btn" data-id="${item.id}">삭제</button>
+                                                        </li>
+                                                    </ul>
+                                                </div>` : ''
+                                            }
                                         </div>
                                     </div>
                                     <div class="qna_answer">
@@ -148,8 +229,7 @@ function loadInquiries(productId, currentPage) {
                     tbody.append(inquiryItem);
                 });
             } else {
-                let inquiryTable = $('#inquiryTable');
-                let tbody = inquiryTable.find('tbody'); // tbody 요소 찾기
+                tbody.empty();
                 let noDataMessage = `
                     <tr id="noDataMessage">
                         <td colspan="4">등록된 상품문의가 없습니다.</td>
@@ -157,6 +237,7 @@ function loadInquiries(productId, currentPage) {
                 `;
                 tbody.append(noDataMessage);
             }
+
         },
         error: function () {
             Swal.fire({
@@ -231,11 +312,20 @@ function renderPagination(totalElements, currentPage) {
 // 상품문의 폼 열기
 function openInquiryModal() {
     let inquiryModal = $("#inquiryModal");
+    inquiryModal.removeData('id');
+
     inquiryModal.css("display", "flex");
+    $('#inquiryModal .submit_btn').prop('disabled', false);
+    $("#inquiryModal .submit_btn").text("등록");
 }
 
 function closeInquiryModal() {
     $('#inquiryModal').hide();
+    $('#inquiryModal').removeData('id');
+    $('#inquiryModal #title').val('');
+    $('#inquiryModal #content').val('');
+    $('#inquiryModal #secret').prop('checked', false);
+    $("#inquiryModal .submit_btn").text("등록");
 
     // qna_content 원래 상태로 복원
     let qnaContent = $('#inquiryModal').closest('.qna_content');
@@ -244,31 +334,37 @@ function closeInquiryModal() {
         position: "relative"
     });
 
-    // 첫 번째 tr의 border-top을 원래대로 되돌리기
     $('#product .qna_wrap.list .qna_table tbody tr:first-child').css({
         'border-top': 'none'
     });
 }
 
+// 비밀글 찾기
+function findSecretItem(editButton) {
+    let qnaItems = $(editButton).closest('.qna_content').prev('.qna_items');
+    let secretItem = qnaItems.find('.material-symbols-outlined.secretItem');
+    return secretItem.length > 0;
+}
+
 // 상품문의 수정 폼
 function editInquiryModal(editButton) {
     let inquiryModal = $('#inquiryModal');
+    let inquiryId = $(editButton).data('id');
 
     let inquiryTitle = $(editButton).closest('.qna_cont').find('.question').text().trim();
-    let inquiryContent = $(editButton).closest('.qna_cont').find('.answer').text().trim();
-    let isSecret = $(editButton).closest('.qna_items').find('.secretItem').text().trim();
+    let inquiryContent = $(editButton).closest('.qna_cont').find('.content').text().trim();
+    let isSecret = findSecretItem(editButton);
 
+    $('#inquiryModal').data('id', inquiryId);
     $('#inquiryModal #title').val(inquiryTitle);
     $('#inquiryModal #content').text(inquiryContent);
     $("#inquiryModal .submit_btn").text("완료");
-    $('#inquiryModal #secret').prop('checked', isSecret);  // isSecret 값을 기반으로 체크박스 상태 변경
+    $('#inquiryModal #secret').prop('checked', isSecret);
 
     let qnaContent = $(editButton).closest('.qna_cont').parent();
 
     qnaContent.append(inquiryModal.detach());
-
     qnaContent.css("position", "relative");
-
     qnaContent.children().not(inquiryModal).css({
         visibility: "hidden",
         position: "absolute"
@@ -281,6 +377,8 @@ function editInquiryModal(editButton) {
         display: 'flex',
         zIndex: 10,
     }).show();
+
+    $('#inquiryModal .submit_btn').prop('disabled', false);
 }
 
 // 상품문의 클릭 시 내용 보이게
@@ -316,7 +414,9 @@ function toggleContent(content) {
 }
 
 // 상세페이지 문의 삭제
-function deleteProductInquiry(inquiryId, inquiryItem, inquiryContent) {
+function deleteProductInquiry(productId, currentPage, inquiryId, inquiryItem, inquiryContent) {
+    let csrfToken = $("meta[name='_csrf']").attr("content");
+    let csrfHeader = $("meta[name='_csrf_header']").attr("content");
 
     Swal.fire({
         text: "삭제하시겠습니까?",
@@ -340,7 +440,7 @@ function deleteProductInquiry(inquiryId, inquiryItem, inquiryContent) {
                     if (data.code === 200) {
                         inquiryItem.remove(); // 질문 행 삭제
                         inquiryContent.remove(); // 내용 행 삭제
-                        loadInquiries(currentPage);
+                        loadInquiries(productId, currentPage);
                     }
                 },
                 error: function () {
@@ -384,50 +484,7 @@ function validateBeforeInquiryModalSubmit() {
         return false;
     }
 
-    $('.submit_btn').prop('disabled', true);
+    $('#inquiryModal .submit_btn').prop('disabled', true);
     return true;
 }
 
-$('#inquiryBtn').on('click', function () {
-    $.ajax({
-        url: '/ajax/check/login',
-        type: 'GET',
-        success: function (result) {
-            if (result.code == 401) {
-                Swal.fire({
-                    html: result.message,
-                    showConfirmButton: true,
-                    confirmButtonText: '확인',
-                    customClass: mySwal,
-                    buttonsStyling: false,
-                    preConfirm: () => {
-                        window.location.href = '/login';
-                    }
-                });
-            } else if (result.code == 200) {
-                openInquiryModal();
-                let inquiryModal = $('#inquiryModal');
-                let qnaHead = $('.qna_head');
-                // 모달을 qna_head 아래로 삽입
-                inquiryModal.insertAfter(qnaHead).css({
-                    position: 'relative',
-                });
-
-                // 첫 번째 tr에 border-top 스타일 변경
-                $('#product .qna_wrap.list .qna_table tbody tr:first-child').css({
-                    'border-top': '1px solid #d7d7d7'
-                });
-
-            }
-        },
-        error: function () {
-            Swal.fire({
-                text: "로그인 상태를 확인하는 중 오류가 발생했습니다.",
-                showConfirmButton: true,
-                confirmButtonText: '확인',
-                customClass: mySwal,
-                buttonsStyling: false
-            });
-        }
-    });
-});
