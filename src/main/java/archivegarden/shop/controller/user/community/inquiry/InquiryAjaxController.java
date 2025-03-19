@@ -2,6 +2,7 @@ package archivegarden.shop.controller.user.community.inquiry;
 
 import archivegarden.shop.dto.ResultResponse;
 import archivegarden.shop.dto.user.community.inquiry.AddInquiryForm;
+import archivegarden.shop.dto.user.community.inquiry.EditInquiryForm;
 import archivegarden.shop.dto.user.community.inquiry.InquiryListInProductDto;
 import archivegarden.shop.entity.Member;
 import archivegarden.shop.service.user.community.InquiryService;
@@ -25,9 +26,9 @@ public class InquiryAjaxController {
     /**
      * 상품 문의 등록 요청을 처리하는 메서드
      */
-    @PostMapping("/inquiry/add")
+    @PostMapping("/inquiries/add")
     public ResultResponse addInquiry(@Valid @ModelAttribute("form") AddInquiryForm form, BindingResult bindingResult,
-                             @CurrentUser Member loginMember, RedirectAttributes redirectAttributes) {
+                                     @CurrentUser Member loginMember, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             new ResultResponse(HttpStatus.BAD_REQUEST.value(), "상품 문의 등록 중 오류가 발생했습니다.");
         }
@@ -37,21 +38,37 @@ public class InquiryAjaxController {
         return new ResultResponse(HttpStatus.OK.value(), "상품 문의가 등록되었습니다.");
     }
 
-    /**
-     * 상품 문의 삭제 요청을 처리하는 메서드
-     */
-    @DeleteMapping("/inquiry")
-    public ResultResponse deleteInquiry(@RequestParam("inquiryId") Long inquiryId) {
-        inquiryService.deleteInquiry(inquiryId);
-        return new ResultResponse(HttpStatus.OK.value(), "삭제가 완료되었습니다.");
-    }
 
     /**
      * 상품 문의 목록 조회 요청을 처리하는 메서드
      */
     @GetMapping("/inquiries/{productId}")
-    public Page<InquiryListInProductDto> inquiries(@PathVariable("productId") Long productId, @RequestParam(name = "page", defaultValue = "1") int page) {
+    public Page<InquiryListInProductDto> inquiries(@PathVariable("productId") Long productId, @RequestParam(name = "page", defaultValue = "1") int page,
+                                                   @CurrentUser Member loginMember) {
         PageRequest pageRequest = PageRequest.of(page - 1, 10);
-        return inquiryService.getInquiresInProduct(productId, pageRequest);
+        return inquiryService.getInquiresInProduct(productId, pageRequest, loginMember);
+    }
+
+    /**
+     * 상품 문의 수정 요청을 처리하는 메서드
+     */
+    @PostMapping("/inquiries/{inquiryId}/edit")
+    public ResultResponse editInquiry(@Valid @ModelAttribute("form") EditInquiryForm form, BindingResult bindingResult,
+                                      @PathVariable("inquiryId") Long inquiryId, @CurrentUser Member loginMember) {
+        if (bindingResult.hasErrors()) {
+            new ResultResponse(HttpStatus.BAD_REQUEST.value(), "상품 문의 수정 중 오류가 발생했습니다.");
+        }
+
+        inquiryService.editInquiry(form, inquiryId);
+        return new ResultResponse(HttpStatus.OK.value(), "상품 문의가 수정되었습니다.");
+    }
+
+    /**
+     * 상품 문의 삭제 요청을 처리하는 메서드
+     */
+    @DeleteMapping("/inquiries")
+    public ResultResponse deleteInquiry(@RequestParam("inquiryId") Long inquiryId) {
+        inquiryService.deleteInquiry(inquiryId);
+        return new ResultResponse(HttpStatus.OK.value(), "삭제가 완료되었습니다.");
     }
 }

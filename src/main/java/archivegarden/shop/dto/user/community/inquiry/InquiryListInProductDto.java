@@ -15,27 +15,24 @@ public class InquiryListInProductDto {
 
     private Long id;
     private String title;
+    private String content;
     private Boolean isSecret;
     private String isAnswered;
     private String createdAt;
-    private Long productId;
-    private String productImageData;
-    private String writer;
     private String writerLoginId;
+    private Boolean isWriter;
     private String answer;
 
     @QueryProjection
-    public InquiryListInProductDto(Long inqueryId, String title, boolean isSecret, boolean isAnswered, LocalDateTime createdAt,
-                                   String writer, String writerLoginId, Long productId, String productImageUrl, String answer) {
+    public InquiryListInProductDto(Long inqueryId, String title, String content, boolean isSecret, boolean isAnswered, LocalDateTime createdAt, String writerLoginId, String answer) {
         this.id = inqueryId;
-        this.productId = productId;
-        this.productImageData = productImageUrl;
         this.title = title;
-        this.writer = writer.substring(0, 1) + "****";
-        this.writerLoginId = writerLoginId;
+        this.content = content;
         this.isSecret = isSecret;
         this.isAnswered = isAnswered ? "답변완료" : "답변대기";
         this.createdAt = DateTimeFormatter.ofPattern("yyyy.MM.dd").format(createdAt);
+        this.writerLoginId = writerLoginId;
+        this.isWriter = false;
         this.answer = answer;
     }
 }

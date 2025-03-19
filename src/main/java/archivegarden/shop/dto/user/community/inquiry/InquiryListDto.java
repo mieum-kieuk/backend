@@ -30,7 +30,7 @@ public class InquiryListDto {
         this.productId = productId;
         this.productImageData = productImageUrl;
         this.title = title;
-        this.writer = writer.substring(0, 1) + "****";
+        this.writer = writerLoginId.substring(0, writerLoginId.length() - 3) + "***";
         this.writerLoginId = writerLoginId;
         this.isSecret = isSecret;
         this.isAnswered = isAnswered ? "답변완료" : "답변대기";

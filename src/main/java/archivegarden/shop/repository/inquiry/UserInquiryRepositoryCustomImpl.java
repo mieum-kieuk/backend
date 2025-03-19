@@ -86,24 +86,18 @@ public class UserInquiryRepositoryCustomImpl implements UserInquiryRepositoryCus
         List<InquiryListInProductDto> content = queryFactory.select(new QInquiryListInProductDto(
                         inquiry.id,
                         inquiry.title,
+                        inquiry.content,
                         inquiry.isSecret,
                         inquiry.isAnswered,
                         inquiry.createdAt,
-                        member.name,
                         member.loginId,
-                        product.id,
-                        productImage.imageUrl,
                         answer.content
                 ))
                 .from(inquiry)
                 .leftJoin(inquiry.member, member)
                 .leftJoin(inquiry.product, product)
-                .leftJoin(product.productImages, productImage)
                 .leftJoin(inquiry.answer, answer)
-                .where(
-                        inquiry.product.id.eq(productId),
-                        imageTypeEqDisplay()
-                )
+                .where(inquiry.product.id.eq(productId))
                 .orderBy(inquiry.createdAt.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -137,20 +131,6 @@ public class UserInquiryRepositoryCustomImpl implements UserInquiryRepositoryCus
                         imageTypeEqDisplay()
                 )
                 .fetchOne();
-    }
-
-
-    private BooleanExpression keywordLike(String searchKey, String keyword) {
-        if (StringUtils.hasText(keyword)) {
-            if (searchKey.equals("title")) {
-                return Expressions.stringTemplate("function('replace', {0},{1},{2})", inquiry.title, " ", "")
-                        .containsIgnoreCase(StringUtils.replace(keyword, " ", ""));
-            } else if (searchKey.equals("writer")) {
-                return inquiry.member.name.containsIgnoreCase(keyword);
-            }
-        }
-
-        return null;
     }
 
     private BooleanExpression inquiryIdEq(Long inquiryId) {

@@ -70,11 +70,15 @@ public class InquiryService {
     /**
      * 상품 상세페이지에서 상품 문의 목록 조회
      */
-    public Page<InquiryListInProductDto> getInquiresInProduct(Long productId, Pageable pageable) {
+    public Page<InquiryListInProductDto> getInquiresInProduct(Long productId, Pageable pageable, Member loginMember) {
         Page<InquiryListInProductDto> inquiryListDtos = inquiryRepository.findInquiriesByProductId(productId, pageable);
         inquiryListDtos.forEach(i -> {
-            String encodedImageData = productImageService.getEncodedImageData(i.getProductImageData());
-            i.setProductImageData(encodedImageData);
+            if(loginMember != null && i.getWriterLoginId().equals(loginMember.getLoginId())) {
+                i.setIsWriter(true);
+            }
+
+            String encodedWriterLoginId = i.getWriterLoginId().substring(0, i.getWriterLoginId().length() - 3) + "***";
+            i.setWriterLoginId(encodedWriterLoginId);
         });
 
         return inquiryListDtos;
