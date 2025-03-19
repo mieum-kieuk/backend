@@ -1,7 +1,6 @@
 $(document).ready(function () {
 
     let productId = $('#product').data('id');
-    let currentPage = 1;
 
     loadInquiries(productId, 1);
 
@@ -10,15 +9,21 @@ $(document).ready(function () {
     }
 
     $(document).on("click", ".qna_items", function () {
-        let currentContent = $(this).next(".qna_content");
-        let isSecret = $(this).find('.material-symbols-outlined.secretItem').length > 0;
-        let isWriter = $(this).data('isWriter');
+        let qnaItems = $(this);
+        let currentContent = qnaItems.next(".qna_content");
+        let isSecret = qnaItems.find('.material-symbols-outlined.secretItem').length > 0;
 
-        if (isSecret && !isWriter) {
-            return;
+        if (currentContent.length > 0) {
+            if (isSecret) {
+                if (qnaItems.hasClass('open')) {
+                    toggleContent(currentContent);
+                } else {
+                }
+            } else {
+                toggleContent(currentContent);
+            }
+        } else {
         }
-
-        toggleContent(currentContent);
     });
 
     // 수정 버튼
@@ -36,7 +41,7 @@ $(document).ready(function () {
         let inquiryContent = inquiryItem.next(".qna_content");
         let inquiryId = $(this).data("id");
 
-        deleteProductInquiry(productId, currentPage, inquiryId, inquiryItem, inquiryContent);
+        deleteProductInquiry(productId, inquiryId, inquiryItem, inquiryContent);
     });
 
     // 모달 닫기 버튼
@@ -57,15 +62,15 @@ $(document).ready(function () {
     });
 
     $(document).on('click', '.page', function () {
-        let currentPage = $(this).data('page');
+        let currentPage = parseInt($(this).data('page')); // 숫자 타입으로 변환
         $('.page').removeClass('active');  // 기존의 .active 클래스 제거
         $(this).addClass('active');  // 클릭된 페이지에 .active 클래스 추가
-        loadInquiries(currentPage);
+        loadInquiries(productId, currentPage);
     });
 
     $(document).on('click', '.prev_first, .next_last', function () {
         let currentPage = $(this).data('page');
-        loadInquiries(currentPage);
+        loadInquiries(productId, currentPage);
     });
 
     $('#inquiryBtn').on('click', function () {
@@ -123,7 +128,7 @@ $(document).ready(function () {
 
         if (validateBeforeInquiryModalSubmit()) {
             let requestType = $(this).text() === '등록' ? 'POST' : 'PUT';
-            let requestUrl = $(this).text() === '등록' ? '/ajax/inquiries/add' : '/ajax/inquiries/edit';
+            let requestUrl = $(this).text() === '등록' ? '/ajax/inquiries/add' : '/ajax/inquiries/' + inquiryId + '/edit';
 
             let requestData = {
                 'productId': productId,
@@ -131,12 +136,10 @@ $(document).ready(function () {
                 'content': content,
                 'isSecret': isSecret
             };
-            if (requestType === 'PUT') {
-                requestData['inquiryId'] = inquiryId;
-            }
+
             $.ajax({
                 url: requestUrl,
-                type: requestType,
+                type: 'POST',
                 data: requestData,
                 beforeSend: function (xhr) {
                     xhr.setRequestHeader(csrfHeader, csrfToken)
@@ -146,9 +149,8 @@ $(document).ready(function () {
                     closeInquiryModal();
                 },
                 error: function (error) {
-                    let errorMessage = requestType === 'POST' ? "상품 문의를 등록하는 중 오류가 발생했습니다." : "상품 문의를 수정하는 중 오류가 발생했습니다.";
                     Swal.fire({
-                        text: errorMessage,
+                        text: error.message,
                         showConfirmButton: true,
                         confirmButtonText: '확인',
                         customClass: mySwal,
@@ -165,8 +167,7 @@ $(document).ready(function () {
 function loadInquiries(productId, currentPage) {
     $.ajax({
         type: 'GET',
-        url: '/ajax/inquiries/' + productId,
-
+        url: '/ajax/inquiries/' + productId + '?page=' + currentPage,
         success: function (data) {
             renderPagination(data.totalElements, currentPage);
             let totalCount = $('.totalCount');
@@ -177,15 +178,16 @@ function loadInquiries(productId, currentPage) {
             if (data && data.content.length > 0) {
                 tbody.empty();
                 data.content.forEach(function (item) {
+                    let qnaTitle = item.isSecret && !item.isWriter ? '비밀글입니다.' : item.title;
                     let inquiryItem = `
-                        <tr class="qna_items" data-isWriter="${item.isWriter}">
+                        <tr class="qna_items ${item.isWriter ? 'open' : ''}">
                             <td class="title_td">
                                 <div class="title">
                                     ${item.isSecret ? '<span class="material-symbols-outlined secretItem">lock</span>' : ''}
-                                    <span class="title">${item.title}</span>
+                                    <span class="title">${qnaTitle}</span>
                                 </div>
                             </td>
-                            <td><span class="writer">${item.writer}</span></td>
+                            <td><span class="writer">${item.writerLoginId}</span></td>
                             <td><span class="date">${item.createdAt}</span></td>
                             <td><span class="answer">${item.isAnswered}</span></td>
                         </tr>
@@ -197,7 +199,7 @@ function loadInquiries(productId, currentPage) {
                                             <span>Q</span>
                                             <div class="contents">
                                             <span class="question">${item.title}</span>
-                                            <span>${item.content}</span>
+                                            <span class="content">${item.content}</span>
                                             </div>
                                         </div>
                                         <div class="menu">
@@ -237,7 +239,6 @@ function loadInquiries(productId, currentPage) {
                 `;
                 tbody.append(noDataMessage);
             }
-
         },
         error: function () {
             Swal.fire({
@@ -307,6 +308,7 @@ function renderPagination(totalElements, currentPage) {
         <li><a class="next_last disabled"><span class="material-symbols-outlined">navigate_next</span></a></li>
     `);
     }
+
 }
 
 // 상품문의 폼 열기
@@ -357,7 +359,7 @@ function editInquiryModal(editButton) {
 
     $('#inquiryModal').data('id', inquiryId);
     $('#inquiryModal #title').val(inquiryTitle);
-    $('#inquiryModal #content').text(inquiryContent);
+    $('#inquiryModal #content').val(inquiryContent);
     $("#inquiryModal .submit_btn").text("완료");
     $('#inquiryModal #secret').prop('checked', isSecret);
 
@@ -390,13 +392,13 @@ function toggleContent(content) {
             position: "relative"
         });
 
-        content.slideUp("fast", function () {
+        content.stop(true,true).slideUp("fast", function () {
             content.css("border-bottom", "");
             content.prev(".qna_items").css("border-bottom", "");
         });
 
     } else {
-        $(".qna_content").not(content).slideUp("fast").promise().done(function () {
+        $(".qna_content").not(content).stop(true,true).slideUp("fast").promise().done(function () {
             $(this).css("border-bottom", "").prev(".qna_items").css("border-bottom", "");
 
             // 기존 qna_content 내부 내용을 다시 보이게 설정
@@ -406,7 +408,7 @@ function toggleContent(content) {
             });
         });
 
-        content.slideDown("fast", function () {
+        content.stop(true,true).slideDown("fast", function () {
             content.css("border-bottom", "1px solid #333");
             content.prev(".qna_items").css("border-bottom", "1px solid #333");
         });
@@ -414,7 +416,7 @@ function toggleContent(content) {
 }
 
 // 상세페이지 문의 삭제
-function deleteProductInquiry(productId, currentPage, inquiryId, inquiryItem, inquiryContent) {
+function deleteProductInquiry(productId, inquiryId, inquiryItem, inquiryContent) {
     let csrfToken = $("meta[name='_csrf']").attr("content");
     let csrfHeader = $("meta[name='_csrf_header']").attr("content");
 
@@ -430,7 +432,7 @@ function deleteProductInquiry(productId, currentPage, inquiryId, inquiryItem, in
         if (result.isConfirmed) {
             $.ajax({
                 type: 'DELETE',
-                url: '/ajax/inquiry',
+                url: '/ajax/inquiries',
                 async: false,
                 data: {'inquiryId': inquiryId},
                 beforeSend: function (xhr) {
@@ -440,7 +442,7 @@ function deleteProductInquiry(productId, currentPage, inquiryId, inquiryItem, in
                     if (data.code === 200) {
                         inquiryItem.remove(); // 질문 행 삭제
                         inquiryContent.remove(); // 내용 행 삭제
-                        loadInquiries(productId, currentPage);
+                        loadInquiries(productId, 1);
                     }
                 },
                 error: function () {
@@ -487,4 +489,3 @@ function validateBeforeInquiryModalSubmit() {
     $('#inquiryModal .submit_btn').prop('disabled', true);
     return true;
 }
-
