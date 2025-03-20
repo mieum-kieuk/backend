@@ -85,12 +85,12 @@ public class AdminInquiryRepositoryCustomImpl implements AdminInquiryRepositoryC
                 .fetch();
 
         JPAQuery<Long> countQuery = queryFactory
-                .select(product.count())
+                .select(inquiry.count())
                 .where(
                         nameLike(condition.getKeyword()),
                         categoryEq(Category.of(condition.getCategory()))
                 )
-                .from(product);
+                .from(inquiry);
 
         return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
     }

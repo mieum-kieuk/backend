@@ -1,6 +1,5 @@
 package archivegarden.shop.controller.admin.product.inquiry;
 
-import archivegarden.shop.dto.admin.product.answer.AdminAnswerDto;
 import archivegarden.shop.dto.admin.product.inquiry.AdminInquiryDetailsDto;
 import archivegarden.shop.dto.admin.product.inquiry.AdminInquiryListDto;
 import archivegarden.shop.dto.admin.product.product.AdminProductSearchCondition;
