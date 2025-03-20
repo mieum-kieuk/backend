@@ -294,6 +294,12 @@
     content: " |";
     margin: 3px;
 }
+
+.qna_wrap.details .cmt_wrap {
+    padding: 0;
+    margin-bottom: 0;
+    background: #fff;
+}
 .cmt_wrap {
     display: none;
     flex-direction: column;
@@ -302,6 +308,9 @@
     width: 100%;
     background: #eee;
     margin-bottom: 40px;
+}
+.qna_wrap.details .cmt_tit h3{
+    font-size: 14px;
 }
 .cmt_tit h3{
     font-size: 16px;
@@ -315,6 +324,9 @@
     border: 1px solid #d7d7d7;
     padding: 5px;
     min-height: 200px;
+}
+.qna_wrap.details .cmt_info {
+    font-size: 13px;
 }
 .cmt_info {
     display: flex;
@@ -496,10 +508,9 @@
     text-align: left;
 }
 .answer.complete {
-    /*color: #43972a;*/
     color: #3273F6;
 }
-.answer.pending {
+.answer {
     color: #999;
 }
 .qna_foot {

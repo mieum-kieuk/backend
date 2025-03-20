@@ -19,7 +19,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.js"></script>
     <script defer src="../../../../static/js/common/comm.js" th:src="@{/js/common/comm.js}"></script>
-    <script defer src="../../../static/js/user/inquiry.js" th:src="@{/js/user/inquiry.js}"></script>
+    <script defer src="../../../../static/js/user/inquiry.js" th:src="@{/js/user/inquiry.js}"></script>
 </head>
 <body>
 <div class="wrap">
@@ -52,52 +52,34 @@
                         <div class="qna_text" th:text="${inquiry.content}">
                             재입고 언제 되나요?
                         </div>
+                        <div class="cmt_wrap">
+                            <div class="cmt_tit"><h3>답변</h3></div>
+                            <div class="comment">
+                                <div class="cmt_info">
+                                    <span class="date" th:text="${inquiry.createdAt}">작성일</span>
+                                </div>
+                                <div class="cmt_content">
+                                <span>
+                                </span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="btn_wrap details right">
-                <button type="button" class="btn1" onclick="location.href='./edit_inquiry.html'"
-                        th:onclick="|location.href='@{/community/inquiries/{inquiryId}/edit(inquiryId=${inquiry.id})}'|"
-                        sec:authorize="hasRole('USER')" th:if="${#authentication.principal.username} == ${inquiry.writerLoginId}">수정
-                </button>
-                <button type="button" class="btn1 delete_btn" th:data-id="${inquiry.id}"
-                        sec:authorize="hasRole('USER')" th:if="${#authentication.principal.username} == ${inquiry.writerLoginId}">삭제
-                </button>
-                <button type="button" class="btn1 list_btn" onclick="location.href ='./inquiry_list.html'"
-                        th:onclick="|location.href='@{/community/inquiries}'|">목록
-                </button>
-            </div>
         </div>
-<!--        <div class="cmt_wrap">-->
-            <!--            <div class="cmt_tit"><h3>댓글 목록</h3></div>-->
-            <!--            <div class="comment">-->
-            <!--                <div class="cmt_info">-->
-            <!--                    <span class="id">관리자</span>-->
-            <!--                    <span class="date">작성일</span>-->
-            <!--                    <div class="btn_wrap details right">-->
-            <!--                        <button type="button" class="edit_btn"><span class="material-symbols-outlined btn">edit</span>-->
-            <!--                        </button>-->
-            <!--                        <button type="button" class="delete_btn"><span-->
-            <!--                                class="material-symbols-outlined btn">close</span></button>-->
-            <!--                    </div>-->
-            <!--                </div>-->
-            <!--                <div class="cmt_content">-->
-            <!--                <span>안녕하세요 :)-->
-            <!--                <br><br>-->
-            <!--                받아보신 상품 마음에 드셨다니 정말 다행이에요 ! ㅎㅎ<br>-->
-            <!--                앞으로도 더 예쁜 상품들 많이 보여드릴 수 있도록 하겠습니다.<br>-->
-            <!--                소중한 후기 감사드려요 !<br>-->
-            <!--                <br>-->
-            <!--                행복한 하루 보내세요 ~!-->
-            <!--                </span>-->
-            <!--                </div>-->
-            <!--            </div>-->
-            <!--            <div class="btn_wrap cmt">-->
-            <!--                <button type="button">수정</button>-->
-            <!--                <button type="button">삭제</button>-->
-            <!--            </div>-->
-            <!--        </div>-->
-<!--        </div>-->
+        <div class="btn_wrap details right">
+            <button type="button" class="btn1" onclick="location.href='./edit_inquiry.html'"
+                    th:onclick="|location.href='@{/community/inquiry/{inquiryId}/edit(inquiryId=${inquiry.id})}'|"
+                    sec:authorize="hasRole('USER')" th:if="${#authentication.principal.username} == ${inquiry.writerLoginId}">수정
+            </button>
+            <button type="button" class="btn1 delete_btn" th:data-id="${inquiry.id}"
+                    sec:authorize="hasRole('USER')" th:if="${#authentication.principal.username} == ${inquiry.writerLoginId}">삭제
+            </button>
+            <button type="button" class="btn1 list_btn" onclick="location.href ='./inquiry_list.html'"
+                    th:onclick="|location.href='@{/community/inquiry}'|">목록
+            </button>
+        </div>
     </div>
     <div th:replace="~{/layout/footer :: basic_footer}"></div>
 </div>

@@ -179,6 +179,7 @@ function loadInquiries(productId, currentPage) {
                 tbody.empty();
                 data.content.forEach(function (item) {
                     let qnaTitle = item.isSecret && !item.isWriter ? '비밀글입니다.' : item.title;
+                    let answeredClass = item.isAnswered === '답변완료' ? 'complete' : '';
                     let inquiryItem = `
                         <tr class="qna_items ${item.isWriter ? 'open' : ''}">
                             <td class="title_td">
@@ -189,7 +190,7 @@ function loadInquiries(productId, currentPage) {
                             </td>
                             <td><span class="writer">${item.writerLoginId}</span></td>
                             <td><span class="date">${item.createdAt}</span></td>
-                            <td><span class="answer">${item.isAnswered}</span></td>
+                            <td><span class="answer ${answeredClass}">${item.isAnswered}</span></td>
                         </tr>
                         <tr class="qna_content">
                             <td colspan="4">
