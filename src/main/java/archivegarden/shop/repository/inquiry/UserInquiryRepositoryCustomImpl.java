@@ -32,17 +32,19 @@ public class UserInquiryRepositoryCustomImpl implements UserInquiryRepositoryCus
     public InquiryDetailsDto findInquiry(Long inquiryId) {
         return queryFactory.select(new QInquiryDetailsDto(
                         inquiry,
-                        member.name,
                         member.loginId,
                         product.id,
                         product.name,
                         product.price,
-                        productImage.imageUrl
+                        productImage.imageUrl,
+                        answer.content,
+                        answer.createdAt
                 ))
                 .from(inquiry)
                 .leftJoin(inquiry.member, member)
                 .leftJoin(inquiry.product, product)
                 .leftJoin(productImage).on(productImage.product.eq(inquiry.product))
+                .leftJoin(inquiry.answer, answer)
                 .where(
                         inquiryIdEq(inquiryId),
                         imageTypeEqDisplay()

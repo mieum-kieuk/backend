@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.text.DecimalFormat;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Getter
@@ -22,19 +23,23 @@ public class InquiryDetailsDto {
     private String productName;
     private String productPrice;
     private String productImageData;
+    private String answer;
+    private String answeredAt;
 
     @QueryProjection
-    public InquiryDetailsDto(Inquiry inquiry, String writer, String writerLoginId,
-                             Long productId, String productName, int productPrice, String productImageUrl) {
+    public InquiryDetailsDto(Inquiry inquiry, String writerLoginId, Long productId, String productName,
+                             int productPrice, String productImageUrl, String answer, LocalDateTime answeredAt) {
         this.id = inquiry.getId();
         this.title = inquiry.getTitle();
         this.content = inquiry.getContent();
-        this.createdAt = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:m").format(inquiry.getCreatedAt());
+        this.createdAt = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm").format(inquiry.getCreatedAt());
         this.writer = writerLoginId.substring(0, writerLoginId.length() - 3) + "***";
         this.writerLoginId = writerLoginId;
         this.productId = productId;
         this.productName = productName;
         this.productPrice = new DecimalFormat("###,###원").format(productPrice);
         this.productImageData = productImageUrl;
+        this.answer = answer;
+        this.answeredAt = DateTimeFormatter.ofPattern("yyyy.MM.dd").format(answeredAt);
     }
 }

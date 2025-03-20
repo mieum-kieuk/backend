@@ -74,7 +74,7 @@
                         </td>
                         <td><span class="writer" th:text="${inquiry.writer}"></span></td>
                         <td><span class="createdAt" th:text="${inquiry.createdAt}"></span></td>
-                        <td><span class="answer pending" th:text="${inquiry.isAnswered}"></span></td>
+                        <td><span class="answer" th:classappend="${inquiry.isAnswered == '답변완료'} ? 'complete'" th:text="${inquiry.isAnswered}"></span></td>
                     </tr>
                 </table>
                 <div class="qna_foot">
