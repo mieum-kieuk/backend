@@ -79,6 +79,7 @@ public class AdminInquiryRepositoryCustomImpl implements AdminInquiryRepositoryC
                         categoryEq(Category.of(condition.getCategory())),
                         imageTypeDisplay()
                 )
+                .orderBy(inquiry.createdAt.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();

@@ -43,7 +43,7 @@
                             <span th:text="${inquiries.totalElements - inquiries.number * inquiries.pageable.pageSize - inquiryStat.index}">1</span>
                         </td>
                         <td>
-                            <a href="inquiry_details.html" th:href="@{/shop/products/{productId}(productId=${inquiry.productId})}">
+                            <a href="inquiry_details.html" th:href="@{/products/{productId}(productId=${inquiry.productId})}">
                                 <img class="item_img" th:src="${inquiry.productImageData}" alt="상품 이미지">
                             </a>
                         </td>

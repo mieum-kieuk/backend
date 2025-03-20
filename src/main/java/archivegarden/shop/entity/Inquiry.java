@@ -40,7 +40,7 @@ public class Inquiry extends BaseTimeEntity {
     @JoinColumn(name = "product_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Product product;  //단방향
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "answer_id")
     private Answer answer;  //단방향
 
