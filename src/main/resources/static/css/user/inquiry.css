@@ -314,6 +314,7 @@
     gap: 10px;
     border: 1px solid #d7d7d7;
     padding: 5px;
+    min-height: 200px;
 }
 .cmt_info {
     display: flex;
@@ -331,6 +332,7 @@
 }
 .cmt_content {
     position: relative;
+    min-height: 200px;
 }
 .cmt_content span {
     white-space: pre-line;
@@ -345,10 +347,11 @@
     border-collapse: collapse;
     background: #eee;
     padding: 10px;
+    margin-bottom: 40px;
 }
 .cmt_input textarea{
     width: 100%;
-    height: 100px;
+    min-height: 200px;
     resize: unset;
 }
 .cmt_input .btn1{
@@ -366,12 +369,11 @@
     display: none;
 }
 .cmt_input .text.description span {
-    color: #d94747;
     font-size: 13px;
 }
 .cmt_content .edit_textarea {
     width: 100%;
-    height: 100px;
+    min-height: 200px;
     resize: unset;
 }
 .cmt_content .update_btn {

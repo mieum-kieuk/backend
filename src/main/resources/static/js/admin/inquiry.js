@@ -13,6 +13,7 @@ $(document).ready(function () {
 
     $(document).on("click", "#updateAnswerBtn", function () {
         updateAnswer(inquiryId);
+        $('.edit_btn').closest('.comment').css('border', '1px solid #d7d7d7');
     });
 
 
@@ -90,8 +91,8 @@ function loadAnswer(inquiryId) {
                 $('.cmt_input').css('display', 'none');
             } else {
                 $('.cmt_wrap').css('display', 'none');
-                $('#cmtInput').css('display', 'block');
-                $('#addCommentBtn').css('display', 'block');
+                $('#cmtInput').css('display', 'flex');
+                $('#addCommentBtn').css('display', 'flex');
             }
         },
         error: function() {
@@ -112,12 +113,12 @@ function updateAnswerForm(inquiryId) {
     let commentText = commentElement.find('.cmt_content').text().trim();
     let textArea = `<textarea class="edit_textarea">${commentText}</textarea>`;
     let updateButton = `<button type="button" class="bnt1 update_btn" id="updateAnswerBtn">완료</button>`;
+    commentElement.css('border', 'none');
     commentElement.find('.cmt_content').html(textArea + updateButton);
 }
 
 // 답변 수정
 function updateAnswer(inquiryId) {
-    console.log("updateAnswer!!");
     let updatedContent = $('.edit_textarea').val().trim();
     if (updatedContent !== '') {
         $.ajax({
@@ -183,7 +184,9 @@ function deleteAnswer(inquiryId) {
                 },
                 success: function (data) {
                     if (data.code === 200) {
-                       loadAnswer(inquiryId);
+                        $('.cmt_input').css('display', 'flex');
+                        clearAnswerContent()
+                        loadAnswer(inquiryId);
                     } else {
                         Swal.fire({
                             text: data.message,
@@ -206,4 +209,9 @@ function deleteAnswer(inquiryId) {
             });
         }
     });
+}
+function clearAnswerContent() {
+    $('.comment .date').text('');
+    $('.comment .cmt_content').text('');
+    $('.cmt_wrap').hide();
 }
