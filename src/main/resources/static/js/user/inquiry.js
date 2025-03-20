@@ -112,14 +112,14 @@ function deleteInquiry(productId, inquiryId) {
         if (result.isConfirmed) {
             $.ajax({
                 type: 'DELETE',
-                url: '/ajax/inquiry',
+                url: '/ajax/inquiries',
                 data: {'inquiryId': inquiryId},
                 async: false,
                 beforeSend: function (xhr) {
                     xhr.setRequestHeader(csrfHeader, csrfToken)
                 },
                 success: function (data) {
-                    window.location.href = '/community/inquiry';
+                    window.location.href = '/community/inquiries';
                 },
                 error: function () {
                     Swal.fire({

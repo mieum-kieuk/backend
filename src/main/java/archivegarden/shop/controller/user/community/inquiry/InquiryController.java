@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping("/community/inquiry")
+@RequestMapping("/community/inquiries")
 @RequiredArgsConstructor
 public class InquiryController {
 
@@ -45,7 +45,7 @@ public class InquiryController {
 
         Long inquiryId = inquiryService.saveInquiry(form, loginMember);
         redirectAttributes.addAttribute("inquiryId", inquiryId);
-        return "redirect:/community/inquiry/{inquiryId}";
+        return "redirect:/community/inquiries/{inquiryId}";
     }
 
     /**
@@ -92,6 +92,6 @@ public class InquiryController {
         }
 
         inquiryService.editInquiry(form, inquiryId);
-        return "redirect:/community/inquiry/{inquiryId}";
+        return "redirect:/community/inquiries/{inquiryId}";
     }
 }
