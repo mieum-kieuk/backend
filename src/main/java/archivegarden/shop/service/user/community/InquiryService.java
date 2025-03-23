@@ -70,8 +70,8 @@ public class InquiryService {
     /**
      * 상품 상세페이지에서 상품 문의 목록 조회
      */
-    public Page<InquiryListInProductDto> getInquiresInProduct(Long productId, Pageable pageable, Member loginMember) {
-        Page<InquiryListInProductDto> inquiryListDtos = inquiryRepository.findInquiriesByProductId(productId, pageable);
+    public Page<ProductPageInquiryListDto> getInquiresInProduct(Long productId, Pageable pageable, Member loginMember) {
+        Page<ProductPageInquiryListDto> inquiryListDtos = inquiryRepository.findInquiriesByProductId(productId, pageable);
         inquiryListDtos.forEach(i -> {
             if(loginMember != null && i.getWriterLoginId().equals(loginMember.getLoginId())) {
                 i.setIsWriter(true);
@@ -115,5 +115,18 @@ public class InquiryService {
     public void deleteInquiry(Long inquiryId) {
         Inquiry productInquiry = inquiryRepository.findById(inquiryId).orElseThrow(() -> new AjaxEntityNotFoundException("존재하지 않는 게시글 입니다."));
         inquiryRepository.delete(productInquiry);
+    }
+
+    /**
+     * 내 상품 문의
+     */
+    public Page<MyPageInquiryListDto> getMyInquires(Long memberId, Pageable pageable) {
+        Page<MyPageInquiryListDto> myInquiries = inquiryRepository.findMyInquiries(memberId, pageable);
+        myInquiries.forEach(i -> {
+            String encodedImageData = productImageService.getEncodedImageData(i.getProductImageData());
+            i.setProductImageData(encodedImageData);
+        });
+
+        return myInquiries;
     }
 }

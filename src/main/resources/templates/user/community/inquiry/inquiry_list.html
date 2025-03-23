@@ -28,7 +28,7 @@
                     <thead>
                     <tr>
                         <th>번호</th>
-                        <th>상품 이미지</th>
+                        <th>상품</th>
                         <th class="title">제목</th>
                         <th>작성자</th>
                         <th>작성일</th>
@@ -40,7 +40,7 @@
                     </tr>
                     <tr th:each="inquiry, inquiryStat : ${inquiries}">
                         <td>
-                            <span th:text="${inquiries.totalElements - inquiries.number * inquiries.pageable.pageSize - inquiryStat.index}">1</span>
+                            <span th:text="${inquiries.totalElements - inquiries.number * inquiries.pageable.pageSize - inquiryStat.index}"></span>
                         </td>
                         <td>
                             <a href="inquiry_details.html" th:href="@{/products/{productId}(productId=${inquiry.productId})}">
@@ -87,24 +87,20 @@
                     </div>
                 </div>
             </div>
-            <div class="pagination">
+            <div class="pagination" th:if="${inquiries.content.size() != 0}">
                 <ul>
                     <li><a href="./inquiry_list.html" th:href="@{/community/inquiries}" class="prev_first">
                         <span class="material-symbols-outlined">keyboard_double_arrow_left</span></a></li>
-                    <li>
-                        <a href="./inquiry_list.html" th:href="@{/community/inquiries(page=${inquiries.number})}"
+                    <li><a href="./inquiry_list.html" th:href="@{/community/inquiries(page=${inquiries.number})}"
                            class="prev" th:classappend="${!inquiries.hasPrevious()} ? 'disabled'">
                             <span class="material-symbols-outlined">keyboard_arrow_left</span></a></li>
                     <li th:each="page : ${#numbers.sequence(1, inquiries.totalPages)}">
                         <a href="./inquiry_list.html" th:href="@{/community/inquiries(page=${page})}"
                            class="page" th:classappend="${page == inquiries.number + 1} ? 'active'" th:text="${page}"></a></li>
-                    <li>
-                        <a href="./inquiry_list.html" th:href="@{/community/inquiries(page=${inquiries.number} + 2)}"
+                    <li><a href="./inquiry_list.html" th:href="@{/community/inquiries(page=${inquiries.number} + 2)}"
                            class="next" th:classappend="${!inquiries.hasNext()} ? 'disabled'">
                             <span class="material-symbols-outlined">keyboard_arrow_right</span></a></li>
-                    <li>
-                        <a href="./inquiry_list.html" th:href="@{/community/inquiries(page=${inquiries.totalPages})}"
-                           class="next_last">
+                    <li><a href="./inquiry_list.html" th:href="@{/community/inquiries(page=${inquiries.totalPages})}" class="next_last">
                             <span class="material-symbols-outlined">double_arrow</span></a></li>
                 </ul>
             </div>

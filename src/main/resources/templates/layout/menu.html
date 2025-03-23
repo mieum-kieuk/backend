@@ -77,13 +77,13 @@
             <h2 class="snb_title">쇼핑</h2>
             <ul class="depth2">
                 <li><a href="">상품 후기</a></li>
-                <li><a href="../user/mypage/board/qna_list.html" th:href="@{/mypage/qna}">상품 문의</a></li>
+                <li><a href="javascript:void(0)" th:href="@{/mypage/inquiries}">상품 문의</a></li>
             </ul>
         </li>
         <li>
             <h2 class="snb_title">내 정보 관리</h2>
             <ul class="depth2">
-                <li><a href="../user/mypage/member/member_info_login.html" th:href="@{/mypage/info}">개인 정보 수정</a></li>
+                <li><a href="../user/mypage/member/validate_identity.html" th:href="@{/mypage/info}">개인 정보 수정</a></li>
                 <li><a href="../user/mypage/delivery/delivery_list.html" th:href="@{/mypage/delivery}">배송지 관리</a></li>
                 <li>
                     <form action="../login.html" th:action="@{/logout}" method="post">

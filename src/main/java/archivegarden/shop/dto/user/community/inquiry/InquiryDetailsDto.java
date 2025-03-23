@@ -40,6 +40,8 @@ public class InquiryDetailsDto {
         this.productPrice = new DecimalFormat("###,###원").format(productPrice);
         this.productImageData = productImageUrl;
         this.answer = answer;
-        this.answeredAt = DateTimeFormatter.ofPattern("yyyy.MM.dd").format(answeredAt);
+        if(answer != null) {
+            this.answeredAt = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm").format(answeredAt);
+        }
     }
 }

@@ -3,7 +3,7 @@ package archivegarden.shop.controller.user.community.inquiry;
 import archivegarden.shop.dto.ResultResponse;
 import archivegarden.shop.dto.user.community.inquiry.AddInquiryForm;
 import archivegarden.shop.dto.user.community.inquiry.EditInquiryForm;
-import archivegarden.shop.dto.user.community.inquiry.InquiryListInProductDto;
+import archivegarden.shop.dto.user.community.inquiry.ProductPageInquiryListDto;
 import archivegarden.shop.entity.Member;
 import archivegarden.shop.service.user.community.InquiryService;
 import archivegarden.shop.web.annotation.CurrentUser;
@@ -43,8 +43,8 @@ public class InquiryAjaxController {
      * 상품 문의 목록 조회 요청을 처리하는 메서드
      */
     @GetMapping("/inquiries/{productId}")
-    public Page<InquiryListInProductDto> inquiries(@PathVariable("productId") Long productId, @RequestParam(name = "page", defaultValue = "1") int page,
-                                                   @CurrentUser Member loginMember) {
+    public Page<ProductPageInquiryListDto> inquiries(@PathVariable("productId") Long productId, @RequestParam(name = "page", defaultValue = "1") int page,
+                                                     @CurrentUser Member loginMember) {
         PageRequest pageRequest = PageRequest.of(page - 1, 10);
         return inquiryService.getInquiresInProduct(productId, pageRequest, loginMember);
     }

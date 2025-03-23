@@ -24,8 +24,7 @@ public class InquiryListDto {
     private String writerLoginId;
 
     @QueryProjection
-    public InquiryListDto(Long inqueryId, String title, boolean isSecret, boolean isAnswered, LocalDateTime createdAt,
-                          String writer, String writerLoginId, Long productId, String productImageUrl) {
+    public InquiryListDto(Long inqueryId, String title, boolean isSecret, boolean isAnswered, LocalDateTime createdAt, String writerLoginId, Long productId, String productImageUrl) {
         this.id = inqueryId;
         this.productId = productId;
         this.productImageData = productImageUrl;
