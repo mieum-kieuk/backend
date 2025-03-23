@@ -79,10 +79,10 @@ public class Member extends BaseTimeEntity {
     }
 
     /**
-     * 이메일 인증 완료
+     * 이메일 인증 상태 수정
      */
-    public void completeEmailVerification() {
-        this.isEmailVerified = true;
+    public void updateEmailVerificationStatus(boolean isEmailVerified) {
+        this.isEmailVerified = isEmailVerified;
     }
 
     /**
@@ -90,5 +90,12 @@ public class Member extends BaseTimeEntity {
      */
     public void updatePassword(String password) {
         this.password = password;
+    }
+
+    /**
+     * 이메일 변경
+     */
+    public void updateEmail(String email) {
+        this.email = email;
     }
 }

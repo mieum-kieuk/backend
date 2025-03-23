@@ -3,7 +3,7 @@ package archivegarden.shop.service.user.member;
 import archivegarden.shop.dto.common.JoinSuccessDto;
 import archivegarden.shop.dto.user.member.FindIdResultDto;
 import archivegarden.shop.dto.user.member.JoinMemberForm;
-import archivegarden.shop.dto.user.member.MemberInfo;
+import archivegarden.shop.dto.user.member.EditMemberInfoForm;
 import archivegarden.shop.dto.user.member.VerificationRequestDto;
 import archivegarden.shop.entity.Delivery;
 import archivegarden.shop.entity.Member;
@@ -24,6 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.Random;
 
@@ -48,7 +49,7 @@ public class MemberServiceImpl implements MemberService {
     @Transactional
     @Override
     public Long join(JoinMemberForm form) {
-        encodePassword(form);
+        form.setPassword(encodePassword(form.getPassword()));
 
         Membership membership = membershipRepository.findDefaultLevel();
         Member member = Member.createMember(form, membership);
@@ -114,6 +115,14 @@ public class MemberServiceImpl implements MemberService {
     }
 
     /**
+     * 비밀번호 중복 검사
+     */
+    @Override
+    public boolean isNewPassword (String newPassword, String nowPassword) {
+        return !passwordEncoder.matches(newPassword, nowPassword);
+    }
+
+    /**
      * 인증코드 전송
      */
     @Transactional
@@ -168,9 +177,7 @@ public class MemberServiceImpl implements MemberService {
      */
     @Override
     public FindIdResultDto findIdComplete(Long memberId) {
-        //Member 조회
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new NotFoundException("존재하지 않는 회원입니다."));
-
         return new FindIdResultDto(member);
     }
 
@@ -191,30 +198,45 @@ public class MemberServiceImpl implements MemberService {
     }
 
     /**
-     * 마이페이지 - 회원 정보 수정 로그인
+     * 회원 정보 수정 전 본인 확인
      */
     @Override
-    public boolean mypageInfoLogin(Member member, String password) {
+    public boolean validateIdentity(Member member, String password) {
         return passwordEncoder.matches(password, member.getPassword());
     }
 
     /**
-     * 마이페이지 - 회원 정보 수정 폼 조회
-     *
-     * @throws NotFoundException
+     * 회원 정보 수정 폼 조회
      */
     @Override
-    public MemberInfo getMemberInfo(Long memberId) {
-        Member member = memberRepository.findById(memberId).orElseThrow(() -> new NotFoundException("존재하지 않는 회원입니다."));
-        return new MemberInfo(member);
+    public EditMemberInfoForm getMemberInfo(Long memberId) {
+        return memberRepository.findByIdWithDefaultDelivery(memberId);
+    }
+
+    /**
+     * 회원 정보 수정
+     */
+    @Override
+    public void editMemberInfo(Long memberId, EditMemberInfoForm form) {
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 회원입니다."));
+
+        if(StringUtils.hasText(form.getNewPassword())) {
+            String encodedNewPassword = encodePassword(form.getNewPassword());
+            member.updatePassword(encodedNewPassword);
+        }
+
+        if(!member.getEmail().equals(form.getEmail())) {
+            member.updateEmail(form.getEmail());
+            member.updateEmailVerificationStatus(false);
+            emailService.sendValidationRequestEmailInMyPage(form.getEmail(), member.getName());
+        }
     }
 
     /**
      * 비밀번호 암호화
      */
-    private void encodePassword(JoinMemberForm form) {
-        String encodedPassword = passwordEncoder.encode(form.getPassword());
-        form.setPassword(encodedPassword);
+    private String encodePassword(String password) {
+        return passwordEncoder.encode(password);
     }
 
     /**

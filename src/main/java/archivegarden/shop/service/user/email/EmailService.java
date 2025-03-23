@@ -1,8 +1,8 @@
 package archivegarden.shop.service.user.email;
 
 import archivegarden.shop.entity.Member;
-import archivegarden.shop.exception.NotFoundException;
 import archivegarden.shop.exception.ajax.AjaxEntityNotFoundException;
+import archivegarden.shop.exception.common.EntityNotFoundException;
 import archivegarden.shop.repository.member.MemberRepository;
 import archivegarden.shop.util.RedisUtil;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,6 @@ import org.thymeleaf.context.Context;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @Service
@@ -64,18 +63,45 @@ public class EmailService {
     }
 
     /**
+     * 마이페이지에서 이메일 인증 링크 전송
+     */
+    public void sendValidationRequestEmailInMyPage(String to, String name) {
+        String uuid = UUID.randomUUID().toString();
+        String verificationUrl = "http://localhost:8080/email/verification?address=" + to + "&uuid=" + uuid;
+
+        Context context = new Context();
+        context.setVariable("name", name);
+        context.setVariable("verificationUrl", verificationUrl);
+
+        MimeMessagePreparator preparator = mimeMessage -> {
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "UTF-8");
+
+            String content = templateEngine.process("email/template/validate_email", context);
+
+            helper.setTo(to);
+            helper.setFrom(from);
+            helper.setSubject("[미음키읔] 이메일 인증 요청");
+            helper.setText(content, true);
+        };
+
+        redisUtil.setDataExpire(to, uuid, 3 * 60L);
+
+        javaMailSender.send(preparator);
+    }
+
+    /**
      * 이메일 인증
      *
-     * @throws NotFoundException
+     * @throws EntityNotFoundException
      */
     public String verifyEmail(String email, String uuid) {
-        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("존재하지 않는 회원입니다."));
+        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 회원입니다."));
 
         if (redisUtil.existData(email)) {
             if (Boolean.valueOf(member.isEmailVerified())) {    //이미 인증 완료
                 return "email/verification_complete";
             } else if (redisUtil.getData(email).equals(uuid)) {    //인증 성공
-                updateEmailVerified(email);
+                updateEmailVerification(email, true);
                 return "email/verification_success";
             } else {    //uuid 일치X
                 return "email/verification_fail";
@@ -120,11 +146,10 @@ public class EmailService {
 
     /**
      * 이메일 인증 완료 상태 변경
-     * isEmailVerified 필드 false -> true
      */
-    private void updateEmailVerified(String email) {
-        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NoSuchElementException("존재하지 않는 회원입니다."));
-        member.completeEmailVerification();
+    private void updateEmailVerification(String email, boolean isEmailVerified) {
+        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 회원입니다."));
+        member.updateEmailVerificationStatus(isEmailVerified);
     }
 
     /**

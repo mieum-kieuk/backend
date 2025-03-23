@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email verification</title>
+</head>
+<body>
+<div class="inner" style="width: 500px; max-height: 300px; border: 1px solid #888888; text-align: center; padding: 20px; display: table;">
+    <div style="display: table-cell; vertical-align: middle; text-align: center">
+        <h2 style="font-size: 22px; line-height: 38px; margin: 10px 0;">[미음키읔]<br/> 이메일 인증 요청드립니다.</h2>
+        <p style="font-size: 14px; line-height: 25px; margin-bottom: 20px;">
+            <span th:text="${name}"></span>님 본인 요청이 맞으면 아래 [인증]을 클릭해주세요.
+        </p>
+        <a th:href="${verificationUrl}" target="_blank">
+            <div style="display:inline-block; box-sizing:border-box; border: 1px solid #333; border-radius: 5px; font-size: 14px; max-width:300px; width: 100%; padding: 10px; text-align: center; text-decoration: none; color: #000; margin: 0 auto;">
+                인증
+            </div>
+        </a>
+    </div>
+</div>
+
+</body>
+</html>

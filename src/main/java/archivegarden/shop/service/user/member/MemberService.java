@@ -3,7 +3,7 @@ package archivegarden.shop.service.user.member;
 import archivegarden.shop.dto.common.JoinSuccessDto;
 import archivegarden.shop.dto.user.member.FindIdResultDto;
 import archivegarden.shop.dto.user.member.JoinMemberForm;
-import archivegarden.shop.dto.user.member.MemberInfo;
+import archivegarden.shop.dto.user.member.EditMemberInfoForm;
 import archivegarden.shop.dto.user.member.VerificationRequestDto;
 import archivegarden.shop.entity.Member;
 
@@ -21,6 +21,8 @@ public interface MemberService {
 
     boolean isAvailablePhonenumber(String phonenumber);
 
+    boolean isNewPassword(String newPassword, String password);
+
     void sendVerificationNo(String phonenumber);
 
     boolean validateVerificationNo(VerificationRequestDto requestDto);
@@ -35,7 +37,9 @@ public interface MemberService {
 
     String checkPasswordExistsByPhonenumber(String loginId, String name, String phonenumber);
 
-    boolean mypageInfoLogin(Member loginMember, String password);
+    boolean validateIdentity(Member loginMember, String password);
 
-    MemberInfo getMemberInfo(Long id);
+    EditMemberInfoForm getMemberInfo(Long id);
+
+    void editMemberInfo(Long memberId, EditMemberInfoForm form);
 }

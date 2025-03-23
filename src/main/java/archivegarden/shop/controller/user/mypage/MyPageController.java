@@ -1,60 +1,73 @@
-package archivegarden.shop.controller.mypage;
+package archivegarden.shop.controller.user.mypage;
 
-import archivegarden.shop.dto.user.member.MemberInfo;
+import archivegarden.shop.dto.user.community.inquiry.MyPageInquiryListDto;
+import archivegarden.shop.dto.user.member.EditMemberInfoForm;
 import archivegarden.shop.entity.Member;
+import archivegarden.shop.service.user.community.InquiryService;
 import archivegarden.shop.service.user.member.MemberService;
-import archivegarden.shop.service.point.SavedPointService;
 import archivegarden.shop.web.annotation.CurrentUser;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/mypage")
 @RequiredArgsConstructor
 public class MyPageController {
 
-//    private final QnaService qnaService;
     private final MemberService memberService;
-    private final SavedPointService savedPointService;
+    private final InquiryService inquiryService;
 
-    @GetMapping
-    @PreAuthorize("hasRole('ROLE_USER')")
-    public String myPageHome() {
-        return "mypage/mypage_home";
-    }
-
-    //적립금 내역
-//    @GetMapping("/point")
-//    @PreAuthorize("hasRole('ROLE_USER') and #loginMember.loginId == principal.username")
-//    public String myPoints(@CurrentUser Member loginMember) {
-//        savedPointService.getPoints(loginMember.getId());
-//    }
-
-//    @GetMapping("/qna")
-//    @PreAuthorize("hasRole('ROLE_USER') and #loginMember.loginId == principal.username")
-//    public  String myQnas(@RequestParam(defaultValue = "1") int page, @CurrentUser Member loginMember, Model model) {
-//        PageRequest pageRequest = PageRequest.of(page - 1, 10, Sort.by("createdAt").descending());
-//        Page<MyQnaListDto> myQnaList = qnaService.getMyQnas(loginMember.getId(), pageRequest);
-//        model.addAttribute("qnas", myQnaList);
-//        return "mypage/board/qna_list";
-//    }
-
+    /**
+     * 개인 정보 수정을 위한 본인확인(로그인) 페이지를 반환하는 메서드
+     */
     @GetMapping("/info")
     @PreAuthorize("hasRole('ROLE_USER') and #loginMember.loginId == principal.username")
-    public String infoModifyLogin(@CurrentUser Member loginMember, Model model) {
+    public String validateIdentity(@CurrentUser Member loginMember, Model model) {
         model.addAttribute("loginId", loginMember.getLoginId());
-        return "mypage/member/member_info_login";
+        return "user/mypage/member/validate_identity";
     }
 
+    /**
+     * 개인 정보 수정 폼을 반환하는 메서드
+     */
     @GetMapping("/info/edit")
     @PreAuthorize("hasRole('ROLE_USER') and #loginMember.loginId == principal.username")
-    public String infoModify(@CurrentUser Member loginMember, Model model) {
-        MemberInfo memberInfo = memberService.getMemberInfo(loginMember.getId());
-        model.addAttribute("member", memberInfo);
-        return "mypage/member/member_info_modify";
+    public String editMemberInfoForm(@CurrentUser Member loginMember, Model model) {
+        EditMemberInfoForm editMemberInfoForm = memberService.getMemberInfo(loginMember.getId());
+        model.addAttribute("form", editMemberInfoForm);
+        return "user/mypage/member/edit_info";
+    }
+
+    /**
+     * 개인 정보 수정 요청을 처리하는 메서드
+     */
+    @PostMapping("/info/edit")
+    @PreAuthorize("hasRole('ROLE_USER') and #loginMember.loginId == principal.username")
+    public String editMemberInfo(@Valid @ModelAttribute("form") EditMemberInfoForm form, BindingResult bindingResult, @CurrentUser Member loginMember) {
+        if(bindingResult.hasErrors()) {
+            return "user/mypage/member/edit_info";
+        }
+
+        memberService.editMemberInfo(loginMember.getId(), form);
+        return "redirect:/mypage/info";
+    }
+
+    /**
+     * 내 상품문의 목록 조회 요청을 처리하는 메서드
+     */
+    @GetMapping("/inquiries")
+    @PreAuthorize("hasRole('ROLE_USER') and #loginMember.loginId == principal.username")
+    public  String myQnas(@RequestParam(defaultValue = "1") int page, @CurrentUser Member loginMember, Model model) {
+        PageRequest pageRequest = PageRequest.of(page - 1, 10);
+        Page<MyPageInquiryListDto> inquiryListDtos = inquiryService.getMyInquires(loginMember.getId(), pageRequest);
+        model.addAttribute("inquiries", inquiryListDtos);
+        return "user/mypage/inquiry/inquiry_list";
     }
 }

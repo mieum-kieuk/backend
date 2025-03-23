@@ -1,22 +1,8 @@
-$(document).ready(function () {
-    $('#submitBtn').on('click', function () {
-        validateBeforeSubmit();
-    });
+let originalEmail;
 
+$(document).ready(function () {
     $('#verificationEmailBtn').on('click', function() {
         sendVerificationEmail();
-    });
-
-    $('#password').on('focusout', function () {
-        isPasswordValid();
-    });
-
-    $('#passwordConfirm').on('focusout', function () {
-        isPwConfirmValid();
-    });
-
-    $('#name').on('focusout', function () {
-        isNameValid();
     });
 
     $('#newNumberBtn').on('click', function () {
@@ -36,6 +22,10 @@ $(document).ready(function () {
         isPhoneValid();
     });
 
+    if ($('#memberInfoModify').length) {
+        originalEmail = $('#email').val().trim();
+    }
+
     $('#email').on('focusout', function () {
         isEmailValid();
     });
@@ -50,9 +40,6 @@ $(document).ready(function () {
         verificationBtnState();
     });
 
-    $('#agree_group').on('click', "#agree_all", function () {
-        toggleAgreement(this);
-    });
     $('#withdrawBtn').on('click', function () {
         withdrawal();
     });
@@ -64,7 +51,7 @@ let csrfHeader = $("meta[name='_csrf_header']").attr("content");
 function sendVerificationEmail() {
     $.ajax({
         type: 'POST',
-        url: '/ajax/', // 실제 인증메일 전송을 처리할 URL로 변경
+        url: '/ajax/email/verification',
         beforeSend: function(xhr) {
             xhr.setRequestHeader(csrfHeader, csrfToken);
         },
@@ -98,73 +85,84 @@ function sendVerificationEmail() {
         }
     });
 }
-//비밀번호 검증
 
-function isPasswordValid() {
-    let password = $("#password").val();
-    let passwordConfirm = $("#passwordConfirm").val();
+// 새 비밀번호 ajax
+function validateNewPassword() {
+    let newPassword = $('#password').val();
 
-    // 비밀번호 입력란이 비어 있을 때
-    if (password.trim() === "" && passwordConfirm.trim() === "") {
-        return true;
-    }
-
-    // 비밀번호 정규식 검사
-    if (!regexPassword()) {
-        Swal.fire({
-            text: "유효한 비밀번호를 입력해 주세요.",
-            showConfirmButton: true,
-            confirmButtonText: '확인',
-            customClass: mySwal,
-            buttonsStyling: false
-        });
+    if (!regexPassword(newPassword)) {
         return false;
     }
 
-    if (!isPwConfirmValid()) {
-        Swal.fire({
-            text: "비밀번호가 일치하지 않습니다.",
-            showConfirmButton: true,
-            confirmButtonText: '확인',
-            customClass: mySwal,
-            buttonsStyling: false
-        });
-        return false;
-    }
-
-    $('#pwMsg').text(''); // 모든 검사를 통과하면 메시지 초기화
-    return true;
+    $.ajax({
+        type: 'POST',
+        url: '/ajax/mypage/check/password',
+        data: {'newPassword': newPassword},
+        async: false,
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader(csrfHeader, csrfToken);
+        },
+        success: function (result) {
+            if (result.code === 200) {
+                $('#pwMsg').text('');
+                return true;
+            } else if (result.code == 409){
+                Swal.fire({
+                    text: result.message,
+                    showConfirmButton: true,
+                    confirmButtonText: '확인',
+                    customClass: mySwal,
+                    buttonsStyling: false
+                });
+                $('#pwMsg').text(result.message);
+                return false;
+            }
+        },
+        error: function () {
+            Swal.fire({
+                html: "비밀번호 중복 확인 중 오류가 발생했습니다.<br>다시 시도해 주세요.",
+                showConfirmButton: true,
+                confirmButtonText: '확인',
+                customClass: mySwal,
+                buttonsStyling: false
+            });
+            return false;
+        }
+    });
 }
-function regexPassword() {
-    let password = $("#password").val();
+
+// 비밀번호 확인 유효성 검사
+function validatePasswordConfirm() {
+    let newPassword = $('#password').val();
+    let confirmPassword = $('#passwordConfirm').val();
+
+    if (newPassword === confirmPassword) {
+        $('#pwconfirmMsg').text('');
+    } else {
+        $('#pwconfirmMsg').text('비밀번호가 일치하지 않습니다.');
+        $('#pwconfirmMsg').removeClass('success error').addClass('error');
+    }
+}
+
+function regexPassword(password) {
     let regex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&^()])[a-zA-Z\d@$!%*?&^()]{8,16}$/;
     if (!regex.test(password)) {
         $('#pwMsg').text('8~16자의 영문 대/소문자, 숫자, 특수문자 조합을 사용해 주세요.');
         $('#pwMsg').removeClass('success error').addClass('error');
+        Swal.fire({
+            html: '8~16자의 영문 대/소문자, 숫자, 특수문자 조합을<br/>사용해 주세요.',
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
         return false;
     }
 
     return true;
 }
 
-//비밀번호 확인 검증
-function isPwConfirmValid() {
-    let password = $('#password').val();
-    let confirmPassword = $('#passwordConfirm').val();
-
-    if (password === confirmPassword) {
-        $('#pwconfirmMsg').text('');
-        return true;
-    } else {
-        $('#pwconfirmMsg').text('비밀번호가 일치하지 않습니다.');
-        $('#pwconfirmMsg').removeClass('success error').addClass('error');
-
-        return false;
-    }
-}
-
-
-//이메일 검증
+// 이메일 검증
 function isEmailValid() {
     let email = $('#email').val();
 
@@ -176,10 +174,15 @@ function isEmailValid() {
 
     $('#emailMsg').text('');
 
+    if (email === originalEmail) {
+        $('#emailMsg').text('');
+        return;
+    }
     $.ajax({
         type: 'POST',
         url: '/members/verification/email',
         data: {email: email},
+        async: false,
         success: function (result) {
             if (result) {
                 $('#emailMsg').text('사용 가능한 이메일입니다.');
@@ -255,7 +258,7 @@ function isPhoneEmpty() {
     let phonenumber2 = $('#phonenumber2').val();
     let phonenumber3 = $('#phonenumber3').val();
 
-    if (phonenumber2.trim() === '' && phonenumber3.trim() === '') {
+    if (phonenumber2.trim() === '' || phonenumber3.trim() === '') {
         $('#phoneNumberMsg').text('휴대전화번호를 입력해 주세요.');
         $('#phoneNumberMsg').removeClass('success').addClass('error');
         return false;
@@ -269,12 +272,15 @@ function regexPhone() {
     let phonenumber3 = $('#phonenumber3').val();
     let regex1 = /^[0-9]{3,4}$/;
     let regex2 = /^[0-9]{4}$/;
-    if (regex1.test(phonenumber2) && regex2.test(phonenumber3)) {
-        return true;
-    } else {
-        $('#phoneNumberMsg').text('유효한 휴대전화번호를 입력해 주세요.');
-        $('#phoneNumberMsg').removeClass('success').addClass('error');
-        return false;
+
+    if (phonenumber2.trim() !== '' && phonenumber3.trim() !== '') {
+        if (regex1.test(phonenumber2) && regex2.test(phonenumber3)) {
+            return true;
+        } else {
+            $('#phoneNumberMsg').text('유효한 휴대전화번호를 입력해 주세요.');
+            $('#phoneNumberMsg').removeClass('success').addClass('error');
+            return false;
+        }
     }
 }
 
@@ -406,30 +412,36 @@ function isVerificationCompelte() {
     return $('#verificationNo').attr('complete') === "true";
 }
 
-//전체 선택
-function toggleAgreement(element) {
-    let isChecked = $(element).prop('checked');
-
-    if (isChecked) {
-        $(element).parents("#agree_group").find('input[type="checkbox"]').prop("checked", true);
-    } else {
-        $(element).parents("#agree_group").find('input[type="checkbox"]').prop("checked", false);
-    }
-}
-
 function validateBeforeSubmit() {
-    isPasswordValid();    // 비밀번호 유효성 검사
+    let newPassword = $('#password').val();
+    let newConfirmPassword = $('#passwordConfirm').val();
 
-    // 비밀번호 확인 유효성 검사
-    if (!isPwConfirmValid()) {
-        Swal.fire({
-            text: "비밀번호가 일치하지 않습니다.",
-            showConfirmButton: true,
-            confirmButtonText: '확인',
-            customClass: mySwal,
-            buttonsStyling: false
-        });
-        return false;
+    if (newPassword.trim() !== "") {
+        if (!validateNewPassword()) {
+            return false;
+        }
+
+        if (newConfirmPassword.trim() === "") {
+            Swal.fire({
+                text: "새 비밀번호 확인을 입력해 주세요.",
+                showConfirmButton: true,
+                confirmButtonText: '확인',
+                customClass: mySwal,
+                buttonsStyling: false
+            });
+            return false;
+        }
+
+        if (!validatePasswordConfirm()) {
+            Swal.fire({
+                text: "비밀번호가 일치하지 않습니다.",
+                showConfirmButton: true,
+                confirmButtonText: '확인',
+                customClass: mySwal,
+                buttonsStyling: false
+            });
+            return false;
+        }
     }
 
     // 휴대전화번호 유효성 검사
@@ -456,32 +468,9 @@ function validateBeforeSubmit() {
         return false;
     }
 
-    // 이용약관 동의 확인
-    if (!$('#agree_to_terms_of_use').is(':checked')) {
-        Swal.fire({
-            text: "이용약관 동의를 확인해 주세요.",
-            showConfirmButton: true,
-            confirmButtonText: '확인',
-            customClass: mySwal,
-            buttonsStyling: false
-        });
-        return false;
-    }
-
-    // 개인정보 수집 및 이용 동의 확인
-    if (!$('#agree_to_personal_information').is(':checked')) {
-        Swal.fire({
-            text: "개인정보 수집 및 이용 동의를 확인해 주세요.",
-            showConfirmButton: true,
-            confirmButtonText: '확인',
-            customClass: mySwal,
-            buttonsStyling: false
-        });
-        return false;
-    }
-
     return true;
 }
+
 function withdrawal() {
     Swal.fire({
         text: "탈퇴하시겠습니까?",
@@ -537,11 +526,12 @@ function withdrawal() {
 }
 
 //회원 정보 수정 전 본인 확인
-$('#memberInfoLogin .submit_btn').click(function () {
+$('#loginBtn').click(function () {
     let csrfHeader = $("meta[name='_csrf_header']").attr("content");
     let csrfToken = $("meta[name='_csrf']").attr("content");
-    let password = $('#password').val();
-    if (password.trim() === '') {
+    let password = $('#password').val().trim();
+
+    if (password === '') {
         Swal.fire({
             text: "비밀번호를 입력해 주세요.",
             showConfirmButton: true,
@@ -550,37 +540,37 @@ $('#memberInfoLogin .submit_btn').click(function () {
             buttonsStyling: false
         });
         return false;
-    }
-
-    $.ajax({
-            type: 'POST',
-            url: '/ajax/mypage/validate/member',
-            data: {password: password},
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader(csrfHeader, csrfToken);
-            },
-            success: function (result) {
-                if (result.code == 200) {
-                    window.location.href = '/mypage/info/edit'
-                } else if (result.code == 400) {
+    } else {
+        $.ajax({
+                type: 'POST',
+                url: '/ajax/mypage/validate',
+                data: {'password': password},
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader(csrfHeader, csrfToken);
+                },
+                success: function (result) {
+                    if (result.code == 200) {
+                        window.location.href = '/mypage/info/edit'
+                    } else if (result.code == 400) {
+                        Swal.fire({
+                            text: result.message,
+                            showConfirmButton: true,
+                            confirmButtonText: '확인',
+                            customClass: mySwal,
+                            buttonsStyling: false
+                        });
+                    }
+                },
+                error: function () {
                     Swal.fire({
-                        text: result.message,
+                        html: "본인 확인 중 오류가 발생했습니다.<br>다시 시도해 주세요.",
                         showConfirmButton: true,
                         confirmButtonText: '확인',
                         customClass: mySwal,
                         buttonsStyling: false
                     });
                 }
-            },
-            error: function () {
-                Swal.fire({
-                    html: "본인 확인 중 오류가 발생했습니다.<br>다시 시도해 주세요.",
-                    showConfirmButton: true,
-                    confirmButtonText: '확인',
-                    customClass: mySwal,
-                    buttonsStyling: false
-                });
             }
-        }
-    );
+        );
+    }
 });

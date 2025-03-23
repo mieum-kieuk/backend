@@ -1,191 +1,190 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
 <head>
-  <meta xmlns:th="http://www.thymeleaf.org" charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>회원 정보 수정 | 미음키읔</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
+    <title>회원 정보 수정 | 미음키읔</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css">
-  <link rel="stylesheet" href="../../../static/css/join.css" th:href="@{/css/join.css}"/>
-  <link rel="stylesheet" href="../../../static/css/comm.css" th:href="@{/css/comm.css}"/>
-  <link rel="stylesheet" href="../../../../static/css/mypage.css" th:href="@{/css/mypage.css}"/>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.js"></script>
-  <script defer src="../../../static/js/comm.js" th:src="@{/js/comm.js}"></script>
-  <script defer src="../../../../static/js/user/modify.js" th:src="@{/js/user/modify.js}"></script>
-  <script defer src="../../../static/js/findAddress.js" th:src="@{/js/findAddress.js}"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap"
+          rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="../../../../static/css/common/join.css" th:href="@{/css/common/join.css}"/>
+    <link rel="stylesheet" href="../../../../static/css/common/comm.css" th:href="@{/css/common/comm.css}"/>
+    <link rel="stylesheet" href="../../../../static/css/user/mypage.css" th:href="@{/css/user/mypage.css}"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.js"></script>
+    <script defer src="../../../../static/js/common/comm.js" th:src="@{/js/common/comm.js}"></script>
+    <script defer src="../../../../static/js/user/modify.js" th:src="@{/js/user/modify.js}"></script>
+    <script defer src="../../../../static/js/user/findAddress.js" th:src="@{/js/user/findAddress.js}"></script>
 </head>
 <body>
 <div class="wrap">
-  <div th:replace="~{/layout/header :: header}"></div>
-  <div class="mypage" id="mypage">
-    <div th:replace="~{layout/menu :: mypage_menu}"></div>
-    <div id="memberInfoModify">
-      <div class="join_wrap modify">
-        <h3 class="modify_title">회원 정보 수정</h3>
-        <div class="auth_wrap">
-          <ul id="user_auth">
-            <li>
-              <p class="join_tit ess">회원인증</p>
-            </li>
-            <li>
-              <div id="email_auth">
-                <ul>
-                  <li><input id="personal_type0" name="personal_type" label="회원인증" type="checkbox" checked="checked" onclick="return false"/>
-                    <label for="personal_type0">이메일 인증 완료</label>
-                  </li>
-                  <li><button type="button" id="verificationEmailBtn" class="btn1">인증메일 전송</button></li>
-                </ul>
-              </div>
-            </li>
-          </ul>
-        </div>
-        <form action=""  method="post" id="joinForm">
-          <div class="input_area">
-            <div class="input_wrap">
-              <ul>
-                <li>
-                  <label for="loginId" class="join_tit ess">아이디</label>
-                </li>
-                <li class="input_box_wrap">
-                  <span id="loginId" class="input_text inputTypeText">mary706</span>
-                  <span id="idMsg"></span>
-                </li>
-              </ul>
-              <ul>
-                <li>
-                  <label for="password" class="join_tit ess">비밀번호</label>
-                  <span class="addinfo">(영문 대소문자/숫자/특수문자 조합, 8~16자)</span>
-                </li>
-                <li class="input_box_wrap">
-                  <input id="password" class="input_box" autocomplete="off" maxlength="16" 0="disabled" type="password"/>
-                  <span id="pwMsg"></span>
-                </li>
-              </ul>
-              <ul>
-                <li>
-                  <label for="passwordConfirm" class="join_tit ess">비밀번호 확인</label>
-                </li>
-                <li class="input_box_wrap">
-                  <input id="passwordConfirm" class="input_box" autocomplete="off" maxlength="16" 0="disabled" type="password"/>
-                  <span id="pwconfirmMsg"></span>
-                </li>
-              </ul>
-              <ul>
-                <li id="name_title">
-                  <label for="name" class="join_tit ess">이름</label>
-                </li>
-                <li>
-                <li id="name_content" class="input_box_wrap">
-                  <span id="name" class="input_text inputTypeText">김지우</span>
-                  <span id="nameMsg"></span>
-                </li>
-                </li>
-              </ul>
-              <ul class="address">
-                <li>
-                  <label class="join_tit btn_included">주소</label>
-                </li>
-                <li>
-                  <input class="input_box" id="zipCode" name="zipCode" placeholder="우편번호" maxlength="10" type="text" disabled/>
-                  <button id="searchZipCodeBtn" class="btn1">주소검색</button>
-                </li>
-                <li>
-                  <input class="input_box" id="basicAddress" name="basicAddress" placeholder="기본주소" maxlength="100" type="text" disabled/>
-                </li>
-                <li>
-                  <input class="input_box" id="detailAddress" name="detailAddress" placeholder="상세주소(선택 가능)" maxlength="100" type="text"/>
-                </li>
-              </ul>
-
-              <ul class="phone_number">
-                <li class="">
-                  <label class="join_tit ess btn_included">휴대전화번호</label>
-                </li>
-                <li class="phone_number select">
-                  <div class="number_sec">
-                    <select id="phonenumber1" readonly>
-                      <option value="010">010</option>
-                      <option value="011">011</option>
-                      <option value="016">016</option>
-                      <option value="017">017</option>
-                      <option value="018">018</option>
-                      <option value="019">019</option>
-                    </select>
-                    <p>-</p><input id="phonenumber2" class="input_box" placeholder="" value="" type="text" readonly/>
-                    <p>-</p><input id="phonenumber3" class="input_box" placeholder="" value="" type="text" readonly/>
-                  </div>
-                  <button type="button" id="newNumberBtn" class="btn1"
-                          onclick="">다른번호 인증
-                  </button>
-                </li>
-                <span id="phoneNumberMsg"></span>
-              </ul>
-              <ul class="displaynone" id="confirm_verify_mobile">
-                <li class="verify_sec1">
-                  <label for="verificationNo" class="join_tit ess">인증번호</label>
-                </li>
-                <li class="verify_sec2">
-                  <div class="verify">
-                    <input id="verificationNo" class="input_box inputTypeText" placeholder=""
-                           maxlength="6" type="text"/>
-                    <span class="time" id="expiryTime"></span>
-                  </div>
-                  <button type="button" class="btn1" id="btn_verify_mobile_confirm" >확인</button>
-                </li>
-              </ul>
-              <span id="verificationMsg"></span>
-              <ul>
-                <li>
-                  <p class="join_tit ess ">이메일</p>
-                </li>
-                <li class="input_box_wrap">
-                  <input id="email" class="input_box" placeholder="" maxlength="45" type="text"/>
-                  <span id="emailMsg"></span>
-                </li>
-              </ul>
-              <ul class="sms option">
-                <li>
-                  <p class="join_tit">SMS 수신여부</p>
-                </li>
-                <li class="input_box_wrap">
-                  <input id="rcvSmsT" name="rcvSms" class="input_box" type="radio" value="yes"/>
-                  <label for="rcvSmsT">수신함</label>
-                  <input id="rcvSmsF" name="rcvSms" class="input_box" type="radio" value="no"/>
-                  <label for="rcvSmsF">수신안함</label>
-                </li>
-              </ul>
-              <ul class="email option">
-                <li>
-                  <p class="join_tit">이메일 수신여부</p>
-                </li>
-                <li class="input_box_wrap">
-                  <input id="rcvEmailT" name="rcvEmail" class="input_box" type="radio" value="yes"/>
-                  <label for="rcvEmailT">수신함</label>
-                  <input id="rcvEmailF" name="rcvEmail" class="input_box" type="radio" value="no"/>
-                  <label for="rcvEmailF">수신안함</label>
-                </li>
-              </ul>
+    <div th:replace="~{/layout/header :: header}"></div>
+    <div class="mypage" id="mypage">
+        <div th:replace="~{layout/menu :: mypage_menu}"></div>
+        <div id="memberInfoModify">
+            <div class="join_wrap modify">
+                <h3 class="modify_title">회원 정보 수정</h3>
+                <div class="auth_wrap">
+                    <ul id="user_auth">
+                        <li>
+                            <p class="join_tit ess">회원인증</p>
+                        </li>
+                        <li>
+                            <div id="email_auth">
+                                <ul>
+                                    <li th:if="${form.isEmailVerified}">
+                                        <input id="email_verified_true" label="회원인증" type="checkbox" checked="checked"/>
+                                        <label for="email_verified_true">이메일 인증 완료</label>
+                                    </li>
+                                    <li th:unless="${form.isEmailVerified}">
+                                        <input id="email_verified_flase" label="회원인증" type="checkbox" disabled/>
+                                        <label for="email_verified_flase">이메일 인증 필요</label>
+                                        <button type="button" id="verificationEmailBtn" class="btn1" th:unless="${form.isEmailVerified}">인증 이메일 전송</button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <form action="" th:action th:object="${form}" method="post" id="joinForm" th:onsubmit="return validateBeforeSubmit()">
+                    <div class="input_area">
+                        <div class="input_wrap">
+                            <ul>
+                                <li>
+                                    <label for="loginId" class="join_tit ess">아이디</label>
+                                </li>
+                                <li class="input_box_wrap">
+                                    <span id="loginId" class="input_text inputTypeText" th:text="${form.loginId}" readonly></span>
+                                </li>
+                            </ul>
+                            <ul>
+                                <li>
+                                    <label for="password" class="join_tit">새 비밀번호</label>
+                                    <span class="addinfo">(영문 대소문자/숫자/특수문자 조합, 8~16자)</span>
+                                </li>
+                                <li class="input_box_wrap">
+                                    <input id="password" th:field="*{newPassword}" class="input_box" autocomplete="off" maxlength="16" 0="disabled" type="password"/>
+                                    <span id="pwMsg"></span>
+                                </li>
+                            </ul>
+                            <ul>
+                                <li>
+                                    <label for="passwordConfirm" class="join_tit">새 비밀번호 확인</label>
+                                </li>
+                                <li class="input_box_wrap">
+                                    <input id="passwordConfirm"  th:field="*{newPasswordConfirm}" class="input_box" autocomplete="off" maxlength="16" 0="disabled" type="password"/>
+                                    <span id="pwconfirmMsg"></span>
+                                </li>
+                            </ul>
+                            <ul>
+                                <li id="name_title">
+                                    <label for="name" class="join_tit ess">이름</label>
+                                </li>
+                                <li>
+                                <li id="name_content" class="input_box_wrap">
+                                    <span id="name" class="input_text inputTypeText" th:text="${form.name}"></span>
+                                    <span id="nameMsg"></span>
+                                </li>
+                                </li>
+                            </ul>
+                            <ul class="address">
+                                <li>
+                                    <label class="join_tit btn_included ess">주소</label>
+                                </li>
+                                <li>
+                                    <input class="input_box" id="zipCode" th:field="*{zipCode}" placeholder="우편번호" type="text" readonly/>
+                                    <button id="searchZipCodeBtn" class="btn1" onclick="findPostCode()">주소검색</button>
+                                </li>
+                                <li>
+                                    <input class="input_box" id="basicAddress" th:field="*{basicAddress}" placeholder="기본주소" type="text" readonly/>
+                                </li>
+                                <li>
+                                    <input class="input_box" id="detailAddress" th:field="*{detailAddress}" placeholder="상세주소(선택 가능)" maxlength="40" type="text"/>
+                                </li>
+                            </ul>
+                            <ul class="phone_number">
+                                <li class="">
+                                    <label class="join_tit ess btn_included">휴대전화번호</label>
+                                </li>
+                                <li class="phone_number select">
+                                    <div class="number_sec">
+                                        <select id="phonenumber1" th:field="*{phonenumber1}" readonly>
+                                            <option value="010">010</option>
+                                            <option value="011">011</option>
+                                            <option value="016">016</option>
+                                            <option value="017">017</option>
+                                            <option value="018">018</option>
+                                            <option value="019">019</option>
+                                        </select>
+                                        <p>-</p><input id="phonenumber2" th:field="*{phonenumber2}" class="input_box" type="text" readonly/>
+                                        <p>-</p><input id="phonenumber3" th:field="*{phonenumber3}" class="input_box" type="text" readonly/>
+                                    </div>
+                                    <button type="button" id="newNumberBtn" class="btn1">다른번호 인증</button>
+                                </li>
+                                <span id="phoneNumberMsg"></span>
+                            </ul>
+                            <ul class="displaynone" id="confirm_verify_mobile">
+                                <li class="verify_sec1">
+                                    <label for="verificationNo" class="join_tit ess">인증번호</label>
+                                </li>
+                                <li class="verify_sec2">
+                                    <div class="verify">
+                                        <input id="verificationNo" class="input_box inputTypeText" maxlength="6" type="text"/>
+                                        <span class="time" id="expiryTime"></span>
+                                    </div>
+                                    <button type="button" class="btn1" id="btn_verify_mobile_confirm">확인</button>
+                                </li>
+                            </ul>
+                            <span id="verificationMsg"></span>
+                            <ul>
+                                <li>
+                                    <p class="join_tit ess">이메일</p>
+                                </li>
+                                <li class="input_box_wrap">
+                                    <input id="email" class="input_box" th:field="*{email}" maxlength="45" type="text"/>
+                                    <span id="emailMsg"></span>
+                                </li>
+                            </ul>
+                            <ul class="sms option">
+                                <li>
+                                    <p class="join_tit">SMS 수신여부</p>
+                                </li>
+                                <li class="input_box_wrap">
+                                    <input id="rcvSmsT" name="rcvSms" class="input_box" type="radio" value="true" th:checked="*{agreeToReceiveSms == true}"/>
+                                    <label for="rcvSmsT">수신함</label>
+                                    <input id="rcvSmsF" name="rcvSms" class="input_box" type="radio" value="false" th:checked="*{agreeToReceiveSms == false}"/>
+                                    <label for="rcvSmsF">수신안함</label>
+                                </li>
+                            </ul>
+                            <ul class="email option">
+                                <li>
+                                    <p class="join_tit">이메일 수신여부</p>
+                                </li>
+                                <li class="input_box_wrap">
+                                    <input id="rcvEmailT" name="rcvEmail" class="input_box" type="radio" value="true" th:checked="*{agreeToReceiveEmail == true}"/>
+                                    <label for="rcvEmailT">수신함</label>
+                                    <input id="rcvEmailF" name="rcvEmail" class="input_box" type="radio" value="false" th:checked="*{agreeToReceiveEmail == false}"/>
+                                    <label for="rcvEmailF">수신안함</label>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="btn_wrap">
+                        <button type="button" id="withdrawBtn" class="btn1">탈퇴하기</button>
+                        <button type="submit" id="submitBtn" onclick="" class="btn1 submit_btn">회원 정보 수정</button>
+                    </div>
+                </form>
             </div>
-          </div>
-          <div class="btn_wrap">
-            <button type="button" id="withdrawBtn" class="btn1">
-              탈퇴하기
-            </button>
-            <button type="submit" id="submitBtn" onclick="" class="btn1 submit_btn">
-              회원 정보 수정
-            </button>
-          </div>
-        </form>
-      </div>
+        </div>
     </div>
-  </div>
-  <div th:replace="~{layout/footer :: basic_footer}"></div>
+    <div th:replace="~{layout/footer :: basic_footer}"></div>
 </div>
 </body>
 </html>
