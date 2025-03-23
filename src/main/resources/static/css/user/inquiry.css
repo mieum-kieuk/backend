@@ -171,7 +171,7 @@
     color: #999;
     padding-left: 10px;
 }
-.qna_table td #content {
+form .qna_table td #content {
     width: 100%;
     height: calc(100vh - 400px);
     resize: none;
@@ -271,7 +271,7 @@
     font-size: 13px;
     padding: 5px 0;
 }
-.qna_cont {
+.qna_wrap.details .qna_cont {
     border-top: 1px solid #333;
     border-bottom: 1px solid #333;
     padding: 10px 0;

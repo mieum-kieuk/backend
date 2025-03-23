@@ -12,10 +12,11 @@ $(document).ready(function () {
         let qnaItems = $(this);
         let currentContent = qnaItems.next(".qna_content");
         let isSecret = qnaItems.find('.material-symbols-outlined.secretItem').length > 0;
+        let isWriter = qnaItems.hasClass('isWriter');
 
         if (currentContent.length > 0) {
             if (isSecret) {
-                if (qnaItems.hasClass('open')) {
+                if (isWriter) {
                     toggleContent(currentContent);
                 } else {
                 }
@@ -181,7 +182,7 @@ function loadInquiries(productId, currentPage) {
                     let qnaTitle = item.isSecret && !item.isWriter ? '비밀글입니다.' : item.title;
                     let answeredClass = item.isAnswered === '답변완료' ? 'complete' : '';
                     let inquiryItem = `
-                        <tr class="qna_items ${item.isWriter ? 'open' : ''}">
+                        <tr class="qna_items ${item.isWriter ? 'isWriter' : ''}">
                             <td class="title_td">
                                 <div class="title">
                                     ${item.isSecret ? '<span class="material-symbols-outlined secretItem">lock</span>' : ''}
@@ -192,7 +193,8 @@ function loadInquiries(productId, currentPage) {
                             <td><span class="date">${item.createdAt}</span></td>
                             <td><span class="answer ${answeredClass}">${item.isAnswered}</span></td>
                         </tr>
-                        <tr class="qna_content">
+                        ${item.isSecret && !item.isWriter ? '' :
+                        `<tr class="qna_content">
                             <td colspan="4">
                                 <div class="qna_cont" id="content">
                                     <div class="qna_question">
@@ -205,7 +207,7 @@ function loadInquiries(productId, currentPage) {
                                         </div>
                                         <div class="menu">
                                             ${item.isWriter ?
-                                                `<button class="menu_toggle">
+                            `<button class="menu_toggle">
                                                     <span class="material-symbols-outlined">more_horiz</span>
                                                 </button>
                                                 <div class="dropdown_menu">
@@ -218,7 +220,7 @@ function loadInquiries(productId, currentPage) {
                                                         </li>
                                                     </ul>
                                                 </div>` : ''
-                                            }
+                        }
                                         </div>
                                     </div>
                                     <div class="qna_answer">
@@ -228,7 +230,7 @@ function loadInquiries(productId, currentPage) {
                                 </div>
                             </td>
                         </tr>
-                    `;
+                    `}`;
                     tbody.append(inquiryItem);
                 });
             } else {
