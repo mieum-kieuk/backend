@@ -100,7 +100,7 @@
                                 </li>
                                 <li>
                                     <input class="input_box" id="zipCode" th:field="*{zipCode}" placeholder="우편번호" type="text" readonly/>
-                                    <button id="searchZipCodeBtn" class="btn1" onclick="findPostCode()">주소검색</button>
+                                    <button type="button" id="searchZipCodeBtn" class="btn1" onclick="findPostCode()">주소검색</button>
                                 </li>
                                 <li>
                                     <input class="input_box" id="basicAddress" th:field="*{basicAddress}" placeholder="기본주소" type="text" readonly/>
@@ -123,14 +123,15 @@
                                             <option value="018">018</option>
                                             <option value="019">019</option>
                                         </select>
-                                        <p>-</p><input id="phonenumber2" th:field="*{phonenumber2}" class="input_box" type="text" readonly/>
-                                        <p>-</p><input id="phonenumber3" th:field="*{phonenumber3}" class="input_box" type="text" readonly/>
+                                        <p>-</p><input id="phonenumber2" th:field="*{phonenumber2}" class="input_box" maxlength="4"  type="text" readonly/>
+                                        <p>-</p><input id="phonenumber3" th:field="*{phonenumber3}" class="input_box" maxlength="4"  type="text" readonly/>
                                     </div>
                                     <button type="button" id="newNumberBtn" class="btn1">다른번호 인증</button>
+                                    <button type="button" id="btn_action_verify_mobile" class="btn1 disabled">인증번호 받기</button>
                                 </li>
                                 <span id="phoneNumberMsg"></span>
                             </ul>
-                            <ul class="displaynone" id="confirm_verify_mobile">
+                            <ul id="confirm_verify_mobile">
                                 <li class="verify_sec1">
                                     <label for="verificationNo" class="join_tit ess">인증번호</label>
                                 </li>
@@ -178,7 +179,7 @@
                     </div>
                     <div class="btn_wrap">
                         <button type="button" id="withdrawBtn" class="btn1">탈퇴하기</button>
-                        <button type="submit" id="submitBtn" onclick="" class="btn1 submit_btn">회원 정보 수정</button>
+                        <button type="submit" id="submitBtn" class="btn1 submit_btn">회원 정보 수정</button>
                     </div>
                 </form>
             </div>

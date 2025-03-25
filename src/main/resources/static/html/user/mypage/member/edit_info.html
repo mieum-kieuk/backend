@@ -5,11 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>회원 정보 수정 | 미음키읔</title>
 
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="미음키읔" />
-  <meta property="og:description" content="" />
-  <meta property="og:image" content="" />
-  <meta property="og:url" content="" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
@@ -18,19 +13,19 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.js"></script>
-  <link rel="stylesheet" href="../../css/common/join.css" />
-  <link rel="stylesheet" href="../../css/common/comm.css" />
-  <link rel="stylesheet" href="../../css/user/mypage.css" />
-  <script defer src="../../js/common/comm.js"></script>
-  <script defer src="../../js/modify.js"></script>
-  <script defer src="../../js/user/findAddress.js"></script>
+  <link rel="stylesheet" href="../../../../css/common/join.css" />
+  <link rel="stylesheet" href="../../../../css/common/comm.css" />
+  <link rel="stylesheet" href="../../../../css/user/mypage.css" />
+  <script defer src="../../../../js/common/comm.js"></script>
+  <script defer src="../../../../js/user/modify.js"></script>
+  <script defer src="../../../../js/user/findAddress.js"></script>
 </head>
 <body>
 <div class="wrap">
   <header id="header" class="header">
     <nav id="gnb">
       <div class="logo">
-        <a href="../index.html">
+        <a href="../../../index.html">
           미음키읔
         </a>
       </div>
@@ -48,9 +43,9 @@
           </li>
           <li class="depth1_menu" id="community">Community
             <ul class="depth2">
-              <li><a href="../community/notice/notice_list.html">Notice</a></li>
-              <li><a href="../community/inquiry/inquiry_list.html">Q&amp;A</a></li>
-              <li><a href="../review/review_list.html">Review</a></li>
+              <li><a href="../../../community/notice/notice_list.html">Notice</a></li>
+              <li><a href="../../../community/inquiry/inquiry_list.html">Q&amp;A</a></li>
+              <li><a href="../../../review/review_list.html">Review</a></li>
             </ul>
           </li>
         </ul>
@@ -63,7 +58,7 @@
           <div class="search_popup">
             <div class="search_bg"></div>
             <div class="search_form_wrap">
-              <form action="../search/search_complete.html" method="get">
+              <form action="../../search/search_complete.html" method="get">
                 <input type="text" placeholder="검색어를 입력해 주세요.">
                 <button type="submit" class="search_btn"><span class="material-symbols-outlined">search</span></button>
               </form>
@@ -74,16 +69,16 @@
           <ul class="depth1">
             <li class="depth1_menu">Account
               <ul class="depth2">
-                <li><a href="../login.html">Login</a></li>
-                <li><a href="../user/member/join.html">Join</a></li>
-                <li><a href="../user/member/order.html">Order</a></li>
-                <li><a href="../mypage/mypage_home.html">Mypage</a></li>
+                <li><a href="../../../login.html">Login</a></li>
+                <li><a href="../../member/join.html">Join</a></li>
+                <li><a href="../../../order/order_list.html">Order</a></li>
+                <li><a href="../mypage_home.html">Mypage</a></li>
               </ul>
             </li>
           </ul>
         </div>
         <div class="cart">
-          <a href="../cart/cart.html" >Cart(0)
+          <a href="../../order/cart.html" >Cart(0)
           </a>
         </div>
       </div>
@@ -101,14 +96,14 @@
         </li>
         <li>
           <ul class="depth2">
-            <li><a href="./wish_list.html">위시리스트</a></li>
+            <li><a href="../wish_list.html">위시리스트</a></li>
             <li><a href="">나의 게시글</a></li>
           </ul>
         </li>
         <li>
           <ul class="depth2">
-            <li><a href="./member_info_modify.html">회원 정보 수정</a></li>
-            <li><a href="./delivery_list.html">배송지 관리</a></li>
+            <li><a href="./edit_info.html">회원 정보 수정</a></li>
+            <li><a href="../delivery_list.html">배송지 관리</a></li>
             <li><a href="">로그아웃</a></li>
           </ul>
         </li>
@@ -125,10 +120,15 @@
             <li>
                 <div id="email_auth">
                   <ul>
-                    <li><input id="personal_type0" name="personal_type" label="회원인증" type="checkbox" checked="checked" onclick="return false"/>
-                      <label for="personal_type0">이메일 인증 완료</label>
+                    <li>
+                      <input id="email_verified_true"  label="회원인증" type="checkbox" checked="checked" />
+                      <label for="email_verified_true">이메일 인증 완료</label>
                     </li>
-                    <li><button type="button" id="verificationEmailBtn" class="btn1">인증메일 전송</button></li>
+                    <li>
+                      <input id="email_verified_false" label="회원인증" type="checkbox" disabled/>
+                      <label for="email_verified_false">이메일 인증 필요</label>
+                      <button type="button" id="verificationEmailBtn" class="btn1">인증메일 전송</button>
+                    </li>
                   </ul>
                 </div>
             </li>
@@ -148,7 +148,7 @@
               </ul>
               <ul>
                 <li>
-                  <label for="password" class="join_tit ess">비밀번호</label>
+                  <label for="password" class="join_tit ess">새 비밀번호</label>
                   <span class="addinfo">(영문 대소문자/숫자/특수문자 조합, 8~16자)</span>
                 </li>
                 <li class="input_box_wrap">
@@ -158,7 +158,7 @@
               </ul>
               <ul>
                 <li>
-                  <label for="passwordConfirm" class="join_tit ess">비밀번호 확인</label>
+                  <label for="passwordConfirm" class="join_tit ess">새 비밀번호 확인</label>
                 </li>
                 <li class="input_box_wrap">
                   <input id="passwordConfirm" class="input_box" autocomplete="off" maxlength="16" 0="disabled" type="password"/>
@@ -235,7 +235,7 @@
                   <p class="join_tit ess ">이메일</p>
                 </li>
                 <li class="input_box_wrap">
-                  <input id="email" class="input_box" placeholder="" maxlength="45" type="text"/>
+                  <input id="email" class="input_box" placeholder="" maxlength="45" type="text" value="mary706@naver.com"/>
                   <span id="emailMsg"></span>
                 </li>
               </ul>

@@ -50,6 +50,12 @@
 .auth_wrap #email_auth {
   font-size: 12px;
 }
+.auth_wrap #email_auth #email_verified_true {
+  pointer-events: none;
+}
+.auth_wrap #email_auth label{
+  pointer-events: none;
+}
 .input_area {
   width: 100%;
   display: flex;

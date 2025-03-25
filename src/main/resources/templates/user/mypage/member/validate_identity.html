@@ -12,7 +12,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css">
-    <link rel="stylesheet" href="../../../../static/css/common/join.css" th:href="@{/css/common/join.css}"/>
     <link rel="stylesheet" href="../../../../static/css/common/comm.css" th:href="@{/css/common/comm.css}"/>
     <link rel="stylesheet" href="../../../../static/css/user/mypage.css" th:href="@{/css/user/mypage.css}"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -26,29 +25,32 @@
     <div th:replace="~{/layout/header :: header}"></div>
     <div class="mypage" id="mypage">
         <div th:replace="~{layout/menu :: mypage_menu}"></div>
-        <div id="memberInfoLogin">
+        <div id="memberInfoLogin" class="mypage_content">
             <div class="join_wrap modify">
                 <h3 class="modify_title">비밀번호 재확인</h3>
-                <div class="input_wrap">
-                    <ul>
-                        <li>
-                            <label for="loginId" class="join_tit">아이디</label>
-                        </li>
-                        <li class="input_box_wrap">
-                            <input type="text" id="loginId" class="inputTypeText" th:value="${loginId}" readonly/>
-                        </li>
-                    </ul>
-                    <ul>
-                        <li>
-                            <label for="password" class="join_tit">비밀번호</label>
-                        </li>
-                        <li class="input_box_wrap">
-                            <input id="password" class="input_box" placeholder="비밀번호를 입력해 주세요." autocomplete="off" maxlength="16" 0="disabled" type="password"/>
-                        </li>
-                    </ul>
-                </div>
-                <div class="btn_wrap">
-                    <button type="submit" id="loginBtn" class="btn1 submit_btn">확인</button>
+                <div >
+                    <div class="input_wrap">
+                        <ul>
+                            <li>
+                                <label for="loginId" class="join_tit">아이디</label>
+                            </li>
+                            <li class="input_box_wrap">
+                                <input type="text" id="loginId" class="inputTypeText" th:value="${loginId}" readonly/>
+                            </li>
+                        </ul>
+                        <ul>
+                            <li>
+                                <label for="password" class="join_tit">비밀번호</label>
+                            </li>
+                            <li class="input_box_wrap">
+                                <input id="password" class="input_box" placeholder="비밀번호를 입력해 주세요." autocomplete="off"
+                                       maxlength="16" 0="disabled" type="password"/>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="btn_wrap">
+                        <button type="submit" id="loginBtn" class="btn1 submit_btn">확인</button>
+                    </div>
                 </div>
             </div>
         </div>

@@ -6,10 +6,8 @@ $(document).ready(function () {
     });
 
     $('#newNumberBtn').on('click', function () {
-        $(this).attr('id', 'btn_action_verify_mobile');
-
-        $(this).addClass('disabled');
-
+        $(this).css('display', 'none');
+        $('#btn_action_verify_mobile').css('display', 'flex');
         $('#phonenumber1').val('010');
         $('#phonenumber2').val('');
         $('#phonenumber3').val('');
@@ -18,6 +16,7 @@ $(document).ready(function () {
         $('#phonenumber3').removeAttr('readonly');
         $(this).text('인증번호 받기');
     });
+
     $('#phonenumber2, #phonenumber3').on('focusout', function () {
         isPhoneValid();
     });
@@ -33,6 +32,7 @@ $(document).ready(function () {
     $('#btn_action_verify_mobile').on('click', function () {
         requestVerificationCode();
     });
+
     $('#btn_verify_mobile_confirm').click(function () {
         isVerificationValid();
     });
@@ -129,6 +129,8 @@ function validateNewPassword() {
             return false;
         }
     });
+
+    return true;
 }
 
 // 비밀번호 확인 유효성 검사
@@ -138,9 +140,11 @@ function validatePasswordConfirm() {
 
     if (newPassword === confirmPassword) {
         $('#pwconfirmMsg').text('');
+        return true;
     } else {
         $('#pwconfirmMsg').text('비밀번호가 일치하지 않습니다.');
         $('#pwconfirmMsg').removeClass('success error').addClass('error');
+        return false;
     }
 }
 
@@ -184,7 +188,7 @@ function isEmailValid() {
         data: {email: email},
         async: false,
         success: function (result) {
-            if (result) {
+            if (result && result.available === true) {
                 $('#emailMsg').text('사용 가능한 이메일입니다.');
                 $('#emailMsg').removeClass('error').addClass('success');
             } else {
@@ -240,18 +244,8 @@ function isPhoneValid() {
 
         $('#phoneNumberMsg').text('');
 
-        // 인증 번호 유효성 검사
-        if (!isVerificationCompelte()) {
-            Swal.fire({
-                text: "휴대전화번호를 인증해 주세요.",
-                showConfirmButton: true,
-                confirmButtonText: '확인',
-                customClass: mySwal,
-                buttonsStyling: false
-            });
-            return false;
-        }
     }
+    return true;
 }
 
 function isPhoneEmpty() {
@@ -304,7 +298,6 @@ function startTimer() {
         }
     }, 1000);
 }
-
 function requestVerificationCode() {
     let phonenumber1 = $('#phonenumber1').val();
     let phonenumber2 = $('#phonenumber2').val();
@@ -312,9 +305,12 @@ function requestVerificationCode() {
 
     $.ajax({
         type: 'POST',
-        url: '/members/send/verificationNo',
-        data: {phonenumber1: phonenumber1, phonenumber2: phonenumber2, phonenumber3: phonenumber3},
-        dataType: 'json',
+        url: '/ajax/member/send/verificationNo',
+        data: {
+            'phonenumber1': phonenumber1,
+            'phonenumber2': phonenumber2,
+            'phonenumber3': phonenumber3,
+        },
         beforeSend: function (xhr) {
             xhr.setRequestHeader(csrfHeader, csrfToken);
         },
@@ -374,10 +370,10 @@ function isVerificationValid() {
         type: 'POST',
         url: '/members/verification/verificationNo',
         data: {
-            phonenumber1: phonenumber1,
-            phonenumber2: phonenumber2,
-            phonenumber3: phonenumber3,
-            verificationNo: verificationNo
+            'phonenumber1': phonenumber1,
+            'phonenumber2': phonenumber2,
+            'phonenumber3': phonenumber3,
+            'verificationNo': verificationNo
         },
         beforeSend: function (xhr) {
             xhr.setRequestHeader(csrfHeader, csrfToken);
@@ -408,7 +404,7 @@ function isVerificationValid() {
     });
 }
 
-function isVerificationCompelte() {
+function isVerificationComplete() {
     return $('#verificationNo').attr('complete') === "true";
 }
 
@@ -447,6 +443,20 @@ function validateBeforeSubmit() {
     // 휴대전화번호 유효성 검사
     isPhoneValid();
 
+    // 인증 번호 유효성 검사
+    if (!$('#phonenumber1').prop('readonly') && !$('#phonenumber2').prop('readonly') && !$('#phonenumber3').prop('readonly')) {
+
+        if (!isVerificationComplete()) {
+            Swal.fire({
+                text: "휴대전화번호를 인증해 주세요.",
+                showConfirmButton: true,
+                confirmButtonText: '확인',
+                customClass: mySwal,
+                buttonsStyling: false
+            });
+            return false;
+        }
+    }
     // 이메일 유효성 검사
     if (!isEmailEmpty()) {
         Swal.fire({
@@ -468,9 +478,10 @@ function validateBeforeSubmit() {
         return false;
     }
 
+    $('.submit_btn').prop('disabled', true);
+
     return true;
 }
-
 function withdrawal() {
     Swal.fire({
         text: "탈퇴하시겠습니까?",
