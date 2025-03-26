@@ -25,14 +25,14 @@
 <body>
 <div class="wrap">
     <div th:replace="~{/layout/header :: header}"></div>
-    <div id="qna">
-        <div class="qna_wrap">
-            <h1 class="qna_title">상품문의</h1>
-            <form id="addQnaForm" action="" th:action th:object="${form}" method="post" th:onsubmit="return validateBeforeSubmit()" novalidate>
-                <table class="qna_table">
+    <div id="inquiry">
+        <div class="inquiry_wrap">
+            <h1 class="inquiry_title">상품문의</h1>
+            <form id="addInquiryForm" action="" th:action th:object="${form}" method="post" th:onsubmit="return validateBeforeSubmit()" novalidate>
+                <table class="inquiry_table">
                     <tr>
                         <th colspan="2">
-                            <div id="qnaItem" class="qna_item">
+                            <div id="inquiryItem" class="inquiry_item">
                                 <div class="item_wrap">
                                     <div class="thumbnail">
                                         <img id="productImage" class="item_img" src="../../../../static/images/img_no.png" th:src="@{/images/img_no.png}" alt="상품 이미지">

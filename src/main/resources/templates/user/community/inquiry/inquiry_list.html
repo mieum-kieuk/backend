@@ -18,13 +18,13 @@
 <body>
 <div class="wrap">
     <div th:replace="~{/layout/header :: header}"></div>
-    <div id="qna">
-        <div class="qna_wrap list">
-            <div class="qna_head">
-                <h1 class="qna_title">상품문의</h1>
+    <div id="inquiry">
+        <div class="inquiry_wrap list">
+            <div class="inquiry_head">
+                <h1 class="inquiry_title">상품문의</h1>
             </div>
-            <div class="qna_list wrapper">
-                <table class="qna_table">
+            <div class="inquiry_list wrapper">
+                <table class="inquiry_table">
                     <thead>
                     <tr>
                         <th>번호</th>
@@ -77,7 +77,7 @@
                         <td><span class="answer" th:classappend="${inquiry.isAnswered == '답변완료'} ? 'complete'" th:text="${inquiry.isAnswered}"></span></td>
                     </tr>
                 </table>
-                <div class="qna_foot">
+                <div class="inquiry_foot">
                     <div class="btn_wrap right">
                         <button type="button" id="writeBtn" class="btn1 write_btn"
                                 onclick="location.href='add_inquiry.html'"

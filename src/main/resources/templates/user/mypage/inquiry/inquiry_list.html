@@ -30,7 +30,7 @@
             <div class="board_wrap list wrapper">
                 <h3 class="board_title">상품 문의</h3>
                 <div class="board_content">
-                    <table class="qna_table">
+                    <table class="inquiry_table">
                         <thead>
                         <tr>
                             <th>상품</th>
@@ -44,7 +44,7 @@
                             <td colspan="4">등록된 상품문의가 없습니다.</td>
                         </tr>
                         <div th:each="inquiry : ${inquiries}">
-                            <tr class="qna_items">
+                            <tr class="inquiry_items">
                                 <td>
                                     <a href="../../product/product_details.html"
                                        th:href="@{/products/{productId}(productId=${inquiry.productId})}">
@@ -60,11 +60,11 @@
                                 <td><span class="date" th:text="${inquiry.createdAt}"></span></td>
                                 <td><span class="answer" th:classappend="${inquiry.isAnswered} ? 'complete': ''" th:text="${inquiry.isAnswered} ? '답변완료' : '답변대기'"></span></td>
                             </tr>
-                            <tr class="qna_content">
+                            <tr class="inquiry_content">
                                 <td colspan="4">
-                                    <div class="qna_cont">
-                                        <div class="qna_question">
-                                            <div class="qna_text">
+                                    <div class="inquiry_cont">
+                                        <div class="inquiry_question">
+                                            <div class="inquiry_text">
                                                 <span>Q</span>
                                                 <div class="contents">
                                                     <span th:text="${inquiry.title}"></span>
@@ -87,7 +87,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="qna_answer">
+                                        <div class="inquiry_answer">
                                             <span>A</span>
                                             <span th:if="${inquiry.isAnswered} == true" th:text="${inquiry.answer}"></span>
                                             <span th:if="${inquiry.isAnswered} == false">답변이 작성되지 않았습니다.</span>
@@ -121,8 +121,8 @@
             </div>
             <div id="inquiryModal" class="modal">
                 <div class="modal_content">
-                    <form id="addQnaForm" action="#" method="post" novalidate>
-                        <table class="qna_table list">
+                    <form id="addInquiryForm" action="#" method="post" novalidate>
+                        <table class="inquiry_table list">
                             <tr>
                                 <td colspan="2">
                                     <div class="title_wrap">

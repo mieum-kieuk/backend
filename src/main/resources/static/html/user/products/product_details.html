@@ -315,22 +315,22 @@
                     </ul>
                 </div>
             </div>
-            <div class="qna_wrap list">
-                <div class="qna_head">
-                    <div class="qna_head_inner">
-                    <h1 class="qna_title">상품 문의</h1>
-                        <span class="qna_count">(<span class="totalCount"></span>)</span>
+            <div class="inquiry_wrap list">
+                <div class="inquiry_head">
+                    <div class="inquiry_head_inner">
+                    <h1 class="inquiry_title">상품 문의</h1>
+                        <span class="inquiry_count">(<span class="totalCount"></span>)</span>
                     </div>
                     <div class="btn_wrap">
                         <button type="button" id="inquiryBtn" class="btn1 write_btn" >문의하기</button>
                     </div>
                 </div>
-                <table id="inquiryTable" class="qna_table">
+                <table id="inquiryTable" class="inquiry_table">
                     </thead>
                     <tr id="noDataMessage">
                         <td colspan="4">등록된 상품문의가 없습니다.</td>
                     </tr>
-                    <tr class="qna_items">
+                    <tr class="inquiry_items">
                         <td class="title_td">
                             <div class="title">
                                 <span class="material-symbols-outlined ">lock</span>
@@ -341,11 +341,11 @@
                         <td><span class="date">2024.04.08</span></td>
                         <td><span class="answer pending">답변대기</span></td>
                     </tr>
-                    <tr class="qna_content">
+                    <tr class="inquiry_content">
                         <td colspan="4">
-                            <div class="qna_cont" id="content">
-                                <div class="qna_question">
-                                    <div class="qna_text">
+                            <div class="inquiry_cont" id="content">
+                                <div class="inquiry_question">
+                                    <div class="inquiry_text">
                                         <span>Q</span>
                                         <div class="contents">
                                         <span class="question">재입고 언제 되나요?</span>
@@ -368,7 +368,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="qna_answer">
+                                <div class="inquiry_answer">
                                     <span>A</span>
                                     <span>안녕하세요. 고객님
 
@@ -456,11 +456,11 @@
             </div>
             <div id="inquiryModal" class="modal" data-id="${inquiryId}">
                 <div class="modal_content">
-                    <div class="qna_head">
-                        <h1 class="qna_title">상품문의</h1>
+                    <div class="inquiry_head">
+                        <h1 class="inquiry_title">상품문의</h1>
                     </div>
-                    <form id="addQnaForm" action="#" method="post" novalidate>
-                        <table class="qna_table">
+                    <form id="addInquiryForm" action="#" method="post" novalidate>
+                        <table class="inquiry_table">
                             <tr>
                                 <td colspan="2">
                                     <div class="title_wrap">

@@ -9,7 +9,7 @@ $(document).ready(function () {
         deleteInquiry(productId, inquiryId);
     });
 
-    if ($('.qna_list #noDataMessage').length > 0) {
+    if ($('.inquiry_list #noDataMessage').length > 0) {
         $('.footer').addClass('fixed');
     }
 

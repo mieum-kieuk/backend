@@ -4,15 +4,15 @@ $(document).ready(function () {
 
     loadInquiries(productId, 1);
 
-    if ($('.qna_list #noDataMessage').length > 0) {
+    if ($('.inquiry_list #noDataMessage').length > 0) {
         $('.footer').addClass('fixed');
     }
 
-    $(document).on("click", ".qna_items", function () {
-        let qnaItems = $(this);
-        let currentContent = qnaItems.next(".qna_content");
-        let isSecret = qnaItems.find('.material-symbols-outlined.secretItem').length > 0;
-        let isWriter = qnaItems.hasClass('isWriter');
+    $(document).on("click", ".inquiry_items", function () {
+        let inquiryItems = $(this);
+        let currentContent = inquiryItems.next(".inquiry_content");
+        let isSecret = inquiryItems.find('.material-symbols-outlined.secretItem').length > 0;
+        let isWriter = inquiryItems.hasClass('isWriter');
 
         if (currentContent.length > 0) {
             if (isSecret) {
@@ -38,8 +38,8 @@ $(document).ready(function () {
 
     // 삭제 버튼
     $(document).on("click", ".delete_btn", function () {
-        let inquiryItem = $(this).closest(".qna_content").prev(".qna_items");
-        let inquiryContent = inquiryItem.next(".qna_content");
+        let inquiryItem = $(this).closest(".inquiry_content").prev(".inquiry_items");
+        let inquiryContent = inquiryItem.next(".inquiry_content");
         let inquiryId = $(this).data("id");
 
         deleteProductInquiry(productId, inquiryId, inquiryItem, inquiryContent);
@@ -49,15 +49,15 @@ $(document).ready(function () {
     $('.close_btn').on('click', function () {
         $('#inquiryModal').hide();
 
-        // 모달이 닫히면 qna_content 원래 상태로 복원
-        let qnaContent = $('#inquiryModal').closest('.qna_content');
-        qnaContent.find('.qna_cont').css({
+        // 모달이 닫히면 inquiry_content 원래 상태로 복원
+        let inquiryContent = $('#inquiryModal').closest('.inquiry_content');
+        inquiryContent.find('.inquiry_cont').css({
             visibility: "visible",
             position: "relative"
         });
 
         // 첫 번째 tr의 border-top을 원래대로 되돌리기
-        $('#product .qna_wrap.list .qna_table tbody tr:first-child').css({
+        $('#product .inquiry_wrap.list .inquiry_table tbody tr:first-child').css({
             'border-top': 'none'
         });
     });
@@ -94,13 +94,13 @@ $(document).ready(function () {
                     closeInquiryModal();
                     openInquiryModal();
                     let inquiryModal = $('#inquiryModal');
-                    let qnaHead = $('.qna_head');
-                    inquiryModal.insertAfter(qnaHead).css({
+                    let inquiryHead = $('.inquiry_head');
+                    inquiryModal.insertAfter(inquiryHead).css({
                         position: 'relative',
                     });
 
                     // 첫 번째 tr에 border-top 스타일 변경
-                    $('#product .qna_wrap.list .qna_table tbody tr:first-child').css({
+                    $('#product .inquiry_wrap.list .inquiry_table tbody tr:first-child').css({
                         'border-top': '1px solid #d7d7d7'
                     });
 
@@ -179,14 +179,14 @@ function loadInquiries(productId, currentPage) {
             if (data && data.content.length > 0) {
                 tbody.empty();
                 data.content.forEach(function (item) {
-                    let qnaTitle = item.isSecret && !item.isWriter ? '비밀글입니다.' : item.title;
+                    let inquiryTitle = item.isSecret && !item.isWriter ? '비밀글입니다.' : item.title;
                     let answeredClass = item.isAnswered === '답변완료' ? 'complete' : '';
                     let inquiryItem = `
-                        <tr class="qna_items ${item.isWriter ? 'isWriter' : ''}">
+                        <tr class="inquiry_items ${item.isWriter ? 'isWriter' : ''}">
                             <td class="title_td">
                                 <div class="title">
                                     ${item.isSecret ? '<span class="material-symbols-outlined secretItem">lock</span>' : ''}
-                                    <span class="title">${qnaTitle}</span>
+                                    <span class="title">${inquiryTitle}</span>
                                 </div>
                             </td>
                             <td><span class="writer">${item.writerLoginId}</span></td>
@@ -194,11 +194,11 @@ function loadInquiries(productId, currentPage) {
                             <td><span class="answer ${answeredClass}">${item.isAnswered}</span></td>
                         </tr>
                         ${item.isSecret && !item.isWriter ? '' :
-                        `<tr class="qna_content">
+                        `<tr class="inquiry_content">
                             <td colspan="4">
-                                <div class="qna_cont" id="content">
-                                    <div class="qna_question">
-                                        <div class="qna_text">
+                                <div class="inquiry_cont" id="content">
+                                    <div class="inquiry_question">
+                                        <div class="inquiry_text">
                                             <span>Q</span>
                                             <div class="contents">
                                             <span class="question">${item.title}</span>
@@ -207,7 +207,7 @@ function loadInquiries(productId, currentPage) {
                                         </div>
                                         <div class="menu">
                                             ${item.isWriter ?
-                            `<button class="menu_toggle">
+                                            `<button class="menu_toggle">
                                                     <span class="material-symbols-outlined">more_horiz</span>
                                                 </button>
                                                 <div class="dropdown_menu">
@@ -223,9 +223,9 @@ function loadInquiries(productId, currentPage) {
                         }
                                         </div>
                                     </div>
-                                    <div class="qna_answer">
+                                    <div class="inquiry_answer">
                                         <span>A</span>
-                                        <span class="answer">${item.answer || '답변이 없습니다.'}</span>
+                                        <span class="answer">${item.answer || '답변이 작성되지 않았습니다.'}</span>
                                     </div>
                                 </div>
                             </td>
@@ -332,22 +332,22 @@ function closeInquiryModal() {
     $('#inquiryModal #secret').prop('checked', false);
     $("#inquiryModal .submit_btn").text("등록");
 
-    // qna_content 원래 상태로 복원
-    let qnaContent = $('#inquiryModal').closest('.qna_content');
-    qnaContent.find('.qna_cont').css({
+    // inquiry_content 원래 상태로 복원
+    let inquiryContent = $('#inquiryModal').closest('.inquiry_content');
+    inquiryContent.find('.inquiry_cont').css({
         visibility: "visible",
         position: "relative"
     });
 
-    $('#product .qna_wrap.list .qna_table tbody tr:first-child').css({
+    $('#product .inquiry_wrap.list .inquiry_table tbody tr:first-child').css({
         'border-top': 'none'
     });
 }
 
 // 비밀글 찾기
 function findSecretItem(editButton) {
-    let qnaItems = $(editButton).closest('.qna_content').prev('.qna_items');
-    let secretItem = qnaItems.find('.material-symbols-outlined.secretItem');
+    let inquiryItems = $(editButton).closest('.inquiry_content').prev('.inquiry_items');
+    let secretItem = inquiryItems.find('.material-symbols-outlined.secretItem');
     return secretItem.length > 0;
 }
 
@@ -356,8 +356,8 @@ function editInquiryModal(editButton) {
     let inquiryModal = $('#inquiryModal');
     let inquiryId = $(editButton).data('id');
 
-    let inquiryTitle = $(editButton).closest('.qna_cont').find('.question').text().trim();
-    let inquiryContent = $(editButton).closest('.qna_cont').find('.content').text().trim();
+    let inquiryTitle = $(editButton).closest('.inquiry_cont').find('.question').text().trim();
+    let inquiryContent = $(editButton).closest('.inquiry_cont').find('.content').text().trim();
     let isSecret = findSecretItem(editButton);
 
     $('#inquiryModal').data('id', inquiryId);
@@ -366,11 +366,11 @@ function editInquiryModal(editButton) {
     $("#inquiryModal .submit_btn").text("완료");
     $('#inquiryModal #secret').prop('checked', isSecret);
 
-    let qnaContent = $(editButton).closest('.qna_cont').parent();
+    let inquiryCont = $(editButton).closest('.inquiry_cont').parent();
 
-    qnaContent.append(inquiryModal.detach());
-    qnaContent.css("position", "relative");
-    qnaContent.children().not(inquiryModal).css({
+    inquiryCont.append(inquiryModal.detach());
+    inquiryCont.css("position", "relative");
+    inquiryCont.children().not(inquiryModal).css({
         visibility: "hidden",
         position: "absolute"
     });
@@ -397,14 +397,14 @@ function toggleContent(content) {
 
         content.stop(true,true).slideUp("fast", function () {
             content.css("border-bottom", "");
-            content.prev(".qna_items").css("border-bottom", "");
+            content.prev(".inquiry_items").css("border-bottom", "");
         });
 
     } else {
-        $(".qna_content").not(content).stop(true,true).slideUp("fast").promise().done(function () {
-            $(this).css("border-bottom", "").prev(".qna_items").css("border-bottom", "");
+        $(".inquiry_content").not(content).stop(true,true).slideUp("fast").promise().done(function () {
+            $(this).css("border-bottom", "").prev(".inquiry_items").css("border-bottom", "");
 
-            // 기존 qna_content 내부 내용을 다시 보이게 설정
+            // 기존 inquiry_content 내부 내용을 다시 보이게 설정
             $(this).children().css({
                 visibility: "visible",
                 position: "relative"
@@ -413,7 +413,7 @@ function toggleContent(content) {
 
         content.stop(true,true).slideDown("fast", function () {
             content.css("border-bottom", "1px solid #333");
-            content.prev(".qna_items").css("border-bottom", "1px solid #333");
+            content.prev(".inquiry_items").css("border-bottom", "1px solid #333");
         });
     }
 }

@@ -331,7 +331,7 @@
     margin-top: 155px;
 }
 
-/*qna modal, review_modal*/
+/*inquiry modal, review_modal*/
 .modal {
     display: none;
     z-index: 1;
@@ -349,7 +349,7 @@
     width: 100%;
 }
 
-.modal #addQnaForm .qna_table tr:first-child label {
+.modal #addInquiryForm .inquiry_table tr:first-child label {
     font-weight: 600;
     color: #999;
     max-width: 100px;
@@ -357,36 +357,36 @@
     padding-left: 10px;
 }
 
-.modal .qna_table td textarea {
+.modal .inquiry_table td textarea {
     height: 360px;
 }
 
-.modal .qna_head, .modal .review_head {
+.modal .inquiry_head, .modal .review_head {
     flex-direction: row;
     align-items: center;
 }
 
-.modal_content #addQnaForm {
+.modal_content #addInquiryForm {
     display: flex;
     flex-direction: column;
     padding: 20px;
     gap: 10px;
 }
 
-.modal .qna_title, .modal .review_title {
+.modal .inquiry_title, .modal .review_title {
     margin-bottom: 0;
 }
 
-.modal_content .qna_table {
+.modal_content .inquiry_table {
     border: 1px solid #d7d7d7;
     margin-bottom: 0;
 }
 
-.modal_content .qna_table td #content {
+.modal_content .inquiry_table td #content {
     height: 200px;
 }
 
-.modal .modal_content .qna_table td {
+.modal .modal_content .inquiry_table td {
     padding: 5px;
     text-align: left;
 }
@@ -400,6 +400,6 @@
     position: static;
     border: solid 1px #333;
 }
-#product .qna_wrap.list .modal .qna_table tbody tr:first-child {
+#product .inquiry_wrap.list .modal .inquiry_table tbody tr:first-child {
     border-top: none;
 }

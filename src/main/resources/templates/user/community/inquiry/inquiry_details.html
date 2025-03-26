@@ -24,22 +24,22 @@
 <body>
 <div class="wrap">
     <div th:replace="~{/layout/header :: header}"></div>
-    <div id="qna">
-        <div class="qna_wrap details">
-            <h1 class="qna_title">상품문의</h1>
-            <div class="qna_content">
-                <div class="qna_info">
-                    <div class="qna_tit">
+    <div id="inquiry">
+        <div class="inquiry_wrap details">
+            <h1 class="inquiry_title">상품문의</h1>
+            <div class="inquiry_content">
+                <div class="inquiry_info">
+                    <div class="inquiry_tit">
                         <h3 id="title" th:text="${inquiry.title}">제목</h3>
                         <div class="description">
                             <span class="id" th:text="${inquiry.writer}">작성자</span>
                             <span class="date" th:text="${inquiry.createdAt}">작성일</span>
                         </div>
                     </div>
-                    <div class="qna_cont" id="content">
+                    <div class="inquiry_cont" id="content">
                         <a href="../../product/product_details.html"
                            th:href="@{/products/{productId}(productId=${inquiry.productId})}">
-                            <div id="qnaItem" class="qna_item">
+                            <div id="inquiryItem" class="inquiry_item">
                                 <div class="thumbnail">
                                     <img id="productImg" class="item_img" th:src="${inquiry.productImageData}" alt="상품 이미지">
                                 </div>
@@ -49,7 +49,7 @@
                                 </div>
                             </div>
                         </a>
-                        <div class="qna_text" th:text="${inquiry.content}"></div>
+                        <div class="inquiry_text" th:text="${inquiry.content}"></div>
                         <div class="cmt_wrap" th:if="${inquiry.answer != null}">
                             <div class="comment">
                                 <div class="cmt_info">
