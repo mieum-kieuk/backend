@@ -89,7 +89,7 @@
                             <label for="email" class="join_tit ess">이메일</label>
                         </li>
                         <li class="input_box_wrap">
-                            <input type="text" id="email" th:field="*{email}" class="input_box" maxlength="45"/>
+                            <input type="text" id="email" th:field="*{email}" class="input_box" maxlength="100"/>
                             <span id="emailMsg"></span>
                             <div class="field-error" th:errors="*{email}"></div>
                         </li>

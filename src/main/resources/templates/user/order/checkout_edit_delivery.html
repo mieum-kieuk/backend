@@ -30,11 +30,11 @@
                 <ul class="delivery_list" id="deliveryList">
                     <li>
                         <label for="detailAddress" class="popup_basic_address" th:text="*{basicAddress}"></label>
-                        <input type="text" class="input_box" id="detailAddress" th:field="*{detailAddress}" placeholder="상세주소(선택가능)" maxlength="40"/>
+                        <input type="text" class="input_box" id="detailAddress" th:field="*{detailAddress}" placeholder="상세주소(선택가능)" maxlength="100"/>
                     </li>
                     <li>
                         <label for="recipientName" class="input_tit ess">수령인</label>
-                        <input type="text" id="recipientName" class="input_box" th:field="*{recipientName}" maxlength="12"/>
+                        <input type="text" id="recipientName" class="input_box" th:field="*{recipientName}" maxlength="30"/>
                     </li>
                     <li class="phone_number">
                         <label class="input_tit ess">휴대전화번호</label>

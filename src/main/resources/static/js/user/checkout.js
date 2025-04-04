@@ -35,7 +35,7 @@ $(document).ready(function(){
     });
 
 
-    $('#detailAddress').focus(function () {
+    $('#detailAddress').click(function () {
         let zipCode = $('#zipCode').val().trim();
         let basicAddress = $('#basicAddress').val().trim();
 
@@ -293,7 +293,7 @@ function validateNewDelivery() {
         return false;
     } else if (!regexName()) {
         Swal.fire({
-            html: '2~12자의 한글, 영문 대/소문자를 사용해 주세요.<br>(특수기호, 공백 사용 불가)',
+            html: '2~30자의 한글, 영문 대/소문자를 사용해 주세요.<br>(특수기호, 공백 사용 불가)',
             showConfirmButton: true,
             confirmButtonText: '확인',
             customClass: mySwal,
@@ -356,7 +356,7 @@ function validateEditPopup() {
         return false;
     } else if (!regexName()) {
         Swal.fire({
-            html: '2~12자의 한글, 영문 대/소문자를 사용해 주세요.<br>(특수기호, 공백 사용 불가)',
+            html: '2~30자의 한글, 영문 대/소문자를 사용해 주세요.<br>(특수기호, 공백 사용 불가)',
             showConfirmButton: true,
             confirmButtonText: '확인',
             customClass: mySwal,

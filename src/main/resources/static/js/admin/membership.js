@@ -148,6 +148,7 @@ async function validateBeforeSubmit() {
     let membershipName = $('#name').val().trim();
     let nameRegex = /^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9\s]+$/;
     let pointRate = $('#pointRate').val().trim();
+    let maxBenefitPoint = $('#maxBenefitPoint').val().trim();
     let minAmountSpent = $('#minAmountSpent').val().trim();
 
     if (membershipName === '') {
@@ -196,7 +197,18 @@ async function validateBeforeSubmit() {
     let pointRateRegex = /^(?:1|[1-9]\d?|100)$/;
     if (!pointRateRegex.test(pointRate)) {
         Swal.fire({
-            text: "유효한 최소 소비 금액을 입력해 주세요.",
+            text: "유효한 적립률을 입력해 주세요.",
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
+        return false;
+    }
+
+    if (maxBenefitPoint === '') {
+        Swal.fire({
+            text: "최대 적립 가능 금액을 입력해 주세요.",
             showConfirmButton: true,
             confirmButtonText: '확인',
             customClass: mySwal,

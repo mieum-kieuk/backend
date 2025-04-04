@@ -199,6 +199,9 @@ section {
 .delivery_wrap .input_wrap #defaultZipCode, .delivery_wrap .input_wrap #zipCode{
     width: 70%;
 }
+.delivery_wrap .input_wrap #detailAddress[readonly] {
+    pointer-events: auto;
+}
 .delivery_wrap .input_wrap li {
     display: flex;
     flex-direction: column;

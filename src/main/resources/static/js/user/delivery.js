@@ -60,7 +60,7 @@ function isNameEmpty() {
 
 function regexName() {
     let name = $('#recipientName').val();
-    let regex = /^[가-힣a-zA-Z]{2,12}$/;
+    let regex = /^[가-힣a-zA-Z]{2,30}$/;
     if (!regex.test(name)) {
         return false;
     }
