@@ -94,7 +94,7 @@
 
 .member_benefit li::after {
     content: "";
-    width: 0px;
+    width: 0;
     height: 40px;
     position: absolute;
     border: none;
@@ -113,7 +113,11 @@
     flex-direction: column;
     text-align: center;
 }
-
+.member_benefit li > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 .member_benefit .title {
     font-size: 14px;
     padding-bottom: 20px;
@@ -284,7 +288,7 @@ h3 {
 #noDataMessage {
     display: block;
     width: 100%;
-    padding: 40px;
+    padding: 20px;
     text-align: center;
 }
 
@@ -1050,7 +1054,7 @@ h3 {
 .board_wrap .inquiry_list {
     border-bottom: 1px solid #d7d7d7;
 }
-#noDataMessage {
+table #noDataMessage {
     display: table-row;
     padding: 0;
 }
