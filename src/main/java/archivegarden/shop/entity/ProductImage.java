@@ -27,7 +27,7 @@ public class ProductImage {
     private ImageType imageType;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    @JoinColumn(name = "product_id")
     private Product product;    //양방향
 
     public static ProductImage createProductImage(String originalFilename, String imageDownloadUrl, ImageType imageType) {

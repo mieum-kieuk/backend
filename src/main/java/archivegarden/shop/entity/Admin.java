@@ -6,6 +6,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -19,13 +21,13 @@ public class Admin extends BaseTimeEntity {
     @Column(name = "login_id", length = 20, nullable = false)
     private String loginId;
 
-    @Column(length = 100, nullable = false)
+    @Column(nullable = false)
     private String password;
 
     @Column(length = 5, nullable = false)
     private String name;
 
-    @Column(length = 45, nullable = false)
+    @Column(length = 100, nullable = false)
     private String email;
 
     @Column(name = "is_authorized", nullable = false)
@@ -34,6 +36,9 @@ public class Admin extends BaseTimeEntity {
     @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
     private Authority authority;
+
+    @Column(name = "deleted_at")
+    private LocalDateTime deletedAt;
 
     public static Admin createAdmin(JoinAdminForm form) {
         Admin admin = new Admin();

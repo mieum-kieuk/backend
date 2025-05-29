@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import static jakarta.persistence.ConstraintMode.NO_CONSTRAINT;
 import static jakarta.persistence.FetchType.LAZY;
 
 @Entity
@@ -33,14 +34,14 @@ public class Inquiry extends BaseTimeEntity {
     private boolean isAnswered;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "member_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    @JoinColumn(name = "member_id", foreignKey = @ForeignKey(NO_CONSTRAINT))
     private Member member;  //양방향
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "product_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    @JoinColumn(name = "product_id", foreignKey = @ForeignKey(NO_CONSTRAINT))
     private Product product;  //단방향
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToOne(fetch = LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "answer_id")
     private Answer answer;  //단방향
 

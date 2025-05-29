@@ -24,6 +24,7 @@ public class SavedPoint {
     @Column(nullable = false)
     private int balance;
 
+    @Column(name = "saved_point_type")
     @Enumerated(value = EnumType.STRING)
     private SavedPointType type;
 

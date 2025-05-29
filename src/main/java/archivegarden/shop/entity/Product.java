@@ -25,7 +25,7 @@ public class Product extends BaseTimeEntity {
     @Column(length = 50, nullable = false)
     private String name;
 
-    @Column(length = 20, nullable = false)
+    @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
     private Category category;
 
