@@ -27,18 +27,18 @@
     <div id="admin">
         <div class="content">
             <h2 class="content_tit">상품 문의관리</h2>
-            <div class="qna_wrap details">
-                <div class="qna_content">
-                    <div class="qna_info" th:data-id="${inquiry.id}">
-                        <div class="qna_tit">
+            <div class="inquiry_wrap details">
+                <div class="inquiry_content">
+                    <div class="inquiry_info" th:data-id="${inquiry.id}">
+                        <div class="inquiry_tit">
                             <h3 id="title" th:text="${inquiry.title}"></h3>
                             <div class="description">
                                 <span class="id" th:text="${inquiry.writerLoginId}"></span>
                                 <span class="date" th:text="${inquiry.createdAt}"></span>
                             </div>
                         </div>
-                        <div class="qna_cont" id="content">
-                            <div id="qnaItem" class="qna_item">
+                        <div class="inquiry_cont" id="content">
+                            <div id="inquiryItem" class="inquiry_item">
                                 <a href="../product/product_details.html" th:href="@{/admin/products/{productId}(productId=${inquiry.productId})}">
                                     <div class="thumbnail">
                                         <img id="productImg" class="item_img" th:src="${inquiry.productImageData}" alt="상품 이미지">
@@ -49,7 +49,7 @@
                                    </div>
                                 </a>
                             </div>
-                            <div class="qna_text" th:text="${inquiry.content}"></div>
+                            <div class="inquiry_text" th:text="${inquiry.content}"></div>
                         </div>
                     </div>
                 </div>

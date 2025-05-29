@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-    let inquiryId = $('.qna_info').data('id');
+    let inquiryId = $('.inquiry_info').data('id');
     loadAnswer(inquiryId);
 
     $('#addAnswerBtn').on('click', function () {

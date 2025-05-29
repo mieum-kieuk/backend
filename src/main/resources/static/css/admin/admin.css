@@ -1043,29 +1043,29 @@ th {
 .point .search_form.point {
     margin-bottom: 22px;
 }
-/*admin_qna*/
-.admin_wrap .qna_wrap.list .search_form {
+/*admin_inquiry*/
+.admin_wrap .inquiry_wrap.list .search_form {
     margin-bottom: 22px;
 }
-.admin_wrap .qna_wrap.list .qna_table .title_td span{
+.admin_wrap .inquiry_wrap.list .inquiry_table .title_td span{
     display: flex;
 }
-.admin_wrap .qna_wrap.list .qna_table .title {
+.admin_wrap .inquiry_wrap.list .inquiry_table .title {
     height: auto;
 }
-.admin_wrap .qna_wrap.list .qna_table .title_td a{
+.admin_wrap .inquiry_wrap.list .inquiry_table .title_td a{
     display: flex;
     justify-content: flex-start;
 }
 
-.admin_wrap .qna_wrap.details {
+.admin_wrap .inquiry_wrap.details {
     border-bottom: none;
 }
-.admin_wrap .qna_wrap.details .btn_wrap{
+.admin_wrap .inquiry_wrap.details .btn_wrap{
     justify-content: flex-end;
     margin-top: 10px;
 }
-.admin_wrap .qna_wrap.details .btn_wrap .btn1{
+.admin_wrap .inquiry_wrap.details .btn_wrap .btn1{
     width: 80px;
 }
 

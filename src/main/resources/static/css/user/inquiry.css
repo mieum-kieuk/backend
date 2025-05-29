@@ -635,6 +635,7 @@ form .inquiry_table td #content {
 #product .inquiry_wrap.list .inquiry_table td #content {
     min-height: 120px;
     height: 100%;
+    width: 100%;
     resize: none;
 }
 #product .inquiry_wrap.list .inquiry_table .inquiry_content > td {
