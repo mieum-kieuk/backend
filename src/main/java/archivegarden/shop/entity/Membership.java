@@ -26,6 +26,9 @@ public class Membership {
     @Column(length = 30, nullable = false)
     private int level;
 
+    @Column(name = "is_default", nullable = false)
+    private boolean isDefault;
+
     @Column(name = "max_benefit_point")
     private Integer maxBenefitPoint;
 
@@ -50,5 +53,9 @@ public class Membership {
         this.pointRate = form.getPointRate();
         this.maxBenefitPoint = form.getMaxBenefitPoint();
         this.minAmountSpent = form.getMinAmountSpent();
+    }
+
+    public boolean isDefault() {
+        return isDefault;
     }
 }

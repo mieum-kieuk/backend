@@ -28,7 +28,7 @@ $('.submit_btn').click(function () {
         $.ajax({
             url: '/ajax/member/find-id/email',
             type: 'POST',
-            data: {name: name, email: email},
+            data: {'name': name, 'email': email},
             beforeSend: function (xhr) {
                 xhr.setRequestHeader(csrfHeader, csrfToken)
             },
@@ -63,7 +63,7 @@ $('.submit_btn').click(function () {
         $.ajax({
             url: '/ajax/member/find-id/phonenumber',
             type: 'POST',
-            data: {name: name, phonenumber: phonenumber},
+            data: {'name': name, 'phonenumber': phonenumber},
             beforeSend: function (xhr) {
                 xhr.setRequestHeader(csrfHeader, csrfToken)
             },
@@ -156,16 +156,6 @@ function validateBeforeSubmit() {
     if (!isNamePresent()) {
         Swal.fire({
             text: '이름을 입력해 주세요.',
-            showConfirmButton: true,
-            confirmButtonText: '확인',
-            customClass: mySwal,
-            buttonsStyling: false
-        });
-        return false;
-    }
-    if (!regexName()) {
-        Swal.fire({
-            html: '2~30자의 한글, 영문 대/소문자를 사용해 주세요.<br>(특수기호, 공백 사용 불가)',
             showConfirmButton: true,
             confirmButtonText: '확인',
             customClass: mySwal,

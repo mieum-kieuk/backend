@@ -1,15 +1,14 @@
 package archivegarden.shop.service.user.member;
 
 import archivegarden.shop.dto.common.JoinSuccessDto;
+import archivegarden.shop.dto.user.member.EditMemberInfoForm;
 import archivegarden.shop.dto.user.member.FindIdResultDto;
 import archivegarden.shop.dto.user.member.JoinMemberForm;
-import archivegarden.shop.dto.user.member.EditMemberInfoForm;
 import archivegarden.shop.dto.user.member.VerificationRequestDto;
 import archivegarden.shop.entity.Delivery;
 import archivegarden.shop.entity.Member;
 import archivegarden.shop.entity.Membership;
 import archivegarden.shop.entity.SavedPointType;
-import archivegarden.shop.exception.NotFoundException;
 import archivegarden.shop.exception.common.DuplicateEntityException;
 import archivegarden.shop.exception.common.EntityNotFoundException;
 import archivegarden.shop.repository.DeliveryRepository;
@@ -51,7 +50,9 @@ public class MemberServiceImpl implements MemberService {
     public Long join(JoinMemberForm form) {
         form.setPassword(encodePassword(form.getPassword()));
 
-        Membership membership = membershipRepository.findDefaultLevel();
+        Membership membership = membershipRepository.findDefault()
+                .orElseThrow(() ->  new IllegalArgumentException("기본 멤버십 등급이 설정되어 있지 않습니다."));
+
         Member member = Member.createMember(form, membership);
         memberRepository.save(member);
 
@@ -72,7 +73,7 @@ public class MemberServiceImpl implements MemberService {
      */
     @Override
     public void checkMemberDuplicate(JoinMemberForm form) {
-        String phonenumber = form.getPhonenumber1() + form.getPhonenumber2() + form.getPhonenumber3();
+        String phonenumber = form.getFormattedPhonenumber();
         memberRepository.findDuplicateMember(form.getLoginId(), phonenumber, form.getEmail())
                 .ifPresent(m -> {
                     throw new DuplicateEntityException("이미 존재하는 회원입니다.");
@@ -135,7 +136,7 @@ public class MemberServiceImpl implements MemberService {
         String verificationNo = createVerificationNo();
         log.info("휴대전화번호 인증번호: {}", verificationNo);
 
-//        smsUtil.sendVerificationNo(to, verificationNo);
+        smsUtil.sendVerificationNo(to, verificationNo);
 
         redisUtil.setDataExpire(to, verificationNo, 60 * 3L);
     }
@@ -145,7 +146,7 @@ public class MemberServiceImpl implements MemberService {
      */
     @Override
     public boolean validateVerificationNo(VerificationRequestDto requestDto) {
-        String phonenumber = requestDto.getPhonenumber();
+        String phonenumber = requestDto.getFormattedPhonenumber();
 
         if (redisUtil.existData(phonenumber)) {
             return redisUtil.getData(phonenumber).equals(requestDto.getVerificationNo());
@@ -173,11 +174,11 @@ public class MemberServiceImpl implements MemberService {
     /**
      * 아이디 찾기 결과 페이지에서 필요한 정보 조회
      *
-     * @throws NotFoundException
+     * @throws EntityNotFoundException
      */
     @Override
     public FindIdResultDto findIdComplete(Long memberId) {
-        Member member = memberRepository.findById(memberId).orElseThrow(() -> new NotFoundException("존재하지 않는 회원입니다."));
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 회원입니다."));
         return new FindIdResultDto(member);
     }
 

@@ -19,7 +19,7 @@ public class JoinMemberForm {
 
     private String passwordConfirm;
 
-    @Pattern(regexp = "^[a-zA-z가-힣]{2,12}$", message = "2~12자의 한글, 영문 대/소문자를 사용해 주세요. (특수기호, 공백 사용 불가)")
+    @Pattern(regexp = "^[a-zA-z가-힣]{2,30}$", message = "2~30자의 한글, 영문 대/소문자를 사용해 주세요. (특수기호, 공백 사용 불가)")
     private String name;
 
     private String zipCode;
@@ -40,4 +40,8 @@ public class JoinMemberForm {
 
     private boolean agreeToReceiveSms;
     private boolean agreeToReceiveEmail;
+
+    public String getFormattedPhonenumber() {
+        return this.getPhonenumber1() + this.getPhonenumber2() + this.getPhonenumber3();
+    }
 }

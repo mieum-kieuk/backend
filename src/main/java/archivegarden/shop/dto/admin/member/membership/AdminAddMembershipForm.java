@@ -2,6 +2,7 @@ package archivegarden.shop.dto.admin.member.membership;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,6 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class AdminAddMembershipForm {
 
     @NotBlank(message = "회원 등급명을 입력해 주세요.")

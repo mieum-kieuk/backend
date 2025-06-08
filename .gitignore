@@ -40,4 +40,5 @@ out/
 .vscode/
 
 *.yml
+/src/main/generated/
 /src/main/resources/serviceAccountKey.json

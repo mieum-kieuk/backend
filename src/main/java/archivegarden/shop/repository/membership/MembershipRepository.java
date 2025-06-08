@@ -19,6 +19,6 @@ public interface MembershipRepository extends JpaRepository<Membership, Short> {
     @Query("select m from Membership m order by m.level desc")
     List<Membership> findAllLevelDesc();
 
-    @Query("select m from Membership m where m.level = 1")
-    Membership findDefaultLevel();
+    @Query("select m from Membership m where m.isDefault = true")
+    Optional<Membership> findDefault();
 }

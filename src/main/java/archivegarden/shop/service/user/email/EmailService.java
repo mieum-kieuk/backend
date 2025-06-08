@@ -31,6 +31,15 @@ public class EmailService {
     private final TemplateEngine templateEngine;
     private final PasswordEncoder passwordEncoder;
 
+    @Value(("${app.base-url}"))
+    private String baseUrl;
+
+    @Value("${app.email.verification-path}")
+    private String emailVerificationPath;
+
+    @Value("${app.login-path}")
+    private String loginPath;
+
     @Value("${spring.mail.username}")
     private String from;
 
@@ -39,7 +48,7 @@ public class EmailService {
      */
     public void sendValidationRequestEmail(String to, String name, LocalDateTime created) {
         String uuid = UUID.randomUUID().toString();
-        String verificationUrl = "http://localhost:8080/email/verification?address=" + to + "&uuid=" + uuid;
+        String verificationUrl = baseUrl + emailVerificationPath + "?address=" + to + "&uuid=" + uuid;
 
         Context context = new Context();
         context.setVariable("name", name);
@@ -67,7 +76,7 @@ public class EmailService {
      */
     public void sendValidationRequestEmailInMyPage(String to, String name) {
         String uuid = UUID.randomUUID().toString();
-        String verificationUrl = "http://localhost:8080/email/verification?address=" + to + "&uuid=" + uuid;
+        String verificationUrl = baseUrl + emailVerificationPath + "?address=" + to + "&uuid=" + uuid;
 
         Context context = new Context();
         context.setVariable("name", name);
@@ -98,7 +107,7 @@ public class EmailService {
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 회원입니다."));
 
         if (redisUtil.existData(email)) {
-            if (Boolean.valueOf(member.isEmailVerified())) {    //이미 인증 완료
+            if (member.isEmailVerified()) {    //이미 인증 완료
                 return "email/verification_complete";
             } else if (redisUtil.getData(email).equals(uuid)) {    //인증 성공
                 updateEmailVerification(email, true);
@@ -123,7 +132,7 @@ public class EmailService {
         Context context = new Context();
         context.setVariable("name", member.getName());
         context.setVariable("tempPassword", tempPassword);
-        context.setVariable("loginUrl", "http://localhost:8080/login");
+        context.setVariable("loginUrl", baseUrl + loginPath);
 
         MimeMessagePreparator preparator = mimeMessage -> {
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "UTF-8");

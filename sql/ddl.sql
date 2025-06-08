@@ -45,7 +45,6 @@ CREATE TABLE product
     notice         VARCHAR(1000),
     created_at     TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modified_at    TIMESTAMP,
-    deleted_at     TIMESTAMP,
     CONSTRAINT UQ_PRODUCT_NAME UNIQUE (name)
 );
 
@@ -105,6 +104,7 @@ CREATE TABLE membership
     name              VARCHAR(30) NOT NULL,
     point_rate        INT UNSIGNED NOT NULL,
     level             INT UNSIGNED NOT NULL,
+    is_default        TINYINT(1) UNSIGNED NOT NULL,
     max_benefit_point INT UNSIGNED NOT NULL,
     min_amount_spent  BIGINT UNSIGNED NOT NULL,
     created_at        TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP,

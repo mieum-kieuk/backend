@@ -1,5 +1,6 @@
 package archivegarden.shop.controller.user.member;
 
+import archivegarden.shop.constant.SessionConstants;
 import archivegarden.shop.dto.ResultResponse;
 import archivegarden.shop.dto.user.member.PhonenumberRequestDto;
 import archivegarden.shop.dto.user.member.VerificationRequestDto;
@@ -25,7 +26,6 @@ public class MemberAjaxController {
     /**
      *  로그인 아이디 중복 여부를 검사하는 메서드
      */
-    @ResponseStatus(HttpStatus.OK)
     @PostMapping("/check/loginId")
     public ResultResponse checkLoginIdDuplicate(@RequestParam(name = "loginId") String loginId) {
         boolean isAvailable = memberService.isAvailableLoginId(loginId);
@@ -39,7 +39,6 @@ public class MemberAjaxController {
     /**
      *  이메일 중복 여부를 검사하는 메서드
      */
-    @ResponseStatus(HttpStatus.OK)
     @PostMapping("/check/email")
     public ResultResponse checkEmailDuplicate(@RequestParam(name = "email") String email) {
         boolean isAvailable = memberService.isAvailableEmail(email);
@@ -53,14 +52,13 @@ public class MemberAjaxController {
     /**
      * 휴대전화번호 인증번호를 발급하는 메서드
      */
-    @ResponseStatus(HttpStatus.OK)
     @PostMapping("/send/verificationNo")
     public ResultResponse sendSms(@Valid @ModelAttribute PhonenumberRequestDto requestDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return new ResultResponse(HttpStatus.BAD_REQUEST.value(), "유효하지 않은 휴대전화번호입니다. 입력한 번호를 확인해 주세요.");
         }
 
-        String phonenumber = requestDto.getPhonenumber();
+        String phonenumber = requestDto.getFormattedPhonenumber();
         boolean isAvailable = memberService.isAvailablePhonenumber(phonenumber);
         if (!isAvailable) {
             return new ResultResponse(HttpStatus.BAD_REQUEST.value(), "입력하신 휴대전화번호는 이미 다른 계정에 등록되어 있습니다.");
@@ -77,7 +75,6 @@ public class MemberAjaxController {
     /**
      * 사용자가 입력한 인증번호를 검증하는 메서드
      */
-    @ResponseStatus(HttpStatus.OK)
     @PostMapping("/check/verificationNo")
     public ResultResponse checkVerificationNo(@ModelAttribute VerificationRequestDto requestDto) {
         boolean isValidated = memberService.validateVerificationNo(requestDto);
@@ -91,7 +88,6 @@ public class MemberAjaxController {
     /**
      * 이메일을 통해 로그인 아이디를 찾는 메서드
      */
-    @ResponseStatus(HttpStatus.OK)
     @PostMapping("/find-id/email")
     public ResultResponse findIdByEmail(@RequestParam("name") String name, @RequestParam("email") String email, HttpSession session) {
         String errorMessage = validateFindIdByEmail(name, email);
@@ -104,14 +100,13 @@ public class MemberAjaxController {
             return new ResultResponse(HttpStatus.BAD_REQUEST.value(), "가입 시 입력하신 회원 정보가 맞는지\n다시 한번 확인해 주세요.");
         }
 
-        session.setAttribute("findId:memberId", memberId);
+        session.setAttribute(SessionConstants.FIND_ID_MEMBER_ID_KEY, memberId);
         return new ResultResponse(HttpStatus.OK.value(), "아이디 찾기에 성공하였습니다.");
     }
 
     /**
      * 휴대전화번호를 통해 로그인 아이디를 찾는 메서드
      */
-    @ResponseStatus(HttpStatus.OK)
     @PostMapping("/find-id/phonenumber")
     public ResultResponse findIdByPhonenumber(@RequestParam("name") String name, @RequestParam("phonenumber") String phonenumber, HttpServletRequest request) {
         String errorMessage = validateFindIdByPhonenumber(name, phonenumber);
@@ -125,14 +120,13 @@ public class MemberAjaxController {
         }
 
         HttpSession session = request.getSession();
-        session.setAttribute("findId:memberId", memberId);
+        session.setAttribute(SessionConstants.FIND_ID_MEMBER_ID_KEY, memberId);
         return new ResultResponse(HttpStatus.OK.value(), "아이디 찾기에 성공하였습니다.");
     }
 
     /**
      * 이메일을 통해 비밀번호를 찾는 메서드
      */
-    @ResponseStatus(HttpStatus.OK)
     @PostMapping("/find-password/email")
     public ResultResponse findPasswordByEmail(@RequestParam("loginId") String loginId, @RequestParam("name") String name,
                                               @RequestParam("email") String email, HttpSession session) {
@@ -153,7 +147,6 @@ public class MemberAjaxController {
     /**
      * 휴대전화번호를 통해 비밀번호를 찾는 메서드
      */
-    @ResponseStatus(HttpStatus.OK)
     @PostMapping("/find-password/phonenumber")
     public ResultResponse findPasswordByPhonenumber(@RequestParam("loginId") String loginId, @RequestParam("name") String name,
                                                     @RequestParam("phonenumber") String phonenumber, HttpSession session) {
@@ -167,7 +160,7 @@ public class MemberAjaxController {
             return new ResultResponse(HttpStatus.BAD_REQUEST.value(), "가입 시 입력하신 회원 정보가 맞는지\n다시 한번 확인해 주세요.");
         }
 
-        session.setAttribute("findPassword:email", foundEmail);
+        session.setAttribute(SessionConstants.FIND_PASSWORD_EMAIL_KEY, foundEmail);
         return new ResultResponse(HttpStatus.OK.value(), "비밀번호 찾기에 성공하였습니다.");
     }
 
@@ -212,7 +205,7 @@ public class MemberAjaxController {
         String errorMessage = "";
         if (!StringUtils.hasText(loginId)) {
             errorMessage = "아이디를 입력해 주세요.";
-        } else if (!Pattern.matches("(?=.*[a-z])(?=.*\\d)[a-z\\d]{5,20}+$", loginId)) {
+        } else if (!Pattern.matches("(?=.*[a-z])(?=.*\\d)[a-z\\d]{5,20}$", loginId)) {
             errorMessage = "유효한 아이디를 입력해 주세요.";
         }
 

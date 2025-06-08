@@ -9,7 +9,7 @@ import archivegarden.shop.entity.Member;
 
 public interface MemberService {
 
-    Long join(JoinMemberForm dto);
+    Long join(JoinMemberForm form);
 
     void checkMemberDuplicate(JoinMemberForm form);
 

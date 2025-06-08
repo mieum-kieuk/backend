@@ -1,5 +1,6 @@
 package archivegarden.shop.controller.user.member;
 
+import archivegarden.shop.constant.SessionConstants;
 import archivegarden.shop.dto.user.member.JoinMemberForm;
 import archivegarden.shop.dto.user.member.FindIdResultDto;
 import archivegarden.shop.dto.common.JoinSuccessDto;
@@ -14,6 +15,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.regex.Pattern;
 
@@ -36,7 +38,8 @@ public class MemberController {
      * 회원가입 요청을 처리하는 메서드
      */
     @PostMapping("/join")
-    public String join(@Validated @ModelAttribute("joinForm") JoinMemberForm form, BindingResult bindingResult, HttpSession session) {
+    public String join(@Validated @ModelAttribute("joinForm") JoinMemberForm form, BindingResult bindingResult,
+                       HttpSession session, RedirectAttributes redirectAttributes) {
         validateJoin(form, bindingResult);
         if (bindingResult.hasErrors()) {
             return "user/member/join";
@@ -45,11 +48,12 @@ public class MemberController {
         try {
             memberService.checkMemberDuplicate(form);
         } catch(DuplicateEntityException e) {
-            return "redirect:/admin/join";
+            redirectAttributes.addFlashAttribute("duplicateError", e.getMessage());
+            return "redirect:/member/join";
         }
 
         Long memberId = memberService.join(form);
-        session.setAttribute("join:memberId", memberId);
+        session.setAttribute(SessionConstants.JOIN_MEMBER_ID_KEY, memberId);
         return "redirect:/member/join/complete";
     }
 
@@ -59,11 +63,11 @@ public class MemberController {
     @GetMapping("/join/complete")
     public String joinComplete(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession(false);
-        Long memberId = (Long) session.getAttribute("join:memberId");
-        if (session == null || memberId == null) {
-            return "redirect:/member/join";
-        }
-        session.removeAttribute("join:memberId");
+        if(session == null) return "redirect:/member/join";
+        Long memberId = (Long) session.getAttribute(SessionConstants.JOIN_MEMBER_ID_KEY);
+        if (memberId == null) return "redirect:/member/join";
+
+        session.removeAttribute(SessionConstants.JOIN_MEMBER_ID_KEY);
 
         JoinSuccessDto joinCompletionInfoDto = memberService.joinComplete(memberId);
         model.addAttribute("memberInfo", joinCompletionInfoDto);
@@ -84,11 +88,11 @@ public class MemberController {
     @GetMapping("/find-id/complete")
     public String findIdResult(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession(false);
-        Long memberId = (Long) session.getAttribute("findId:memberId");
-        if (session == null || memberId == null) {
-            return "redirect:/member/find-id";
-        }
-        session.removeAttribute("findId:memberId");
+        if(session == null) return "redirect:/member/find-id";
+        Long memberId = (Long) session.getAttribute(SessionConstants.FIND_ID_MEMBER_ID_KEY);
+        if (memberId == null) return "redirect:/member/find-id";
+
+        session.removeAttribute(SessionConstants.FIND_ID_MEMBER_ID_KEY);
 
         FindIdResultDto findIdResultDto = memberService.findIdComplete(memberId);
         model.addAttribute("member", findIdResultDto);
@@ -106,13 +110,12 @@ public class MemberController {
     /**
      * 임시 비밀번호가 전송될 이메일 주소를 확인하는 페이지를 반환하는 메서드
      */
-    @GetMapping("find-password/send")
-    public String verifyEmail(HttpServletRequest request, Model model) {
+    @GetMapping("/find-password/send")
+    public String displaySendTempPasswordEmailPage(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession(false);
-        String email = (String) session.getAttribute("findPassword:email");
-        if (session == null || email == null) {
-            return "redirect:/member/find-password";
-        }
+        if (session == null) return "redirect:/member/find-password";
+        String email = (String) session.getAttribute(SessionConstants.FIND_PASSWORD_EMAIL_KEY);
+        if (email == null) return "redirect:/member/find-password";
 
         model.addAttribute("email", email);
         return "user/member/send_temporary_password";
@@ -124,11 +127,11 @@ public class MemberController {
     @GetMapping("/find-password/complete")
     public String findPasswordResult(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession(false);
-        String email = (String) session.getAttribute("findPassword:email");
+        String email = (String) session.getAttribute(SessionConstants.FIND_PASSWORD_EMAIL_KEY);
         if (session == null || email == null) {
             return "redirect:/member/find-password";
         }
-        session.removeAttribute("findPassword:email");
+        session.removeAttribute(SessionConstants.FIND_PASSWORD_EMAIL_KEY);
 
         model.addAttribute("email", email);
         return "user/member/find_password_complete";
@@ -143,24 +146,24 @@ public class MemberController {
     private void validateJoin(JoinMemberForm form, BindingResult bindingResult) {
         if (StringUtils.hasText(form.getPassword())) {
             if (!form.getPassword().equals(form.getPasswordConfirm())) {
-                bindingResult.rejectValue("passwordConfirm", "passwordConfirm.mismatch");
+                bindingResult.rejectValue("passwordConfirm", "error.field.passwordConfirm.mismatch");
             }
         }
 
         if (StringUtils.hasText(form.getZipCode()) && StringUtils.hasText(form.getBasicAddress())) {
             if (!Pattern.matches("^[\\d]{5}$", form.getZipCode()) || !Pattern.matches("^[가-힣\\d\\W]{1,40}$", form.getBasicAddress())) {
-                bindingResult.rejectValue("zipCode", "address.invalid");
+                bindingResult.rejectValue("zipCode", "error.field.address.invalidFormat");
             }
         } else {
-            bindingResult.rejectValue("zipCode", "address.required");
+            bindingResult.rejectValue("zipCode", "error.field.address.required");
         }
 
         if (StringUtils.hasText(form.getPhonenumber1()) && StringUtils.hasText(form.getPhonenumber2()) && StringUtils.hasText(form.getPhonenumber3())) {
             if (!Pattern.matches("^01(0|1|[6-9])$", form.getPhonenumber1()) || !Pattern.matches("^[\\d]{3,4}$", form.getPhonenumber2()) || !Pattern.matches("^[\\d]{4}$", form.getPhonenumber3())) {
-                bindingResult.rejectValue("phonenumber1", "phonenumber.invalid");
+                bindingResult.rejectValue("phonenumber1", "error.field.phonenumber.invalidFormat");
             }
         } else {
-            bindingResult.rejectValue("phonenumber1", "phonenumber.required");
+            bindingResult.rejectValue("phonenumber1", "error.field.phonenumber.required");
         }
     }
 }
