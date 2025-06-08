@@ -5,15 +5,6 @@ $(window).on('unload', function () {
     $('#findType1').prop('checked', true);
 });
 
-// swal설정
-const mySwal = {
-    container: 'my-swal-container',
-    popup: 'my-swal-popup',
-    htmlContainer: 'my-swal-text',
-    confirmButton: 'my-swal-confirm-button',
-    actions: 'my-swal-actions',
-};
-
 // 비밀번호 찾기
 $('#find #findPwBtn').click(function () {
     // 유효성 검사 실행
@@ -223,7 +214,7 @@ function validateBeforeSubmit() {
 
     if (!regexId()) {
         Swal.fire({
-            text: '5~20자의 영문 소문자, 숫자 조합을 사용해 주세요.',
+            text: '아이디 형식으로 입력해 주세요.',
             showConfirmButton: true,
             confirmButtonText: '확인',
             customClass: mySwal,
@@ -235,16 +226,6 @@ function validateBeforeSubmit() {
     if (!isNamePresent()) {
         Swal.fire({
             text: '이름을 입력해 주세요.',
-            showConfirmButton: true,
-            confirmButtonText: '확인',
-            customClass: mySwal,
-            buttonsStyling: false
-        });
-        return false;
-    }
-    if (!regexName()) {
-        Swal.fire({
-            html: '2~30자의 한글, 영문 대/소문자를 사용해 주세요.<br>(특수기호, 공백 사용 불가)',
             showConfirmButton: true,
             confirmButtonText: '확인',
             customClass: mySwal,

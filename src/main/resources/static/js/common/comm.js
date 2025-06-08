@@ -43,8 +43,8 @@ $(document).ready(function() {
         }
     });
 
-    let screenWidth = $(window).width();
-    $('#header, #footer').css('min-width', screenWidth + 'px');
+    $('#header').css('min-width', 1000 + 'px');
+    $('#footer').css('min-width', 650 + 'px');
 
     initializeDropdownMenus();
 

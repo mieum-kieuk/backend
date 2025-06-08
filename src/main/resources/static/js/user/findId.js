@@ -3,14 +3,6 @@ $(window).on('unload', function () {
     $('#findType1').prop('checked', true);
 });
 
-// swal설정
-const mySwal = {
-    container: 'my-swal-container',
-    popup: 'my-swal-popup',
-    htmlContainer: 'my-swal-text',
-    confirmButton: 'my-swal-confirm-button',
-    actions: 'my-swal-actions',
-};
 $('.submit_btn').click(function () {
 
     if (!validateBeforeSubmit()) {
