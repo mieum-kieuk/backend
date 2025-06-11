@@ -1,6 +1,7 @@
 package archivegarden.shop.dto.admin.admin;
 
 import jakarta.validation.constraints.Pattern;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,6 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class JoinAdminForm {
 
     @Pattern(regexp = "^(?=.*[a-z])(?=.*\\d)[a-z\\d]{5,20}+", message = "5~20자의 영문 소문자, 숫자 조합을 사용해 주세요.")

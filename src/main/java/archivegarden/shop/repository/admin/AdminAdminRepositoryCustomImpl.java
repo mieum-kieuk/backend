@@ -28,8 +28,24 @@ public class AdminAdminRepositoryCustomImpl implements AdminAdminRepositoryCusto
         this.queryFactory = new JPAQueryFactory(em);
     }
 
+    /**
+     * 관리자 목록을 조건에 따라 검색하고 페이징 처리하여 반환합니다.
+     *
+     * 검색 조건:
+     * - 키워드(로그인 아이디, 이름, 이메일)
+     * - 생성일 범위
+     *
+     * 정렬 기준:
+     * - 미승인 → 승인 순서
+     * - 미승인 관리자: createdAt 오름차순
+     * - 승인된 관리자: createdAt 내림차순
+     *
+     * @param cond 검색 조건
+     * @param pageable 페이징 정보
+     * @return 검색 조건에 맞는 관리자 목록을 담은 Page 객체
+     */
     @Override
-    public Page<AdminListDto> findAllAdmins(AdminSearchCondition form, Pageable pageable) {
+    public Page<AdminListDto> findAdmins(AdminSearchCondition cond, Pageable pageable) {
         List<AdminListDto> content = queryFactory.select(new QAdminListDto(
                         admin.id,
                         admin.name,
@@ -40,8 +56,8 @@ public class AdminAdminRepositoryCustomImpl implements AdminAdminRepositoryCusto
                 ))
                 .from(admin)
                 .where(
-                        keywordLike(form.getSearchKey(), form.getKeyword()),
-                        searchDateBetween(form.getStartDate(), form.getEndDate())
+                        keywordLike(cond.getSearchKey(), cond.getKeyword()),
+                        searchDateBetween(cond.getStartDate(), cond.getEndDate())
                 )
                 .orderBy(
                         new CaseBuilder()
@@ -63,8 +79,8 @@ public class AdminAdminRepositoryCustomImpl implements AdminAdminRepositoryCusto
                 .select(admin.count())
                 .from(admin)
                 .where(
-                        keywordLike(form.getSearchKey(), form.getKeyword()),
-                        searchDateBetween(form.getStartDate(), form.getEndDate())
+                        keywordLike(cond.getSearchKey(), cond.getKeyword()),
+                        searchDateBetween(cond.getStartDate(), cond.getEndDate())
                 );
 
         return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);

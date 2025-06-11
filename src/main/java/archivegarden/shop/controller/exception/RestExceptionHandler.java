@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class RestExceptionHandler {
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(AjaxEntityNotFoundException.class)
     public ResultResponse entityNotFoundException(AjaxEntityNotFoundException e) {
         log.warn("[{}] cause={}, message={}", e.getStackTrace()[0], "AjaxEntityNotFoundException", e.getMessage());
-        return new ResultResponse(HttpStatus.BAD_REQUEST.value(), e.getMessage());
+        return new ResultResponse(HttpStatus.NOT_FOUND.value(), e.getMessage());
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)

@@ -7,5 +7,5 @@ import org.springframework.data.domain.Pageable;
 
 public interface AdminAdminRepositoryCustom {
 
-    Page<AdminListDto> findAllAdmins(AdminSearchCondition form, Pageable pageable);
+    Page<AdminListDto> findAdmins(AdminSearchCondition cond, Pageable pageable);
 }

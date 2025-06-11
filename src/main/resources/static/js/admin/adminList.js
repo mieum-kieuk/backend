@@ -111,7 +111,7 @@ $("#authAdminBtn").click(function() {
             success: function (result) {
                 $('#authAdminBtn').prop('disabled', false);
                 loader.css('display', 'none');
-                if (result.code === 200) {
+                if (result.status === 200) {
                     document.location.reload();
                 }
             },
@@ -169,7 +169,7 @@ $("#deleteAdminBtn").click(function() {
                     xhr.setRequestHeader(csrfHeader, csrfToken);
                 },
                 success: function (result) {
-                    if(result.code === 200) {
+                    if(result.status === 200) {
                         document.location.reload();
                     }
                 },

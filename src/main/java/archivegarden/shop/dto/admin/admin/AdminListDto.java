@@ -1,6 +1,7 @@
 package archivegarden.shop.dto.admin.admin;
 
 import com.querydsl.core.annotations.QueryProjection;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,6 +10,7 @@ import java.time.format.DateTimeFormatter;
 
 @Getter
 @Setter
+@AllArgsConstructor
 public class AdminListDto {
 
     public Long id;

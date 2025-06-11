@@ -9,7 +9,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ResultResponse {
 
-    private int code;
+    private int status;
     private String message;
 }
 
