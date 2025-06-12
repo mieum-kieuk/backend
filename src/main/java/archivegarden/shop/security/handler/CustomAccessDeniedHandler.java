@@ -14,14 +14,7 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException {
 
-        //ADMIN 권한 없는 페이지에 접근할 경우 홈으로 이동
         String deniedUrl = errorPage;
-
-        //이미 로그인한 경우
-        String requestURI = request.getRequestURI();
-        if(requestURI.startsWith("/admin/login") || requestURI.startsWith("/admin/join")) {
-            deniedUrl = "/admin";
-        }
 
         response.sendRedirect(deniedUrl);
     }

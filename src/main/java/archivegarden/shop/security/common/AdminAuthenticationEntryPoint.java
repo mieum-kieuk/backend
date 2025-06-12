@@ -16,7 +16,7 @@ public class AdminAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
 
-        String redirectUrl = "/";
+        String redirectUrl = "/admin/login";
         this.redirectStrategy.sendRedirect(request, response, redirectUrl);
     }
 }
