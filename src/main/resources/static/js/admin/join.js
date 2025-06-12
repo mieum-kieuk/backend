@@ -57,7 +57,7 @@ function isLoginIdValid() {
         },
         success: function (result) {
             isLoginIdChecked = true;
-            if (result.code == 200) {
+            if (result.status == 200) {
                 isAvailableLoginId = true;
                 $('#idMsg').text(result.message);
                 $('#idMsg').removeClass('error').addClass('success');
@@ -215,7 +215,7 @@ function isEmailValid() {
         },
         success: function (result) {
             isEmailChecked = true;
-            if (result.code == 200) {
+            if (result.status == 200) {
                 isAvailableEmail = true;
                 $('#emailMsg').text(result.message);
                 $('#emailMsg').removeClass('error').addClass('success');
@@ -397,4 +397,3 @@ function validateBeforeSubmit() {
 
     return true;
 }
-
