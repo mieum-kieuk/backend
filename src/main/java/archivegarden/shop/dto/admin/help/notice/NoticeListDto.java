@@ -1,6 +1,7 @@
 package archivegarden.shop.dto.admin.help.notice;
 
 import archivegarden.shop.entity.Notice;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,6 +9,7 @@ import java.time.format.DateTimeFormatter;
 
 @Getter
 @Setter
+@AllArgsConstructor
 public class NoticeListDto {
 
     private Long id;

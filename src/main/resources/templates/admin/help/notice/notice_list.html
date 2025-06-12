@@ -33,10 +33,10 @@
                             <div class="form_wrap search">
                                 <label for="searchKeyword">검색어</label>
                                 <select id="searchKey" name="searchKey">
-                                    <option value="title" th:selected="${form.searchKey} == 'title'">제목</option>
-                                    <option value="content" th:selected="${form.searchKey} == 'content'">내용</option>
+                                    <option value="title" th:selected="${cond.searchKey} == 'title'">제목</option>
+                                    <option value="content" th:selected="${cond.searchKey} == 'content'">내용</option>
                                 </select>
-                                <input type="text" id="searchKeyword" name="keyword" th:value="${form.keyword}">
+                                <input type="text" id="searchKeyword" name="keyword" th:value="${cond.keyword}">
                             </div>
                         </div>
                         <div class="btn_wrap center">
@@ -63,15 +63,15 @@
                                 </a>
                             </div>
                             <div id="noDataMessage" th:if="${notices.content.size()} == 0">
-                                <span th:if="${form.searchKey} == null">등록된 공지사항이 없습니다.</span>
-                                <span th:if="${form.searchKey} != null">검색결과가 없습니다.</span>
+                                <span th:if="${cond.searchKey} == null">등록된 공지사항이 없습니다.</span>
+                                <span th:if="${cond.searchKey} != null">검색결과가 없습니다.</span>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="pagination" th:if="${notices.totalPages > 0}">
-                <ul th:if="${form.keyword == null}"
+                <ul th:if="${cond.keyword == null}"
                     th:with="startPage = ${(notices.number/5)*5+1},
                              endPage=${T(java.lang.Math).min((notices.number/5)*5+5, notices.totalPages)}">
                     <li><a href="./notice_list.html" th:href="@{/admin/notice}" class="prev_first">
@@ -88,25 +88,25 @@
                     <li><a href="./notice_list.html" th:href="@{/admin/notice(page=${notices.totalPages})}" class="next_last">
                         <span class="material-symbols-outlined">double_arrow</span></a></li>
                 </ul>
-                <ul th:if="${form.keyword != null}"
+                <ul th:if="${cond.keyword != null}"
                     th:with="startPage = ${(notices.number/5)*5+1},
                              endPage=${T(java.lang.Math).min((notices.number/5)*5+5, notices.totalPages)}">
                     <li><a class="prev_first" href="./notice_list.html"
-                           th:href="@{/admin/notice(searchKey=${form.searchKey}, keyword=${form.keyword})}">
+                           th:href="@{/admin/notice(searchKey=${cond.searchKey}, keyword=${cond.keyword})}">
                         <span class="material-symbols-outlined">keyboard_double_arrow_left</span></a></li>
                     <li><a href="./notice_list.html"
-                           th:href="@{/admin/notice(searchKey=${form.searchKey}, keyword=${form.keyword}, page=${startPage}-1)}"
+                           th:href="@{/admin/notice(searchKey=${cond.searchKey}, keyword=${cond.keyword}, page=${startPage}-1)}"
                            class="prev" id="prevPageSearch" th:classappend="${startPage ==1} ? 'disabled'">
                         <span class="material-symbols-outlined">keyboard_arrow_left</span></a></li>
                     <li th:each="page : ${#numbers.sequence(startPage, endPage)}">
-                        <a href="./product_list.html" th:href="@{/admin/notice(searchKey=${form.searchKey}, keyword=${form.keyword}, page=${page})}"
+                        <a href="./product_list.html" th:href="@{/admin/notice(searchKey=${cond.searchKey}, keyword=${cond.keyword}, page=${page})}"
                            class="page" th:classappend="${page == notices.number + 1} ? 'active'" th:text="${page}"></a></li>
                     <li><a href="./notice_list.html"
-                           th:href="@{/admin/notice(searchKey=${form.searchKey}, keyword=${form.keyword}, page=${endPage} + 1)}"
+                           th:href="@{/admin/notice(searchKey=${cond.searchKey}, keyword=${cond.keyword}, page=${endPage} + 1)}"
                            class="next" id="nextPageSearch" th:classappend="${endPage+1 > notices.totalPages} ? 'disabled'">
                         <span class="material-symbols-outlined">keyboard_arrow_right</span></a></li>
                     <li><a href="./notice_list.html" class="next_last"
-                           th:href="@{/admin/notice(searchKey=${form.searchKey}, keyword=${form.keyword}, page=${notices.totalPages})}">
+                           th:href="@{/admin/notice(searchKey=${cond.searchKey}, keyword=${cond.keyword}, page=${notices.totalPages})}">
                         <span class="material-symbols-outlined">double_arrow</span></a></li>
                 </ul>
             </div>

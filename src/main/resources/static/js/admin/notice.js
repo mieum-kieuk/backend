@@ -68,7 +68,7 @@ $('.delete_btn').on('click', function () {
                     xhr.setRequestHeader(csrfHeader, csrfToken)
                 },
                 success: function (result) {
-                    if (result.code === 200) {
+                    if (result.status === 200) {
                         window.location.href = '/admin/notice';
                     } else {
                         Swal.fire({

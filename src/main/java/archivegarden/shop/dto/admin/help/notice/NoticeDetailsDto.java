@@ -2,12 +2,14 @@ package archivegarden.shop.dto.admin.help.notice;
 
 import archivegarden.shop.entity.Notice;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.format.DateTimeFormatter;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class NoticeDetailsDto {
 
     private Long id;

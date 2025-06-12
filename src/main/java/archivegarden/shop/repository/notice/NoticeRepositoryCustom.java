@@ -8,7 +8,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface NoticeRepositoryCustom {
 
-    Page<Notice> findAllNotice(NoticeSearchForm form, Pageable pageable);
+    Page<Notice> findNotices(NoticeSearchForm form, Pageable pageable);
 
-    Page<Notice> findAllNoticeInAdmin(AdminSearchCondition form, Pageable pageable);
+    Page<Notice> findNoticesInAdmin(AdminSearchCondition cond, Pageable pageable);
 }

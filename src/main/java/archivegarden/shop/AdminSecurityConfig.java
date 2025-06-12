@@ -117,7 +117,7 @@ public class AdminSecurityConfig {
     @Bean
     public AccessDeniedHandler adminAccessDeniedHandler() {
         CustomAccessDeniedHandler accessDeniedHandler = new CustomAccessDeniedHandler();
-        accessDeniedHandler.setErrorPage("/");
+        accessDeniedHandler.setErrorPage("/accessDenied");
         return accessDeniedHandler;
     }
 }

@@ -37,6 +37,6 @@ public class NoticeService {
      */
     @Transactional(readOnly = true)
     public Page<NoticeListDto> getNotices(NoticeSearchForm form, Pageable pageable) {
-        return noticeRepository.findAllNotice(form, pageable).map(n -> new NoticeListDto(n));
+        return noticeRepository.findNotices(form, pageable).map(n -> new NoticeListDto(n));
     }
 }
