@@ -74,21 +74,32 @@ function selectCheckboxes() {
 async function updatePreviewContainer(input, containerId, thumbnailType) {
     let file = input[0].files[0];
 
-    if (!file) return;
+    // 파일 선택 취소 시 미리보기 초기화
+    if (!file) {
+        let container = $('#' + containerId);
+        let previewImages = container.find('.preview_images');
+        previewImages.find('.preview_image').attr('src', '');
+        container.find('.filename_container').empty();
+        container.css('display', 'none');
+        return;
+    }
 
     let maxSizePerFile = 3 * 1024 * 1024; // 3MB
-    let validFileType = 'image/jpeg';
+    let validFileTypes = ['image/jpeg', 'image/png', 'image/jpg'];
 
-    // 파일 형식 검사
-    if (file.type !== validFileType) {
+    if (!validFileTypes.includes(file.type)) {
+        invalidFileType = true;
+    }
+
+    if (invalidFileType) {
         Swal.fire({
-            text: "JPG 형식의 이미지 파일만 첨부 가능합니다.",
+            text: "JPG, JPEG, PNG 형식의 이미지 파일만 첨부 가능합니다.",
             showConfirmButton: true,
             confirmButtonText: '확인',
             customClass: mySwal,
             buttonsStyling: false
         });
-        input.val(''); // 입력 초기화
+        input.val('');
         return;
     }
 
@@ -141,6 +152,7 @@ async function handleDetailImagesChange() {
     let newFileSize = newFileArr.length;
     let originalFileSize = dataTransfer.files.length;
     let maxSizePerFile = 3 * 1024 * 1024;
+    let validFileTypes = ['image/jpeg', 'image/png', 'image/jpg'];
     let invalidFileType = false;
     let exceedsMaxSize = false;
     let exceedsMaxFiles = originalFileSize + newFileSize;
@@ -158,7 +170,7 @@ async function handleDetailImagesChange() {
         if (file.size > maxSizePerFile) {
             exceedsMaxSize = true;
         }
-        if (file.type !== 'image/jpeg') {
+        if (!validFileTypes.includes(file.type)) {
             invalidFileType = true;
         }
 
@@ -202,7 +214,7 @@ async function handleDetailImagesChange() {
 
     if (invalidFileType) {
         Swal.fire({
-            text: "JPG 형식의 이미지 파일만 첨부 가능합니다.",
+            text: "JPG, JPEG, PNG 형식의 이미지 파일만 첨부 가능합니다.",
             showConfirmButton: true,
             confirmButtonText: '확인',
             customClass: mySwal,
@@ -346,7 +358,7 @@ function validateBeforeSubmit() {
     }
     if (parseInt(priceValue) < 0) {
         Swal.fire({
-            text: "유효한 상품 가격을 입력해 주세요.",
+            text: "0보다 큰 숫자를 입력해 주세요.",
             showConfirmButton: true,
             confirmButtonText: '확인',
             customClass: mySwal,
@@ -367,7 +379,7 @@ function validateBeforeSubmit() {
     }
     if (parseInt(stockQuantityValue) < 0) {
         Swal.fire({
-            text: "유효한 재고를 입력해 주세요.",
+            text: "0보다 큰 숫자를 입력해 주세요.",
             showConfirmButton: true,
             confirmButtonText: '확인',
             customClass: mySwal,
@@ -417,6 +429,7 @@ function validateBeforeSubmit() {
             return false;
         }
     }
+
     for (let i = 0; i < detailImagesValue.length; i++) {
         let fileSize = detailImagesValue[i].size;
         if (fileSize > maxSizePerFile) {
@@ -443,6 +456,7 @@ function validateBeforeSubmit() {
         $('#detailImages').val('');
         return false;
     }
+
     $('.submit_btn').prop('disabled', true);
     return true;
 }
@@ -475,7 +489,7 @@ function isNameValid() {
         },
         success: function (result) {
             isNameChecked = true;
-            if (result.code == 200) {
+            if (result.status == 200) {
                 isAvailableName = true;
             } else {
                 isAvailableName = false;
@@ -517,7 +531,7 @@ $('#deleteProductBtn').click(function () {
                     xhr.setRequestHeader(csrfHeader, csrfToken)
                 },
                 success: function (result) {
-                    if (result.code == 200) {
+                    if (result.status == 200) {
                         window.location.href = '/admin/products';
                     } else {
                         Swal.fire({
@@ -584,7 +598,7 @@ $('#deleteProductsBtn').click(function () {
                         xhr.setRequestHeader(csrfHeader, csrfToken)
                     },
                     success: function (data) {
-                        if (data.code === 200) {
+                        if (data.status === 200) {
                             window.location.reload();
                         } else {
                             Swal.fire({

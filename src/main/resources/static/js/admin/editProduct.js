@@ -67,7 +67,7 @@ function isNameValid() {
                 xhr.setRequestHeader(csrfHeader, csrfToken);
             },
             success: function (result) {
-                if (result.code == 200) {
+                if (result.status == 200) {
                     isAvailableName = true;
                 } else {
                     isAvailableName = false;
@@ -95,19 +95,23 @@ async function updatePreviewContainer(input, containerId, thumbnailType) {
     if (!file) return;
 
     let maxSizePerFile = 3 * 1024 * 1024; // 3MB
-    let validFileType = 'image/jpeg';
+    let validFileTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+
+    if (!validFileTypes.includes(file.type)) {
+        invalidFileType = true;
+    }
 
     // 파일 형식 검사
-    if (file.type !== validFileType) {
+    if (invalidFileType) {
         Swal.fire({
-            text: "JPG 형식의 이미지 파일만 첨부 가능합니다.",
+            text: "JPG, JPEG, PNG 형식의 이미지 파일만 첨부 가능합니다.",
             showConfirmButton: true,
             confirmButtonText: '확인',
             customClass: mySwal,
             buttonsStyling: false
         });
         input.val(''); // 입력 초기화
-        return;
+        return false;
     }
 
     if (file.size > maxSizePerFile) {
@@ -159,7 +163,7 @@ async function handleDetailImagesChange() {
     let newFileSize = newFileArr.length;
     let originalFileSize = fileList.length; // fileList 배열의 길이를 사용
     let maxSizePerFile = 3 * 1024 * 1024;
-    let invalidFileType = false;
+    let validFileTypes = ['image/jpeg', 'image/png', 'image/jpg'];
     let exceedsMaxSize = false;
     let exceedsMaxFiles = originalFileSize + newFileSize;
 
@@ -200,7 +204,7 @@ async function handleDetailImagesChange() {
         if (file.size > maxSizePerFile) {
             exceedsMaxSize = true;
         }
-        if (file.type !== 'image/jpeg') {
+        if (!validFileTypes.includes(file.type)) {
             invalidFileType = true;
         }
     }
@@ -229,9 +233,10 @@ async function handleDetailImagesChange() {
         return false;
     }
 
+    // 파일 형식 검사
     if (invalidFileType) {
         Swal.fire({
-            text: "JPG 형식의 이미지 파일만 첨부 가능합니다.",
+            text: "JPG, JPEG, PNG 형식의 이미지 파일만 첨부 가능합니다.",
             showConfirmButton: true,
             confirmButtonText: '확인',
             customClass: mySwal,
@@ -353,7 +358,7 @@ function validateBeforeSubmit() {
     }
     if (parseInt(priceValue) < 0) {
         Swal.fire({
-            text: "유효한 상품 가격을 입력해 주세요.",
+            text: "0보다 큰 숫자를 입력해 주세요.",
             showConfirmButton: true,
             confirmButtonText: '확인',
             customClass: mySwal,
@@ -374,7 +379,7 @@ function validateBeforeSubmit() {
     }
     if (parseInt(stockQuantityValue) < 0) {
         Swal.fire({
-            text: "유효한 재고를 입력해 주세요.",
+            text: "0보다 큰 숫자를 입력해 주세요.",
             showConfirmButton: true,
             confirmButtonText: '확인',
             customClass: mySwal,
