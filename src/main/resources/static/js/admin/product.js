@@ -73,6 +73,7 @@ function selectCheckboxes() {
 // 섬네일 사진1, 섬네일 사진2 유효성 검사 -> 첨부
 async function updatePreviewContainer(input, containerId, thumbnailType) {
     let file = input[0].files[0];
+    let invalidFileType = false;
 
     // 파일 선택 취소 시 미리보기 초기화
     if (!file) {
@@ -93,7 +94,7 @@ async function updatePreviewContainer(input, containerId, thumbnailType) {
 
     if (invalidFileType) {
         Swal.fire({
-            text: "JPG, JPEG, PNG 형식의 이미지 파일만 첨부 가능합니다.",
+            text: "JPG, JPEG, PNG 형식의 파일만 첨부 가능합니다.",
             showConfirmButton: true,
             confirmButtonText: '확인',
             customClass: mySwal,
@@ -162,7 +163,7 @@ async function handleDetailImagesChange() {
         return $(fileName).text().replace('파일명: ', '').trim();
     });
 
-    // 중복된 파일을 제외한 새로운 파일만 처리
+    // 만 파일을 제외한 새로운 파일만 처리
     let filesToAdd = [];
     for (let i = 0; i < newFileSize; i++) {
         let file = newFileArr[i];
@@ -177,7 +178,7 @@ async function handleDetailImagesChange() {
         // 중복 파일 검사
         if (existingFiles.includes(file.name)) {
             Swal.fire({
-                text: '이미 첨부된 파일입니다.',
+                text: '이미 첨부된 파일은 제외하고 새로운 파일만 첨부됩니다.',
                 showConfirmButton: true,
                 confirmButtonText: '확인',
                 customClass: mySwal,
@@ -214,7 +215,7 @@ async function handleDetailImagesChange() {
 
     if (invalidFileType) {
         Swal.fire({
-            text: "JPG, JPEG, PNG 형식의 이미지 파일만 첨부 가능합니다.",
+            text: "JPG, JPEG, PNG 형식의 파일만 첨부 가능합니다.",
             showConfirmButton: true,
             confirmButtonText: '확인',
             customClass: mySwal,

@@ -91,6 +91,7 @@ function isNameValid() {
 // 섬네일 사진1, 섬네일 사진2 유효성 검사 -> 첨부
 async function updatePreviewContainer(input, containerId, thumbnailType) {
     let file = input[0].files[0];
+    let invalidFileType = false;
 
     if (!file) return;
 
@@ -104,7 +105,7 @@ async function updatePreviewContainer(input, containerId, thumbnailType) {
     // 파일 형식 검사
     if (invalidFileType) {
         Swal.fire({
-            text: "JPG, JPEG, PNG 형식의 이미지 파일만 첨부 가능합니다.",
+            text: "JPG, JPEG, PNG 형식의 파일만 첨부 가능합니다.",
             showConfirmButton: true,
             confirmButtonText: '확인',
             customClass: mySwal,
@@ -164,6 +165,7 @@ async function handleDetailImagesChange() {
     let originalFileSize = fileList.length; // fileList 배열의 길이를 사용
     let maxSizePerFile = 3 * 1024 * 1024;
     let validFileTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+    let invalidFileType = false;
     let exceedsMaxSize = false;
     let exceedsMaxFiles = originalFileSize + newFileSize;
 
@@ -185,7 +187,7 @@ async function handleDetailImagesChange() {
 
         if (isDuplicate) {
             Swal.fire({
-                text: '이미 첨부된 파일입니다.',
+                text: '이미 첨부된 파일은 제외하고 새로운 파일만 첨부됩니다.',
                 showConfirmButton: true,
                 confirmButtonText: '확인',
                 customClass: mySwal,
@@ -236,7 +238,7 @@ async function handleDetailImagesChange() {
     // 파일 형식 검사
     if (invalidFileType) {
         Swal.fire({
-            text: "JPG, JPEG, PNG 형식의 이미지 파일만 첨부 가능합니다.",
+            text: "JPG, JPEG, PNG 형식의 파일만 첨부 가능합니다.",
             showConfirmButton: true,
             confirmButtonText: '확인',
             customClass: mySwal,
