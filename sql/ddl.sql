@@ -8,7 +8,7 @@ CREATE TABLE admin
     name          VARCHAR(5)   NOT NULL,
     email         VARCHAR(100) NOT NULL,
     is_authorized TINYINT(1) UNSIGNED NOT NULL,
-    authority     ENUM('ROLE_ANONYMOUS', 'ROLE_USER', 'ROLE_ADMIN') NOT NULL,
+    authority     ENUM('ROLE_ANONYMOUS', 'ROLE_ADMIN') NOT NULL,
     created_at    TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modified_at   TIMESTAMP,
     deleted_at    TIMESTAMP,

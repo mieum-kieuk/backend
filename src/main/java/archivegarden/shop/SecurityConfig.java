@@ -1,6 +1,6 @@
 package archivegarden.shop;
 
-import archivegarden.shop.security.handler.CustomAccessDeniedHandler;
+import archivegarden.shop.security.handler.MemberAccessDeniedHandler;
 import archivegarden.shop.security.handler.MemberAuthenticationFailureHandler;
 import archivegarden.shop.security.handler.MemberAuthenticationSuccessHandler;
 import archivegarden.shop.security.provider.MemberAuthenticationProvider;
@@ -52,11 +52,10 @@ public class SecurityConfig {
 
         http
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers( "/", "/login",  "/member/**", "/productImages/**", "email/**", "/error",
+                        .requestMatchers( "/", "/login",  "/member/**", "/productImages/**", "/email/**", "/error",
                                 "/products/**", "/about", "/community/inquiries", "/community/inquiries/{id}", "/community/notice/**", "/search/**",
                                 "/payment/webhook", "/popup/deliveries/**").permitAll()
-                        .requestMatchers("/**").hasRole("USER")
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
                 );
 
         http
@@ -115,8 +114,8 @@ public class SecurityConfig {
 
     @Bean
     public AccessDeniedHandler memberAccessDeniedHandler() {
-        CustomAccessDeniedHandler accessDeniedHandler = new CustomAccessDeniedHandler();
-        accessDeniedHandler.setErrorPage("/");
+        MemberAccessDeniedHandler accessDeniedHandler = new MemberAccessDeniedHandler();
+        accessDeniedHandler.setErrorPage("/access-denied");
         return accessDeniedHandler;
     }
 }

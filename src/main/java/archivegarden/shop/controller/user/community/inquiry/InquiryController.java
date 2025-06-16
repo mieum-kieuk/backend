@@ -18,6 +18,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.nio.file.AccessDeniedException;
+
 @Controller
 @RequestMapping("/community/inquiries")
 @RequiredArgsConstructor
@@ -28,6 +30,7 @@ public class InquiryController {
     /**
      * 상품 문의 등록 폼을 반환하는 메서드
      */
+    @PreAuthorize("hasRole('USER')")
     @GetMapping("/add")
     public String addInquiryForm(@ModelAttribute("form") AddInquiryForm form) {
         return "user/community/inquiry/add_inquiry";
@@ -36,6 +39,7 @@ public class InquiryController {
     /**
      * 상품 문의 등록 요청을 처리하는 메서드
      */
+    @PreAuthorize("hasRole('USER')")
     @PostMapping("/add")
     public String addInquiry(@Valid @ModelAttribute("form") AddInquiryForm form, BindingResult bindingResult,
                              @CurrentUser Member loginMember, RedirectAttributes redirectAttributes) {
@@ -73,9 +77,9 @@ public class InquiryController {
      * 상품 문의 수정 폼을 반환하는 메서드
      */
     @GetMapping("/{inquiryId}/edit")
-    @PreAuthorize("hasRole('ROLE_USER') and #loginMember.loginId == principal.username")
-    public String editInquiryForm(@PathVariable("inquiryId") Long inquiryId, @CurrentUser Member loginMember, Model model) {
-        EditInquiryForm form = inquiryService.getInquiryEditForm(inquiryId);
+    @PreAuthorize("hasRole('USER')")
+    public String editInquiryForm(@PathVariable("inquiryId") Long inquiryId, @CurrentUser Member loginMember, Model model) throws AccessDeniedException {
+        EditInquiryForm form = inquiryService.getInquiryEditForm(inquiryId, loginMember);
         model.addAttribute("form", form);
         return "user/community/inquiry/edit_inquiry";
     }
@@ -84,7 +88,7 @@ public class InquiryController {
      * 상품 문의 수정 요청을 처리하는 메서드
      */
     @PostMapping("/{inquiryId}/edit")
-    @PreAuthorize("hasRole('ROLE_USER') and #loginMember.loginId == principal.username")
+    @PreAuthorize("hasRole('USER')")
     public String editInquiry(@Valid @ModelAttribute("form") EditInquiryForm form, BindingResult bindingResult,
                               @PathVariable("inquiryId") Long inquiryId, @CurrentUser Member loginMember) {
         if(bindingResult.hasErrors()) {

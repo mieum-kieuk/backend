@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class ExceptionController {
 
     @ExceptionHandler(EntityNotFoundException.class)
-    public String entityNotFoundException(EntityNotFoundException e) {
+    public String handleEntityNotFoundException(EntityNotFoundException e) {
         log.warn("[{}] cause={}, message={}", e.getStackTrace()[0], "EntityNotFoundException", e.getMessage());
         return "error/common/entity_not_found.html";
     }
 
     @ExceptionHandler(FileUploadException.class)
-    public String fileUploadException(FileUploadException e) {
+    public String handleFileUploadException(FileUploadException e) {
         log.warn("[{}] cause={}, message={}", e.getStackTrace()[0], "FileUploadException", e.getMessage());
         return "error/common/entity_not_found.html";
     }

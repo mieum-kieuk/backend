@@ -41,7 +41,7 @@ public class AdminAuthenticationProvider implements AuthenticationProvider {
         AdminContext adminContext = (AdminContext) userDetailsService.loadUserByUsername(loginId);
 
         if(adminContext == null || !passwordEncoder.matches(password, adminContext.getPassword())) {
-            throw new BadCredentialsException("비밀번호가 일치하지 않습니다.");
+            throw new BadCredentialsException("아이디 또는 비밀번호가 일치하지 않습니다.");
         }
 
         return new AdminAuthenticationToken(adminContext, null, adminContext.getAuthorities());

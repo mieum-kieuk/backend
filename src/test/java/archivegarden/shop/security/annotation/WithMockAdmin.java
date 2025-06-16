@@ -1,4 +1,4 @@
-package archivegarden.shop.security;
+package archivegarden.shop.security.annotation;
 
 import org.springframework.security.test.context.support.WithUserDetails;
 

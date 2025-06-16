@@ -2,9 +2,9 @@ package archivegarden.shop;
 
 import archivegarden.shop.security.common.AdminAuthenticationEntryPoint;
 import archivegarden.shop.security.filter.AdminAuthenticationFilter;
+import archivegarden.shop.security.handler.AdminAccessDeniedHandler;
 import archivegarden.shop.security.handler.AdminAuthenticationFailureHandler;
 import archivegarden.shop.security.handler.AdminAuthenticationSuccessHandler;
-import archivegarden.shop.security.handler.CustomAccessDeniedHandler;
 import archivegarden.shop.security.manager.AdminAuthenticationManager;
 import archivegarden.shop.security.provider.AdminAuthenticationProvider;
 import archivegarden.shop.security.service.AdminUserDetailsService;
@@ -116,8 +116,8 @@ public class AdminSecurityConfig {
 
     @Bean
     public AccessDeniedHandler adminAccessDeniedHandler() {
-        CustomAccessDeniedHandler accessDeniedHandler = new CustomAccessDeniedHandler();
-        accessDeniedHandler.setErrorPage("/accessDenied");
+        AdminAccessDeniedHandler accessDeniedHandler = new AdminAccessDeniedHandler();
+        accessDeniedHandler.setErrorPage("/access-denied");
         return accessDeniedHandler;
     }
 }

@@ -7,7 +7,7 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 
 import java.io.IOException;
 
-public class CustomAccessDeniedHandler implements AccessDeniedHandler {
+public class AdminAccessDeniedHandler implements AccessDeniedHandler {
 
     private String errorPage;
 
