@@ -29,8 +29,8 @@ input {
 .error_txt a {
     text-decoration: underline;
 }
-.home_btn, .qna_btn {
-    width: 48%;
+.home_btn {
+    width: 100%;
 }
 .home_btn {
     background: #000;
