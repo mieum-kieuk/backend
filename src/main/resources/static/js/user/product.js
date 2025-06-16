@@ -1,3 +1,8 @@
+$(window).on('pageshow', function (event) {
+    if (event.originalEvent.persisted || window.performance.getEntriesByType("navigation")[0].type === "back_forward") {
+        $('.quant_input').val(1).trigger('change'); // 수량 초기화 후 버튼 상태 업데이트
+    }
+});
 $(document).ready(function () {
 
     let url = window.location.href;
