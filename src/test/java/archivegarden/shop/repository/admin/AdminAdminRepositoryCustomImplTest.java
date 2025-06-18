@@ -24,6 +24,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@DisplayName("AdminAdminRepositoryCustomImpl 단위 테스트")
 @DataJpaTest
 @ActiveProfiles("test")
 @Import(TestAuditingConfig.class)
@@ -34,7 +35,7 @@ class AdminAdminRepositoryCustomImplTest {
     EntityManager em;
 
     @Autowired
-    AdminAdminRepositoryCustomImpl adminAdminRepositoryCustom;
+    AdminAdminRepositoryCustomImpl adminRepositoryCustom;
 
     private Admin authorizedAdmin1;
     private Admin authorizedAdmin2;
@@ -86,15 +87,15 @@ class AdminAdminRepositoryCustomImplTest {
         em.clear();
     }
 
-    @DisplayName("관리자 목록 조회 - 조건 없음 (기본 정렬 확인)")
+    @DisplayName("관리자 목록 조회 - 검색 조건 없을 경우 기본 정렬 순서로 반환")
     @Test
-    void findAdmins_NoCondition_DefaultSort() {
+    void 관리자조회_검색조건X_기본정렬반환() {
         //given
         AdminSearchCondition cond = new AdminSearchCondition();
         Pageable pageable = PageRequest.of(0, 10);
 
         //when
-        Page<AdminListDto> resultPage = adminAdminRepositoryCustom.findAdmins(cond, pageable);
+        Page<AdminListDto> resultPage = adminRepositoryCustom.findAdmins(cond, pageable);
 
         //then
         assertThat(resultPage).isNotNull();
@@ -110,9 +111,9 @@ class AdminAdminRepositoryCustomImplTest {
         assertThat(content.get(4).getLoginId()).isEqualTo(authorizedAdmin1.getLoginId());     //createdAt: 2025년 1월 1일 0시 0분 0초
     }
 
-    @DisplayName("관리자 목록 조회 - 키워드 검색 (로그인 아이디)")
+    @DisplayName("관리자 목록 조회 - 로그인 아이디 키워드로 검색 시 해당 목록 반환")
     @Test
-    void findAdmins_KeywordSearch_LoginId() {
+    void 관리자조회_로그인아이디검색_결과반환() {
         //given
         AdminSearchCondition cond = new AdminSearchCondition();
         cond.setSearchKey("loginId");
@@ -120,7 +121,7 @@ class AdminAdminRepositoryCustomImplTest {
         Pageable pageable = PageRequest.of(0, 10);
 
         //when
-        Page<AdminListDto> resultPage = adminAdminRepositoryCustom.findAdmins(cond, pageable);
+        Page<AdminListDto> resultPage = adminRepositoryCustom.findAdmins(cond, pageable);
 
         //then
         assertThat(resultPage).isNotNull();
@@ -130,9 +131,9 @@ class AdminAdminRepositoryCustomImplTest {
         assertThat(resultPage.getContent().get(1).getLoginId()).isEqualTo(authorizedAdmin1.getLoginId());
     }
 
-    @DisplayName("관리자 목록 조회 - 키워드 검색 (이름)")
+    @DisplayName("관리자 목록 조회 - 이름 키워드로 검색 시 해당 목록 반환")
     @Test
-    void findAdmins_KeywordSearch_Name() {
+    void 관리자조회_이름검색_결과반환() {
         //given
         AdminSearchCondition cond = new AdminSearchCondition();
         cond.setSearchKey("name");
@@ -140,7 +141,7 @@ class AdminAdminRepositoryCustomImplTest {
         Pageable pageable = PageRequest.of(0, 10);
 
         //when
-        Page<AdminListDto> resultPage = adminAdminRepositoryCustom.findAdmins(cond, pageable);
+        Page<AdminListDto> resultPage = adminRepositoryCustom.findAdmins(cond, pageable);
 
         //then
         assertThat(resultPage).isNotNull();
@@ -149,9 +150,9 @@ class AdminAdminRepositoryCustomImplTest {
         assertThat(resultPage.getContent().get(0).getName()).isEqualTo(unauthorizedAdmin1.getName());
     }
 
-    @DisplayName("관리자 목록 조회 - 키워드 검색 (이메일)")
+    @DisplayName("관리자 목록 조회 - 이메일 키워드로 검색 시 해당 목록 반환")
     @Test
-    void findAdmins_KeywordSearch_Email() {
+    void 관리자조회_이메일검색_결과반환() {
         //given
         AdminSearchCondition cond = new AdminSearchCondition();
         cond.setSearchKey("email");
@@ -159,7 +160,7 @@ class AdminAdminRepositoryCustomImplTest {
         Pageable pageable = PageRequest.of(0, 10);
 
         //when
-        Page<AdminListDto> resultPage = adminAdminRepositoryCustom.findAdmins(cond, pageable);
+        Page<AdminListDto> resultPage = adminRepositoryCustom.findAdmins(cond, pageable);
 
         //then
         assertThat(resultPage).isNotNull();
@@ -168,9 +169,9 @@ class AdminAdminRepositoryCustomImplTest {
         assertThat(resultPage.getContent().get(0).getEmail()).isEqualTo(unauthorizedAdmin2.getEmail());
     }
 
-    @DisplayName("관리자 목록 조회 - 키워드 검색 (일치하는 결과 없음)")
+    @DisplayName("관리자 목록 조회 - 키워드 검색 시 일치하는 결과 없으면 빈 목록 반환")
     @Test
-    void findAdmins_KeywordSearch_NoMatch() {
+    void 관리자조회_키워드검색_일치하는결과X() {
         //given
         AdminSearchCondition cond = new AdminSearchCondition();
         cond.setSearchKey("loginId");
@@ -178,7 +179,7 @@ class AdminAdminRepositoryCustomImplTest {
         Pageable pageable = PageRequest.of(0, 10);
 
         //when
-        Page<AdminListDto> resultPage = adminAdminRepositoryCustom.findAdmins(cond, pageable);
+        Page<AdminListDto> resultPage = adminRepositoryCustom.findAdmins(cond, pageable);
 
         //then
         assertThat(resultPage).isNotNull();
@@ -186,9 +187,9 @@ class AdminAdminRepositoryCustomImplTest {
         assertThat(resultPage.getContent()).isEmpty();
     }
 
-    @DisplayName("관리자 목록 조회 - 생성일 범위 검색 (시작일 ~ 종료일 포함)")
+    @DisplayName("관리자 목록 조회 - 생성일 범위(시작일~종료일)로 검색 시 해당 목록 반환")
     @Test
-    void findAdmins_DateRangeSearch_Inclusive() {
+    void 관리자조회_생성일범위검색_결과반환() {
         //given
         AdminSearchCondition cond = new AdminSearchCondition();
         cond.setStartDate(LocalDate.of(2025, 1, 1));
@@ -196,7 +197,7 @@ class AdminAdminRepositoryCustomImplTest {
         Pageable pageable = PageRequest.of(0, 10);
 
         //when
-        Page<AdminListDto> resultPage = adminAdminRepositoryCustom.findAdmins(cond, pageable);
+        Page<AdminListDto> resultPage = adminRepositoryCustom.findAdmins(cond, pageable);
 
         //then
         assertThat(resultPage).isNotNull();
@@ -208,9 +209,9 @@ class AdminAdminRepositoryCustomImplTest {
         assertThat(resultPage.getContent().get(2).getLoginId()).isEqualTo(authorizedAdmin1.getLoginId());
     }
 
-    @DisplayName("관리자 목록 조회 - 생성일 범위 검색 (일치하는 결과 없음)")
+    @DisplayName("관리자 목록 조회 - 생성일 범위로 검색 시 일치하는 결과 없으면 빈 목록 반환")
     @Test
-    void findAdmins_DateRangeSearch_NoMatch() {
+    void 관리자조회_생성일범위검색_일치하는결과X() {
         //given
         AdminSearchCondition cond = new AdminSearchCondition();
         cond.setStartDate(LocalDate.of(2024, 1, 1));
@@ -218,7 +219,7 @@ class AdminAdminRepositoryCustomImplTest {
         Pageable pageable = PageRequest.of(0, 10);
 
         //when
-        Page<AdminListDto> resultPage = adminAdminRepositoryCustom.findAdmins(cond, pageable);
+        Page<AdminListDto> resultPage = adminRepositoryCustom.findAdmins(cond, pageable);
 
         // Then
         assertThat(resultPage).isNotNull();
@@ -226,9 +227,9 @@ class AdminAdminRepositoryCustomImplTest {
         assertThat(resultPage.getContent()).isEmpty();
     }
 
-    @DisplayName("관리자 목록 조회 - 키워드와 날짜 범위 복합 검색")
+    @DisplayName("관리자 목록 조회 - 키워드와 생성일 범위 모두 지정 시 해당 목록 반환")
     @Test
-    void findAdmins_CombinedSearch() {
+    void 관리자조회_키워드_날짜_복합검색() {
         //given
         AdminSearchCondition cond = new AdminSearchCondition();
         cond.setSearchKey("name");
@@ -238,7 +239,7 @@ class AdminAdminRepositoryCustomImplTest {
         Pageable pageable = PageRequest.of(0, 10);
 
         //when
-        Page<AdminListDto> resultPage = adminAdminRepositoryCustom.findAdmins(cond, pageable);
+        Page<AdminListDto> resultPage = adminRepositoryCustom.findAdmins(cond, pageable);
 
         //then
         assertThat(resultPage).isNotNull();
@@ -248,9 +249,9 @@ class AdminAdminRepositoryCustomImplTest {
         assertThat(resultPage.getContent().get(1).getLoginId()).isEqualTo(authorizedAdmin3.getLoginId());
     }
 
-    @DisplayName("관리자 목록 조회 - 페이징 처리")
+    @DisplayName("관리자 목록 조회 - 페이징 조건 적용 시 페이지 단위로 목록 반환")
     @Test
-    void findAdmins_Paging() {
+    void 관리자조회_페이징적용_정상반환() {
         //given
         AdminSearchCondition cond = new AdminSearchCondition();
         Pageable pageable1 = PageRequest.of(0, 2); //1페이지: size 2
@@ -258,9 +259,9 @@ class AdminAdminRepositoryCustomImplTest {
         Pageable pageable3 = PageRequest.of(2, 2); //3페이지, size 2 (요소 1개)
 
         //when
-        Page<AdminListDto> resultPage1 = adminAdminRepositoryCustom.findAdmins(cond, pageable1);
-        Page<AdminListDto> resultPage2 = adminAdminRepositoryCustom.findAdmins(cond, pageable2);
-        Page<AdminListDto> resultPage3 = adminAdminRepositoryCustom.findAdmins(cond, pageable3);
+        Page<AdminListDto> resultPage1 = adminRepositoryCustom.findAdmins(cond, pageable1);
+        Page<AdminListDto> resultPage2 = adminRepositoryCustom.findAdmins(cond, pageable2);
+        Page<AdminListDto> resultPage3 = adminRepositoryCustom.findAdmins(cond, pageable3);
 
         //then
         assertThat(resultPage1).isNotNull();
