@@ -1144,6 +1144,19 @@ th {
 .admin_wrap #membershipDetails .input_tit {
     min-width: 140px;
 }
+#addMembership #isDefault, #editMembership #isDefault {
+    width: auto;
+}
+#membershipList .name.default_membership::before ,#membershipDetails .name.default_membership::before {
+    content: "기본";
+    color: #fff;
+    padding: 2px;
+    background: #3273F6;
+    border-radius: 2px;
+    font-size: 12px;
+    font-weight: bold;
+    margin-right: 5px;
+}
 #membershipForm .form_wrap > .input_box_wrap:nth-child(4) {
     margin-bottom: 0px;
 }

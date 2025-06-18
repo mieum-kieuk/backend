@@ -43,7 +43,6 @@
                 <input type="checkbox" name="checkBox" id="selectAll" disabled>
               </div>
               <div>
-                <div class="item level">순위</div>
                 <div class="item name">회원 등급명</div>
                 <div class="item pointRate">적립률</div>
                 <div class="item maxBenefitPoint">최대 적립 가능 금액</div>
@@ -56,8 +55,7 @@
                   <input type="checkbox" name="checkBox" th:id="'checkbox' + ${membership.id}">
                 </div>
                 <a href="./membership_details.html" th:href="@{/admin/memberships/{membershipId}(membershipId=${membership.id})}">
-                  <div class="item level" th:text="${membership.level}"></div>
-                  <div class="item name" th:text="${membership.name}"></div>
+                  <div class="item name" th:text="${membership.name}" th:classappend="${membership.isDefault} ? 'default_membership'"></div>
                   <div class="item pointRate" th:text="${membership.pointRate}"></div>
                   <div class="item maxBenefitPoint" th:text="${membership.maxBenefitPoint}"></div>
                   <div class="item minAmountSpent" th:text="${membership.minAmountSpent}"></div>
@@ -71,13 +69,13 @@
           <div class="text description">
             <ul>
               <li>
-                <span>등록하는 순서대로 높은 순위가 적용됩니다.</span>
+                <span>등급은 등록된 순서에 따라 순위가 결정되며, 먼저 등록된 등급일수록 더 하위 등급으로 간주됩니다.</span>
               </li>
               <li>
-                <span>순위가 높을수록 상위 등급입니다.</span>
+                <span>기본 등급은 신규 회원에게 자동으로 부여되는 초기 등급이며, 시스템에는 하나의 기본 등급만 존재할 수 있습니다.</span>
               </li>
               <li>
-                <span>순위가 1인 회원 등급은 기본 등급으로 삭제가 불가능합니다.</span>
+                <span>기본 등급은 최초부터 제공되며, 수정은 가능하지만 삭제는 허용되지 않습니다.</span>
               </li>
             </ul>
           </div>

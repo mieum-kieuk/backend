@@ -31,11 +31,7 @@
         <table>
           <tr>
             <th class="input_tit">회원 등급명</th>
-            <td id="name" th:text="${membership.name}"></td>
-          </tr>
-          <tr>
-            <th class="input_tit">순위</th>
-            <td id="level" th:text="${membership.level}"></td>
+            <td class="name" th:classappend="${membership.isDefault} ? ' default_membership' : ''" th:text="${membership.name}" ></td>
           </tr>
           <tr>
             <th class="input_tit">적립률</th>
@@ -54,7 +50,7 @@
       <div class="text description">
         <ul>
           <li>
-            <span>순위가 1인 회원 등급은 기본 등급으로 삭제가 불가능합니다.</span>
+            <span>기본 회원 등급은 삭제가 불가능합니다.</span>
           </li>
         </ul>
       </div>
