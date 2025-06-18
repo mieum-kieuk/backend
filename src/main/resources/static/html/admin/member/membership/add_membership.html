@@ -91,23 +91,23 @@
     <div id="addMembership" class="admins_wrap">
         <div class="content">
             <h2 class="content_tit">회원 등급 등록</h2>
-            <form id="addMembershipForm">
+            <form id="addMembershipForm" novalidate>
                 <div class="form_wrap">
                     <div class="input_box_wrap">
-                        <label for="name">회원 등급명</label>
+                        <label for="name" class="ess_tit">회원 등급명</label>
                         <input type="text" id="name" name="name" maxlength="30" placeholder="회원 등급명을 입력해 주세요.">
                     </div>
                     <div class="input_box_wrap">
-                        <label for="pointRate">적립률</label>
+                        <label for="pointRate" class="ess_tit">적립률</label>
                         <input type="number" id="pointRate" name="pointRate" placeholder="적립률을 입력해 주세요.">
                     </div>
                     <div class="input_box_wrap">
-                        <label for="maxBenefitPoint">최대 적립 가능 금액</label>
-                        <input type="number" id="maxBenefitPoint" name="maxBenefitPoint" placeholder="">
+                        <label for="maxBenefitPoint" class="ess_tit">최대 적립 가능 금액</label>
+                        <input type="number" id="maxBenefitPoint" name="maxBenefitPoint" placeholder="최대 적립 가능 금액을 입력해 주세요.">
                     </div>
                     <div class="input_box_wrap">
-                        <label for="minAmountSpent">최소 소비 금액</label>
-                        <input type="number" id="minAmountSpent" name="minAmountSpent" placeholder="">
+                        <label for="minAmountSpent" class="ess_tit">최소 소비 금액</label>
+                        <input type="number" id="minAmountSpent" name="minAmountSpent" placeholder="최소 소비 금액을 입력해 주세요.">
                     </div>
                     <div class="text description">
                         <ul>
@@ -121,12 +121,6 @@
                     <ul>
                         <li>
                             <span>등급은 등록된 순서에 따라 순위가 결정되며, 먼저 등록된 등급일수록 더 하위 등급으로 간주됩니다.</span>
-                        </li>
-                        <li>
-                            <span>기본 등급은 신규 회원에게 자동으로 부여되는 초기 등급이며, 시스템에는 하나의 기본 등급만 존재할 수 있습니다.</span>
-                        </li>
-                        <li>
-                            <span>기본 등급은 최초부터 제공되며, 수정은 가능하지만 삭제는 허용되지 않습니다.</span>
                         </li>
                     </ul>
                 </div>
