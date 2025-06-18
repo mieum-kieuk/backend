@@ -52,7 +52,7 @@
             <div class="list membership">
               <div class="list_item" th:each="membership : ${memberships}">
                 <div class="item check">
-                  <input type="checkbox" name="checkBox" th:id="'checkbox' + ${membership.id}">
+                  <input type="checkbox" name="checkBox" th:id="'checkbox' + ${membership.id}" th:attr="disabled=${membership.isDefault} ? 'disabled' : null" th:data-default="${membership.isDefault}">
                 </div>
                 <a href="./membership_details.html" th:href="@{/admin/memberships/{membershipId}(membershipId=${membership.id})}">
                   <div class="item name" th:text="${membership.name}" th:classappend="${membership.isDefault} ? 'default_membership'"></div>

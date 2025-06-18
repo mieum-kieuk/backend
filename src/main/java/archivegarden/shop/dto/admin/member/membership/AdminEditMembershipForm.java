@@ -12,7 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class AdminEditMembershipForm {
 
-    private Short id;
+    private Long id;
 
     @NotBlank(message = "회원 등급명을 입력해 주세요.")
     private String name;

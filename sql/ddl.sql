@@ -84,7 +84,7 @@ CREATE TABLE member
     name                  VARCHAR(30)  NOT NULL,
     phone_number          VARCHAR(13)  NOT NULL,
     email                 VARCHAR(100) NOT NULL,
-    authority             ENUM('ROLE_ANONYMOUS', 'ROLE_USER', 'ROLE_ADMIN') NOT NULL,
+    authority             ENUM('ROLE_ANONYMOUS', 'ROLE_USER') NOT NULL,
     agree_to_receive_sms  TINYINT(1) UNSIGNED NOT NULL,
     agree_to_receive_mail TINYINT(1) UNSIGNED NOT NULL,
     is_email_verified     TINYINT(1) UNSIGNED NOT NULL,
@@ -100,7 +100,7 @@ CREATE TABLE member
 DROP TABLE IF EXISTS membership CASCADE;
 CREATE TABLE membership
 (
-    membership_id     TINYINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    membership_id     BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     name              VARCHAR(30) NOT NULL,
     point_rate        INT UNSIGNED NOT NULL,
     level             INT UNSIGNED NOT NULL,

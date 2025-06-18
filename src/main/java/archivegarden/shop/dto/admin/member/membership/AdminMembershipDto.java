@@ -10,10 +10,11 @@ import java.text.DecimalFormat;
 @Setter
 public class AdminMembershipDto {
 
-    private Short id;
+    private Long id;
     private String name;
     private String pointRate;
     private Integer level;
+    private boolean isDefault;
     private String maxBenefitPoint;
     private String minAmountSpent;
 
@@ -22,6 +23,7 @@ public class AdminMembershipDto {
         this.name = membership.getName();
         this.pointRate = membership.getPointRate() + "%";
         this.level = membership.getLevel();
+        this.isDefault = membership.isDefault();
         if(membership.getMaxBenefitPoint() != null) {
             this.maxBenefitPoint = new DecimalFormat("###,###원").format(membership.getMaxBenefitPoint());
         }

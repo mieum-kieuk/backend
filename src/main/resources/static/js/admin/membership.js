@@ -55,7 +55,18 @@ $(document).ready(function () {
             });
             return;
         }
+        let isDefault = checkedBox.data('default') == true || checkedBox.data('default') == 1;
 
+        if (isDefault) {
+            Swal.fire({
+                text: "기본 회원 등급은 삭제할 수 없습니다.",
+                showConfirmButton: true,
+                confirmButtonText: '확인',
+                customClass: mySwal,
+                buttonsStyling: false
+            });
+            return;
+        }
         let checkboxId = checkedBox.attr('id'); // 체크된 체크박스의 ID 가져오기
         let membershipId = checkboxId.replace('checkbox', ''); // 'checkbox123' → '123'
 
@@ -120,7 +131,7 @@ async function isNameValid() {
             }
         });
 
-        if (result.code == 200) {
+        if (result.status == 200) {
             if (result.message === '사용 가능한 회원 등급명입니다.') {
                 isAvailableName = true;
                 return true;
@@ -217,6 +228,17 @@ async function validateBeforeSubmit() {
         return false;
     }
 
+    if (parseFloat(maxBenefitPoint) < 0) {
+        Swal.fire({
+            text: "유효한 최대 적립 가능 금액을 입력해 주세요.",
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
+        return false;
+    }
+
     if (minAmountSpent === '') {
         Swal.fire({
             text: "최소 소비 금액을 입력해 주세요.",
@@ -264,7 +286,7 @@ function deleteMembership(membershipId) {
                     xhr.setRequestHeader(csrfHeader, csrfToken)
                 },
                 success: function (data) {
-                    if (data.code === 200) {
+                    if (data.status === 200) {
                         window.location.href = '/admin/memberships';
                     } else {
                         Swal.fire({

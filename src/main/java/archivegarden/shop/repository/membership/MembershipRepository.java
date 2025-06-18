@@ -8,17 +8,16 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 import java.util.Optional;
 
-public interface MembershipRepository extends JpaRepository<Membership, Short> {
+public interface MembershipRepository extends JpaRepository<Membership, Long> {
 
-    @Query("select m from Membership  m where m.name = :name")
     Optional<Membership> findByName(@Param("name") String name);
 
     @Query("select max(m.level) from Membership m")
     Integer findMaxLevelMembership();
 
-    @Query("select m from Membership m order by m.level desc")
-    List<Membership> findAllLevelDesc();
+    @Query("select m from Membership m order by m.level asc")
+    List<Membership> findAllOrderByLevelAsc();
 
     @Query("select m from Membership m where m.isDefault = true")
-    Optional<Membership> findDefault();
+    Membership findDefault();
 }

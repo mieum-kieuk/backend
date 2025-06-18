@@ -33,21 +33,21 @@
             <form id="editMembershipForm"  action="" th:action th:object="${editForm}" method="post" th:onsubmit="return validateBeforeSubmit()" novalidate>
                 <div class="form_wrap">
                     <div class="input_box_wrap">
-                        <label for="name">회원 등급명</label>
+                        <label for="name" class="ess_tit">회원 등급명</label>
                         <input type="text" id="name" th:field="*{name}" maxlength="30" placeholder="회원 등급명을 입력해 주세요.">
                     </div>
                     <div class="field-error" th:errors="*{name}"></div>
                     <div class="input_box_wrap">
-                        <label for="pointRate">적립률</label>
+                        <label for="pointRate" class="ess_tit">적립률</label>
                         <input type="number" id="pointRate" th:field="*{pointRate}" placeholder="적립률을 입력해 주세요.">
                     </div>
                     <div class="field-error" th:errors="*{pointRate}"></div>
                     <div class="input_box_wrap">
-                        <label for="maxBenefitPoint">최대 적립 가능 금액</label>
+                        <label for="maxBenefitPoint" class="ess_tit">최대 적립 가능 금액</label>
                         <input type="number" id="maxBenefitPoint" th:field="*{maxBenefitPoint}">
                     </div>
                     <div class="input_box_wrap">
-                        <label for="minAmountSpent">최소 소비 금액</label>
+                        <label for="minAmountSpent" class="ess_tit">최소 소비 금액</label>
                         <input type="number" id="minAmountSpent" th:field="*{minAmountSpent}">
                     </div>
                     <div class="field-error" th:errors="*{minAmountSpent}"></div>
@@ -61,7 +61,7 @@
                 </div>
                 <div class="input_box_wrap btn">
                     <button type="button" class="btn1" onclick="location.href ='./membership_list.html'"
-                            th:onclick="|location.href='@{/admin/memberships/{membershipId}(membershipId=${form.id})}'|">취소</button>
+                            th:onclick="|location.href='@{/admin/memberships/{membershipId}(membershipId=${editForm.id})}'|">취소</button>
                     <button type="submit" class="btn1 submit_btn">완료</button>
                 </div>
             </form>

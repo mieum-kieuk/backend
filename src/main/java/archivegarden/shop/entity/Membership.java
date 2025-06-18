@@ -15,7 +15,7 @@ public class Membership {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "membership_id")
-    private Short id;
+    private Long id;
 
     @Column(length = 30, nullable = false)
     private String name;
@@ -23,7 +23,7 @@ public class Membership {
     @Column(name = "point_rate", nullable = false)
     private int pointRate;
 
-    @Column(length = 30, nullable = false)
+    @Column(nullable = false)
     private int level;
 
     @Column(name = "is_default", nullable = false)
@@ -40,22 +40,16 @@ public class Membership {
         membership.name = form.getName();
         membership.pointRate = form.getPointRate();
         membership.level = level;
+        membership.isDefault = false;
         membership.maxBenefitPoint = form.getMaxBenefitPoint();
         membership.minAmountSpent = form.getMinAmountSpent();
         return membership;
     }
 
-    /**
-     * 회원 등급 수정
-     */
     public void update(AdminEditMembershipForm form) {
         this.name = form.getName();
         this.pointRate = form.getPointRate();
         this.maxBenefitPoint = form.getMaxBenefitPoint();
         this.minAmountSpent = form.getMinAmountSpent();
-    }
-
-    public boolean isDefault() {
-        return isDefault;
     }
 }

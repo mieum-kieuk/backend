@@ -56,7 +56,7 @@
       </div>
       <div style="display: flex;">
         <div class="input_box_wrap btn">
-          <button class="btn1" id="deleteMembershipBtn" th:if="${membership.level != 1}" th:value="${membership.id}">삭제</button>
+          <button class="btn1" id="deleteMembershipBtn" th:if="${!membership.isDefault}" th:value="${membership.id}">삭제</button>
           <button class="btn1" onclick="location.href = './edit_membership.html'"
                   th:onclick="|location.href='@{/admin/memberships/{membershipId}/edit(membershipId=${membership.id})}'|">수정</button>
           <button class="btn1" onclick="location.href = './membership_list.html'"
