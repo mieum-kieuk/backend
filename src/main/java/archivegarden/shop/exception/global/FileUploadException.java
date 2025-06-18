@@ -1,4 +1,4 @@
-package archivegarden.shop.exception.common;
+package archivegarden.shop.exception.global;
 
 public class FileUploadException extends RuntimeException {
 

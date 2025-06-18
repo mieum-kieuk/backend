@@ -1,7 +1,7 @@
 package archivegarden.shop.controller.exception;
 
-import archivegarden.shop.exception.common.EntityNotFoundException;
-import archivegarden.shop.exception.common.FileUploadException;
+import archivegarden.shop.exception.global.EntityNotFoundException;
+import archivegarden.shop.exception.global.FileUploadException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

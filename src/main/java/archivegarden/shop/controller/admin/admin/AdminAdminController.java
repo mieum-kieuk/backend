@@ -5,7 +5,7 @@ import archivegarden.shop.dto.admin.AdminSearchCondition;
 import archivegarden.shop.dto.admin.admin.AdminListDto;
 import archivegarden.shop.dto.admin.admin.JoinAdminForm;
 import archivegarden.shop.dto.common.JoinSuccessDto;
-import archivegarden.shop.exception.common.DuplicateEntityException;
+import archivegarden.shop.exception.global.DuplicateEntityException;
 import archivegarden.shop.service.admin.admin.AdminAdminService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 
-@Tag(name = "Admin 관리", description = "관리자 웹 페이지 관련 API")
+@Tag(name = "Admin 관리", description = "관리자 페이지에서 관리자 정보를 관리하는 웹 페이지 API")
 @Controller
 @RequestMapping("/admin")
 @RequiredArgsConstructor
@@ -34,10 +34,8 @@ public class AdminAdminController {
 
     @Operation(
             summary = "관리자 로그인 페이지 표시",
-            description = "관리자 로그인 폼을 반환합니다. 로그인 실패 시 에러 메시지를 포함할 수 있습니다.",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "성공적으로 로그인 페이지 반환")
-            }
+            description = "관리자 로그인 폼을 반환합니다. 로그인 실패 시 원인 에러 메시지를 포함합니다.",
+            responses = {@ApiResponse(responseCode = "200", description = "성공적으로 로그인 페이지 반환")}
     )
     @GetMapping("/login")
     public String login(
@@ -54,24 +52,20 @@ public class AdminAdminController {
     @Operation(
             summary = "로그아웃 후 관리자 홈으로 리다이렉트",
             description = "직접 로그아웃 경로 접근 시 관리자 홈 페이지로 이동합니다.",
-            responses = {
-                    @ApiResponse(responseCode = "302", description = "관리자 홈 페이지로 리다이렉션")
-            }
+            responses = {@ApiResponse(responseCode = "302", description = "관리자 홈 페이지로 리다이렉트")}
     )
     @GetMapping("/logout")
-    public String redirectToHome() {
+    public String logout() {
         return "redirect:/admin";
     }
 
     @Operation(
             summary = "관리자 회원가입 폼 표시",
-            description = "관리자 회원가입을 위한 화면을 반환합니다.",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "성공적으로 회원가입 폼 반환")
-            }
+            description = "관리자 회원가입 화면을 반환합니다.",
+            responses = {@ApiResponse(responseCode = "200", description = "성공적으로 관리자 회원가입 폼 반환")}
     )
     @GetMapping("/join")
-    public String addAdminForm(@ModelAttribute("joinForm") JoinAdminForm form) {
+    public String joinAdminForm(@ModelAttribute("joinForm") JoinAdminForm form) {
         return "admin/admin/join";
     }
 
@@ -80,7 +74,7 @@ public class AdminAdminController {
             description = "새로운 관리자를 등록합니다.",
             responses = {
                     @ApiResponse(responseCode = "200", description = "유효성 검증 실패 또는 중복 오류 발생 시 회원가입 폼으로 다시 이동"),
-                    @ApiResponse(responseCode = "302", description = "회원가입 성공 시 완료 페이지로 리다이렉션")
+                    @ApiResponse(responseCode = "302", description = "회원가입 성공 시 완료 페이지로 리다이렉트")
             }
     )
     @PostMapping("/join")
@@ -89,7 +83,7 @@ public class AdminAdminController {
             BindingResult bindingResult,
             HttpSession session
     ) {
-        validateJoin(form, bindingResult);
+        validateJoinForm(form, bindingResult);
         if (bindingResult.hasErrors()) {
             return "admin/admin/join";
         }
@@ -97,7 +91,7 @@ public class AdminAdminController {
         try {
             adminService.checkAdminDuplicate(form);
         } catch (DuplicateEntityException e) {
-            bindingResult.reject("duplicateError", e.getMessage());
+            bindingResult.reject("error.global.admin.duplicate", e.getMessage());
             return "admin/admin/join";
         }
 
@@ -108,10 +102,10 @@ public class AdminAdminController {
 
     @Operation(
             summary = "관리자 회원가입 완료 페이지 표시",
-            description = "회원가입이 성공적으로 완료된 후 결과 페이지를 반환합니다.",
+            description = "성공적으로 회원가입이 완료된 후 결과 페이지를 반환합니다.",
             responses = {
                     @ApiResponse(responseCode = "200", description = "회원가입 완료 페이지 반환"),
-                    @ApiResponse(responseCode = "302", description = "세션에 정보가 없거나 유효하지 않으면 회원가입 폼으로 리다이렉션")
+                    @ApiResponse(responseCode = "302", description = "세션에 정보가 없거나 유효하지 않으면 회원가입 폼으로 리다이렉트")
             }
     )
     @GetMapping("/join/complete")
@@ -131,9 +125,7 @@ public class AdminAdminController {
     @Operation(
             summary = "관리자 목록 조회",
             description = "검색 조건에 따라 관리자 목록을 페이징하여 조회합니다.",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "성공적으로 관리자 목록을 반환하거나 날짜 유효성 검증 실패 시 에러 메시지를 포함하여 목록 페이지 반환"),
-            }
+            responses = {@ApiResponse(responseCode = "200", description = "성공적으로 조건에 맞는 관리자 목록을 반환하거나 날짜 유효성 검증 실패 시 에러 메시지를 포함하여 전체 목록 페이지 반환"),}
     )
     @GetMapping("/admins")
     public String admins(
@@ -156,10 +148,10 @@ public class AdminAdminController {
     /**
      * 비밀번호와 비밀번호 확인이 일치하는지 검증합니다.
      *
-     * @param form 회원가입 폼 데이터를 담은 DTO
+     * @param form          회원가입 폼 데이터를 담은 DTO
      * @param bindingResult 유효성 검증 결과를 담는 객체
      */
-    private void validateJoin(JoinAdminForm form, BindingResult bindingResult) {
+    private void validateJoinForm(JoinAdminForm form, BindingResult bindingResult) {
         if (StringUtils.hasText(form.getPassword())) {
             if (!form.getPassword().equals(form.getPasswordConfirm())) {
                 bindingResult.rejectValue("passwordConfirm", "error.field.passwordConfirm.mismatch");
@@ -176,7 +168,7 @@ public class AdminAdminController {
      * - 시작일시가 종료일시보다 미래인 경우
      *
      * @param startDate 검색 시작 날짜
-     * @param endDate 검색 종료 날짜
+     * @param endDate   검색 종료 날짜
      * @return 유효성 검증 실패 시 에러 메시지, 성공 시 null
      */
     private String validateDate(LocalDate startDate, LocalDate endDate) {
