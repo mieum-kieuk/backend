@@ -9,8 +9,8 @@ import archivegarden.shop.entity.Delivery;
 import archivegarden.shop.entity.Member;
 import archivegarden.shop.entity.Membership;
 import archivegarden.shop.entity.SavedPointType;
-import archivegarden.shop.exception.common.DuplicateEntityException;
-import archivegarden.shop.exception.common.EntityNotFoundException;
+import archivegarden.shop.exception.global.DuplicateEntityException;
+import archivegarden.shop.exception.global.EntityNotFoundException;
 import archivegarden.shop.repository.DeliveryRepository;
 import archivegarden.shop.repository.member.MemberRepository;
 import archivegarden.shop.repository.membership.MembershipRepository;
@@ -136,7 +136,7 @@ public class MemberServiceImpl implements MemberService {
         String verificationNo = createVerificationNo();
         log.info("휴대전화번호 인증번호: {}", verificationNo);
 
-        smsUtil.sendVerificationNo(to, verificationNo);
+//        smsUtil.sendVerificationNo(to, verificationNo);
 
         redisUtil.setDataExpire(to, verificationNo, 60 * 3L);
     }

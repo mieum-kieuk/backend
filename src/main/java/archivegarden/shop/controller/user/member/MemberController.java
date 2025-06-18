@@ -1,10 +1,10 @@
 package archivegarden.shop.controller.user.member;
 
 import archivegarden.shop.constant.SessionConstants;
-import archivegarden.shop.dto.user.member.JoinMemberForm;
-import archivegarden.shop.dto.user.member.FindIdResultDto;
 import archivegarden.shop.dto.common.JoinSuccessDto;
-import archivegarden.shop.exception.common.DuplicateEntityException;
+import archivegarden.shop.dto.user.member.FindIdResultDto;
+import archivegarden.shop.dto.user.member.JoinMemberForm;
+import archivegarden.shop.exception.global.DuplicateEntityException;
 import archivegarden.shop.service.user.member.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -14,8 +14,10 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.regex.Pattern;
 
@@ -38,8 +40,7 @@ public class MemberController {
      * 회원가입 요청을 처리하는 메서드
      */
     @PostMapping("/join")
-    public String join(@Validated @ModelAttribute("joinForm") JoinMemberForm form, BindingResult bindingResult,
-                       HttpSession session, RedirectAttributes redirectAttributes) {
+    public String join(@Validated @ModelAttribute("joinForm") JoinMemberForm form, BindingResult bindingResult, HttpSession session) {
         validateJoin(form, bindingResult);
         if (bindingResult.hasErrors()) {
             return "user/member/join";
@@ -48,8 +49,8 @@ public class MemberController {
         try {
             memberService.checkMemberDuplicate(form);
         } catch(DuplicateEntityException e) {
-            redirectAttributes.addFlashAttribute("duplicateError", e.getMessage());
-            return "redirect:/member/join";
+            bindingResult.reject("error.global.member.duplicate", e.getMessage());
+            return "user/member/join";
         }
 
         Long memberId = memberService.join(form);
