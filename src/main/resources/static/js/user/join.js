@@ -95,7 +95,7 @@ function isLoginIdValid() {
             xhr.setRequestHeader(csrfHeader, csrfToken);
         },
         success: function (result) {
-            if (result.code == 200) {
+            if (result.status === 200) {
                 isAvailableLoginId = true;
                 $('#idMsg').text(result.message);
                 $('#idMsg').removeClass('error').addClass('success');
@@ -253,7 +253,7 @@ function isEmailValid() {
             xhr.setRequestHeader(csrfHeader, csrfToken);
         },
         success: function (result) {
-            if (result.code == 200) {
+            if (result.status == 200) {
                 isAvailableEmail = true;
                 $('#emailMsg').text(result.message);
                 $('#emailMsg').removeClass('error').addClass('success');
@@ -329,13 +329,13 @@ function regexPhone() {
     let regex1 = /^[0-9]{3,4}$/;
     let regex2 = /^[0-9]{4}$/;
     if (regex1.test(phonenumber2) && regex2.test(phonenumber3)) {
+        $('#phoneNumberMsg').removeClass('error').addClass('success');
         return true;
     } else {
         $('#phoneNumberMsg').text('휴대전화번호 형식으로 입력해 주세요.');
         $('#phoneNumberMsg').removeClass('success').addClass('error');
         return false;
     }
-    $('#phoneNumberMsg').removeClass('error').addClass('success');
 
 }
 function isAddressEmpty() {
@@ -377,20 +377,20 @@ function requestVerificationCode() {
     let phonenumber1 = $('#phonenumber1').val();
     let phonenumber2 = $('#phonenumber2').val();
     let phonenumber3 = $('#phonenumber3').val();
+    $('.loader_wrap.white').show();
 
     $.ajax({
         type: 'POST',
         url: '/ajax/member/send/verificationNo',
-        data: {phonenumber1: phonenumber1, phonenumber2: phonenumber2, phonenumber3: phonenumber3},
+        data: {'phonenumber1': phonenumber1, 'phonenumber2': phonenumber2, 'phonenumber3': phonenumber3},
         dataType: 'json',
         beforeSend: function (xhr) {
             xhr.setRequestHeader(csrfHeader, csrfToken);
-            $('.loader_wrap.white').show();
         },
         success: function (result) {
             $('.loader_wrap.white').hide();
 
-            if (result.code == 200) {
+            if (result.status === 200) {
                 $('#phoneNumberMsg').text(result.message);
                 $('#phoneNumberMsg').removeClass('error').addClass('success');
                 $('#confirm_verify_mobile').css('display', 'flex');
@@ -474,7 +474,7 @@ function isVerificationValid() {
             xhr.setRequestHeader(csrfHeader, csrfToken);
         },
         success: function (result) {
-            if (result.code == 200) {
+            if (result.status === 200) {
                 $('#verificationNo').val('');
                 $('#verificationNo').attr('placeholder', '휴대전화 인증 완료');
                 $('#verificationNo').attr('disabled', true);

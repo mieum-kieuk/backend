@@ -25,9 +25,6 @@
 <div th:replace="~{/layout/header :: header}"></div>
 <div id="join">
     <div class="join_wrap">
-        <div th:if="${duplicateError}" class="alert alert-danger" role="alert" th:text="${duplicateError}">
-            오류 메시지가 여기에 표시됩니다.
-        </div>
         <div class="auth_wrap">
             <ul id="user_auth">
                 <li>
@@ -50,6 +47,9 @@
             </ul>
         </div>
         <form action="" th:action th:object="${joinForm}" method="post" id="joinForm" th:onsubmit="return validateBeforeSubmit()">
+            <div th:if="${#fields.hasGlobalErrors()}">
+                <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></p>
+            </div>
             <div class="input_area">
                 <div class="input_wrap">
                     <ul>
