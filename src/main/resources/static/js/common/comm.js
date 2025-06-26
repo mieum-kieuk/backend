@@ -156,13 +156,12 @@ function toggleDropdownMenu(toggleElement) {
 
 function initializeSideMenu() {
     let url = window.location.pathname;
-    let paths = url.split('/');
 
     // 현재 페이지 URL과 일치하는 depth2 항목을 찾아 active 클래스를 추가하고, 해당 depth2만 열기
     $('.side_menu .depth2 li[data-path]').each(function() {
         let dataPath = $(this).data('path');
 
-        if (url.includes(dataPath)) {
+        if (url.endsWith('/' + dataPath)) {
             $(this).addClass('active');
             $(this).closest('.depth2').css('display', 'block');
             $(this).closest('.depth1 > li').addClass('active');
@@ -195,7 +194,7 @@ function initializeSideMenu() {
         });
 
         // 현재 페이지 URL과 일치하는 depth2 항목이 있는 경우 해당 depth1을 활성화
-        if (depth2.find('li[data-path]').toArray().some(item => url.includes($(item).data('path')))) {
+        if (depth2.find('li[data-path]').toArray().some(item => url.endsWith('/' + $(item).data('path')))) {
             depth1.addClass('active');
             depth2.css('display', 'block');
         }
