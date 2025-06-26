@@ -4,6 +4,9 @@ import archivegarden.shop.dto.ResultResponse;
 import archivegarden.shop.dto.admin.product.product.AdminProductPopupSearchCondition;
 import archivegarden.shop.dto.admin.product.product.AdminProductSummaryDto;
 import archivegarden.shop.service.admin.product.AdminProductService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Tag(name = "Product 관리", description = "관리자 페이지에서 상품 정보를 관리하는 AJAX API")
 @RestController
 @RequestMapping("/ajax/admin")
 @RequiredArgsConstructor
@@ -19,9 +23,14 @@ public class AdminProductAjaxController {
 
     private final AdminProductService productService;
 
-    /**
-     *  상품명 중복 여부를 검사하는 메서드
-     */
+    @Operation(
+            summary = "상품명 중복 검사",
+            description = "상품명 사용 가능 여부를 확인합니다.",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "사용 가능한 상품명"),
+                    @ApiResponse(responseCode = "400", description = "이미 사용 중인 상품명")
+            }
+    )
     @PostMapping("/product/check/name")
     public ResultResponse checkProductName(@RequestParam("name") String name) {
         boolean isAvailable = productService.isAvailableName(name);
@@ -32,32 +41,44 @@ public class AdminProductAjaxController {
         }
     }
 
-    /**
-     * 상품 1개 삭제 요청을 처리하는 메서드
-     */
+
+    @Operation(
+            summary = "상품 삭제 요청",
+            description = "상품을 삭제합니다. 상품 ID가 존재하지 않을 경우 오류를 반환합니다.",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "상품 삭제 성공"),
+                    @ApiResponse(responseCode = "404", description = "존재하지 않는 상품"),
+            }
+    )
     @DeleteMapping("/product")
     public ResultResponse deleteProduct(@RequestParam("productId") Long productId) {
         productService.deleteProduct(productId);
-        return new ResultResponse(HttpStatus.OK.value(), "삭제가 완료되었습니다.");
+        return new ResultResponse(HttpStatus.OK.value(), "상품이 삭제되었습니다.");
     }
 
-    /**
-     * 상품 여러개 삭제 요청을 처리하는 메서드
-     */
+    @Operation(
+            summary = "상품 여러개 삭제 요청",
+            description = "여러 개 상품을 삭제합니다. 존재하지 않는 상품 ID가 포함되면 오류를 반환합니다.",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "상품 다건 삭제 성공"),
+                    @ApiResponse(responseCode = "400", description = "존재하지 않는 상품 포함"),
+            }
+    )
     @DeleteMapping("/products")
     public ResultResponse deleteProducts(@RequestBody List<Long> productIds) {
         productService.deleteProducts(productIds);
-        return new ResultResponse(HttpStatus.OK.value(), "삭제가 완료되었습니다.");
+        return new ResultResponse(HttpStatus.OK.value(), "상품이 삭제되었습니다.");
     }
 
-    /**
-     * 할인 적용할 상품을 팝업창에서 검색하는 메서드
-     */
-    @ResponseBody
+
+    @Operation(
+            summary = "팝업창 내 상품 검색",
+            description = "상품 할인 적용을 위한 상품을 팝업창에서 검색 조건에 따라 조회합니다."
+    )
     @GetMapping("/products/search")
-    public Page<AdminProductSummaryDto> searchProductsInPopup(@ModelAttribute("condition") AdminProductPopupSearchCondition condition) {
-        PageRequest pageRequest = PageRequest.of(condition.getPage() - 1, condition.getLimit());
-        Page<AdminProductSummaryDto> productPopupDtos = productService.searchProductsInPopup(condition, pageRequest);
+    public Page<AdminProductSummaryDto> searchProductsInPopup(@ModelAttribute("cond") AdminProductPopupSearchCondition cond) {
+        PageRequest pageRequest = PageRequest.of(cond.getPage() - 1, cond.getLimit());
+        Page<AdminProductSummaryDto> productPopupDtos = productService.searchProductsInPopup(cond, pageRequest);
         return productPopupDtos;
     }
 }

@@ -2,8 +2,10 @@ package archivegarden.shop.controller.admin.product.product;
 
 import archivegarden.shop.dto.admin.product.product.*;
 import archivegarden.shop.entity.Category;
-import archivegarden.shop.exception.common.FileUploadException;
+import archivegarden.shop.exception.global.FileUploadException;
 import archivegarden.shop.service.admin.product.AdminProductService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -19,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+@Tag(name = "Product 관리", description = "관리자 페이지에서 상품 관련 API")
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/admin/products")
@@ -26,20 +29,27 @@ public class AdminProductController {
 
     private final AdminProductService productService;
 
-    /**
-     * 상품 등록 폼을 반환하는 메서드
-     */
+    @Operation(
+            summary = "상품 등록 폼 표시",
+            description = "새로운 상품 등록을 위한 화면을 반환합니다."
+    )
     @GetMapping("/add")
-    public String addProductForm(@ModelAttribute("addProductForm") AdminAddProductForm form, Model model) {
+    public String addProductForm(@ModelAttribute("addForm") AdminAddProductForm form, Model model) {
         model.addAttribute("categories", categorySelectBox());
         return "admin/product/product/add_product";
     }
 
-    /**
-     * 상품 등록 요청을 처리하는 메서드
-     */
+    @Operation(
+            summary = "상품 등록 요청",
+            description = "새로운 상품을 등록하고 상세 페이지로 리다이렉트합니다."
+    )
     @PostMapping("/add")
-    public String addProduct(@Valid @ModelAttribute("addProductForm") AdminAddProductForm form, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
+    public String addProduct(
+            @Valid @ModelAttribute("addForm") AdminAddProductForm form,
+            BindingResult bindingResult,
+            Model model,
+            RedirectAttributes redirectAttributes
+    ) {
         validateAttachImage(form.getDisplayImage(), form.getDetailImages(), bindingResult);
         if (bindingResult.hasErrors()) {
             model.addAttribute("categories", categorySelectBox());
@@ -47,19 +57,20 @@ public class AdminProductController {
         }
 
         try {
-            Long productId = productService.saveProduct(form);
+            Long productId = productService.addProduct(form);
             redirectAttributes.addAttribute("productId", productId);
             return "redirect:/admin/products/{productId}";
         } catch (FileUploadException e) {
-            bindingResult.reject("fileUploadException", e.getMessage());
+            bindingResult.reject("error.global.fileUploadException", e.getMessage());
             model.addAttribute("categories", categorySelectBox());
             return "admin/product/product/add_product";
         }
     }
 
-    /**
-     * 상품 상세 페이지를 조회하는 요청을 처리하는 메서드
-     */
+    @Operation(
+            summary = "상세 상세 조회",
+            description = "특정 상세의 상세 정보를 조회합니다."
+    )
     @GetMapping("/{productId}")
     public String productDetails(@PathVariable("productId") Long productId, Model model) {
         AdminProductDetailsDto productDetailsDto = productService.getProduct(productId);
@@ -67,35 +78,47 @@ public class AdminProductController {
         return "admin/product/product/product_details";
     }
 
-    /**
-     * 상품 목록을 조회하는 요청을 처리하는 메서드
-     */
+    @Operation(
+            summary = "상품 목록 조회",
+            description = "검색 조건에 따라 상품 목록을 페이징하여 조회합니다"
+    )
     @GetMapping
-    public String products(@ModelAttribute("form") AdminProductSearchCondition condition, @RequestParam(name = "page", defaultValue = "1") int page, Model model) {
+    public String products(
+            @ModelAttribute("cond") AdminProductSearchCondition cond,
+            @RequestParam(name = "page", defaultValue = "1") int page,
+            Model model
+    ) {
         PageRequest pageRequest = PageRequest.of(page - 1, 10);
-        Page<AdminProductListDto> products = productService.getProducts(condition, pageRequest);
+        Page<AdminProductListDto> products = productService.getProducts(cond, pageRequest);
         model.addAttribute("products", products);
         return "admin/product/product/product_list";
     }
 
-    /**
-     * 상품 수정 폼을 반환하는 메서드
-     */
+    @Operation(
+            summary = "상품 수정 폼 표시",
+            description = "기존 상품을 수정하기 위한 화면을 반환합니다."
+    )
     @GetMapping("/{productId}/edit")
     public String editProductForm(@PathVariable("productId") Long productId, Model model) {
-        AdminEditProductForm product = productService.getEditProductForm(productId);
-        model.addAttribute("product", product);
+        AdminEditProductForm editForm = productService.getEditProductForm(productId);
+        model.addAttribute("editForm", editForm);
         model.addAttribute("categories", categorySelectBox());
         return "admin/product/product/edit_product";
     }
 
-    /**
-     * 상품 수정 요청을 처리하는 메서드
-     */
+    @Operation(
+            summary = "상품 수정 요청",
+            description = "상품을 수정하고 상세 페이지로 리다이렉트합니다."
+    )
     @PostMapping("/{productId}/edit")
-    public String editProduct(@PathVariable("productId") Long productId, @Valid @ModelAttribute("product") AdminEditProductForm form, BindingResult bindingResult, Model model) {
+    public String editProduct(
+            @PathVariable("productId") Long productId,
+            @Valid @ModelAttribute("editForm") AdminEditProductForm form,
+            BindingResult bindingResult,
+            Model model
+    ) {
         if (form.getDetailImages().size() > 20) {
-            bindingResult.rejectValue("detailsImages", "imageCountExceeded");
+            bindingResult.rejectValue("detailsImages", "error.filed.detailsImages.imageCountExceeded");
         }
 
         if (bindingResult.hasErrors()) {
@@ -107,16 +130,19 @@ public class AdminProductController {
         return "redirect:/admin/products/{productId}";
     }
 
-    /**
-     * 상품 할인 적용할 상품 팝업창 조회하는 메서드
-     */
+    @Operation(
+            summary = "상품 선택 팝업창 화면 반환",
+            description = "상품 할인을 적용할 상품을 선택하기 위한 팝업창 화면을 반환합니다."
+    )
     @GetMapping("/search")
     public String showPopup() {
         return "admin/product/discount/product_popup";
     }
 
     /**
-     * 카테고리 목록을 조회하는 메서드
+     * 카테고리 목록 조회
+     *
+     * 상품 등록 및 수정 시, 카테고리 필드에 표시할 카테고리 목록을 조회합니다.
      */
     public List<Category> categorySelectBox() {
         List<Category> categories = new ArrayList<>();
@@ -125,17 +151,27 @@ public class AdminProductController {
     }
 
     /**
-     * 상품 등록 폼의 복합적인 유효성 검증을 수행하는 메서드<br>
-     * - 섬네일 사진1: 섬네일 사진1이 존재하는지 검사합니다.<br>
-     * - 상세페이지 사진: 상세페이지 사진 개수를 검사합니다.
+     * 상품 사진 등록 조건의 유효성 검증
+     *
+     * 다음 조건을 검사합니다:
+     * - 섬네일 사진 1: 존재 여부
+     * - 상세페이지 사진: 최대 20장 이하인지 여부
+     *
+     * @param displayImage 섬네일 사진 1
+     * @param detailsImages 상세페이지 사진 목록
+     * @param bindingResult 에러 발생 시 메시지를 등록할 객체
      */
-    private void validateAttachImage(MultipartFile displayImage, List<MultipartFile> detailsImages, BindingResult bindingResult) {
+    private void validateAttachImage(
+            MultipartFile displayImage,
+            List<MultipartFile> detailsImages,
+            BindingResult bindingResult
+    ) {
         if (displayImage == null || displayImage.isEmpty()) {
-            bindingResult.rejectValue("displayImage", "required");
+            bindingResult.rejectValue("displayImage", "error.field.displayImage.required");
         }
 
         if (detailsImages.size() > 20) {
-            bindingResult.rejectValue("detailsImages", "imageCountLimit");
+            bindingResult.rejectValue("detailsImages", "error.field.detailsImages.imageCountExceeded");
         }
     }
 }

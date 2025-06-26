@@ -1,9 +1,7 @@
 package archivegarden.shop.dto.admin.product.product;
 
 import archivegarden.shop.entity.Category;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.LinkedList;
@@ -11,7 +9,6 @@ import java.util.List;
 
 @Getter
 @Setter
-@AllArgsConstructor
 public class AdminProductPopupSearchCondition {
 
     private String keyword;

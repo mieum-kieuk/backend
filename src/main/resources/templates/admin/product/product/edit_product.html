@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
-    <title>전체 상품관리 | 미음키읔</title>
+    <title>전체 상품 관리 | 미음키읔</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,7 +26,7 @@
     <div id="editProduct" class="admins_wrap">
         <div class="content">
             <h2 class="content_tit">상품 수정</h2>
-            <form id="productForm" action="" th:object="${product}" th:action method="post" enctype="multipart/form-data" th:onsubmit="return validateBeforeSubmit()">
+            <form id="productForm" action="" th:object="${editForm}" th:action method="post" enctype="multipart/form-data" th:onsubmit="return validateBeforeSubmit()">
                 <div class="form_wrap">
                     <div class="input_box_wrap">
                         <label for="name" class="ess_tit">상품명</label>
@@ -84,9 +84,9 @@
                     <div class="field-error exc" th:errors="*{displayImage}"></div>
                     <div id="previewContainer1" class="preview_container">
                         <div class="preview_images">
-                            <img th:src="${product.originDisplayImage.imageData}" alt="섬네일 사진1" class="preview_image">
+                            <img th:src="${editForm.originDisplayImage.imageData}" alt="섬네일 사진1" class="preview_image">
                             <div class="filename_container">
-                                <span>파일명: </span><span class="file_name" th:text="${product.originDisplayImage.imageName}"></span>
+                                <span>파일명: </span><span class="file_name" th:text="${editForm.originDisplayImage.imageName}"></span>
                             </div>
                         </div>
                         <div class="btn_wrap">
@@ -109,11 +109,11 @@
                         </div>
                     </div>
                     <input type="hidden" id="hoverImageDeleted" th:field="*{hoverImageDeleted}"/>
-                    <div id="previewContainer2" class="preview_container" th:style="${product.originHoverImage == null} ? 'display:none;'">
+                    <div id="previewContainer2" class="preview_container" th:style="${editForm.originHoverImage == null} ? 'display:none;'">
                         <div class="preview_images">
-                            <img th:src="${product.originHoverImage != null ? product.originHoverImage.imageData : '#'}" alt="섬네일 사진2" class="preview_image">
+                            <img th:src="${editForm.originHoverImage != null ? editForm.originHoverImage.imageData : '#'}" alt="섬네일 사진2" class="preview_image">
                             <div class="filename_container">
-                                <span>파일명: </span><span class="file_name" th:text="${product.originHoverImage != null} ? ${product.originHoverImage.imageName}"></span>
+                                <span>파일명: </span><span class="file_name" th:text="${editForm.originHoverImage != null} ? ${editForm.originHoverImage.imageName}"></span>
                             </div>
                         </div>
                         <div class="btn_wrap">
@@ -135,7 +135,7 @@
                     </div>
                     <div class="field-error exc" th:errors="*{detailImages}"></div>
                     <div id="previewContainer3" class="preview_container column">
-                        <div class="preview_image_container" th:each="detailImage : ${product.originDetailImages}">
+                        <div class="preview_image_container" th:each="detailImage : ${editForm.originDetailImages}">
                             <div class="preview_images">
                                 <img th:src="${detailImage.imageData}" alt="" class="preview_image">
                                 <div class="filename_container">
@@ -158,8 +158,7 @@
                     </div>
                 </div>
                 <div class="input_box_wrap btn">
-                    <button type="button" class="btn1" onclick="location.href='./product_list.html'"
-                            th:onclick="|location.href='@{/admin/products}'|">취소</button>
+                    <button type="button" class="btn1" onclick="location.href='./product_list.html'" th:onclick="|location.href='@{/admin/products}'|">취소</button>
                     <button type="submit" id="submitBtn" class="btn1 submit_btn">완료</button>
                 </div>
             </form>

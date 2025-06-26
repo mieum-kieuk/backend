@@ -12,11 +12,11 @@ import java.util.Optional;
 
 public interface AdminProductRepositoryCustom {
 
-    List<Product> findAllInAdmin(List<Long> productIds);
+    List<Product> findProductsInAdmin(List<Long> productIds);
 
     Optional<Product> findProductInAdmin(Long productId);
 
-    Page<Product> findAllProductInAdmin(AdminProductSearchCondition condition, Pageable pageable);
+    Page<Product> searchProductsInAdmin(AdminProductSearchCondition cond, Pageable pageable);
 
-    Page<AdminProductSummaryDto> searchProductsInDiscountPopup(AdminProductPopupSearchCondition condition, Pageable pageable);
+    Page<AdminProductSummaryDto> searchProductsInDiscountPopup(AdminProductPopupSearchCondition cond, Pageable pageable);
 }

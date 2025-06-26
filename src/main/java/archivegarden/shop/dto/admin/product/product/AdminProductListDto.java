@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -22,7 +21,7 @@ public class AdminProductListDto {
     private String salePrice;
     private String displayImageData;
 
-    public AdminProductListDto(Product product, List<AdminProductImageDto> productImageDtos) {
+    public AdminProductListDto(Product product, AdminProductImageDto productImageDto) {
         this.id = product.getId();
         this.name = product.getName();
         this.categoryName = product.getCategory().getDisplayName();
@@ -35,7 +34,7 @@ public class AdminProductListDto {
         } else {
             this.salePrice = this.price;
         }
-        this.displayImageData = productImageDtos.get(0).getImageData();
+        this.displayImageData = productImageDto.getImageData();
     }
 
     private boolean isDateBetween(LocalDateTime startedAt, LocalDateTime expiredAt) {
