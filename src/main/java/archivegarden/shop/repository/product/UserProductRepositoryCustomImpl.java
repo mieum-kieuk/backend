@@ -39,19 +39,68 @@ public class UserProductRepositoryCustomImpl implements UserProductRepositoryCus
         this.queryFactory = new JPAQueryFactory(JPQLTemplates.DEFAULT, em);
     }
 
+    /**
+     * 상품 단건 조회
+     *
+     * - 할인, 이미지 fetchJoin
+     *
+     * @param productId 상품 ID
+     * @return 조회된 상품 Optional
+     */
     @Override
-    public List<Product> findLatestProducts() {
-        return queryFactory
+    public Optional<Product> findProduct(Long productId) {
+        Product result = queryFactory
                 .selectFrom(product)
                 .leftJoin(product.discount, discount).fetchJoin()
                 .leftJoin(product.productImages, productImage).fetchJoin()
-                .where(productImage.imageType.ne(ImageType.DETAILS))
-                .orderBy(product.createdAt.desc())
-                .offset(0)
-                .limit(9)
-                .fetch();
+                .where(product.id.eq(productId))
+                .fetchOne();
+
+        return Optional.ofNullable(result);
     }
 
+    /**
+     * 카테고리 기반 상품 조회
+     *
+     * - 할인, 이미지 fetchJoin
+     *
+     * @param condition 검색 조건
+     * @param pageable  페이징 정보
+     * @return 상품 Page 객체
+     */
+    @Override
+    public Page<Product> findProductsByCategory(ProductSearchCondition condition, Pageable pageable) {
+        List<Product> content = queryFactory
+                .selectFrom(product)
+                .leftJoin(product.discount, discount).fetchJoin()
+                .leftJoin(product.productImages, productImage).fetchJoin()
+                .where(
+                        categoryEq(condition.getCategory()),
+                        productImage.imageType.ne(ImageType.DETAILS)
+                )
+                .orderBy(getOrderSpecifier(condition.getSorted_type()).stream().toArray(OrderSpecifier[]::new))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        JPAQuery<Long> countQuery = queryFactory
+                .select(product.count())
+                .from(product)
+                .where(categoryEq(condition.getCategory()));
+
+        return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
+    }
+
+    /**
+     * 키워드로 상품 검색
+     *
+     * - 정렬 기준: 품절 상품은 맨 뒤
+     * - 할인, 상품 이미지 fetchJoin
+     *
+     * @param keyword  검색어
+     * @param pageable 페이징 정보
+     * @return 검색된 상품 목록 Page 객체
+     */
     @Override
     public Page<Product> searchProducts(String keyword, Pageable pageable) {
         List<Product> content = queryFactory
@@ -75,6 +124,34 @@ public class UserProductRepositoryCustomImpl implements UserProductRepositoryCus
         return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
     }
 
+    /**
+     * 최신 상품 9개 조회
+     *
+     * - 정렬 기준: 생성일 기준 내림차순
+     * - 할인, 상품 이미지 fetchJoin
+     *
+     * @return 상품 리스트
+     */
+    @Override
+    public List<Product> findLatestProducts() {
+        return queryFactory
+                .selectFrom(product)
+                .leftJoin(product.discount, discount).fetchJoin()
+                .leftJoin(product.productImages, productImage).fetchJoin()
+                .where(productImage.imageType.ne(ImageType.DETAILS))
+                .orderBy(product.createdAt.desc())
+                .offset(0)
+                .limit(9)
+                .fetch();
+    }
+
+    /**
+     * 문의 팝업창 내 상품 검색
+     *
+     * @param condition 검색 조건
+     * @param pageable  페이징 정보
+     * @return 상품 요약 정보 Page 객체
+     */
     @Override
     public Page<ProductSummaryDto> searchProductsInInquiryPopup(ProductPopupSearchCondition condition, Pageable pageable) {
         List<ProductSummaryDto> content = queryFactory.select(new QProductSummaryDto(
@@ -108,40 +185,6 @@ public class UserProductRepositoryCustomImpl implements UserProductRepositoryCus
         return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
     }
 
-    @Override
-    public Optional<Product> findProduct(Long productId) {
-        Product result = queryFactory
-                .selectFrom(product)
-                .leftJoin(product.discount, discount).fetchJoin()
-                .leftJoin(product.productImages, productImage).fetchJoin()
-                .where(product.id.eq(productId))
-                .fetchOne();
-
-        return Optional.ofNullable(result);
-    }
-
-    @Override
-    public Page<Product> findProductsByCategory(ProductSearchCondition condition, Pageable pageable) {
-        List<Product> content = queryFactory
-                .selectFrom(product)
-                .leftJoin(product.discount, discount).fetchJoin()
-                .leftJoin(product.productImages, productImage).fetchJoin()
-                .where(
-                        categoryEq(condition.getCategory()),
-                        productImage.imageType.ne(ImageType.DETAILS)
-                )
-                .orderBy(getOrderSpecifier(condition.getSorted_type()).stream().toArray(OrderSpecifier[]::new))
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .fetch();
-
-        JPAQuery<Long> countQuery = queryFactory
-                .select(product.count())
-                .from(product)
-                .where(categoryEq(condition.getCategory()));
-
-        return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
-    }
 
     /**
      * OrderSpecifier 리스트 객체 생성
@@ -192,8 +235,7 @@ public class UserProductRepositoryCustomImpl implements UserProductRepositoryCus
     }
 
     /**
-     * 상품명 검색
-     * 공백 제거, 대소문자 구분 안함
+     * 상품명 검색 조건 (공백 제거, 대소문자 무시)
      */
     private BooleanExpression nameLike(String keyword) {
         if (hasText(keyword)) {
@@ -206,14 +248,14 @@ public class UserProductRepositoryCustomImpl implements UserProductRepositoryCus
     }
 
     /**
-     * 카테고리
+     * 카테고리 조건
      */
     private BooleanExpression categoryEq(Category category) {
         return category != null ? product.category.eq(category) : null;
     }
 
     /**
-     * IMAGE TYPE = DISPLAY
+     * 이미지 타입이 DISPLAY인 이미지 필터링 조건
      */
     private BooleanExpression imageTypeDisplay() {
         return productImage != null ? productImage.imageType.eq(ImageType.DISPLAY) : null;

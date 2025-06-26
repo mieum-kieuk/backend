@@ -69,7 +69,7 @@ public class AdminProductController {
 
     @Operation(
             summary = "상세 상세 조회",
-            description = "특정 상세의 상세 정보를 조회합니다."
+            description = "상품 상세 정보를 조회합니다."
     )
     @GetMapping("/{productId}")
     public String productDetails(@PathVariable("productId") Long productId, Model model) {

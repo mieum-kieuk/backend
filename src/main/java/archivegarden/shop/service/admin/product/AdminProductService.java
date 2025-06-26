@@ -98,7 +98,7 @@ public class AdminProductService {
      *
      * @param cond     상품 검색 조건
      * @param pageable 페이징 정보
-     * @return 검색 조건에 맞는 상품 목록을 담은 Page 객체
+     * @return 검색된 상품 목록을 담은 Page 객체
      */
     @Transactional(readOnly = true)
     public Page<AdminProductListDto> getProducts(AdminProductSearchCondition cond, Pageable pageable) {

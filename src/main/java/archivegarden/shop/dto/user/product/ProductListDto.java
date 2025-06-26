@@ -9,6 +9,7 @@ import lombok.Setter;
 
 import java.text.DecimalFormat;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -24,7 +25,7 @@ public class ProductListDto {
     private boolean isSoldOut;
     private List<String> displayImageDatas;
 
-    public ProductListDto(Product product, List<String> imageDatas) {
+    public ProductListDto(Product product, List<ProductImageDto> productImageDtos) {
         this.id = product.getId();
         this.name = product.getName();
         this.price = new DecimalFormat("###,###원").format(product.getPrice());
@@ -40,6 +41,8 @@ public class ProductListDto {
             this.isSoldOut = true;
         }
 
-        this.displayImageDatas = imageDatas;
+        this.displayImageDatas = productImageDtos.stream()
+                .map(ProductImageDto::getImageData)
+                .collect(Collectors.toList());
     }
 }

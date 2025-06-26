@@ -12,13 +12,13 @@ import java.util.Optional;
 
 public interface UserProductRepositoryCustom {
 
-    List<Product> findLatestProducts();
+    Optional<Product> findProduct(Long productId);
+
+    Page<Product> findProductsByCategory(ProductSearchCondition cond, Pageable pageable);
 
     Page<Product> searchProducts(String keyword, Pageable pageable);
 
-    Page<ProductSummaryDto> searchProductsInInquiryPopup(ProductPopupSearchCondition condition, Pageable pageable);
+    List<Product> findLatestProducts();
 
-    Optional<Product> findProduct(Long productId);
-
-    Page<Product> findProductsByCategory(ProductSearchCondition condition, Pageable pageable);
+    Page<ProductSummaryDto> searchProductsInInquiryPopup(ProductPopupSearchCondition cond, Pageable pageable);
 }

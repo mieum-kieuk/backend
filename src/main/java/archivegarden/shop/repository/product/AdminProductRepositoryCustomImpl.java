@@ -54,7 +54,7 @@ public class AdminProductRepositoryCustomImpl implements AdminProductRepositoryC
     /**
      * 상품 상세 조회 시 사용되는 단건 조회
      *
-     * 할인, 상품 이미지 fetchJoin
+     * - 할인, 상품 이미지 fetchJoin
      *
      * @param productId 조회할 상품 ID
      * @return 조회된 상품, 없으면 Optional.empty()
@@ -73,6 +73,7 @@ public class AdminProductRepositoryCustomImpl implements AdminProductRepositoryC
 
     /**
      * 관리자 상품 목록 검색
+     *
      * - 검색 조건: 카테고리, 키워드
      * - 정렬 기준: 생성일 기준 내림차순
      * - 할인, 상품 이미지 fetchJoin

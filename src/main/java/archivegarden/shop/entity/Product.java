@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Entity
@@ -74,6 +75,19 @@ public class Product extends BaseTimeEntity {
         addProductImage(displayImage);
         if(hoverImage != null) addProductImage(hoverImage);
         if(detailImages.size() > 0) detailImages.forEach(img -> this.addProductImage(img));
+    }
+
+    public ProductImage getThumbnailImage() {
+        return this.productImages.stream()
+                .filter(img -> img.getImageType() == ImageType.DISPLAY)
+                .findFirst()
+                .orElse(null);
+    }
+
+    public List<ProductImage> getThumbnailImages() {
+        return this.productImages.stream()
+                .filter(img -> img.getImageType() == ImageType.DISPLAY || img.getImageType() == ImageType.HOVER)
+                .collect(Collectors.toList());
     }
 
     /**
