@@ -43,9 +43,9 @@ $('.wish').click(function () {
             url: '/ajax/check/login',
             type: 'GET',
             success: function (result) {
-                if (result.code == 200) {
+                if (result.status == 200) {
                     addWish(heart, productId);
-                } else if (result.code == 401) {
+                } else if (result.status == 401) {
                     Swal.fire({
                         html: result.message,
                         showConfirmButton: true,

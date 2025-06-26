@@ -80,6 +80,7 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
+    padding: 40px;
 }
 .prd_list > li{
     margin-bottom: 60px;

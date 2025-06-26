@@ -225,7 +225,7 @@ function increaseCount(productId) {
             },
             data: {'productId': productId},
             success: function (result) {
-                if (result.code == 200) {
+                if (result.status == 200) {
                     input.val(currentValue + 1);
                     if (currentValue === 1) {
                         decreaseBtn.removeClass('disabled');
@@ -283,7 +283,7 @@ function deleteProduct(productId) {
                     xhr.setRequestHeader(csrfHeader, csrfToken);
                 },
                 success: function (result) {
-                    if (result.code == 200) {
+                    if (result.status == 200) {
                         location.reload();
                     } else {
                         Swal.fire({
@@ -351,7 +351,7 @@ function deleteProducts() {
                         xhr.setRequestHeader(csrfHeader, csrfToken);
                     },
                     success: function (result) {
-                        if (result.code == 200) {
+                        if (result.status == 200) {
                             location.reload();
                         } else {
                             Swal.fire({
@@ -422,7 +422,7 @@ function deleteSoldOutProducts() {
                         xhr.setRequestHeader(csrfHeader, csrfToken);
                     },
                     success: function (result) {
-                        if (result.code == 200) {
+                        if (result.status == 200) {
                             location.reload();
                         } else {
                             Swal.fire({
@@ -470,7 +470,7 @@ async function checkout() {
             }
         });
 
-        if (response.code === 200) {
+        if (response.status === 200) {
             window.location.href = '/order/checkout';
         } else {
             Swal.fire({
@@ -483,7 +483,7 @@ async function checkout() {
         }
     } catch (error) {
         let errorMessage = '요청 사항 진행 중 문제가 발생했습니다.<br>다시 시도해 주세요.';
-        if (error.responseJSON && error.responseJSON.code === 400) {
+        if (error.responseJSON && error.responseJSON.status === 400) {
             errorMessage = error.responseJSON.message;
         }
 

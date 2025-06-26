@@ -79,7 +79,7 @@ $(document).ready(function () {
             url: '/ajax/check/login',
             type: 'GET',
             success: function (result) {
-                if (result.code == 401) {
+                if (result.status == 401) {
                     Swal.fire({
                         html: result.message,
                         showConfirmButton: true,
@@ -90,7 +90,7 @@ $(document).ready(function () {
                             window.location.href = '/login';
                         }
                     });
-                } else if (result.code == 200) {
+                } else if (result.status == 200) {
                     closeInquiryModal();
                     openInquiryModal();
                     let inquiryModal = $('#inquiryModal');
@@ -442,7 +442,7 @@ function deleteProductInquiry(productId, inquiryId, inquiryItem, inquiryContent)
                     xhr.setRequestHeader(csrfHeader, csrfToken)
                 },
                 success: function (data) {
-                    if (data.code === 200) {
+                    if (data.status === 200) {
                         inquiryItem.remove(); // 질문 행 삭제
                         inquiryContent.remove(); // 내용 행 삭제
                         loadInquiries(productId, 1);
