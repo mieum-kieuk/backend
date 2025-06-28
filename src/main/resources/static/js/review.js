@@ -1,10 +1,17 @@
-$(document).ready(function() {
+$(document).ready(function () {
 
-    $('.star_rating input').change(function() {
-        let value = $(this).val();
-        $('.star_rating .star').addClass('filled_star');
-        $(this).prevAll('.star').removeClass('filled_star');
+    let productId = $('#product').data('id');
+
+    popupButton();
+
+    $('.delete_btn').on('click', function () {
+        let reviewId = $(this).data('id');
+        deleteReview(productId, reviewId);
     });
+
+    if ($('.review_list #noDataMessage').length > 0) {
+        $('.footer').addClass('fixed');
+    }
 
     $('input[type="file"]').on('click', function(event) {
         let currentInput = $(this);
@@ -13,7 +20,6 @@ $(document).ready(function() {
         // 이전 파일들이 선택되었는지 확인
         for (let i = 1; i < currentIndex; i++) {
             let previousInput = $('#image' + i);
-            console.log('image' + i + ':', previousInput[0].files);
             if (previousInput.length > 0 && previousInput[0].files.length === 0) {
                 Swal.fire({
                     text: "첨부 파일 " + i + "을(를) 먼저 선택해 주세요.",
@@ -28,96 +34,163 @@ $(document).ready(function() {
         }
     }).on('change', function() {
         // 파일 크기 검사
-        let maxSizePerFile = 1 * 1024 * 1024; // 최대 파일 크기 설정 (1MB)
+        let maxSizePerFile = 3 * 1024 * 1024; // 최대 파일 크기 설정
         let fileInput = $(this)[0];
         if (fileInput.files.length > 0) {
             let fileSize = fileInput.files[0].size;
             if (fileSize > maxSizePerFile) {
                 Swal.fire({
-                    text: "첨부 파일 " + fileInput.id.replace('image', '') + "의 크기가 1MB 이하여야 합니다.",
+                    text: "첨부 파일 " + fileInput.id.replace('image', '') + "의 크기가 3MB 이하여야 합니다.",
                     showConfirmButton: true,
                     confirmButtonText: '확인',
                     customClass: mySwal,
                     buttonsStyling: false
                 });
 
-                $(this).val(''); // 파일 선택 취소
+                $(this).val('');
             }
         }
     });
 
-    // 상품후기, 상품문의
-    let reviewModal = $("#reviewModal");
-    let closeBtn = $(".close");
-    let cancelBtn = $(".cancel_btn");
-
-
-    // 모달 닫기
-    closeBtn.click(function() {
-        reviewModal.hide();
-    });
-    cancelBtn.click(function() {
-        reviewModal.hide();
-    });
-    // 외부 클릭 시 모달 닫기
-    $(window).click(function(event) {
-         if (event.target.id === "reviewModal") {
-            reviewModal.hide();
-        }
-    });
-    $(".review_items").click(function() {
-            let currentContent = $(this).next(".review_content");
-            toggleContent(currentContent);
-        });
-
-    $(".review_content .edit_btn").click(function() {
-        let reviewText = $(this).closest(".review_text_wrap").find(".review_text").text().trim();
-        let reviewRating = $(this).closest(".review_cont").find(".star.filled_star").length;
-
-        $("#content").val(reviewText);
-        $("input[name='rating'][value='" + reviewRating + "']").prop('checked', true);
-
-        $("#reviewModal .submit_btn").text("완료");
-
-        showReviewModal();
-    });
 });
-function showReviewModal() {
-    let reviewModal = $("#reviewModal");
-    reviewModal.css("display", "flex");
 
-}
-function toggleContent(content) {
-    if (content.is(":visible")) {
-        content.slideUp("fast", function() {
-            content.css("border-bottom", "");
-            content.prev(".review_items").css("border-bottom", "");
-        });
-    } else {
-        $(".review_content").not(content).slideUp("fast").promise().done(function() {
-            $(this).css("border-bottom", "").prev(".review_items").css("border-bottom", "");
-            content.slideDown().css("border-bottom", "1px solid #333");
-            content.prev(".review_items").css("border-bottom", "1px solid #333");
+let popup = null;
 
-        });
-    }
-}
-function validateReviewBeforeSubmit() {
-    let productElement = $('#productId');
-    if (productElement.length > 0) {
-        let product = productElement.val().trim();
-        if (product === '') {
-            Swal.fire({
-                text: "상품을 선택해 주세요.",
-                showConfirmButton: true,
-                confirmButtonText: '확인',
-                customClass: mySwal,
-                buttonsStyling: false
+// 팝업 열기 버튼
+function popupButton() {
+    $('#popupBtn').click(function () {
+        $(this).prop('disabled', true);
+
+        getProducts()
+            .then((data) => {
+                openPopup(data);
+            })
+            .catch(error => {
+                Swal.fire({
+                    text: "상품을 불러오는 데 실패했습니다.",
+                    showConfirmButton: true,
+                    confirmButtonText: '확인',
+                    customClass: mySwal,
+                    buttonsStyling: false
+                });
+            })
+            .finally(() => {
+                $('#popupBtn').prop('disabled', false);
             });
-            return false;
-        }
+    });
+}
+
+let csrfHeader = $("meta[name='_csrf_header']").attr("content");
+let csrfToken = $("meta[name='_csrf']").attr("content");
+
+// 상품 불러오기
+function getProducts() {
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            type: 'GET',
+            url: '/ajax/products/search',
+            success: function (data) {
+                resolve(data);  // 요청 성공 시 받은 데이터를 resolve로 반환
+            },
+            error: function () {
+                reject("상품을 불러오는 데 실패했습니다.");  // 실패 시 reject로 에러 메시지 반환
+            }
+        });
+    });
+}
+
+// 팝업 창 열기
+function openPopup(data) {
+    if (popup && !popup.closed) {
+        popup.focus();
+        return;
     }
-    let filledStars = $('.star_rating .star.filled_star').length; // 채워진 별의 개수를 가져옴
+    const width = (screen.width) / 2;
+    const height = screen.height;
+    const left = (screen.width - width) / 2;
+    const top = (screen.height - height) / 2;
+    popup = window.open("/products/search", "_blank", `width=${width},height=${height},left=${left},top=${top},resizable=yes,scrollbars=yes`);
+
+    // 팝업 창이 완전히 로드된 후에 renderProducts를 호출하여 데이터를 전달
+    popup.onload = function () {
+        popup.renderProducts(data); // 데이터를 전달하여 팝업에서 제품을 렌더링
+        popup.renderPagination(data.totalElements, data.pageable.pageNumber + 1, data.pageable.pageSize); // 페이지네이션 호출
+    }
+}
+
+// 팝업 창에서 선택한 상품 부모 창에 추가
+window.getItem = function (items) {
+    let listContainer = $('.input_box_wrap.product .list.product');
+    items.forEach(function (item) {
+        let newItemHtml = `
+            <div class="list_item">
+                <div class="item check">
+                    <input type="checkbox" name="checkBox">
+                </div>
+                <div class="item img"><img src="${item.productImage}" alt="상품 이미지"></div>
+                <div class="item name">${item.productName}</div>
+                <div class="item price">${item.productPrice}</div>
+            </div>
+        `;
+        listContainer.append(newItemHtml);
+    });
+}
+
+// 상품 문의 삭제
+function deleteReview(productId, reviewId) {
+
+    Swal.fire({
+        text: "삭제하시겠습니까?",
+        showCancelButton: true,
+        cancelButtonText: '아니요',
+        confirmButtonText: '예',
+        customClass: mySwalConfirm,
+        reverseButtons: true,
+        buttonsStyling: false,
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                type: 'DELETE',
+                url: '/ajax/reviews',
+                data: {'reviewId': reviewId},
+                async: false,
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader(csrfHeader, csrfToken)
+                },
+                success: function (data) {
+                    window.location.href = '/community/reviews';
+                },
+                error: function () {
+                    Swal.fire({
+                        html: "삭제 중 오류가 발생했습니다.<br>다시 시도해 주세요.",
+                        showConfirmButton: true,
+                        confirmButtonText: '확인',
+                        customClass: mySwal,
+                        buttonsStyling: false
+                    });
+                }
+            })
+        }
+    });
+}
+
+// 폼 제출 전 유효성 검사
+function validateBeforeSubmit() {
+    let selectedProduct = $('#productName').text().length;
+    let filledStars = $('.star_rating .star.filled_star').length; // 채워진 별의 개수
+    let title = $('#title').val().trim();
+    let content = $('#content').val().trim();
+
+    if (selectedProduct === 0) {
+        Swal.fire({
+            text: "상품을 선택해 주세요.",
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
+        return false;
+    }
 
     if (filledStars === 0) {
         Swal.fire({
@@ -130,31 +203,28 @@ function validateReviewBeforeSubmit() {
 
         return false;
     }
-    let titleValue = $('#title').val().trim(); // 제목 입력값 가져오기
-    let contentValue = $('#content').val().trim(); // 리뷰 입력값 가져오기
-
-    if (titleValue === '') {
+    if (title === '') {
         Swal.fire({
             text: "제목을 작성해 주세요.",
             showConfirmButton: true,
             confirmButtonText: '확인',
             customClass: mySwal,
             buttonsStyling: false
-        });// 제목이 비어있을 경우 경고창 표시
+        });
         return false;
     }
 
-    if (contentValue === '') {
+    if (content === '') {
         Swal.fire({
-            text: "리뷰를 작성해 주세요.",
+            text: "내용을 작성해 주세요.",
             showConfirmButton: true,
             confirmButtonText: '확인',
             customClass: mySwal,
             buttonsStyling: false
-        });// 리뷰가 비어있을 경우 경고창 표시
+        });
         return false;
     }
 
-
-    return true; // 모든 조건을 통과하면 true 반환
+    $('.submit_btn').prop('disabled', true);
+    return true;
 }

@@ -14,17 +14,17 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.js"></script>
-    <link rel="stylesheet" href="../../css/common/comm.css">
-    <link rel="stylesheet" href="../../css/user/review.css">
-    <script defer src="../../js/review.js"></script>
-    <script defer src="../../js/common/comm.js"></script>
+    <link rel="stylesheet" href="../../../css/common/comm.css">
+    <link rel="stylesheet" href="../../../css/user/review.css">
+    <script defer src="../../../js/review.js"></script>
+    <script defer src="../../../js/common/comm.js"></script>
 </head>
 <body>
 <div class="wrap">
     <header id="header" class="header">
         <nav id="gnb">
             <div class="logo">
-                <a href="../index.html">
+                <a href="../../index.html">
                     미음키읔
                 </a>
             </div>
@@ -42,9 +42,9 @@
                     </li>
                     <li class="depth1_menu" id="community">Community
                         <ul class="depth2">
-                            <li><a href="../community/notice/notice_list.html">공지사항</a></li>
-                            <li><a href="../community/inquiry/inquiry_list.html">상품문의</a></li>
-                            <li><a href="../review/review_list.html">상품후기</a></li>
+                            <li><a href="../notice/notice_list.html">공지사항</a></li>
+                            <li><a href="../inquiry/inquiry_list.html">상품문의</a></li>
+                            <li><a href="st.html">상품후기</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -69,9 +69,9 @@
                         <li class="depth1_menu">Account
                             <ul class="depth2">
                                 <li><a href="../../login.html">Login</a></li>
-                                <li><a href="../user/member/join.html">Join</a></li>
-                                <li><a href="../order/order_list.html">Order</a></li>
-                                <li><a href="../user/mypage/mypage_home.html">Mypage</a></li>
+                                <li><a href="../../user/member/join.html">Join</a></li>
+                                <li><a href="../../order/order_list.html">Order</a></li>
+                                <li><a href="../../user/mypage/mypage_home.html">Mypage</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -94,7 +94,7 @@
                     <div id="orderItem" class="review_item">
                         <div class="item_wrap" id="productId">
                             <div class="thumbnail">
-                                <a href=""><img id="productImg" class="item_img" src="../../images/img_no.png" alt="상품 이미지"></a>
+                                <a href=""><img id="productImg" class="item_img" src="../../../images/img_no.png" alt="상품 이미지"></a>
                             </div>
                             <div class="description">
                                 <a href=""><span id="productName" class="item_name"></span></a>
@@ -154,7 +154,7 @@
             </tr>
         </table>
         <div class="btn_wrap">
-            <button type="button" class="btn1" onclick="location.href = './review_list.html'">취소</button>
+            <button type="button" class="btn1" onclick="location.href = 'review_list.html'">취소</button>
             <button type="submit" id="submitBtn" class="btn1 submit_btn" onclick="validateBeforeSubmit()">등록</button>
         </div>
     </form>

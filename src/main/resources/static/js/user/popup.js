@@ -13,7 +13,7 @@ $(document).ready(function () {
     });
 
     // 문의 팝업 제출 시 체크박스 초기화
-    $('#inquiryPopup .submit_btn').on('click', function() {
+    $('#inquiryPopup .submit_btn, #reviewPopup .submit_btn').on('click', function() {
         $('.search_result .product .check input[type="checkbox"]').prop('checked', false);
         let limit = $('#limit').val();
         loadPage(1, limit);

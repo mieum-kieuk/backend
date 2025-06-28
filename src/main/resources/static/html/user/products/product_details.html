@@ -230,7 +230,7 @@
                         <button type="button" id="reviewBtn" class="btn1 write_btn">작성하기</button>
                     </div>
                 </div>
-                <table  class="review_table">
+                <table id="reviewTable" class="review_table">
                     <thead>
                     <tr>
                         <th class="title">제목</th>
@@ -241,24 +241,6 @@
                     </thead>
                     <tr id="noDataMessage">
                         <td colspan="4">등록된 상품후기가 없습니다.</td>
-                    </tr>
-                    <tr class="review_items">
-                        <td class="title_td">
-                        <span class="title">
-                            너무 이뻐요
-                        </span>
-                        </td>
-                        <td><span class="writer">작성자</span></td>
-                        <td><span class="date">2024.04.08</span></td>
-                        <td>
-                            <div class="star_rating">
-                            <label class="star"></label>
-                            <label class="star"></label>
-                            <label class="star"></label>
-                            <label class="star"></label>
-                            <label class="star"></label>
-                            </div>
-                        </td>
                     </tr>
                     <tr class="review_items">
                         <td class="title_td">
@@ -396,7 +378,7 @@
                     </ul>
                 </div>
             </div>
-            <div id="reviewModal" class="modal">
+            <div id="reviewModal" class="modal" data-id="${reviewId}">
                 <div class="modal_content">
                     <div id="addReviewForm">
                         <table class="review_table">

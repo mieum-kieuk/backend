@@ -18,12 +18,13 @@
     <link rel="stylesheet" href="../../../static/css/user/product_details.css" th:href="@{/css/user/product_details.css}"/>
     <link rel="stylesheet" href="../../../static/css/user/cart.css" th:href="@{/css/user/cart.css}"/>
     <link rel="stylesheet" href="../../../static/css/user/inquiry.css" th:href="@{/css/user/inquiry.css}"/>
+    <link rel="stylesheet" href="../../../static/css/user/review.css" th:href="@{/css/user/review.css}"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.js"></script>
     <script defer src="../../../static/js/common/comm.js" th:src="@{/js/common/comm.js}"></script>
     <script defer src="../../../static/js/user/product.js" th:src="@{/js/user/product.js}"></script>
     <script defer src="../../../static/js/user/wish.js" th:src="@{/js/user/wish.js}"></script>
-    <script defer src="../../../static/js/review.js" th:src="@{/js/review.js}"></script>
+    <script defer src="../../../static/js/reviewPopup.js" th:src="@{/js/reviewPopup.js}"></script>
     <script defer src="../../../static/js/user/inquiryPopup.js" th:src="@{/js/user/inquiryPopup.js}"></script>
 </head>
 <body>
@@ -236,6 +237,25 @@
                     </form>
                 </div>
             </div>
+            <div id="reviewList" class="review_wrap list">
+                <div class="review_head">
+                    <div class="review_head_inner">
+                        <h1 class="review_title">상품 후기</h1>
+                        <span class="review_count">(<span class="totalCount"></span>)</span>
+                    </div>
+                    <div class="btn_wrap">
+                        <button type="button" id="reviewBtn" class="btn1 write_btn">작성하기</button>
+                    </div>
+                </div>
+                <table id="reviewTable" class="review_table">
+                    <tbody></tbody>
+                </table>
+                <div class="pagination">
+                    <ul>
+                    </ul>
+                </div>
+            </div>
+
         </div>
     </div>
     <div th:replace="~{/layout/footer :: basic_footer}"></div>
