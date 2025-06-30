@@ -13,8 +13,26 @@ $(document).ready(function () {
         $('.footer').addClass('fixed');
     }
 
-});
+    $('#writeBtn').on('click', function () {
+        let isAuthenticated = $(this).data('auth') === true || $(this).data('auth') === 'true';
 
+        if (isAuthenticated) {
+            location.href = '/community/inquiries/add';
+        } else {
+            Swal.fire({
+                text: '로그인이 필요한 기능입니다.',
+                showConfirmButton: true,
+                confirmButtonText: '확인',
+                customClass: mySwal,
+                buttonsStyling: false,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    location.href = '/login';
+                }
+            });
+        }
+    });
+});
 let popup = null;
 
 // 팝업 열기 버튼
