@@ -139,6 +139,7 @@ function setProductState() {
 
     updateTotal();
 }
+
 function updateTotal() {
     let quantity = parseInt($('.quant_input').val());
     let isDiscount = $('.prd_price .discount').hasClass('active');
@@ -163,10 +164,9 @@ $('#CartBtn').click(function () {
     $.ajax({
         type: 'POST',
         url: '/ajax/cart/add',
-        data: {productId: productId, count: count},
+        data: {'productId': productId, 'count': count},
         beforeSend: function (xhr) {
             xhr.setRequestHeader(csrfHeader, csrfToken);
-            xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
         },
         success: function (result) {
             $('#cartItemCount').text(result.cartItemCount);
@@ -178,8 +178,17 @@ $('#CartBtn').click(function () {
                 buttonsStyling: false
             });
         },
-        error: function(xhr) {
-            if(xhr.status == 401) {
+        error: function (xhr) {
+            if (xhr.status == 400) {
+                let result = JSON.parse(xhr.responseText);
+                Swal.fire({
+                    html: result.message.replace('\n', '<br>'),
+                    showConfirmButton: true,
+                    confirmButtonText: '확인',
+                    customClass: mySwal,
+                    buttonsStyling: false
+                });
+            } else if (xhr.status == 401) {
                 window.location.href = '/login';
             } else {
                 Swal.fire({

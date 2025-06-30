@@ -7,12 +7,12 @@ import lombok.Setter;
 @Setter
 public class CartResultResponse {
 
-    private int code;
+    private int status;
     private String message;
     private int cartItemCount;
 
-    public CartResultResponse(int code, String message) {
-        this.code = code;
+    public CartResultResponse(int status, String message) {
+        this.status = status;
         this.message = message;
     }
 }

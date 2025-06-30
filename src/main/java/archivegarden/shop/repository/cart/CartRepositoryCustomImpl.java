@@ -23,8 +23,14 @@ public class CartRepositoryCustomImpl implements CartRepositoryCustom {
         this.queryFactory = new JPAQueryFactory(em);
     }
 
+    /**
+     * 회원의 장바구니 목록 조회
+     *
+     * @param memberId 회원 ID
+     * @return 해당 회원의 장바구니 상품 목록 DTO 리스트
+     */
     @Override
-    public List<CartListDto> findAllProducts(Long memberId) {
+    public List<CartListDto> findCartItems(Long memberId) {
         return queryFactory
                 .select(new QCartListDto(
                         product.id,
@@ -46,7 +52,7 @@ public class CartRepositoryCustomImpl implements CartRepositoryCustom {
     }
 
     /**
-     * IMAGE TYPE = DISPLAY
+     * 이미지 타입이 DISPLAY인 이미지 필터링 조건
      */
     private BooleanExpression imageTypeDisplay() {
         return productImage != null ? productImage.imageType.eq(ImageType.DISPLAY) : null;

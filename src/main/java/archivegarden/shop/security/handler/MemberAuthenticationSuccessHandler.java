@@ -1,5 +1,6 @@
 package archivegarden.shop.security.handler;
 
+import archivegarden.shop.security.service.AccountContext;
 import archivegarden.shop.service.order.CartService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -20,17 +21,19 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class MemberAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
+    private final CartService cartService;
+
     private RequestCache requestCache = new HttpSessionRequestCache();
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
-
-    private final CartService cartService;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
 
         setDefaultTargetUrl("/");
 
-        int cartItemCount = cartService.getCartItemCount(authentication.getName());
+        AccountContext accountContext = (AccountContext) authentication.getPrincipal();
+        String loginId = accountContext.getUsername();
+        int cartItemCount = cartService.getCartItemCount(loginId);
         HttpSession session = request.getSession();
         session.setAttribute("cartItemCount", cartItemCount);
 

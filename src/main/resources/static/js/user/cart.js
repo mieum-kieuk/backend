@@ -174,7 +174,7 @@ function decreaseCount(productId) {
             },
             data: {'productId': productId},
             success: function (result) {
-                if (result.code == 200) {
+                if (result.status == 200) {
                     input.val(currentValue - 1);
                     if (currentValue === 2) {
                         decreaseBtn.addClass('disabled');
@@ -190,14 +190,25 @@ function decreaseCount(productId) {
                     });
                 }
             },
-            error: function () {
-                Swal.fire({
-                    html: '수량 변경 중 문제가 발생했습니다.<br>다시 시도해주세요.',
-                    showConfirmButton: true,
-                    confirmButtonText: '확인',
-                    customClass: mySwal,
-                    buttonsStyling: false
-                });
+            error: function (xhr) {
+                if (xhr.status == 400) {
+                    let result = JSON.parse(xhr.responseText);
+                    Swal.fire({
+                        html: result.message.replace('\n', '<br>'),
+                        showConfirmButton: true,
+                        confirmButtonText: '확인',
+                        customClass: mySwal,
+                        buttonsStyling: false
+                    });
+                } else {
+                    Swal.fire({
+                        html: '수량 변경 중 문제가 발생했습니다.<br>다시 시도해주세요.',
+                        showConfirmButton: true,
+                        confirmButtonText: '확인',
+                        customClass: mySwal,
+                        buttonsStyling: false
+                    });
+                }
             }
         })
     } else {
@@ -241,14 +252,25 @@ function increaseCount(productId) {
                     });
                 }
             },
-            error: function () {
-                Swal.fire({
-                    html: '수량 변경 중 문제가 발생했습니다.<br>다시 시도해주세요.',
-                    showConfirmButton: true,
-                    confirmButtonText: '확인',
-                    customClass: mySwal,
-                    buttonsStyling: false
-                });
+            error: function (xhr) {
+                if (xhr.status == 400) {
+                    let result = JSON.parse(xhr.responseText);
+                    Swal.fire({
+                        html: result.message.replace('\n', '<br>'),
+                        showConfirmButton: true,
+                        confirmButtonText: '확인',
+                        customClass: mySwal,
+                        buttonsStyling: false
+                    });
+                } else {
+                    Swal.fire({
+                        html: '수량 변경 중 문제가 발생했습니다.<br>다시 시도해주세요.',
+                        showConfirmButton: true,
+                        confirmButtonText: '확인',
+                        customClass: mySwal,
+                        buttonsStyling: false
+                    });
+                }
             }
         })
     } else {

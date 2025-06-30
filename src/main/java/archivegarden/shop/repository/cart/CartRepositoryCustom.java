@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface CartRepositoryCustom {
 
-    List<CartListDto> findAllProducts(Long memberId);
+    List<CartListDto> findCartItems(Long memberId);
 }
 
 

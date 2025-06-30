@@ -4,6 +4,8 @@ import archivegarden.shop.dto.order.CartListDto;
 import archivegarden.shop.entity.Member;
 import archivegarden.shop.service.order.CartService;
 import archivegarden.shop.web.annotation.CurrentUser;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
+@Tag(name = "장바구니", description = "사용자 페이지에서 장바구니 관련 API")
 @Controller
 @RequestMapping("/cart")
 @RequiredArgsConstructor
@@ -20,11 +23,12 @@ public class CartController {
 
     private final CartService cartService;
 
-    /**
-     * 카트 목록을 조회하는 요청을 처리하는 메서드
-     */
+    @Operation(
+            summary = "장바구니 조회",
+            description = "장바구니를 조회합니다."
+    )
     @GetMapping
-    @PreAuthorize("#loginMember.loginId == principal.username")
+    @PreAuthorize("hasRole('USER')")
     public String cart(@CurrentUser Member loginMember, Model model) {
         List<CartListDto> products = cartService.getCarts(loginMember.getId());
         model.addAttribute("products", products);
