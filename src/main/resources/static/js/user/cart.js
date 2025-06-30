@@ -10,8 +10,13 @@ $(document).ready(function () {
     // 전체 선택 체크박스 변경 시 총 가격, 배송비 업데이트
     $('#checkAll').change(function () {
         let isChecked = $(this).prop('checked');
-        $('.cart_checkbox').prop('checked', isChecked);
+        $('.cart_checkbox').each(function () {
+            if (!$(this).closest('.cart_item').hasClass('sold_out')) {
+                $(this).prop('checked', isChecked);
+            }
+        });
         updateTotalPrice();
+        updateShippingFee();
 
         if (!isChecked) {
             updateShippingFee(0);
@@ -20,11 +25,18 @@ $(document).ready(function () {
 
     // 체크박스 변경 시 총 가격, 구매 버튼 상태 업데이트
     $('.cart_checkbox').change(function () {
-        let allChecked = $('.cart_content .cart_checkbox').length === $('.cart_content .cart_checkbox:checked').length;
+        let validCheckboxes = $('.cart_checkbox').filter(function () {
+            return !$(this).closest('.cart_item').hasClass('sold_out');
+        });
+
+        let allChecked = validCheckboxes.length === validCheckboxes.filter(':checked').length;
+
         $('#checkAll').prop('checked', allChecked);
+
         updateTotalPrice();
         updatePurchaseButton();
     });
+
 
     // 수량 1일 때 감소 버튼 비활성화
     $('.quant_input').each(function () {
@@ -63,6 +75,7 @@ function updateTotalPrice() {
     // 선택된 상품의 가격 합계 및 할인 금액 계산
     $('.cart_item').each(function () {
         let isChecked = $(this).find('.cart_checkbox').prop('checked');
+
         if (isChecked) {
             let quantity = parseInt($(this).find('.quant_input').val());
             let originalPrice = parseFloat($(this).find('.item.info .original_price #productPrice').text().replace('원', '').replace(',', ''));
