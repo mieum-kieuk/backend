@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.nio.file.AccessDeniedException;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 
@@ -102,11 +103,13 @@ public class InquiryService {
 
         inquiryListDtos.forEach(i -> {
             String writerLoginId = i.getWriterLoginId();
-            if (writerLoginId != null && writerLoginId.length() > 3) {
-                String encodedWriterLoginId = writerLoginId.substring(0, writerLoginId.length() - 3) + "***";
-                i.setWriterLoginId(encodedWriterLoginId);
-            } else if (writerLoginId != null) {
-                i.setWriterLoginId("***");
+            if (writerLoginId != null) {
+                String maskedLoginId = writerLoginId.length() > 3 ? writerLoginId.substring(0, writerLoginId.length() - 3) + "***" : "***";
+                i.setWriterLoginId(maskedLoginId);
+            }
+
+            if (loginMember != null && Objects.equals(writerLoginId, loginMember.getLoginId())) {
+                i.setIsWriter(true);
             }
         });
 
