@@ -47,7 +47,7 @@ public class ProductImageService {
      * @param imageUrl 이미지 URL
      * @return Base64 인코딩된 이미지 데이터 (data URI 포함)
      */
-    private String downloadAndEncodeImage(String imageUrl) {
+    public String downloadAndEncodeImage(String imageUrl) {
         byte[] imageData = firebaseService.downloadImage(imageUrl);
         return "data:image/png;base64," + Base64.getEncoder().encodeToString(imageData);
     }

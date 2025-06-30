@@ -27,18 +27,18 @@
     <div id="inquiry">
         <div class="inquiry_wrap">
             <h1 class="inquiry_title">상품문의</h1>
-            <form id="addInquiryForm" action="" th:action th:object="${form}" method="post" th:onsubmit="return validateBeforeSubmit()" novalidate>
+            <form id="addInquiryForm" action="" th:action th:object="${editForm}" method="post" th:onsubmit="return validateBeforeSubmit()" novalidate>
                 <table class="inquiry_table">
                     <tr>
                         <th colspan="2">
                             <div id="inquiryItem" class="inquiry_item">
                                 <div class="item_wrap">
                                     <div class="thumbnail">
-                                        <img id="productImage" class="item_img" th:src="${form.productImageData}" alt="상품 이미지">
+                                        <img id="productImage" class="item_img" th:src="${editForm.productImageData}" alt="상품 이미지">
                                     </div>
                                     <div class="description">
-                                        <span id="productName" class="item_name" th:text="${form.productName}"></span>
-                                        <span id="productPrice" class="item_price" th:text="${form.productPrice}"></span>
+                                        <span id="productName" class="item_name" th:text="${editForm.productName}"></span>
+                                        <span id="productPrice" class="item_price" th:text="${editForm.productPrice}"></span>
                                         <input type="hidden" id="productId" th:field="*{productId}">
                                         <div class="btn_wrap">
                                             <button type="button" class="popup_btn info">상품상세정보</button>

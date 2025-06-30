@@ -83,10 +83,15 @@ public class ProductService {
      */
     public Page<ProductSummaryDto> searchProductsInPopup(ProductPopupSearchCondition cond, Pageable pageable) {
         Page<ProductSummaryDto> productSummaryDtos = productRepository.searchProductsInInquiryPopup(cond, pageable);
-        productSummaryDtos.forEach(p -> {
-//            String encodedImageData = productImageService.getEncodedImageData(p.getDisplayImageData());
-//            p.setDisplayImageData(encodedImageData);
-        });
+
+        List<CompletableFuture<Void>> futures = productSummaryDtos.getContent().stream()
+                .map(product -> CompletableFuture.runAsync(() -> {
+                    String encodedImageData = productImageService.downloadAndEncodeImage(product.getDisplayImageData());
+                    product.setDisplayImageData(encodedImageData);
+                }, executor))
+                .toList();
+
+        CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
 
         return productSummaryDtos;
     }

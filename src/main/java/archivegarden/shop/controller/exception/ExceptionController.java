@@ -6,6 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.nio.file.AccessDeniedException;
+
 @Slf4j
 @ControllerAdvice
 public class ExceptionController {
@@ -20,5 +22,11 @@ public class ExceptionController {
     public String handleFileUploadException(FileUploadException e) {
         log.warn("[{}] cause={}, message={}", e.getStackTrace()[0], "FileUploadException", e.getMessage());
         return "error/common/entity_not_found.html";
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public String handleAccessDeniedException(AccessDeniedException e) {
+        log.warn("[{}] cause={}, message={}", e.getStackTrace()[0], "AccessDeniedException", e.getMessage());
+        return "error/common/403.html";
     }
 }

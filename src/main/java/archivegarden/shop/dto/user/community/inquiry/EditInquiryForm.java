@@ -22,6 +22,8 @@ public class EditInquiryForm {
 
     private Boolean isSecret;
 
+    private String writerLoginId;
+
     @NotNull(message = "상품을 선택해 주세요.")
     private Long productId;
 
@@ -30,10 +32,11 @@ public class EditInquiryForm {
     private String productImageData;
 
     @QueryProjection
-    public EditInquiryForm(String title, String content, boolean isSecret, Long productId, String productName, int productPrice, String productImageUrl) {
+    public EditInquiryForm(String title, String content, boolean isSecret, String writerLoginId, Long productId, String productName, int productPrice, String productImageUrl) {
         this.title = title;
         this.content = content;
         this.isSecret = isSecret;
+        this.writerLoginId = writerLoginId;
         this.productId = productId;
         this.productName = productName;
         this.productPrice = new DecimalFormat("###,###원").format(productPrice);

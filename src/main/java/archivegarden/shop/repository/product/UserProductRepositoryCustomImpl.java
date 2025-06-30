@@ -146,7 +146,7 @@ public class UserProductRepositoryCustomImpl implements UserProductRepositoryCus
     }
 
     /**
-     * 문의 팝업창 내 상품 검색
+     * 팝업창에서 상품 검색
      *
      * @param condition 검색 조건
      * @param pageable  페이징 정보
