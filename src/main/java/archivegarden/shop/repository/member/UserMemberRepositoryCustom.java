@@ -2,7 +2,9 @@ package archivegarden.shop.repository.member;
 
 import archivegarden.shop.dto.user.member.EditMemberInfoForm;
 
+import java.util.Optional;
+
 public interface UserMemberRepositoryCustom {
 
-    EditMemberInfoForm findByIdWithDefaultDelivery(Long memberId);
+    Optional<EditMemberInfoForm> fetchEditMemberInfoForm(Long memberId);
 }

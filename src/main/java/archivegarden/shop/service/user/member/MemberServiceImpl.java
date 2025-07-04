@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.util.Optional;
 import java.util.Random;
 
 @Slf4j
@@ -42,16 +43,20 @@ public class MemberServiceImpl implements MemberService {
     private final DeliveryRepository deliveryRepository;
     private final MembershipRepository membershipRepository;
 
+    private static final long VERIFICATION_CODE_EXPIRE_SECONDS = 60 * 3L;
+
     /**
      * 회원가입
+     *
+     * @param form 회원가입 폼 DTO
+     * @return 저장된 회원 ID
      */
     @Transactional
     @Override
     public Long join(JoinMemberForm form) {
         form.setPassword(encodePassword(form.getPassword()));
 
-        Membership membership = membershipRepository.findDefault()
-                .orElseThrow(() ->  new IllegalArgumentException("기본 멤버십 등급이 설정되어 있지 않습니다."));
+        Membership membership = membershipRepository.findDefault();
 
         Member member = Member.createMember(form, membership);
         memberRepository.save(member);
@@ -61,15 +66,18 @@ public class MemberServiceImpl implements MemberService {
 
         emailService.sendValidationRequestEmail(member.getEmail(), member.getName(), member.getCreatedAt());
 
-        savedPointService.addPoint(member.getId(), SavedPointType.JOIN, 1000);  //회원가입 축하 적립금 지급
+        savedPointService.addPoint(member.getId(), SavedPointType.JOIN, 1000);
 
         return member.getId();
     }
 
     /**
-     * 중복 회원 검사
+     * 회원 중복 검사
      *
-     * @throws DuplicateEntityException
+     * 로그인 아이디, 휴대전화번호, 이메일 중 하나라도 기존 회원과 중복되는지 확인합니다.
+     *
+     * @param form 회원가입 폼 DTO
+     * @throws DuplicateEntityException 존재하지 않는 회원일 경우
      */
     @Override
     public void checkMemberDuplicate(JoinMemberForm form) {
@@ -81,9 +89,11 @@ public class MemberServiceImpl implements MemberService {
     }
 
     /**
-     * 회원가입 완료 페이지에서 필요한 정보 조회
+     * 회원가입 완료 페이지에서 필요한 회원 정보 조회
      *
-     * @throws EntityNotFoundException
+     * @param memberId 회원 ID
+     * @return 회원가입 완료 정보 DTO
+     * @throws EntityNotFoundException 회원이 존재하지 않는 경우
      */
     @Override
     public JoinSuccessDto joinComplete(Long memberId) {
@@ -92,7 +102,10 @@ public class MemberServiceImpl implements MemberService {
     }
 
     /**
-     * 로그인 아이디 중복 검사
+     * 로그인 아이디 사용 가능 여부 검사
+     *
+     * @param loginId 로그인 아이디
+     * @return 사용 가능하면 true, 이미 존재하면 false
      */
     @Override
     public boolean isAvailableLoginId(String loginId) {
@@ -100,7 +113,10 @@ public class MemberServiceImpl implements MemberService {
     }
 
     /**
-     * 이메일 중복 검사
+     * 이메일 사용 가능 여부 검사
+     *
+     * @param email 이메일
+     * @return 사용 가능하면 true, 이미 존재하면 false
      */
     @Override
     public boolean isAvailableEmail(String email) {
@@ -108,7 +124,10 @@ public class MemberServiceImpl implements MemberService {
     }
 
     /**
-     * 핸드폰 중복 검사
+     * 휴대전화번호 사용 가능 여부 검사
+     *
+     * @param phonenumber 휴대전화번호
+     * @return 사용 가능하면 true, 이미 존재하면 false
      */
     @Override
     public boolean isAvailablePhonenumber(String phonenumber) {
@@ -116,15 +135,9 @@ public class MemberServiceImpl implements MemberService {
     }
 
     /**
-     * 비밀번호 중복 검사
-     */
-    @Override
-    public boolean isNewPassword (String newPassword, String nowPassword) {
-        return !passwordEncoder.matches(newPassword, nowPassword);
-    }
-
-    /**
-     * 인증코드 전송
+     * 휴대전화번호로 인증번호 발송
+     *
+     * @param to 휴대전화번호
      */
     @Transactional
     @Override
@@ -138,11 +151,14 @@ public class MemberServiceImpl implements MemberService {
 
 //        smsUtil.sendVerificationNo(to, verificationNo);
 
-        redisUtil.setDataExpire(to, verificationNo, 60 * 3L);
+        redisUtil.setDataExpire(to, verificationNo, VERIFICATION_CODE_EXPIRE_SECONDS);
     }
 
     /**
-     * 인증코드 검증
+     * 휴대전화번호 인증번호 검증
+     *
+     * @param requestDto 인증번호 검증 요청 DTO
+     * @return 인증번호가 일치하면 true, 그렇지 않으면 false
      */
     @Override
     public boolean validateVerificationNo(VerificationRequestDto requestDto) {
@@ -156,25 +172,35 @@ public class MemberServiceImpl implements MemberService {
     }
 
     /**
-     * 이메일 통해 아이디 존재하는지 확인
+     * 이메일로 아이디 찾기
+     *
+     * @param name  회원 이름
+     * @param email 회원 이메일
+     * @return 회원이 존재하면 회원 ID를 담은 Optional, 존재하지 않으면 Optional.empty()
      */
     @Override
-    public Long checkLoginIdExistsByEmail(String name, String email) {
+    public Optional<Long> checkLoginIdExistsByEmail(String name, String email) {
         return memberRepository.findLoginIdByEmail(name, email);
     }
 
     /**
-     * 휴대전화번호 통해 아이디 존재하는지 확인
+     * 휴대전화번호로 아이디 찾기
+     *
+     * @param name        회원 이름
+     * @param phonenumber 회원 휴대전화번호
+     * @return 회원이 존재하면 회원 ID를 담은 Optional, 존재하지 않으면 Optional.empty()
      */
     @Override
-    public Long checkIdExistsByPhonenumber(String name, String phonenumber) {
+    public Optional<Long> checkLoginIdExistsByPhonenumber(String name, String phonenumber) {
         return memberRepository.findLoginIdByPhonenumber(name, phonenumber);
     }
 
     /**
      * 아이디 찾기 결과 페이지에서 필요한 정보 조회
      *
-     * @throws EntityNotFoundException
+     * @param memberId 회원 ID
+     * @return 아이디 찾기 결과 DTO
+     * @throws EntityNotFoundException 회원이 존재하지 않는 경우
      */
     @Override
     public FindIdResultDto findIdComplete(Long memberId) {
@@ -183,23 +209,37 @@ public class MemberServiceImpl implements MemberService {
     }
 
     /**
-     * 이메일 통해 비밀번호 존재하는지 확인
+     * 이메일로 비밀번호 찾기
+     *
+     * @param loginId 회원 로그인 아이디
+     * @param name    회원 이름
+     * @param email   회원 이메일
+     * @return 회원이 존재하면 회원 ID를 담은 Optional, 존재하지 않으면 Optional.empty()
      */
     @Override
-    public String checkPasswordExistsByEmail(String loginId, String name, String email) {
+    public Optional<String> checkPasswordExistsByEmail(String loginId, String name, String email) {
         return memberRepository.findPasswordByEmail(loginId, name, email);
     }
 
     /**
-     * 휴대전화번호를 통해 비밀번호 존재하는지 확인
+     * 휴대전화번호로 비밀번호 찾기
+     *
+     * @param loginId     회원 로그인 아이디
+     * @param name        회원 이름
+     * @param phonenumber 회원 휴대전화번호
+     * @return 회원이 존재하면 회원 ID를 담은 Optional, 존재하지 않으면 Optional.empty()
      */
     @Override
-    public String checkPasswordExistsByPhonenumber(String loginId, String name, String phonenumber) {
+    public Optional<String> checkPasswordExistsByPhonenumber(String loginId, String name, String phonenumber) {
         return memberRepository.findPasswordByPhonenumber(loginId, name, phonenumber);
     }
 
     /**
-     * 회원 정보 수정 전 본인 확인
+     * 회원 정보 수정 전, 본인 비밀번호가 맞는지 검증
+     *
+     * @param member   회원
+     * @param password 입력받은 평문 비밀번호
+     * @return 비밀번호가 일치하면 true, 아니면 false
      */
     @Override
     public boolean validateIdentity(Member member, String password) {
@@ -207,26 +247,46 @@ public class MemberServiceImpl implements MemberService {
     }
 
     /**
-     * 회원 정보 수정 폼 조회
+     * 회원 정보 수정 화면에 필요한 회원 정보를 조회합니다.
+     *
+     * @param memberId 회원 ID
+     * @return 회원 정보 수정 폼 DTO
+     * @throws EntityNotFoundException 회원이 존재하지 않는 경우
      */
     @Override
     public EditMemberInfoForm getMemberInfo(Long memberId) {
-        return memberRepository.findByIdWithDefaultDelivery(memberId);
+        return memberRepository.fetchEditMemberInfoForm(memberId).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 회원입니다."));
+    }
+
+    /**
+     * 비밀번호가 기존과 다른지 검사
+     *
+     * @param newPassword 새 비밀번호
+     * @param nowPassword 기존 비밀번호 (암호화된 값)
+     * @return 기존 비밀번호와 다르면 true, 같으면 false
+     */
+    @Override
+    public boolean isNewPassword(String newPassword, String nowPassword) {
+        return !passwordEncoder.matches(newPassword, nowPassword);
     }
 
     /**
      * 회원 정보 수정
+     *
+     * @param memberId 회원 ID
+     * @param form     회원 정보 수정 폼 DTO
+     * @throws EntityNotFoundException 회원이 존재하지 않는 경우
      */
     @Override
     public void editMemberInfo(Long memberId, EditMemberInfoForm form) {
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 회원입니다."));
 
-        if(StringUtils.hasText(form.getNewPassword())) {
+        if (StringUtils.hasText(form.getNewPassword())) {
             String encodedNewPassword = encodePassword(form.getNewPassword());
             member.updatePassword(encodedNewPassword);
         }
 
-        if(!member.getEmail().equals(form.getEmail())) {
+        if (!member.getEmail().equals(form.getEmail())) {
             member.updateEmail(form.getEmail());
             member.updateEmailVerificationStatus(false);
             emailService.sendValidationRequestEmailInMyPage(form.getEmail(), member.getName());
@@ -235,13 +295,20 @@ public class MemberServiceImpl implements MemberService {
 
     /**
      * 비밀번호 암호화
+     *
+     * @param password 평문 비밀번호
+     * @return 암호화된 비밀번호
      */
     private String encodePassword(String password) {
         return passwordEncoder.encode(password);
     }
 
     /**
-     * 111111 ~ 999999 범위의  인증번호 생성
+     * 랜덤 인증번호를 생성
+     *
+     * 111111 ~ 999999 범위의 랜덤 인증번호를 생성합니다.
+     *
+     * @return 인증번호 문자열
      */
     private String createVerificationNo() {
         Random random = new Random();
