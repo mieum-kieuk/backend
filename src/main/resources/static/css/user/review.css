@@ -121,6 +121,7 @@
 }
 .review_table input, .review_table textarea {
     border: 1px solid #eee;
+    border-bottom: none;
 }
 .review_table tr {
     border: 1px solid #d7d7d7 ;
@@ -171,6 +172,7 @@
     display: flex;
     justify-content: space-between;
     width: 100%;
+    gap: 10px;
 }
 .btn_wrap .btn1 {
     width: 49%;
@@ -228,10 +230,10 @@
     margin-top: 10px;
 }
 .review_cont {
-    border-top: 1px solid #333;
-    border-bottom: 1px solid #333;
-    padding: 10px 0;
-    min-height: 400px;
+    /*border-top: 1px solid #333;*/
+    /*border-bottom: 1px solid #333;*/
+    /*padding: 10px 0;*/
+    /*min-height: 400px;*/
 }
 .review_text {
     margin-bottom: 20px;
@@ -322,9 +324,9 @@
 .review_table input[type=file] {
     border: none;
 }
-.review_table input, .review_table textarea {
-    border: 1px solid #eee;
-}
+/*.review_table input, .review_table textarea {*/
+/*    border: 1px solid #eee;*/
+/*}*/
 .review_table thead {
     border: none;
     border-bottom: 1px solid #333;
@@ -342,9 +344,7 @@
     border-left: none;
     /*padding: 10px;*/
 }
-.list .review_table tr:first-child th {
-    padding: 20px 10px;
-}
+
 .list .review_table th, .list .review_table td {
     display: table-cell;
     /*width: 100%;*/
@@ -519,4 +519,32 @@
 }
 .modal .review_table tr:nth-child(3) td {
     padding: 5px;
+}
+.modal_content form .review_table {
+    border: 1px solid #d7d7d7;
+}
+.modal_content .preview_container {
+    display: flex;
+    padding: 15px;
+    background: white;
+    border: 1px solid #eee;
+    border-top: none;
+    gap: 15px;
+}
+.modal_content .preview_image_container {
+    position: relative;
+    width: 100px;
+    height: 100px;
+}
+.modal_content .preview_image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+}
+.modal_content .preview_container .btn_wrap{
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    align-items: flex-start;
 }

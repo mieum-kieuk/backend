@@ -13,12 +13,13 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.js"></script>
-    <link rel="stylesheet" href="../../../css/common/comm.css" />
-    <link rel="stylesheet" href="../../../css/user/review.css" />
-    <link rel="stylesheet" href="../../../css/user/mypage.css" />
-    <script src="../../../js/common/comm.js"></script>
-    <script src="../../../js/user/product.js"></script>
-    <script src="../../../js/reviewPopup.js"></script>
+    <link rel="stylesheet" href="../../../../css/common/comm.css" />
+    <link rel="stylesheet" href="../../../../css/user/review.css" />
+    <link rel="stylesheet" href="../../../../css/user/mypage.css" />
+    <script src="../../../../js/common/comm.js"></script>
+    <script src="../../../../js/user/product.js"></script>
+    <script src="../../../../js/user/myReview.js"></script>
+
 </head>
 <body>
 <div class="wrap">
@@ -45,7 +46,7 @@
                         <ul class="depth2">
                             <li><a href="../../community/notice/notice_list.html">Notice</a></li>
                             <li><a href="../../community/inquiry/inquiry_list.html">Q&amp;A</a></li>
-                            <li><a href="../../community/review/review_list.html">Review</a></li>
+                            <li><a href="../../review/review_list.html">Review</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -112,19 +113,23 @@
         </nav>
         <div id="boardList" class="mypage_content">
             <div class="board_wrap list wrapper">
+                <div class="review_head">
                 <h3 class="board_title">상품 후기</h3>
+                <div class="btn_wrap">
+                    <button type="button" id="reviewBtn" class="btn1 write_btn" >작성하기</button>
+                </div>
+                </div>
                 <div class="board_content">
                     <table class="review_table">
                         <thead>
                         <tr>
                             <th class="title">제목</th>
-                            <th>작성자</th>
                             <th>조회수</th>
                             <th>작성일</th>
                         </tr>
                         </thead>
                         <tr id="noDataMessage">
-                            <td colspan="4">등록된 상품문의가 없습니다.</td>
+                            <td colspan="4">등록된 상품후기가 없습니다.</td>
                         </tr>
                         <tr class="review_items">
                             <td class="title_td">
@@ -132,7 +137,6 @@
                                     너무 이뻐요
                                 </span>
                             </td>
-                            <td><span class="writer">작성자</span></td>
                             <td><span class="views">10</span></td>
                             <td><span class="date">2024.04.08</span></td>
                         </tr>
@@ -142,7 +146,6 @@
                                     너무 이뻐요
                                 </span>
                             </td>
-                            <td><span class="writer">작성자</span></td>
                             <td><span class="views">10</span></td>
                             <td><span class="date">2024.04.08</span></td>
                         </tr>
@@ -160,7 +163,7 @@
                                             </div>
                                         </div>
                                     </a>
-                                    <div class="review_text_wrap">
+                                    <div class="review_cont_head">
                                         <div class="review_text">미음키읔 귀여워요
                                             재구매 할 거 같아요.
                                         </div>
@@ -202,12 +205,27 @@
             </div>
             <div id="reviewModal" class="modal">
                 <div class="modal_content">
-                    <div class="review_head">
-                        <h1 class="review_title">상품후기</h1>
-                        <span class="material-symbols-outlined close">close</span>
-                    </div>
-                    <form id="addReviewForm" action="#" method="post">
+                    <form id="addReviewForm" action="#" method="post" enctype="multipart/form-data">
                         <table class="review_table">
+                            <tr id="productSelect">
+                                <th colspan="2">
+                                    <div id="orderItem" class="review_item">
+                                        <div class="item_wrap" id="productId">
+                                            <div class="thumbnail">
+                                                <a href=""><img id="productImg" class="item_img" src="../../../images/img_no.png" alt="상품 이미지"></a>
+                                            </div>
+                                            <div class="description">
+                                                <a href=""><span id="productName" class="item_name"></span></a>
+                                                <a href=""><span id="productPrice" class="item_price"></span></a>
+                                                <div class="btn_wrap">
+                                                    <button type="button" class="popup_btn info">상품 상세 정보</button>
+                                                    <button type="button" id="popupBtn" class="popup_btn" >상품 선택</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </th>
+                            </tr>
                             <tr>
                                 <th><label for="title">별점</label></th>
                                 <td>
@@ -229,27 +247,29 @@
                                 <th><label for="title">제목</label></th>
                                 <td><input type="text" id="title" name="title" placeholder="제목을 입력해 주세요." maxlength="50"></td>
                             </tr>
-                            <tr >
+                            <tr>
                                 <td colspan="2">
                                     <textarea id="content" name="content" rows="8" placeholder="리뷰를 작성해 주세요."></textarea>
+                                    <div id="previewContainer" class="preview_container">
+                                    </div>
                                 </td>
                             </tr>
                             <tr>
                                 <th><label for="image1">첨부 파일1</label></th>
                                 <td>
-                                    <input type="file" id="image1" name="image">
+                                    <input type="file" id="image1" name="image" class="image_input">
                                 </td>
                             </tr>
                             <tr>
                                 <th><label for="image2">첨부 파일2</label></th>
                                 <td>
-                                    <input type="file" id="image2" name="image">
+                                    <input type="file" id="image2" name="image" class="image_input">
                                 </td>
                             </tr>
                             <tr>
                                 <th><label for="image3">첨부 파일3</label></th>
                                 <td>
-                                    <input type="file" id="image3" name="image">
+                                    <input type="file" id="image3" name="image" class="image_input">
                                 </td>
                             </tr>
                         </table>
@@ -260,7 +280,6 @@
                     </form>
                 </div>
             </div>
-
         </div>
     </div>
     <footer id="footer" class="footer">
