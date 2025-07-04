@@ -47,12 +47,15 @@ $('.wish').click(function () {
                     addWish(heart, productId);
                 } else if (result.status == 401) {
                     Swal.fire({
-                        html: result.message,
-                        showConfirmButton: true,
-                        confirmButtonText: '확인',
-                        customClass: mySwal,
+                        text: '로그인이 필요한 기능입니다.',
+                        showCancelButton: true,
+                        cancelButtonText: '취소',
+                        confirmButtonText: '로그인',
+                        customClass: mySwalConfirm,
+                        reverseButtons: true,
                         buttonsStyling: false,
-                        preConfirm: () => {
+                    }).then((result) => {
+                        if (result.isConfirmed) {
                             window.location.href = '/login';
                         }
                     });

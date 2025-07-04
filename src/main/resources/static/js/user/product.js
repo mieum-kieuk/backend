@@ -189,7 +189,19 @@ $('#CartBtn').click(function () {
                     buttonsStyling: false
                 });
             } else if (xhr.status == 401) {
-                window.location.href = '/login';
+                Swal.fire({
+                    text: '로그인이 필요한 기능입니다.',
+                    showCancelButton: true,
+                    cancelButtonText: '취소',
+                    confirmButtonText: '로그인',
+                    customClass: mySwalConfirm,
+                    reverseButtons: true,
+                    buttonsStyling: false,
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        location.href = '/login';
+                    }
+                });
             } else {
                 Swal.fire({
                     html: '장바구니에 삼품을 담는 중 오류가 발생했습니다.<br>다시 시도해 주세요.',
@@ -201,4 +213,57 @@ $('#CartBtn').click(function () {
             }
         }
     })
+});
+
+$('#BuyBtn').click(function (e) {
+    let url = window.location.href;
+    let parts = url.split('/');
+    let productId = parts[parts.length - 1];
+    let count = $('.quant_input').val();
+
+    $.ajax({
+        type: 'POST',
+        url: '/ajax/',
+        data: {'productId': productId, 'count': count},
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader(csrfHeader, csrfToken);
+        },
+        success: function (result) {
+            window.location.href = '/order/checkout';
+        },
+        error: function (xhr) {
+            if (xhr.status == 400) {
+                let result = JSON.parse(xhr.responseText);
+                Swal.fire({
+                    html: result.message.replace('\n', '<br>'),
+                    showConfirmButton: true,
+                    confirmButtonText: '확인',
+                    customClass: mySwal,
+                    buttonsStyling: false
+                });
+            } else if (xhr.status == 401) {
+                Swal.fire({
+                    text: '로그인이 필요한 기능입니다.',
+                    showCancelButton: true,
+                    cancelButtonText: '취소',
+                    confirmButtonText: '로그인',
+                    customClass: mySwalConfirm,
+                    reverseButtons: true,
+                    buttonsStyling: false,
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        location.href = '/login';
+                    }
+                });
+            } else {
+                Swal.fire({
+                    html: '주문서로 이동하는 중 오류가 발생했습니다.<br>다시 시도해 주세요.',
+                    showConfirmButton: true,
+                    confirmButtonText: '확인',
+                    customClass: mySwal,
+                    buttonsStyling: false
+                });
+            }
+        }
+    });
 });

@@ -21,9 +21,11 @@ $(document).ready(function () {
         } else {
             Swal.fire({
                 text: '로그인이 필요한 기능입니다.',
-                showConfirmButton: true,
-                confirmButtonText: '확인',
-                customClass: mySwal,
+                showCancelButton: true,
+                cancelButtonText: '취소',
+                confirmButtonText: '로그인',
+                customClass: mySwalConfirm,
+                reverseButtons: true,
                 buttonsStyling: false,
             }).then((result) => {
                 if (result.isConfirmed) {
