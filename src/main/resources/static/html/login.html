@@ -5,93 +5,87 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>로그인 | Tickers</title>
+    <title>로그인 | 미음키읔</title>
 
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="Tickers" />
-    <meta property="og:description" content="" />
-    <meta property="og:image" content="" />
-    <meta property="og:url" content="" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap"
+          rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.js"></script>
-    <link rel="stylesheet" href="../css/common/login.css" />
-    <link rel="stylesheet" href="../css/common/comm.css" />
+    <link rel="stylesheet" href="../css/common/login.css"/>
+    <link rel="stylesheet" href="../css/common/comm.css"/>
     <script defer src="../js/common/login.js"></script>
 </head>
 <body>
-<div class="wrap">
-    <header id="header" class="header">
-        <nav id="gnb">
-            <div class="logo">
-                <a href="index.html">
-                    <!--                        <img src="../images/tickers_logo.png" alt="로고">-->
-                    미음키읔
-                </a>
+<header id="header" class="header">
+    <nav id="gnb">
+        <div class="logo">
+            <a href="index.html">
+                미음키읔
+            </a>
+        </div>
+        <div class="gnb_menu center">
+            <ul class="depth1">
+                <li class="depth1_menu" id="shop">
+                    <a href="./user/products/product_list.html">Shop</a>
+                    <ul class="depth2">
+                        <li><a href="./user/products/product_list.html">Maskingtape</a></li>
+                        <li><a href="./user/products/product_list.html">Phonecase</a></li>
+                        <li><a href="./user/products/product_list.html">Sticker</a></li>
+                    </ul>
+                </li>
+                <li class="depth1_menu" id="about"><a href="./user/about/about.html">About</a>
+                </li>
+                <li class="depth1_menu" id="community">Community
+                    <ul class="depth2">
+                        <li><a href="./community/notice/notice_list.html">공지사항</a></li>
+                        <li><a href="./community/inquiry/inquiry_list.html">상품문의</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div class="gnb_menu">
+            <div class="search">
+                <form action="#" method="get">
+                    <button type="submit">Search</button>
+                </form>
+                <div class="search_popup">
+                    <div class="search_bg"></div>
+                    <div class="search_form_wrap">
+                        <form action="./user/search/search_complete.html" method="get">
+                            <input type="text" placeholder="검색어를 입력해 주세요." maxlength="50">
+                            <button type="submit" class="search_btn"><span
+                                    class="material-symbols-outlined">search</span></button>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <div class="gnb_menu center">
+            <div class="account">
                 <ul class="depth1">
-                    <li class="depth1_menu" id="shop">
-                        <a href="./shop/product_list.html">Shop</a>
+                    <li class="depth1_menu">Account
                         <ul class="depth2">
-                            <li><a href="./shop/product.html">Masking tape</a></li>
-                            <li><a href="./shop/product.html">Sticker</a></li>
-                            <li><a href="./shop/product.html">Memo</a></li>
-                        </ul>
-                    </li>
-                    <li class="depth1_menu" id="about"><a href="./about.html">About</a>
-                    </li>
-                    <li class="depth1_menu" id="community">Community
-                        <ul class="depth2">
-                            <li><a href="./notice.html">Notice</a></li>
-                            <li><a href="./qna.html">Q&amp;A</a></li>
-                            <li><a href="./review.html">Review</a></li>
+                            <li><a href="./login.html">로그인</a></li>
+                            <li><a href="./user/member/join.html">회원가입</a></li>
+                            <li><a href="./order/order_list.html">주문조회</a></li>
+                            <li><a href="./user/mypage/mypage_home.html">마이페이지</a></li>
                         </ul>
                     </li>
                 </ul>
             </div>
-            <div class="gnb_menu">
-                <div class="search">
-                    <form action="#" method="get">
-                        <button type="submit" >Search</button>
-                    </form>
-                    <div class="search_popup">
-                        <div class="search_bg"></div>
-                        <div class="search_form_wrap">
-                            <form action="./search/search_complete.html" method="get">
-                                <input type="text" placeholder="검색어를 입력하세요.">
-                                <button type="submit" class="search_btn">Search</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <div class="account">
-                    <ul class="depth1">
-                        <li class="depth1_menu">Account
-                            <ul class="depth2">
-                                <li><a href="./members/login.html">Login</a></li>
-                                <li><a href="./members/join.html">Join</a></li>
-                                <li><a href="./members/order.html">Order</a></li>
-                                <li><a href="./members/mypage.html">Mypage</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-                <div class="cart">
-                    <a href="./cart/cart.html" >Cart(0)
-                    </a>
-                </div>
+            <div class="cart">
+                <a href="user/order/cart.html">Cart(0)
+                </a>
             </div>
-        </nav>
-    </header>
+        </div>
+    </nav>
+</header>
 <div id="login">
     <div class="login_wrap">
-        <form action=""  method="post">
+        <form action="" method="post">
             <div class="input_wrap">
                 <ul>
                     <li>
@@ -117,48 +111,47 @@
             </div>
             <div class="account_btns">
                 <ul class="find_btn">
-                    <li class="btn2"> <a href="/member/id/find_id.html">아이디 찾기</a>
+                    <li class="btn2"><a href="./user/member/find_id.html">아이디 찾기</a>
                     </li>
-                    <li class="btn2"><a href="/member/passwd/find_passwd_info.html">/ 비밀번호 찾기</a>
+                    <li class="btn2"><a href="./user/member/find_password.html">/ 비밀번호 찾기</a>
                     </li>
                 </ul>
                 <ul class="create_btn">
-                    <li class="btn2"><a href="/member/join.html">회원가입</a></li>
+                    <li class="btn2"><a href="./user/member/join.html">회원가입</a></li>
                 </ul>
             </div>
         </form>
     </div>
 </div>
-    <footer id="footer" class="footer fixed">
-        <div class="footer_wrap">
-            <div class="footer_inner">
-                <ul>
-                    <li><a href="">Instagram</a></li>
-                </ul>
-            </div>
-            <div class="footer_inner">
-                <ul>
-                    <li><a href="">Terms of Use</a></li>
-                    <li><a href="">Privacy Policy</a></li>
-                    <li><a href="">Shop Guide</a></li>
-                </ul>
-            </div>
-            <div class="footer_inner">
-                <ul>
-                    <li>Company : 티커스</li>
-                    <li>전화번호 : 010-1234-5678</li>
-                    <li>이메일 : tickers@gmail.com</li>
-                </ul>
-            </div>
-            <div class="footer_inner">
-                <ul>
-                    <li>사업자 번호 : 070-61-01100</li>
-                    <li>주소 : 서울시 티커스구 티커스대로 123</li>
-                    <li>Copyright ©Tickers All rights reserved.</li>
-                </ul>
-            </div>
+<footer id="footer" class="footer fixed">
+    <div class="footer_wrap">
+        <div class="footer_inner">
+            <ul>
+                <li><a href="">Instagram</a></li>
+            </ul>
         </div>
-    </footer>
-</div>
+        <div class="footer_inner">
+            <ul>
+                <li><a href="">Terms of Use</a></li>
+                <li><a href="">Privacy Policy</a></li>
+                <li><a href="">Shop Guide</a></li>
+            </ul>
+        </div>
+        <div class="footer_inner">
+            <ul>
+                <li>Company : 미음키읔</li>
+                <li>전화번호 : 010-1234-5678</li>
+                <li>이메일 : meek@gmail.com</li>
+            </ul>
+        </div>
+        <div class="footer_inner">
+            <ul>
+                <li>사업자 번호 : 070-61-01100</li>
+                <li>주소 : 서울시 미음구 키읔로 123</li>
+                <li>Copyright ©미음키읔 All rights reserved.</li>
+            </ul>
+        </div>
+    </div>
+</footer>
 </body>
 </html>

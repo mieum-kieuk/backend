@@ -304,6 +304,7 @@
 }
 #join .btn1.submit_btn {
   position: relative;
+  width: 100%;
 }
 #join_succ {
   display: flex;

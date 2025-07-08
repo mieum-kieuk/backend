@@ -37,20 +37,19 @@
             <div class="gnb_menu center">
                 <ul class="depth1">
                     <li class="depth1_menu" id="shop">
-                        <a href="./product_list.html">Shop</a>
+                        <a href="../../user/products/product_list.html">Shop</a>
                         <ul class="depth2">
-                            <li><a href="./product_list.html">Maskingtape</a></li>
-                            <li><a href="./product_list.html">Phonecase</a></li>
-                            <li><a href="./product_list.html">Sticker</a></li>
+                            <li><a href="../../user/products/product_list.html">Maskingtape</a></li>
+                            <li><a href="../../user/products/product_list.html">Phonecase</a></li>
+                            <li><a href="../../user/products/product_list.html">Sticker</a></li>
                         </ul>
                     </li>
-                    <li class="depth1_menu" id="about"><a href="./about.html">About</a>
+                    <li class="depth1_menu" id="about"><a href="../../user/about/about.html">About</a>
                     </li>
                     <li class="depth1_menu" id="community">Community
                         <ul class="depth2">
-                            <li><a href="../../community/notice/notice_list.html">Notice</a></li>
-                            <li><a href="../../community/inquiry/inquiry_list.html">Q&amp;A</a></li>
-                            <li><a href="../../community/review/review_list.html">Review</a></li>
+                            <li><a href="../../community/notice/notice_list.html">공지사항</a></li>
+                            <li><a href="../../community/inquiry/inquiry_list.html">상품문의</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -58,14 +57,15 @@
             <div class="gnb_menu">
                 <div class="search">
                     <form action="#" method="get">
-                        <button type="submit" >Search</button>
+                        <button type="submit">Search</button>
                     </form>
                     <div class="search_popup">
                         <div class="search_bg"></div>
                         <div class="search_form_wrap">
                             <form action="../search/search_complete.html" method="get">
                                 <input type="text" placeholder="검색어를 입력해 주세요." maxlength="50">
-                                <button type="submit" class="search_btn"><span class="material-symbols-outlined">search</span></button>
+                                <button type="submit" class="search_btn"><span
+                                        class="material-symbols-outlined">search</span></button>
                             </form>
                         </div>
                     </div>
@@ -74,16 +74,16 @@
                     <ul class="depth1">
                         <li class="depth1_menu">Account
                             <ul class="depth2">
-                                <li><a href="../../login.html">Login</a></li>
-                                <li><a href="../../user/member/join.html">Join</a></li>
-                                <li><a href="../../order/order_list.html">Order</a></li>
-                                <li><a href="../mypage/mypage_home.html">Mypage</a></li>
+                                <li><a href="../../login.html">로그인</a></li>
+                                <li><a href="../member/join.html">회원가입</a></li>
+                                <li><a href="../../order/order_list.html">주문조회</a></li>
+                                <li><a href="../mypage/mypage_home.html">마이페이지</a></li>
                             </ul>
                         </li>
                     </ul>
                 </div>
                 <div class="cart">
-                    <a href="./cart/cart.html" >Cart(0)
+                    <a href="../../user/order/cart.html">Cart(0)
                     </a>
                 </div>
             </div>
@@ -94,21 +94,21 @@
             <div class="prd_desc">
                 <div class="prd_left">
                     <div class="prd_img">
-                        <img src="../../../images/meek2.png" alt="제품1">
+                        <img src="../../../images/display.jpeg" alt="제품1">
                     </div>
                     <div class="prd_display">
                         <div class="display_img selected">
-                        <img src="../../../images/meek2.png" alt="제품1">
+                        <img src="../../../images/display.jpeg" alt="제품1">
                         </div>
                         <div class="display_img">
-                            <img src="../../../images/Asset%201.jpg" alt="제품1">
+                            <img src="../../../images/display.jpeg" alt="제품1">
                         </div>
                     </div>
                 </div>
                 <div class="prd_right">
                     <div class="prd_info">
                         <div class="prd_text ctg"><span>Maskingtape</span></div>
-                        <div class="prd_text tit"><span>Gzy</span>
+                        <div class="prd_text tit"><span>하트 케이크</span>
                             <a href="#" class="wish_btn"><span class="material-symbols-rounded wish">favorite</span></a>
                         </div>
                         <ul class="prd_price ">
@@ -263,21 +263,6 @@
                                 <div class="review_cont_head">
                                 <div class="review_text">미음키읔 귀여워요
                                     재구매 할 거 같아요.
-                                </div>
-                                <div class="menu">
-                                    <button class="menu_toggle">
-                                        <span class="material-symbols-outlined">more_horiz</span>
-                                    </button>
-                                    <div class="dropdown_menu">
-                                        <ul>
-                                            <li>
-                                                <button type="button" class="edit_btn">수정</button>
-                                            </li>
-                                            <li>
-                                                <button type="button" class="delete_btn">삭제</button>
-                                            </li>
-                                        </ul>
-                                    </div>
                                 </div>
                                 </div>
                                 <div class="review_img">
@@ -436,9 +421,6 @@
             </div>
             <div id="inquiryModal" class="modal" data-id="${inquiryId}">
                 <div class="modal_content">
-                    <div class="inquiry_head">
-                        <h1 class="inquiry_title">상품문의</h1>
-                    </div>
                     <form id="addInquiryForm" action="#" method="post" novalidate>
                         <table class="inquiry_table">
                             <tr>
@@ -492,16 +474,16 @@
         </div>
         <div class="footer_inner">
             <ul>
-                <li>Company : 티커스</li>
+                <li>Company : 미음키읔</li>
                 <li>전화번호 : 010-1234-5678</li>
-                <li>이메일 : tickers@gmail.com</li>
+                <li>이메일 : meek@gmail.com</li>
             </ul>
         </div>
         <div class="footer_inner">
             <ul>
                 <li>사업자 번호 : 070-61-01100</li>
-                <li>주소 : 서울시 티커스구 티커스대로 123</li>
-                <li>Copyright ©Tickers All rights reserved.</li>
+                <li>주소 : 서울시 미음구 키읔로 123</li>
+                <li>Copyright ©미음키읔 All rights reserved.</li>
             </ul>
         </div>
     </div>

@@ -170,7 +170,7 @@
                 <div class="agree_area_wrap">
                     <li class="agree_area">
                         <a>
-                            <span class="agree_ess">[필수] 이용약관 동의</span>
+                            <span class="agree_ess"><strong>[필수]</strong> 이용약관 동의</span>
                             <p class="check">
                                 <input type="checkbox" id="agreeToTermsOfUse" th:field="*{agreeToTermsOfUse}" class="checkbox"/>
                                 <label for="agreeToTermsOfUse">동의함</label>
@@ -423,7 +423,7 @@
                     </li>
                     <li class="agree_area">
                         <a>
-                            <span class="agree_ess">[필수] 개인정보 수집 및 이용 동의</span>
+                            <span class="agree_ess"><strong>[필수]</strong> 개인정보 수집 및 이용 동의</span>
                             <p class="check">
                                 <input type="checkbox" id="agreeToPersonalInformation" th:field="*{agreeToPersonalInformation}" class="checkbox"/>
                                 <label for="agreeToPersonalInformation">동의함</label>
@@ -491,8 +491,6 @@
                 </div>
             </div>
             <div class="btn_wrap">
-                <button type="button" class="btn1 cancel_btn"
-                        onclick="location.href='../../index.html'" th:onclick="|location.href='@{/}'|">취소</button>
                 <button type="submit" class="btn1 submit_btn">
                     가입
                     <div class="loader_wrap">
