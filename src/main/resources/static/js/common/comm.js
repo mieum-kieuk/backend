@@ -14,20 +14,20 @@ const mySwalConfirm = {
     actions: 'my-swal-cf-actions',
     reverseButton: true,
 };
-$(function () {
-    let now = 0
-    const slideCount = $('.main_slide > ul > li').length
-    const slideList = $('.main_slide > ul > li')
-    slideList.hide().eq(now).show();
-
-    setInterval(function () {
-        let next = (now + 1) % slideCount
-
-        $(slideList[now]).fadeOut(3000)
-        $(slideList[next]).fadeIn(3000)
-        now = next
-    }, 10000)
-})
+// $(function () {
+//     let now = 0
+//     const slideCount = $('.main_slide > ul > li').length
+//     const slideList = $('.main_slide > ul > li')
+//     slideList.hide().eq(now).show();
+//
+//     setInterval(function () {
+//         let next = (now + 1) % slideCount
+//
+//         $(slideList[now]).fadeOut(3000)
+//         $(slideList[next]).fadeIn(3000)
+//         now = next
+//     }, 10000)
+// })
 $(document).ready(function() {
 
     const wrapper = $('.wrapper');
