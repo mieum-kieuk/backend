@@ -10,8 +10,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.js"></script>
     <link rel="stylesheet" href="../../../css/common/comm.css" />
@@ -64,8 +62,9 @@
                         <div class="search_form_wrap">
                             <form action="../search/search_complete.html" method="get">
                                 <input type="text" placeholder="검색어를 입력해 주세요." maxlength="50">
-                                <button type="submit" class="search_btn"><span
-                                        class="material-symbols-outlined">search</span></button>
+                                <button type="submit" class="search_btn">
+                                    <img src="../../../images/search.svg">
+                                </button>
                             </form>
                         </div>
                     </div>
@@ -109,16 +108,20 @@
                     <div class="prd_info">
                         <div class="prd_text ctg"><span>Maskingtape</span></div>
                         <div class="prd_text tit"><span>하트 케이크</span>
-                            <a href="#" class="wish_btn"><span class="material-symbols-rounded wish">favorite</span></a>
+                            <a href="#" class="wish_btn"><img src="../../../images/favorite.svg" class="wish"></a>
                         </div>
-                        <ul class="prd_price ">
+                        <ul class="prd_price">
                             <li class="original_price"><span id="productPrice">3,000원</span></li>
                             <li class="discount">
                                 <span class="line_through" id="productPrice">KRW 3,000</span>
                                 <span class="discount_rate">10%</span><span class="discounted_price" id="salePrice">KRW 2,700</span>
                             </li>
                         </ul>
-                        <div class="prd_price point"><span>30 P (1%)</span></div>
+                        <ul class="prd_price">
+                            <li class="point">
+                                <span>30 P (1%)</span>
+                            </li>
+                        </ul>
                     </div>
                     <div class="prd_quantity">
                         <a href="#" id="decreaseBtn" class="btn3 decrease disabled">-</a>
@@ -162,41 +165,45 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="pagination">
+                        <div class="지">
                             <ul>
-                                <li><a href="#" class="prev_first"><span class="material-symbols-outlined">navigate_before</span></a></li>
+                                <li><a href="#" class="prev_first"><img src="../../../images/keyboard_arrow_left.svg" alt="첫 페이지"></a></li>
                                 <li><a href="#">1</a></li>
-                                <li><a href="#" class="next_last"><span class="material-symbols-outlined">navigate_next</span></a></li>
+                                <li><a href="#">2</a></li>
+                                <li><a href="#">3</a></li>
+                                <li><a href="#">4</a></li>
+                                <li><a href="#">5</a></li>
+                                <li><a href="#" class="next_last"><img src="../../../images/keyboard_arrow_right.svg" alt="마지막 페이지"></a></li>
                             </ul>
                         </div>
                         <div class="btn_wrap">
                             <a href="../order/cart.html">장바구니 보기</a>
                             <a href="">계속 쇼핑하기</a>
                         </div>
-                        <button type="button" class="close_btn"><span class="material-symbols-outlined">close</span></button>
+                        <button type="button" class="close_btn"><span>close</span></button>
                     </div>
                     <div class="prd_info_tab">
                         <ul class="prd_info_list">
                             <li>
-                                <a href="#" class="tab_tit">상품 설명<span class="material-symbols-outlined expand_icon">expand_more</span></a>
+                                <a href="#" class="tab_tit">상품 설명<img class="expand_icon" src="../../../images/keyboard_arrow_down.svg"></a>
                                 <ol class="tab_wrap">
                                     <p>내용</p>
                                 </ol>
                             </li>
                             <li>
-                                <a href="#" class="tab_tit">크기<span class="material-symbols-outlined expand_icon">expand_more</span></a>
+                                <a href="#" class="tab_tit">크기<img class="expand_icon" src="../../../images/keyboard_arrow_down.svg"></a>
                                 <ol class="tab_wrap">
                                     <p>내용</p>
                                 </ol>
                             </li>
                             <li>
-                                <a href="#" class="tab_tit">배송<span class="material-symbols-outlined expand_icon">expand_more</span></a>
+                                <a href="#" class="tab_tit">배송<img class="expand_icon" src="../../../images/keyboard_arrow_down.svg"></a>
                                 <ol class="tab_wrap">
                                     <p>내용</p>
                                 </ol>
                             </li>
                             <li>
-                                <a href="#" class="tab_tit">주의사항<span class="material-symbols-outlined expand_icon">expand_more</span></a>
+                                <a href="#" class="tab_tit">주의사항<img class="expand_icon" src="../../../images/keyboard_arrow_down.svg"></a>
                                 <ol class="tab_wrap">
                                     <p>기본적으로 교환/환불이 가능합니다.
                                         (단 제품이 손상된 경우 / 상품의 판매 가치가 손상된 경우는 제외)
@@ -214,7 +221,7 @@
             <div class="prd_detail">
                 <img src="../../../images/main2.jpg" alt="">
                 <p>
-                    롤드페인트의 첫 번째 굿즈 상품으로,<br>
+                    첫 번째 굿즈 상품으로,<br>
                     매장의 격자 진열장을 담은 마스킹테이프 입니다.
                 </p>
                 <img src="../../../images/main1.jpg" alt="">
@@ -224,7 +231,7 @@
                 <div class="review_head">
                     <div class="review_head_inner">
                         <h1 class="review_title">상품 후기</h1>
-                        <span class="review_count">(<span class="totalCount"></span>)</span>
+                        <span class="review_count">(<span class="totalCount">1</span>)</span>
                     </div>
                 </div>
                 <table id="reviewTable" class="review_table">
@@ -243,6 +250,7 @@
                         <td class="title_td">
                         <span class="title attach">
                                 너무 이뻐요
+                            <img src="../../../images/attach_file.svg" alt="첨부파일">
                         </span>
                         </td>
                         <td><span class="writer">작성자</span></td>
@@ -276,9 +284,13 @@
                 </table>
                 <div class="pagination">
                     <ul>
-                        <li><a href="#" class="prev_first"><span class="material-symbols-outlined">navigate_before</span></a></li>
+                        <li><a href="#" class="prev_first"><img src="../../../images/keyboard_arrow_left.svg" alt="첫 페이지"></a></li>
                         <li><a href="#">1</a></li>
-                        <li><a href="#" class="next_last"><span class="material-symbols-outlined">navigate_next</span></a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">4</a></li>
+                        <li><a href="#">5</a></li>
+                        <li><a href="#" class="next_last"><img src="../../../images/keyboard_arrow_right.svg" alt="마지막 페이"></a></li>
                     </ul>
                 </div>
             </div>
@@ -286,7 +298,7 @@
                 <div class="inquiry_head">
                     <div class="inquiry_head_inner">
                     <h1 class="inquiry_title">상품 문의</h1>
-                        <span class="inquiry_count">(<span class="totalCount"></span>)</span>
+                        <span class="inquiry_count">(<span class="totalCount">1</span>)</span>
                     </div>
                     <div class="btn_wrap">
                         <button type="button" id="inquiryBtn" class="btn1 write_btn" >문의하기</button>
@@ -299,7 +311,7 @@
                     <tr class="inquiry_items">
                         <td class="title_td">
                             <div class="title">
-                                <span class="material-symbols-outlined ">lock</span>
+                                <img src="../../../images/lock.svg">
                                 <span class="title">비밀글입니다.</span>
                             </div>
                         </td>
@@ -320,7 +332,7 @@
                                     </div>
                                     <div class="menu">
                                         <button class="menu_toggle">
-                                            <span class="material-symbols-outlined">more_horiz</span>
+                                            <img src="../../../images/more_horiz.svg" >
                                         </button>
                                         <div class="dropdown_menu">
                                             <ul>
@@ -351,12 +363,15 @@
                         </td>
                     </tr>
                 </table>
-
                 <div class="pagination">
                     <ul>
-                        <li><a href="#" class="prev_first"><span class="material-symbols-outlined">navigate_before</span></a></li>
+                        <li><a href="#" class="prev_first"><img src="../../../images/keyboard_arrow_left.svg" alt="첫 페이지"></a></li>
                         <li><a href="#">1</a></li>
-                        <li><a href="#" class="next_last"><span class="material-symbols-outlined">navigate_next</span></a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">4</a></li>
+                        <li><a href="#">5</a></li>
+                        <li><a href="#" class="next_last"><img src="../../../images/keyboard_arrow_right.svg" alt="마지막 페이지"></a></li>
                     </ul>
                 </div>
             </div>

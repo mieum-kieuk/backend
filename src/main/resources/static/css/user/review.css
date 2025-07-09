@@ -387,12 +387,15 @@
 #reviewSearchForm .btn1{
     height: 30px;
 }
-.attach::after {
-    content: "\e226";
-    font-family: "Material Symbols Outlined";
-    color: #666;
-    font-weight: 300;
-    font-size: 14px;
+/*.attach::after {*/
+/*    content: "\e226";*/
+/*    font-family: "Material Symbols Outlined";*/
+/*    color: #666;*/
+/*    font-weight: 300;*/
+/*    font-size: 14px;*/
+/*}*/
+.attach > img {
+    width: 14px;
 }
 .review_tit .description {
     color: #666;

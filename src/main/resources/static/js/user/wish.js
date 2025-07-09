@@ -15,8 +15,9 @@ $('.wish').click(function () {
 
     let heart = $(this);
     let productId = heart.attr('id');
+    let isFilled = heart.attr('src').includes('favorite_filled');
 
-    if (heart.hasClass('filled')) {
+    if (isFilled) {
         $.ajax({
                 url: '/ajax/wish',
                 type: 'DELETE',
@@ -25,7 +26,7 @@ $('.wish').click(function () {
                     xhr.setRequestHeader(csrfHeader, csrfToken);
                 },
                 success: function () {
-                    heart.removeClass('filled');
+                    heart.attr('src', '../../../images/favorite.svg');
                 },
                 error: function () {
                     Swal.fire({
@@ -83,7 +84,7 @@ function addWish(heart, productId) {
             xhr.setRequestHeader(csrfHeader, csrfToken);
         },
         success: function () {
-            heart.addClass('filled');
+            heart.attr('src', '../../../images/favorite_filled.svg');
         },
         error: function () {
             Swal.fire({

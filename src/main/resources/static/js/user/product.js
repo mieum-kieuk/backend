@@ -102,17 +102,23 @@ $(document).ready(function () {
 
     $('.prd_info_list > li').click(function () {
         let tabWrap = $(this).find('.tab_wrap');
+        let expandIcon = $(this).find('.expand_icon');
+
         $('.prd_info_list > li .tab_wrap').not(tabWrap).slideUp();
+        $('.prd_info_list > li .expand_icon').not(expandIcon).attr('src', '../../../images/keyboard_arrow_down.svg');
+
         tabWrap.slideToggle();
 
-        let expandIcon = $(this).find('.expand_icon');
-        $('.prd_info_list > li .expand_icon').not(expandIcon).text('expand_more');
-        expandIcon.text(function (_, text) {
-            return text === 'expand_more' ? 'expand_less' : 'expand_more';
-        });
+        let currentSrc = expandIcon.attr('src');
+        if (currentSrc.includes('arrow_down')) {
+            expandIcon.attr('src', '../../../images/keyboard_arrow_up.svg');
+        } else {
+            expandIcon.attr('src', '../../../images/keyboard_arrow_down.svg');
+        }
 
         return false;
     });
+
 
 
 });

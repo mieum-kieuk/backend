@@ -168,12 +168,12 @@ input:-webkit-autofill:active {
   font-style: normal;
   unicode-range: U+0041-005A ,U+0061-007A ;
 }
-.material-symbols-outlined {
-  font-family: 'Material Symbols Outlined';
-  font-weight: 300;
-  line-height: 25px;
-  font-size: 20px;
-}
+/*.material-symbols-outlined {*/
+/*  font-family: 'Material Symbols Outlined';*/
+/*  font-weight: 300;*/
+/*  line-height: 25px;*/
+/*  font-size: 20px;*/
+/*}*/
 /* mobile */
 body {
   font-size: 14px;
@@ -453,6 +453,9 @@ legend {
 .gnb_menu .search button:hover {
   color: #999;
 }
+.search_btn:hover > img {
+  content: url("../../images/search_hover.svg");
+}
 .gnb_menu .depth2 li {
   padding: 0 10px 5px;
 }
@@ -685,10 +688,8 @@ legend {
   z-index: 1;
   height: 25px;
 }
-.menu_toggle .material-symbols-outlined {
-  color: #999;
-  font-weight: 300;
-  rotate: 90deg;
+.menu_toggle > img {
+  width: 20px;
 }
 .dropdown_menu.show {
   display: flex;
@@ -898,7 +899,7 @@ legend {
   gap: 7px;
 }
 .pagination li a {
-  display: block;
+  display: flex;
   width: 25px;
   height: 25px;
   border-radius: 50%;
@@ -908,6 +909,8 @@ legend {
   line-height: 25px;
   font-size: 12px;
   cursor: pointer;
+  align-items: center;
+  justify-content: center;
 }
 .pagination li a.selected {
   background-color: #666666; /* 선택된 페이지네이션의 배경색 */
@@ -918,25 +921,16 @@ legend {
 }
 .pagination .prev, .pagination .prev_first,
 .pagination .next, .pagination .next_last {
-  /*font-size: 16px;*/
   border: none;
   background: none;
+  width: 15px;
 }
 #paginationNumbers, #paginationNumbersSearch {
   display: flex;
   flex-direction: row;
   gap: 3px;
 }
-.pagination .material-symbols-outlined {
-  font-family: 'Material Symbols Outlined';
-  font-weight: 300;
-  line-height: 25px;
-  color: #666;
-}
-.pagination .material-symbols-outlined.navigate {
-  font-weight: 300;
-  line-height: 25px;
-}
+
 .prev.disabled,
 .next.disabled {
   pointer-events: none;

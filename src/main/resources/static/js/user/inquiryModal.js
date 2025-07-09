@@ -11,7 +11,7 @@ $(document).ready(function () {
     $(document).on("click", ".inquiry_items", function () {
         let inquiryItems = $(this);
         let currentContent = inquiryItems.next(".inquiry_content");
-        let isSecret = inquiryItems.find('.material-symbols-outlined.secretItem').length > 0;
+        let isSecret = inquiryItems.find('img[src*="lock.svg"]').length > 0;
         let isWriter = inquiryItems.hasClass('isWriter');
 
         if (currentContent.length > 0) {
@@ -188,7 +188,7 @@ function loadInquiries(productId, currentPage) {
                         <tr class="inquiry_items ${item.isWriter ? 'isWriter' : ''}">
                             <td class="title_td">
                                 <div class="title">
-                                    ${item.isSecret ? '<span class="material-symbols-outlined secretItem">lock</span>' : ''}
+                                    ${item.isSecret ? '<img src="../../images/lock.svg">' : ''}
                                     <span class="title">${inquiryTitle}</span>
                                 </div>
                             </td>
@@ -211,8 +211,8 @@ function loadInquiries(productId, currentPage) {
                                         <div class="menu">
                                             ${item.isWriter ?
                                             `<button class="menu_toggle">
-                                                    <span class="material-symbols-outlined">more_horiz</span>
-                                                </button>
+                                            <img src="../../../images/more_horiz.svg">
+                                            </button>
                                                 <div class="dropdown_menu">
                                                     <ul>
                                                         <li>
@@ -281,12 +281,12 @@ function renderPagination(totalElements, currentPage) {
         let prevPage = (currentGroup - 1) * paginationSize;
         pagination.append(`
         <li><a class="prev_first" data-page="${prevPage}">
-            <span class="material-symbols-outlined">navigate_before</span>
+            <img src="../../../images/keyboard_arrow_left.svg" alt="이전 페이지">
         </a></li>
     `);
     } else {
         pagination.append(`
-        <li><a class="prev_first disabled"><span class="material-symbols-outlined">navigate_before</span></a></li>
+        <li><a class="prev_first disabled"><img src="../../../images/keyboard_arrow_right.svg" alt="다음 페이지"></a></li>
     `);
     }
 
@@ -306,12 +306,12 @@ function renderPagination(totalElements, currentPage) {
         let nextPage = (currentGroup * paginationSize) + 1;
         pagination.append(`
         <li><a class="next_last" data-page="${nextPage}">
-            <span class="material-symbols-outlined">navigate_next</span>
+            <img src="../../images/keyboard_arrow_right.svg" alt="다음 페이지">
         </a></li>
     `);
     } else {
         pagination.append(`
-        <li><a class="next_last disabled"><span class="material-symbols-outlined">navigate_next</span></a></li>
+        <li><a class="next_last disabled"><img src="../../images/keyboard_arrow_right.svg" alt="다음 페이지"></a></li>
     `);
     }
 
@@ -350,7 +350,7 @@ function closeInquiryModal() {
 // 비밀글 찾기
 function findSecretItem(editButton) {
     let inquiryItems = $(editButton).closest('.inquiry_content').prev('.inquiry_items');
-    let secretItem = inquiryItems.find('.material-symbols-outlined.secretItem');
+    let secretItem = inquiryItems.find('img[src*="lock.svg"]');
     return secretItem.length > 0;
 }
 

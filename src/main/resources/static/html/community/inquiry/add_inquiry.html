@@ -3,14 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>상품 문의 작성 | 미음키읔</title>
+    <title>상품 문의 | 미음키읔</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.js"></script>
@@ -25,26 +23,25 @@
         <nav id="gnb">
             <div class="logo">
                 <a href="../../index.html">
-                    <img src="../../images/tickers_logo.png" alt="로고">
+                    미음키읔
                 </a>
             </div>
             <div class="gnb_menu center">
                 <ul class="depth1">
                     <li class="depth1_menu" id="shop">
-                        <a href="../../products/product_list.html">Shop</a>
+                        <a href="../../user/products/product_list.html">Shop</a>
                         <ul class="depth2">
-                            <li><a href="../../products/product_list.html">Maskingtape</a></li>
-                            <li><a href="../../products/product_list.html">Phonecase</a></li>
-                            <li><a href="../../products/product_list.html">Sticker</a></li>
+                            <li><a href="../../user/products/product_list.html">Maskingtape</a></li>
+                            <li><a href="../../user/products/product_list.html">Phonecase</a></li>
+                            <li><a href="../../user/products/product_list.html">Sticker</a></li>
                         </ul>
                     </li>
-                    <li class="depth1_menu" id="about"><a href="../about.html">About</a>
+                    <li class="depth1_menu" id="about"><a href="../../user/about/about.html">About</a>
                     </li>
                     <li class="depth1_menu" id="community">Community
                         <ul class="depth2">
-                            <li><a href="../notice/notice_list.html">공지사항</a></li>
-                            <li><a href="../inquiry/inquiry_list.html">상품문의</a></li>
-                            <li><a href="../../review/review_list.html">상품후기</a></li>
+                            <li><a href="../../community/notice/notice_list.html">공지사항</a></li>
+                            <li><a href="../../community/inquiry/inquiry_list.html">상품문의</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -52,14 +49,16 @@
             <div class="gnb_menu">
                 <div class="search">
                     <form action="#" method="get">
-                        <button type="submit" >Search</button>
+                        <button type="submit">Search</button>
                     </form>
                     <div class="search_popup">
                         <div class="search_bg"></div>
                         <div class="search_form_wrap">
-                            <form action="../../search/search_complete.html" method="get">
-                                <input type="text" placeholder="검색어를 입력하세요.">
-                                <button type="submit" class="search_btn">Search</button>
+                            <form action="../search/search_complete.html" method="get">
+                                <input type="text" placeholder="검색어를 입력해 주세요." maxlength="50">
+                                <button type="submit" class="search_btn">
+                                    <img src="../../../images/search.svg">
+                                </button>
                             </form>
                         </div>
                     </div>
@@ -68,17 +67,16 @@
                     <ul class="depth1">
                         <li class="depth1_menu">Account
                             <ul class="depth2">
-                                <li><a href="../../login.html">Login</a></li>
-                                <li><a href="../../user/member/join.html">Join</a></li>
-                                <li><a href="../../user/order/order_list.html">Order</a></li>
-                                <li><a href="../../user/mypage/mypage_home.html">Mypage</a></li>
+                                <li><a href="../../login.html">로그인</a></li>
+                                <li><a href="../../user/member/join.html">회원가입</a></li>
+                                <li><a href="../../order/order_list.html">주문조회</a></li>
+                                <li><a href="../../user/mypage/mypage_home.html">마이페이지</a></li>
                             </ul>
                         </li>
                     </ul>
-
                 </div>
                 <div class="cart">
-                    <a href="../../user/order/cart.html" >Cart(0)
+                    <a href="../../user/order/cart.html">Cart(0)
                     </a>
                 </div>
             </div>
@@ -153,16 +151,16 @@
             </div>
             <div class="footer_inner">
                 <ul>
-                    <li>Company : 티커스</li>
+                    <li>Company : 미음키읔</li>
                     <li>전화번호 : 010-1234-5678</li>
-                    <li>이메일 : tickers@gmail.com</li>
+                    <li>이메일 : meek@gmail.com</li>
                 </ul>
             </div>
             <div class="footer_inner">
                 <ul>
                     <li>사업자 번호 : 070-61-01100</li>
-                    <li>주소 : 서울시 티커스구 티커스대로 123</li>
-                    <li>Copyright ©Tickers All rights reserved.</li>
+                    <li>주소 : 서울시 미음구 키읔로 123</li>
+                    <li>Copyright ©미음키읔 All rights reserved.</li>
                 </ul>
             </div>
         </div>
