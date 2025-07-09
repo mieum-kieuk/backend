@@ -1,26 +1,20 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="_csrf" th:content="${_csrf.token}"/>
-    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
-    <title>아이디 찾기 | 미음키읔</title>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css">
-    <link rel="stylesheet" href="../../../static/css/common/find.css" th:href="@{/css/common/find.css}"/>
-    <link rel="stylesheet" href="../../../static/css/common/comm.css" th:href="@{/css/common/comm.css}"/>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.js"></script>
-    <script defer src="../../../static/js/common/comm.js" th:src="@{/js/common/comm.js}"></script>
-    <script defer src="../../../static/js/user/findId.js" th:src="@{/js/user/findId.js}"></script>
+<head th:replace="~{fragments/head :: commonHead('아이디 찾기')}">
+    <th:block th:fragment="extraMeta">
+        <meta name="_csrf" th:content="${_csrf.token}"/>
+        <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    </th:block>
+    <th:block th:fragment="extraCss">
+        <link rel="stylesheet" th:href="@{/css/common/find.css}" />
+    </th:block>
+    <th:block th:fragment="extraJs">
+        <script defer th:src="@{/js/user/findId.js}"></script>
+    </th:block>
 </head>
+
 <body>
-<div th:replace="~{/layout/header :: header}"></div>
+<div th:replace="~{/fragments/header :: header}"></div>
 <div id="find" class="find">
     <div class="find_form">
     <h2 class="find_title">아이디 찾기</h2>
@@ -80,6 +74,6 @@
         </div>
     </div>
 </div>
-<div th:replace="~{/layout/footer :: fixed_footer}"></div>
+<div th:replace="~{/fragments/footer :: fixed_footer}"></div>
 </body>
 </html>

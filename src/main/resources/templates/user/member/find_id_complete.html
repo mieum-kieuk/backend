@@ -1,20 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>아이디 찾기 완료 | 미음키읔</title>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
-    <link rel="stylesheet" href="../../../static/css/common/comm.css" th:href="@{/css/common/comm.css}">
-    <link rel="stylesheet" href="../../../static/css/common/find.css" th:href="@{/css/common/find.css}">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<head th:replace="~{fragments/head :: commonHead('아이디 찾기 완료')}">
+    <th:block th:fragment="extraCss">
+        <link rel="stylesheet" th:href="@{/css/common/find.css}" />
+    </th:block>
 </head>
+
 <body>
-<div th:replace="~{/layout/header :: header}"></div>
+<div th:replace="~{/fragments/header :: header}"></div>
 <div id="find">
     <div class="find_wrap">
         <div class="success_message">
@@ -26,13 +19,11 @@
             <li><p>아이디</p><span th:text="|${member.loginId} ( ${member.grade} 회원, ${member.createdAt} 가입 )|"></span></li>
         </ul>
         <div class="btn_wrap">
-            <button type="button" id="findBtn" class="btn1 find_btn" onclick="location.href='find_password.html'"
-                    th:onclick="|location.href='@{/member/find-password}'|">비밀번호 찾기</button>
-            <button type="button" id="loginBtn" class="btn1 submit_btn login_btn"
-                    onclick="location.href='../../login.html'" th:onclick="|location.href='@{/login}'|">로그인</button>
+            <button type="button" id="findBtn" class="btn1 find_btn" th:onclick="|location.href='@{/member/find-password}'|">비밀번호 찾기</button>
+            <button type="button" id="loginBtn" class="btn1 submit_btn login_btn" th:onclick="|location.href='@{/login}'|">로그인</button>
         </div>
     </div>
 </div>
-<div th:replace="~{/layout/footer :: fixed_footer}"></div>
+<div th:replace="~{/fragments/footer :: fixed_footer}"></div>
 </body>
 </html>

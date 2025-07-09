@@ -1,26 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>검색결과 | 미음키읔</title>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css">
-    <link rel="stylesheet" href="../../../static/css/common/comm.css" th:href="@{/css/common/comm.css}">
-    <link rel="stylesheet" href="../../../static/css/user/product_list.css" th:href="@{/css/user/product_list.css}"/>
-    <link rel="stylesheet" href="../../../static/css/user/search_complete.css" th:href="@{/css/user/search_complete.css}"/>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.js"></script>
-    <script defer src="../../../static/js/common/comm.js" th:src="@{/js/common/comm.js}"></script>
+<head th:replace="~{fragments/head :: commonHead('검색 결과')}">
+    <th:block th:fragment="extraCss">
+        <link rel="stylesheet" th:href="@{/css/user/product_list.css}" />
+        <link rel="stylesheet" th:href="@{/css/user/search_complete.css}" />
+    </th:block>
 </head>
 <body>
 <div class="wrap">
-    <div th:replace="~{/layout/header :: header}"></div>
+    <div th:replace="~{/fragments/header :: header}"></div>
     <div id="search_complete">
         <div class="search_form_wrap">
             <form action="./search_complete.html" th:action="@{/search}" method="get">
@@ -39,17 +27,16 @@
                             <div class="thumb">
                                 <a href="./products/product_details.html"
                                    th:href="@{/products/{productId}(productId=${product.id})}">
-                                    <img class="thumb1" th:src="${product.displayImageDatas[0]}"
-                                         alt="제품 이미지">
+                                    <img class="thumb1" th:src="${product.displayImageDatas[0]}" alt="상품 이미지">
                                     <img class="thumb2" th:if="${product.displayImageDatas.size() == 2}"
-                                         th:src="${product.displayImageDatas[1]}" alt="제품 이미지">
+                                         th:src="${product.displayImageDatas[1]}" alt="상품 이미지">
                                 </a>
                             </div>
                             <div class="description">
                                 <div class="prd_name">
-                                    <a href="./products/product_details.html"
-                                       th:href="@{/shop/products/{productId}(productId=${product.id})}">
-                                        <span th:text="${product.name}"></span></a>
+                                    <a th:href="@{/shop/products/{productId}(productId=${product.id})}">
+                                        <span th:text="${product.name}"></span>
+                                    </a>
                                 </div>
                                 <ul class="prd_price">
                                     <span class="original_price"
@@ -81,6 +68,6 @@
             </ul>
         </div>
     </div>
-    <div th:replace="~{/layout/footer :: basic_footer}"></div>
+    <div th:replace="~{/fragments/footer :: basic_footer}"></div>
 </div>
 </body>

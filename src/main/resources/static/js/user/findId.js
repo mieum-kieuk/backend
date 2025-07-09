@@ -25,7 +25,7 @@ $('.submit_btn').click(function () {
                 xhr.setRequestHeader(csrfHeader, csrfToken)
             },
             success: function (result) {
-                if (result.code == 200) {
+                if (result.status == 200) {
                     window.location.href = '/member/find-id/complete';
                 } else {
                     Swal.fire({
@@ -60,7 +60,7 @@ $('.submit_btn').click(function () {
                 xhr.setRequestHeader(csrfHeader, csrfToken)
             },
             success: function (result) {
-                if (result.code == 200) {
+                if (result.status == 200) {
                     window.location.href = '/member/find-id/complete';
                 } else {
                     Swal.fire({

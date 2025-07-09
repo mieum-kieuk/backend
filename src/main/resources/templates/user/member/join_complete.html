@@ -1,19 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>회원가입 완료 | 미음키읔</title>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
-    <link rel="stylesheet" href="../../../static/css/common/comm.css" th:href="@{/css/common/comm.css}"/>
-    <link rel="stylesheet" href="../../../static/css/common/join.css" th:href="@{/css/common/join.css}"/>
+<head th:replace="~{fragments/head :: commonHead('회원가입 완료')}">
+    <th:block th:fragment="extraCss">
+        <link rel="stylesheet" th:href="@{/css/common/join.css}" />
+    </th:block>
 </head>
+
 <body>
-<div th:replace="~{/layout/header :: header}"></div>
+<div th:replace="~{/fragments/header :: header}"></div>
 <div id="join_succ">
     <div class="join_succ_wrap">
         <div class="success_message">
@@ -23,17 +17,17 @@
         </div>
         <ul class="user_info">
             <li>
-                <p>아이디</p><span id="userId" th:text="${memberInfo.loginId}">tester</span>
+                <p>아이디</p><span id="userId" th:text="${memberInfo.loginId}"></span>
             </li>
             <li>
-                <p>이름</p><span id="userName" th:text="${memberInfo.name}">테스터</span>
+                <p>이름</p><span id="userName" th:text="${memberInfo.name}"></span>
             </li>
             <li>
-                <p>이메일</p><span id="userEmail" th:text="${memberInfo.email}">test@gmail.com</span>
+                <p>이메일</p><span id="userEmail" th:text="${memberInfo.email}"></span>
             </li>
         </ul>
         <div class="btn_wrap">
-            <button type="button" class="btn1 submit_btn" onclick="location.href='../../login.html'" th:onclick="|location.href='@{/login}'|">로그인</button>
+            <button type="button" class="btn1 submit_btn" th:onclick="|location.href='@{/login}'|">로그인</button>
         </div>
     </div>
 </div>

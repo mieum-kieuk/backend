@@ -5,15 +5,15 @@ $(window).on('unload', function () {
     $('#findType1').prop('checked', true);
 });
 
+let csrfHeader = $("meta[name='_csrf_header']").attr("content");
+let csrfToken = $("meta[name='_csrf']").attr("content");
+
 // 비밀번호 찾기
 $('#find #findPwBtn').click(function () {
     // 유효성 검사 실행
     if (!validateBeforeSubmit()) {
         return;
     }
-
-    let csrfHeader = $("meta[name='_csrf_header']").attr("content");
-    let csrfToken = $("meta[name='_csrf']").attr("content");
 
     // 이메일 또는 휴대전화번호로 비밀번호 찾기
     if ($('input[name="findType"]:checked').val() === 'EMAIL') {
@@ -29,7 +29,7 @@ $('#find #findPwBtn').click(function () {
                 xhr.setRequestHeader(csrfHeader, csrfToken)
             },
             success: function (result) {
-                if (result.code == 200) {
+                if (result.status == 200) {
                     window.location.href = '/member/find-password/send';
                 } else {
                     Swal.fire({
@@ -64,7 +64,7 @@ $('#find #findPwBtn').click(function () {
                 xhr.setRequestHeader(csrfHeader, csrfToken)
             },
             success: function (result) {
-                if (result.code == 200) {
+                if (result.status == 200) {
                     window.location.href = '/member/find-password/send';
                 } else {
                     Swal.fire({
@@ -105,7 +105,7 @@ $('#find_pw #sendPwBtn').click(function () {
             xhr.setRequestHeader(csrfHeader, csrfToken);
         },
         success: function (result) {
-            if(result.code == 200) {
+            if(result.status == 200) {
                 window.location.href = '/member/find-password/complete';
             } else {
                 Swal.fire({
