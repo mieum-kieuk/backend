@@ -95,7 +95,7 @@ public class MemberController {
 
     @Operation(
             summary = "아이디 찾기 결과 페이지",
-            description = "아이디 찾기 결과를 보여주는 페이지를 반환합니다."
+            description = "아이디 찾기 결과 페이지를 반환합니다."
     )
     @GetMapping("/find-id/complete")
     public String findIdResult(HttpServletRequest request, Model model) {

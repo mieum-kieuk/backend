@@ -71,9 +71,9 @@ public class UserProductRepositoryCustomImpl implements UserProductRepositoryCus
     @Override
     public Page<Product> findProductsByCategory(ProductSearchCondition condition, Pageable pageable) {
         List<Product> content = queryFactory
-                .selectFrom(product)
+                .selectFrom(product).distinct()
                 .leftJoin(product.discount, discount).fetchJoin()
-                .leftJoin(product.productImages, productImage).fetchJoin()
+                .join(product.productImages, productImage).fetchJoin()
                 .where(
                         categoryEq(condition.getCategory()),
                         productImage.imageType.ne(ImageType.DETAILS)
@@ -104,9 +104,9 @@ public class UserProductRepositoryCustomImpl implements UserProductRepositoryCus
     @Override
     public Page<Product> searchProducts(String keyword, Pageable pageable) {
         List<Product> content = queryFactory
-                .selectFrom(product)
+                .selectFrom(product).distinct()
                 .leftJoin(product.discount, discount).fetchJoin()
-                .leftJoin(product.productImages, productImage).fetchJoin()
+                .join(product.productImages, productImage).fetchJoin()
                 .where(
                         nameLike(keyword),
                         productImage.imageType.ne(ImageType.DETAILS)
@@ -127,7 +127,7 @@ public class UserProductRepositoryCustomImpl implements UserProductRepositoryCus
     /**
      * 최신 상품 9개 조회
      *
-     * - 정렬 기준: 생성일 기준 내림차순
+     * - 정렬 기준: 상품 등록일 기준 내림차순
      * - 할인, 상품 이미지 fetchJoin
      *
      * @return 상품 리스트
@@ -135,9 +135,9 @@ public class UserProductRepositoryCustomImpl implements UserProductRepositoryCus
     @Override
     public List<Product> findLatestProducts() {
         return queryFactory
-                .selectFrom(product)
+                .selectFrom(product).distinct()
                 .leftJoin(product.discount, discount).fetchJoin()
-                .leftJoin(product.productImages, productImage).fetchJoin()
+                .join(product.productImages, productImage).fetchJoin()
                 .where(productImage.imageType.ne(ImageType.DETAILS))
                 .orderBy(product.createdAt.desc())
                 .offset(0)
