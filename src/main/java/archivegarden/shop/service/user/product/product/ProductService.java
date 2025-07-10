@@ -105,8 +105,8 @@ public class ProductService {
     private List<ProductListDto> convertToProductListDtoAsync(List<Product> products) {
         List<CompletableFuture<ProductListDto>> futures = products.stream()
                 .map(product -> CompletableFuture.supplyAsync(() -> {
-                    List<ProductImageDto> thumnailImageDtos = productImageService.toProductImageDtos(product.getThumbnailImages());
-                    return new ProductListDto(product, thumnailImageDtos);
+                    List<ProductImageDto> thumbnailImageDtos = productImageService.toProductImageDtos(product.getThumbnailImages());
+                    return new ProductListDto(product, thumbnailImageDtos);
                 }, executor))
                 .collect(Collectors.toList());
 

@@ -1,6 +1,7 @@
 package archivegarden.shop.dto.user.product;
 
 import archivegarden.shop.entity.Discount;
+import archivegarden.shop.entity.ImageType;
 import archivegarden.shop.entity.Product;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -9,7 +10,6 @@ import lombok.Setter;
 
 import java.text.DecimalFormat;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -23,7 +23,8 @@ public class ProductListDto {
     private String discountPercent;
     private String salePrice;
     private boolean isSoldOut;
-    private List<String> displayImageDatas;
+    private String displayImage;
+    private String hoverImage;
 
     public ProductListDto(Product product, List<ProductImageDto> productImageDtos) {
         this.id = product.getId();
@@ -41,8 +42,12 @@ public class ProductListDto {
             this.isSoldOut = true;
         }
 
-        this.displayImageDatas = productImageDtos.stream()
-                .map(ProductImageDto::getImageData)
-                .collect(Collectors.toList());
+        for (ProductImageDto dto : productImageDtos) {
+            if (ImageType.DISPLAY == dto.getImageType()) {
+                this.displayImage = dto.getImageData();
+            } else if (ImageType.HOVER == dto.getImageType()) {
+                this.hoverImage = dto.getImageData();
+            }
+        }
     }
 }

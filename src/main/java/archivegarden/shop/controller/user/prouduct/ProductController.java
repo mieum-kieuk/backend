@@ -7,6 +7,7 @@ import archivegarden.shop.entity.Member;
 import archivegarden.shop.security.service.AccountContext;
 import archivegarden.shop.service.product.WishService;
 import archivegarden.shop.service.user.product.product.ProductService;
+import archivegarden.shop.util.PageRequestUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -51,7 +52,7 @@ public class ProductController {
 
     @Operation(
             summary = "상품 목록 조회",
-            description = "상품 목록을 페이징하여 조회합니다"
+            description = "상품 목록을 페이징하여 조회합니다."
     )
     @GetMapping
     public String products(
@@ -59,11 +60,11 @@ public class ProductController {
             @RequestParam(value = "page", defaultValue = "1") int page,
             Model model
     ) {
-        PageRequest pageRequest = PageRequest.of(page - 1, 12);
+        PageRequest pageRequest = PageRequestUtil.of(page, 12);
         Page<ProductListDto> pageProducts = productService.getProducts(cond, pageRequest);
-        String pathVariable = cond.getCategory() != null ? cond.getCategory().getPathVariable() : null;
+        String category = cond.getCategory() != null ? cond.getCategory().getPathVariable() : null;
         String sortedCode = cond.getSorted_type() != null ? cond.getSorted_type().getSortedCode() : null;
-        model.addAttribute("pathVariable", pathVariable);
+        model.addAttribute("category", category);
         model.addAttribute("sortedCode", sortedCode);
         model.addAttribute("products", pageProducts);
         return "user/product/product_list";
