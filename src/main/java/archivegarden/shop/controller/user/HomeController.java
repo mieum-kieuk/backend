@@ -2,6 +2,7 @@ package archivegarden.shop.controller.user;
 
 import archivegarden.shop.dto.user.product.ProductListDto;
 import archivegarden.shop.service.user.product.product.ProductService;
+import archivegarden.shop.util.PageRequestUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
-@Tag(name = "홈 화면", description = "사용자 페이지 홈, 검색, 소개 페이지 관련 API")
+@Tag(name = "메인 페이지", description = "사용자 페이지 홈, 검색, 소개 페이지 관련 API")
 @Controller
 @RequiredArgsConstructor
 public class HomeController {
@@ -23,7 +24,7 @@ public class HomeController {
 
     @Operation(
             summary = "메인 페이지 조회",
-            description = "최신 상품들을 조회하여 메인 페이지를 반환합니다."
+            description = "최신 상품 9개를 조회하여 메인 페이지에 반환합니다."
     )
     @GetMapping
     public String home(Model model) {
@@ -42,7 +43,7 @@ public class HomeController {
             @RequestParam(value = "page", defaultValue = "1") int page,
             Model model
     ) {
-        PageRequest pageRequest = PageRequest.of(page - 1, 12);
+        PageRequest pageRequest = PageRequestUtil.of(page, 12);
         Page<ProductListDto> products = productService.searchProducts(keyword, pageRequest);
         model.addAttribute("products", products);
         model.addAttribute("keyword", keyword);

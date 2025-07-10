@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="pagination(pageInfo, url, paramExpr)" th:if="${pageInfo.totalPages > 0}" class="pagination">
+    <th:block th:with="fullUrl=${url} + ${paramExpr},
+                       startPage=${(pageInfo.number/5)*5+1},
+                       endPage=${T(java.lang.Math).min((pageInfo.number/5)*5+5, pageInfo.totalPages)}">
+        <ul>
+            <li>
+                <a th:href="@{${fullUrl}(page=1)}" class="prev_first">
+                    <img th:src="@{/images/keyboard_double_arrow_left.svg}" alt="첫 페이지">
+                </a>
+            </li>
+            <li>
+                <a th:href="@{${fullUrl}(page=${startPage - 1})}" class="prev" th:classappend="${startPage == 1} ? 'disabled'">
+                    <img th:src="@{/images/keyboard_arrow_left.svg}" alt="이전 페이지">
+                </a>
+            </li>
+            <li th:each="page : ${#numbers.sequence(startPage, endPage)}">
+                <a th:href="@{${fullUrl}(page=${page})}" th:text="${page}" class="page" th:classappend="${page == pageInfo.number + 1} ? 'active'"></a>
+            </li>
+            <li>
+                <a th:href="@{${fullUrl}(page=${endPage + 1})}"
+                   class="next"
+                   th:classappend="${endPage + 1 > pageInfo.totalPages} ? 'disabled'">
+                    <img th:src="@{/images/keyboard_arrow_right.svg}" alt="다음 페이지">
+
+                </a>
+            </li>
+            <li>
+                <a th:href="@{${fullUrl}(page=${pageInfo.totalPages})}" class="next_last">
+                    <img th:src="@{/images/keyboard_double_arrow_right.svg}" alt="마지막 페이지">
+                </a>
+            </li>
+        </ul>
+    </th:block>
+</div>
+</body>
+</html>
