@@ -4,7 +4,7 @@ import archivegarden.shop.dto.admin.help.notice.NoticeDetailsDto;
 import archivegarden.shop.dto.user.community.notice.NoticeListDto;
 import archivegarden.shop.dto.user.community.notice.NoticeSearchForm;
 import archivegarden.shop.entity.Notice;
-import archivegarden.shop.exception.common.EntityNotFoundException;
+import archivegarden.shop.exception.global.EntityNotFoundException;
 import archivegarden.shop.repository.notice.NoticeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

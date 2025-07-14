@@ -78,7 +78,7 @@ public class AdminNoticeController {
             @ModelAttribute("cond") AdminSearchCondition cond,
             Model model
     ) {
-        PageRequest pageRequest = PageRequestUtil.of(page - 1);
+        PageRequest pageRequest = PageRequestUtil.of(page);
         Page<NoticeListDto> noticeListDtos = noticeService.getNotices(cond, pageRequest);
         model.addAttribute("notices", noticeListDtos);
         return "admin/help/notice/notice_list";
