@@ -137,7 +137,7 @@ public class MemberAjaxController {
         }
 
         Long memberId = memberIdOpt.get();
-        session.setAttribute(SessionConstants.FIND_ID_MEMBER_ID_KEY, memberId);
+        session.setAttribute(SessionConstants.FIND_LOGIN_ID_MEMBER_ID_KEY, memberId);
         return new ResultResponse(HttpStatus.OK.value(), "아이디 찾기에 성공하였습니다.");
     }
 
@@ -166,7 +166,7 @@ public class MemberAjaxController {
         }
 
         Long memberId = memberIdOpt.get();
-        session.setAttribute(SessionConstants.FIND_ID_MEMBER_ID_KEY, memberId);
+        session.setAttribute(SessionConstants.FIND_LOGIN_ID_MEMBER_ID_KEY, memberId);
         return new ResultResponse(HttpStatus.OK.value(), "아이디 찾기에 성공하였습니다.");
     }
 
@@ -196,7 +196,7 @@ public class MemberAjaxController {
             return new ResultResponse(HttpStatus.NOT_FOUND.value(), "가입 시 입력하신 회원 정보가 맞는지\n다시 한번 확인해 주세요.");
         }
 
-        session.setAttribute("findPassword:email", emailOpt.get());
+        session.setAttribute(SessionConstants.FIND_PASSWORD_EMAIL_KEY, emailOpt.get());
         return new ResultResponse(HttpStatus.OK.value(), "비밀번호 찾기에 성공하였습니다.");
     }
 

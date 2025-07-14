@@ -49,22 +49,6 @@ public class SmsUtil {
     }
 
     /**
-     * 비밀번호 찾는 경우 임시 비밀번호 발송
-     */
-    public SingleMessageSentResponse sendTempPassword(String to) {
-
-        Message message = new Message();
-        message.setFrom(from);
-        message.setTo(to);
-        message.setText("[미음키읔] 임시 비밀번호는 [" + getTempPassword() + "] 입니다. 로그인 후 비밀번호를 변경해 주세요.");
-
-        SingleMessageSentResponse response = messageService.sendOne(new SingleMessageSendingRequest(message));
-        log.info("sms response={}", response);
-
-        return response;
-    }
-
-    /**
      * 임시 비밀번호 생성
      */
     private String getTempPassword(){

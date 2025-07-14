@@ -101,9 +101,9 @@ public class MemberController {
     public String findIdResult(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession(false);
         if(session == null) return "redirect:/member/find-id";
-        Long memberId = (Long) session.getAttribute(SessionConstants.FIND_ID_MEMBER_ID_KEY);
+        Long memberId = (Long) session.getAttribute(SessionConstants.FIND_LOGIN_ID_MEMBER_ID_KEY);
         if (memberId == null) return "redirect:/member/find-id";
-        session.removeAttribute(SessionConstants.FIND_ID_MEMBER_ID_KEY);
+        session.removeAttribute(SessionConstants.FIND_LOGIN_ID_MEMBER_ID_KEY);
 
         FindIdResultDto findIdResultDto = memberService.findIdComplete(memberId);
         model.addAttribute("member", findIdResultDto);
@@ -129,7 +129,6 @@ public class MemberController {
         if (session == null) return "redirect:/member/find-password";
         String email = (String) session.getAttribute(SessionConstants.FIND_PASSWORD_EMAIL_KEY);
         if (email == null) return "redirect:/member/find-password";
-        session.removeAttribute(SessionConstants.FIND_PASSWORD_EMAIL_KEY);
 
         model.addAttribute("email", email);
         return "user/member/send_temporary_password";

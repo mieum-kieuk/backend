@@ -1,8 +1,8 @@
 package archivegarden.shop.service.user.email;
 
 import archivegarden.shop.entity.Member;
-import archivegarden.shop.exception.ajax.AjaxEntityNotFoundException;
-import archivegarden.shop.exception.common.EntityNotFoundException;
+import archivegarden.shop.exception.ajax.EntityNotFoundAjaxException;
+import archivegarden.shop.exception.global.EntityNotFoundException;
 import archivegarden.shop.repository.member.MemberRepository;
 import archivegarden.shop.util.RedisUtil;
 import lombok.RequiredArgsConstructor;
@@ -123,10 +123,10 @@ public class EmailService {
     /**
      * 임시 비밀번호 발급
      *
-     * @throws AjaxEntityNotFoundException
+     * @throws EntityNotFoundAjaxException
      */
     public Long sendTempPassword(String to) {
-        Member member = memberRepository.findByEmail(to).orElseThrow(() -> new AjaxEntityNotFoundException("존재하지 않는 회원입니다."));
+        Member member = memberRepository.findByEmail(to).orElseThrow(() -> new EntityNotFoundAjaxException("존재하지 않는 회원입니다."));
         String tempPassword = getTempPassword();
 
         Context context = new Context();

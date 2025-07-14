@@ -149,7 +149,7 @@ public class MemberServiceImpl implements MemberService {
         String verificationNo = createVerificationNo();
         log.info("휴대전화번호 인증번호: {}", verificationNo);
 
-//        smsUtil.sendVerificationNo(to, verificationNo);
+        smsUtil.sendVerificationNo(to, verificationNo);
 
         redisUtil.setDataExpire(to, verificationNo, VERIFICATION_CODE_EXPIRE_SECONDS);
     }
