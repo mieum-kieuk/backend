@@ -2,10 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="ko">
 <head th:replace="~{fragments/head :: commonHead('검색 결과')}">
     <th:block th:fragment="extraCss">
-        <link rel="stylesheet" th:href="@{/css/user/product_list.css}" />
-        <link rel="stylesheet" th:href="@{/css/user/search_complete.css}" />
+        <link rel="stylesheet" th:href="@{/css/user/product_list.css}"/>
+        <link rel="stylesheet" th:href="@{/css/user/search_complete.css}"/>
     </th:block>
 </head>
+
 <body>
 <div class="wrap">
     <div th:replace="~{/fragments/header :: header}"></div>
@@ -13,20 +14,19 @@
         <div class="search_form_wrap">
             <form action="./search_complete.html" th:action="@{/search}" method="get">
                 <input type="text" placeholder="검색어를 입력해 주세요." name="keyword" th:value="${keyword}" maxlength="50">
-                <button type="submit" class="search_btn2"><span class="material-symbols-outlined">search</span></button>
+                <button type="submit" class="search_btn2"><img th:src="@{/images/search.svg}" alt="search"></button>
             </form>
         </div>
         <div id="productList" class="wrapper">
             <div class="content">
-                <div class="search_result" th:if="${products.totalElements} > 0">
-                    <p>총 <strong th:text="${products.totalElements}">4</strong>개의 상품이 검색되었습니다.</p>
-                </div>
-                <div class="prd_list_wrap">
+                <div class="prd_list_wrap" th:if="${not #strings.isEmpty(keyword) and products.totalElements > 0}">
+                    <div class="search_result">
+                        <p>총 <strong th:text="${products.totalElements}"></strong>개의 상품이 검색되었습니다.</p>
+                    </div>
                     <ul class="prd_list">
                         <li th:each="product : ${products}">
                             <div class="thumb">
-                                <a href="./products/product_details.html"
-                                   th:href="@{/products/{productId}(productId=${product.id})}">
+                                <a href=th:href="@{/products/{productId}(productId=${product.id})}">
                                     <img class="thumb1" th:src="${product.displayImage}" alt="상품 이미지">
                                     <img class="thumb2" th:if="${product.hoverImage != null}"
                                          th:src="${product.hoverImage}" alt="상품 이미지">
@@ -40,7 +40,8 @@
                                 </div>
                                 <ul class="prd_price">
                                     <span class="original_price"
-                                          th:classappend="${product.isDiscounted and !product.isSoldOut} ? 'line_through'" th:text="${product.price}"></span>
+                                          th:classappend="${product.isDiscounted and !product.isSoldOut} ? 'line_through'"
+                                          th:text="${product.price}"></span>
                                     <li th:if="${product.isDiscounted} and !${product.isSoldOut}" class="discount">
                                         <span class="discount_rate">[[${product.discountPercent}]]%</span>
                                         <span class="discounted_price" th:text="${product.salePrice}"></span>
@@ -53,10 +54,14 @@
                         </li>
                     </ul>
                 </div>
-                <div th:if="${products.totalElements} == 0" class="no_data_msg"><p>"[[${keyword}]]"에 해당하는 상품 검색 결과가 없습니다.</p></div>
+                <div th:if="${#strings.isEmpty(keyword)}" class="no_data_msg"><p>검색어를 입력해 주세요.</p></div>
+                <div th:if="${not #strings.isEmpty(keyword) and products.totalElements == 0}" class="no_data_msg"><p>"[[${keyword}]]"에 해당하는 상품 검색 결과가 없습니다.</p></div>
             </div>
         </div>
-        <div th:replace="~{fragments/pagination_simple :: pagination( ${products}, '/search', '?keyword=' + ${keyword})}"></div>
+        <div th:if="${not #strings.isEmpty(keyword)}">
+            <div th:replace="~{fragments/pagination_simple :: pagination(${products}, '/search', '?keyword=' + ${keyword})}"></div>
+        </div>
+    </div>
     <div th:replace="~{/fragments/footer :: basic_footer}"></div>
 </div>
 </body>

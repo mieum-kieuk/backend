@@ -11,7 +11,7 @@
         <div class="gnb_menu center">
             <ul class="depth1">
                 <li class="depth1_menu" id="shop">
-                    <a href="../user/product/product_list.html" th:href="@{/products}">Shop</a>
+                    <a th:href="@{/products}">Shop</a>
                     <ul class="depth2">
                         <li><a th:href="@{/products(category='sticker')}">Sticker</a></li>
                         <li><a th:href="@{/products(category='maskingtape')}">Masking tape</a></li>
@@ -36,7 +36,7 @@
                     <div class="search_form_wrap">
                         <form th:action="@{/search}" method="get">
                             <input type="text" placeholder="검색어를 입력해 주세요." name="keyword" maxlength="50">
-                            <button type="submit" class="search_btn"><span class="material-symbols-outlined">search</span></button>
+                            <button type="submit" class="search_btn"><img th:src="@{/images/search.svg}" alt="search"></button>
                         </form>
                     </div>
                 </div>

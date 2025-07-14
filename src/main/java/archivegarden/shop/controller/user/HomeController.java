@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -43,6 +44,8 @@ public class HomeController {
             @RequestParam(value = "page", defaultValue = "1") int page,
             Model model
     ) {
+        if(!StringUtils.hasText(keyword))  return "user/search/search_complete";
+
         PageRequest pageRequest = PageRequestUtil.of(page, 12);
         Page<ProductListDto> products = productService.searchProducts(keyword, pageRequest);
         model.addAttribute("products", products);
