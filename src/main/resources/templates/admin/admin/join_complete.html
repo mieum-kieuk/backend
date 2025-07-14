@@ -1,18 +1,16 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>관리자 회원가입 완료 | 미음키읔</title>
+<head th:replace="~{fragments/head :: commonHead('관리자 회원가입 완료')}">
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
-    <link rel="stylesheet" href="../../../static/css/common/join.css" th:href="@{/css/common/join.css}"/>
-    <link rel="stylesheet" href="../../../static/css/common/comm.css" th:href="@{/css/common/comm.css}"/>
-    <link rel="stylesheet" href="../../../static/css/admin/admin.css" th:href="@{/css/admin/admin.css}"/>
+    <th:block th:fragment="extraCss">
+        <link rel="stylesheet" th:href="@{/css/common/join.css}" />
+        <link rel="stylesheet" th:href="@{/css/admin/admin.css}" />
+    </th:block>
+    <th:block th:fragment="extraJs">
+        <script defer th:src="@{/js/admin/join.js}"></script>
+    </th:block>
 </head>
+
 <body>
 <div class="admin_wrap ml0">
     <div id="join_succ" class="admin_member">
@@ -28,7 +26,7 @@
                     <li><p>이메일</p>  <span id="userEmail" th:text="${adminInfo.email}"></span></li>
                 </ul>
                 <div class="btn_wrap">
-                    <a class="btn1 submit_btn" href="../login.html" th:href="@{/admin/login}">관리자 로그인</a>
+                    <a class="btn1 submit_btn" th:href="@{/admin/login}">관리자 로그인</a>
                 </div>
             </div>
         </div>

@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 
-@Tag(name = "Admin 관리", description = "관리자 페이지에서 관리자 정보를 관리하는 웹 페이지 API")
+@Tag(name = "관리자", description = "관리자 페이지에서 관리자 관련 API")
 @Controller
 @RequestMapping("/admin")
 @RequiredArgsConstructor
@@ -33,9 +33,9 @@ public class AdminAdminController {
     private final AdminAdminService adminService;
 
     @Operation(
-            summary = "관리자 로그인 페이지 표시",
+            summary = "관리자 로그인 페이지",
             description = "관리자 로그인 폼을 반환합니다. 로그인 실패 시 원인 에러 메시지를 포함합니다.",
-            responses = {@ApiResponse(responseCode = "200", description = "성공적으로 로그인 페이지 반환")}
+            responses = {@ApiResponse(responseCode = "200", description = "로그인 페이지 반환")}
     )
     @GetMapping("/login")
     public String login(
@@ -62,7 +62,7 @@ public class AdminAdminController {
     @Operation(
             summary = "관리자 회원가입 폼 표시",
             description = "관리자 회원가입 화면을 반환합니다.",
-            responses = {@ApiResponse(responseCode = "200", description = "성공적으로 관리자 회원가입 폼 반환")}
+            responses = {@ApiResponse(responseCode = "200", description = "관리자 회원가입 폼 반환")}
     )
     @GetMapping("/join")
     public String joinAdminForm(@ModelAttribute("joinForm") JoinAdminForm form) {
@@ -148,7 +148,7 @@ public class AdminAdminController {
     /**
      * 비밀번호와 비밀번호 확인이 일치하는지 검증합니다.
      *
-     * @param form          회원가입 폼 데이터를 담은 DTO
+     * @param form          관리자 회원가입 폼 DTO
      * @param bindingResult 유효성 검증 결과를 담는 객체
      */
     private void validateJoinForm(JoinAdminForm form, BindingResult bindingResult) {

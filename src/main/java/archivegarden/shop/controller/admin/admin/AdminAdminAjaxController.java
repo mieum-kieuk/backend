@@ -40,7 +40,7 @@ public class AdminAdminAjaxController {
             description = "이메일 주소의 사용 가능 여부를 확인합니다.",
             responses = {
                     @ApiResponse(responseCode = "200", description = "사용 가능한 이메일"),
-                    @ApiResponse(responseCode = "400", description = "이미 사용 중인 이메일")
+                    @ApiResponse(responseCode = "409", description = "이미 사용 중인 이메일")
             })
     @PostMapping("/check/email")
     public ResultResponse checkEmailDuplicate(@RequestParam(name = "email") String email) {
@@ -48,7 +48,7 @@ public class AdminAdminAjaxController {
         if (isEmailAvailable) {
             return new ResultResponse(HttpStatus.OK.value(), "사용 가능한 이메일입니다.");
         } else {
-            return new ResultResponse(HttpStatus.BAD_REQUEST.value(), "이미 사용 중인 이메일입니다.");
+            return new ResultResponse(HttpStatus.CONFLICT.value(), "이미 사용 중인 이메일입니다.");
         }
     }
 
