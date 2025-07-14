@@ -278,7 +278,7 @@ async function addImagePreview(container, file) {
             let previewImage = $('<img>').addClass('preview_image').attr('src', e.target.result);
             let filenameContainer = $('<div>').addClass('filename_container');
             let fileName = $('<span>').addClass('file_name').text(file.name);
-            let deleteButton = $('<button>').addClass('delete_btn').append($('<span>').addClass('material-symbols-outlined').text('close'));
+            let deleteButton = $('<button>').addClass('delete_btn').append($('<img>').attr('src', '../../../../images/close.svg').addClass('icon'));
 
             // 기존 파일 배열에 새 파일 추가
             existingFiles.push(file.name);

@@ -1,32 +1,25 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="_csrf" th:content="${_csrf.token}"/>
-    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
-    <title>전체 상품 관리 | 미음키읔</title>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"/>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css">
-    <link rel="stylesheet" href="../../../../static/css/common/comm.css" th:href="@{/css/common/comm.css}">
-    <link rel="stylesheet" href="../../../../static/css/admin/admin.css" th:href="@{/css/admin/admin.css}">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.js"></script>
-    <script defer src="../../../../static/js/common/comm.js" th:src="@{/js/common/comm.js}"></script>
-    <script defer src="../../../../static/js/admin/editProduct.js" th:src="@{/js/admin/editProduct.js}"></script>
+<head th:replace="~{fragments/head :: commonHead('전체 상품 관리')}">
+    <th:block th:fragment="extraMeta">
+        <meta name="_csrf" th:content="${_csrf.token}"/>
+        <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    </th:block>
+    <th:block th:fragment="extraCss">
+        <link rel="stylesheet" th:href="@{/css/admin/admin.css}" />
+    </th:block>
+    <th:block th:fragment="extraJs">
+        <script defer th:src="@{/js/admin/editProduct.js}"></script>
+    </th:block>
 </head>
+
 <body>
 <div class="admin_wrap">
-    <div th:replace="~{/layout/menu :: admin_menu}"></div>
+    <div th:replace="~{/fragments/menu :: admin_menu}"></div>
     <div id="editProduct" class="admins_wrap">
         <div class="content">
             <h2 class="content_tit">상품 수정</h2>
-            <form id="productForm" action="" th:object="${editForm}" th:action method="post" enctype="multipart/form-data" th:onsubmit="return validateBeforeSubmit()">
+            <form id="productForm" th:object="${editForm}" th:action method="post" enctype="multipart/form-data" th:onsubmit="return validateBeforeSubmit()">
                 <div class="form_wrap">
                     <div class="input_box_wrap">
                         <label for="name" class="ess_tit">상품명</label>
@@ -41,6 +34,7 @@
                             <select id="category" name="category">
                                 <option th:each="category : ${categories}" th:text="${category.displayName}" th:value="${category}"></option>
                             </select>
+                            <img class="expand_icon" th:src="@{/images/keyboard_arrow_down_666.svg}" />
                         </div>
                     </div>
                     <div class="field-error" th:errors="*{category}"></div>
@@ -91,7 +85,7 @@
                         </div>
                         <div class="btn_wrap">
                             <button type="button" class="display_delete_btn">
-                                <span class="material-symbols-outlined">close</span>
+                                <img th:src="@{/images/close.svg}">
                             </button>
                         </div>
                     </div>
@@ -117,7 +111,9 @@
                             </div>
                         </div>
                         <div class="btn_wrap">
-                            <button type="button" class="hover_delete_btn"><span class="material-symbols-outlined">close</span></button>
+                            <button type="button" class="hover_delete_btn">
+                                <img th:src="@{/images/close.svg}">
+                            </button>
                         </div>
                     </div>
                     <div class="text description">
@@ -143,7 +139,7 @@
                                 </div>
                             </div>
                             <div class="btn_wrap">
-                                <button type="button" class="detail_delete_btn"><span class="material-symbols-outlined">close</span></button>
+                                <button type="button" class="detail_delete_btn"><img th:src="@{/images/close.svg}"></button>
                             </div>
                             <input type="hidden" class="delete_file" name="deleteDetailImages" th:value="|FILE_${detailImage.id}|" />
                         </div>
@@ -158,7 +154,7 @@
                     </div>
                 </div>
                 <div class="input_box_wrap btn">
-                    <button type="button" class="btn1" onclick="location.href='./product_list.html'" th:onclick="|location.href='@{/admin/products}'|">취소</button>
+                    <button type="button" class="btn1" th:onclick="|location.href='@{/admin/products}'|">취소</button>
                     <button type="submit" id="submitBtn" class="btn1 submit_btn">완료</button>
                 </div>
             </form>

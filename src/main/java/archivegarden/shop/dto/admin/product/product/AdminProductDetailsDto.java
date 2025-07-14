@@ -23,9 +23,9 @@ public class AdminProductDetailsDto {
     private String size;
     private String shipping;
     private String notice;
-    private String displayImageData;
-    private String hoverImageData;
-    private List<String> detailImageDatas = new ArrayList<>();
+    private String displayImage;
+    private String hoverImage;
+    private List<String> detailImages = new ArrayList<>();
 
     public AdminProductDetailsDto(Product product, List<AdminProductImageDto> productImageDtos) {
         this.id = product.getId();
@@ -50,9 +50,9 @@ public class AdminProductDetailsDto {
         this.notice = product.getNotice();
         for (AdminProductImageDto image : productImageDtos) {
             switch (image.getImageType()) {
-                case DISPLAY -> this.displayImageData = image.getImageData();
-                case HOVER -> this.hoverImageData = image.getImageData();
-                case DETAILS -> this.detailImageDatas.add(image.getImageData());
+                case DISPLAY -> this.displayImage = image.getImageData();
+                case HOVER -> this.hoverImage = image.getImageData();
+                case DETAILS -> this.detailImages.add(image.getImageData());
             }
         }
     }

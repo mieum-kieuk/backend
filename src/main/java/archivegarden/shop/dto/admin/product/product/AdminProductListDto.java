@@ -19,7 +19,7 @@ public class AdminProductListDto {
     private int stockQuantity;
     private String price;
     private String salePrice;
-    private String displayImageData;
+    private String displayImage;
 
     public AdminProductListDto(Product product, AdminProductImageDto productImageDto) {
         this.id = product.getId();
@@ -34,7 +34,7 @@ public class AdminProductListDto {
         } else {
             this.salePrice = this.price;
         }
-        this.displayImageData = productImageDto.getImageData();
+        this.displayImage = productImageDto.getImageData();
     }
 
     private boolean isDateBetween(LocalDateTime startedAt, LocalDateTime expiredAt) {
