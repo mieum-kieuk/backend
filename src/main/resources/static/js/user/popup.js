@@ -129,12 +129,12 @@ function renderPagination(totalElements, currentPage, limit) {
         let prevPage = (currentGroup - 1) * paginationSize;
         pagination.append(`
         <li><a class="prev_first" data-page="${prevPage}">
-            <span class="material-symbols-outlined">navigate_before</span>
+            <img src="../../images/keyboard_arrow_left.svg" alt="첫 페이지">
         </a></li>
     `);
     } else {
         pagination.append(`
-        <li><a class="prev_first disabled"><span class="material-symbols-outlined">navigate_before</span></a></li>
+        <li><a class="prev_first disabled"><img src="../../images/keyboard_arrow_left.svg" alt="첫 페이지"></a></li>
     `);
     }
 
@@ -153,12 +153,12 @@ function renderPagination(totalElements, currentPage, limit) {
         let nextPage = (currentGroup * paginationSize) + 1;
         pagination.append(`
         <li><a class="next_last" data-page="${nextPage}">
-            <span class="material-symbols-outlined">navigate_next</span>
+            <img src="../../images/keyboard_arrow_right.svg" alt="마지막 페이지">
         </a></li>
     `);
     } else {
         pagination.append(`
-        <li><a class="next_last disabled"><span class="material-symbols-outlined">navigate_next</span></a></li>
+        <li><a class="next_last disabled"><img src="../../images/keyboard_arrow_right.svg" alt="마지막 페이지"></a></li>
     `);
     }
 }
