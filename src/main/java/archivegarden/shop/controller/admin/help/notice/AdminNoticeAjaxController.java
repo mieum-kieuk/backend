@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-@Tag(name = "Notice 관리", description = "관리자 페이지 AJAX용 공지사항 API")
+@Tag(name = "공지사항", description = "관리자 페이지 AJAX용 공지사항 API")
 @RestController
 @RequestMapping("/ajax/admin/notice")
 @RequiredArgsConstructor
@@ -19,7 +19,7 @@ public class AdminNoticeAjaxController {
 
     @Operation(
             summary = "공지사항 삭제 요청",
-            description = "지정된 공지사항을 삭제합니다. 해당 ID의 공지사항이 존재하지 않으면 오류를 반환합니다.",
+            description = "공지사항을 삭제합니다. 해당 ID의 공지사항이 존재하지 않으면 오류를 반환합니다.",
             responses = {
                     @ApiResponse(responseCode = "200", description = "공지사항 삭제 성공"),
                     @ApiResponse(responseCode = "404", description = "존재하지 않는 공지사항")

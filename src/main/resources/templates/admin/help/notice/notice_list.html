@@ -1,34 +1,27 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>공지사항 | 미음키읔</title>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
-    <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
-    <link rel="stylesheet" href="../../../../static/css/common/comm.css" th:href="@{/css/common/comm.css}"/>
-    <link rel="stylesheet" href="../../../../static/css/admin/admin.css" th:href="@{/css/admin/admin.css}">
-    <link rel="stylesheet" href="../../../../static/css/user/notice.css" th:href="@{/css/user/notice.css}">
-    <link rel="stylesheet" href="../../../../static/css/admin/list.css" th:href="@{/css/admin/list.css}">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script defer src="../../../../static/js/common/comm.js" th:src="@{/js/common/comm.js}"></script>
-    <script defer src="../../../../static/js/admin/notice.js" th:src="@{/js/admin/notice.js}"></script>
-    <script defer src="../../../../static/js/admin/search.js" th:src="@{/js/admin/search.js}"></script>
+<head th:replace="~{fragments/head :: commonHead('공지사항')}">
+    <th:block th:fragment="extraCss">
+        <link rel="stylesheet" th:href="@{/css/common/notice.css}" />
+        <link rel="stylesheet" th:href="@{/css/admin/admin.css}" />
+        <link rel="stylesheet" th:href="@{/css/admin/list.css}" />
+    </th:block>
+    <th:block th:fragment="extraJs">
+        <script defer th:src="@{/js/admin/notice.js}"></script>
+        <script defer th:src="@{/js/admin/search.js}"></script>
+    </th:block>
 </head>
+
 <body>
 <div class="admin_wrap">
-    <div th:replace="~{/layout/menu :: admin_menu}"></div>
+    <div th:replace="~{/fragments/menu :: admin_menu}"></div>
     <div class="admins_wrap">
         <div class="content">
             <h2 class="content_tit">공지사항</h2>
             <div id="noticeList" class="wrapper">
                 <div class="notice_wrap">
                     <h3 class="form_title">기본검색</h3>
-                    <form id="noticeSearchForm" class="search_form" action="" th:action method="get">
+                    <form id="noticeSearchForm" class="search_form" th:action method="get">
                         <div class="form_container">
                             <div class="form_wrap search">
                                 <label for="searchKeyword">검색어</label>
@@ -45,8 +38,7 @@
                         </div>
                     </form>
                     <div class="btn_wrap right">
-                        <button type="button" class="btn1 write_btn" onclick="location.href='./add_notice.html'"
-                                th:onclick="|location.href='@{/admin/notice/add}'|">작성</button>
+                        <button type="button" class="btn1 write_btn" th:onclick="|location.href='@{/admin/notice/add}'|">작성</button>
                     </div>
                     <div class="list_content">
                         <div class="list_head notice">
@@ -56,7 +48,7 @@
                         </div>
                         <div class="list notice">
                             <div class="list_item" th:each="notice, noticeStat : ${notices}">
-                                <a href="./notice_details.html" th:href="@{/admin/notice/{noticeId}(noticeId=${notice.id})}">
+                                <a th:href="@{/admin/notice/{noticeId}(noticeId=${notice.id})}">
                                     <div class="item number" th:text="${notices.totalElements - (notices.number * notices.pageable.pageSize) - noticeStat.index}"></div>
                                     <div class="item title" th:text="${notice.title}"></div>
                                     <div class="item date" th:text="${notice.createdAt}">작성일</div>
@@ -70,45 +62,11 @@
                     </div>
                 </div>
             </div>
-            <div class="pagination" th:if="${notices.totalPages > 0}">
-                <ul th:if="${cond.keyword == null}"
-                    th:with="startPage = ${(notices.number/5)*5+1},
-                             endPage=${T(java.lang.Math).min((notices.number/5)*5+5, notices.totalPages)}">
-                    <li><a href="./notice_list.html" th:href="@{/admin/notice}" class="prev_first">
-                        <span class="material-symbols-outlined">keyboard_double_arrow_left</span></a></li>
-                    <li><a href="./notice_list.html" th:href="@{/admin/notice(page=${startPage}-1)}"
-                           class="prev" th:classappend="${startPage == 1} ? 'disabled'">
-                        <span class="material-symbols-outlined">keyboard_arrow_left</span></a></li>
-                    <li th:each="page : ${#numbers.sequence(startPage, endPage)}">
-                        <a href="./product_list.html" th:href="@{/admin/notice(page=${page})}"
-                           class="page" th:classappend="${page == notices.number + 1} ? 'active'" th:text="${page}"></a></li>
-                    <li><a href="./notice_list.html" th:href="@{/admin/notice(page=${endPage} + 1)}"
-                           class="next" th:classappend="${endPage+1 > notices.totalPages} ? 'disabled'">
-                        <span class="material-symbols-outlined">keyboard_arrow_right</span></a></li>
-                    <li><a href="./notice_list.html" th:href="@{/admin/notice(page=${notices.totalPages})}" class="next_last">
-                        <span class="material-symbols-outlined">double_arrow</span></a></li>
-                </ul>
-                <ul th:if="${cond.keyword != null}"
-                    th:with="startPage = ${(notices.number/5)*5+1},
-                             endPage=${T(java.lang.Math).min((notices.number/5)*5+5, notices.totalPages)}">
-                    <li><a class="prev_first" href="./notice_list.html"
-                           th:href="@{/admin/notice(searchKey=${cond.searchKey}, keyword=${cond.keyword})}">
-                        <span class="material-symbols-outlined">keyboard_double_arrow_left</span></a></li>
-                    <li><a href="./notice_list.html"
-                           th:href="@{/admin/notice(searchKey=${cond.searchKey}, keyword=${cond.keyword}, page=${startPage}-1)}"
-                           class="prev" id="prevPageSearch" th:classappend="${startPage ==1} ? 'disabled'">
-                        <span class="material-symbols-outlined">keyboard_arrow_left</span></a></li>
-                    <li th:each="page : ${#numbers.sequence(startPage, endPage)}">
-                        <a href="./product_list.html" th:href="@{/admin/notice(searchKey=${cond.searchKey}, keyword=${cond.keyword}, page=${page})}"
-                           class="page" th:classappend="${page == notices.number + 1} ? 'active'" th:text="${page}"></a></li>
-                    <li><a href="./notice_list.html"
-                           th:href="@{/admin/notice(searchKey=${cond.searchKey}, keyword=${cond.keyword}, page=${endPage} + 1)}"
-                           class="next" id="nextPageSearch" th:classappend="${endPage+1 > notices.totalPages} ? 'disabled'">
-                        <span class="material-symbols-outlined">keyboard_arrow_right</span></a></li>
-                    <li><a href="./notice_list.html" class="next_last"
-                           th:href="@{/admin/notice(searchKey=${cond.searchKey}, keyword=${cond.keyword}, page=${notices.totalPages})}">
-                        <span class="material-symbols-outlined">double_arrow</span></a></li>
-                </ul>
+            <div th:if="${#strings.isEmpty(cond.keyword)}">
+                <div th:replace="~{fragments/pagination_full :: pagination(${notices}, '/admin/notice', '')}"></div>
+            </div>
+            <div th:unless="${#strings.isEmpty(cond.keyword)}">
+                <div th:replace="~{fragments/pagination_full :: pagination(${notices}, '/admin/notice', '?searchKey=' + (${cond.searchKey} ?: '') + '&keyword=' + (${cond.keyword} ?: ''))}"></div>
             </div>
         </div>
     </div>
