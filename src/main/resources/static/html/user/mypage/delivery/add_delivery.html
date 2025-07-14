@@ -3,13 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My page | 미음키읔</title>
+    <title>배송지 등록 | 미음키읔</title>
 
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="미음키읔" />
-    <meta property="og:description" content="" />
-    <meta property="og:image" content="" />
-    <meta property="og:url" content="" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
@@ -20,6 +15,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.js"></script>
     <link rel="stylesheet" href="../../../css/common/comm.css" />
     <link rel="stylesheet" href="../../../css/user/mypage.css" />
+    <script src="../../../js/user/findAddress.js"></script>
     <script src="../../../js/common/comm.js"></script>
     <script src="../../../js/user/delivery.js"></script>
 
@@ -36,11 +32,11 @@
             <div class="gnb_menu center">
                 <ul class="depth1">
                     <li class="depth1_menu" id="shop">
-                        <a href="../shop/product_list.html">Shop</a>
+                        <a href="../products/product_list.html">Shop</a>
                         <ul class="depth2">
-                            <li><a href="../shop/product_list.html">Masking tape</a></li>
-                            <li><a href="../shop/product_list.html">Sticker</a></li>
-                            <li><a href="../shop/product_list.html">Memo</a></li>
+                            <li><a href="../products/product_list.html">Masking tape</a></li>
+                            <li><a href="../products/product_list.html">Sticker</a></li>
+                            <li><a href="../products/product_list.html">Memo</a></li>
                         </ul>
                     </li>
                     <li class="depth1_menu" id="about"><a href="../about.html">About</a>
@@ -49,7 +45,7 @@
                         <ul class="depth2">
                             <li><a href="../../community/notice/notice_list.html">Notice</a></li>
                             <li><a href="../../community/inquiry/inquiry_list.html">Q&amp;A</a></li>
-                            <li><a href="../../review/review_list.html">Review</a></li>
+                            <li><a href="../../community/review/review_list.html">Review</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -73,16 +69,16 @@
                     <ul class="depth1">
                         <li class="depth1_menu">Account
                             <ul class="depth2">
-                                <li><a href="../../login.html">Login</a></li>
-                                <li><a href="../member/join.html">Join</a></li>
-                                <li><a href="../user/member/order.html">Order</a></li>
+                                <li><a href="../members/login.html">Login</a></li>
+                                <li><a href="../members/join.html">Join</a></li>
+                                <li><a href="../members/order.html">Order</a></li>
                                 <li><a href="me.html">Mypage</a></li>
                             </ul>
                         </li>
                     </ul>
                 </div>
                 <div class="cart">
-                    <a href="../../cart/cart.html" >Cart(0)
+                    <a href="../order/cart.html" >Cart(0)
                     </a>
                 </div>
             </div>
@@ -106,57 +102,86 @@
                 </li>
                 <li>
                     <ul class="depth2">
-                        <li><a href="member_info_modify.html">회원 정보 수정</a></li>
-                        <li><a href="./delivery_list.html">배송지 관리</a></li>
+                        <li><a href="member/edit_info.html">회원 정보 수정</a></li>
+                        <li><a href="delivery_list.html">배송지 관리</a></li>
                         <li><a href="">로그아웃</a></li>
                     </ul>
                 </li>
             </ul>
         </nav>
-        <div id="deliveryList" class="mypage_content">
+        <div id="delivery" class="mypage_content">
             <div class="delivery_wrap wrapper">
-                <h3 class="delivery_title">배송지 관리</h3>
-                <div class="delivery_content">
-                <div class="delivery_head">
-                    <div class="item deliveryName">배송지명</div>
-                    <div class="item recipientName">수령인</div>
-                    <div class="item phonenumber">휴대전화</div>
-                    <div class="item address">주소</div>
-                    <div class="item btn"></div>
-                </div>
-                <div class="delivery_list">
-                    <div class="delivery_item">
-                        <div class="item deliveryName">
-                            <span class="default_delivery">우리집</span>
-                        </div>
-                        <div class="item recipientName">
-                            <span>김지우</span>
-                        </div>
-                        <div class="item phonenumber">
-                            <span>010-4340-1954</span>
-                        </div>
-                        <div class="item address">
-                            <span>(05649)서울 송파구 양재대로 1218 올림픽선수기자촌아파트 245-1801 주소 주소 주소 주소 주소 주소 </span>
-                        </div>
-                        <div class="item btn">
-                            <div class="btn_wrap">
-                                <button type="button" onclick="deleteDelivery()" class="btn1 delete">삭제</button>
-                                <button type="button" onclick="location.href = 'edit_delivery.html'" class="btn1">수정</button>
-                            </div>
-                        </div>
+                <h3 class="delivery_title">배송지 등록</h3>
+                <form action=""  method="post" id="joinForm">
+                    <div class="input_area">
+                        <ul class="input_wrap">
+                            <li>
+                                <div >
+                                    <label for="deliveryName" class="input_tit ess">배송지명</label>
+                                </div>
+                                <div class="input_box_wrap">
+                                    <input id="deliveryName" class="input_box" placeholder="" maxlength="50" type="text"/>
+                                </div>
+                            </li>
+                            <li>
+                                <div id="name_title">
+                                    <label for="recipientName" class="input_tit ess">수령인</label>
+                                </div>
+                                <div id="name_content" class="input_box_wrap">
+                                    <input id="recipientName" class="input_box" placeholder="" maxlength="30" type="text"/>
+                                </div>
+                            </li>
+                            <li class="address">
+                                <div>
+                                    <label class="input_tit ess">주소</label>
+                                </div>
+                                <div>
+                                    <input class="input_box" id="zipCode" name="zipCode" placeholder="우편번호" maxlength="10" type="text" disabled/>
+                                    <button id="searchZipCodeBtn" class="btn1">주소검색</button>
+                                </div>
+                                <div>
+                                    <input class="input_box" id="basicAddress" name="basicAddress" placeholder="기본주소" type="text" disabled/>
+                                </div>
+                                <div>
+                                    <input class="input_box" id="detailAddress" name="detailAddress" placeholder="상세주소(선택 가능)" maxlength="100" type="text" readonly/>
+                                </div>
+                            </li>
+                            <li class="phone_number">
+                                <div class="">
+                                    <label class="input_tit ess">휴대전화번호</label>
+                                </div>
+                                <div class="phone_number select">
+                                    <div class="number_sec">
+                                        <select id="phonenumber1" >
+                                            <option value="010">010</option>
+                                            <option value="011">011</option>
+                                            <option value="016">016</option>
+                                            <option value="017">017</option>
+                                            <option value="018">018</option>
+                                            <option value="019">019</option>
+                                        </select>
+                                        <p>-</p><input id="phonenumber2" class="input_box" placeholder="" value="" type="text"/>
+                                        <p>-</p><input id="phonenumber3" class="input_box" placeholder="" value="" type="text"/>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="default_delivery">
+                                <div>
+                                    <input id="isDefaultDelivery" class="normal" value="1" type="checkbox"/>
+                                    <label for="isDefaultDelivery">기본 배송지로 저장</label>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
-                    <div class="delivery_item">
-                        <div id="noDataMessage">
-                            <span>등록된 배송지가 없습니다.</span>
-                        </div>
-                    </div>
-                </div>
-                </div>
-                <div class="delivery_foot">
                     <div class="btn_wrap">
-                        <button type="button" id="" class="btn1 write_btn" onclick="location.href = 'add_delivery.html'">배송지 등록</button>
+                        <button type="button" class="btn1 cancel_btn" onclick="location.href='delivery_list.html'">
+                            취소
+                        </button>
+                        <button type="submit" id="submitBtn" onclick="validateBeforeSubmit()" class="btn1 submit_btn">
+                            등록
+                        </button>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>

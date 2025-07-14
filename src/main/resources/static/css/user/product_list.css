@@ -65,9 +65,7 @@
     width: 100%;
 }
 .prd_list_wrap {
-    display: flex;
-    justify-content: center;
-    width: 100%;
+    padding: 40px;
 }
 .prd_list_wrap > #noDataMessage {
     display: flex;
@@ -79,15 +77,17 @@
 .prd_list {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    padding: 40px;
+    gap: 60px 40px;
+    padding: 40px 0;
 }
 .prd_list > li{
-    margin-bottom: 60px;
+    /*margin-bottom: 60px;*/
 }
 .thumb img {
-    width: 450px;
-    height: 450px;
+    /*width: 450px;*/
+    width: 100%;
+    /*height: 450px;*/
+    aspect-ratio: 1 / 1;
     object-fit: cover;
 }
 .prd_name {
@@ -128,3 +128,4 @@
     top: 0;
     left: 0;
 }
+
