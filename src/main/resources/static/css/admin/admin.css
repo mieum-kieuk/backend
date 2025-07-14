@@ -317,9 +317,9 @@ input::-webkit-inner-spin-button {
     height: 26px;
 }
 
-.select_wrap .material-symbols-outlined {
+.select_wrap .expand_icon {
     position: absolute;
-    top: 0;
+    top: 5px;
     z-index: 1;
     right: 5px;
     line-height: 26px;
@@ -333,7 +333,10 @@ input::-webkit-inner-spin-button {
 .show_options option {
     display: flex;
 }
-
+.btn_wrap label {
+    min-width: auto;
+    margin-right: 0;
+}
 #detailImages, #displayImage1, #displayImage2, #editDisplayImage1, #editDisplayImage2, #editDetailImages {
     width: 100%;
     border-left: none;
@@ -444,11 +447,10 @@ input::-webkit-inner-spin-button {
     margin-bottom: 10px;
 }
 
-.preview_container .material-symbols-outlined {
-    font-size: 16px;
-    line-height: 16px;
+.preview_container .icon {
+    width: 16px;
+    height: 16px;
     margin-left: 10px;
-    color: #222;
 }
 
 .delete_btn {
