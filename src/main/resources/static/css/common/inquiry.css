@@ -253,7 +253,7 @@ form .inquiry_table td #content {
 .btn_wrap.details.right {
     justify-content: flex-end;
     gap: 8px;
-    margin-top: 10px;
+    margin-bottom: 10px;
 }
 .btn_wrap.details .btn1 {
     width: 100px;
@@ -335,6 +335,7 @@ form .inquiry_table td #content {
 }
 .cmt_content {
     position: relative;
+    min-height: 120px;
 }
 .cmt_content span {
     white-space: pre-line;
@@ -375,7 +376,7 @@ form .inquiry_table td #content {
 }
 .cmt_content .edit_textarea {
     width: 100%;
-    min-height: 200px;
+    min-height: 120px;
     resize: unset;
 }
 .cmt_content .update_btn {

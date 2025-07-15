@@ -3,6 +3,21 @@ $(document).ready(function () {
     let inquiryId = $('.inquiry_info').data('id');
     loadAnswer(inquiryId);
 
+    $('#cmtInput').on('keydown', function (e) {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            $('#addAnswerBtn').click();
+        }
+    });
+
+    $(document).on('keydown', '#cmtEditInput', function (e) {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            $('#updateAnswerBtn').click();
+        }
+    });
+
+
     $('#addAnswerBtn').on('click', function () {
         addAnswer(inquiryId);
     });
@@ -86,7 +101,7 @@ function loadAnswer(inquiryId) {
         success: function(data) {
             if (data !== '') {
                 $('.comment .date').text(data['createdAt']);
-                $('.comment .cmt_content').text(data['content']);
+                $('.comment .cmt_content').html(data['content'].replace(/\n/g, '<br>'));
                 $('.cmt_wrap').css('display', 'flex');
                 $('.cmt_input').css('display', 'none');
             } else {
@@ -110,8 +125,9 @@ function loadAnswer(inquiryId) {
 // 답변 수정 폼 조회
 function updateAnswerForm() {
     let commentElement = $('.edit_btn').closest('.comment');
-    let commentText = commentElement.find('.cmt_content').text().trim();
-    let textArea = `<textarea class="edit_textarea">${commentText}</textarea>`;
+    let commentHtml = commentElement.find('.cmt_content').html();
+    let commentText = commentHtml.replace(/<br\s*\/?>/gi, '\n').trim();
+    let textArea = `<textarea id="cmtEditInput" class="edit_textarea">${commentText}</textarea>`;
     let updateButton = `<button type="button" class="bnt1 update_btn" id="updateAnswerBtn">완료</button>`;
     commentElement.css('border', 'none');
     commentElement.find('.cmt_content').html(textArea + updateButton);
