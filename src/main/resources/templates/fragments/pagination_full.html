@@ -20,9 +20,7 @@
                 <a th:href="@{${fullUrl}(page=${page})}" th:text="${page}" class="page" th:classappend="${page == pageInfo.number + 1} ? 'active'"></a>
             </li>
             <li>
-                <a th:href="@{${fullUrl}(page=${endPage + 1})}"
-                   class="next"
-                   th:classappend="${endPage + 1 > pageInfo.totalPages} ? 'disabled'">
+                <a th:href="@{${fullUrl}(page=${endPage + 1})}" class="next" th:classappend="${endPage + 1 > pageInfo.totalPages} ? 'disabled'">
                     <img th:src="@{/images/keyboard_arrow_right.svg}" alt="다음 페이지">
 
                 </a>

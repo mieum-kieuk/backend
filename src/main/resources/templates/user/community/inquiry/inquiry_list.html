@@ -59,7 +59,7 @@
                         <td class="title_td" th:if="${inquiry.isSecret}" sec:authorize="isAuthenticated()">
                             <div th:if="${inquiry.writerLoginId == #authentication.principal.username}">
                                 <a class="title" th:href="@{/community/inquiries/{inquiryId}(inquiryId=${inquiry.id})}">
-                                    <span class="material-symbols-outlined">lock</span>
+                                    <img th:src="@{/images/lock.svg}" />
                                     <span class="title" th:text="${inquiry.title}"></span>
                                 </a>
                             </div>

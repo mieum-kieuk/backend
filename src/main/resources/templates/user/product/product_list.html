@@ -60,11 +60,11 @@
                             </ul>
                         </div>
                     </li>
-                </ul>ㅖ
+                </ul>
             </div>
         </div>
     </div>
-    <div th:replace="~{fragments/pagination_full :: pagination( ${products}, '/products', '?category=' + ${category} + '&sorted_type=' + ${sortedCode})}"></div>
+    <div th:replace="~{fragments/pagination_full :: pagination( ${products}, '/products', '?category=' + (${category} ?: '')+ '&sorted_type=' + (${sortedCode} ?: ''))}"></div>
     <div th:replace="~{/fragments/footer :: basic_footer}"></div>
 </div>
 </body>

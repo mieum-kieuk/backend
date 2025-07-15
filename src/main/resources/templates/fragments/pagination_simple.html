@@ -1,19 +1,22 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <body>
-<div th:fragment="pagination(pageInfo, url, queryParam)" th:if="${pageInfo.totalPages > 0}" class="pagination">
-    <th:block th:with="fullUrl=${url} + ${queryParam}">
+<div th:fragment="pagination(pageInfo, url, paramExpr)" th:if="${pageInfo.totalPages > 0}" class="pagination">
+    <th:block th:with="fullUrl=${url} + ${paramExpr},
+                       currentPage=${pageInfo.number + 1},
+                       startPage=${(pageInfo.number/5)*5+1},
+                       endPage=${T(java.lang.Math).min((pageInfo.number/5)*5+5, pageInfo.totalPages)}">
         <ul>
             <li>
-                <a th:href="@{${fullUrl}(page=1)}" class="prev_first">
+                <a th:href="@{${fullUrl}(page=${currentPage - 1})}" class="prev_first">
                     <img th:src="@{/images/keyboard_arrow_left.svg}" alt="이전 페이지">
                 </a>
             </li>
-            <li th:each="page : ${#numbers.sequence(1, pageInfo.totalPages)}">
-                <a th:href="@{${fullUrl}(page=${page})}" class="page" th:classappend="${page == pageInfo.number + 1} ? 'active'" th:text="${page}"></a>
+            <li th:each="page : ${#numbers.sequence(startPage, endPage)}">
+                <a th:href="@{${fullUrl}(page=${page})}" class="page" th:classappend="${page == currentPage} ? 'active'" th:text="${page}"></a>
             </li>
             <li>
-                <a th:href="@{${fullUrl}(page=${pageInfo.totalPages})}" class="next_last">
+                <a th:href="@{${fullUrl}(page=${currentPage + 1})}" class="next_last">
                     <img th:src="@{images/keyboard_arrow_right.svg}" alt="다음 페이지">
                 </a>
             </li>
