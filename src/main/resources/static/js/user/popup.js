@@ -96,7 +96,7 @@ function renderProducts(data) {
                         <input type="checkbox" name="checkBox">
                     </div>
                     <a>
-                    <div class="item img"><img src="${item.displayImageData}" alt="상품 이미지"></div>
+                    <div class="item img"><img src="${item.displayImage}" alt="상품 이미지"></div>
                     <div class="item name">${item.name}</div>
                     <div class="item price">${item.price}</div>
                     </a>

@@ -3,6 +3,7 @@ package archivegarden.shop.controller.user.prouduct;
 import archivegarden.shop.dto.user.product.ProductPopupSearchCondition;
 import archivegarden.shop.dto.user.product.ProductSummaryDto;
 import archivegarden.shop.service.user.product.product.ProductService;
+import archivegarden.shop.util.PageRequestUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -27,7 +28,7 @@ public class ProductAjaxController {
     @ResponseBody
     @GetMapping("/products/search")
     public Page<ProductSummaryDto> searchProductsInPopup(@ModelAttribute("cond") ProductPopupSearchCondition cond) {
-        PageRequest pageRequest = PageRequest.of(cond.getPage() - 1, cond.getLimit());
+        PageRequest pageRequest = PageRequestUtil.of(cond.getPage(), cond.getLimit());
         Page<ProductSummaryDto> productPopupDtos = productService.searchProductsInPopup(cond, pageRequest);
         return productPopupDtos;
     }

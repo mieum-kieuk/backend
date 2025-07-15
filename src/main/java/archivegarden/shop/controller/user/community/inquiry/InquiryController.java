@@ -6,6 +6,7 @@ import archivegarden.shop.dto.user.community.inquiry.InquiryDetailsDto;
 import archivegarden.shop.dto.user.community.inquiry.InquiryListDto;
 import archivegarden.shop.entity.Member;
 import archivegarden.shop.service.user.community.InquiryService;
+import archivegarden.shop.util.PageRequestUtil;
 import archivegarden.shop.web.annotation.CurrentUser;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -78,7 +79,7 @@ public class InquiryController {
     )
     @GetMapping
     public String inquires(@RequestParam(name = "page", defaultValue = "1") int page, Model model) {
-        PageRequest pageRequest = PageRequest.of(page - 1, 10);
+        PageRequest pageRequest = PageRequestUtil.of(page);
         Page<InquiryListDto> inquiryDtos = inquiryService.getInquires(pageRequest);
         model.addAttribute("inquiries", inquiryDtos);
         return "user/community/inquiry/inquiry_list";

@@ -64,21 +64,21 @@ public class UserProductRepositoryCustomImpl implements UserProductRepositoryCus
      *
      * - 할인, 이미지 fetchJoin
      *
-     * @param condition 검색 조건
+     * @param cond 검색 조건
      * @param pageable  페이징 정보
      * @return 상품 Page 객체
      */
     @Override
-    public Page<Product> findProductsByCategory(ProductSearchCondition condition, Pageable pageable) {
+    public Page<Product> findProductsByCategory(ProductSearchCondition cond, Pageable pageable) {
         List<Product> content = queryFactory
                 .selectFrom(product).distinct()
                 .leftJoin(product.discount, discount).fetchJoin()
                 .join(product.productImages, productImage).fetchJoin()
                 .where(
-                        categoryEq(condition.getCategory()),
+                        categoryEq(cond.getCategory()),
                         productImage.imageType.ne(ImageType.DETAILS)
                 )
-                .orderBy(getOrderSpecifier(condition.getSorted_type()).stream().toArray(OrderSpecifier[]::new))
+                .orderBy(getOrderSpecifier(cond.getSorted_type()).stream().toArray(OrderSpecifier[]::new))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
@@ -86,7 +86,7 @@ public class UserProductRepositoryCustomImpl implements UserProductRepositoryCus
         JPAQuery<Long> countQuery = queryFactory
                 .select(product.count())
                 .from(product)
-                .where(categoryEq(condition.getCategory()));
+                .where(categoryEq(cond.getCategory()));
 
         return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
     }
@@ -148,12 +148,12 @@ public class UserProductRepositoryCustomImpl implements UserProductRepositoryCus
     /**
      * 팝업창에서 상품 검색
      *
-     * @param condition 검색 조건
+     * @param cond 검색 조건
      * @param pageable  페이징 정보
      * @return 상품 요약 정보 Page 객체
      */
     @Override
-    public Page<ProductSummaryDto> searchProductsInInquiryPopup(ProductPopupSearchCondition condition, Pageable pageable) {
+    public Page<ProductSummaryDto> searchProductsInInquiryPopup(ProductPopupSearchCondition cond, Pageable pageable) {
         List<ProductSummaryDto> content = queryFactory.select(new QProductSummaryDto(
                         product.id,
                         product.name,
@@ -167,8 +167,8 @@ public class UserProductRepositoryCustomImpl implements UserProductRepositoryCus
                         imageTypeDisplay()
                 )
                 .where(
-                        nameLike(condition.getKeyword()),
-                        categoryEq(condition.getCategory())
+                        nameLike(cond.getKeyword()),
+                        categoryEq(cond.getCategory())
                 )
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -178,8 +178,8 @@ public class UserProductRepositoryCustomImpl implements UserProductRepositoryCus
                 .select(product.count())
                 .from(product)
                 .where(
-                        nameLike(condition.getKeyword()),
-                        categoryEq(condition.getCategory())
+                        nameLike(cond.getKeyword()),
+                        categoryEq(cond.getCategory())
                 );
 
         return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);

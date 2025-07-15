@@ -1,29 +1,21 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="_csrf" th:content="${_csrf.token}"/>
-    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
-    <title>상품 문의 | 미음키읔</title>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css">
-    <link rel="stylesheet" href="../../../../static/css/common/comm.css" th:href="@{/css/common/comm.css}">
-    <link rel="stylesheet" href="../../../../static/css/user/inquiry.css" th:href="@{/css/user/inquiry.css}">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.js"></script>
-    <script defer src="../../../../static/js/common/comm.js" th:src="@{/js/common/comm.js}"></script>
-    <script defer src="../../../../static/js/user/inquiry.js" th:src="@{/js/user/inquiry.js}"></script>
+<head th:replace="~{fragments/head :: commonHead('상품 문의')}">
+    <th:block th:fragment="extraMeta">
+        <meta name="_csrf" th:content="${_csrf.token}"/>
+        <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    </th:block>
+    <th:block th:fragment="extraCss">
+        <link rel="stylesheet" th:href="@{/css/common/inquiry.css}" />
+    </th:block>
+    <th:block th:fragment="extraJs">
+        <script defer th:src="@{/js/user/inquiry.js}"></script>
+    </th:block>
 </head>
+
 <body>
 <div class="wrap">
-    <div th:replace="~{/layout/header :: header}"></div>
+    <div th:replace="~{/fragments/header :: header}"></div>
     <div id="inquiry">
         <div class="inquiry_wrap details">
             <h1 class="inquiry_title">상품문의</h1>
@@ -37,8 +29,7 @@
                         </div>
                     </div>
                     <div class="inquiry_cont" id="content">
-                        <a href="../../product/product_details.html"
-                           th:href="@{/products/{productId}(productId=${inquiry.productId})}">
+                        <a th:href="@{/products/{productId}(productId=${inquiry.productId})}">
                             <div id="inquiryItem" class="inquiry_item">
                                 <div class="thumbnail">
                                     <img id="productImg" class="item_img" th:src="${inquiry.productImageData}" alt="상품 이미지">
@@ -66,19 +57,16 @@
             </div>
         </div>
         <div class="btn_wrap details right">
-            <button type="button" class="btn1" onclick="location.href='./edit_inquiry.html'"
-                    th:onclick="|location.href='@{/community/inquiries/{inquiryId}/edit(inquiryId=${inquiry.id})}'|"
-                    sec:authorize="hasRole('USER')" th:if="${#authentication.principal.username} == ${inquiry.writerLoginId}">수정
-            </button>
-            <button type="button" class="btn1 delete_btn" th:data-id="${inquiry.id}"
-                    sec:authorize="hasRole('USER')" th:if="${#authentication.principal.username} == ${inquiry.writerLoginId}">삭제
-            </button>
-            <button type="button" class="btn1 list_btn" onclick="location.href ='./inquiry_list.html'"
-                    th:onclick="|location.href='@{/community/inquiries}'|">목록
+            <button type="button" class="btn1"
+                    th:if="${#authentication.principal.username} == ${inquiry.writerLoginId}" sec:authorize="hasRole('USER')"
+                    th:onclick="|location.href='@{/community/inquiries/{inquiryId}/edit(inquiryId=${inquiry.id})}'|">수정</button>
+            <button type="button" class="btn1 delete_btn" th:if="${#authentication.principal.username} == ${inquiry.writerLoginId}"
+                    sec:authorize="hasRole('USER')" th:data-id="${inquiry.id}">삭제</button>
+            <button type="button" class="btn1 list_btn" th:onclick="|location.href='@{/community/inquiries}'|">목록
             </button>
         </div>
     </div>
-    <div th:replace="~{/layout/footer :: basic_footer}"></div>
+    <div th:replace="~{/fragments/footer :: basic_footer}"></div>
 </div>
 </body>
 </html>

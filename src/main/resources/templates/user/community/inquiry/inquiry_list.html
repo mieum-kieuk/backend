@@ -1,26 +1,21 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>상품 문의 | 미음키읔</title>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
-    <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css">
-    <link rel="stylesheet" href="../../../../static/css/common/comm.css" th:href="@{/css/common/comm.css}">
-    <link rel="stylesheet" href="../../../../static/css/user/inquiry.css" th:href="@{/css/user/inquiry.css}">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.js"></script>
-    <script defer src="../../../../static/js/common/comm.js" th:src="@{/js/common/comm.js}"></script>
-    <script defer src="../../../../static/js/user/inquiry.js" th:src="@{/js/user/inquiry.js}"></script>
+<head th:replace="~{fragments/head :: commonHead('상품 문의')}">
+    <th:block th:fragment="extraMeta">
+        <meta name="_csrf" th:content="${_csrf.token}"/>
+        <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    </th:block>
+    <th:block th:fragment="extraCss">
+        <link rel="stylesheet" th:href="@{/css/common/inquiry.css}" />
+    </th:block>
+    <th:block th:fragment="extraJs">
+        <script defer th:src="@{/js/user/inquiry.js}"></script>ㅑ
+    </th:block>
 </head>
+
 <body>
 <div class="wrap">
-    <div th:replace="~{/layout/header :: header}"></div>
+    <div th:replace="~{/fragments/header :: header}"></div>
     <div id="inquiry">
         <div class="inquiry_wrap list">
             <div class="inquiry_head">
@@ -46,31 +41,31 @@
                             <span th:text="${inquiries.totalElements - inquiries.number * inquiries.pageable.pageSize - inquiryStat.index}"></span>
                         </td>
                         <td>
-                            <a href="inquiry_details.html" th:href="@{/products/{productId}(productId=${inquiry.productId})}">
+                            <a th:href="@{/products/{productId}(productId=${inquiry.productId})}">
                                 <img class="item_img" th:src="${inquiry.productImageData}" alt="상품 이미지">
                             </a>
                         </td>
                         <td class="title_td" th:unless="${inquiry.isSecret}">
-                            <a class="title" href="inquiry_details.html" th:href="@{/community/inquiries/{inquiryId}(inquiryId=${inquiry.id})}">
+                            <a class="title" th:href="@{/community/inquiries/{inquiryId}(inquiryId=${inquiry.id})}">
                                 <span class="title" th:text="${inquiry.title}"></span>
                             </a>
                         </td>
                         <td class="title_td" th:if="${inquiry.isSecret}" sec:authorize="isAnonymous()">
                             <a href="javascript:void(0)" class="title">
-                                <span class="material-symbols-outlined">lock</span>
+                                <img th:src="@{/images/lock.svg}" />
                                 <span class="title">비밀글입니다.</span>
                             </a>
                         </td>
                         <td class="title_td" th:if="${inquiry.isSecret}" sec:authorize="isAuthenticated()">
                             <div th:if="${inquiry.writerLoginId == #authentication.principal.username}">
-                                <a class="title" href="inquiry_details.html" th:href="@{/community/inquiries/{inquiryId}(inquiryId=${inquiry.id})}">
+                                <a class="title" th:href="@{/community/inquiries/{inquiryId}(inquiryId=${inquiry.id})}">
                                     <span class="material-symbols-outlined">lock</span>
                                     <span class="title" th:text="${inquiry.title}"></span>
                                 </a>
                             </div>
                             <div th:if="${inquiry.writerLoginId != #authentication.principal.username}">
                                 <a href="javascript:void(0)" class="title">
-                                    <span class="material-symbols-outlined">lock</span>
+                                    <img th:src="@{/images/lock.svg}" />
                                     <span class="title">비밀글입니다.</span>
                                 </a>
                             </div>
@@ -82,32 +77,13 @@
                 </table>
                 <div class="inquiry_foot">
                     <div class="btn_wrap right">
-                        <button type="button" id="writeBtn" class="btn1 write_btn"
-                                data-auth="[[${#authorization.expression('isAuthenticated()')}]]">
-                            작성
-                        </button>
+                        <button type="button" id="writeBtn" class="btn1 write_btn" data-auth="[[${#authorization.expression('isAuthenticated()')}]]">작성</button>
                     </div>
                 </div>
             </div>
-            <div class="pagination" th:if="${inquiries.content.size() != 0}">
-                <ul>
-                    <li><a href="./inquiry_list.html" th:href="@{/community/inquiries}" class="prev_first">
-                        <span class="material-symbols-outlined">keyboard_double_arrow_left</span></a></li>
-                    <li><a href="./inquiry_list.html" th:href="@{/community/inquiries(page=${inquiries.number})}"
-                           class="prev" th:classappend="${!inquiries.hasPrevious()} ? 'disabled'">
-                            <span class="material-symbols-outlined">keyboard_arrow_left</span></a></li>
-                    <li th:each="page : ${#numbers.sequence(1, inquiries.totalPages)}">
-                        <a href="./inquiry_list.html" th:href="@{/community/inquiries(page=${page})}"
-                           class="page" th:classappend="${page == inquiries.number + 1} ? 'active'" th:text="${page}"></a></li>
-                    <li><a href="./inquiry_list.html" th:href="@{/community/inquiries(page=${inquiries.number} + 2)}"
-                           class="next" th:classappend="${!inquiries.hasNext()} ? 'disabled'">
-                            <span class="material-symbols-outlined">keyboard_arrow_right</span></a></li>
-                    <li><a href="./inquiry_list.html" th:href="@{/community/inquiries(page=${inquiries.totalPages})}" class="next_last">
-                            <span class="material-symbols-outlined">double_arrow</span></a></li>
-                </ul>
-            </div>
+            <div th:replace="~{fragments/pagination_full :: pagination(${inquiries}, '/community/inquiries', '')}"></div>
         </div>
     </div>
-    <div th:replace="~{/layout/footer :: basic_footer}"></div>
+    <div th:replace="~{/fragments/footer :: basic_footer}"></div>
 </div>
 </body>

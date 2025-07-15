@@ -86,8 +86,8 @@ public class ProductService {
 
         List<CompletableFuture<Void>> futures = productSummaryDtos.getContent().stream()
                 .map(product -> CompletableFuture.runAsync(() -> {
-                    String encodedImageData = productImageService.downloadAndEncodeImage(product.getDisplayImageData());
-                    product.setDisplayImageData(encodedImageData);
+                    String encodedImageData = productImageService.downloadAndEncodeImage(product.getDisplayImage());
+                    product.setDisplayImage(encodedImageData);
                 }, executor))
                 .toList();
 
