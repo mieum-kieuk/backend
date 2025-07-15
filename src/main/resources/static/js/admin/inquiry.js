@@ -39,7 +39,7 @@ function addAnswer(inquiryId) {
                 xhr.setRequestHeader(csrfHeader, csrfToken);
             },
             success: function (data) {
-                if(data.code == 200) {
+                if(data.status == 200) {
                     $('#cmtInput').val('');
                     $('#cmtInput').css('display', 'none');
                     $('#addCommentBtn').css('display', 'none');
@@ -108,7 +108,7 @@ function loadAnswer(inquiryId) {
 }
 
 // 답변 수정 폼 조회
-function updateAnswerForm(inquiryId) {
+function updateAnswerForm() {
     let commentElement = $('.edit_btn').closest('.comment');
     let commentText = commentElement.find('.cmt_content').text().trim();
     let textArea = `<textarea class="edit_textarea">${commentText}</textarea>`;
@@ -129,7 +129,7 @@ function updateAnswer(inquiryId) {
             beforeSend: function (xhr) {
                 xhr.setRequestHeader(csrfHeader, csrfToken);
             }, success: function (data) {
-                if (data.code === 200) {
+                if (data.status === 200) {
                     loadAnswer(inquiryId);
                 } else {
                     Swal.fire({
@@ -183,7 +183,7 @@ function deleteAnswer(inquiryId) {
                     xhr.setRequestHeader(csrfHeader, csrfToken);
                 },
                 success: function (data) {
-                    if (data.code === 200) {
+                    if (data.status === 200) {
                         $('.cmt_input').css('display', 'flex');
                         clearAnswerContent()
                         loadAnswer(inquiryId);

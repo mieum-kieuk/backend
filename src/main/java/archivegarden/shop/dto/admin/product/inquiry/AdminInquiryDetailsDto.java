@@ -20,10 +20,10 @@ public class AdminInquiryDetailsDto {
     private Long productId;
     private String productName;
     private String productPrice;
-    private String productImageData;
+    private String productDisplayImage;
 
     @QueryProjection
-    public AdminInquiryDetailsDto(Long id, String title, String content, LocalDateTime createdAt, String writerLoginId, Long productId, String productName, int productPrice, String productImageUrl) {
+    public AdminInquiryDetailsDto(Long id, String title, String content, LocalDateTime createdAt, String writerLoginId, Long productId, String productName, int productPrice, String productDisplayImage) {
         this.id = id;
         this.title = title;
         this.content = content;
@@ -32,6 +32,6 @@ public class AdminInquiryDetailsDto {
         this.productId = productId;
         this.productName = productName;
         this.productPrice = new DecimalFormat("###,###원").format(productPrice);
-        this.productImageData = productImageUrl;
+        this.productDisplayImage = productDisplayImage;
     }
 }

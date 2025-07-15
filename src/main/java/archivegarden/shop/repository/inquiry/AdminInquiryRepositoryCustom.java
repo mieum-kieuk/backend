@@ -12,5 +12,5 @@ public interface AdminInquiryRepositoryCustom {
 
     Optional<AdminInquiryDetailsDto> findInquiryInAdmin(Long inquiryId);
 
-    Page<AdminInquiryListDto> findInquiriesInAdmin(AdminProductSearchCondition condition, Pageable pageable);
+    Page<AdminInquiryListDto> findInquiriesInAdmin(AdminProductSearchCondition cond, Pageable pageable);
 }

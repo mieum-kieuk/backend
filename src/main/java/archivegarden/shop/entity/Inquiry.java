@@ -66,7 +66,7 @@ public class Inquiry extends BaseTimeEntity {
     }
 
     /**
-     * 답변 달림
+     * 답변 작성
      */
     public void writeAnswer(Answer answer) {
         this.answer = answer;

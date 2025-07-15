@@ -34,9 +34,16 @@ public class AdminInquiryRepositoryCustomImpl implements AdminInquiryRepositoryC
         this.queryFactory = new JPAQueryFactory(em);
     }
 
+    /**
+     * 관리자 상품 문의 상세 조회
+     *
+     * @param inquiryId 조회할 상품 문의 ID
+     * @return AdminInquiryDetailsDto, 존재하지 않으면 Optional.empty()
+     */
     @Override
     public Optional<AdminInquiryDetailsDto> findInquiryInAdmin(Long inquiryId) {
-        AdminInquiryDetailsDto result = queryFactory.select(new QAdminInquiryDetailsDto(
+        AdminInquiryDetailsDto result =
+                queryFactory.select(new QAdminInquiryDetailsDto(
                         inquiry.id,
                         inquiry.title,
                         inquiry.content,
@@ -49,18 +56,25 @@ public class AdminInquiryRepositoryCustomImpl implements AdminInquiryRepositoryC
                 ))
                 .from(inquiry)
                 .leftJoin(inquiry.product, product)
-                .leftJoin(product.productImages, productImage)
+                .leftJoin(product.productImages, productImage).on(imageTypeDisplay())
                 .leftJoin(inquiry.member, member)
-                .where(
-                        inquiry.id.eq(inquiryId),
-                        imageTypeDisplay())
+                .where(inquiry.id.eq(inquiryId))
                 .fetchOne();
 
         return Optional.ofNullable(result);
     }
 
+    /**
+     * 관리자 상품 문의 목록 조회
+     *
+     * - 검색 조건: 상품명(keyword), 카테고리(category)
+     *
+     * @param cond     검색 조건
+     * @param pageable 페이징 정보
+     * @return AdminInquiryListDto Page 객체
+     */
     @Override
-    public Page<AdminInquiryListDto> findInquiriesInAdmin(AdminProductSearchCondition condition, Pageable pageable) {
+    public Page<AdminInquiryListDto> findInquiriesInAdmin(AdminProductSearchCondition cond, Pageable pageable) {
         List<AdminInquiryListDto> content = queryFactory
                 .select(new QAdminInquiryListDto(
                         inquiry.id,
@@ -72,12 +86,11 @@ public class AdminInquiryRepositoryCustomImpl implements AdminInquiryRepositoryC
                         productImage.imageUrl
                 )).from(inquiry)
                 .leftJoin(inquiry.product, product)
-                .leftJoin(product.productImages, productImage)
+                .leftJoin(product.productImages, productImage).on(imageTypeDisplay())
                 .leftJoin(inquiry.member, member)
                 .where(
-                        nameLike(condition.getKeyword()),
-                        categoryEq(Category.of(condition.getCategory())),
-                        imageTypeDisplay()
+                        nameLike(cond.getKeyword()),
+                        categoryEq(Category.of(cond.getCategory()))
                 )
                 .orderBy(inquiry.createdAt.desc())
                 .offset(pageable.getOffset())
@@ -87,8 +100,8 @@ public class AdminInquiryRepositoryCustomImpl implements AdminInquiryRepositoryC
         JPAQuery<Long> countQuery = queryFactory
                 .select(inquiry.count())
                 .where(
-                        nameLike(condition.getKeyword()),
-                        categoryEq(Category.of(condition.getCategory()))
+                        nameLike(cond.getKeyword()),
+                        categoryEq(Category.of(cond.getCategory()))
                 )
                 .from(inquiry);
 
@@ -96,15 +109,14 @@ public class AdminInquiryRepositoryCustomImpl implements AdminInquiryRepositoryC
     }
 
     /**
-     * 카테고리
+     * 카테고리 조건
      */
     private BooleanExpression categoryEq(Category category) {
         return category != null ? product.category.eq(category) : null;
     }
 
     /**
-     * 상품명 검색
-     * 공백 제거, 대소문자 구분 안함
+     * 상품명 검색 조건 (공백 제거, 대소문자 무시)
      */
     private BooleanExpression nameLike(String keyword) {
         if (hasText(keyword)) {
@@ -117,7 +129,7 @@ public class AdminInquiryRepositoryCustomImpl implements AdminInquiryRepositoryC
     }
 
     /**
-     * IMAGE TYPE = DISPLAY
+     * 이미지 타입이 DISPLAY인 이미지 필터링 조건
      */
     private BooleanExpression imageTypeDisplay() {
         return productImage != null ? productImage.imageType.eq(ImageType.DISPLAY) : null;

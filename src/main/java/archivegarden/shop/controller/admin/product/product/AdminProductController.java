@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-@Tag(name = "Product 관리", description = "관리자 페이지에서 상품 관련 API")
+@Tag(name = "Product", description = "관리자 페이지에서 상품 관련 API")
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/admin/products")
@@ -68,7 +68,7 @@ public class AdminProductController {
     }
 
     @Operation(
-            summary = "상세 상세 조회",
+            summary = "상품 상세 조회",
             description = "상품 상세 정보를 조회합니다."
     )
     @GetMapping("/{productId}")

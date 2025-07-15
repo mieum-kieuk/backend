@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Tag(name = "Product 관리", description = "관리자 페이지에서 상품 정보를 관리하는 AJAX API")
+@Tag(name = "상품", description = "관리자 페이지에서 상품 관련 AJAX API")
 @RestController
 @RequestMapping("/ajax/admin")
 @RequiredArgsConstructor
