@@ -13,28 +13,39 @@ $(document).ready(function () {
         $('.footer').addClass('fixed');
     }
 
-    $('#writeBtn').on('click', function () {
-        let isAuthenticated = $(this).data('auth') === true || $(this).data('auth') === 'true';
 
-        if (isAuthenticated) {
-            location.href = '/community/inquiries/add';
-        } else {
-            Swal.fire({
-                text: '로그인이 필요한 기능입니다.',
-                showCancelButton: true,
-                cancelButtonText: '취소',
-                confirmButtonText: '로그인',
-                customClass: mySwalConfirm,
-                reverseButtons: true,
-                buttonsStyling: false,
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    location.href = '/login';
+    $('#writeBtn').on('click', function () {
+
+        $.ajax({
+            type: 'GET',
+            url: '/ajax/login/status',
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(csrfHeader, csrfToken);
+            },
+            success: function (result) {
+                location.href = '/community/inquiries/add';
+            },
+            error: function (xhr) {
+                if (xhr.status == 401) {
+                    Swal.fire({
+                        text: '로그인이 필요한 기능입니다.',
+                        showCancelButton: true,
+                        cancelButtonText: '취소',
+                        confirmButtonText: '로그인',
+                        customClass: mySwalConfirm,
+                        reverseButtons: true,
+                        buttonsStyling: false,
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            location.href = '/login';
+                        }
+                    });
                 }
-            });
-        }
+            }
+        })
     });
 });
+
 let popup = null;
 
 // 팝업 열기 버튼
