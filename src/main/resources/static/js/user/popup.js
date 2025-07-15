@@ -36,7 +36,7 @@ $(document).ready(function () {
         loadPage(currentPage, limit);
     });
 
-    $(document).on('click', '.prev_first, .next_last', function () {
+    $(document).on('click', '.prev, .next', function () {
         let currentPage = $(this).data('page');
         let limit = $('#limit').val();
 
@@ -108,58 +108,59 @@ function renderProducts(data) {
 
 // 페이지네이션 렌더링
 function renderPagination(totalElements, currentPage, limit) {
-    let paginationSize = 5; // 한 페이지네이션에 보여줄 페이지 번호 수
-    const totalPages = Math.ceil(totalElements / limit);  // 총 페이지 수
+    const paginationSize = 5; // 한 번에 보여줄 페이지 수
+    const totalPages = Math.ceil(totalElements / limit);
 
     if (totalPages === 0) {
         $('#pagination').empty();
         return;
     }
 
-    let pagination = $('#pagination');
-    pagination.empty(); // 기존 페이지네이션 초기화
+    const pagination = $('#pagination');
+    pagination.empty();
 
-    let totalGroups = Math.ceil(totalPages / paginationSize); // 페이지 그룹 수
+    let currentGroup = Math.floor((currentPage - 1) / paginationSize);
+    let startPage = currentGroup * paginationSize + 1;
+    let endPage = Math.min(startPage + paginationSize - 1, totalPages);
 
-    // 현재 페이지가 속한 그룹 계산
-    let currentGroup = Math.floor((currentPage - 1) / paginationSize) + 1;
-
-    // 이전 페이지 버튼
-    if (currentGroup > 1) {
-        let prevPage = (currentGroup - 1) * paginationSize;
+    // 이전 페이지
+    if (currentPage > 1) {
+        let prevPage = currentPage - 1;
         pagination.append(`
-        <li><a class="prev_first" data-page="${prevPage}">
-            <img src="../../images/keyboard_arrow_left.svg" alt="첫 페이지">
-        </a></li>
-    `);
+            <li><a class="prev" data-page="${prevPage}">
+                <img src="../../images/keyboard_arrow_left.svg" alt="이전 페이지">
+            </a></li>
+        `);
     } else {
         pagination.append(`
-        <li><a class="prev_first disabled"><img src="../../images/keyboard_arrow_left.svg" alt="첫 페이지"></a></li>
-    `);
+            <li><a class="prev disabled">
+                <img src="../../images/keyboard_arrow_left.svg" alt="이전 페이지">
+            </a></li>
+        `);
     }
 
-    let startPage = (currentGroup - 1) * paginationSize + 1;  // 그룹 내 첫 번째 페이지
-    let endPage = Math.min(currentGroup * paginationSize, totalPages);  // 그룹 내 마지막 페이지
-
+    // 페이지 번호
     for (let i = startPage; i <= endPage; i++) {
-        let isActive = (currentPage === i) ? 'active' : '';
+        let isActive = currentPage === i ? 'active' : '';
         pagination.append(`
             <li><a class="page ${isActive}" data-page="${i}">${i}</a></li>
         `);
     }
 
-    // 다음 페이지 버튼
-    if (currentGroup < totalGroups) {
-        let nextPage = (currentGroup * paginationSize) + 1;
+    // 다음 페이지
+    if (currentPage < totalPages) {
+        let nextPage = currentPage + 1;
         pagination.append(`
-        <li><a class="next_last" data-page="${nextPage}">
-            <img src="../../images/keyboard_arrow_right.svg" alt="마지막 페이지">
-        </a></li>
-    `);
+            <li><a class="next" data-page="${nextPage}">
+                <img src="../../images/keyboard_arrow_right.svg" alt="다음 페이지">
+            </a></li>
+        `);
     } else {
         pagination.append(`
-        <li><a class="next_last disabled"><img src="../../images/keyboard_arrow_right.svg" alt="마지막 페이지"></a></li>
-    `);
+            <li><a class="next disabled">
+                <img src="../../images/keyboard_arrow_right.svg" alt="다음 페이지">
+            </a></li>
+        `);
     }
 }
 
