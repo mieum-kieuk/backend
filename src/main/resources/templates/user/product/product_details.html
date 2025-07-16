@@ -6,9 +6,9 @@
         <meta name="_csrf_header" th:content="${_csrf.headerName}" />
     </th:block>
     <th:block th:fragment="extraCss">
+        <link rel="stylesheet" th:href="@{/css/common/inquiry.css}" />
         <link rel="stylesheet" th:href="@{/css/user/product_details.css}" />
         <link rel="stylesheet" th:href="@{/css/user/cart.css}" />
-        <link rel="stylesheet" th:href="@{/css/user/inquiry.css}" />
         <link rel="stylesheet" th:href="@{/css/user/review.css}" />
     </th:block>
     <th:block th:fragment="extraJs">
@@ -27,14 +27,14 @@
             <div class="prd_desc">
                 <div class="prd_left">
                     <div class="prd_img">
-                        <img th:src="${product.displayImageData}" alt="상품 이미지">
+                        <img th:src="${product.displayImage}" alt="상품 이미지">
                     </div>
                     <div class="prd_display">
                         <div class="display_img">
-                            <img th:src="${product.displayImageData}" alt="상품 이미지">
+                            <img th:src="${product.displayImage}" alt="상품 이미지">
                         </div>
-                        <div class="display_img" th:if="${product.hoverImageData} != null">
-                            <img th:src="${product.hoverImageData}" alt="상품 이미지">
+                        <div class="display_img" th:if="${product.hoverImage} != null">
+                            <img th:src="${product.hoverImage}" alt="상품 이미지">
                         </div>
                     </div>
                 </div>
@@ -43,7 +43,7 @@
                         <div class="prd_text ctg"><span th:text="${product.category}">카테고리</span></div>
                         <div class="prd_text tit"><span th:text="${product.name}">상품명</span>
                             <div class="wish_btn">
-                                <span class="material-symbols-rounded wish" th:classappend="${wish} ? 'filled'" th:id="${product.id}">favorite</span>
+                                <img th:src="${wish} ? @{/images/favorite_filled.svg} : @{/images/favorite.svg}" />
                             </div>
                         </div>
                         <ul class="prd_price">
@@ -67,8 +67,7 @@
                     </div>
                     <div class="buy_btn" th:unless="${product.isSoldOut}">
                         <button type="button" id="CartBtn" class="btn1 cart">장바구니에 담기</button>
-                        <button type="button" id="BuyBtn" class="btn1 buy"
-                                >구매하기</button>
+                        <button type="button" id="BuyBtn" class="btn1 buy">구매하기</button>
                     </div>
                     <div class="sold_out_btn" th:if="${product.isSoldOut}">
                         <button type="button" id="SoldOutBtn" class="btn1 buy">
@@ -78,41 +77,29 @@
                     <div class="prd_info_tab">
                         <ul class="prd_info_list">
                             <li>
-                                <a href="javascript:void(0)" class="tab_tit">상품 설명<span
-                                        class="material-symbols-outlined expand_icon">expand_more</span></a>
-                                <ol class="tab_wrap">
-                                    <p th:text="${product.details}">내용</p>
-                                </ol>
+                                <a href="javascript:void(0)" class="tab_tit">상품 설명<img th:src="@{/images/keyboard_arrow_down.svg}" class="expand_icon"/></a>
+                                <ol class="tab_wrap"><p th:text="${product.details}">내용</p></ol>
                             </li>
                             <li>
-                                <a href="javascript:void(0)" class="tab_tit">크기<span
-                                        class="material-symbols-outlined expand_icon">expand_more</span></a>
-                                <ol class="tab_wrap">
-                                    <p th:text="${product.sizeGuide}">내용</p>
-                                </ol>
+                                <a href="javascript:void(0)" class="tab_tit">크기<img th:src="@{/images/keyboard_arrow_down.svg}" class="expand_icon"/></a>
+                                <ol class="tab_wrap"><p th:text="${product.sizeGuide}">내용</p></ol>
                             </li>
                             <li>
-                                <a href="javascript:void(0)" class="tab_tit">배송
-                                    <span class="material-symbols-outlined expand_icon">expand_more</span></a>
-                                <ol class="tab_wrap">
-                                    <p th:text="${product.shipping}">내용</p>
-                                </ol>
+                                <a href="javascript:void(0)" class="tab_tit">배송<img th:src="@{/images/keyboard_arrow_down.svg}" class="expand_icon"/></a>
+                                <ol class="tab_wrap"><p th:text="${product.shipping}">내용</p></ol>
                             </li>
                             <li>
-                                <a href="javascript:void(0)" class="tab_tit">주의사항<span
-                                        class="material-symbols-outlined expand_icon">expand_more</span></a>
-                                <ol class="tab_wrap">
-                                    <p th:text="${product.notice}">내용</p>
-                                </ol>
+                                <a href="javascript:void(0)" class="tab_tit">주의사항<img th:src="@{/images/keyboard_arrow_down.svg}" class="expand_icon"/></a>
+                                <ol class="tab_wrap"><p th:text="${product.notice}">내용</p></ol>
                             </li>
                         </ul>
                     </div>
                 </div>
             </div>
             <div class="prd_detail">
-                <tr th:each="detailsImageData : ${product.detailsImageDatas}">
+                <tr th:each="detailsImage : ${product.detailsImages}">
                     <td>
-                        <img th:src="${detailsImageData}" alt="상품 상세 이미지">
+                        <img th:src="${detailsImage}" alt="상품 상세 이미지">
                     </td>
                 </tr>
             </div>

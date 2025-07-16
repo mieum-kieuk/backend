@@ -1,4 +1,4 @@
-package archivegarden.shop.controller.user.community.inquiry;
+package archivegarden.shop.controller.user.inquiry;
 
 import archivegarden.shop.dto.ResultResponse;
 import archivegarden.shop.dto.user.community.inquiry.AddInquiryForm;
@@ -6,6 +6,7 @@ import archivegarden.shop.dto.user.community.inquiry.EditInquiryForm;
 import archivegarden.shop.dto.user.community.inquiry.ProductPageInquiryListDto;
 import archivegarden.shop.entity.Member;
 import archivegarden.shop.service.user.community.InquiryService;
+import archivegarden.shop.util.PageRequestUtil;
 import archivegarden.shop.web.annotation.CurrentUser;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -66,7 +67,7 @@ public class InquiryAjaxController {
             @RequestParam(name = "page", defaultValue = "1") int page,
             @CurrentUser Member loginMember
     ) {
-        PageRequest pageRequest = PageRequest.of(page - 1, 10);
+        PageRequest pageRequest = PageRequestUtil.of(page);
         return inquiryService.getInquiriesInProduct(productId, pageRequest, loginMember);
     }
 

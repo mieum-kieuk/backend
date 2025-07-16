@@ -74,26 +74,18 @@ $(document).ready(function () {
         loadInquiries(productId, currentPage);
     });
 
+    let csrfToken = $("meta[name='_csrf']").attr("content");
+    let csrfHeader = $("meta[name='_csrf_header']").attr("content");
+
     $('#inquiryBtn').on('click', function () {
         $.ajax({
-            url: '/ajax/check/login',
+            url: '/ajax/login/status',
             type: 'GET',
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(csrfHeader, csrfToken)
+            },
             success: function (result) {
-                if (result.status == 401) {
-                    Swal.fire({
-                        text: '로그인이 필요한 기능입니다.',
-                        showCancelButton: true,
-                        cancelButtonText: '취소',
-                        confirmButtonText: '로그인',
-                        customClass: mySwalConfirm,
-                        reverseButtons: true,
-                        buttonsStyling: false,
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            window.location.href = '/login';
-                        }
-                    });
-                } else if (result.status == 200) {
+                if (result.status == 200) {
                     closeInquiryModal();
                     openInquiryModal();
                     let inquiryModal = $('#inquiryModal');
@@ -109,29 +101,41 @@ $(document).ready(function () {
 
                 }
             },
-            error: function () {
-                Swal.fire({
-                    text: "로그인 상태를 확인하는 중 오류가 발생했습니다.",
-                    showConfirmButton: true,
-                    confirmButtonText: '확인',
-                    customClass: mySwal,
-                    buttonsStyling: false
-                });
+            error: function (xhr) {
+                if (xhr.status == 401) {
+                    Swal.fire({
+                        text: '로그인이 필요한 기능입니다.',
+                        showCancelButton: true,
+                        cancelButtonText: '취소',
+                        confirmButtonText: '로그인',
+                        customClass: mySwalConfirm,
+                        reverseButtons: true,
+                        buttonsStyling: false,
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = '/login';
+                        }
+                    });
+                } else {
+                    Swal.fire({
+                        text: "로그인 상태를 확인하는 중 오류가 발생했습니다.",
+                        showConfirmButton: true,
+                        confirmButtonText: '확인',
+                        customClass: mySwal,
+                        buttonsStyling: false
+                    });
+                }
             }
         });
     });
 
     $('#inquiryModal .submit_btn').on('click', function () {
-        let csrfToken = $("meta[name='_csrf']").attr("content");
-        let csrfHeader = $("meta[name='_csrf_header']").attr("content");
-
         let title = $('#inquiryModal #title').val().trim();
         let content = $('#inquiryModal #content').val().trim();
         let isSecret = $('#inquiryModal #secret').prop('checked');
         let inquiryId = $('#inquiryModal').data('id');
 
         if (validateBeforeInquiryModalSubmit()) {
-            let requestType = $(this).text() === '등록' ? 'POST' : 'PUT';
             let requestUrl = $(this).text() === '등록' ? '/ajax/inquiries/add' : '/ajax/inquiries/' + inquiryId + '/edit';
 
             let requestData = {
@@ -166,7 +170,6 @@ $(document).ready(function () {
     });
 
 });
-
 
 function loadInquiries(productId, currentPage) {
     $.ajax({
@@ -286,7 +289,7 @@ function renderPagination(totalElements, currentPage) {
     `);
     } else {
         pagination.append(`
-        <li><a class="prev_first disabled"><img src="../../../images/keyboard_arrow_right.svg" alt="다음 페이지"></a></li>
+        <li><a class="prev_first disabled"><img src="../../../images/keyboard_arrow_left.svg" alt="이전 페이지"></a></li>
     `);
     }
 

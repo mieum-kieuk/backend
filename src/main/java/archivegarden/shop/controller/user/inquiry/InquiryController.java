@@ -1,4 +1,4 @@
-package archivegarden.shop.controller.user.community.inquiry;
+package archivegarden.shop.controller.user.inquiry;
 
 import archivegarden.shop.dto.user.community.inquiry.AddInquiryForm;
 import archivegarden.shop.dto.user.community.inquiry.EditInquiryForm;

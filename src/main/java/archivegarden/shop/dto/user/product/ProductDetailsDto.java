@@ -1,6 +1,5 @@
 package archivegarden.shop.dto.user.product;
 
-import archivegarden.shop.dto.admin.product.product.AdminProductImageDto;
 import archivegarden.shop.entity.Discount;
 import archivegarden.shop.entity.Product;
 import lombok.Getter;
@@ -25,9 +24,9 @@ public class ProductDetailsDto {
     private String sizeGuide;
     private String shipping;
     private String notice;
-    private String displayImageData;
-    private String hoverImageData;
-    private List<String> detailsImageDatas = new ArrayList<>();
+    private String displayImage;
+    private String hoverImage;
+    private List<String> detailsImages = new ArrayList<>();
 
     public ProductDetailsDto(Product product, List<ProductImageDto> productImageDtos) {
         this.id = product.getId();
@@ -56,9 +55,9 @@ public class ProductDetailsDto {
         notice = product.getNotice();
         for (ProductImageDto image : productImageDtos) {
             switch (image.getImageType()) {
-                case DISPLAY -> this.displayImageData = image.getImageData();
-                case HOVER -> this.hoverImageData = image.getImageData();
-                case DETAILS -> this.detailsImageDatas.add(image.getImageData());
+                case DISPLAY -> this.displayImage = image.getImageData();
+                case HOVER -> this.hoverImage = image.getImageData();
+                case DETAILS -> this.detailsImages.add(image.getImageData());
             }
         }
     }

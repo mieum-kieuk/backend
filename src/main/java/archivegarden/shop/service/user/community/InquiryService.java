@@ -37,7 +37,7 @@ public class InquiryService {
      * @param form        상품 문의 등록 폼 DTO
      * @param loginMember 현재 로그인한 회원
      * @return 저장된 상품 문의 ID
-     * @throws EntityNotFoundException 해당 ID의 상품이 존재하지 않을 경우
+     * @throws EntityNotFoundException 상품이 존재하지 않을 경우
      */
     public Long addInquiry(AddInquiryForm form, Member loginMember) {
         Product product = productRepository.findById(form.getProductId()).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 상품입니다."));
@@ -60,7 +60,7 @@ public class InquiryService {
      *
      * @param inquiryId 조회할 상품 문의 ID
      * @return 상품 문의 상세 정보 DTO
-     * @throws EntityNotFoundException 해당 ID의 상품 문의가 존재하지 않을 경우
+     * @throws EntityNotFoundException 상품 문의가 존재하지 않을 경우
      */
     public InquiryDetailsDto getInquiry(Long inquiryId) {
         InquiryDetailsDto inquiryDetailsDto = inquiryRepository.findInquiry(inquiryId).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 상품 문의글입니다."));
@@ -122,7 +122,7 @@ public class InquiryService {
      * @param inquiryId   수정할 상품 ID
      * @param loginMember 현재 로그인한 회원
      * @return 상품 문의 수정 폼 DTO
-     * @throws EntityNotFoundException 해당 ID의 상품 문의가 존재하지 않을 경우
+     * @throws EntityNotFoundException 상품 문의가 존재하지 않을 경우
      * @throws AccessDeniedException   로그인한 회원이 작성자가 아닐 경우 (수정 권한 없음)
      */
     public EditInquiryForm getInquiryEditForm(Long inquiryId, Member loginMember) throws AccessDeniedException {
@@ -160,7 +160,7 @@ public class InquiryService {
      * 상품 문의 삭제
      *
      * @param inquiryId 삭제할 상품 문의 ID
-     * @throws EntityNotFoundAjaxException 해당 ID의 상품 문의가 존재하지 않을 경우
+     * @throws EntityNotFoundAjaxException 상품 문의가 존재하지 않을 경우
      */
     public void deleteInquiry(Long inquiryId) {
         Inquiry productInquiry = inquiryRepository.findById(inquiryId).orElseThrow(() -> new EntityNotFoundAjaxException("존재하지 않는 상품 문의글입니다."));
