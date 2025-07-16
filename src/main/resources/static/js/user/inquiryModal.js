@@ -69,7 +69,7 @@ $(document).ready(function () {
         loadInquiries(productId, currentPage);
     });
 
-    $(document).on('click', '.prev_first, .next_last', function () {
+    $(document).on('click', '.prev, .next', function () {
         let currentPage = $(this).data('page');
         loadInquiries(productId, currentPage);
     });
@@ -78,6 +78,15 @@ $(document).ready(function () {
     let csrfHeader = $("meta[name='_csrf_header']").attr("content");
 
     $('#inquiryBtn').on('click', function () {
+        // 수정 모달 닫기
+        $('#editInquiryModal').remove();
+
+        // 숨겨져 있던 inquiry_cont 다시 보이게
+        $('.inquiry_cont').css({
+            visibility: 'visible',
+            position: 'relative'
+        });
+
         $.ajax({
             url: '/ajax/login/status',
             type: 'GET',
@@ -86,19 +95,12 @@ $(document).ready(function () {
             },
             success: function (result) {
                 if (result.status == 200) {
-                    closeInquiryModal();
                     openInquiryModal();
-                    let inquiryModal = $('#inquiryModal');
-                    let inquiryHead = $('.inquiry_head');
-                    inquiryModal.insertAfter(inquiryHead).css({
-                        position: 'relative',
-                    });
 
                     // 첫 번째 tr에 border-top 스타일 변경
                     $('#product .inquiry_wrap.list .inquiry_table tbody tr:first-child').css({
                         'border-top': '1px solid #d7d7d7'
                     });
-
                 }
             },
             error: function (xhr) {
@@ -133,10 +135,9 @@ $(document).ready(function () {
         let title = $('#inquiryModal #title').val().trim();
         let content = $('#inquiryModal #content').val().trim();
         let isSecret = $('#inquiryModal #secret').prop('checked');
-        let inquiryId = $('#inquiryModal').data('id');
 
         if (validateBeforeInquiryModalSubmit()) {
-            let requestUrl = $(this).text() === '등록' ? '/ajax/inquiries/add' : '/ajax/inquiries/' + inquiryId + '/edit';
+            let requestUrl = '/ajax/inquiries/add';
 
             let requestData = {
                 'productId': productId,
@@ -263,61 +264,60 @@ function loadInquiries(productId, currentPage) {
 
 // 페이지네이션 렌더링
 function renderPagination(totalElements, currentPage) {
-    let paginationSize = 5; // 한 페이지네이션에 보여줄 페이지 번호 수
-    const totalPages = Math.ceil(totalElements / 10);  // 총 페이지 수
+    const paginationSize = 5; // 한 번에 보여줄 페이지 수
+    const totalPages = Math.ceil(totalElements / 10);
 
     if (totalPages === 0) {
         $('#pagination').empty();
         return;
     }
 
-    let pagination = $('#pagination');
-    pagination.empty(); // 기존 페이지네이션 초기화
+    const pagination = $('#pagination');
+    pagination.empty();
 
-    let totalGroups = Math.ceil(totalPages / paginationSize); // 페이지 그룹 수
+    let currentGroup = Math.floor((currentPage - 1) / paginationSize);
+    let startPage = currentGroup * paginationSize + 1;
+    let endPage = Math.min(startPage + paginationSize - 1, totalPages);
 
-    // 현재 페이지가 속한 그룹 계산
-    let currentGroup = Math.floor((currentPage - 1) / paginationSize) + 1;
-
-    // 이전 페이지 버튼
-    if (currentGroup > 1) {
-        let prevPage = (currentGroup - 1) * paginationSize;
+    // 이전 페이지
+    if (currentPage > 1) {
+        let prevPage = currentPage - 1;
         pagination.append(`
-        <li><a class="prev_first" data-page="${prevPage}">
-            <img src="../../../images/keyboard_arrow_left.svg" alt="이전 페이지">
-        </a></li>
-    `);
+            <li><a class="prev" data-page="${prevPage}">
+                <img src="../../images/keyboard_arrow_left.svg" alt="이전 페이지">
+            </a></li>
+        `);
     } else {
         pagination.append(`
-        <li><a class="prev_first disabled"><img src="../../../images/keyboard_arrow_left.svg" alt="이전 페이지"></a></li>
-    `);
+            <li><a class="prev disabled">
+                <img src="../../images/keyboard_arrow_left.svg" alt="이전 페이지">
+            </a></li>
+        `);
     }
 
-    let startPage = (currentGroup - 1) * paginationSize + 1;  // 그룹 내 첫 번째 페이지
-    let endPage = Math.min(currentGroup * paginationSize, totalPages);  // 그룹 내 마지막 페이지
-
+    // 페이지 번호
     for (let i = startPage; i <= endPage; i++) {
-        let isActive = (currentPage === i) ? 'active' : '';
-
+        let isActive = currentPage === i ? 'active' : '';
         pagination.append(`
             <li><a class="page ${isActive}" data-page="${i}">${i}</a></li>
         `);
     }
 
-    // 다음 페이지 버튼
-    if (currentGroup < totalGroups) {
-        let nextPage = (currentGroup * paginationSize) + 1;
+    // 다음 페이지
+    if (currentPage < totalPages) {
+        let nextPage = currentPage + 1;
         pagination.append(`
-        <li><a class="next_last" data-page="${nextPage}">
-            <img src="../../images/keyboard_arrow_right.svg" alt="다음 페이지">
-        </a></li>
-    `);
+            <li><a class="next" data-page="${nextPage}">
+                <img src="../../images/keyboard_arrow_right.svg" alt="다음 페이지">
+            </a></li>
+        `);
     } else {
         pagination.append(`
-        <li><a class="next_last disabled"><img src="../../images/keyboard_arrow_right.svg" alt="다음 페이지"></a></li>
-    `);
+            <li><a class="next disabled">
+                <img src="../../images/keyboard_arrow_right.svg" alt="다음 페이지">
+            </a></li>
+        `);
     }
-
 }
 
 // 상품문의 폼 열기
@@ -359,41 +359,133 @@ function findSecretItem(editButton) {
 
 // 상품문의 수정 폼
 function editInquiryModal(editButton) {
-    let inquiryModal = $('#inquiryModal');
+    if ($('#inquiryModal').is(':visible')) {
+        closeInquiryModal();
+    }
+    if ($(editButton).closest('.inquiry_cont').parent().find('#editInquiryModal').length > 0) {
+        return;
+    }
+
+    let originalModal = $('#inquiryModal');
+    let clonedModal = originalModal.clone().attr('id', 'editInquiryModal');
     let inquiryId = $(editButton).data('id');
 
+    // 질문 데이터 가져오기
     let inquiryTitle = $(editButton).closest('.inquiry_cont').find('.question').text().trim();
     let inquiryContent = $(editButton).closest('.inquiry_cont').find('.content').text().trim();
     let isSecret = findSecretItem(editButton);
 
-    $('#inquiryModal').data('id', inquiryId);
-    $('#inquiryModal #title').val(inquiryTitle);
-    $('#inquiryModal #content').val(inquiryContent);
-    $("#inquiryModal .submit_btn").text("완료");
-    $('#inquiryModal #secret').prop('checked', isSecret);
+    clonedModal.data('id', inquiryId);
+    clonedModal.find('#title').val(inquiryTitle);
+    clonedModal.find('#content').val(inquiryContent);
+    clonedModal.find('#secret').prop('checked', isSecret);
+    clonedModal.find('.submit_btn').text('완료');
 
+
+    // 수정용 모달 제출 버튼 이벤트 추가
+    clonedModal.find('.submit_btn').on('click', function () {
+        let title = clonedModal.find('#title').val().trim();
+        let content = clonedModal.find('#content').val().trim();
+        let isSecret = clonedModal.find('#secret').prop('checked');
+
+        if (title === '') {
+            Swal.fire({
+                text: "제목을 작성해 주세요.",
+                showConfirmButton: true,
+                confirmButtonText: '확인',
+                customClass: mySwal,
+                buttonsStyling: false
+            });
+            return false;
+        }
+
+        if (content === '') {
+            Swal.fire({
+                text: "내용을 작성해 주세요.",
+                showConfirmButton: true,
+                confirmButtonText: '확인',
+                customClass: mySwal,
+                buttonsStyling: false
+            });
+            return false;
+        }
+
+        $(this).prop('disabled', true);
+
+        $.ajax({
+            url: '/ajax/inquiries/' + inquiryId + '/edit',
+            type: 'POST',
+            data: {
+                productId: $('#product').data('id'),
+                title: title,
+                content: content,
+                isSecret: isSecret
+            },
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(csrfHeader, csrfToken);
+            },
+            success: function () {
+                loadInquiries($('#product').data('id'), 1);
+                clonedModal.remove(); // 모달 제거
+            },
+            error: function (err) {
+                Swal.fire({
+                    text: err.message || "오류가 발생했습니다.",
+                    confirmButtonText: '확인',
+                    customClass: mySwal,
+                    buttonsStyling: false
+                });
+                clonedModal.find('.submit_btn').prop('disabled', false);
+            }
+        });
+    });
+
+    clonedModal.find('.close_btn').on('click', function () {
+        clonedModal.remove();
+
+        // 숨겼던 원래 질문 내용 다시 보여주기
+        let inquiryCont = $(editButton).closest('.inquiry_cont');
+        inquiryCont.css({
+            visibility: "visible",
+            position: "relative"
+        });
+    });
+
+    // 수정 중인 질문 아래에 붙이기
     let inquiryCont = $(editButton).closest('.inquiry_cont').parent();
+    inquiryCont.append(clonedModal);
 
-    inquiryCont.append(inquiryModal.detach());
-    inquiryCont.css("position", "relative");
-    inquiryCont.children().not(inquiryModal).css({
+    // 기존 질문 숨기기
+    inquiryCont.children().not(clonedModal).css({
         visibility: "hidden",
         position: "absolute"
     });
 
-    inquiryModal.css({
-        top: 0,
-        left: 0,
-        width: '100%',
+    // 스타일 적용 및 표시
+    clonedModal.css({
         display: 'flex',
+        position: 'relative',
+        width: '100%',
         zIndex: 10,
-    }).show();
-
-    $('#inquiryModal .submit_btn').prop('disabled', false);
+        top: 0,
+        left: 0
+    });
 }
 
 // 상품문의 클릭 시 내용 보이게
 function toggleContent(content) {
+    if ($('#editInquiryModal').length > 0) {
+        let editModal = $('#editInquiryModal');
+        let parentContent = editModal.closest('.inquiry_content');
+
+        parentContent.find('.inquiry_cont').css({
+            visibility: 'visible',
+            position: 'relative'
+        });
+
+        editModal.remove();
+    }
+
     if (content.is(":visible")) {
         content.find("#inquiryModal").hide();
         content.children().css({
@@ -401,23 +493,22 @@ function toggleContent(content) {
             position: "relative"
         });
 
-        content.stop(true,true).slideUp("fast", function () {
+        content.stop(true, true).slideUp("fast", function () {
             content.css("border-bottom", "");
             content.prev(".inquiry_items").css("border-bottom", "");
         });
 
     } else {
-        $(".inquiry_content").not(content).stop(true,true).slideUp("fast").promise().done(function () {
+        $(".inquiry_content").not(content).stop(true, true).slideUp("fast").promise().done(function () {
             $(this).css("border-bottom", "").prev(".inquiry_items").css("border-bottom", "");
 
-            // 기존 inquiry_content 내부 내용을 다시 보이게 설정
             $(this).children().css({
                 visibility: "visible",
                 position: "relative"
             });
         });
 
-        content.stop(true,true).slideDown("fast", function () {
+        content.stop(true, true).slideDown("fast", function () {
             content.css("border-bottom", "1px solid #333");
             content.prev(".inquiry_items").css("border-bottom", "1px solid #333");
         });

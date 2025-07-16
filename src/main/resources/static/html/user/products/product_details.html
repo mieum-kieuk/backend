@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="../../../css/user/product_details.css"/>
     <link rel="stylesheet" href="../../../css/user/cart.css"/>
     <link rel="stylesheet" href="../../../css/user/review.css"/>
-    <link rel="stylesheet" href="../../../css/user/inquiry.css"/>
+    <link rel="stylesheet" href="../../../css/common/inquiry.css"/>
     <script defer src="../../../js/common/comm.js"></script>
     <script defer src="../../../js/reviewModal.js"></script>
     <script defer src="../../../js/user/product.js"></script>
@@ -46,8 +46,8 @@
                     </li>
                     <li class="depth1_menu" id="community">Community
                         <ul class="depth2">
-                            <li><a href="../../community/notice/notice_list.html">공지사항</a></li>
-                            <li><a href="../../community/inquiry/inquiry_list.html">상품문의</a></li>
+                            <li><a href="../../user/community/notice/notice_list.html">공지사항</a></li>
+                            <li><a href="../../user/community/inquiry/inquiry_list.html">상품문의</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -144,43 +144,6 @@
                         <button type="button" id="SoldOutBtn" class="btn1 soldout">
                             SOLD OUT
                         </button>
-                    </div>
-                    <div class="add_cart" id="addCart">
-                        <div class="cart_head">
-                            <h3>장바구니에 담기</h3>
-                        </div>
-                        <div class="cart_content">
-                            <ul class="cart_list">
-                                <li>
-                                    <div class="cart_item">
-                                        <a href="" class="cart_display">
-                                            <img src="../../../images/main1.jpg" alt="제품1">
-                                        </a>
-                                        <span class="name"><a href="">Gzy</a></span>
-                                        <ul class="option">
-                                            <li class="price">3,000원</li>
-                                            <li class="qaunt">1개</li>
-                                        </ul>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="지">
-                            <ul>
-                                <li><a href="#" class="prev_first"><img src="../../../images/keyboard_arrow_left.svg" alt="첫 페이지"></a></li>
-                                <li><a href="#">1</a></li>
-                                <li><a href="#">2</a></li>
-                                <li><a href="#">3</a></li>
-                                <li><a href="#">4</a></li>
-                                <li><a href="#">5</a></li>
-                                <li><a href="#" class="next_last"><img src="../../../images/keyboard_arrow_right.svg" alt="마지막 페이지"></a></li>
-                            </ul>
-                        </div>
-                        <div class="btn_wrap">
-                            <a href="../order/cart.html">장바구니 보기</a>
-                            <a href="">계속 쇼핑하기</a>
-                        </div>
-                        <button type="button" class="close_btn"><span>close</span></button>
                     </div>
                     <div class="prd_info_tab">
                         <ul class="prd_info_list">
@@ -304,6 +267,42 @@
                         <button type="button" id="inquiryBtn" class="btn1 write_btn" >문의하기</button>
                     </div>
                 </div>
+                <div id="inquiryModal" class="modal" data-id="${inquiryId}">
+                    <div class="modal_content">
+                        <form id="addInquiryForm" action="#" method="post" novalidate>
+                            <table class="inquiry_table">
+                                <tr>
+                                    <td colspan="2">
+                                        <div class="title_wrap">
+                                            <label for="title">제목</label>
+                                            <input id="title" type="text" maxlength="30" placeholder="제목을 작성해 주세요.">
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <textarea id="content" name="content" rows="8" placeholder="내용을 작성해 주세요."></textarea>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" class="isSecret_cell">
+                                        <div class="isSecret secret">
+                                            <input id="secret" name="isSecret" value="true" type="checkbox"><label for="secret">비밀글로 문의하기</label>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <ul class="text description">
+                                <li><span>상품에 대한 문의를 남기는 공간입니다. 해당 게시판의 성격과 다른 글은 사전동의 없이 담당 게시판으로 이동될 수 있습니다.</span></li>
+                                <li><span>배송관련, 주문(취소/교환/환불)관련 문의 및 요청사항은 마이페이지 내 <a class="link" href="../mypage/inquiry/personal/add_inquiry.html">1:1문의</a>에 남겨주세요.</span></li>
+                            </ul>
+                            <div class="btn_wrap">
+                                <button type="button" class="btn1 close_btn">닫기</button>
+                                <button type="submit" id="submitBtn" class="btn1 submit_btn" onclick="validateInquiryBeforeSubmit()">등록</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
                 <table id="inquiryTable" class="inquiry_table">
                     <tr id="noDataMessage">
                         <td colspan="4">등록된 상품문의가 없습니다.</td>
@@ -332,7 +331,7 @@
                                     </div>
                                     <div class="menu">
                                         <button class="menu_toggle">
-                                            <img src="../../../images/more_horiz.svg" >
+                                            <img src="../../../images/more_horiz.svg">
                                         </button>
                                         <div class="dropdown_menu">
                                             <ul>
@@ -432,42 +431,6 @@
                             <button type="submit" class="btn1 submit_btn">등록</button>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div id="inquiryModal" class="modal" data-id="${inquiryId}">
-                <div class="modal_content">
-                    <form id="addInquiryForm" action="#" method="post" novalidate>
-                        <table class="inquiry_table">
-                            <tr>
-                                <td colspan="2">
-                                    <div class="title_wrap">
-                                        <label for="title">제목</label>
-                                        <input id="title" type="text" maxlength="30" placeholder="제목을 작성해 주세요.">
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">
-                                    <textarea id="content" name="content" rows="8" placeholder="내용을 작성해 주세요."></textarea>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2" class="isSecret_cell">
-                                    <div class="isSecret secret">
-                                        <input id="secret" name="isSecret" value="true" type="checkbox"><label for="secret">비밀글로 문의하기</label>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
-                        <ul class="text description">
-                            <li><span>상품에 대한 문의를 남기는 공간입니다. 해당 게시판의 성격과 다른 글은 사전동의 없이 담당 게시판으로 이동될 수 있습니다.</span></li>
-                            <li><span>배송관련, 주문(취소/교환/환불)관련 문의 및 요청사항은 마이페이지 내 <a class="link" href="../mypage/inquiry/personal/add_inquiry.html">1:1문의</a>에 남겨주세요.</span></li>
-                        </ul>
-                        <div class="btn_wrap">
-                            <button type="button" class="btn1 close_btn">닫기</button>
-                            <button type="submit" id="submitBtn" class="btn1 submit_btn" onclick="validateInquiryBeforeSubmit()">등록</button>
-                        </div>
-                    </form>
                 </div>
             </div>
         </div>
