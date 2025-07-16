@@ -41,7 +41,7 @@ public class InquiryDetailsDto {
         this.productImageData = productImageUrl;
         this.answer = answer;
         if(answer != null) {
-            this.answeredAt = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm").format(answeredAt);
+            this.answeredAt = DateTimeFormatter.ofPattern("yyyy.MM.dd").format(answeredAt);
         }
     }
 }
