@@ -27,8 +27,8 @@ public class CartController {
             summary = "장바구니 조회",
             description = "장바구니를 조회합니다."
     )
-    @GetMapping
     @PreAuthorize("hasRole('USER')")
+    @GetMapping
     public String cart(@CurrentUser Member loginMember, Model model) {
         List<CartListDto> products = cartService.getCarts(loginMember.getId());
         model.addAttribute("products", products);

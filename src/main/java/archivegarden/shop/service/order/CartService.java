@@ -45,8 +45,8 @@ public class CartService {
 
         List<CompletableFuture<Void>> futures = cartListDtos.stream()
                 .map(item -> CompletableFuture.runAsync(() -> {
-                    String encodedImageData = productImageService.downloadAndEncodeImage(item.getDisplayImageData());
-                    item.setDisplayImageData(encodedImageData);
+                    String encodedImageData = productImageService.downloadAndEncodeImage(item.getDisplayImage());
+                    item.setDisplayImage(encodedImageData);
                 }, executor))
                 .toList();
 

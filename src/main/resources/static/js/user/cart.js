@@ -215,7 +215,7 @@ function decreaseCount(productId) {
                     });
                 } else {
                     Swal.fire({
-                        html: '수량 변경 중 문제가 발생했습니다.<br>다시 시도해주세요.',
+                        html: '수량 변경 중 문제가 발생했습니다.<br>다시 시도해 주세요.',
                         showConfirmButton: true,
                         confirmButtonText: '확인',
                         customClass: mySwal,
@@ -277,7 +277,7 @@ function increaseCount(productId) {
                     });
                 } else {
                     Swal.fire({
-                        html: '수량 변경 중 문제가 발생했습니다.<br>다시 시도해주세요.',
+                        html: '수량 변경 중 문제가 발생했습니다.<br>다시 시도해 주세요.',
                         showConfirmButton: true,
                         confirmButtonText: '확인',
                         customClass: mySwal,
@@ -332,7 +332,7 @@ function deleteProduct(productId) {
                 },
                 error: function () {
                     Swal.fire({
-                        html: '삭제 중 문제가 발생하였습니다.<br>다시 시도해주세요.',
+                        html: '삭제 중 문제가 발생하였습니다.<br>다시 시도해 주세요.',
                         showConfirmButton: true,
                         confirmButtonText: '확인',
                         customClass: mySwal,
@@ -400,7 +400,7 @@ function deleteProducts() {
                     },
                     error: function () {
                         Swal.fire({
-                            html: '삭제 중 문제가 발생했습니다.<br>다시 시도해주세요.',
+                            html: '삭제 중 문제가 발생했습니다.<br>다시 시도해 주세요.',
                             showConfirmButton: true,
                             confirmButtonText: '확인',
                             customClass: mySwal,
@@ -471,7 +471,7 @@ function deleteSoldOutProducts() {
                     },
                     error: function () {
                         Swal.fire({
-                            html: '삭제 중 문제가 발생했습니다.<br>다시 시도해주세요.',
+                            html: '삭제 중 문제가 발생했습니다.<br>다시 시도해 주세요.',
                             showConfirmButton: true,
                             confirmButtonText: '확인',
                             customClass: mySwal,
@@ -501,7 +501,6 @@ async function checkout() {
             data: JSON.stringify(productIds),
             beforeSend: function (xhr) {
                 xhr.setRequestHeader(csrfHeader, csrfToken);
-                xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
             }
         });
 

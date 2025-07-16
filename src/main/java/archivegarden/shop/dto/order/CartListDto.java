@@ -15,7 +15,7 @@ public class CartListDto {
     private String name;
     private String price;
     private int count;
-    private String displayImageData;
+    private String displayImage;
     private boolean isDiscounted;
     private boolean isSoldOut;
     private int discountPercent;
@@ -27,7 +27,7 @@ public class CartListDto {
         this.id = productId;
         this.name = name;
         this.count = count;
-        this.displayImageData = displayImageData;
+        this.displayImage = displayImageData;
         this.price = new DecimalFormat("###,###원").format(price);
 
         if (discount == null) { //할인 중인 상품 X
