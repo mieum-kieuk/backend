@@ -43,7 +43,7 @@
                         <div class="prd_text ctg"><span th:text="${product.category}">카테고리</span></div>
                         <div class="prd_text tit"><span th:text="${product.name}">상품명</span>
                             <div class="wish_btn">
-                                <img th:src="${wish} ? @{/images/favorite_filled.svg} : @{/images/favorite.svg}" />
+                                <img th:src="${wish} ? @{/images/favorite_filled.svg} : @{/images/favorite.svg}" class="wish" th:id="${product.id}"/>
                             </div>
                         </div>
                         <ul class="prd_price">

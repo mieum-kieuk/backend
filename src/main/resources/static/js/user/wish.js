@@ -41,12 +41,15 @@ $('.wish').click(function () {
         )
     } else {
         $.ajax({
-            url: '/ajax/check/login',
+            url: '/ajax/login/status',
             type: 'GET',
             success: function (result) {
                 if (result.status == 200) {
                     addWish(heart, productId);
-                } else if (result.status == 401) {
+                }
+            },
+            error: function (xhr) {
+                if(xhr.status == 401) {
                     Swal.fire({
                         text: '로그인이 필요한 기능입니다.',
                         showCancelButton: true,
@@ -60,16 +63,15 @@ $('.wish').click(function () {
                             window.location.href = '/login';
                         }
                     });
+                } else {
+                    Swal.fire({
+                        html: "요청사항 진행 중 오류가 발생했습니다.<br>다시 시도해 주세요.",
+                        showConfirmButton: true,
+                        confirmButtonText: '확인',
+                        customClass: mySwal,
+                        buttonsStyling: false
+                    });
                 }
-            },
-            error: function () {
-                Swal.fire({
-                    html: "요청사항 진행 중 오류가 발생했습니다.<br>다시 시도해 주세요.",
-                    showConfirmButton: true,
-                    confirmButtonText: '확인',
-                    customClass: mySwal,
-                    buttonsStyling: false
-                });
             }
         })
     }
@@ -83,25 +85,34 @@ function addWish(heart, productId) {
         beforeSend: function (xhr) {
             xhr.setRequestHeader(csrfHeader, csrfToken);
         },
-        success: function () {
-            heart.attr('src', '../../../images/favorite_filled.svg');
+        success: function (result) {
+            if(result.status == 200) {
+                heart.attr('src', '../../../images/favorite_filled.svg');
+            }
         },
-        error: function () {
-            Swal.fire({
-                html: "요청사항 진행 중 오류가 발생했습니다.<br>다시 시도해 주세요.",
-                showConfirmButton: true,
-                confirmButtonText: '확인',
-                customClass: mySwal,
-                buttonsStyling: false
-            });
+        error: function (xhr) {
+            if(xhr.status == 404) {
+                Swal.fire({
+                    html: xhr.message.replace('\n', '<br>'),
+                    showConfirmButton: true,
+                    confirmButtonText: '확인',
+                    customClass: mySwal,
+                    buttonsStyling: false
+                });
+            } else {
+                Swal.fire({
+                    html: "요청사항 진행 중 오류가 발생했습니다.<br>다시 시도해 주세요.",
+                    showConfirmButton: true,
+                    confirmButtonText: '확인',
+                    customClass: mySwal,
+                    buttonsStyling: false
+                });
+            }
         }
     });
 }
 
 function deleteProduct(productId) {
-    let csrfToken = $("meta[name='_csrf']").attr("content");
-    let csrfHeader = $("meta[name='_csrf_header']").attr("content");
-
     $.ajax({
             url: '/ajax/wish',
             type: 'DELETE',
@@ -110,33 +121,40 @@ function deleteProduct(productId) {
                 xhr.setRequestHeader(csrfHeader, csrfToken);
             },
             success: function () {
-                window.location.reload();
+                if(result.status == 200) {
+                    heart.attr('src', '../../../images/favorite.svg');
+                }
             },
             error: function () {
-                Swal.fire({
-                    html: "삭제 중 오류가 발생했습니다.<br>다시 시도해 주세요.",
-                    showConfirmButton: true,
-                    confirmButtonText: '확인',
-                    customClass: mySwal,
-                    buttonsStyling: false
-                });
+                if(xhr.status == 404) {
+                    Swal.fire({
+                        html: xhr.message.replace('\n', '<br>'),
+                        showConfirmButton: true,
+                        confirmButtonText: '확인',
+                        customClass: mySwal,
+                        buttonsStyling: false
+                    });
+                } else {
+                    Swal.fire({
+                        html: "요청사항 진행 중 오류가 발생했습니다.<br>다시 시도해 주세요.",
+                        showConfirmButton: true,
+                        confirmButtonText: '확인',
+                        customClass: mySwal,
+                        buttonsStyling: false
+                    });
+                }
             }
         }
     )
 };
 
 function addCart(productId) {
-
-    let csrfToken = $("meta[name='_csrf']").attr("content");
-    let csrfHeader = $("meta[name='_csrf_header']").attr("content");
-
     $.ajax({
         type: 'POST',
         url: '/ajax/cart/add',
         data: {'productId': productId, 'count': 1},
         beforeSend: function (xhr) {
             xhr.setRequestHeader(csrfHeader, csrfToken);
-            xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
         },
         success: function (result) {
             $('#cartItemCount').text(result.cartItemCount);
