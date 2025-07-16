@@ -176,10 +176,17 @@ public class UserInquiryRepositoryCustomImpl implements UserInquiryRepositoryCus
         return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
     }
 
+    /**
+     * 마이페이지에서 내 상품 문의 목록 조회
+     *
+     * @param memberId 회원 ID
+     * @param pageable 페이징 정보
+     * @return ProductPageInquiryListDto Page 객체
+     */
     @Override
-    public Page<MyPageInquiryListDto> findMyInquiries(Long memberId, Pageable pageable) {
-        List<MyPageInquiryListDto> content = queryFactory
-                .select(new QMyPageInquiryListDto(
+    public Page<MyInquiryListDto> findMyInquiries(Long memberId, Pageable pageable) {
+        List<MyInquiryListDto> content = queryFactory
+                .select(new QMyInquiryListDto(
                         inquiry.id,
                         inquiry.title,
                         inquiry.content,

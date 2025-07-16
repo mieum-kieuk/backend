@@ -16,5 +16,5 @@ public interface UserInquiryRepositoryCustom {
 
     Page<ProductPageInquiryListDto> findInquiriesByProductId(Long productId, Pageable pageable);
 
-    Page<MyPageInquiryListDto> findMyInquiries(Long memberId, Pageable pageable);
+    Page<MyInquiryListDto> findMyInquiries(Long memberId, Pageable pageable);
 }

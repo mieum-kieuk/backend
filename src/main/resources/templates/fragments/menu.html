@@ -5,7 +5,7 @@
     <div class="sidebar">
         <div class="side_menu top">
             <ul>
-                <li><a href="../admin/index.html" th:href="@{/admin}">관리자 홈</a></li>
+                <li><a th:href="@{/templates/admin}">관리자 홈</a></li>
             </ul>
             <hr>
         </div>
@@ -14,23 +14,23 @@
                 <li>
                     <a href="javascript:void(0)">회원 관리</a>
                     <ul class="depth2">
-                        <li data-path="admin/members"><a href="../admin/member/member_list.html" th:href="@{/admin/members}">회원 정보 관리</a></li>
-                        <li data-path="admin/memberships"><a href="../admin/member/membership/membership.html" th:href="@{/admin/memberships}">회원 등급 관리</a></li>
-                        <li data-path="points"><a href="../admin/member/point/point_list.html" th:href="@{/admin/points}">적립금 관리</a></li>
+                        <li data-path="admin/members"><a th:href="@{/admin/members}">회원 정보 관리</a></li>
+                        <li data-path="admin/memberships"><a th:href="@{/admin/memberships}">회원 등급 관리</a></li>
+                        <li data-path="points"><a th:href="@{/admin/points}">적립금 관리</a></li>
                     </ul>
                 </li>
                 <li>
                     <a href="javascript:void(0)">관리자 관리</a>
                     <ul class="depth2">
-                        <li data-path="admins"><a href="../admin/admin/admin_list.html" th:href="@{/admin/admins}">관리자 정보 관리</a></li>
+                        <li data-path="admins"><a th:href="@{/admin/admins}">관리자 정보 관리</a></li>
                     </ul>
                 </li>
                 <li>
                     <a href="javascript:void(0)">상품 관리</a>
                     <ul class="depth2">
-                        <li data-path="products"><a href="../admin/product/product/product_list.html" th:href="@{/admin/products}">전체 상품 관리</a></li>
-                        <li data-path="discounts"><a href="../admin/product/discount/discount_list.html" th:href="@{/admin/discounts}">상품 할인 관리</a></li>
-                        <li data-path="inquiries"><a href="../admin/product/inquiry/inquiry_list.html" th:href="@{/admin/inquiries}">상품 문의 관리</a></li>
+                        <li data-path="products"><a th:href="@{/admin/products}">전체 상품 관리</a></li>
+                        <li data-path="discounts"><a th:href="@{/admin/discounts}">상품 할인 관리</a></li>
+                        <li data-path="inquiries"><a th:href="@{/admin/inquiries}">상품 문의 관리</a></li>
                         <li data-path="reviews"><a href="#">상품 후기 관리</a></li>
                     </ul>
                 </li>
@@ -44,7 +44,7 @@
                 <li data-path="help">
                     <a href="javascript:void(0)">고객 지원</a>
                     <ul class="depth2">
-                        <li data-path="notice"><a href="../admin/help/notice/notice_list.html" th:href="@{/admin/notice}">공지사항 관리</a></li>
+                        <li data-path="notice"><a th:href="@{/admin/notice}">공지사항 관리</a></li>
                         <li data-path="withdrawal"><a href="javascript:void(0)">회원 탈퇴내역</a></li>
                     </ul>
                 </li>
@@ -83,10 +83,10 @@
         <li>
             <h2 class="snb_title">내 정보 관리</h2>
             <ul class="depth2">
-                <li><a href="../user/mypage/member/validate_identity.html" th:href="@{/mypage/info}">개인 정보 수정</a></li>
-                <li><a href="../user/mypage/delivery/delivery_list.html" th:href="@{/mypage/delivery}">배송지 관리</a></li>
+                <li><a th:href="@{/mypage/info}">개인 정보 수정</a></li>
+                <li><a th:href="@{/mypage/delivery}">배송지 관리</a></li>
                 <li>
-                    <form action="../login.html" th:action="@{/logout}" method="post">
+                    <form th:action="@{/logout}" method="post">
                         <button type="submit">로그아웃</button>
                         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
                     </form>

@@ -62,6 +62,7 @@ public class InquiryService {
      * @return 상품 문의 상세 정보 DTO
      * @throws EntityNotFoundException 상품 문의가 존재하지 않을 경우
      */
+    @Transactional(readOnly = true)
     public InquiryDetailsDto getInquiry(Long inquiryId) {
         InquiryDetailsDto inquiryDetailsDto = inquiryRepository.findInquiry(inquiryId).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 상품 문의글입니다."));
         String encodedImageData = productImageService.downloadAndEncodeImage(inquiryDetailsDto.getProductImageData());
@@ -75,6 +76,7 @@ public class InquiryService {
      * @param pageable 페이징 정보
      * @return 상품 문의 목록 DTO Page 객체
      */
+    @Transactional(readOnly = true)
     public Page<InquiryListDto> getInquires(Pageable pageable) {
         Page<InquiryListDto> inquiryListDtos = inquiryRepository.findInquiries(pageable);
 
@@ -98,6 +100,7 @@ public class InquiryService {
      * @param loginMember 현재 로그인한 회원
      * @return 상세 페이지 상품 목록 DTO Page 객체
      */
+    @Transactional(readOnly = true)
     public Page<ProductPageInquiryListDto> getInquiriesInProduct(Long productId, Pageable pageable, Member loginMember) {
         Page<ProductPageInquiryListDto> inquiryListDtos = inquiryRepository.findInquiriesByProductId(productId, pageable);
 
@@ -125,6 +128,7 @@ public class InquiryService {
      * @throws EntityNotFoundException 상품 문의가 존재하지 않을 경우
      * @throws AccessDeniedException   로그인한 회원이 작성자가 아닐 경우 (수정 권한 없음)
      */
+    @Transactional(readOnly = true)
     public EditInquiryForm getInquiryEditForm(Long inquiryId, Member loginMember) throws AccessDeniedException {
         EditInquiryForm editInquiryForm = inquiryRepository.findInquiryForEdit(inquiryId).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 상품 문의글입니다."));
 
@@ -168,15 +172,24 @@ public class InquiryService {
     }
 
     /**
-     * 내 상품 문의
+     * 내 상품 문의 목록 조회
+     *
+     * @param memberId 로그인한 회원 ID
+     * @param pageable 페이징 정보
      */
-    public Page<MyPageInquiryListDto> getMyInquires(Long memberId, Pageable pageable) {
-        Page<MyPageInquiryListDto> myInquiries = inquiryRepository.findMyInquiries(memberId, pageable);
-        myInquiries.forEach(i -> {
-//            String encodedImageData = productImageService.getEncodedImageData(i.getProductImageData());
-//            i.setProductImageData(encodedImageData);
-        });
+    @Transactional(readOnly = true)
+    public Page<MyInquiryListDto> getMyInquires(Long memberId, Pageable pageable) {
+        Page<MyInquiryListDto> myInquiryListDtos = inquiryRepository.findMyInquiries(memberId, pageable);
 
-        return myInquiries;
+        List<CompletableFuture<Void>> futures = myInquiryListDtos.getContent().stream()
+                .map(inquiry -> CompletableFuture.runAsync(() -> {
+                    String encodedImageData = productImageService.downloadAndEncodeImage(inquiry.getProductDisplayImage());
+                    inquiry.setProductDisplayImage(encodedImageData);
+                }, executor))
+                .toList();
+
+        CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
+
+        return myInquiryListDtos;
     }
 }
