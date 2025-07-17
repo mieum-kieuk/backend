@@ -175,13 +175,12 @@ public class InquiryService {
      * 내 상품 문의 목록 조회
      *
      * @param memberId 로그인한 회원 ID
-     * @param pageable 페이징 정보
      */
     @Transactional(readOnly = true)
-    public Page<MyInquiryListDto> getMyInquires(Long memberId, Pageable pageable) {
-        Page<MyInquiryListDto> myInquiryListDtos = inquiryRepository.findMyInquiries(memberId, pageable);
+    public List<MyInquiryListDto> getMyInquires(Long memberId) {
+        List<MyInquiryListDto> myInquiryListDtos = inquiryRepository.findMyInquiries(memberId);
 
-        List<CompletableFuture<Void>> futures = myInquiryListDtos.getContent().stream()
+        List<CompletableFuture<Void>> futures = myInquiryListDtos.stream()
                 .map(inquiry -> CompletableFuture.runAsync(() -> {
                     String encodedImageData = productImageService.downloadAndEncodeImage(inquiry.getProductDisplayImage());
                     inquiry.setProductDisplayImage(encodedImageData);

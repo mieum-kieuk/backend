@@ -32,10 +32,10 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr id="noDataMessage" th:if="${inquiries.content.size() == 0}">
+                        <tr id="noDataMessage" th:if="${inquiries.size() == 0}">
                             <td colspan="4">등록된 상품문의가 없습니다.</td>
                         </tr>
-                        <th:block th:each="inquiry : ${inquiries.content}">
+                        <th:block th:each="inquiry : ${inquiries}">
                             <tr class="inquiry_items" th:classappend="${inquiry.isSecret} ? 'secret' : ''">
                                 <td>
                                     <a href="../../product/product_details.html"
@@ -89,7 +89,6 @@
                     </table>
                 </div>
             </div>
-            <div th:replace="~{fragments/pagination_simple :: pagination( ${inquiries}, '/mypage/inquiries', '')}"></div>
         </div>
     </div>
     <div th:replace="~{/fragments/footer :: basic_footer}"></div>

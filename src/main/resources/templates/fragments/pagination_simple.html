@@ -8,7 +8,7 @@
                        endPage=${T(java.lang.Math).min((pageInfo.number/5)*5+5, pageInfo.totalPages)}">
         <ul>
             <li>
-                <a th:href="@{${fullUrl}(page=${currentPage - 1})}" class="prev_first" th:classappend="${startPage == 1} ? 'disabled'">
+                <a th:href="@{${fullUrl}(page=${currentPage - 1})}" class="prev_first" th:classappend="${currentPage == 1} ? 'disabled'">
                     <img th:src="@{/images/keyboard_arrow_left.svg}" alt="이전 페이지">
                 </a>
             </li>
@@ -16,7 +16,7 @@
                 <a th:href="@{${fullUrl}(page=${page})}" class="page" th:classappend="${page == currentPage} ? 'active'" th:text="${page}"></a>
             </li>
             <li>
-                <a th:href="@{${fullUrl}(page=${currentPage + 1})}" class="next_last" th:classappend="${endPage + 1 > pageInfo.totalPages} ? 'disabled'">
+                <a th:href="@{${fullUrl}(page=${currentPage + 1})}" class="next_last" th:classappend="${currentPage == pageInfo.totalPages} ? 'disabled'">
                     <img th:src="@{/images/keyboard_arrow_right.svg}" alt="다음 페이지">
                 </a>
             </li>

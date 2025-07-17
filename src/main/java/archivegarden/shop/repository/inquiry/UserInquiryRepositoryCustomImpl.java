@@ -180,12 +180,11 @@ public class UserInquiryRepositoryCustomImpl implements UserInquiryRepositoryCus
      * 마이페이지에서 내 상품 문의 목록 조회
      *
      * @param memberId 회원 ID
-     * @param pageable 페이징 정보
      * @return ProductPageInquiryListDto Page 객체
      */
     @Override
-    public Page<MyInquiryListDto> findMyInquiries(Long memberId, Pageable pageable) {
-        List<MyInquiryListDto> content = queryFactory
+    public List<MyInquiryListDto> findMyInquiries(Long memberId) {
+        return queryFactory
                 .select(new QMyInquiryListDto(
                         inquiry.id,
                         inquiry.title,
@@ -204,16 +203,7 @@ public class UserInquiryRepositoryCustomImpl implements UserInquiryRepositoryCus
                 .leftJoin(inquiry.answer, answer)
                 .where(memberIdEq(memberId))
                 .orderBy(inquiry.createdAt.desc())
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
                 .fetch();
-
-        JPAQuery<Long> countQuery = queryFactory
-                .select(inquiry.count())
-                .from(inquiry)
-                .where(memberIdEq(memberId));
-
-        return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
     }
 
     /**
