@@ -26,7 +26,7 @@
                     <ul class="prd_list">
                         <li th:each="product : ${products}">
                             <div class="thumb">
-                                <a href=th:href="@{/products/{productId}(productId=${product.id})}">
+                                <a th:href="@{/products/{productId}(productId=${product.id})}">
                                     <img class="thumb1" th:src="${product.displayImage}" alt="상품 이미지">
                                     <img class="thumb2" th:if="${product.hoverImage != null}"
                                          th:src="${product.hoverImage}" alt="상품 이미지">
