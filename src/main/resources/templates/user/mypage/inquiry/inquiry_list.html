@@ -35,8 +35,8 @@
                         <tr id="noDataMessage" th:if="${inquiries.content.size() == 0}">
                             <td colspan="4">등록된 상품문의가 없습니다.</td>
                         </tr>
-                        <div th:each="inquiry : ${inquiries}">
-                            <tr class="inquiry_items">
+                        <th:block th:each="inquiry : ${inquiries.content}">
+                            <tr class="inquiry_items" th:classappend="${inquiry.isSecret} ? 'secret' : ''">
                                 <td>
                                     <a href="../../product/product_details.html"
                                        th:href="@{/products/{productId}(productId=${inquiry.productId})}">
@@ -70,10 +70,7 @@
                                                 <div class="dropdown_menu">
                                                     <ul>
                                                         <li>
-                                                            <button type="button" class="edit_btn" th:data-id="${inquiry.productId}">수정</button>
-                                                        </li>
-                                                        <li>
-                                                            <button type="button" class="delete_btn" th:data-id="${inquiry.productId}">삭제</button>
+                                                            <button type="button" class="delete_btn" th:data-id="${inquiry.id}">삭제/button>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -87,44 +84,12 @@
                                     </div>
                                 </td>
                             </tr>
-                        </div>
+                        </th:block>
                         </tbody>
                     </table>
                 </div>
             </div>
             <div th:replace="~{fragments/pagination_simple :: pagination( ${inquiries}, '/mypage/inquiries', '')}"></div>
-            <div id="inquiryModal" class="modal">
-                <div class="modal_content">
-                    <form id="addInquiryForm" action="#" method="post" novalidate>
-                        <table class="inquiry_table list">
-                            <tr>
-                                <td colspan="2">
-                                    <div class="title_wrap">
-                                        <label for="title">제목</label>
-                                        <input id="title" type="text" placeholder="제목을 작성해 주세요.">
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">
-                                    <textarea id="content" name="content" rows="8" placeholder="내용을 작성해 주세요."></textarea>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2" class="isSecret_cell">
-                                    <div class="isSecret secret">
-                                        <input id="secret" name="isSecret" value="true" type="checkbox"><label for="secret">비밀글로 문의하기</label>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
-                        <div class="btn_wrap">
-                            <button type="button" class="btn1 close_btn">닫기</button>
-                            <button type="submit" id="submitBtn" class="btn1 submit_btn">완료</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
         </div>
     </div>
     <div th:replace="~{/fragments/footer :: basic_footer}"></div>

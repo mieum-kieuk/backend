@@ -3,22 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>마이페이지 | 미음키읔</title>
+    <title>내 상품 문의 | 미음키읔</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
-    <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap"
-          rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.js"></script>
     <link rel="stylesheet" href="../../../../css/common/comm.css"/>
     <link rel="stylesheet" href="../../../../css/user/mypage.css"/>
-    <link rel="stylesheet" href="../../../../css/user/inquiry.css"/>
-    <script src="../../../../js/user/inquiryPopup.js"></script>
+    <link rel="stylesheet" href="../../../../css/common/inquiry.css"/>
+    <script src="../../../../js/user/myInquiry.js"></script>
     <script src="../../../../js/common/comm.js"></script>
 </head>
 <body>
@@ -40,13 +37,12 @@
                             <li><a href="../../products/product_list.html">Memo</a></li>
                         </ul>
                     </li>
-                    <li class="depth1_menu" id="about"><a href="../about.html">About</a>
+                    <li class="depth1_menu" id="about"><a href="../../about/about.html">About</a>
                     </li>
                     <li class="depth1_menu" id="community">Community
                         <ul class="depth2">
-                            <li><a href="../../../community/notice/notice_list.html">Notice</a></li>
-                            <li><a href="../../../community/inquiry/inquiry_list.html">Q&amp;A</a></li>
-                            <li><a href="../../../review/review_list.html">Review</a></li>
+                            <li><a href="../../../user/community/notice/notice_list.html">공지사항</a></li>
+                            <li><a href="../../../user/community/inquiry/inquiry_list.html">상품문의</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -61,8 +57,9 @@
                         <div class="search_form_wrap">
                             <form action="../../search/search_complete.html" method="get">
                                 <input type="text" placeholder="검색어를 입력해 주세요.">
-                                <button type="submit" class="search_btn"><span
-                                        class="material-symbols-outlined">search</span></button>
+                                <button type="submit" class="search_btn">
+                                    <img src="../../../../images/search.svg">
+                                </button>
                             </form>
                         </div>
                     </div>
@@ -71,10 +68,10 @@
                     <ul class="depth1">
                         <li class="depth1_menu">Account
                             <ul class="depth2">
-                                <li><a href="../../../member/login.html">Login</a></li>
-                                <li><a href="../../member/join.html">Join</a></li>
-                                <li><a href="../../../order/order_list.html">Order</a></li>
-                                <li><a href="../mypage_home.html">Mypage</a></li>
+                                <li><a href="../../../member/login.html">로그인</a></li>
+                                <li><a href="../../member/join.html">회원가입</a></li>
+                                <li><a href="../../../order/order_list.html">주문조회</a></li>
+                                <li><a href="../mypage_home.html">마이페이지</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -99,14 +96,14 @@
                 <li>
                     <ul class="depth2">
                         <li><a href="../wish_list.html">위시리스트</a></li>
-                        <li><a href="../my_review.html">상품 후기</a></li>
+                        <li><a href="../review/review_list.html">상품 후기</a></li>
                         <li><a href="../inquiry/inquiry_list.html">상품 문의</a></li>
                     </ul>
                 </li>
                 <li>
                     <ul class="depth2">
                         <li><a href="../member/edit_info.html">회원 정보 수정</a></li>
-                        <li><a href="../delivery_list.html">배송지 관리</a></li>
+                        <li><a href="../delivery/delivery_list.html">배송지 관리</a></li>
                         <li><a href="">로그아웃</a></li>
                     </ul>
                 </li>
@@ -129,16 +126,15 @@
                         <tr id="noDataMessage">
                             <td colspan="4">등록된 상품문의가 없습니다.</td>
                         </tr>
-                        <div>
                             <tr class="inquiry_items">
                                 <td>
                                     <a href="../../products/product_details.html">
-                                        <img class="item_img" alt="상품 이미지">
+                                        <img src="../../../../images/display.jpeg" class="item_img" alt="상품 이미지">
                                     </a>
                                 </td>
                                 <td class="title_td">
                                     <div class="title">
-                                        <span class="material-symbols-outlined">lock</span>
+                                        <img class="secretItem" src="../../../../images/lock.svg">
                                         <span class="title">재입고 문의</span>
                                     </div>
                                 </td>
@@ -158,13 +154,10 @@
                                             </div>
                                             <div class="menu">
                                                 <button class="menu_toggle">
-                                                    <span class="material-symbols-outlined">more_horiz</span>
+                                                    <img src="../../../../images/more_horiz.svg">
                                                 </button>
                                                 <div class="dropdown_menu">
                                                     <ul>
-                                                        <li>
-                                                            <button type="button" class="edit_btn">수정</button>
-                                                        </li>
                                                         <li>
                                                             <button type="button" class="delete_btn">삭제</button>
                                                         </li>
@@ -184,55 +177,21 @@
                                     </div>
                                 </td>
                             </tr>
-                        </div>
                         </tbody>
                     </table>
                 </div>
             </div>
             <div class="pagination">
                 <ul>
-                    <li><a href="#" class="prev_first"><span
-                            class="material-symbols-outlined">navigate_before</span></a></li>
+                    <li><a href="#" class="prev_first"><img src="../../../../images/keyboard_arrow_left.svg" alt="첫 페이지"></a></li>
                     <li><a href="#">1</a></li>
-                    <li><a href="#" class="next_last"><span class="material-symbols-outlined">navigate_next</span></a>
-                    </li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#">4</a></li>
+                    <li><a href="#">5</a></li>
+                    <li><a href="#" class="next_last"><img src="../../../../images/keyboard_arrow_right.svg" alt="마지막 페이지"></a></li>
                 </ul>
             </div>
-            <div id="inquiryModal" class="modal">
-                <div class="modal_content">
-                    <form id="addInquiryForm" action="#" method="post" novalidate>
-                        <table class="inquiry_table list">
-                            <tr>
-                                <td colspan="2">
-                                    <div class="title_wrap">
-                                        <label for="title">제목</label>
-                                        <input id="title" type="text" placeholder="제목을 작성해 주세요.">
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">
-                                    <textarea id="content" name="content" rows="8"
-                                              placeholder="내용을 작성해 주세요."></textarea>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2" class="isSecret_cell">
-                                    <div class="isSecret secret">
-                                        <input id="secret" name="isSecret" value="true" type="checkbox"><label
-                                            for="secret">비밀글로 문의하기</label>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
-                        <div class="btn_wrap">
-                            <button type="button" class="btn1 close_btn">닫기</button>
-                            <button type="submit" id="submitBtn" class="btn1 submit_btn">완료</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-
         </div>
     </div>
     <footer id="footer" class="footer">
@@ -251,16 +210,16 @@
             </div>
             <div class="footer_inner">
                 <ul>
-                    <li>Company : 티커스</li>
+                    <li>Company : 미음키읔</li>
                     <li>전화번호 : 010-1234-5678</li>
-                    <li>이메일 : tickers@gmail.com</li>
+                    <li>이메일 : meek@gmail.com</li>
                 </ul>
             </div>
             <div class="footer_inner">
                 <ul>
                     <li>사업자 번호 : 070-61-01100</li>
-                    <li>주소 : 서울시 티커스구 티커스대로 123</li>
-                    <li>Copyright ©Tickers All rights reserved.</li>
+                    <li>주소 : 서울시 미음구 키읔로 123</li>
+                    <li>Copyright ©미음키읔 All rights reserved.</li>
                 </ul>
             </div>
         </div>
