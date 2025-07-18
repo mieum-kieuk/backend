@@ -3,19 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My page | 미음키읔</title>
+    <title>내 위시리스트 | 미음키읔</title>
 
-    <meta property="og:type" content="website"/>
-    <meta property="og:title" content="미음키읔"/>
-    <meta property="og:description" content=""/>
-    <meta property="og:image" content=""/>
-    <meta property="og:url" content=""/>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
-    <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap"
-          rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -39,20 +31,19 @@
             <div class="gnb_menu center">
                 <ul class="depth1">
                     <li class="depth1_menu" id="shop">
-                        <a href="../products/product_list.html">Shop</a>
+                        <a href="../../user/products/product_list.html">Shop</a>
                         <ul class="depth2">
-                            <li><a href="../products/product_list.html">Masking tape</a></li>
-                            <li><a href="../products/product_list.html">Sticker</a></li>
-                            <li><a href="../products/product_list.html">Memo</a></li>
+                            <li><a href="../../user/products/product_list.html">Maskingtape</a></li>
+                            <li><a href="../../user/products/product_list.html">Phonecase</a></li>
+                            <li><a href="../../user/products/product_list.html">Sticker</a></li>
                         </ul>
                     </li>
-                    <li class="depth1_menu" id="about"><a href="../about.html">About</a>
+                    <li class="depth1_menu" id="about"><a href="../../user/about/about.html">About</a>
                     </li>
                     <li class="depth1_menu" id="community">Community
                         <ul class="depth2">
-                            <li><a href="../../community/notice/notice_list.html">Notice</a></li>
-                            <li><a href="../../community/inquiry/inquiry_list.html">Q&amp;A</a></li>
-                            <li><a href="../../review/review_list.html">Review</a></li>
+                            <li><a href="../../user/community/notice/notice_list.html">공지사항</a></li>
+                            <li><a href="../../user/community/inquiry/inquiry_list.html">상품문의</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -66,9 +57,10 @@
                         <div class="search_bg"></div>
                         <div class="search_form_wrap">
                             <form action="../search/search_complete.html" method="get">
-                                <input type="text" placeholder="검색어를 입력해 주세요.">
-                                <button type="submit" class="search_btn"><span
-                                        class="material-symbols-outlined">search</span></button>
+                                <input type="text" placeholder="검색어를 입력해 주세요." maxlength="50">
+                                <button type="submit" class="search_btn">
+                                    <img src="../../../images/search.svg">
+                                </button>
                             </form>
                         </div>
                     </div>
@@ -77,16 +69,16 @@
                     <ul class="depth1">
                         <li class="depth1_menu">Account
                             <ul class="depth2">
-                                <li><a href="../members/login.html">Login</a></li>
-                                <li><a href="../members/join.html">Join</a></li>
-                                <li><a href="../members/order.html">Order</a></li>
-                                <li><a href="me.html">Mypage</a></li>
+                                <li><a href="../../login.html">로그인</a></li>
+                                <li><a href="../member/join.html">회원가입</a></li>
+                                <li><a href="../../order/order_list.html">주문조회</a></li>
+                                <li><a href="../mypage/mypage_home.html">마이페이지</a></li>
                             </ul>
                         </li>
                     </ul>
                 </div>
                 <div class="cart">
-                    <a href="../../cart/cart.html">Cart(0)
+                    <a href="../../user/order/cart.html">Cart(0)
                     </a>
                 </div>
             </div>
@@ -105,14 +97,14 @@
                 <li>
                     <ul class="depth2">
                         <li><a href="./wish_list.html">위시리스트</a></li>
-                        <li><a href="my_review.html">상품 후기</a></li>
-                        <li><a href="inquiry/product/inquiry_list.html">상품 문의</a></li>
+                        <li><a href="review/review_list.html">상품 후기</a></li>
+                        <li><a href="inquiry/inquiry_list.html">상품 문의</a></li>
                     </ul>
                 </li>
                 <li>
                     <ul class="depth2">
-                        <li><a href="member_info_modify.html">회원 정보 수정</a></li>
-                        <li><a href="delivery_list.html">배송지 관리</a></li>
+                        <li><a href="member/edit_info.html">회원 정보 수정</a></li>
+                        <li><a href="delivery/delivery_list.html">배송지 관리</a></li>
                         <li><a href="">로그아웃</a></li>
                     </ul>
                 </li>
@@ -126,21 +118,21 @@
                         <div class="wish_item">
                             <a href="../products/product_details.html" class="item_link">
                                 <div class="item img">
-                                    <img src="../../../images/meek2.png" alt="제품1">
+                                    <img src="../../../images/display.jpeg" alt="제품1">
                                 </div>
                                 <div class="item info">
                                     <div class="name">
                                         Gzy
                                     </div>
                                     <div class="price">
-                                        <div class="original_price"><span id="productPrice">3,000원</span></div>
+                                        <div class="original_price line_through"><span id="productPrice">3,000원</span></div>
                                         <div class="sale_price discount_rate">[<span>10</span>%] <span
                                                 id="productDiscountPrice" class="discount_price">2,700원</span></div>
                                     </div>
                                 </div>
                             </a>
                             <div class="btn_wrap">
-                                <button type="button" class="btn1 deleteBtn">삭제</button>
+                                <button type="button" class="btn1 deleteBtn">위시리스트에서 삭제</button>
                                 <button type="button" class="btn1 cartBtn disabled" onclick="addCart()">장바구니에 담기</button>
                             </div>
                         </div>
@@ -151,57 +143,16 @@
                         </div>
                     </div>
                 </div>
-                <div class="add_cart" id="addCart">
-                    <div class="cart_head">
-                        <h3>옵션 선택</h3>
-                    </div>
-                    <div class="cart_content">
-                        <ul class="cart_list">
-                            <li>
-                                <div class="cart_item">
-                                    <a href="" class="cart_display">
-                                        <img src="../../../images/maskingtape1.jpeg" alt="제품1">
-                                    </a>
-                                    <span class="name"><a href="">Gzy</a></span>
-                                    <ul class="option">
-                                        <ul class="prd_price ">
-                                            <li class="original_price"><span id="productPrice">3,000원</span></li>
-                                            <li class="discount">
-                                                <span class="line_through" id="productPrice">KRW 3,000</span>
-                                                <span class="discount_rate">10%</span><span class="discounted_price"
-                                                                                            id="salePrice">KRW 2,700</span>
-                                            </li>
-                                        </ul>
-                                        <li class="qaunt">1개</li>
-                                    </ul>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="pagination">
-                        <ul>
-                            <li><a href="#" class="prev_first"><span
-                                    class="material-symbols-outlined">navigate_before</span></a></li>
-                            <li><a href="#">1</a></li>
-                            <li><a href="#" class="next_last"><span
-                                    class="material-symbols-outlined">navigate_next</span></a></li>
-                        </ul>
-                    </div>
-                    <div class="btn_wrap">
-                        <button type="button" id="orderBtn" class="btn1 submit_btn">삭제</button>
-                        <button type="button" id="cartBtn" class="btn1">장바구니에 담기</button>
-                    </div>
-                    <button type="button" class="close_btn"><span class="material-symbols-outlined">close</span>
-                    </button>
-                </div>
             </div>
             <div class="pagination">
                 <ul>
-                    <li><a href="#" class="prev_first"><span
-                            class="material-symbols-outlined">navigate_before</span></a></li>
+                    <li><a href="#" class="prev_first"><img src="../../../images/keyboard_arrow_left.svg" alt="첫 페이지"></a></li>
                     <li><a href="#">1</a></li>
-                    <li><a href="#" class="next_last"><span class="material-symbols-outlined">navigate_next</span></a>
-                    </li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#">4</a></li>
+                    <li><a href="#">5</a></li>
+                    <li><a href="#" class="next_last"><img src="../../../images/keyboard_arrow_right.svg" alt="마지막 페이지"></a></li>
                 </ul>
             </div>
         </div>
@@ -222,47 +173,21 @@
             </div>
             <div class="footer_inner">
                 <ul>
-                    <li>Company : 티커스</li>
+                    <li>Company : 미음키읔</li>
                     <li>전화번호 : 010-1234-5678</li>
-                    <li>이메일 : tickers@gmail.com</li>
+                    <li>이메일 : meek@gmail.com</li>
                 </ul>
             </div>
             <div class="footer_inner">
                 <ul>
                     <li>사업자 번호 : 070-61-01100</li>
-                    <li>주소 : 서울시 티커스구 티커스대로 123</li>
-                    <li>Copyright ©Tickers All rights reserved.</li>
+                    <li>주소 : 서울시 미음구 키읔로 123</li>
+                    <li>Copyright ©미음키읔 All rights reserved.</li>
                 </ul>
             </div>
         </div>
     </footer>
+
 </div>
-<script>
-    $(document).ready(function () {
-        // 현재 페이지의 URL을 가져옵니다.
-        var currentPageUrl = window.location.href;
-
-        // 각 메뉴 항목에 대해 반복합니다.
-        $('#snb .depth2 a').each(function () {
-            var menuItemUrl = $(this).attr('href');
-
-            // 현재 페이지의 URL과 메뉴 항목의 링크 URL을 정확하게 비교합니다.
-            if (currentPageUrl === menuItemUrl) {
-                // 일치하는 경우 해당 메뉴 아이템에 active 클래스를 추가합니다.
-                $(this).addClass('active');
-                $(this).closest('ul.depth2').parent().addClass('active');
-                return false; // 반복문 종료
-            } else if (currentPageUrl.includes(menuItemUrl)) {
-                // 메뉴 항목의 링크 URL이 현재 페이지의 URL에 포함되는 경우에도 active 클래스를 추가합니다.
-                $(this).addClass('active');
-                $(this).closest('ul.depth2').parent().addClass('active');
-                return false; // 반복문 종료
-            }
-        });
-    });
-
-
-</script>
-
 </body>
 </html>

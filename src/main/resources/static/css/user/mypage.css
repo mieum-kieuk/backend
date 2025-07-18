@@ -823,9 +823,10 @@ h3 {
 
 .wish_wrap .img img {
     display: block;
-    width: 80px;
-    height: 80px;
+    width: 100px;
+    height: 100px;
     object-fit: cover;
+    border-radius: 2px;
 }
 
 .wish_wrap .info {
@@ -851,6 +852,7 @@ h3 {
 }
 .wish_item .btn_wrap {
     display: flex;
+    flex-direction: column;
     gap: 10px;
 }
 .wish_item .btn_wrap .btn1 {
@@ -860,6 +862,7 @@ h3 {
     cursor: default;
     border: 1px solid #999;
     color: #999;
+    pointer-events: none;
 }
 .wish_wrap .price {
     display: inline-block;
