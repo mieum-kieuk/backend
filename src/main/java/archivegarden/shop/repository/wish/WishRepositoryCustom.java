@@ -1,10 +1,10 @@
 package archivegarden.shop.repository.wish;
 
 import archivegarden.shop.dto.user.wish.MyWishDto;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+
+import java.util.List;
 
 public interface WishRepositoryCustom {
 
-    Page<MyWishDto> findDtoAll(Long memberId, Pageable pageable);
+    List<MyWishDto> findMyWishList(Long memberId);
 }

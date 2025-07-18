@@ -17,10 +17,10 @@ public class MyWishDto {
     private String discountPercent;
     private String salePrice;
     private boolean isSoldOut;
-    private String displayImageData;
+    private String productDisplayImage;
 
     @QueryProjection
-    public MyWishDto(Long productId, String name, int price, int stockQuantity, Integer discountPercent, String displayImageData) {
+    public MyWishDto(Long productId, String name, int price, int stockQuantity, Integer discountPercent, String productDisplayImage) {
         this.productId = productId;
         this.name = name;
         this.price = new DecimalFormat("###.###원").format(price);
@@ -37,6 +37,6 @@ public class MyWishDto {
             this.isSoldOut = true;
         }
 
-        this.displayImageData = displayImageData;
+        this.productDisplayImage = productDisplayImage;
     }
 }

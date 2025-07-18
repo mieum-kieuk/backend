@@ -10,11 +10,12 @@ import archivegarden.shop.repository.product.ProductRepository;
 import archivegarden.shop.repository.wish.WishRepository;
 import archivegarden.shop.service.user.product.product.ProductImageService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
 
 @Service
 @Transactional
@@ -25,6 +26,7 @@ public class WishService {
     private final ProductRepository productRepository;
     private final MemberRepository memberRepository;
     private final WishRepository wishRepository;
+    private final Executor executor;
 
     /**
      * 위시리스트에 상품 추가
@@ -60,16 +62,19 @@ public class WishService {
      * 마이페이지에서 회원의 위시 상품 목록을 조회
      *
      * @param memberId 현재 로그인한 회원 ID
-     * @param pageable 페이징 정보
      * @return 회원의 위시 상품 목록 Page 객체
      */
     @Transactional(readOnly = true)
-    public Page<MyWishDto> getWishList(Long memberId, Pageable pageable) {
-        Page<MyWishDto> myWishDtos = wishRepository.findDtoAll(memberId, pageable);
-        myWishDtos.forEach(w -> {
-//            String encodedImageData = productImageService.getEncodedImageData(w.getDisplayImageData());
-//            w.setDisplayImageData(encodedImageData);
-        });
+    public List<MyWishDto> getWishList(Long memberId) {
+        List<MyWishDto> myWishDtos = wishRepository.findMyWishList(memberId);
+
+        List<CompletableFuture<Void>> futures = myWishDtos.stream()
+                .map(inquiry -> CompletableFuture.runAsync(() -> {
+                    String encodedImageData = productImageService.downloadAndEncodeImage(inquiry.getProductDisplayImage());
+                    inquiry.setProductDisplayImage(encodedImageData);
+                }, executor))
+                .toList();
+        CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
 
         return myWishDtos;
     }

@@ -1,32 +1,23 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="_csrf" th:content="${_csrf.token}">
-    <meta name="_csrf_header" th:content="${_csrf.headerName}">
-    <title>위시리스트 | 미음키읔</title>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
-    <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap"
-          rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css">
-    <link rel="stylesheet" href="../../../static/css/common/comm.css" th:href="@{/css/common/comm.css}"/>
-    <link rel="stylesheet" href="../../../static/css/user/mypage.css" th:href="@{/css/user/mypage.css}"/>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.js"></script>
-    <script src="../../../static/js/common/comm.js" th:src="@{/js/common/comm.js}"></script>
-    <script src="../../../static/js/user/wish.js" th:src="@{/js/user/wish.js}"></script>
+<head th:replace="~{fragments/head :: commonHead('내 위시리스트')}">
+    <th:block th:fragment="extraMeta">
+        <meta name="_csrf" th:content="${_csrf.token}"/>
+        <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    </th:block>
+    <th:block th:fragment="extraCss">
+        <link rel="stylesheet" th:href="@{/css/user/mypage.css}" />
+    </th:block>
+    <th:block th:fragment="extraJs">
+        <script defer th:src="@{/js/user/myWish.js}"></script>
+    </th:block>
 </head>
+
 <body>
 <div class="wrap">
-    <div th:replace="~{/layout/header :: header}"></div>
+    <div th:replace="~{/fragments/header :: header}"></div>
     <div class="mypage" id="mypage">
-        <div th:replace="~{layout/menu :: mypage_menu}"></div>
+        <div th:replace="~{fragments/menu :: mypage_menu}"></div>
         <div id="wishList" class="mypage_content">
             <div class="wish_wrap wrapper">
                 <h3 class="wish_title">나의 위시리스트</h3>
@@ -35,15 +26,13 @@
                         <div class="wish_item" th:each="product : ${products}">
                             <a class="item_link" th:href="@{/products/{productId}(productId=${product.productId})}">
                                 <div class="item img">
-                                    <img th:src="${product.displayImageData}" alt="제품이미지">
+                                    <img th:src="${product.productDisplayImage}" alt="상품 이미지">
                                 </div>
                                 <div class="item info">
                                     <div class="name" th:text="${product.name}">
                                     </div>
                                     <div class="price">
-                                        <div class="original_price"
-                                             th:classappend="${product.isDiscounted and !product.isSoldOut} ? 'line_through'"
-                                             th:text="${product.price}">
+                                        <div class="original_price" th:classappend="${product.isDiscounted and !product.isSoldOut} ? 'line_through'" th:text="${product.price}">
                                         </div>
                                         <div th:if="${product.isDiscounted} and !${product.isSoldOut}" class="discount">
                                             <span class="discount_rate">[[${product.discountPercent}]]</span>
@@ -57,12 +46,10 @@
                             </a>
                             <div class="btn_wrap">
                                 <button type="button" class="btn1 deleteBtn" th:data-id="${product.productId}">삭제</button>
-                                <button type="button" class="btn1 cartBtn"
-                                        th:data-id="${!product.isSoldOut} ? ${product.productId} : ''"
-                                        th:classappend="${product.isSoldOut} ? 'disabled'">장바구니에 담기</button>
+                                <button type="button" class="btn1 cartBtn" th:data-id="${!product.isSoldOut} ? ${product.productId} : ''" th:classappend="${product.isSoldOut} ? 'disabled'">장바구니에 담기</button>
                             </div>
                         </div>
-                        <div class="wish_item" th:if="${products.content.size() == 0}">
+                        <div class="wish_item" th:if="${products.size() == 0}">
                             <div id="noDataMessage">
                                 <span>관심 상품이 없습니다.</span>
                             </div>
@@ -70,29 +57,10 @@
                     </div>
                 </div>
             </div>
-            <div class="pagination" th:if="${products.content.size() > 0}">
-                <ul>
-                    <li>
-                        <a href="./wish_list.html" th:href="@{/mypage/wish}" class="prev_first">
-                            <span class="material-symbols-outlined">keyboard_arrow_left</span>
-                        </a>
-                    </li>
-                    <li th:each="page : ${#numbers.sequence(1, products.totalPages)}">
-                        <a href="./wish_list.html" th:href="@{/mypage/wish(page=${page})}"
-                           class="page" th:classappend="${page == products.number + 1} ? 'active'"
-                           th:text="${page}"></a>
-                    </li>
-                    <li>
-                        <a href="./wish_list.html" th:href="@{/mypage/wish(page=${products.totalPages})}"
-                           class="next_last">
-                            <span class="material-symbols-outlined">keyboard_arrow_right</span>
-                        </a>
-                    </li>
-                </ul>
             </div>
         </div>
     </div>
-    <div th:replace="~{/layout/footer :: basic_footer}"></div>
+    <div th:replace="~{/fragments/footer :: basic_footer}"></div>
 </div>
 </body>
 </html>

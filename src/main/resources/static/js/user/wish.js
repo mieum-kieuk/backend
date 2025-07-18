@@ -120,7 +120,7 @@ function deleteProduct(productId) {
             beforeSend: function (xhr) {
                 xhr.setRequestHeader(csrfHeader, csrfToken);
             },
-            success: function () {
+            success: function (result) {
                 if(result.status == 200) {
                     heart.attr('src', '../../../images/favorite.svg');
                 }

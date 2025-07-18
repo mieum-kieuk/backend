@@ -4,12 +4,8 @@ import archivegarden.shop.dto.user.wish.MyWishDto;
 import archivegarden.shop.dto.user.wish.QMyWishDto;
 import archivegarden.shop.entity.ImageType;
 import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.support.PageableExecutionUtils;
 
 import java.util.List;
 
@@ -28,9 +24,15 @@ public class WishRepositoryCustomImpl implements WishRepositoryCustom {
         this.queryFactory = new JPAQueryFactory(em);
     }
 
+    /**
+     * 마이페이지에서 내 위시리스트 목록 조회
+     *
+     * @param memberId 회원 ID
+     * @return MyWishDto List 객체
+     */
     @Override
-    public Page<MyWishDto> findDtoAll(Long memberId, Pageable pageable) {
-        List<MyWishDto> content = queryFactory.select(new QMyWishDto(
+    public List<MyWishDto> findMyWishList(Long memberId) {
+        return queryFactory.select(new QMyWishDto(
                         product.id,
                         product.name,
                         product.price,
@@ -46,21 +48,12 @@ public class WishRepositoryCustomImpl implements WishRepositoryCustom {
                         memberIdEq(memberId),
                         imageTypeEqDisplay()
                 )
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
                 .fetch();
-
-        JPAQuery<Long> countQuery = queryFactory
-                .select(wish.count())
-                .from(wish)
-                .where(
-                        memberIdEq(memberId),
-                        imageTypeEqDisplay()
-                );
-
-        return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
     }
 
+    /**
+     * 이미지 타입이 DISPLAY인 이미지 필터링 조건
+     */
     private BooleanExpression imageTypeEqDisplay() {
         return productImage.imageType.eq(ImageType.DISPLAY);
     }
