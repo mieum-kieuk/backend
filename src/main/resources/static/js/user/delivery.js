@@ -23,7 +23,7 @@ $(document).ready(function () {
 
     // list
     $('#checkAll').change(function () {
-        var isChecked = $(this).prop('checked');
+        let isChecked = $(this).prop('checked');
         $('.checkbox').prop('checked', isChecked);
     });
 });
@@ -37,24 +37,12 @@ function isDeliveryNameEmpty() {
     return true;
 }
 
-//이름 검증
-function isNameValid() {
-    if (!isNameEmpty()) {
-        return;
-    } else if (!regexName()) {
-        return;
-    }
-    $('#nameMsg').text('');
-    return;
-}
-
 function isNameEmpty() {
     let name = $("#recipientName").val();
 
     if (name.trim() === '') {
         return false;
     }
-
     return true;
 }
 
@@ -64,12 +52,10 @@ function regexName() {
     if (!regex.test(name)) {
         return false;
     }
-
     return true;
 }
 
 function isAddressEmpty() {
-
     // 우편번호 검사
     let zipCode = $('#zipCode').val().trim();
     if (zipCode === '') {
@@ -81,10 +67,8 @@ function isAddressEmpty() {
     if (basicAddress === '') {
         return false;
     }
-
     return true;
 }
-
 
 //휴대전화번호 검증
 function isPhoneValid() {
@@ -105,7 +89,6 @@ function isPhoneEmpty() {
     if (phonenumber2.trim() === '' && phonenumber3.trim() === '') {
         return false;
     }
-
     return true;
 }
 
@@ -190,7 +173,6 @@ function validateBeforeSubmit() {
     }
 
     $('.submit_btn').prop('disabled', true);
-
     return true;
 }
 
@@ -220,7 +202,7 @@ function deleteDelivery(deliveryId) {
                     xhr.setRequestHeader(csrfHeader, csrfToken);
                 },
                 success: function (data) {
-                    if (data.code === 200) {
+                    if (data.status === 200) {
                         location.reload();
                     } else {
                         Swal.fire({
@@ -240,7 +222,6 @@ function deleteDelivery(deliveryId) {
                         customClass: mySwal,
                         buttonsStyling: false
                     });
-
                 }
             });
         }

@@ -587,7 +587,7 @@ h3 {
     align-items: center;
     width: 100%;
     border-bottom: 1px solid #999;
-    white-space: nowrap;
+    white-space: pre-line;
 }
 
 .delivery_wrap .item {
@@ -599,10 +599,11 @@ h3 {
 
 .delivery_wrap .deliveryName {
     width: 15%;
+    /*justify-content: flex-start;*/
 }
 
 .delivery_wrap .recipientName {
-    width: 10%;
+    width: 13%;
 }
 
 .delivery_wrap .deliveryName .default_delivery {
@@ -619,20 +620,21 @@ h3 {
     font-size: 12px;
     font-weight: bold;
     margin-right: 5px;
+    white-space: nowrap;
 }
 
 .delivery_wrap .phonenumber {
-    width: 25%;
+    width: 12%;
 }
 
 .delivery_wrap .item.address {
-    width: 40%;
+    width: 45%;
 }
 .delivery_wrap #detailAddress[readonly] {
     pointer-events: auto;
 }
 .delivery_wrap .btn {
-    width: 20%;
+    width: 15%;
 }
 
 .delivery_wrap .item.btn {

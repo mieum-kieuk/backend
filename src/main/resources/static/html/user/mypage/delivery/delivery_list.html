@@ -3,48 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My page | 미음키읔</title>
+    <title>배송지 관리 | 미음키읔</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.js"></script>
-    <link rel="stylesheet" href="../../../css/common/comm.css" />
-    <link rel="stylesheet" href="../../../css/user/mypage.css" />
-    <script src="../../../js/common/comm.js"></script>
-    <script src="../../../js/user/delivery.js"></script>
-
+    <link rel="stylesheet" href="../../../../css/common/comm.css" />
+    <link rel="stylesheet" href="../../../../css/user/mypage.css" />
+    <script src="../../../../js/common/comm.js"></script>
+    <script src="../../../../js/user/delivery.js"></script>
 </head>
 <body>
 <div class="wrap">
     <header id="header" class="header">
         <nav id="gnb">
             <div class="logo">
-                <a href="../../index.html">
+                <a href="../../../index.html">
                     미음키읔
                 </a>
             </div>
             <div class="gnb_menu center">
                 <ul class="depth1">
                     <li class="depth1_menu" id="shop">
-                        <a href="../shop/product_list.html">Shop</a>
+                        <a href="../../products/product_list.html">Shop</a>
                         <ul class="depth2">
-                            <li><a href="../shop/product_list.html">Masking tape</a></li>
-                            <li><a href="../shop/product_list.html">Sticker</a></li>
-                            <li><a href="../shop/product_list.html">Memo</a></li>
+                            <li><a href="../../products/product_list.html">Masking tape</a></li>
+                            <li><a href="../../products/product_list.html">Sticker</a></li>
+                            <li><a href="../../products/product_list.html">Memo</a></li>
                         </ul>
                     </li>
-                    <li class="depth1_menu" id="about"><a href="../about.html">About</a>
+                    <li class="depth1_menu" id="about"><a href="../../about/about.html">About</a>
                     </li>
                     <li class="depth1_menu" id="community">Community
                         <ul class="depth2">
-                            <li><a href="../../community/notice/notice_list.html">Notice</a></li>
-                            <li><a href="../../community/inquiry/inquiry_list.html">Q&amp;A</a></li>
-                            <li><a href="../../community/review/review_list.html">Review</a></li>
+                            <li><a href="../../../user/community/notice/notice_list.html">공지사항</a></li>
+                            <li><a href="../../../user/community/inquiry/inquiry_list.html">상품문의</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -52,14 +49,16 @@
             <div class="gnb_menu">
                 <div class="search">
                     <form action="#" method="get">
-                        <button type="submit" >Search</button>
+                        <button type="submit">Search</button>
                     </form>
                     <div class="search_popup">
                         <div class="search_bg"></div>
                         <div class="search_form_wrap">
-                            <form action="../search/search_complete.html" method="get">
+                            <form action="../../search/search_complete.html" method="get">
                                 <input type="text" placeholder="검색어를 입력해 주세요.">
-                                <button type="submit" class="search_btn"><span class="material-symbols-outlined">search</span></button>
+                                <button type="submit" class="search_btn">
+                                    <img src="../../../../images/search.svg">
+                                </button>
                             </form>
                         </div>
                     </div>
@@ -68,16 +67,16 @@
                     <ul class="depth1">
                         <li class="depth1_menu">Account
                             <ul class="depth2">
-                                <li><a href="../../login.html">Login</a></li>
-                                <li><a href="../member/join.html">Join</a></li>
-                                <li><a href="../user/member/order.html">Order</a></li>
-                                <li><a href="me.html">Mypage</a></li>
+                                <li><a href="../../../member/login.html">로그인</a></li>
+                                <li><a href="../../member/join.html">회원가입</a></li>
+                                <li><a href="../../../order/order_list.html">주문조회</a></li>
+                                <li><a href="../mypage_home.html">마이페이지</a></li>
                             </ul>
                         </li>
                     </ul>
                 </div>
                 <div class="cart">
-                    <a href="../order/cart.html" >Cart(0)
+                    <a href="../../order/cart.html">Cart(0)
                     </a>
                 </div>
             </div>
@@ -95,14 +94,15 @@
                 </li>
                 <li>
                     <ul class="depth2">
-                        <li><a href="wish_list.html">위시리스트</a></li>
-                        <li><a href="">나의 게시글</a></li>
+                        <li><a href="../wish_list.html">위시리스트</a></li>
+                        <li><a href="../review/review_list.html">상품 후기</a></li>
+                        <li><a href="../inquiry/inquiry_list.html">상품 문의</a></li>
                     </ul>
                 </li>
                 <li>
                     <ul class="depth2">
-                        <li><a href="member/edit_info.html">회원 정보 수정</a></li>
-                        <li><a href="./delivery_list.html">배송지 관리</a></li>
+                        <li><a href="../member/edit_info.html">회원 정보 수정</a></li>
+                        <li><a href="../delivery/delivery_list.html">배송지 관리</a></li>
                         <li><a href="">로그아웃</a></li>
                     </ul>
                 </li>
@@ -125,13 +125,13 @@
                             <span class="default_delivery">우리집</span>
                         </div>
                         <div class="item recipientName">
-                            <span>김지우</span>
+                            <span>김철수</span>
                         </div>
                         <div class="item phonenumber">
-                            <span>010-4340-1954</span>
+                            <span>010-1111-1111</span>
                         </div>
                         <div class="item address">
-                            <span>(05649)서울 송파구 양재대로 1218 올림픽선수기자촌아파트 245-1801 주소 주소 주소 주소 주소 주소 </span>
+                            <span>(13529)경기 성남시 분당구 판교역로 166</span>
                         </div>
                         <div class="item btn">
                             <div class="btn_wrap">
@@ -171,16 +171,16 @@
             </div>
             <div class="footer_inner">
                 <ul>
-                    <li>Company : 티커스</li>
+                    <li>Company : 미음키읔</li>
                     <li>전화번호 : 010-1234-5678</li>
-                    <li>이메일 : tickers@gmail.com</li>
+                    <li>이메일 : meek@gmail.com</li>
                 </ul>
             </div>
             <div class="footer_inner">
                 <ul>
                     <li>사업자 번호 : 070-61-01100</li>
-                    <li>주소 : 서울시 티커스구 티커스대로 123</li>
-                    <li>Copyright ©Tickers All rights reserved.</li>
+                    <li>주소 : 서울시 미음구 키읔로 123</li>
+                    <li>Copyright ©미음키읔 All rights reserved.</li>
                 </ul>
             </div>
         </div>
