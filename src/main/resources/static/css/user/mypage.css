@@ -807,6 +807,7 @@ h3 {
     border-bottom: 1px solid #999;
     border-right: none;
     border-left: none;
+    padding-right: 10px;
 }
 .wish_item .item_link {
     display: flex;
@@ -856,7 +857,7 @@ h3 {
     gap: 10px;
 }
 .wish_item .btn_wrap .btn1 {
-    width: 120px;
+    width: 140px;
 }
 .wish_item .btn_wrap .cartBtn.disabled {
     cursor: default;

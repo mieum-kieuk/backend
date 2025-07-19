@@ -46,7 +46,7 @@
                             </a>
                             <div class="btn_wrap">
                                 <button type="button" class="btn1 deleteBtn" th:data-id="${product.productId}">위시리스트에서 삭제</button>
-                                <button type="button" class="btn1 cartBtn" th:data-id="${!product.isSoldOut} ? ${product.productId} : ''"
+                                <button type="button" class="btn1 cartBtn" th:data-id="${product.productId}"
                                         th:classappend="${product.isSoldOut} ? 'disabled'" th:attr="disabled=${product.isSoldOut} ? 'disabled' : null">장바구니에 담기</button>
                             </div>
                         </div>
