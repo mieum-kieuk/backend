@@ -53,7 +53,7 @@
         <div class="side_menu account">
             <ul>
                 <li>
-                    <form action="../admin/login.html" th:action="@{/admin/logout}" method="post">
+                    <form th:action="@{/admin/logout}" method="post">
                         <button type="submit">로그아웃</button>
                         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
                     </form>
@@ -70,7 +70,7 @@
             <ul class="depth2">
                 <li><a href="">주문 내역</a></li>
                 <li><a href="">적립급 내역</a></li>
-                <li><a href="../user/mypage/wish_list.html" th:href="@{/mypage/wish}">위시리스트</a></li>
+                <li><a href="../user/mypage/wish/wish_list.html" th:href="@{/mypage/wish}">위시리스트</a></li>
             </ul>
         </li>
         <li>
@@ -84,7 +84,7 @@
             <h2 class="snb_title">내 정보 관리</h2>
             <ul class="depth2">
                 <li><a th:href="@{/mypage/info}">개인 정보 수정</a></li>
-                <li><a th:href="@{/mypage/delivery}">배송지 관리</a></li>
+                <li><a th:href="@{/mypage/deliveries}">배송지 관리</a></li>
                 <li>
                     <form th:action="@{/logout}" method="post">
                         <button type="submit">로그아웃</button>
