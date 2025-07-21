@@ -214,7 +214,7 @@ function deleteDelivery(deliveryId) {
         if (result.isConfirmed) {
             $.ajax({
                 type: 'DELETE',
-                url: '/ajax/delivery',
+                url: '/ajax/deliveries',
                 data: {'deliveryId': deliveryId},
                 beforeSend: function (xhr) {
                     xhr.setRequestHeader(csrfHeader, csrfToken);

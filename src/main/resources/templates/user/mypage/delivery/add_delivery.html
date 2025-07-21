@@ -1,34 +1,25 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>배송지 관리 | 미음키읔</title>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css">
-    <link rel="stylesheet" href="../../../../static/css/common/comm.css" th:href="@{/css/common/comm.css}"/>
-    <link rel="stylesheet" href="../../../../static/css/user/mypage.css" th:href="@{/css/user/mypage.css}"/>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-    <script src="../../../../static/js/user/findAddress.js" th:src="@{/js/user/findAddress.js}"></script>
-    <script src="../../../../static/js/common/comm.js" th:src="@{/js/common/comm.js}"></script>
-    <script src="../../../../static/js/user/delivery.js" th:src="@{/js/user/delivery.js}"></script>
+<head th:replace="~{fragments/head :: commonHead('내 배송지 관리')}">
+    <th:block th:fragment="extraCss">
+        <link rel="stylesheet" th:href="@{/css/user/mypage.css}" />
+    </th:block>
+    <th:block th:fragment="extraJs">
+        <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+        <script defer th:src="@{/js/user/findAddress.js}"></script>
+        <script defer th:src="@{/js/user/delivery.js}"></script>
+    </th:block>
 </head>
+
 <body>
 <div class="wrap">
-    <div th:replace="~{/layout/header :: header}"></div>
+    <div th:replace="~{/fragments/header :: header}"></div>
     <div class="mypage" id="mypage">
-        <div th:replace="~{/layout/menu :: mypage_menu}"></div>
+        <div th:replace="~{/fragments/menu :: mypage_menu}"></div>
         <div id="delivery" class="mypage_content">
             <div class="delivery_wrap wrapper">
                 <h3 class="delivery_title">새 배송지 추가</h3>
-                <form action="" th:action th:object="${form}" th:method="post" th:onsubmit="return validateBeforeSubmit()" id="joinForm">
+                <form th:action th:object="${addForm}" th:method="post" th:onsubmit="return validateBeforeSubmit()" id="joinForm">
                     <div class="input_area">
                         <ul class="input_wrap">
                             <li>
@@ -94,15 +85,14 @@
                         </ul>
                     </div>
                     <div class="btn_wrap">
-                        <button type="button" class="btn1 cancel_btn" onclick="location.href='delivery_list.html'"
-                                th:onclick="|location.href='@{/mypage/delivery}'|">취소</button>
+                        <button type="button" class="btn1 cancel_btn" th:onclick="|location.href='@{/mypage/deliveries}'|">취소</button>
                         <button type="submit" id="submitBtn" class="btn1 submit_btn">등록</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-    <div th:replace="~{/layout/footer :: basic_footer}"></div>
+    <div th:replace="~{/fragments/footer :: basic_footer}"></div>
 </div>
 </body>
 </html>
