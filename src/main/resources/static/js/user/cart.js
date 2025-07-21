@@ -77,6 +77,23 @@ function updateCheckAllState() {
     }
 }
 
+// 개별 가격 업데이트
+function updateItemPrice(cartItem) {
+    let quantity = parseInt(cartItem.find('.quant_input').val());
+    let originalPrice = parseFloat(cartItem.find('.item.info .original_price #productPrice').text().replace(/원|,/g, ''));
+
+    let discountPriceElement = cartItem.find('.item.info .sale_price #productDiscountPrice');
+    let discountPrice = 0;
+    if (discountPriceElement.length > 0) {
+        discountPrice = parseFloat(discountPriceElement.text().replace(/원|,/g, ''));
+    } else {
+        discountPrice = originalPrice;
+    }
+
+    let itemTotalPrice = quantity * discountPrice;
+    cartItem.find('.item.price .sale_price').text(addCommas(itemTotalPrice) + '원');
+}
+
 // 가격 업데이트
 function updateTotalPrice() {
 
@@ -198,6 +215,7 @@ function decreaseCount(productId) {
                     if (currentValue === 2) {
                         decreaseBtn.addClass('disabled');
                     }
+                    updateItemPrice(cartItem);
                     updateTotalPrice();
                 } else {
                     Swal.fire({
@@ -249,6 +267,7 @@ function increaseCount(productId) {
                     if (currentValue === 1) {
                         decreaseBtn.removeClass('disabled');
                     }
+                    updateItemPrice(cartItem);
                     updateTotalPrice();
                 } else {
                     Swal.fire({
