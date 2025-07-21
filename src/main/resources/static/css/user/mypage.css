@@ -603,7 +603,7 @@ h3 {
 }
 
 .delivery_wrap .recipientName {
-    width: 13%;
+    width: 10%;
 }
 
 .delivery_wrap .deliveryName .default_delivery {
@@ -624,7 +624,7 @@ h3 {
 }
 
 .delivery_wrap .phonenumber {
-    width: 12%;
+    width: 15%;
 }
 
 .delivery_wrap .item.address {
@@ -764,11 +764,12 @@ h3 {
 #delivery .btn_wrap {
     display: flex;
     justify-content: space-between;
+    gap: 10px;
 }
 
 #delivery .btn_wrap .btn1 {
-    width: 49%;
-    height: 45px;
+    width: 100%;
+    height: 32px;
 }
 
 #delivery .field-error {

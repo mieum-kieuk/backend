@@ -26,6 +26,14 @@ $(document).ready(function () {
         let isChecked = $(this).prop('checked');
         $('.checkbox').prop('checked', isChecked);
     });
+
+    // 삭제 버튼
+    $(document).on("click", ".btn1.delete", function () {
+        let deliveryItem = $(this).closest(".delivery_item");
+        let deliveryId = $(this).data("id");
+
+        deleteDelivery(deliveryId, deliveryItem);
+    });
 });
 
 function isDeliveryNameEmpty() {
@@ -177,7 +185,7 @@ function validateBeforeSubmit() {
 }
 
 //배송지 삭제
-function deleteDelivery(deliveryId) {
+function deleteDelivery(deliveryId, deliveryItem) {
 
     let csrfHeader = $("meta[name='_csrf_header']").attr("content");
     let csrfToken = $("meta[name='_csrf']").attr("content");
@@ -187,8 +195,6 @@ function deleteDelivery(deliveryId) {
         showCancelButton: true,
         cancelButtonText: '아니요',
         confirmButtonText: '예',
-        closeOnConfirm: false,
-        closeOnCancel: true,
         customClass: mySwalConfirm,
         reverseButtons: true,
         buttonsStyling: false,
@@ -203,8 +209,9 @@ function deleteDelivery(deliveryId) {
                 },
                 success: function (data) {
                     if (data.status === 200) {
-                        location.reload();
-                    } else {
+                        deliveryItem.remove();
+                    }
+                    else {
                         Swal.fire({
                             text: data.message,
                             showConfirmButton: true,

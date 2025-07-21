@@ -47,7 +47,7 @@
                             </div>
                             <div class="item btn">
                                 <div class="btn_wrap">
-                                    <button class="btn1 delete" th:onclick="|deleteDelivery(${delivery.Id})|" th:unless="${delivery.isDefaultDelivery}">삭제</button>
+                                    <button class="btn1 delete" th:data-id="${delivery.id}" th:unless="${delivery.isDefaultDelivery}">삭제</button>
                                     <button class="btn1" th:onclick="|location.href='@{/mypage/deliveries/{deliveryId}/edit(deliveryId=${delivery.id})}'|">수정</button>
                                 </div>
                             </div>
