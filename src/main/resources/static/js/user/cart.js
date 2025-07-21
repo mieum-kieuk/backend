@@ -279,14 +279,25 @@ function increaseCount(productId) {
                     });
                 }
             },
-            error: function () {
-                Swal.fire({
-                    html: '수량 변경 중 문제가 발생했습니다.<br>다시 시도해주세요.',
-                    showConfirmButton: true,
-                    confirmButtonText: '확인',
-                    customClass: mySwal,
-                    buttonsStyling: false
-                });
+            error: function (xhr) {
+                let result = JSON.parse(xhr.responseText);
+                if(xhr.status == 400) {
+                    Swal.fire({
+                        html: result.message.replace('\n', '<br>'),
+                        showConfirmButton: true,
+                        confirmButtonText: '확인',
+                        customClass: mySwal,
+                        buttonsStyling: false
+                    });
+                } else {
+                    Swal.fire({
+                        html: '수량 변경 중 문제가 발생했습니다.<br>다시 시도해주세요.',
+                        showConfirmButton: true,
+                        confirmButtonText: '확인',
+                        customClass: mySwal,
+                        buttonsStyling: false
+                    });
+                }
             }
         })
     } else {
@@ -499,12 +510,11 @@ async function checkout() {
 
         const response = await $.ajax({
             type: 'POST',
-            url: '/ajax/checkout',
+            url: '/ajax/order/validate',
             contentType: 'application/json',
             data: JSON.stringify(productIds),
             beforeSend: function (xhr) {
                 xhr.setRequestHeader(csrfHeader, csrfToken);
-                xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
             }
         });
 
