@@ -17,7 +17,7 @@ public class OrderProduct {
     private Long id;
 
     @Column(nullable = false)
-    private int count;
+    private int quantity;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
@@ -27,9 +27,9 @@ public class OrderProduct {
     @JoinColumn(name = "order_id")
     private Order order;    //다대일 양방향
 
-    public static OrderProduct createOrderProduct(int count, Product product) {
+    public static OrderProduct createOrderProduct(int quantity, Product product) {
         OrderProduct orderProduct = new OrderProduct();
-        orderProduct.count = count;
+        orderProduct.quantity = quantity;
         orderProduct.product = product;
         return orderProduct;
     }

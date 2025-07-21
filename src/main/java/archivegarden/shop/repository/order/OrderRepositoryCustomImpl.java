@@ -33,7 +33,7 @@ public class OrderRepositoryCustomImpl implements OrderRepositoryCustom {
                         product.id,
                         product.name,
                         product.price,
-                        orderProduct.count,
+                        orderProduct.quantity,
                         productImage.imageUrl,
                         discount
                 ))

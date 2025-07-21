@@ -2,7 +2,7 @@ package archivegarden.shop.service.order;
 
 import archivegarden.shop.dto.order.OrderProductListDto;
 import archivegarden.shop.entity.*;
-import archivegarden.shop.exception.common.EntityNotFoundException;
+import archivegarden.shop.exception.global.EntityNotFoundException;
 import archivegarden.shop.repository.cart.CartRepository;
 import archivegarden.shop.repository.member.MemberRepository;
 import archivegarden.shop.repository.order.OrderRepository;
@@ -54,7 +54,7 @@ public class OrderService {
             Discount discount = product.getDiscount();
             if(discount != null) {
                 double salePrice = price - (double) price * discount.getDiscountPercent() / 100;
-                amount += Math.round(salePrice * orderProduct.getCount());
+                amount += Math.round(salePrice * orderProduct.getQuantity());
             } else {
                 amount += price;
             }
@@ -87,8 +87,8 @@ public class OrderService {
     public List<OrderProductListDto> getOrderProducts(Long orderId) {
         List<OrderProductListDto> orderProductListDtos = orderRepository.findOrderProducts(orderId);
         orderProductListDtos.forEach(o -> {
-            String encodedImageData = productImageService.getEncodedImageData(o.getDisplayImageData());
-            o.setDisplayImageData(encodedImageData);
+//            String encodedImageData = productImageService.getEncodedImageData(o.getDisplayImageData());
+//            o.setDisplayImageData(encodedImageData);
         });
         return orderProductListDtos;
     }

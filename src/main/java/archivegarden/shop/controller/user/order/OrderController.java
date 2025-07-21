@@ -1,5 +1,6 @@
 package archivegarden.shop.controller.user.order;
 
+import archivegarden.shop.constant.SessionConstants;
 import archivegarden.shop.dto.delivery.DeliveryDto;
 import archivegarden.shop.dto.order.MemberDto;
 import archivegarden.shop.dto.order.OrderProductListDto;
@@ -12,6 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,19 +31,24 @@ public class OrderController {
     private final DeliveryService deliveryService;
     private final SavedPointService savedPointService;
 
+    @Value("${portone.store-id}")
+    private String storeId;
+
+    @Value("${portone.channel-key}")
+    private String channelKey;
+
     /**
      * 주문서 폼을 반환하는 메서드
      */
     @GetMapping("/checkout")
     public String checkout(HttpServletRequest request, @CurrentUser Member loginMember, Model model) {
-
         MemberDto member = new MemberDto(loginMember);
 
-        //주문 상품이 없는 경우 cart로 리다이렉션
         HttpSession session = request.getSession(false);
-        if(session == null || session.getAttribute("checkout:products") == null) {
-            return "redirect:/cart";
-        }
+        if(session == null)  return "redirect:/cart";
+        List<Long> productIds = (List<Long>) session.getAttribute(SessionConstants.CHECKOUT_PRODUCT_IDS);
+        if(productIds == null) return "redirect:/cart";
+        session.removeAttribute(SessionConstants.CHECKOUT_PRODUCT_IDS);
 
         //기본 배송지 주소
         DeliveryDto defaultDelivery = deliveryService.getDefaultDelivery(loginMember.getId());
@@ -51,8 +58,6 @@ public class OrderController {
         String paymentId = "pid-" + nano;
 
         //상품 주문 정보 생성
-        List<Long> productIds = (List<Long>) session.getAttribute("checkout:products");
-        session.removeAttribute("checkout:products");
         Long orderId = orderService.createOrder(paymentId, productIds, loginMember.getId());
 
         //주문 상품 목록
@@ -62,10 +67,10 @@ public class OrderController {
         int point = savedPointService.getPoint(loginMember.getId());
 
         //스토어 아이디
-        model.addAttribute("storeId", "store-3a9093ef-3510-4e55-b3ac-6fb1d76550ba");
+        model.addAttribute("storeId", storeId);
 
         //PG사 채널키
-        model.addAttribute("channelKey", "channel-key-def17012-580c-4cf0-a4e6-9a083924d4d9");
+        model.addAttribute("channelKey", channelKey);
 
         //상품주문번호
         model.addAttribute("paymentId", paymentId);
