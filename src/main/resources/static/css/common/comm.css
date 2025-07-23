@@ -474,7 +474,6 @@ legend {
   height: auto;
 }
 #main {
-  display: flex;
   max-width: 2800px;
   min-width: 1000px;
   width: 100%;
@@ -504,8 +503,6 @@ legend {
   object-position: bottom;
 }
 .main_product_wrap {
-  display: flex;
-  justify-content: center;
   width: 100%;
 }
 .main_product_wrap .prd_list {

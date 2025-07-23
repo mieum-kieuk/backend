@@ -82,7 +82,7 @@
 }
 
 .prd_list > li{
-    min-width: 300px;
+    min-width: calc(100vw / 3.3);
 }
 .thumb img {
     width: 100%;
