@@ -321,7 +321,6 @@ legend {
 }
 .wrap {
   display: flex;
-  justify-content: center;
   max-width: 2800px;
   width: 100%;
   margin: 0;
@@ -475,7 +474,9 @@ legend {
   height: auto;
 }
 #main {
+  display: flex;
   max-width: 2800px;
+  min-width: 1000px;
   width: 100%;
 }
 .main_content {
@@ -508,7 +509,7 @@ legend {
   width: 100%;
 }
 .main_product_wrap .prd_list {
-  padding: 40px;
+  padding: 40px 0;
 }
 .footer {
   position: relative;

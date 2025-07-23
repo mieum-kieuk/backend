@@ -16,36 +16,34 @@
                     <li><img th:src="@{/images/main1.jpg}" alt="메인이미지1"></li>
                 </ul>
             </div>
-            <div>
-                <div class="main_product_wrap">
-                    <ul class="prd_list">
-                        <li th:each="product : ${products}">
-                            <div class="thumb">
+            <div class="main_product_wrap">
+                <ul class="prd_list">
+                    <li th:each="product : ${products}">
+                        <div class="thumb">
+                            <a th:href="@{/products/{productId}(productId=${product.id})}">
+                                <img class="thumb1" th:src="${product.displayImage}" alt="상품 이미지">
+                                <img class="thumb2" th:if="${product.hoverImage != null}" th:src="${product.hoverImage}" alt="상품 이미지">
+                            </a>
+                        </div>
+                        <div class="description">
+                            <div class="prd_name">
                                 <a th:href="@{/products/{productId}(productId=${product.id})}">
-                                    <img class="thumb1" th:src="${product.displayImage}" alt="상품 이미지">
-                                    <img class="thumb2" th:if="${product.hoverImage != null}" th:src="${product.hoverImage}" alt="상품 이미지">
+                                    <span th:text="${product.name}"></span>
                                 </a>
                             </div>
-                            <div class="description">
-                                <div class="prd_name">
-                                    <a th:href="@{/products/{productId}(productId=${product.id})}">
-                                        <span th:text="${product.name}"></span>
-                                    </a>
-                                </div>
-                                <ul class="prd_price">
-                                    <span class="original_price" th:classappend="${product.isDiscounted and !product.isSoldOut} ? 'line_through'" th:text="${product.price}"></span>
-                                    <li th:if="${product.isDiscounted} and !${product.isSoldOut}" class="discount">
-                                        <span class="discount_rate" th:text="${product.discountPercent}"></span>
-                                        <span class="discounted_price" th:text="${product.salePrice}"></span>
-                                    </li>
-                                    <li th:if="${product.isSoldOut}" class="soldout">
-                                        <span class="sold_out">sold out</span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
+                            <ul class="prd_price">
+                                <span class="original_price" th:classappend="${product.isDiscounted and !product.isSoldOut} ? 'line_through'" th:text="${product.price}"></span>
+                                <li th:if="${product.isDiscounted} and !${product.isSoldOut}" class="discount">
+                                    <span class="discount_rate" th:text="${product.discountPercent}"></span>
+                                    <span class="discounted_price" th:text="${product.salePrice}"></span>
+                                </li>
+                                <li th:if="${product.isSoldOut}" class="soldout">
+                                    <span class="sold_out">sold out</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
             </div>
         </div>
     </main>

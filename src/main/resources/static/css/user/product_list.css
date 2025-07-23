@@ -77,11 +77,12 @@
 .prd_list {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 60px 40px;
+    gap: 60px 20px;
     padding: 40px 0;
 }
+
 .prd_list > li{
-    min-width: 400px;
+    min-width: 300px;
 }
 .thumb img {
     width: 100%;

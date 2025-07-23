@@ -44,7 +44,7 @@ $(document).ready(function() {
     });
 
     $('#header').css('min-width', 1000 + 'px');
-    $('#footer').css('min-width', 650 + 'px');
+    $('#footer').css('min-width', 1000 + 'px');
 
     initializeDropdownMenus();
 
