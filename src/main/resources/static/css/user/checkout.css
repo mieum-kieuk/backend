@@ -315,6 +315,19 @@ section {
     line-height: 32px;
     white-space: nowrap;
 }
+.text.description {
+    padding-top: 20px;
+}
+.text.description span {
+    font-size: 12px;
+    color: #666;
+    white-space: nowrap;
+}
+.text.description span::before {
+    content: "• ";
+    font-weight: 100;
+}
+
 /*pay*/
 .payment_method {
     display: flex;

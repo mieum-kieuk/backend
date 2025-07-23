@@ -293,7 +293,7 @@ function validateNewDelivery() {
         return false;
     } else if (!regexName()) {
         Swal.fire({
-            html: '2~30자의 한글, 영문 대/소문자를 사용해 주세요.<br>(특수기호, 공백 사용 불가)',
+            html: '수령인은 2~30자의 한글,<br>영문 대/소문자를 사용해 주세요.<br>(특수기호, 공백 사용 불가)',
             showConfirmButton: true,
             confirmButtonText: '확인',
             customClass: mySwal,
@@ -356,7 +356,7 @@ function validateEditPopup() {
         return false;
     } else if (!regexName()) {
         Swal.fire({
-            html: '2~30자의 한글, 영문 대/소문자를 사용해 주세요.<br>(특수기호, 공백 사용 불가)',
+            html: '수령인은 2~30자의 한글,<br>영문 대/소문자를 사용해 주세요.<br>(특수기호, 공백 사용 불가)',
             showConfirmButton: true,
             confirmButtonText: '확인',
             customClass: mySwal,
@@ -374,9 +374,7 @@ function validateEditPopup() {
             buttonsStyling: false
         });
         return false;
-    }
-
-    if (!/^\d{3,4}$/.test(phoneNumber2) || !/^\d{4}$/.test(phoneNumber3)) {
+    } else if (!regexPhone()) {
         Swal.fire({
             text: '휴대전화번호 형식으로 입력해 주세요.',
             showConfirmButton: true,
@@ -449,53 +447,117 @@ function handlePoint() {
     let ownedPoint = $("#ownedPoint");
     let pointValue = parseInt(ownedPoint.text().replace(/[^0-9]/g, ''), 10);
     ownedPoint.text(pointValue.toLocaleString());
+
     let availablePointText = $("#ownedPoint").text().replace(",", "");
     let availablePoint = parseInt(availablePointText);
     $("#availablePoint").text(availablePoint.toLocaleString());
 
-    // 사용 가능한 마일리지가 0이면 #useAll 버튼을 비활성화
+    // 사용 가능한 적립금이 0이면 버튼 비활성화
     if (availablePoint === 0) {
         $("#useAll").prop("disabled", true).addClass("disabled");
         $("#point").prop("disabled", true).addClass("disabled");
     }
 
-    $("#useAll").click(function() {
+    $("#useAll").click(function () {
         if ($(this).text() === "모두 사용") {
-            $("#point").val(availablePoint);
+            if (availablePoint < 1000) {
+                Swal.fire({
+                    text: '적립금은 1,000원 이상부터 사용 가능합니다.',
+                    showConfirmButton: true,
+                    confirmButtonText: '확인',
+                    customClass: mySwal,
+                    buttonsStyling: false
+                });
+                return;
+            }
+
+            if (availablePoint % 10 !== 0) {
+                Swal.fire({
+                    text: '적립금은 10원 단위로만 사용 가능합니다.',
+                    showConfirmButton: true,
+                    confirmButtonText: '확인',
+                    customClass: mySwal,
+                    buttonsStyling: false
+                });
+                return;
+            }
+
+            // 조건 통과 시 전체 사용 적용
+            $("#point").val(availablePoint.toLocaleString());
             $("#ownedPoint").text("0");
             $(this).text("사용 안함");
         } else {
             $("#point").val("");
             $("#ownedPoint").text(availablePoint.toLocaleString());
             $(this).text("모두 사용");
+
             if (availablePoint > 0) {
                 $("#point").prop("disabled", false);
             }
         }
+
         updateOrderSummary(updateDiscount(), parseInt($(".total.discount .content").text().replace(/[^0-9]/g, "")));
     });
 
-    $("#point").on("input", function() {
+    $("#point").on("input", function () {
         let point = $(this).val().replace(/[^0-9]/g, "");
-        $(this).val(point.replace(/\B(?=(\d{3})+(?!\d))/g, ""));
+        let pointInput = parseInt(point || '0');
+        $(this).val(pointInput.toLocaleString());
 
-        let pointInput = parseInt($(this).val().replace(/[^0-9]/g, "") || '0'); // 입력된 값이 없을 때는 0으로 설정
-        let ownedPoint = availablePoint - pointInput;
-        ownedPoint = Math.max(ownedPoint, 0); // 음수인 경우 0으로 설정
+        if ($("#useAll").text() === "사용 안함") {
+            $("#useAll").text("모두 사용");
+        }
+    });
 
-        if (pointInput > availablePoint) {
-            $(this).val(availablePoint);
+    $("#point").on("blur", function () {
+        let point = $(this).val().replace(/[^0-9]/g, "");
+        let pointInput = parseInt(point || '0');
+        let ownedPointLeft = availablePoint - pointInput;
+
+        if (pointInput > 0 && pointInput < 1000) {
             Swal.fire({
-                text: '사용 가능한 마일리지를 초과했습니다.',
+                text: '적립금은 1,000원 이상부터 사용 가능합니다.',
                 showConfirmButton: true,
                 confirmButtonText: '확인',
                 customClass: mySwal,
                 buttonsStyling: false
             });
+            $(this).val('');
+            $("#ownedPoint").text(availablePoint.toLocaleString());
+            return;
         }
 
-        $("#ownedPoint").text(ownedPoint.toLocaleString());
-        // 만약 사용 가능한 마일리지가 0이면 "모두 사용" 버튼과 #point 입력란 비활성화, 그렇지 않으면 활성화
+        if (pointInput > availablePoint) {
+            Swal.fire({
+                text: '사용 가능한 적립금을 초과했습니다.',
+                showConfirmButton: true,
+                confirmButtonText: '확인',
+                customClass: mySwal,
+                buttonsStyling: false
+            });
+            pointInput = availablePoint;
+            $(this).val(pointInput.toLocaleString());
+            ownedPointLeft = 0;
+        } else {
+            ownedPointLeft = Math.max(availablePoint - pointInput, 0);
+        }
+
+        if (pointInput % 10 !== 0) {
+            Swal.fire({
+                text: '10원 단위로만 사용 가능합니다.',
+                showConfirmButton: true,
+                confirmButtonText: '확인',
+                customClass: mySwal,
+                buttonsStyling: false
+            });
+            pointInput = Math.floor(pointInput / 10) * 10;
+            $(this).val(pointInput.toLocaleString());
+        }
+
+
+        $("#ownedPoint").text(ownedPointLeft.toLocaleString());
+
+        // 버튼 상태 다시 확인
         if (availablePoint === 0) {
             $("#useAll").prop("disabled", true).addClass("disabled");
             $("#point").prop("disabled", true);
@@ -503,7 +565,7 @@ function handlePoint() {
             $("#useAll").prop("disabled", false).removeClass("disabled");
             $("#point").prop("disabled", false);
         }
-        // 마일리지가 변경되었을 때는 할인 내역과 회원 쿠폰 내역을 유지한 채로 주문 요약 업데이트
+
         updateOrderSummary(updateDiscount(), parseInt($(".total.discount .content").text().replace(/[^0-9]/g, "")));
     });
 }

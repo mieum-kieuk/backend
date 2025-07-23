@@ -9,6 +9,7 @@
         <link rel="stylesheet" th:href="@{/css/user/checkout.css}" />
     </th:block>
     <th:block th:fragment="extraJs">
+        <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
         <script defer th:src="@{/js/user/findAddress.js}"></script>
         <script defer th:src="@{/js/user/checkout.js}"></script>
     </th:block>
@@ -145,9 +146,9 @@
                                                 <option value="018">018</option>
                                                 <option value="019">019</option>
                                             </select>
-                                            <p>-</p><input id="phonenumber2" class="input_box" type="number"
+                                            <p>-</p><input id="phonenumber2" class="input_box" type="text"
                                                            pattern="\d*" maxlength="4">
-                                            <p>-</p><input id="phonenumber3" class="input_box" type="number"
+                                            <p>-</p><input id="phonenumber3" class="input_box" type="text"
                                                            pattern="\d*" maxlength="4"/>
                                         </div>
                                     </div>
@@ -223,6 +224,10 @@
                                 </div>
                             </div>
                         </div>
+                        <ul class="text description">
+                            <li><span>적립금은 1,000 부터 사용 가능합니다.</span></li>
+                            <li><span>적립금은 10원 단위로 사용 가능합니다.</span></li>
+                        </ul>
                     </section>
                     <section class="pay_wrap">
                         <h3 class="content_title">결제방법</h3>
