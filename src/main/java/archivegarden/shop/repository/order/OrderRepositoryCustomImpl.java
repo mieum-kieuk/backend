@@ -1,8 +1,8 @@
 package archivegarden.shop.repository.order;
 
-import archivegarden.shop.dto.order.OrderProductListDto;
-import archivegarden.shop.dto.order.QOrderProductListDto;
-import archivegarden.shop.entity.*;
+import archivegarden.shop.dto.user.order.OrderProductListDto;
+import archivegarden.shop.dto.user.order.QOrderProductListDto;
+import archivegarden.shop.entity.ImageType;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.JPQLTemplates;
 import com.querydsl.jpa.impl.JPAQueryFactory;

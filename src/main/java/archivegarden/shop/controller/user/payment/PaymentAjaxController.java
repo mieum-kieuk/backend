@@ -1,14 +1,19 @@
 package archivegarden.shop.controller.user.payment;
 
-import archivegarden.shop.dto.payment.Portone;
-import archivegarden.shop.dto.payment.Webhook;
+import archivegarden.shop.dto.user.payment.Portone;
+import archivegarden.shop.dto.user.payment.WebhookRequest;
+import archivegarden.shop.dto.user.payment.WebhookResponse;
+import archivegarden.shop.exception.global.EntityNotFoundException;
 import archivegarden.shop.service.mypage.DeliveryService;
 import archivegarden.shop.service.payment.PaymentService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -55,7 +60,7 @@ public class PaymentAjaxController {
             String fail_reason = "결제에 실패하였습니다.";
             if (!isPaid) {
                 status = "fail";
-                if(StringUtils.hasText(message)) {
+                if (StringUtils.hasText(message)) {
                     code = message.split("\\[")[1].split("]")[0];
                     fail_reason = message.split("]")[1];
                 }
@@ -74,18 +79,21 @@ public class PaymentAjaxController {
         return new ResponseEntity<>(responseObj.toString(), responseHeaders, HttpStatus.OK);
     }
 
-    //웹훅 수신 처리
-    @PostMapping("/webhook")
-    public ResponseEntity<?> webhook_receive(@RequestBody Webhook webhook) {
-        //응답 header 생성
-        HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.add("Content-Type", "application/json; charset=UTF-8");
-        JSONObject responseObj = new JSONObject();
-
+    @Operation(
+            summary = "웹훅 수신 처리",
+            description = "PortOne으로부터 결제 결과를 비동기로 수신하여 처리합니다.",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "처리 결과"),
+                    @ApiResponse(responseCode = "415", description = "Unsupported Media Type"),
+                    @ApiResponse(responseCode = "500", description = "서버 내부 에러")
+            }
+    )
+    @PostMapping(value = "/webhook", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<WebhookResponse> webhook_receive(@RequestBody WebhookRequest webhook) {
         try {
             String type = webhook.getType();
             LocalDateTime timestamp = webhook.getTimestamp();
-            Webhook.Data data = webhook.getData();
+            WebhookRequest.Data data = webhook.getData();
 
             log.info("---webhook receive---");
             log.info("----------------------");
@@ -93,12 +101,19 @@ public class PaymentAjaxController {
             log.info("timestamp: {}", timestamp);
             log.info("data: {}", data);
 
-            String status = paymentService.doResult(webhook);
-        } catch (Exception e) {
-            e.printStackTrace();
-            responseObj.put("status", "결제실패: 관리자에게 문의해 주세요.");
-        }
+            String resultStatus = paymentService.doResult(webhook);
 
-        return new ResponseEntity<>(responseObj.toString(), responseHeaders, HttpStatus.OK);
+            return ResponseEntity.ok(new WebhookResponse("success", resultStatus, null));
+
+        } catch (EntityNotFoundException e) {
+            log.warn("주문/회원 조회 실패", e);
+            return ResponseEntity.ok(new WebhookResponse("fail", null, "존재하지 않는 주문입니다."));
+        } catch (Exception e) {
+            log.error("웹훅 처리 중 에러", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new WebhookResponse(
+                            "fail", null, "관리자에게 문의해 주세요."
+                    ));
+        }
     }
 }

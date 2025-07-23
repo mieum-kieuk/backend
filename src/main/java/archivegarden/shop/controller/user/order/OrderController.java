@@ -2,8 +2,8 @@ package archivegarden.shop.controller.user.order;
 
 import archivegarden.shop.constant.SessionConstants;
 import archivegarden.shop.dto.delivery.DeliveryDto;
-import archivegarden.shop.dto.order.MemberDto;
-import archivegarden.shop.dto.order.OrderProductListDto;
+import archivegarden.shop.dto.user.order.MemberDto;
+import archivegarden.shop.dto.user.order.OrderProductListDto;
 import archivegarden.shop.entity.Member;
 import archivegarden.shop.service.mypage.DeliveryService;
 import archivegarden.shop.service.order.OrderService;
@@ -86,7 +86,7 @@ public class OrderController {
     }
 
     @GetMapping("/complete")
-    public String orderComplete(Model model) {
+    public String orderComplete() {
         return "user/order/checkout_complete";
     }
 }

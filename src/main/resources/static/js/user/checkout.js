@@ -624,5 +624,10 @@ function getOrderName() {
 function getTotalPrice() {
     let orderTotalPrice = parseInt($('#orderTotalPrice').text().replace(/[^0-9]/g, ''), 10);
 
-    return orderTotalPrice
+    return orderTotalPrice;
+}
+
+function getUsedPointAmount() {
+    let usedPoint = $('#point').val().replace(/[^0-9]/g, '');
+    return parseInt(usedPoint || '0', 10);
 }

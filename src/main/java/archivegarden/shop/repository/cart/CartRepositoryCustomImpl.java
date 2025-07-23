@@ -1,7 +1,7 @@
 package archivegarden.shop.repository.cart;
 
-import archivegarden.shop.dto.order.CartListDto;
-import archivegarden.shop.dto.order.QCartListDto;
+import archivegarden.shop.dto.user.order.CartListDto;
+import archivegarden.shop.dto.user.order.QCartListDto;
 import archivegarden.shop.entity.*;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.JPQLQueryFactory;

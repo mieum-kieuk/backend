@@ -6,7 +6,7 @@
         <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     </th:block>
     <th:block th:fragment="extraCss">
-        <link rel="stylesheet" th:href="@{/css/user/checkout.css}" />
+        <link rel="stylesheet" th:href="@{/css/user/checkout.css}"/>
     </th:block>
     <th:block th:fragment="extraJs">
         <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -37,7 +37,8 @@
                                         <a href="checkout_delivery_popup.html" class="delivery_popup_btn">이전 배송지 목록</a>
                                     </div>
                                     <div class="input_box_wrap">
-                                        <span id="defaultDeliveryName" class="input_box" th:text="${delivery.deliveryName}"></span>
+                                        <span id="defaultDeliveryName" class="input_box"
+                                              th:text="${delivery.deliveryName}"></span>
                                     </div>
                                 </li>
                                 <li>
@@ -45,7 +46,8 @@
                                         <label for="defaultRecipientName" class="input_tit ess">수령인</label>
                                     </div>
                                     <div id="name_content" class="input_box_wrap">
-                                        <span id="defaultRecipientName" class="input_box ess" th:text="${delivery.recipientName}"/>
+                                        <span id="defaultRecipientName" class="input_box ess"
+                                              th:text="${delivery.recipientName}"/>
                                     </div>
                                 </li>
                                 <li class="address">
@@ -56,10 +58,12 @@
                                         <span class="input_box" id="defaultZipCode" th:text="${delivery.zipCode}"/>
                                     </div>
                                     <div>
-                                        <span class="input_box" id="defaultBasicAddress" th:text="${delivery.basicAddress}"/>
+                                        <span class="input_box" id="defaultBasicAddress"
+                                              th:text="${delivery.basicAddress}"/>
                                     </div>
                                     <div>
-                                        <span class="input_box" id="defaultDetailAddress" th:text="${delivery.detailAddress}"/>
+                                        <span class="input_box" id="defaultDetailAddress"
+                                              th:text="${delivery.detailAddress}"/>
                                     </div>
                                 </li>
                                 <li class="phone_number">
@@ -68,9 +72,12 @@
                                     </div>
                                     <div class="phone_number select">
                                         <div class="number_sec">
-                                            <span id="defaultPhonenumber1" class="input_box" th:text="${delivery.phonenumber1}"></span>
-                                            <p>-</p><span id="defaultPhonenumber2" class="input_box" th:text="${delivery.phonenumber2}"/>
-                                            <p>-</p><span id="defaultPhonenumber3" class="input_box" th:text="${delivery.phonenumber3}"/>
+                                            <span id="defaultPhonenumber1" class="input_box"
+                                                  th:text="${delivery.phonenumber1}"></span>
+                                            <p>-</p><span id="defaultPhonenumber2" class="input_box"
+                                                          th:text="${delivery.phonenumber2}"/>
+                                            <p>-</p><span id="defaultPhonenumber3" class="input_box"
+                                                          th:text="${delivery.phonenumber3}"/>
                                         </div>
                                     </div>
                                 </li>
@@ -86,7 +93,8 @@
                                         <option value="direct_input">직접입력</option>
                                     </select>
                                     <div id="defaultDirectInputContainer" class="direct_input_wrap">
-                                        <textarea id="defaultDirectInput" name="directInput" placeholder="내용을 작성해 주세요.(255자 이내)"></textarea>
+                                        <textarea id="defaultDirectInput" name="directInput"
+                                                  placeholder="내용을 작성해 주세요.(255자 이내)"></textarea>
                                     </div>
                                 </li>
                             </ul>
@@ -200,7 +208,8 @@
                                     <span>[[${product.quantity}]]개</span>
                                 </div>
                                 <div class="item price">
-                                    <span class="sale_price" id="productSalePrice" th:text="${product.totalSalePrice}"></span>
+                                    <span class="sale_price" id="productSalePrice"
+                                          th:text="${product.totalSalePrice}"></span>
                                     <div class="original_price">
                                         <span class="sale_price" id="productPrice"
                                               th:classappend="${product.isDiscounted} ? 'line_through'"
@@ -220,7 +229,8 @@
                                 <input type="text" id="point">
                                 <button type="button" class="btn1" id="useAll">모두 사용</button>
                                 <div class="point_details">
-                                    <span>사용가능 <em id="availablePoint"></em>P / <span>보유 <em id="ownedPoint" th:text="${point}"></em>P</span></span>
+                                    <span>사용가능 <em id="availablePoint"></em>P / <span>보유 <em id="ownedPoint"
+                                                                                             th:text="${point}"></em>P</span></span>
                                 </div>
                             </div>
                         </div>
@@ -334,15 +344,15 @@
     $('#checkoutBtn').click(function () {
 
         //유효성 검사
-        if(!validateBeforeSubmit()) {
+        if (!validateBeforeSubmit()) {
             return;
         }
 
         //STEP2
         //파라미터 세팅 후 결제창 호출
-        //고객정보
+        //구매자 정보
         const customer = {
-            customerId: 'cid-' + [[${member.id}]], // 구매자 고유 ID
+            customerId: 'cid-' + [[${member.id}]], // 구매자 고유 아이디
             fullName: [[${member.name}]],   //구매자 전체 이름
             phoneNumber: [[${member.phonenumber}]], //구매자 연락처
             email: [[${member.email}]]  //구매자 이메일 주소
@@ -351,6 +361,7 @@
         //사용자 지정 정보
         const deliveryOption = $('.delivery_tabs .active').hasClass('default_delivery') ? 'default' : 'new';
         let shippingMsgValue = $('#defaultShippingMsg option:selected').val();
+        let customData;
         if (deliveryOption === 'default') {
             customData = {
                 orderId: [[${orderId}]],
@@ -360,7 +371,8 @@
                 addressLine1: $('#defaultBasicAddress').text(),
                 addressLine2: $('#defaultDetailAddress').text(),
                 phonenumber: $('#defaultPhonenumber1').text() + "-" + $('#defaultPhonenumber2').text() + "-" + $('#defaultPhonenumber3').text(),
-                deliveryRequestMsg: shippingMsgValue === 'direct_input' ? $('#defaultDirectInput').val() : (shippingMsgValue === '0' ? null : $('#defaultShippingMsg option:selected').text())
+                deliveryRequestMsg: shippingMsgValue === 'direct_input' ? $('#defaultDirectInput').val() : (shippingMsgValue === '0' ? null : $('#defaultShippingMsg option:selected').text()),
+                usePoints: getUsedPointAmount()
             };
         } else if (deliveryOption === 'new') {
             customData = {
@@ -373,7 +385,8 @@
                 addressLine2: $('#detailAddress').val(),
                 phonenumber: $('#phonenumber1').val() + "-" + $('#phonenumber2').val() + "-" + $('#phonenumber3').val(),
                 isDefaultDelivery: $('#isDefaultDelivery').prop('checked'),
-                deliveryRequestMsg: shippingMsgValue === 'direct_input' ? $('#defaultDirectInput').val() : (shippingMsgValue === '0' ? null : $('#defaultShippingMsg option:selected').text())
+                deliveryRequestMsg: shippingMsgValue === 'direct_input' ? $('#defaultDirectInput').val() : (shippingMsgValue === '0' ? null : $('#defaultShippingMsg option:selected').text()),
+                usePoints: getUsedPointAmount()
             };
         }
 
@@ -396,12 +409,12 @@
             payMethod: payMethod,   //결제수단 구분코드
             customer: customer,
             customData: customData,
-            confirmUrl: 'https://5962-118-220-129-220.ngrok-free.app/payment/webhook'
+            confirmUrl: 'https://79c0bd05f320.ngrok-free.app/payment/webhook'
         }
 
         //일반 신용카드 결제시
         //'payMethod' : 'CARD'
-        if(payMethod == 'CARD') {
+        if (payMethod == 'CARD') {
             paymentData.channelKey = [[${channelKey}]];    //채널키
         }
 
@@ -417,16 +430,16 @@
                     beforeSend: function (xhr) {
                         xhr.setRequestHeader(csrfHeader, csrfToken)
                     },
-                    data: JSON.stringify(response)
+                    data: JSON.stringify(response),
                 }).done(function (data) {
                     console.log(data);
                     //STEP6
                     //콜백에서 처리한 결과를 사용자에게 표시하거나 결제내역 페이지로 이동할 수 있다.
-                    if(data.status == 'success') {
+                    if (data.status == 'success') {
                         location.href = '/order/complete';
                     }
 
-                    if(data.code === 'PAY_PROCESS_CANCELED') {
+                    if (data.code === 'PAY_PROCESS_CANCELED') {
                         Swal.fire({
                             text: data.fail_reason,
                             showConfirmButton: true,

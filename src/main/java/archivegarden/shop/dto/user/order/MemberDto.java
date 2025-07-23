@@ -1,4 +1,4 @@
-package archivegarden.shop.dto.order;
+package archivegarden.shop.dto.user.order;
 
 import archivegarden.shop.entity.Member;
 import lombok.Getter;

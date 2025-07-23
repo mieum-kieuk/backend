@@ -1,7 +1,7 @@
 package archivegarden.shop.service.order;
 
 import archivegarden.shop.dto.ResultResponse;
-import archivegarden.shop.dto.order.CartListDto;
+import archivegarden.shop.dto.user.order.CartListDto;
 import archivegarden.shop.dto.user.cart.CartResultResponse;
 import archivegarden.shop.entity.Cart;
 import archivegarden.shop.entity.Member;

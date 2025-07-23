@@ -1,4 +1,4 @@
-package archivegarden.shop.dto.payment;
+package archivegarden.shop.dto.user.payment;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

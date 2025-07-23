@@ -1,6 +1,6 @@
 package archivegarden.shop.repository.cart;
 
-import archivegarden.shop.dto.order.CartListDto;
+import archivegarden.shop.dto.user.order.CartListDto;
 
 import java.util.List;
 

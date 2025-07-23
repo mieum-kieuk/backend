@@ -1,4 +1,4 @@
-package archivegarden.shop.dto.payment;
+package archivegarden.shop.dto.user.payment;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Webhook {
+public class WebhookRequest {
 
     private String type;
     private LocalDateTime timestamp;

@@ -1,6 +1,6 @@
 package archivegarden.shop.service.order;
 
-import archivegarden.shop.dto.order.OrderProductListDto;
+import archivegarden.shop.dto.user.order.OrderProductListDto;
 import archivegarden.shop.entity.*;
 import archivegarden.shop.exception.global.EntityNotFoundException;
 import archivegarden.shop.repository.cart.CartRepository;
@@ -51,12 +51,13 @@ public class OrderService {
         for (OrderProduct orderProduct : orderProducts) {
             Product product = orderProduct.getProduct();
             int price = product.getPrice();
+            int quantity = orderProduct.getQuantity();
             Discount discount = product.getDiscount();
             if(discount != null) {
                 double salePrice = price - (double) price * discount.getDiscountPercent() / 100;
                 amount += Math.round(salePrice * orderProduct.getQuantity());
             } else {
-                amount += price;
+                amount += price * quantity;
             }
         }
 

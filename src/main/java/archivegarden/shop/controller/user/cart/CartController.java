@@ -1,6 +1,6 @@
 package archivegarden.shop.controller.user.cart;
 
-import archivegarden.shop.dto.order.CartListDto;
+import archivegarden.shop.dto.user.order.CartListDto;
 import archivegarden.shop.entity.Member;
 import archivegarden.shop.service.order.CartService;
 import archivegarden.shop.web.annotation.CurrentUser;
