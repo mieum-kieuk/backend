@@ -7,27 +7,95 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap"
+          rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.js"></script>
-    <link rel="stylesheet" href="../css/common/comm.css" />
-    <link rel="stylesheet" href="../css/user/product_list.css" />
+    <link rel="stylesheet" href="../css/common/comm.css"/>
+    <link rel="stylesheet" href="../css/user/product_list.css"/>
     <script defer src="../js/common/comm.js"></script>
 </head>
 <body>
-    <div class="wrap">
-        <header id="header" class="header">
-            <nav id="gnb">
-                <div class="logo">
-                    <a href="index.html">
-                        미음키읔
+<div class="wrap">
+    <header id="header" class="header">
+        <nav id="gnb">
+            <div class="logo">
+                <a href="index.html">
+                    미음키읔
+                </a>
+            </div>
+            <div class="gnb_menu center">
+                <ul class="depth1">
+                    <li class="depth1_menu" id="shop">
+                        <a href="./user/products/product_list.html">Shop</a>
+                        <ul class="depth2">
+                            <li><a href="./user/products/product_list.html">Maskingtape</a></li>
+                            <li><a href="./user/products/product_list.html">Phonecase</a></li>
+                            <li><a href="./user/products/product_list.html">Sticker</a></li>
+                        </ul>
+                    </li>
+                    <li class="depth1_menu" id="about"><a href="./user/about/about.html">About</a>
+                    </li>
+                    <li class="depth1_menu" id="community">Community
+                        <ul class="depth2">
+                            <li><a href="./user/community/notice/notice_list.html">공지사항</a></li>
+                            <li><a href="./user/community/inquiry/inquiry_list.html">상품문의</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="gnb_menu">
+                <div class="search">
+                    <form action="#" method="get">
+                        <button type="submit">Search</button>
+                    </form>
+                    <div class="search_popup">
+                        <div class="search_bg"></div>
+                        <div class="search_form_wrap">
+                            <form action="./user/search/search_complete.html" method="get">
+                                <input type="text" placeholder="검색어를 입력해 주세요." maxlength="50">
+                                <button type="submit" class="search_btn">
+                                    <img src="../images/search.svg"/>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="account">
+                    <ul class="depth1">
+                        <li class="depth1_menu">Account
+                            <ul class="depth2">
+                                <li><a href="./login.html">로그인</a></li>
+                                <li><a href="./user/member/join.html">회원가입</a></li>
+                                <li><a href="./order/order_list.html">주문조회</a></li>
+                                <li><a href="./user/mypage/mypage_home.html">마이페이지</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div class="cart">
+                    <a href="user/order/cart.html">Cart(0)
                     </a>
                 </div>
-                <div class="gnb_menu center">
+            </div>
+        </nav>
+        <nav id="gnbMobile">
+            <div class="logo">
+                <a href="index.html">
+                    미음키읔
+                </a>
+            </div>
+            <button class="hamburger" aria-label="메뉴 열기">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="mobile_menu_bg">
+                <div class="mobile_menu">
                     <ul class="depth1">
-                        <li class="depth1_menu" id="shop">
+                        <li class="depth1_menu">
                             <a href="./user/products/product_list.html">Shop</a>
                             <ul class="depth2">
                                 <li><a href="./user/products/product_list.html">Maskingtape</a></li>
@@ -35,142 +103,141 @@
                                 <li><a href="./user/products/product_list.html">Sticker</a></li>
                             </ul>
                         </li>
-                        <li class="depth1_menu" id="about"><a href="./user/about/about.html">About</a>
-                        </li>
-                        <li class="depth1_menu" id="community">Community
+                        <li class="depth1_menu"><a href="./user/about/about.html">About</a></li>
+                        <li class="depth1_menu">
+                            <span>Community</span>
                             <ul class="depth2">
                                 <li><a href="./user/community/notice/notice_list.html">공지사항</a></li>
                                 <li><a href="./user/community/inquiry/inquiry_list.html">상품문의</a></li>
                             </ul>
                         </li>
+                        <li class="depth1_menu">
+                            <a href="./user/mypage/mypage_home.html">Mypage</a>
+                        </li>
                     </ul>
-                </div>
-                <div class="gnb_menu">
-                    <div class="search">
-                        <form action="#" method="get">
-                            <button type="submit" >Search</button>
-                        </form>
-                        <div class="search_popup">
-                        <div class="search_bg"></div>
-                        <div class="search_form_wrap">
-                            <form action="./user/search/search_complete.html" method="get">
-                                <input type="text" placeholder="검색어를 입력해 주세요." maxlength="50">
-                                <button type="submit" class="search_btn">
-                                    <img src="../../../images/search.svg">
-                                </button>
+                    <div class="mobile_bottom_menu">
+                        <div class="search">
+                            <form action="#" method="get">
+                                <button type="submit"><img src="../images/search.svg"/></button>
                             </form>
+                            <div class="search_popup">
+                                <div class="search_bg"></div>
+                                <div class="search_form_wrap">
+                                    <form action="./user/search/search_complete.html" method="get">
+                                        <input type="text" placeholder="검색어를 입력해 주세요." maxlength="50">
+                                        <button type="submit" class="search_btn">
+                                            <img src="../images/search.svg"/>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
+                        <div class="account">
+                            <a href="./login.html">
+                                <img src="../images/person.svg"/>
+                            </a>
+                        </div>
+                        <div class="cart">
+                            <a href="user/order/cart.html">
+                                <img src="../images/shopping_bag.svg"/>
+                            </a>
                         </div>
                     </div>
-                    <div class="account">
-                        <ul class="depth1">
-                            <li class="depth1_menu">Account
-                                <ul class="depth2">
-                                    <li><a href="./login.html">로그인</a></li>
-                                    <li><a href="./user/member/join.html">회원가입</a></li>
-                                    <li><a href="./order/order_list.html">주문조회</a></li>
-                                    <li><a href="./user/mypage/mypage_home.html">마이페이지</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="cart">
-                        <a href="user/order/cart.html">Cart(0)
-                        </a>
-                    </div>
-                </div>
-            </nav>
-        </header>
-        <main id="main">
-            <div class="main_content">
-                <div class="main_slide">
-                    <ul>
-                        <li><img src="../images/main1.jpg" alt="메인이미지1"></li>
-                    </ul>
-                </div>
-                <div>
-                <div class="main_product_wrap">
-                    <ul class="prd_list">
-                        <li>
-                            <div class="thumb">
-                                <a href="./user/products/product_details.html"><img src="../images/display.jpeg" alt="제품1"></a>
-                            </div>
-                            <div class="description">
-                                <div class="prd_name"><a href="./user/products/product_details.html"><span>하트 케이크</span></a></div>
-                                <ul class="prd_price">
-                                    <li>
-                                        <span class="original_price">KRW 7,000</span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="thumb">
-                                <a href="./user/products/product_details.html"><img src="../images/display.jpeg" alt="제품1"></a>
-                            </div>
-                            <div class="description">
-                                <div class="prd_name"><a href="./user/products/product_details.html"><span>하트 케이크</span></a></div>
-                                <ul class="prd_price">
-                                    <li class="discount">
-                                        <span class="original_price">KRW 7,000</span>
-                                    </li>
-                                    <li class="discount">
-                                        <span class="discount_rate">10%</span><span class="sale_price"> KRW 6,300</span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="thumb">
-                                <a href="./user/products/product_details.html"><img src="../images/display.jpeg" alt="제품1"></a>
-                            </div>
-                            <div class="description">
-                                <div class="prd_name"><a href="../user/products/product_details.html"><span>하트 케이크</span></a></div>
-                                <ul class="prd_price">
-                                    <li class="soldout">
-                                        <span class="original_price">KRW 7,000</span>
-                                    </li>
-                                    <li class="soldout">
-                                        <span class="sold_out">sold out</span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                    </ul>
                 </div>
             </div>
+        </nav>
+    </header>
+    <main id="main">
+        <div class="main_content">
+            <div class="main_slide">
+                <ul>
+                    <li><img src="../images/main1.jpg" alt="메인이미지1"></li>
+                </ul>
             </div>
-        </main>
-        <footer id="footer" class="footer">
-            <div class="footer_wrap">
-                <div class="footer_inner">
-                    <ul>
-                        <li><a href="">Instagram</a></li>
-                    </ul>
-                </div>
-                <div class="footer_inner">
-                    <ul>
-                        <li><a href="">Terms of Use</a></li>
-                        <li><a href="">Privacy Policy</a></li>
-                        <li><a href="">Shop Guide</a></li>
-                    </ul>
-                </div>
-                <div class="footer_inner">
-                    <ul>
-                        <li>Company : 미음키읔</li>
-                        <li>전화번호 : 010-1234-5678</li>
-                        <li>이메일 : meek@gmail.com</li>
-                    </ul>
-                </div>
-                <div class="footer_inner">
-                    <ul>
-                        <li>사업자 번호 : 070-61-01100</li>
-                        <li>주소 : 서울시 미음구 키읔로 123</li>
-                        <li>Copyright ©미음키읔 All rights reserved.</li>
-                    </ul>
-                </div>
+            <div class="main_product_wrap">
+                <ul class="prd_list">
+                    <li>
+                        <div class="thumb">
+                            <a href="./user/products/product_details.html"><img src="../images/display.jpeg" alt="제품1"></a>
+                        </div>
+                        <div class="description">
+                            <div class="prd_name"><a href="./user/products/product_details.html"><span>하트 케이크</span></a>
+                            </div>
+                            <ul class="prd_price">
+                                <li>
+                                    <span class="original_price">KRW 7,000</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="thumb">
+                            <a href="./user/products/product_details.html"><img src="../images/display.jpeg" alt="제품1"></a>
+                        </div>
+                        <div class="description">
+                            <div class="prd_name"><a href="./user/products/product_details.html"><span>하트 케이크</span></a>
+                            </div>
+                            <ul class="prd_price">
+                                <li class="discount">
+                                    <span class="original_price">KRW 7,000</span>
+                                </li>
+                                <li class="discount">
+                                    <span class="discount_rate">10%</span><span class="sale_price"> KRW 6,300</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="thumb">
+                            <a href="./user/products/product_details.html"><img src="../images/display.jpeg" alt="제품1"></a>
+                        </div>
+                        <div class="description">
+                            <div class="prd_name"><a
+                                    href="../user/products/product_details.html"><span>하트 케이크</span></a></div>
+                            <ul class="prd_price">
+                                <li class="soldout">
+                                    <span class="original_price">KRW 7,000</span>
+                                </li>
+                                <li class="soldout">
+                                    <span class="sold_out">sold out</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
             </div>
-        </footer>
-    </div>
+        </div>
+    </main>
+    <footer id="footer" class="footer">
+        <div class="footer_wrap">
+            <div class="footer_inner">
+                <ul>
+                    <li><a href="">Instagram</a></li>
+                </ul>
+            </div>
+            <div class="footer_inner">
+                <ul>
+                    <li><a href="">Terms of Use</a></li>
+                    <li><a href="">Privacy Policy</a></li>
+                    <li><a href="">Shop Guide</a></li>
+                </ul>
+            </div>
+            <div class="footer_inner">
+                <ul>
+                    <li>Company : 미음키읔</li>
+                    <li>전화번호 : 010-1234-5678</li>
+                    <li>이메일 : meek@gmail.com</li>
+                </ul>
+            </div>
+            <div class="footer_inner">
+                <ul>
+                    <li>사업자 번호 : 070-61-01100</li>
+                    <li>주소 : 서울시 미음구 키읔로 123</li>
+                    <li>Copyright ©미음키읔 All rights reserved.</li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+</div>
 </body>
 </html>

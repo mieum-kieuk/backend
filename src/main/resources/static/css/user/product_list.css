@@ -127,4 +127,15 @@
     top: 0;
     left: 0;
 }
-
+.description {
+    padding-left: 10px;
+}
+@media (max-width: 768px) {
+    .prd_list {
+        grid-template-columns: 1fr;
+    }
+    .prd_list > li{
+        min-width: 80vw;
+        max-width: 500px;
+    }
+}
