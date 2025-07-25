@@ -95,6 +95,7 @@ section {
     display: block;
     width: 80px;
     height: 80px;
+    object-fit: cover;
 }
 .cart_wrap .info{
     width: 50%;
@@ -124,7 +125,7 @@ section {
     font-size: 16px;
     font-weight: 600;
 }
-.cart_wrap .item.price .sale_price.line_through {
+.cart_wrap .item.price .original_price .line_through {
     font-size: 14px;
     font-weight: 400;
     text-decoration: line-through;
@@ -421,10 +422,21 @@ section {
     flex-direction: row;
     width: 100%;
 }
-.order_summary .total.discount .coupon {
-    display: flex;
-    margin: 5px 0 5px 10px ;
-}
+/*.order_summary .total.discount .coupon {*/
+/*    display: flex;*/
+/*    margin: 5px 0;*/
+/*}*/
+/*.order_summary .total.discount .coupon .title::before {*/
+/*    content: "";*/
+/*    display: inline-block;*/
+/*    width: 6px;*/
+/*    height: 6px;*/
+/*    border-left: 1px solid #666;*/
+/*    border-bottom: 1px solid #666;*/
+/*    margin-right: 6px;*/
+/*    vertical-align: middle;*/
+/*}*/
+
 .total .title {
     display: block;
     /*text-align: center;*/
