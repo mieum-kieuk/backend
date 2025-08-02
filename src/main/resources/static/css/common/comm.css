@@ -327,6 +327,7 @@ legend {
   min-height: 100svh;
   height: 100%;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 #header {
@@ -550,7 +551,7 @@ legend {
 }
 
 /* 모바일 반응형 설정 */
-@media (max-width: 768px) {
+@media (max-width: 945px) {
   #header {
     align-items: center;
     min-width: unset;
