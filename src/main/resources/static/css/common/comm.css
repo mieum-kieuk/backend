@@ -647,8 +647,8 @@ legend {
 .main_slide img {
   width: 100vw;
   height: 100vh;
-  object-fit: cover;
-  object-position: bottom;
+  object-fit: contain;
+  object-position: center;
 }
 .main_product_wrap {
   width: 100%;

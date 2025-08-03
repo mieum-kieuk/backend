@@ -118,6 +118,9 @@
     position: relative;
     margin-bottom: 15px;
 }
+.thumb a {
+    display: flex;
+}
 .thumb:hover .thumb2 {
     display: block;
 }
