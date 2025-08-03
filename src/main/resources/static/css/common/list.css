@@ -245,7 +245,14 @@
     width: 40%;
     white-space: nowrap;
 }
-
+/*category*/
+.list_head.category {
+    margin-bottom: 4px;
+}
+.category .list_head .item.title {
+    border-left: none;
+    width: 100%;
+}
 /*member_list*/
 #membershipList .list_content {
     margin-bottom: 10px;

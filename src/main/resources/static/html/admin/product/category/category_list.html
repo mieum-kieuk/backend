@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>카테고리 관리 | 미음키읔</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap"
+          rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="https://cdn.rawgit.com/dbushell/Nestable/master/jquery.nestable.js"></script>
+    <link rel="stylesheet" href="../../../../css/common/comm.css">
+    <link rel="stylesheet" href="../../../../css/admin/admin.css">
+    <link rel="stylesheet" href="../../../../css/common/list.css">
+    <script defer src="../../../../js/common/comm.js"></script>
+    <script defer src="../../../../js/admin/category.js"></script>
+</head>
+<body>
+<div class="admin_wrap">
+    <div class="sidebar">
+        <div class="side_menu top">
+            <ul>
+                <li class="logo">
+                    <a href="../../index.html">
+                        관리자 홈
+                    </a>
+                </li>
+                <li><a href="../../../index.html">사이트 바로가기</a></li>
+            </ul>
+            <hr>
+        </div>
+        <div class="side_menu menu">
+            <h2>메뉴</h2>
+            <ul class="depth1">
+                <li data-path="member">
+                    <a href="#">회원 관리</a>
+                    <ul class="depth2">
+                        <li data-path="member"><a href="../../../admin/member/member_list.html">회원 정보 관리</a></li>
+                        <li data-path="point"><a href="../../../admin/member/point_list.html">적립금 관리</a></li>
+                    </ul>
+                </li>
+                <li data-path="admin">
+                    <a href="#">관리자 관리</a>
+                    <ul class="depth2">
+                        <li data-path="admin-list"><a href="../../../admin/admin/admin_list.html">전체 관리자 관리</a></li>
+                    </ul>
+                </li>
+                <li data-path="product">
+                    <a href="#">상품 관리</a>
+                    <ul class="depth2">
+                        <li data-path="product"><a href="../product/product_list.html">전체 상품관리</a></li>
+                        <li data-path="category"><a href="../category/category_list.html">카테고리 관리</a></li>
+                        <li data-path="inquiry"><a href="../inquiry/inquiry_list.html">상품 문의관리</a></li>
+                        <li data-path="discount"><a href="../discount/discount_list.html">전체 할인관리</a></li>
+                    </ul>
+                </li>
+                <li data-path="orders">
+                    <a href="#">주문 관리</a>
+                    <ul class="depth2">
+                        <li data-path="order"><a href="#">전체 주문관리</a></li>
+                        <li data-path="cancel"><a href="#">취소/교환/반품/환불 관리</a></li>
+                    </ul>
+                </li>
+
+                <li data-path="help">
+                    <a href="#">고객 지원</a>
+                    <ul class="depth2">
+                        <li data-path="notice"><a href="../../../admin/help/notice/notice_list.html">공지사항 관리</a></li>
+                        <li data-path="withdrawal"><a href="#">회원 탈퇴내역</a></li>
+                    </ul>
+                </li>
+
+            </ul>
+        </div>
+        <div class="side_menu account">
+            <ul>
+                <li><a href="../../../admin/login.html">로그인</a></li>
+                <li>
+                    <button class="login_btn">로그아웃</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div id="categoryList" class="list wrapper">
+        <div class="content">
+            <h2 class="content_tit">카테고리 관리</h2>
+            <div class="admins_wrap category">
+                <div class="btn_wrap">
+                    <button type="button" class="btn1 add_btn">카테고리 추가</button>
+                    <button type="button" class="btn1 edit_btn">수정</button>
+                    <button type="button" class="btn1 delete_btn">삭제</button>
+                </div>
+                <div class="list_content">
+                    <div class="list_head category">
+                        <div class="item_cont">
+                            <div class="item title">카테고리 목록(드래그로 순서를 변경할 수 있어요)</div>
+                        </div>
+                    </div>
+                    <div class="list category">
+                        <div class="dd" id="nestable">
+                            <ol class="dd-list">
+                                <li class="dd-item" data-id="1">
+                                    <div class="dd-content">
+                                        <input type="checkbox" class="category-checkbox" data-id="1" data-name="Postcard"/>
+                                        <div class="dd-handle">
+                                            <span>Postcard</span>
+                                        </div>
+                                    </div>
+                                    <ol class="dd-list">
+                                        <li class="dd-item" data-id="2">
+                                            <div class="dd-content">
+                                                <input type="checkbox" class="category-checkbox" data-id="2"
+                                                       data-name="홍콩"/>
+                                                <div class="dd-handle">
+                                                    <span>홍콩</span>
+                                                </div>
+                                            </div>
+                                            <ol class="dd-list">
+                                                <li class="dd-item" data-id="3">
+                                                    <div class="dd-content">
+                                                        <input type="checkbox" class="category-checkbox" data-id="3"
+                                                               data-name="홍콩1"/>
+                                                        <div class="dd-handle">
+                                                            <span>홍콩1</span>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ol>
+                                        </li>
+                                    </ol>
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <div id="editCategoryModal" class="modal category">
+                    <div class="modal_content">
+                        <div class="modal_head">
+                            <h2 class="modal_title">카테고리 수정</h2>
+                            <img class="close" src="../../../../images/close.svg" alt="닫기">
+                        </div>
+                        <form id="editCategoryForm" novalidate>
+                            <input type="hidden" id="editCategoryId" name="editCategoryId">
+                            <div class="form_wrap">
+                                <div class="input_box_wrap">
+                                    <label for="editCategoryName" class="ess_tit">카테고리명</label>
+                                    <div class="input_box_wrap msg">
+                                        <input type="text" id="editCategoryName" name="editCategoryName" maxlength="50" placeholder="카테고리 이름 입력" required/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="btn_wrap">
+                                <button type="button" class="btn1 cancel_btn">취소</button>
+                                <button type="submit" class="btn1 submit_btn">완료</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div id="categoryModal" class="modal category">
+                    <div class="modal_content">
+                        <div class="modal_head">
+                            <h2 class="modal_title">카테고리 추가</h2>
+                            <img class="close" src="../../../../images/close.svg" alt="닫기">
+                        </div>
+                        <form id="addCategoryForm" novalidate>
+                            <div class="form_wrap">
+                                <div class="input_box_wrap">
+                                    <label for="parentCategory" class="ess_tit">대분류</label>
+                                    <div class="select_wrap">
+                                        <select id="parentCategory" name="parentCategory">
+                                            <option value="">대분류로 추가</option>
+                                            <option value="1">Maskingtape</option>
+                                            <option value="2">Postcard</option>
+                                            <option value="3">Sticker</option>
+                                            <option value="4">Phonecase</option>
+                                        </select>
+                                        <img src="../../../../images/keyboard_arrow_down_666.svg" class="expand_icon"
+                                             alt="카테고리">
+                                    </div>
+                                </div>
+                                <div class="input_box_wrap">
+                                    <label for="newCategoryName" class="ess_tit">카테고리명</label>
+                                    <div class="input_box_wrap msg">
+                                        <input type="text" id="newCategoryName" name="newCategoryName" maxlength="50"
+                                               placeholder="카테고리명"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="btn_wrap">
+                                <button type="button" class="btn1 cancel_btn">취소</button>
+                                <button type="submit" class="btn1 submit_btn">추가</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+
