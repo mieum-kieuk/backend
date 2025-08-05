@@ -246,8 +246,8 @@
     white-space: nowrap;
 }
 /*category*/
-.list_head.category {
-    margin-bottom: 4px;
+.list .category .list_content .btn_wrap {
+    margin-top: 10px;
 }
 .category .list_head .item.title {
     border-left: none;

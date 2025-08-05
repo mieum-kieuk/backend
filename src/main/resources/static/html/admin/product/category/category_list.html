@@ -11,10 +11,11 @@
           rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/smoothness/jquery-ui.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.js"></script>
-    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-    <script src="https://cdn.rawgit.com/dbushell/Nestable/master/jquery.nestable.js"></script>
+    <script src="https://johnny.github.io/jquery-sortable/js/jquery-sortable-min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
     <link rel="stylesheet" href="../../../../css/common/comm.css">
     <link rel="stylesheet" href="../../../../css/admin/admin.css">
     <link rel="stylesheet" href="../../../../css/common/list.css">
@@ -102,42 +103,24 @@
                             <div class="item title">카테고리 목록(드래그로 순서를 변경할 수 있어요)</div>
                         </div>
                     </div>
-                    <div class="list category">
-                        <div class="dd" id="nestable">
-                            <ol class="dd-list">
-                                <li class="dd-item" data-id="1">
-                                    <div class="dd-content">
-                                        <input type="checkbox" class="category-checkbox" data-id="1" data-name="Postcard"/>
-                                        <div class="dd-handle">
-                                            <span>Postcard</span>
-                                        </div>
-                                    </div>
-                                    <ol class="dd-list">
-                                        <li class="dd-item" data-id="2">
-                                            <div class="dd-content">
-                                                <input type="checkbox" class="category-checkbox" data-id="2"
-                                                       data-name="홍콩"/>
-                                                <div class="dd-handle">
-                                                    <span>홍콩</span>
-                                                </div>
-                                            </div>
-                                            <ol class="dd-list">
-                                                <li class="dd-item" data-id="3">
-                                                    <div class="dd-content">
-                                                        <input type="checkbox" class="category-checkbox" data-id="3"
-                                                               data-name="홍콩1"/>
-                                                        <div class="dd-handle">
-                                                            <span>홍콩1</span>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                            </ol>
-                                        </li>
-                                    </ol>
-                                </li>
-                            </ol>
-                        </div>
+                    <div id=sortable class="list category">
+<!--                        <ol class="sortable-list">-->
+<!--                            <li data-id="1">-->
+<!--                                <input type="checkbox" class="category-checkbox" data-id="1" data-name="Postcard" />-->
+<!--                                <span class="category-name">Postcard</span>-->
+<!--                                <ol class="sortable-list">-->
+<!--                                    <li data-id="2">-->
+<!--                                        <input type="checkbox" class="category-checkbox" data-id="2" data-name="홍콩" />-->
+<!--                                        <span class="category-name">홍콩</span>-->
+<!--                                        <ol class="sortable-list"></ol>-->
+<!--                                    </li>-->
+<!--                                </ol>-->
+<!--                            </li>-->
+<!--                        </ol>-->
                     </div>
+                        <div class="btn_wrap">
+                        <button id="saveCategoryBtn" class="btn1">저장</button>
+                        </div>
                 </div>
                 <div id="editCategoryModal" class="modal category">
                     <div class="modal_content">
@@ -202,6 +185,25 @@
             </div>
         </div>
     </div>
+<!--    <ul class="sortable">-->
+<!--        <li data-id="1">-->
+<!--            Postcard-->
+<!--            <ul>-->
+<!--                <li data-id="2">-->
+<!--                    홍콩-->
+<!--                    <ul>-->
+<!--                        <li data-id="3">홍콩1-->
+<!--                            <ul>-->
+<!--                                <li data-id="4">홍콩2</li>-->
+<!--                            </ul>-->
+<!--                        </li>-->
+<!--                    </ul>-->
+<!--                </li>-->
+<!--            </ul>-->
+<!--        </li>-->
+<!--        <li data-id="5">Sticker</li>-->
+<!--    </ul>-->
+
 </div>
 </body>
 </html>
