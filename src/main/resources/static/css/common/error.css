@@ -1,14 +1,16 @@
 #error {
     display: flex;
-    justify-content: flex-start;
-    margin: 50px 50px 0 50px;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
     color: #222;
     line-height: 1.5;
 }
 .error_wrap {
     display: flex;
-    flex-direction: column;
     justify-content: center;
+    align-items: center;
+    height: 40px;
 }
 .input_box_wrap {
     display: flex;
@@ -19,12 +21,23 @@
 input {
     width: 100%;
 }
-.error_tit, .error_txt{
-    margin-bottom: 20px;
-}
+
 .error_tit {
     display: flex;
-    flex-direction: column;
+    height: 40px;
+    font-size: 30px;
+    line-height: 0.5;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.error_tit:after {
+    content: '|';
+    margin: 0 10px;
+}
+.error_txt {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
 }
 .error_txt a {
     text-decoration: underline;
