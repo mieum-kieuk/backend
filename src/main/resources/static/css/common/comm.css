@@ -350,7 +350,6 @@ legend {
 
 .logo {
   display: flex;
-  /*justify-content: center;*/
   font-size: 28px;
 }
 .gnb_menu {
@@ -389,22 +388,8 @@ legend {
   justify-content: center;
   padding: 0;
 }
-#shop {
-  text-align: left;
-  justify-content: flex-start;
-}
-#about{
-  padding: 0 80px;
-}
-#community {
-  text-align: right;
-  justify-content: flex-end;
-}
 #community .depth2 {
-  /*margin-left: 34px;*/
-  left: calc(33.333% - 34px);
-  /*margin-left: calc(33.333% - 24px);*/
-  font-size: 14px;
+  width: 100px;
 }
 #gnb .depth1_menu:hover{
   color: #999;
@@ -416,9 +401,7 @@ legend {
   padding: 10px 0;
   max-height: 220px;
   background: #fff;
-  width: 120px;
   border: 0.5px solid #666;
-  border-radius: 3px;
 }
 .gnb_menu .depth1_menu {
   position: relative;
@@ -427,20 +410,20 @@ legend {
 .gnb_menu .depth2 {
   position: absolute;
   top: 130%;
-  left: -10px;
+  left: 50%;
+  transform: translateX(-50%);
   max-height: 0;
   overflow: hidden;
   text-align: left;
   font-size: 14px;
   transition: all 0.3s ease-in-out;
   background: transparent;
-  width: 120px;
   border: 0.5px solid transparent;
   border-radius: 3px;
 }
 .gnb_menu .account .depth2 {
   /*left: 30%;*/
-  left: calc(33.333% - 20px);
+  /*left: calc(33.333% - 20px);*/
 }
 .gnb_menu .cart a:hover{
   color: #999;
@@ -1061,8 +1044,7 @@ legend {
   justify-content: center;
 }
 .pagination li a.selected {
-  background-color: #666666; /* 선택된 페이지네이션의 배경색 */
-  color: #fff; /* 선택된 페이지네이션의 글꼴 색상 */
+  border: 1px solid #666;
 }
 .pagination li a.disabled {
   pointer-events: none;
@@ -1085,8 +1067,7 @@ legend {
   cursor: default;
 }
 .page.active {
-  color: #fff;
-  background-color: black;
+  border: 1px solid #666;
 }
 /*preloader*/
 .loader_wrap {
@@ -1147,7 +1128,7 @@ legend {
   margin: 0;
   width: 400px;
   font-size: 16px;
-  font-weight: 400;
+  font-weight: 300;
   padding: 40px 20px;
   line-height: 1.4;
   border-bottom: 1px solid #eee;
