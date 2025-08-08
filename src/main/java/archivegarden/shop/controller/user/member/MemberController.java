@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.regex.Pattern;
 
-@Tag(name = "회원", description = "사용자 페이지에서 회원 관련 API")
+@Tag(name = "회원-사용자", description = "사용자 페이지에서 회원 관련 화면을 처리하는 컨트롤러입니다.")
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/member")
@@ -32,8 +32,8 @@ public class MemberController {
     private final MemberService memberService;
 
     @Operation(
-            summary = "회원가입 폼 표시",
-            description = "회원가입을 위한 화면을 반환합니다."
+            summary = "회원가입 폼",
+            description = "회원가입 페이지를 반환합니다."
     )
     @GetMapping("/join")
     public String addMemberForm(@ModelAttribute("joinForm") JoinMemberForm form) {
@@ -42,7 +42,7 @@ public class MemberController {
 
     @Operation(
             summary = "회원가입 요청",
-            description = "회원가입 요청을 처리합니다. 회원가입 성공 시 완료 페이지로 리다이렉트합니다."
+            description = "회원가입 요청을 처리합니다. 회원가입 성공 시 회원가입 완료 페이지로 리다이렉트합니다."
     )
     @PostMapping("/join")
     public String join(
@@ -57,7 +57,7 @@ public class MemberController {
 
         try {
             memberService.checkMemberDuplicate(form);
-        } catch(DuplicateEntityException e) {
+        } catch (DuplicateEntityException e) {
             bindingResult.reject("error.global.member.duplicate");
             return "user/member/join";
         }
@@ -68,13 +68,13 @@ public class MemberController {
     }
 
     @Operation(
-            summary = "회원가입 완료 페이지",
-            description = "회원가입이 완료된 후, 회원가입 완료 페이지를 반환합니다."
+            summary = "회원가입 완료",
+            description = "회원가입 완료 페이지를 반환합니다."
     )
     @GetMapping("/join/complete")
     public String joinComplete(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession(false);
-        if(session == null) return "redirect:/member/join";
+        if (session == null) return "redirect:/member/join";
         Long memberId = (Long) session.getAttribute(SessionConstants.JOIN_MEMBER_ID_KEY);
         if (memberId == null) return "redirect:/member/join";
         session.removeAttribute(SessionConstants.JOIN_MEMBER_ID_KEY);
@@ -85,8 +85,8 @@ public class MemberController {
     }
 
     @Operation(
-            summary = "아이디 찾기 폼 표시",
-            description = "아이디 찾기 화면을 반환합니다."
+            summary = "아이디 찾기 폼",
+            description = "아이디 찾기 페이지를 반환합니다."
     )
     @GetMapping("/find-id")
     public String findId() {
@@ -94,13 +94,13 @@ public class MemberController {
     }
 
     @Operation(
-            summary = "아이디 찾기 결과 페이지",
-            description = "아이디 찾기 결과 페이지를 반환합니다."
+            summary = "아이디 찾기 결과",
+            description = "입력된 정보로 찾은 아이디 결과 페이지를 반환합니다."
     )
     @GetMapping("/find-id/complete")
     public String findIdResult(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession(false);
-        if(session == null) return "redirect:/member/find-id";
+        if (session == null) return "redirect:/member/find-id";
         Long memberId = (Long) session.getAttribute(SessionConstants.FIND_LOGIN_ID_MEMBER_ID_KEY);
         if (memberId == null) return "redirect:/member/find-id";
         session.removeAttribute(SessionConstants.FIND_LOGIN_ID_MEMBER_ID_KEY);
@@ -111,8 +111,8 @@ public class MemberController {
     }
 
     @Operation(
-            summary = "비밀번호 찾기 폼 표시",
-            description = "비밀번호 찾기 화면을 반환합니다."
+            summary = "비밀번호 찾기 폼",
+            description = "비밀번호 찾기 페이지를 반환합니다."
     )
     @GetMapping("/find-password")
     public String findPassword() {
@@ -120,7 +120,7 @@ public class MemberController {
     }
 
     @Operation(
-            summary = "임시 비밀번호 전송 화면 표시",
+            summary = "임시 비밀번호가 전송될 이메일 확인",
             description = "임시 비밀번호가 전송될 이메일 주소를 확인합니다."
     )
     @GetMapping("/find-password/send")
@@ -135,13 +135,13 @@ public class MemberController {
     }
 
     @Operation(
-            summary = "비밀번호 찾기 결과 페이지",
-            description = "비밀번호 찾기 결과를 보여주는 페이지를 반환합니다."
+            summary = "비밀번호 찾기 완료",
+            description = "임시 비밀번호가 전송되었음을 알려주는 화면을 반환합니다."
     )
     @GetMapping("/find-password/complete")
     public String findPasswordResult(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession(false);
-        if(session == null)  return "redirect:/member/find-password";
+        if (session == null) return "redirect:/member/find-password";
         String email = (String) session.getAttribute(SessionConstants.FIND_PASSWORD_EMAIL_KEY);
         if (email == null) return "redirect:/member/find-password";
         session.removeAttribute(SessionConstants.FIND_PASSWORD_EMAIL_KEY);
@@ -151,9 +151,14 @@ public class MemberController {
     }
 
     /**
-     * 회원가입 폼의 복합적인 유효성 검증
+     * 회원가입 폼에 대한 복합 유효성 검증 수행
      *
-     * 각 개별 필드에 대해 유효성 검증 메서드를 호출합니다.
+     * 검증 항목:
+     * - 비밀번호 확인
+     * - 주소
+     * - 휴대전화번호
+     *
+     * 각 항목별 전용 유효성 검증 메서드를 호출합니다.
      */
     private void validateJoin(JoinMemberForm form, BindingResult bindingResult) {
         validatePasswordConfirm(form, bindingResult);
@@ -177,7 +182,7 @@ public class MemberController {
     /**
      * 주소 유효성 검증
      *
-     * 우편번호와 기본주소가 모두 입력되었는지, 형식이 올바른지 검사합니다.
+     * 우편번호와 기본 주소의 입력 여부와 형식을 검사합니다.
      */
     private void validateAddress(JoinMemberForm form, BindingResult bindingResult) {
         if (StringUtils.hasText(form.getZipCode()) && StringUtils.hasText(form.getBasicAddress())) {
@@ -192,7 +197,7 @@ public class MemberController {
     /**
      * 휴대전화번호 유효성 검증
      *
-     * 휴대전화번호 각 필드가 입력되었는지, 형식이 올바른지 검사합니다.
+     * 휴대전화번호를 구성하는 각 항목(앞자리, 중간, 뒷자리)의 입력 여부와 형식을 검사합니다.
      */
     private void validatePhonenumber(JoinMemberForm form, BindingResult bindingResult) {
         if (StringUtils.hasText(form.getPhonenumber1()) &&

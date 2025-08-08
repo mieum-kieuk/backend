@@ -1,3 +1,26 @@
+-- 회원
+DROP TABLE IF EXISTS member CASCADE;
+CREATE TABLE member
+(
+    member_id             BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    membership_id         TINYINT UNSIGNED NOT NULL,
+    login_id              VARCHAR(20)  NOT NULL,
+    password              VARCHAR(255) NOT NULL,
+    name                  VARCHAR(30)  NOT NULL,
+    phone_number          VARCHAR(13)  NOT NULL,
+    email                 VARCHAR(100) NOT NULL,
+    authority             ENUM('ROLE_ANONYMOUS', 'ROLE_USER') NOT NULL,
+    agree_to_receive_sms  TINYINT(1) UNSIGNED NOT NULL,
+    agree_to_receive_mail TINYINT(1) UNSIGNED NOT NULL,
+    is_email_verified     TINYINT(1) UNSIGNED NOT NULL,
+    created_at            TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modified_at           TIMESTAMP,
+    deleted_at            TIMESTAMP,
+    CONSTRAINT UQ_MEMBER_LOGIN_ID UNIQUE (login_id),
+    CONSTRAINT UQ_MEMBER_PHONE_NUMBER UNIQUE (phone_number),
+    CONSTRAINT UQ_MEMBER_EMAIL UNIQUE (email)
+);
+
 -- 관리자
 DROP TABLE IF EXISTS admin CASCADE;
 CREATE TABLE admin
@@ -55,7 +78,7 @@ CREATE TABLE product_image
     product_image_id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     product_id       BIGINT UNSIGNED NOT NULL,
     image_name       VARCHAR(255) NOT NULL,
-    image_url        VARCHAR(255) NOT NULL,
+    image_url        VARCHAR(500) NOT NULL,
     image_type       ENUM('DISPLAY', 'HOVER', 'DETAILS') NOT NULL
 );
 
@@ -71,29 +94,6 @@ CREATE TABLE discount
     created_at       TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modified_at      TIMESTAMP,
     CONSTRAINT UQ_DISCOUNT_NAME UNIQUE (name)
-);
-
--- 회원
-DROP TABLE IF EXISTS member CASCADE;
-CREATE TABLE member
-(
-    member_id             BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    membership_id         TINYINT UNSIGNED NOT NULL,
-    login_id              VARCHAR(20)  NOT NULL,
-    password              VARCHAR(255) NOT NULL,
-    name                  VARCHAR(30)  NOT NULL,
-    phone_number          VARCHAR(13)  NOT NULL,
-    email                 VARCHAR(100) NOT NULL,
-    authority             ENUM('ROLE_ANONYMOUS', 'ROLE_USER') NOT NULL,
-    agree_to_receive_sms  TINYINT(1) UNSIGNED NOT NULL,
-    agree_to_receive_mail TINYINT(1) UNSIGNED NOT NULL,
-    is_email_verified     TINYINT(1) UNSIGNED NOT NULL,
-    created_at            TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    modified_at           TIMESTAMP,
-    deleted_at            TIMESTAMP,
-    CONSTRAINT UQ_MEMBER_LOGIN_ID UNIQUE (login_id),
-    CONSTRAINT UQ_MEMBER_PHONE_NUMBER UNIQUE (phone_number),
-    CONSTRAINT UQ_MEMBER_EMAIL UNIQUE (email)
 );
 
 -- 회원 등급

@@ -1,10 +1,8 @@
 package archivegarden.shop.service.user.member;
 
+import archivegarden.shop.dto.ResultResponse;
 import archivegarden.shop.dto.common.JoinSuccessDto;
-import archivegarden.shop.dto.user.member.FindIdResultDto;
-import archivegarden.shop.dto.user.member.JoinMemberForm;
-import archivegarden.shop.dto.user.member.EditMemberInfoForm;
-import archivegarden.shop.dto.user.member.VerificationRequestDto;
+import archivegarden.shop.dto.user.member.*;
 import archivegarden.shop.entity.Member;
 
 import java.util.Optional;
@@ -23,9 +21,9 @@ public interface MemberService {
 
     boolean isAvailablePhonenumber(String phonenumber);
 
-    void sendVerificationNo(String phonenumber);
+    void sendVerificationCode(String phonenumber);
 
-    boolean validateVerificationNo(VerificationRequestDto requestDto);
+    ResultResponse verifyVerificationCode(VerificationCodeRequestDto verificationCodeRequest);
 
     Optional<Long> checkLoginIdExistsByEmail(String name, String email);
 

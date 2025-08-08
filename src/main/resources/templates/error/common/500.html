@@ -1,33 +1,21 @@
-<!doctype html>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>미음키읔 :: 기술적인 문제로 서비스에 접속이 되지 않았습니다.</title>
-    <link rel="stylesheet" href="../../../static/css/common/comm.css" th:href="@{/css/common/comm.css}">
-    <link rel="stylesheet" href="../../../static/css/common/error.css" th:href="@{/css/common/error.css}">
+<head th:replace="~{fragments/head :: commonHead('기술적인 문제로 서비스에 접속이 되지 않습니다.')}">
+    <th:block th:fragment="extraCss">
+        <link rel="stylesheet" th:href="@{/css/common/error.css}" />
+    </th:block>
 </head>
+
 <body>
 <div id="error">
-<div class="error_wrap">
-    <h2 class="error_tit">
-        죄송합니다.<br>
-        기술적인 문제로 서비스에 접속이 되지 않았습니다.
-    </h2>
-    <div class="error_txt">
-        <p>일시적인 현상으로, 잠시 후 다시 이용해 보시면 정상접속 될 수 있습니다.</p>
-        <p>담당부서에서 확인중이나, 문제가 계속되는 접속 오류에 대해</p>
-        <p><a href="javascript:void(0)">티커스 고객센터</a>로 연락 부탁 드립니다.</p>
-        <br/>
-        <p>이용에 불편을 드려 다시 한 번 사과 드립니다. </p>
+    <div class="error_wrap">
+        <h2 class="error_tit">
+            404
+        </h2>
+        <div class="error_txt">
+            <p> 죄송합니다. 기술적인 문제로 서비스에 접속이 되지 않습니다.<br/>일시적인 현상으로, 잠시 후 다시 이용해 주세요.</p>
+        </div>
     </div>
-    <div class="input_box_wrap">
-        <button id="home" class="btn1 home_btn" onclick="location.href='../../index.html'"
-                th:onclick="|location.href='@{/}'|">홈
-    </div>
-</div>
 </div>
 </body>
 </html>

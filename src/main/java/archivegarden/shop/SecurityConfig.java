@@ -25,7 +25,7 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 @Order(2)
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity(prePostEnabled = true, securedEnabled = true)
+@EnableMethodSecurity(securedEnabled = true)
 @RequiredArgsConstructor
 public class SecurityConfig {
 
@@ -52,7 +52,8 @@ public class SecurityConfig {
 
         http
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers( "/", "/login",  "/member/**", "/productImages/**", "/email/**", "/error",
+                        .requestMatchers( "/login",  "/member/**").anonymous()
+                        .requestMatchers( "/", "/productImages/**", "/email/**", "/error",
                                 "/products/**", "/about", "/community/inquiries", "/community/inquiries/{id}", "/community/notice/**", "/search/**",
                                 "/payment/webhook", "/popup/deliveries/**").permitAll()
                         .anyRequest().permitAll()

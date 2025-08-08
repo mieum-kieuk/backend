@@ -1,25 +1,21 @@
-<!doctype html>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Tickers :: Access Denied</title>
-    <link rel="stylesheet" href="../../../static/css/common/comm.css" th:href="@{/css/common/comm.css}">
-    <link rel="stylesheet" href="../../../static/css/common/error.css" th:href="@{/css/common/error.css}">
+<head th:replace="~{fragments/head :: commonHead('권한이 없습니다.')}">
+    <th:block th:fragment="extraCss">
+        <link rel="stylesheet" th:href="@{/css/common/error.css}" />
+    </th:block>
 </head>
+
 <body>
 <div id="error">
     <div class="error_wrap">
         <h2 class="error_tit">
-            권한이 없습니다.
+            403
         </h2>
         <div class="error_txt">
-            <p>이 페이지에 접근할 수 있는 권한이 없습니다.</p>
+            <p th:text="${errorMessage}">이 페이지에 접근할 수 있는 권한이 없습니다.</p>
         </div>
     </div>
-</div>
 </div>
 </body>
 </html>

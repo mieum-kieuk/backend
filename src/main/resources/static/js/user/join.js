@@ -88,12 +88,8 @@ function isLoginIdValid() {
     $('#idMsg').text('');
 
     $.ajax({
-        type: 'POST',
-        url: '/ajax/member/check/loginId',
-        data: {loginId: loginId},
-        beforeSend: function (xhr) {
-            xhr.setRequestHeader(csrfHeader, csrfToken);
-        },
+        type: 'GET',
+        url: '/api/member/login-id/exists?value=' + encodeURIComponent(loginId),
         success: function (result) {
             if (result.status === 200) {
                 isAvailableLoginId = true;
@@ -246,12 +242,8 @@ function isEmailValid() {
     $('#emailMsg').text('');
 
     $.ajax({
-        type: 'POST',
-        url: '/ajax/member/check/email',
-        data: {email: email},
-        beforeSend: function (xhr) {
-            xhr.setRequestHeader(csrfHeader, csrfToken);
-        },
+        type: 'GET',
+        url: '/api/member/email/exists?value=' + encodeURIComponent(email),
         success: function (result) {
             if (result.status == 200) {
                 isAvailableEmail = true;
@@ -381,9 +373,8 @@ function requestVerificationCode() {
 
     $.ajax({
         type: 'POST',
-        url: '/ajax/member/send/verificationNo',
+        url: '/api/member/phonenumber/verification-code',
         data: {'phonenumber1': phonenumber1, 'phonenumber2': phonenumber2, 'phonenumber3': phonenumber3},
-        dataType: 'json',
         beforeSend: function (xhr) {
             xhr.setRequestHeader(csrfHeader, csrfToken);
         },
@@ -405,7 +396,7 @@ function requestVerificationCode() {
         },
         error: function () {
             $('.loader_wrap.white').hide();
-            $('#phoneNumberMsg').text('인증번호 발급 중 오류가 발생했습니다. 다시 시도해 주세요.');
+            $('#phoneNumberMsg').text('인증번호 전송 중 오류가 발생했습니다. 다시 시도해 주세요.');
         }
     });
 }
@@ -449,9 +440,9 @@ function isVerificationValid() {
     let phonenumber1 = $('#phonenumber1').val();
     let phonenumber2 = $('#phonenumber2').val();
     let phonenumber3 = $('#phonenumber3').val();
-    let verificationNo = $('#verificationNo').val();
+    let verificationCode = $('#verificationNo').val();
 
-    if (verificationNo.trim() === '') {
+    if (verificationCode.trim() === '') {
         Swal.fire({
             text: '인증번호를 입력해 주세요.',
             showConfirmButton: true,
@@ -463,12 +454,12 @@ function isVerificationValid() {
     }
     $.ajax({
         type: 'POST',
-        url: '/ajax/member/check/verificationNo',
+        url: '/api/member/phonenumber/verification-code/verify',
         data: {
-            phonenumber1: phonenumber1,
-            phonenumber2: phonenumber2,
-            phonenumber3: phonenumber3,
-            verificationNo: verificationNo
+            'phonenumber1': phonenumber1,
+            'phonenumber2': phonenumber2,
+            'phonenumber3': phonenumber3,
+            'verificationCode': verificationCode
         },
         beforeSend: function (xhr) {
             xhr.setRequestHeader(csrfHeader, csrfToken);

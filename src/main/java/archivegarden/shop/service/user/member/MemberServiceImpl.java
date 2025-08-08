@@ -1,10 +1,8 @@
 package archivegarden.shop.service.user.member;
 
+import archivegarden.shop.dto.ResultResponse;
 import archivegarden.shop.dto.common.JoinSuccessDto;
-import archivegarden.shop.dto.user.member.EditMemberInfoForm;
-import archivegarden.shop.dto.user.member.FindIdResultDto;
-import archivegarden.shop.dto.user.member.JoinMemberForm;
-import archivegarden.shop.dto.user.member.VerificationRequestDto;
+import archivegarden.shop.dto.user.member.*;
 import archivegarden.shop.entity.Delivery;
 import archivegarden.shop.entity.Member;
 import archivegarden.shop.entity.Membership;
@@ -20,6 +18,7 @@ import archivegarden.shop.util.RedisUtil;
 import archivegarden.shop.util.SmsUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -141,34 +140,38 @@ public class MemberServiceImpl implements MemberService {
      */
     @Transactional
     @Override
-    public void sendVerificationNo(String to) {
+    public void sendVerificationCode(String to) {
         if (redisUtil.existData(to)) {
             redisUtil.deleteData(to);
         }
 
-        String verificationNo = createVerificationNo();
-        log.info("휴대전화번호 인증번호: {}", verificationNo);
+        String verificationCode = createVerificationCode();
+        log.info("휴대전화번호 인증번호: {}", verificationCode);
 
-        smsUtil.sendVerificationNo(to, verificationNo);
+//        smsUtil.sendVerificationNo(to, verificationCode);
 
-        redisUtil.setDataExpire(to, verificationNo, VERIFICATION_CODE_EXPIRE_SECONDS);
+        redisUtil.setDataExpire(to, verificationCode, VERIFICATION_CODE_EXPIRE_SECONDS);
     }
 
     /**
      * 휴대전화번호 인증번호 검증
      *
-     * @param requestDto 인증번호 검증 요청 DTO
-     * @return 인증번호가 일치하면 true, 그렇지 않으면 false
+     * @param verificationCodeRequest 인증번호 검증 요청 DTO
+     * @return API 응답 객체
      */
     @Override
-    public boolean validateVerificationNo(VerificationRequestDto requestDto) {
-        String phonenumber = requestDto.getFormattedPhonenumber();
+    public ResultResponse verifyVerificationCode(VerificationCodeRequestDto verificationCodeRequest) {
+        String phonenumber = verificationCodeRequest.getPhonenumber();
 
         if (redisUtil.existData(phonenumber)) {
-            return redisUtil.getData(phonenumber).equals(requestDto.getVerificationNo());
+            if(redisUtil.getData(phonenumber).equals(verificationCodeRequest.getVerificationCode())) {
+                return new ResultResponse(HttpStatus.OK.value(), "인증번호 확인에 성공하였습니다.");
+            } else {
+                return new ResultResponse(HttpStatus.BAD_REQUEST.value(), "인증번호가 일치하지 않습니다.");
+            }
+        } else {
+            return new ResultResponse(HttpStatus.BAD_REQUEST.value(), "인증번호가 만료되었습니다.");
         }
-
-        return false;
     }
 
     /**
@@ -310,7 +313,7 @@ public class MemberServiceImpl implements MemberService {
      *
      * @return 인증번호 문자열
      */
-    private String createVerificationNo() {
+    private String createVerificationCode() {
         Random random = new Random();
         int verificationNo = random.nextInt(888888) + 111111;
         return String.valueOf(verificationNo);
