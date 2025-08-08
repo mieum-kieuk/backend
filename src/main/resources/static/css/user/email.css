@@ -1,10 +1,28 @@
 #verification {
-    margin: 50px 0 0 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
     color: #222;
     line-height: 1.5;
 }
+.verification_wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+}
 .verification_tit {
-    margin-bottom: 20px;
+    display: flex;
+    height: 40px;
+    font-size: 26px;
+    line-height: 0.5;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.verification_tit:after {
+    content: '|';
+    margin: 0 10px;
 }
 .verification_txt a {
     text-decoration: underline;
