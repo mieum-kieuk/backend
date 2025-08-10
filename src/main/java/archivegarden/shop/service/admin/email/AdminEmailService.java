@@ -16,7 +16,7 @@ import org.thymeleaf.context.Context;
 @RequiredArgsConstructor
 public class AdminEmailService {
 
-    private static final String ADMIN_AUTH_TEMPLATE = "email/template/admin_auth_complete";
+    private static final String ADMIN_AUTH_TEMPLATE = "admin/email/template/admin_auth_complete";
 
     private final TemplateEngine templateEngine;
     private final JavaMailSender javaMailSender;

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: commonHead('이메일 인증 완료')}">
+    <th:block th:fragment="extraCss">
+        <link rel="stylesheet" th:href="@{/css/user/email.css}" />
+    </th:block>
+</head>
+
+<body>
+<div id="verification">
+    <div class="verification_wrap">
+        <h2 class="verification_tit">이메일 인증 완료</h2>
+        <div class="verification_txt">
+            <p>이메일 인증을 이미 완료하셨습니다.</p>
+            <p><a th:href="@{/login}">로그인</a> 후 다양한 서비스를 이용하실 수 있습니다.</p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

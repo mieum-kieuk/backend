@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>관리자 인증 완료</title>
+</head>
+<body>
+<div class="inner" style="width: 450px; max-height: 250px; border: 1px solid #888; display: table; text-align: center; padding: 20px;">
+    <div style="display: table-cell; vertical-align: middle; text-align: center;">
+        <h2 style="font-size: 18px; line-height: 25px; margin: 10px 0;">[미음키읔] 관리자 인증이 완료되었습니다.</h2>
+        <p style="font-size: 14px; line-height: 25px; margin-bottom: 10px;"><span th:text="${name}"></span>님 반갑습니다.<br/>
+            관리자 권한이 부여되었습니다.
+        </p>
+        <a th:href="${loginUrl}" target="_blank">
+            <div style="display:block; max-width:300px; width: 100%; box-sizing:border-box; border: 1px solid #333; border-radius: 5px; font-size: 14px; padding: 10px; text-align: center; text-decoration: none; color: #000; margin: 0 auto;" >로그인 하러가기</div>
+        </a>
+    </div>
+</div>
+</body>
+</html>

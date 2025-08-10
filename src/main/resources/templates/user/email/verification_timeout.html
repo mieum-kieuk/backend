@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: commonHead('이메일 인증 유효시간 만료')}">
+    <th:block th:fragment="extraCss">
+        <link rel="stylesheet" th:href="@{/css/user/email.css}" />
+    </th:block>
+</head>
+
+<body>
+<div id="verification">
+    <div class="verification_wrap">
+        <h2 class="verification_tit">이메일 인증 유효시간 만료</h2>
+        <div class="verification_txt">
+            <p>이메일 인증 유효 시간이 만료되었습니다.</p>
+            <p>이메일 인증 메일 재발송을 원하시는 경우, <a th:href="@{/login}">로그인</a> 후 마이페이지에서 요청해 주세요.</p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

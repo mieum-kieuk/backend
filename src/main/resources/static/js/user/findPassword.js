@@ -24,7 +24,7 @@ $('#find #findPwBtn').click(function () {
         $.ajax({
             type: 'POST',
             url: '/api/member/find-password/email',
-            data: {loginId: loginId, name: name, email: email},
+            data: {'loginId': loginId, 'name': name, 'email': email},
             beforeSend: function (xhr) {
                 xhr.setRequestHeader(csrfHeader, csrfToken)
             },
@@ -99,8 +99,8 @@ $('#find_pw #sendPwBtn').click(function () {
 
     $.ajax({
         type: 'POST',
-        url: '/email/temp-password',
-        data: {email: email},
+        url: '/api/email/temp-password',
+        data: {'email': email},
         beforeSend: function (xhr) {
             xhr.setRequestHeader(csrfHeader, csrfToken);
         },

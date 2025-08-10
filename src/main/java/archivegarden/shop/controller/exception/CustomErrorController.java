@@ -18,7 +18,10 @@ public class CustomErrorController implements ErrorController {
         if (status != null) {
             int statusCode = Integer.parseInt(status.toString());
 
-            if (statusCode == 403) {
+
+            if (statusCode == 401) {
+                return "error/common/401";
+            } else if (statusCode == 403) {
                 model.addAttribute("errorMessage", errorMessage);
                 return "error/common/403";
             } else if (statusCode == 404) {

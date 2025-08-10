@@ -63,7 +63,7 @@ public class MemberServiceImpl implements MemberService {
         Delivery delivery = Delivery.createDeliveryWhenJoin(member, form.getZipCode(), form.getBasicAddress(), form.getDetailAddress());
         deliveryRepository.save(delivery);
 
-        emailService.sendValidationRequestEmail(member.getEmail(), member.getName(), member.getCreatedAt());
+        emailService.sendEmailVerificationLink(member.getEmail(), member.getName(), member.getCreatedAt());
 
         savedPointService.addPoint(member.getId(), SavedPointType.JOIN, 1000);
 
@@ -292,7 +292,7 @@ public class MemberServiceImpl implements MemberService {
         if (!member.getEmail().equals(form.getEmail())) {
             member.updateEmail(form.getEmail());
             member.updateEmailVerificationStatus(false);
-            emailService.sendValidationRequestEmailInMyPage(form.getEmail(), member.getName());
+            emailService.sendEmailVerificationLinkInMyPage(form.getEmail(), member.getName());
         }
     }
 

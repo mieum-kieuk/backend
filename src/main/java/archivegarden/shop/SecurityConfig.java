@@ -53,7 +53,8 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers( "/login",  "/member/**").anonymous()
-                        .requestMatchers( "/", "/productImages/**", "/email/**", "/error",
+                        .requestMatchers("/email/**").permitAll()
+                        .requestMatchers( "/", "/productImages/**", "/error",
                                 "/products/**", "/about", "/community/inquiries", "/community/inquiries/{id}", "/community/notice/**", "/search/**",
                                 "/payment/webhook", "/popup/deliveries/**").permitAll()
                         .anyRequest().permitAll()
