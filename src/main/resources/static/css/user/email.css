@@ -19,10 +19,15 @@
     line-height: 0.5;
     align-items: center;
     flex-wrap: wrap;
+    font-weight: 400;
 }
 .verification_tit:after {
     content: '|';
     margin: 0 10px;
+    font-size: 30px;
+}
+.verification_txt {
+    font-size: 12px;
 }
 .verification_txt a {
     text-decoration: underline;
