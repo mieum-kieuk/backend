@@ -1,8 +1,10 @@
 package archivegarden.shop.constant;
 
-public class SessionConstants {
+public final class SessionConstants {
 
-    private SessionConstants(){};
+    private SessionConstants(){
+        throw new AssertionError("Final 클래스는 생성할 수 없습니다");
+    }
 
     public static final String JOIN_MEMBER_ID_KEY = "JOIN_MEMBER_ID";
 
