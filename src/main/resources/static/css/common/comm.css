@@ -159,13 +159,13 @@ input:-webkit-autofill:active {
   font-family: "Noto Sans KR";
   font-weight: 300;
   font-style: normal;
-  unicode-range: U+AC00-D7A3, U+0030-0039, U+0020-002F, U+003A-0040, U+005B-0060, U+007B-007E;
+  unicode-range: U+AC00-D7A3, U+0020-002F, U+003A-0040, U+005B-0060, U+007B-007E;
 }
 @font-face {
   font-family: "neue-haas-grotesk-display";
   font-weight: 300;
   font-style: normal;
-  unicode-range: U+0041-005A ,U+0061-007A ;
+  unicode-range: U+0041-005A ,U+0061-007A, U+0030-0039 ;
 }
 
 /* mobile */
@@ -468,7 +468,7 @@ legend {
   display: flex;
   flex-direction: column;
   height: 100vh;
-  padding: 60px 20px;
+  padding: 60px 20px 10px;
   animation: slideDown 0.4s ease forwards;
 }
 
@@ -569,7 +569,6 @@ legend {
     display: block;
     padding: 15px 10px;
     font-size: 18px;
-    font-weight: 600;
     cursor: pointer;
     border-bottom: 1px solid #eee;
   }
@@ -580,7 +579,7 @@ legend {
   }
 
   .depth2 {
-    max-height: 0;
+    /*max-height: 0;*/
     overflow: hidden;
     transition: max-height 0.3s ease;
   }
@@ -589,7 +588,7 @@ legend {
     display: block;
     padding: 10px 20px;
     font-size: 16px;
-    border-bottom: 1px solid #ddd;
+    /*border-bottom: 1px solid #ddd;*/
   }
 }
 
