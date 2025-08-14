@@ -94,11 +94,12 @@ body {
     display: none;
 }
 
-/*.side_menu.menu li.active .depth2 {*/
-/*    display: block;*/
-/*}*/
 .side_menu .depth2 > li.active {
     background: #666;
+}
+
+.side_menu .depth1 > li.active > a{
+    font-weight: 500;
 }
 
 .side_menu.account {
@@ -139,6 +140,7 @@ body {
     padding: 10px 0;
     border-bottom: 2px solid #333;
     margin-bottom: 20px;
+    font-weight: 500;
 }
 
 .content_tit h2 {
@@ -206,7 +208,7 @@ label {
     margin-right: 20px;
     white-space: nowrap;
     color: #999;
-    font-weight: 600;
+    font-weight: 400;
 }
 
 input::-webkit-inner-spin-button {
@@ -607,7 +609,7 @@ input::-webkit-inner-spin-button {
     display: block;
     margin-right: 20px;
     min-width: 120px;
-    font-weight: 600;
+    font-weight: 400;
     color: #999;
 }
 
@@ -629,7 +631,7 @@ input::-webkit-inner-spin-button {
     display: block;
     margin-right: 20px;
     width: 120px;
-    font-weight: 600;
+    font-weight: 500;
     color: #999;
 }
 
@@ -705,7 +707,11 @@ input::-webkit-inner-spin-button {
 .category > .btn_wrap .add_btn {
     width: 120px;
 }
-
+.category #noDataMessage {
+    margin-top: 5px;
+    border-top: 1px solid #d7d7d7;
+    height: 36px;
+}
 .sortable-list, .sortable-list ul {
     list-style: none;
 }
@@ -787,7 +793,7 @@ input::-webkit-inner-spin-button {
     color: #999;
     white-space: nowrap;
     width: 110px;
-
+    font-weight: 500;
 }
 
 #detailImages {
@@ -829,7 +835,7 @@ table {
 }
 
 .admin_wrap th {
-    font-weight: 600;
+    font-weight: 500;
 }
 
 .admin_wrap th,
@@ -1090,6 +1096,7 @@ th {
     padding-left: 10px;
     line-height: 16px;
     margin-bottom: 10px;
+    font-weight: 400;
 }
 
 .admin_wrap .form_title::before {

@@ -174,46 +174,34 @@ function toggleDropdownMenu(toggleElement) {
 function initializeSideMenu() {
     let url = window.location.pathname;
 
-    // 현재 페이지 URL과 일치하는 depth2 항목을 찾아 active 클래스를 추가하고, 해당 depth2만 열기
+    // depth2 메뉴 처리
     $('.side_menu .depth2 li[data-path]').each(function () {
         let dataPath = $(this).data('path');
-
-        if (url.endsWith('/' + dataPath)) {
+        if (dataPath && url.includes('/' + dataPath)) {
             $(this).addClass('active');
             $(this).closest('.depth2').css('display', 'block');
-            $(this).closest('.depth1 > li').addClass('active');
         }
     });
 
+    // depth2 없는 depth1 li 처리
     $('.side_menu .depth1 > li').each(function () {
-        let depth1 = $(this);
-        let depth2 = depth1.find('.depth2');
+        let depth2 = $(this).find('.depth2');
+        let dataPath = $(this).data('path');
 
-        // depth2가 없는 경우 기본 링크 동작 유지
-        if (depth2.length === 0) {
-            return;
+        if (depth2.length === 0 && dataPath && url.includes('/' + dataPath)) {
+            $(this).addClass('active');
         }
+    });
 
-        depth1.children('a').click(function (event) {
-            event.preventDefault(); // 기본 링크 동작 방지
-
-            // 클릭한 li의 부모 depth2를 토글
+    // depth2 토글 이벤트
+    $('.side_menu .depth1 > li > a').click(function (event) {
+        let depth2 = $(this).siblings('.depth2');
+        if (depth2.length > 0) {
+            event.preventDefault();
             depth2.slideToggle();
-
-            // 다른 모든 depth2를 닫음
             $('.side_menu .depth2').not(depth2).slideUp();
-
-            // depth1의 다른 항목의 active 클래스를 제거
-            $('.side_menu .depth1 > li').not(depth1).removeClass('active');
-
-            // 클릭한 depth1에 active 클래스 추가
-            depth1.toggleClass('active');
-        });
-
-        // 현재 페이지 URL과 일치하는 depth2 항목이 있는 경우 해당 depth1을 활성화
-        if (depth2.find('li[data-path]').toArray().some(item => url.endsWith('/' + $(item).data('path')))) {
-            depth1.addClass('active');
-            depth2.css('display', 'block');
+            $('.side_menu .depth1 > li').not($(this).parent()).removeClass('active');
+            $(this).parent().toggleClass('active');
         }
     });
 }
