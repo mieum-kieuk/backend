@@ -1,8 +1,8 @@
 #login {
   display: flex;
   justify-content: center;
-  padding-top: 120px;
   color: #222;
+  height: 100vh;
   max-height: calc(100vh - 230px);
 }
 
