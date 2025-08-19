@@ -8,7 +8,7 @@ $(document).ready(function () {
 
     $('#password').on('focusout', function () {
         isPasswordValid();
-        if($('#passwordConfirm').val().trim() != '') {
+        if ($('#passwordConfirm').val().trim() != '') {
             isPwConfirmValid();
         }
     });
@@ -21,7 +21,7 @@ $(document).ready(function () {
         isNameValid();
     });
 
-    $('#detailAddress').click(function() {
+    $('#detailAddress').click(function () {
         let zipCode = $('#zipCode').val().trim();
         let basicAddress = $('#basicAddress').val().trim();
 
@@ -60,13 +60,13 @@ $(document).ready(function () {
     });
 
     // 전체 체크
-    $('#agree_group').on('click', "#agree_all", function() {
+    $('#agree_group').on('click', "#agree_all", function () {
         let isChecked = $(this).prop("checked");
         $('#agree_group').find('.checkbox').prop("checked", isChecked);
     });
 
     // 개별 동의 체크박스 변경 시
-    $('#agree_group').find('.checkbox').change(function() {
+    $('#agree_group').find('.checkbox').change(function () {
         let allChecked = $('#agree_group').find('.checkbox:not(#agree_all)').length === $('#agree_group').find('.checkbox:not(#agree_all):checked').length;
         $('#agree_all').prop('checked', allChecked);
     });
@@ -89,20 +89,27 @@ function isLoginIdValid() {
 
     $.ajax({
         type: 'GET',
-        url: '/api/member/login-id/exists?value=' + encodeURIComponent(loginId),
-        success: function (result) {
-            if (result.status === 200) {
+        url: '/api/member/login-id/exists?loginId=' + encodeURIComponent(loginId),
+        success: function (resp) {
+            if (resp.available) {
                 isAvailableLoginId = true;
-                $('#idMsg').text(result.message);
+                $('#idMsg').text(resp.message);
                 $('#idMsg').removeClass('error').addClass('success');
             } else {
                 isAvailableLoginId = false;
-                $('#idMsg').text(result.message);
+                $('#idMsg').text(resp.message);
                 $('#idMsg').removeClass('success').addClass('error');
             }
         },
-        error: function () {
-            $('#idMsg').text('아이디 중복 확인 중 오류가 발생했습니다. 다시 시도해 주세요.');
+        error: function (xhr) {
+            let resp = xhr.responseJSON;
+            if (xhr.status === 400) {
+                $('#idMsg').text(resp?.message || '잘못된 요청입니다.');
+            } else if (xhr.status === 403) {
+                $('#idMsg').text(resp?.message || '접근 권한이 없습니다.');
+            } else {
+                $('#idMsg').text('아이디 중복 확인 중 오류가 발생했습니다. 다시 시도해 주세요.');
+            }
             $('#idMsg').removeClass('success').addClass('error');
         }
     });
@@ -243,20 +250,27 @@ function isEmailValid() {
 
     $.ajax({
         type: 'GET',
-        url: '/api/member/email/exists?value=' + encodeURIComponent(email),
-        success: function (result) {
-            if (result.status == 200) {
+        url: '/api/member/email/exists?email=' + encodeURIComponent(email),
+        success: function (resp) {
+            if (resp.available) {
                 isAvailableEmail = true;
-                $('#emailMsg').text(result.message);
+                $('#emailMsg').text(resp.message);
                 $('#emailMsg').removeClass('error').addClass('success');
             } else {
                 isAvailableEmail = false;
-                $('#emailMsg').text(result.message);
+                $('#emailMsg').text(resp.message);
                 $('#emailMsg').removeClass('success').addClass('error');
             }
         },
         error: function () {
-            $('#emailMsg').text('이메일 중복 확인 중 오류가 발생했습니다. 다시 시도해 주세요.');
+            let resp = xhr.responseJSON;
+            if (xhr.status === 400) {
+                $('#emailMsg').text(resp?.message || '잘못된 요청입니다.');
+            } else if (xhr.status === 403) {
+                $('#emailMsg').text(resp?.message || '접근 권한이 없습니다.');
+            } else {
+                $('#emailMsg').text('이메일 중복 확인 중 오류가 발생했습니다. 다시 시도해 주세요.');
+            }
             $('#emailMsg').removeClass('success').addClass('error');
         }
     });
@@ -330,6 +344,7 @@ function regexPhone() {
     }
 
 }
+
 function isAddressEmpty() {
     let zipCode = $('#zipCode').val().trim();
     let basicAddress = $('#basicAddress').val().trim();
@@ -340,6 +355,7 @@ function isAddressEmpty() {
 
     return true;
 }
+
 // 타이머 설정
 let interval;
 
@@ -366,37 +382,40 @@ function startTimer() {
 }
 
 function requestVerificationCode() {
-    let phonenumber1 = $('#phonenumber1').val();
-    let phonenumber2 = $('#phonenumber2').val();
-    let phonenumber3 = $('#phonenumber3').val();
+    let phonenumber = $('#phonenumber1').val() + $('#phonenumber2').val() + $('#phonenumber3').val();
     $('.loader_wrap.white').show();
 
     $.ajax({
         type: 'POST',
-        url: '/api/member/phonenumber/verification-code',
-        data: {'phonenumber1': phonenumber1, 'phonenumber2': phonenumber2, 'phonenumber3': phonenumber3},
+        url: '/api/member/phone/verification-code',
+        data: {'phonenumber': phonenumber},
         beforeSend: function (xhr) {
             xhr.setRequestHeader(csrfHeader, csrfToken);
         },
-        success: function (result) {
+        success: function (resp) {
             $('.loader_wrap.white').hide();
-
-            if (result.status === 200) {
-                $('#phoneNumberMsg').text(result.message);
-                $('#phoneNumberMsg').removeClass('error').addClass('success');
-                $('#confirm_verify_mobile').css('display', 'flex');
-                $('#btn_action_verify_mobile').text('재전송');
-                $('#verificationNo').val('');
-                startTimer();
-            } else {
-                $('#confirm_verify_mobile').css('display', 'none');
-                $('#phoneNumberMsg').text(result.message);
-                $('#phoneNumberMsg').removeClass('success').addClass('error');
-            }
+            $('#phoneNumberMsg').text(resp.message);
+            $('#phoneNumberMsg').removeClass('error').addClass('success');
+            $('#confirm_verify_mobile').css('display', 'flex');
+            $('#btn_action_verify_mobile').text('재전송');
+            $('#verificationNo').val('');
+            startTimer();
         },
-        error: function () {
+        error: function (xhr) {
+            let resp = xhr.responseJSON;
+            if (xhr.status === 400) {
+                $('#phoneNumberMsg').text(resp?.message || '잘못된 요청입니다.');
+            } else if (xhr.status === 403) {
+                $('#phoneNumberMsg').text(resp?.message || '접근 권한이 없습니다.');
+            } else if (xhr.status === 409) {
+                $('#phoneNumberMsg').text(resp?.message || '이미 사용중인 휴대전화번호입니다.');
+            } else {
+                $('#phoneNumberMsg').text('인증번호 발송 중 오류가 발생했습니다. 다시 시도해 주세요.');
+            }
+
+            $('#phoneNumberMsg').removeClass('success').addClass('error');
+            $('#confirm_verify_mobile').css('display', 'none');
             $('.loader_wrap.white').hide();
-            $('#phoneNumberMsg').text('인증번호 전송 중 오류가 발생했습니다. 다시 시도해 주세요.');
         }
     });
 }
@@ -437,9 +456,7 @@ function verificationBtnState() {
 }
 
 function isVerificationValid() {
-    let phonenumber1 = $('#phonenumber1').val();
-    let phonenumber2 = $('#phonenumber2').val();
-    let phonenumber3 = $('#phonenumber3').val();
+    let phonenumber = $('#phonenumber1').val() + $('#phonenumber2').val() + $('#phonenumber3').val();
     let verificationCode = $('#verificationNo').val();
 
     if (verificationCode.trim() === '') {
@@ -454,44 +471,54 @@ function isVerificationValid() {
     }
     $.ajax({
         type: 'POST',
-        url: '/api/member/phonenumber/verification-code/verify',
+        url: '/api/member/phone/verification-code/verify',
         data: {
-            'phonenumber1': phonenumber1,
-            'phonenumber2': phonenumber2,
-            'phonenumber3': phonenumber3,
+            'phonenumber': phonenumber,
             'verificationCode': verificationCode
         },
         beforeSend: function (xhr) {
             xhr.setRequestHeader(csrfHeader, csrfToken);
         },
-        success: function (result) {
-            if (result.status === 200) {
-                $('#verificationNo').val('');
-                $('#verificationNo').attr('placeholder', '휴대전화 인증 완료');
-                $('#verificationNo').attr('disabled', true);
-                $('#verificationNo').css('background-color', '#EFEFEF');
-                $('#verificationNo').css('cursor', 'default');
-                $('#btn_action_verify_mobile').attr('disabled', true);
-                $('#btn_action_verify_mobile').addClass('disabled');
-                $('#btn_verify_mobile_confirm').attr('disabled', true);
-                $('#btn_verify_mobile_confirm').addClass('disabled');
-                clearInterval(interval);
-                $('#expiryTime').css('display', 'none');
-                $('#verificationNo').attr('complete', "true");
-            } else {
-                $('#verificationNo').val('');
+        success: function () {
+            $('#verificationNo').val('');
+            $('#verificationNo').attr('placeholder', '휴대전화 인증 완료');
+            $('#verificationNo').attr('disabled', true);
+            $('#verificationNo').css('background-color', '#EFEFEF');
+            $('#verificationNo').css('cursor', 'default');
+            $('#btn_action_verify_mobile').attr('disabled', true);
+            $('#btn_action_verify_mobile').addClass('disabled');
+            $('#btn_verify_mobile_confirm').attr('disabled', true);
+            $('#btn_verify_mobile_confirm').addClass('disabled');
+            clearInterval(interval);
+            $('#expiryTime').css('display', 'none');
+            $('#verificationNo').attr('complete', "true");
+        },
+        error: function (xhr) {
+            let resp = xhr.responseJSON;
+            if (xhr.status === 400) {
+                let message = resp?.message || '잘못된 요청입니다.';
                 Swal.fire({
-                    html: result.message.replace('\n', '<br>'),
+                    html: message,
                     showConfirmButton: true,
                     confirmButtonText: '확인',
                     customClass: mySwal,
                     buttonsStyling: false
                 });
-                $('#verificationNo').attr('complete', "false");
+            } else if (xhr.status === 403) {
+                let message = resp?.message || '접근 권한이 없습니다.';
+                Swal.fire({
+                    html: message,
+                    showConfirmButton: true,
+                    confirmButtonText: '확인',
+                    customClass: mySwal,
+                    buttonsStyling:
+                        false
+                });
+            } else {
+                $('verificationMsg').text('인증번호 인증 중 오류가 발생했습니다. 다시 시도해 주세요.');
             }
-        },
-        error: function () {
-            $('verificationMsg').text('인증번호 인증 중 오류가 발생했습니다. 다시 시도해 주세요.');
+            $('#verificationNo').val('');
+            $('#verificationNo').attr('complete', "false");
         }
     });
 }

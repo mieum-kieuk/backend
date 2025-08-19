@@ -1,4 +1,4 @@
-package archivegarden.shop.exception.ajax;
+package archivegarden.shop.exception.api;
 
 public class EntityNotFoundAjaxException extends RuntimeException {
 

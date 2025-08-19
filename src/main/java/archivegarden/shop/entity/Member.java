@@ -28,7 +28,7 @@ public class Member extends BaseTimeEntity {
     @Column(length = 12, nullable = false)
     private String name;
 
-    @Column(name = "phone_number", length = 13, nullable = false)
+    @Column(name = "phone_number", length = 11, nullable = false)
     private String phonenumber;
 
     @Column(length = 45, nullable = false)
@@ -49,7 +49,10 @@ public class Member extends BaseTimeEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "membership_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
-    private Membership membership;  //단방향
+    private Membership membership;
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Delivery> deliveries = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
     private List<SavedPoint> savedPoints = new ArrayList<>();
@@ -65,19 +68,28 @@ public class Member extends BaseTimeEntity {
 
     public static Member createMember(JoinMemberForm form, Membership membership) {
         Member member = new Member();
+        member.membership = membership;
         member.loginId = form.getLoginId();
         member.password = form.getPassword();
         member.name = form.getName();
-        member.phonenumber = form.getPhonenumber1() + "-" + form.getPhonenumber2() + "-" + form.getPhonenumber3();
+        member.phonenumber = form.getPhonenumber1() + form.getPhonenumber2() + form.getPhonenumber3();
         member.email = form.getEmail();
         member.authority = Authority.ROLE_USER;
         member.agreeToReceiveSms = form.isAgreeToReceiveSms();
         member.agreeTotReceiveEmail = form.isAgreeToReceiveEmail();
         member.isEmailVerified = false;
-        member.membership = membership;
         return member;
     }
 
+    /**
+     * 배송지 추가
+     *
+     * @param delivery 추가할 배송지
+     */
+    public void addDelivery(Delivery delivery) {
+        deliveries.add(delivery);
+        delivery.setMember(this);
+    }
     /**
      * 이메일 인증 상태 수정
      */

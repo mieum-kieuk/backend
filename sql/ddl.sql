@@ -1,3 +1,23 @@
+-- 회원 등급
+DROP TABLE IF EXISTS membership CASCADE;
+CREATE TABLE membership
+(
+    membership_id     BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    name              VARCHAR(30) NOT NULL,
+    point_rate        INT UNSIGNED NOT NULL,
+    level             INT UNSIGNED NOT NULL,
+    is_default        BOOLEAN     NOT NULL DEFAULT 0,
+    max_benefit_point INT UNSIGNED NOT NULL,
+    min_amount_spent  BIGINT UNSIGNED NOT NULL,
+    created_at        TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at        TIMESTAMP,
+    CONSTRAINT UQ_MEMBERSHIP_NAME UNIQUE (name)
+);
+
+-- 기본 멤버십 삽입
+INSERT INTO membership (name, point_rate, level, is_default, max_benefit_point, min_amount_spent)
+VALUES ('BASIC', 1, 1, 1, 100000, 500000);
+
 -- 회원
 DROP TABLE IF EXISTS member CASCADE;
 CREATE TABLE member
@@ -7,18 +27,48 @@ CREATE TABLE member
     login_id              VARCHAR(20)  NOT NULL,
     password              VARCHAR(255) NOT NULL,
     name                  VARCHAR(30)  NOT NULL,
-    phone_number          VARCHAR(13)  NOT NULL,
+    phone_number          VARCHAR(11)  NOT NULL,
     email                 VARCHAR(100) NOT NULL,
     authority             ENUM('ROLE_ANONYMOUS', 'ROLE_USER') NOT NULL,
-    agree_to_receive_sms  TINYINT(1) UNSIGNED NOT NULL,
-    agree_to_receive_mail TINYINT(1) UNSIGNED NOT NULL,
-    is_email_verified     TINYINT(1) UNSIGNED NOT NULL,
+    agree_to_receive_sms  BOOLEAN NOT NULL,
+    agree_to_receive_mail BOOLEAN NOT NULL,
+    is_email_verified     BOOLEAN NOT NULL,
     created_at            TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    modified_at           TIMESTAMP,
+    updated_at            TIMESTAMP,
     deleted_at            TIMESTAMP,
     CONSTRAINT UQ_MEMBER_LOGIN_ID UNIQUE (login_id),
     CONSTRAINT UQ_MEMBER_PHONE_NUMBER UNIQUE (phone_number),
     CONSTRAINT UQ_MEMBER_EMAIL UNIQUE (email)
+);
+
+-- 배송지
+DROP TABLE IF EXISTS delivery CASCADE;
+CREATE TABLE delivery
+(
+    delivery_id    BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    member_id      BIGINT UNSIGNED NOT NULL,
+    delivery_name  VARCHAR(50)  NOT NULL,
+    recipient_name VARCHAR(30)  NOT NULL,
+    zip_code       VARCHAR(5)   NOT NULL,
+    basic_address  VARCHAR(100) NOT NULL,
+    detail_address VARCHAR(100),
+    phone_number   VARCHAR(11)  NOT NULL,
+    is_default     BOOLEAN NOT NULL,
+    created_at     TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at     TIMESTAMP
+);
+
+-- 적립 적립금
+DROP TABLE IF EXISTS saved_point CASCADE;
+CREATE TABLE saved_point
+(
+    saved_point_id   BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    member_id        BIGINT UNSIGNED NOT NULL,
+    amount           INT UNSIGNED NOT NULL,
+    balance          INT UNSIGNED NOT NULL,
+    saved_point_type ENUM('JOIN', 'REVIEW', 'ORDER', 'CANCEL') NOT NULL,
+    created_at       TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    expired_at       TIMESTAMP NOT NULL
 );
 
 -- 관리자
@@ -30,10 +80,10 @@ CREATE TABLE admin
     password      VARCHAR(255) NOT NULL,
     name          VARCHAR(5)   NOT NULL,
     email         VARCHAR(100) NOT NULL,
-    is_authorized TINYINT(1) UNSIGNED NOT NULL,
+    is_authorized BOOLEAN NOT NULL,
     authority     ENUM('ROLE_ANONYMOUS', 'ROLE_ADMIN') NOT NULL,
     created_at    TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    modified_at   TIMESTAMP,
+    updated_at    TIMESTAMP,
     deleted_at    TIMESTAMP,
     CONSTRAINT UQ_ADMIN_LOGIN_ID UNIQUE (login_id),
     CONSTRAINT UQ_ADMIN__EMAIL UNIQUE (email)
@@ -43,14 +93,28 @@ CREATE TABLE admin
 DROP TABLE IF EXISTS notice CASCADE;
 CREATE TABLE notice
 (
-    notice_id   BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    admin_id    BIGINT UNSIGNED NOT NULL,
-    title       VARCHAR(50) NOT NULL,
-    content     TEXT        NOT NULL,
-    hit         INT UNSIGNED NOT NULL DEFAULT 0,
-    created_at  TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    modified_at TIMESTAMP
+    notice_id  BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    admin_id   BIGINT UNSIGNED NOT NULL,
+    title      VARCHAR(50) NOT NULL,
+    content    TEXT        NOT NULL,
+    hit        INT UNSIGNED NOT NULL DEFAULT 0,
+    created_at TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP
 );
+
+-- 카테고리
+DROP TABLE IF EXISTS category CASCADE;
+CREATE TABLE category
+(
+    category_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    parent_id   BIGINT NULL,
+    name        VARCHAR(100) NOT NULL,
+    sort_order  INT          NOT NULL DEFAULT 1,
+    created_at  TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at  TIMESTAMP,
+    CONSTRAINT FK_CATEGORY_PARENT_ID FOREIGN KEY (parent_id) REFERENCES category (category_id) ON DELETE CASCADE,
+    UNIQUE KEY UQ_CATEGORY_NAME (parent_id, name)
+)
 
 -- 상품
 DROP TABLE IF EXISTS product CASCADE;
@@ -67,7 +131,7 @@ CREATE TABLE product
     shipping       VARCHAR(1000),
     notice         VARCHAR(1000),
     created_at     TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    modified_at    TIMESTAMP,
+    updated_at     TIMESTAMP,
     CONSTRAINT UQ_PRODUCT_NAME UNIQUE (name)
 );
 
@@ -92,58 +156,9 @@ CREATE TABLE discount
     started_at       TIMESTAMP   NOT NULL,
     expired_at       TIMESTAMP   NOT NULL,
     created_at       TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    modified_at      TIMESTAMP,
+    updated_at       TIMESTAMP,
     CONSTRAINT UQ_DISCOUNT_NAME UNIQUE (name)
 );
-
--- 회원 등급
-DROP TABLE IF EXISTS membership CASCADE;
-CREATE TABLE membership
-(
-    membership_id     BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    name              VARCHAR(30) NOT NULL,
-    point_rate        INT UNSIGNED NOT NULL,
-    level             INT UNSIGNED NOT NULL,
-    is_default        TINYINT(1) UNSIGNED NOT NULL,
-    max_benefit_point INT UNSIGNED NOT NULL,
-    min_amount_spent  BIGINT UNSIGNED NOT NULL,
-    created_at        TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    modified_at       TIMESTAMP,
-    CONSTRAINT UQ_MEMBERSHIP_NAME UNIQUE (name)
-);
-
--- 배송지
-DROP TABLE IF EXISTS delivery CASCADE;
-CREATE TABLE delivery
-(
-    delivery_id         BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    member_id           BIGINT UNSIGNED NOT NULL,
-    delivery_name       VARCHAR(50)  NOT NULL,
-    recipient_name      VARCHAR(30)  NOT NULL,
-    zip_code            VARCHAR(5)   NOT NULL,
-    basic_address       VARCHAR(100) NOT NULL,
-    detail_address      VARCHAR(100),
-    phone_number        VARCHAR(13)  NOT NULL,
-    is_default_delivery TINYINT(1) NOT NULL,
-    created_at          TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    modified_at         TIMESTAMP
-);
-
--- 적립 적립금
-DROP TABLE IF EXISTS saved_point CASCADE;
-CREATE TABLE saved_point
-(
-    saved_point_id   BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    member_id        BIGINT UNSIGNED NOT NULL,
-    amount           INT UNSIGNED NOT NULL,
-    balance          INT UNSIGNED NOT NULL,
-    saved_point_type ENUM('JOIN', 'REVIEW', 'ORDER', 'CANCEL') NOT NULL,
-    created_at       TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    expired_at       TIMESTAMP NOT NULL
-);
-
-INSERT INTO membership (name, point_rate, level, min_amount_spent)
-VALUES ('basic', 1, 1, 10000)
 
 -- 차감 적립금
 DROP TABLE IF EXISTS used_point CASCADE;
@@ -196,10 +211,10 @@ CREATE TABLE inquiry
     answer_id   BIGINT UNSIGNED,
     title       VARCHAR(50) NOT NULL,
     content     TEXT        NOT NULL,
-    is_secret   TINYINT(1) NOT NULL,
-    is_answered TINYINT(1) NOT NULL,
+    is_secret   BOOLEAN NOT NULL,
+    is_answered BOOLEAN NOT NULL,
     created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    modified_at TIMESTAMP   NOT NULL,
+    updated_at  TIMESTAMP   NOT NULL,
     CONSTRAINT UQ_INQUIRY_ANSWER_ID UNIQUE (answer_id)
 
 );
@@ -208,11 +223,11 @@ CREATE TABLE inquiry
 DROP TABLE IF EXISTS answer CASCADE;
 CREATE TABLE answer
 (
-    answer_id   BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    admin_id    BIGINT UNSIGNED NOT NULL,
-    content     VARCHAR(1000) NOT NULL,
-    created_at  TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    modified_at TIMESTAMP
+    answer_id  BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    admin_id   BIGINT UNSIGNED NOT NULL,
+    content    VARCHAR(1000) NOT NULL,
+    created_at TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP
 );
 
 -- 주문
@@ -226,7 +241,7 @@ CREATE TABLE orders
     amount                 BIGINT UNSIGNED NOT NULL,
     recipient_name         VARCHAR(30),
     recipient_address      VARCHAR(255),
-    recipient_phone_number VARCHAR(13),
+    recipient_phone_number VARCHAR(11),
     delivery_request_msg   VARCHAR(255),
     order_status           ENUM('TRY', 'SUCCESS', 'CANCEL', 'FAIL') NOT NULL,
     fail_reason            VARCHAR(255),

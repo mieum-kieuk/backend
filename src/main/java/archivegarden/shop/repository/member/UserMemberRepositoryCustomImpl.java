@@ -33,7 +33,7 @@ public class UserMemberRepositoryCustomImpl implements UserMemberRepositoryCusto
                 ))
                 .from(member)
                 .join(delivery)
-                .on(delivery.member.eq(member).and(delivery.isDefaultDelivery.isTrue()))
+                .on(delivery.member.eq(member).and(delivery.isDefault.isTrue()))
                 .where(member.id.eq(memberId))
                 .fetchOne());
     }

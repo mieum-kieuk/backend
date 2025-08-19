@@ -8,7 +8,7 @@ public class DeliveryPopupDto {
 
     private Long id;
     private String deliveryName;
-    private boolean isDefaultDelivery;
+    private boolean isDefault;
     private String recipientName;
     private String zipCode;
     private String basicAddress;
@@ -18,7 +18,7 @@ public class DeliveryPopupDto {
     public DeliveryPopupDto(Delivery delivery) {
         this.id = delivery.getId();
         this.deliveryName = delivery.getDeliveryName();
-        this.isDefaultDelivery = delivery.isDefaultDelivery();
+        this.isDefault = delivery.isDefault();
         this.recipientName = delivery.getRecipientName();
         this.zipCode = delivery.getAddress().getZipCode();
         this.basicAddress = delivery.getAddress().getBasicAddress();

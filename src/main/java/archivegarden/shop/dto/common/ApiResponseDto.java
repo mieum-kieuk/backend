@@ -1,4 +1,4 @@
-package archivegarden.shop.dto;
+package archivegarden.shop.dto.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,9 +7,9 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class ResultResponse {
+public class ApiResponseDto {
 
-    private int status;
+    private String code;
     private String message;
 }
 

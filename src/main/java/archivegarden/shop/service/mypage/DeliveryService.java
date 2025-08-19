@@ -3,7 +3,7 @@ package archivegarden.shop.service.mypage;
 import archivegarden.shop.dto.delivery.*;
 import archivegarden.shop.entity.Delivery;
 import archivegarden.shop.entity.Member;
-import archivegarden.shop.exception.ajax.EntityNotFoundAjaxException;
+import archivegarden.shop.exception.api.EntityNotFoundAjaxException;
 import archivegarden.shop.exception.global.EntityNotFoundException;
 import archivegarden.shop.repository.DeliveryRepository;
 import archivegarden.shop.repository.member.MemberRepository;
@@ -80,7 +80,7 @@ public class DeliveryService {
     public void editDelivery(EditDeliveryForm form, Long deliveryId, Long memberId) {
         Delivery delivery = deliveryRepository.findById(deliveryId).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 배송지 주소입니다."));
 
-        if (form.isDefaultDelivery()) {
+        if (form.isDefault()) {
             updateDefaultDelivery(memberId);
         }
 

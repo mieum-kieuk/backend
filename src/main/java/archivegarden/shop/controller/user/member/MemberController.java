@@ -1,15 +1,9 @@
 package archivegarden.shop.controller.user.member;
 
-import archivegarden.shop.constant.SessionConstants;
 import archivegarden.shop.dto.common.JoinSuccessDto;
-import archivegarden.shop.dto.user.member.FindIdResultDto;
 import archivegarden.shop.dto.user.member.JoinMemberForm;
 import archivegarden.shop.exception.global.DuplicateEntityException;
 import archivegarden.shop.service.user.member.MemberService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,36 +13,26 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.regex.Pattern;
 
-@Tag(name = "회원-사용자", description = "사용자 페이지에서 회원 관련 화면을 처리하는 컨트롤러입니다.")
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/member")
 public class MemberController {
 
     private final MemberService memberService;
 
-    @Operation(
-            summary = "회원가입 폼",
-            description = "회원가입 페이지를 반환합니다."
-    )
     @GetMapping("/join")
     public String addMemberForm(@ModelAttribute("joinForm") JoinMemberForm form) {
         return "user/member/join";
     }
 
-    @Operation(
-            summary = "회원가입 요청",
-            description = "회원가입 요청을 처리합니다. 회원가입 성공 시 회원가입 완료 페이지로 리다이렉트합니다."
-    )
     @PostMapping("/join")
     public String join(
             @Validated @ModelAttribute("joinForm") JoinMemberForm form,
             BindingResult bindingResult,
-            HttpSession session
+            RedirectAttributes redirectAttributes
     ) {
         validateJoin(form, bindingResult);
         if (bindingResult.hasErrors()) {
@@ -63,91 +47,16 @@ public class MemberController {
         }
 
         Long memberId = memberService.join(form);
-        session.setAttribute(SessionConstants.JOIN_MEMBER_ID_KEY, memberId);
-        return "redirect:/member/join/complete";
+        redirectAttributes.addFlashAttribute("joinMemberId", memberId);
+        return "redirect:/join/complete";
     }
 
-    @Operation(
-            summary = "회원가입 완료",
-            description = "회원가입 완료 페이지를 반환합니다."
-    )
     @GetMapping("/join/complete")
-    public String joinComplete(HttpServletRequest request, Model model) {
-        HttpSession session = request.getSession(false);
-        if (session == null) return "redirect:/member/join";
-        Long memberId = (Long) session.getAttribute(SessionConstants.JOIN_MEMBER_ID_KEY);
-        if (memberId == null) return "redirect:/member/join";
-        session.removeAttribute(SessionConstants.JOIN_MEMBER_ID_KEY);
-
+    public String joinComplete(@ModelAttribute("joinMemberId") Long memberId, Model model) {
+        if(memberId == null) return "redirect:/member/join";
         JoinSuccessDto joinCompletionInfoDto = memberService.joinComplete(memberId);
         model.addAttribute("memberInfo", joinCompletionInfoDto);
         return "user/member/join_complete";
-    }
-
-    @Operation(
-            summary = "아이디 찾기 폼",
-            description = "아이디 찾기 페이지를 반환합니다."
-    )
-    @GetMapping("/find-id")
-    public String findId() {
-        return "user/member/find_id";
-    }
-
-    @Operation(
-            summary = "아이디 찾기 결과",
-            description = "입력된 정보로 찾은 아이디 결과 페이지를 반환합니다."
-    )
-    @GetMapping("/find-id/complete")
-    public String findIdResult(HttpServletRequest request, Model model) {
-        HttpSession session = request.getSession(false);
-        if (session == null) return "redirect:/member/find-id";
-        Long memberId = (Long) session.getAttribute(SessionConstants.FIND_LOGIN_ID_MEMBER_ID_KEY);
-        if (memberId == null) return "redirect:/member/find-id";
-        session.removeAttribute(SessionConstants.FIND_LOGIN_ID_MEMBER_ID_KEY);
-
-        FindIdResultDto findIdResultDto = memberService.findIdComplete(memberId);
-        model.addAttribute("member", findIdResultDto);
-        return "user/member/find_id_complete";
-    }
-
-    @Operation(
-            summary = "비밀번호 찾기 폼",
-            description = "비밀번호 찾기 페이지를 반환합니다."
-    )
-    @GetMapping("/find-password")
-    public String findPassword() {
-        return "user/member/find_password";
-    }
-
-    @Operation(
-            summary = "임시 비밀번호가 전송될 이메일 확인",
-            description = "임시 비밀번호가 전송될 이메일 주소를 확인합니다."
-    )
-    @GetMapping("/find-password/send")
-    public String displaySendTempPasswordEmailPage(HttpServletRequest request, Model model) {
-        HttpSession session = request.getSession(false);
-        if (session == null) return "redirect:/member/find-password";
-        String email = (String) session.getAttribute(SessionConstants.FIND_PASSWORD_EMAIL_KEY);
-        if (email == null) return "redirect:/member/find-password";
-
-        model.addAttribute("email", email);
-        return "user/member/send_temporary_password";
-    }
-
-    @Operation(
-            summary = "비밀번호 찾기 완료",
-            description = "임시 비밀번호가 전송되었음을 알려주는 화면을 반환합니다."
-    )
-    @GetMapping("/find-password/complete")
-    public String findPasswordResult(HttpServletRequest request, Model model) {
-        HttpSession session = request.getSession(false);
-        if (session == null) return "redirect:/member/find-password";
-        String email = (String) session.getAttribute(SessionConstants.FIND_PASSWORD_EMAIL_KEY);
-        if (email == null) return "redirect:/member/find-password";
-        session.removeAttribute(SessionConstants.FIND_PASSWORD_EMAIL_KEY);
-
-        model.addAttribute("email", email);
-        return "user/member/find_password_complete";
     }
 
     /**

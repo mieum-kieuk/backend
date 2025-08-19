@@ -32,24 +32,23 @@ public class Delivery extends BaseTimeEntity {
     @Column(name = "phone_number", length = 13, nullable = false)
     private String phonenumber;
 
-    @Column(name = "is_default_delivery")
-    private boolean isDefaultDelivery;
+    @Column(name = "is_default")
+    private boolean isDefault;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
-    private Member member;  //다대일 단방향
+    private Member member;
 
     /**
      * 회원가입할 때 호출
      */
-    public static Delivery createDeliveryWhenJoin(Member member, String zipCode, String basicAddress, String detailAddress) {
+    public static Delivery createDeliveryWhenJoin(String zipCode, String basicAddress, String detailAddress, String recipientName, String phonenumber) {
         Delivery delivery = new Delivery();
         delivery.deliveryName = "미지정";
-        delivery.recipientName = member.getName();
+        delivery.recipientName = recipientName;
         delivery.address = new Address(zipCode, basicAddress, detailAddress);
-        delivery.phonenumber = member.getPhonenumber();
-        delivery.isDefaultDelivery = true;
-        delivery.member = member;
+        delivery.phonenumber = phonenumber;
+        delivery.isDefault = true;
         return delivery;
     }
 
@@ -62,7 +61,7 @@ public class Delivery extends BaseTimeEntity {
         delivery.recipientName = form.getRecipientName();
         delivery.address = new Address(form.getZipCode(), form.getBasicAddress(), form.getDetailAddress());
         delivery.phonenumber = form.getPhonenumber1() + "-" + form.getPhonenumber2() + "-" + form.getPhonenumber3();
-        delivery.isDefaultDelivery = form.isDefaultDelivery();
+        delivery.isDefault = form.isDefaultDelivery();
         delivery.member = member;
         return delivery;
     }
@@ -75,7 +74,7 @@ public class Delivery extends BaseTimeEntity {
         this.recipientName = form.getRecipientName();
         this.address = new Address(form.getZipCode(), form.getBasicAddress(), form.getDetailAddress());
         this.phonenumber = form.getPhonenumber1() + "-" + form.getPhonenumber2() + "-" + form.getPhonenumber3();
-        this.isDefaultDelivery = form.isDefaultDelivery();
+        this.isDefault = form.isDefault();
     }
 
     /**
@@ -92,6 +91,10 @@ public class Delivery extends BaseTimeEntity {
      * 기본 배송지 제거
      */
     public void removeDefault() {
-        this.isDefaultDelivery = false;
+        this.isDefault = false;
+    }
+
+    public void setMember(Member member) {
+        this.member = member;
     }
 }

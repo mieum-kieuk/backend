@@ -13,7 +13,7 @@ public class RedisUtil {
 
     private final StringRedisTemplate redisTemplate;
 
-    public void setDataExpire(String key, String value, long duration) {
+    public void saveData(String key, String value, long duration) {
         ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
         Duration expireDuration = Duration.ofSeconds(duration);
         valueOperations.set(key, value, expireDuration);

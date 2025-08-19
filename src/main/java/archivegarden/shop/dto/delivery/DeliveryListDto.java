@@ -11,7 +11,7 @@ public class DeliveryListDto {
     private String recipientName;
     private String address;
     private String phonenumber;
-    private boolean isDefaultDelivery;
+    private boolean isDefault;
 
     public DeliveryListDto(Delivery delivery) {
         this.id = delivery.getId();
@@ -19,6 +19,6 @@ public class DeliveryListDto {
         this.recipientName = delivery.getRecipientName();
         this.address = delivery.getAddress().fullAddress();
         this.phonenumber = delivery.getPhonenumber();
-        this.isDefaultDelivery = delivery.isDefaultDelivery();
+        this.isDefault = delivery.isDefault();
     }
 }

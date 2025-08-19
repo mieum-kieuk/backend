@@ -15,18 +15,47 @@ public interface MemberRepository extends JpaRepository<Member, Long>, UserMembe
 
     Optional<Member> findByPhonenumber(String phonenumber);
 
-    @Query("select m.id from Member m where m.name = :name and m.email = :email")
-    Optional<Long> findLoginIdByEmail(@Param("name") String name, @Param("email") String email);
-
-    @Query("select m.id from Member m where m.name = :name and m.phonenumber = :phonenumber")
-    Optional<Long> findLoginIdByPhonenumber(@Param("name") String name, @Param("phonenumber") String phonenumber);
-
-    @Query("select m.email from Member m where m.loginId = :loginId and m.name = :name and m.email = :email")
-    Optional<String> findPasswordByEmail(@Param("loginId") String loginId, @Param("name") String name, @Param("email") String email);
-
-    @Query("select m.email from Member m where m.loginId = :loginId and m.name = :name and m.phonenumber = :phonenumber")
-    Optional<String> findPasswordByPhonenumber(@Param("loginId") String loginId, @Param("name") String name, @Param("phonenumber") String phonenumber);
-
-    @Query("select m from Member m where m.loginId = :loginId or m.phonenumber = :phonenumber or m.email = :email")
+    @Query("""
+            SELECT m
+            FROM Member m
+            WHERE m.loginId = :loginId
+                OR m.phonenumber = :phonenumber
+                OR m.email = :email
+            """)
     Optional<Member> findDuplicateMember(@Param("loginId") String loginId, @Param("phonenumber") String phonenumber, @Param("email") String email);
+
+
+    @Query("""
+            SELECT m.id
+            FROM Member m
+            WHERE m.name = :name
+                AND m.email = :email
+            """)
+    Optional<Long> findMemberIdByNameAndEmail(@Param("name") String name, @Param("email") String email);
+
+    @Query("""
+            SELECT m.id
+            FROM Member m
+            WHERE m.name = :name
+              AND m.phonenumber = :phonenumber
+            """)
+    Optional<Long> findMemberIdByNameAndPhonenumber(@Param("name") String name, @Param("phonenumber") String phonenumber);
+
+    @Query("""
+            SELECT m.id 
+            FROM Member m 
+            WHERE m.loginId = :loginId 
+                AND m.name = :name
+                AND m.email = :email
+            """)
+    Optional<Long> findMemberIdByLoginIdAndNameAndEmail(@Param("loginId") String loginId, @Param("name") String name, @Param("email") String email);
+
+    @Query("""
+            SELECT m.id 
+            FROM Member m 
+            WHERE m.loginId = :loginId 
+                AND m.name = :name
+                AND m.phonenumber = :phonenumber
+            """)
+    Optional<Long> findMemberIdByLoginIdAndNameAndPhonenumber(@Param("loginId") String loginId, @Param("name") String name, @Param("phonenumber") String phonenumber);
 }

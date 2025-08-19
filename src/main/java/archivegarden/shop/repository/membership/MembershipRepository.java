@@ -10,14 +10,18 @@ import java.util.Optional;
 
 public interface MembershipRepository extends JpaRepository<Membership, Long> {
 
-    Optional<Membership> findByName(@Param("name") String name);
+    Optional<Membership> findByName(String name);
+
+    @Query("""
+            SELECT m
+            from Membership  m
+            WHERE m.isDefault = true
+            """)
+    Membership findDefault();
 
     @Query("select max(m.level) from Membership m")
     Integer findMaxLevelMembership();
 
     @Query("select m from Membership m order by m.level asc")
     List<Membership> findAllOrderByLevelAsc();
-
-    @Query("select m from Membership m where m.isDefault = true")
-    Membership findDefault();
 }

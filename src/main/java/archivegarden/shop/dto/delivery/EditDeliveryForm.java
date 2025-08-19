@@ -28,7 +28,7 @@ public class EditDeliveryForm {
     private String phonenumber2;
     private String phonenumber3;
 
-    private boolean defaultDelivery;
+    private boolean isDefault;
 
     public EditDeliveryForm(Delivery delivery) {
         this.id = delivery.getId();
@@ -45,6 +45,6 @@ public class EditDeliveryForm {
         this.phonenumber2 = phonenumber[1];
         this.phonenumber3 = phonenumber[2];
 
-        this.defaultDelivery = delivery.isDefaultDelivery();
+        this.isDefault = delivery.isDefault();
     }
 }

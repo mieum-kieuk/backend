@@ -3,7 +3,7 @@ package archivegarden.shop.service.point;
 import archivegarden.shop.entity.Member;
 import archivegarden.shop.entity.SavedPoint;
 import archivegarden.shop.entity.SavedPointType;
-import archivegarden.shop.exception.NoSuchMemberException;
+import archivegarden.shop.exception.global.EntityNotFoundException;
 import archivegarden.shop.repository.member.MemberRepository;
 import archivegarden.shop.repository.point.SavedPointRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,17 +22,15 @@ public class SavedPointService {
 
     /**
      * 적립금 지급
+     *
+     * @throws EntityNotFoundException 회원이 존재하지 않을 때
      */
     public Long addPoint(Long memberId, SavedPointType type, int amount) {
-        //Member 조회
-        Member member = memberRepository.findById(memberId).orElseThrow(() -> new NoSuchMemberException("존재하지 않는 회원입니다."));
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 회원입니다."));
 
-        //SavedPoint 생성
         SavedPoint savedPoint = SavedPoint.createSavedPoint(amount, type, member);
-
-        //SavedPoint 저장
         savedPointRepository.save(savedPoint);
-
         return savedPoint.getId();
     }
 
@@ -41,5 +39,12 @@ public class SavedPointService {
      */
     public int getPoint(Long memberId) {
         return Optional.ofNullable(savedPointRepository.findBalance(memberId)).orElse(0).intValue();
+    }
+
+    /**
+     * 마이페이지에서 적립금 내역 조회
+     */
+    public void getPoints(Long memberId) {
+//        savedPointRepository.findByMemberId(memberId);
     }
 }

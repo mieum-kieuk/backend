@@ -19,7 +19,7 @@
             <li><p>아이디</p><span th:text="|${member.loginId} ( ${member.grade} 회원, ${member.createdAt} 가입 )|"></span></li>
         </ul>
         <div class="btn_wrap">
-            <button type="button" id="findBtn" class="btn1 find_btn" th:onclick="|location.href='@{/member/find-password}'|">비밀번호 찾기</button>
+            <button type="button" id="findBtn" class="btn1 find_btn" th:onclick="|location.href='@{/find-password}'|">비밀번호 찾기</button>
             <button type="button" id="loginBtn" class="btn1 submit_btn login_btn" th:onclick="|location.href='@{/login}'|">로그인</button>
         </div>
     </div>
