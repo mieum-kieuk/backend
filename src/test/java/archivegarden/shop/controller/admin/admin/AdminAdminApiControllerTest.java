@@ -1,7 +1,7 @@
 package archivegarden.shop.controller.admin.admin;
 
 import archivegarden.shop.config.TestSecurityConfig;
-import archivegarden.shop.exception.ajax.EntityNotFoundAjaxException;
+import archivegarden.shop.exception.api.EntityNotFoundAjaxException;
 import archivegarden.shop.exception.global.EmailSendFailedException;
 import archivegarden.shop.service.admin.admin.AdminAdminService;
 import org.junit.jupiter.api.DisplayName;

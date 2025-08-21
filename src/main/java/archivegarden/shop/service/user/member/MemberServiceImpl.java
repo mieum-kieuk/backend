@@ -8,9 +8,9 @@ import archivegarden.shop.entity.Member;
 import archivegarden.shop.entity.Membership;
 import archivegarden.shop.entity.SavedPointType;
 import archivegarden.shop.entity.auth.VerificationCodeResult;
+import archivegarden.shop.event.UserRegisteredEvent;
 import archivegarden.shop.exception.global.DuplicateEntityException;
 import archivegarden.shop.exception.global.EntityNotFoundException;
-import archivegarden.shop.repository.DeliveryRepository;
 import archivegarden.shop.repository.member.MemberRepository;
 import archivegarden.shop.repository.membership.MembershipRepository;
 import archivegarden.shop.service.point.SavedPointService;
@@ -19,6 +19,7 @@ import archivegarden.shop.util.RedisUtil;
 import archivegarden.shop.util.SmsUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,6 +40,7 @@ public class MemberServiceImpl implements MemberService {
     private final PasswordEncoder passwordEncoder;
     private final MemberRepository memberRepository;
     private final MembershipRepository membershipRepository;
+    private final ApplicationEventPublisher eventPublisher;
 
     private static final long VERIFICATION_CODE_EXPIRE_SECONDS = 60 * 3L;
 
@@ -61,6 +63,8 @@ public class MemberServiceImpl implements MemberService {
         memberRepository.save(member);
 
         savedPointService.addPoint(member.getId(), SavedPointType.JOIN, 1000);
+
+        eventPublisher.publishEvent(new UserRegisteredEvent(member.getEmail(), member.getName(), member.getCreatedAt()));
 
         return member.getId();
     }

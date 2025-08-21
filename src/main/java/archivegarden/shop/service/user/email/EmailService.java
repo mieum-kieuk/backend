@@ -52,15 +52,15 @@ public class EmailService {
      *
      * @param to      수신자 이메일
      * @param name    가입한 이름
-     * @param created 가입 일시
+     * @param createdAt 가입 일시
      */
-    public void sendEmailVerificationLink(String to, String name, LocalDateTime created) {
+    public void sendEmailVerificationLink(String to, String name, LocalDateTime createdAt) {
         String uuid = UUID.randomUUID().toString();
         String verificationUrl = baseUrl + emailVerificationPath + "?address=" + to + "&uuid=" + uuid;
 
         Context context = new Context();
         context.setVariable("name", name);
-        context.setVariable("created", DateTimeFormatter.ofPattern("yyyy년 M월 d일").format(created));
+        context.setVariable("created", DateTimeFormatter.ofPattern("yyyy년 M월 d일").format(createdAt));
         context.setVariable("verificationUrl", verificationUrl);
 
         MimeMessagePreparator preparator = mimeMessage -> {
@@ -75,6 +75,8 @@ public class EmailService {
         };
 
         redisUtil.saveData(to, uuid, EMAIL_VERIFICATION_EXPIRE_SECONDS);
+
+        javaMailSender.send(preparator);
     }
 
     /**
