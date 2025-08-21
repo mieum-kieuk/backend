@@ -76,7 +76,8 @@
 </div>
 <div th:replace="~{/fragments/footer :: fixed_footer}"></div>
 <script th:inline="javascript" th:if="${error}">
-    alert([[${error}]])
-</script>
+    $(document).ready(function() {
+        showErrorAlert([[${error}]]);
+    });</script>
 </body>
 </html>

@@ -37,13 +37,13 @@ public class AccountController {
             RedirectAttributes redirectAttributes
     ) {
         if(token == null) {
-            redirectAttributes.addFlashAttribute("error", "요청이 만료되었거나 유효하지 않습니다. 아이디 찾기를 다시 진행해 주세요.");
+            redirectAttributes.addFlashAttribute("error", "요청이 만료되었거나 유효하지 않습니다.\n아이디 찾기를 다시 진행해 주세요.");
             return "redirect:/find-id";
         }
 
         Optional<Long> memberIdOpt = tokenService.verifyAndUse(token, TokenType.FIND_LOGIN_ID);
         if (memberIdOpt.isEmpty()) {
-            redirectAttributes.addFlashAttribute("error", "요청이 만료되었거나 유효하지 않습니다. 아이디 찾기를 다시 진행해 주세요.");
+            redirectAttributes.addFlashAttribute("error", "요청이 만료되었거나 유효하지 않습니다.\n아이디 찾기를 다시 진행해 주세요.");
             return "redirect:/find-id";
         }
 
@@ -64,7 +64,7 @@ public class AccountController {
             RedirectAttributes redirectAttributes
     ) {
         if(token == null) {
-            redirectAttributes.addFlashAttribute("error", "요청이 만료되었거나 유효하지 않습니다.\n아이디 찾기를 다시 진행해 주세요.");
+            redirectAttributes.addFlashAttribute("error", "요청이 만료되었거나 유효하지 않습니다.\n비밀번호 찾기를 다시 진행해 주세요.");
             return "redirect:/find-id";
         }
 

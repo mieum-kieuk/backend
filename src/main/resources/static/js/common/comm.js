@@ -205,3 +205,14 @@ function initializeSideMenu() {
         }
     });
 }
+function showErrorAlert(error) {
+    if (error && error.length > 0) {
+        Swal.fire({
+            html: error.replace(/\n/g, '<br>'),
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            customClass: mySwal,
+            buttonsStyling: false
+        });
+    }
+}
