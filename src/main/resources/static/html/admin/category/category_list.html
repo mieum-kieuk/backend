@@ -7,20 +7,19 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap"
-          rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUITE/fonts/static/woff2/SUITE.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.typekit.net/ikc4waa.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/smoothness/jquery-ui.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.js"></script>
     <script src="https://johnny.github.io/jquery-sortable/js/jquery-sortable-min.js"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
-    <link rel="stylesheet" href="../../../../css/common/comm.css">
-    <link rel="stylesheet" href="../../../../css/admin/admin.css">
-    <link rel="stylesheet" href="../../../../css/common/list.css">
-    <script defer src="../../../../js/common/comm.js"></script>
-    <script defer src="../../../../js/admin/category.js"></script>
+    <link rel="stylesheet" href="../../../css/common/comm.css">
+    <link rel="stylesheet" href="../../../css/admin/admin.css">
+    <link rel="stylesheet" href="../../../css/common/list.css">
+    <script defer src="../../../js/common/comm.js"></script>
+    <script defer src="../../../js/admin/category.js"></script>
 </head>
 <body>
 <div class="admin_wrap">
@@ -28,60 +27,59 @@
         <div class="side_menu top">
             <ul>
                 <li class="logo">
-                    <a href="../../index.html">
+                    <a href="../index.html">
                         관리자 홈
                     </a>
                 </li>
-                <li><a href="../../../index.html">사이트 바로가기</a></li>
+                <li><a href="../../index.html">사이트 바로가기</a></li>
             </ul>
             <hr>
         </div>
-        <div class="side_menu menu">
-            <h2>메뉴</h2>
-            <ul class="depth1">
-                <li data-path="member">
-                    <a href="#">회원 관리</a>
-                    <ul class="depth2">
-                        <li data-path="member"><a href="../../../admin/member/member_list.html">회원 정보 관리</a></li>
-                        <li data-path="point"><a href="../../../admin/member/point_list.html">적립금 관리</a></li>
-                    </ul>
-                </li>
-                <li data-path="admin">
-                    <a href="#">관리자 관리</a>
-                    <ul class="depth2">
-                        <li data-path="admin-list"><a href="../../../admin/admin/admin_list.html">전체 관리자 관리</a></li>
-                    </ul>
-                </li>
-                <li data-path="product">
-                    <a href="#">상품 관리</a>
-                    <ul class="depth2">
-                        <li data-path="product"><a href="../product/product_list.html">전체 상품관리</a></li>
-                        <li data-path="category"><a href="../category/category_list.html">카테고리 관리</a></li>
-                        <li data-path="inquiry"><a href="../inquiry/inquiry_list.html">상품 문의관리</a></li>
-                        <li data-path="discount"><a href="../discount/discount_list.html">전체 할인관리</a></li>
-                    </ul>
-                </li>
-                <li data-path="orders">
-                    <a href="#">주문 관리</a>
-                    <ul class="depth2">
-                        <li data-path="order"><a href="#">전체 주문관리</a></li>
-                        <li data-path="cancel"><a href="#">취소/교환/반품/환불 관리</a></li>
-                    </ul>
-                </li>
+            <div class="side_menu menu">
+                <h2>메뉴</h2>
+                <ul class="depth1">
+                    <li data-path="member">
+                        <a href="#">회원 관리</a>
+                        <ul class="depth2">
+                            <li data-path="member"><a href="../member/member_list.html">회원 정보 관리</a></li>
+                            <li data-path="point"><a href="../member/point_list.html">적립금 관리</a></li>
+                        </ul>
+                    </li>
+                    <li data-path="admin">
+                        <a href="#">관리자 관리</a>
+                        <ul class="depth2">
+                            <li data-path="admin-list"><a href="../admin/admin_list.html">전체 관리자 관리</a></li>
+                        </ul>
+                    </li>
+                    <li data-path="category"><a href="../category/category_list.html">카테고리 관리</a></li>
+                    <li data-path="product">
+                        <a href="#">상품 관리</a>
+                        <ul class="depth2">
+                            <li data-path="product"><a href="../product/product/product_list.html">전체 상품관리</a></li>
+                            <li data-path="inquiry"><a href="../product/inquiry/inquiry_list.html">상품 문의관리</a></li>
+                            <li data-path="discount"><a href="../product/discount/discount_list.html">전체 할인관리</a></li>
+                        </ul>
+                    </li>
+                    <li data-path="orders">
+                        <a href="#">주문 관리</a>
+                        <ul class="depth2">
+                            <li data-path="order"><a href="#">전체 주문관리</a></li>
+                            <li data-path="cancel"><a href="#">취소/교환/반품/환불 관리</a></li>
+                        </ul>
+                    </li>
+                    <li data-path="help">
+                        <a href="#">고객 지원</a>
+                        <ul class="depth2">
+                            <li data-path="notice"><a href="../help/notice/notice_list.html">공지사항 관리</a></li>
+                            <li data-path="withdrawal"><a href="#">회원 탈퇴내역</a></li>
+                        </ul>
+                    </li>
 
-                <li data-path="help">
-                    <a href="#">고객 지원</a>
-                    <ul class="depth2">
-                        <li data-path="notice"><a href="../../../admin/help/notice/notice_list.html">공지사항 관리</a></li>
-                        <li data-path="withdrawal"><a href="#">회원 탈퇴내역</a></li>
-                    </ul>
-                </li>
-
-            </ul>
-        </div>
+                </ul>
+            </div>
         <div class="side_menu account">
             <ul>
-                <li><a href="../../../admin/login.html">로그인</a></li>
+                <li><a href="../login.html">로그인</a></li>
                 <li>
                     <button class="login_btn">로그아웃</button>
                 </li>
@@ -104,7 +102,8 @@
                         </div>
                     </div>
                     <div id=sortable class="list category">
-<!--                        <ol class="sortable-list">-->
+                        <div id="categoryContainer">
+                        <ol class="sortable-list">
 <!--                            <li data-id="1">-->
 <!--                                <input type="checkbox" class="category-checkbox" data-id="1" data-name="Postcard" />-->
 <!--                                <span class="category-name">Postcard</span>-->
@@ -116,7 +115,8 @@
 <!--                                    </li>-->
 <!--                                </ol>-->
 <!--                            </li>-->
-<!--                        </ol>-->
+                        </ol>
+                        </div>
                     </div>
                         <div class="btn_wrap">
                         <button id="saveCategoryBtn" class="btn1">저장</button>
@@ -126,7 +126,7 @@
                     <div class="modal_content">
                         <div class="modal_head">
                             <h2 class="modal_title">카테고리 수정</h2>
-                            <img class="close" src="../../../../images/close.svg" alt="닫기">
+                            <img class="close" src="../../../images/close.svg" alt="닫기">
                         </div>
                         <form id="editCategoryForm" novalidate>
                             <input type="hidden" id="editCategoryId" name="editCategoryId">
@@ -149,7 +149,7 @@
                     <div class="modal_content">
                         <div class="modal_head">
                             <h2 class="modal_title">카테고리 추가</h2>
-                            <img class="close" src="../../../../images/close.svg" alt="닫기">
+                            <img class="close" src="../../../images/close.svg" alt="닫기">
                         </div>
                         <form id="addCategoryForm" novalidate>
                             <div class="form_wrap">
@@ -163,7 +163,7 @@
                                             <option value="3">Sticker</option>
                                             <option value="4">Phonecase</option>
                                         </select>
-                                        <img src="../../../../images/keyboard_arrow_down_666.svg" class="expand_icon"
+                                        <img src="../../../images/keyboard_arrow_down_666.svg" class="expand_icon"
                                              alt="카테고리">
                                     </div>
                                 </div>

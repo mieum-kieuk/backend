@@ -10,6 +10,7 @@ $(document).ready(function () {
 
     initialTree = getCategoryList($('.list.category > ol.sortable-list'));
 
+    loadCategories();
     initSortable();
     bindSortStopEvent();
     addClassToCategoryList();
@@ -62,6 +63,59 @@ function addClassToCategoryList() {
     $('.list.category > ol > li').addClass('main_category');
     $('.list.category > ol > li > ol > li').addClass('sub_category');
 }
+// 카테고리 목록 렌더링
+function renderCategories(categories) {
+    if (!categories || categories.length === 0) {
+        return '';
+    }
+
+    let categoryList = '<ol class="sortable-list">';
+    categories.forEach(function(category) {
+        categoryList += `<li data-id="${category.id}">
+                   <input type="checkbox" class="category-checkbox" data-id="${category.id}" data-name="${category.name}" />
+                   <span class="category-name">${category.name}</span>
+                   ${renderCategories(category.children)}
+                 </li>`;
+    });
+    categoryList += '</ol>';
+    return categoryList;
+}
+
+// 카테고리 조회
+function loadCategories() {
+    $.ajax({
+        type: 'GET',
+        url: '',
+        success: function(response) {
+            let container = $('#sortable');
+            console.log("Server Response:", response);
+            let categories = response.content;
+
+            if (categories && categories.length > 0) {
+                let categoryList = renderCategories(categories);
+                container.html(categoryList);
+            } else {
+                container.html('<p id="noDataMessage">등록된 카테고리가 없습니다.</p>');
+            }
+
+            initialTree = getCategoryList($('.list.category > ol.sortable-list'));
+            initSortable();
+            updateCategoryOptions();
+            bindSortStopEvent();
+            addClassToCategoryList();
+            updateSaveBtnState();
+        },
+        error: function() {
+            Swal.fire({
+                text: "카테고리 목록을 불러오는 데 실패했습니다.",
+                showConfirmButton: true,
+                confirmButtonText: '확인',
+                customClass: mySwal,
+                buttonsStyling: false
+            });
+        }
+    });
+}
 
 // 카테고리 수정
 $('.edit_btn').click(function () {
@@ -100,6 +154,8 @@ $('#addCategoryForm').submit(function (event) {
             parent_id: parentId || null
         },
         success: function (response) {
+            $('#noDataMessage').remove();
+
             // let newId = response.id;
             let newId = response?.id || 'temp_' + Date.now();  // 예: temp_1691351351351
 
@@ -220,7 +276,12 @@ $('.delete_btn').click(function () {
                     checkedItems.each(function () {
                         $(this).closest('li').remove();
                     });
+                    let categoryContainer = $('#sortable');
+                    if (categoryContainer.find('li').length === 0) {
 
+                        let noDataMessageHtml = '<p id="noDataMessage">등록된 카테고리가 없습니다.</p>';
+                        categoryContainer.empty().html(noDataMessageHtml);
+                    }
                     updateCategoryOptions();
                     bindSortStopEvent();
                     updateSaveBtnState();
@@ -402,6 +463,7 @@ $('#saveCategoryBtn').on('click', function () {
             });
 
             initialTree = getCategoryList($('.list.category > ol.sortable-list'));
-            updateSaveBtnState();        }
+            updateSaveBtnState();
+        }
     });
 });
