@@ -94,8 +94,9 @@ public class MemberServiceImpl implements MemberService {
      * @throws EntityNotFoundException 회원이 존재하지 않는 경우
      */
     @Override
-    public JoinSuccessDto joinComplete(Long memberId) {
-        Member member = memberRepository.findById(memberId).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 회원입니다."));
+    public JoinSuccessDto getJoinSuccessInfo(Long memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 회원입니다."));
         return new JoinSuccessDto(member.getLoginId(), member.getName(), member.getEmail());
     }
 

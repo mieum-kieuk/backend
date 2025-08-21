@@ -35,7 +35,8 @@ public class ApiSecurityConfig {
                 .securityMatcher("/api/**")
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/api/check/login", "/api/inquiries", "/api/inquiries/{id}").permitAll()
-                        .requestMatchers("/api/member/**", "/api/find-id/**", "/api/find-password/**", "/api/admin/check/**", "/api/email/temp-password").anonymous()
+                        .requestMatchers("/api/member/**", "/api/find-id/**", "/api/find-password/**",
+                                                    "/api/admin/login-id/**", "/api/admin/email/**").anonymous()
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .requestMatchers("/api/**").hasRole("USER")
                         .anyRequest().authenticated()

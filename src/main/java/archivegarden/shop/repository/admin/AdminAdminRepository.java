@@ -13,6 +13,11 @@ public interface AdminAdminRepository extends JpaRepository<Admin, Long>, AdminA
 
     Optional<Admin> findByEmail(String email);
 
-    @Query("select a from Admin a where a.loginId = :loginId or a.email = :email")
+    @Query("""
+            SELECT a
+            FROM Admin a
+            WHERE a.loginId = :loginId
+                OR a.email = :email
+            """)
     Optional<Admin> findDuplicateAdmin(@Param("loginId") String loginId, @Param("email") String email);
 }

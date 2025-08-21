@@ -1,5 +1,3 @@
-let isLoginIdChecked = false;
-let isEmailChecked = false;
 let isAvailableLoginId = false;
 let isAvailableEmail = false;
 
@@ -49,26 +47,28 @@ function isLoginIdValid() {
     $('#idMsg').text('');
 
     $.ajax({
-        type: 'POST',
-        url: '/ajax/admin/check/loginId',
-        data: {loginId: loginId},
-        beforeSend: function (xhr) {
-            xhr.setRequestHeader(csrfHeader, csrfToken);
-        },
-        success: function (result) {
-            isLoginIdChecked = true;
-            if (result.status == 200) {
+        type: 'GET',
+        url: '/api/admin/login-id/exists?loginId=' + encodeURIComponent(loginId),
+        success: function (resp) {
+            isAvailableLoginId = true;
+            if (resp.available) {
                 isAvailableLoginId = true;
-                $('#idMsg').text(result.message);
+                $('#idMsg').text(resp.message);
                 $('#idMsg').removeClass('error').addClass('success');
             } else {
                 isAvailableLoginId = false;
-                $('#idMsg').text(result.message);
+                $('#idMsg').text(resp.message);
                 $('#idMsg').removeClass('success').addClass('error');
             }
         },
-        error: function () {
-            $('#idMsg').text('아이디 중복 확인 중 오류가 발생했습니다. 다시 시도해 주세요.');
+        error: function (xhr) {
+            if (xhr.status === 400) {
+                $('#idMsg').text(resp?.message || '잘못된 요청입니다.');
+            } else if (xhr.status === 403) {
+                $('#idMsg').text(resp?.message || '접근 권한이 없습니다.');
+            } else {
+                $('#idMsg').text('아이디 중복 확인 중 오류가 발생했습니다. 다시 시도해 주세요.');
+            }
             $('#idMsg').removeClass('success').addClass('error');
         }
     });
@@ -207,26 +207,28 @@ function isEmailValid() {
     $('#emailMsg').text('');
 
     $.ajax({
-        type: 'POST',
-        url: '/ajax/admin/check/email',
-        data: {email: email},
-        beforeSend: function (xhr) {
-            xhr.setRequestHeader(csrfHeader, csrfToken);
-        },
-        success: function (result) {
-            isEmailChecked = true;
-            if (result.status == 200) {
+        type: 'GET',
+        url: '/api/admin/email/exists?email=' + encodeURIComponent(email),
+        success: function (resp) {
+            if (resp.available) {
                 isAvailableEmail = true;
-                $('#emailMsg').text(result.message);
+                $('#emailMsg').text(resp.message);
                 $('#emailMsg').removeClass('error').addClass('success');
             } else {
                 isAvailableEmail = false;
-                $('#emailMsg').text(result.message);
+                $('#emailMsg').text(resp.message);
                 $('#emailMsg').removeClass('success').addClass('error');
             }
         },
-        error: function () {
-            $('#emailMsg').text('이메일 중복 확인 중 오류가 발생했습니다. 다시 시도해 주세요.');
+        error: function (xhr) {
+            let resp = xhr.responseJSON;
+            if (xhr.status === 400) {
+                $('#emailMsg').text(resp?.message || '잘못된 요청입니다.');
+            } else if (xhr.status === 403) {
+                $('#emailMsg').text(resp?.message || '접근 권한이 없습니다.');
+            } else {
+                $('#emailMsg').text('이메일 중복 확인 중 오류가 발생했습니다. 다시 시도해 주세요.');
+            }
             $('#emailMsg').removeClass('success').addClass('error');
         }
     });
@@ -273,15 +275,6 @@ function validateBeforeSubmit() {
     } else if (!regexLoginId()) {
         Swal.fire({
             text: "5~20자의 영문 소문자, 숫자 조합을 사용해 주세요.",
-            showConfirmButton: true,
-            confirmButtonText: '확인',
-            customClass: mySwal,
-            buttonsStyling: false
-        });
-        return false;
-    } else if (!isLoginIdChecked) {
-        Swal.fire({
-            text: "아이디 중복검사를 해주세요.",
             showConfirmButton: true,
             confirmButtonText: '확인',
             customClass: mySwal,
@@ -366,15 +359,6 @@ function validateBeforeSubmit() {
     } else if (!regexEmail()) {
         Swal.fire({
             text: "이메일 형식으로 입력해 주세요.",
-            showConfirmButton: true,
-            confirmButtonText: '확인',
-            customClass: mySwal,
-            buttonsStyling: false
-        });
-        return false;
-    } else if (!isEmailChecked) {
-        Swal.fire({
-            text: "이메일 중복검사를 해주세요.",
             showConfirmButton: true,
             confirmButtonText: '확인',
             customClass: mySwal,

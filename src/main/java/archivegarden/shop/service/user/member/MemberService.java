@@ -12,7 +12,7 @@ public interface MemberService {
 
     void checkMemberDuplicate(JoinMemberForm form);
 
-    JoinSuccessDto joinComplete(Long memberId);
+    JoinSuccessDto getJoinSuccessInfo(Long memberId);
 
     boolean isAvailableLoginId(String loginId);
 

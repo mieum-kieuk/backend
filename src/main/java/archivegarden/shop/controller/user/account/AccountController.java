@@ -80,7 +80,6 @@ public class AccountController {
             return "user/account/find_password_complete";
         } catch (EmailSendFailedException e) {
             log.warn("[EmailSendFailedApiException] 임시 비밀번호 전송 실패 memberId={}, reason={}", memberIdOpt.get(), e.getMessage(), e);
-
             redirectAttributes.addFlashAttribute("error", "메일 발송에 실패했습니다.\n잠시 후 다시 시도해 주세요.");
             return "redirect:/find-password";
         }

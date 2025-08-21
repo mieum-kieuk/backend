@@ -10,8 +10,10 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.regex.Pattern;
 
@@ -29,10 +31,9 @@ public class MemberController {
     @PostMapping("/join")
     public String join(
             @Validated @ModelAttribute("joinForm") JoinMemberForm form,
-            BindingResult bindingResult,
-            RedirectAttributes redirectAttributes
+            BindingResult bindingResult
     ) {
-        validateJoin(form, bindingResult);
+        validateJoinForm(form, bindingResult);
         if (bindingResult.hasErrors()) {
             return "user/member/join";
         }
@@ -51,8 +52,8 @@ public class MemberController {
     @GetMapping("/join/{memberId}/complete")
     public String joinComplete(@PathVariable("memberId") Long memberId, Model model) {
         if (memberId == null) return "redirect:/join";
-        JoinSuccessDto joinCompletionInfoDto = memberService.joinComplete(memberId);
-        model.addAttribute("memberInfo", joinCompletionInfoDto);
+        JoinSuccessDto JoinSuccessDto = memberService.getJoinSuccessInfo(memberId);
+        model.addAttribute("memberInfo", JoinSuccessDto);
         return "user/member/join_complete";
     }
 
@@ -66,7 +67,7 @@ public class MemberController {
      *
      * 각 항목별 전용 유효성 검증 메서드를 호출합니다.
      */
-    private void validateJoin(JoinMemberForm form, BindingResult bindingResult) {
+    private void validateJoinForm(JoinMemberForm form, BindingResult bindingResult) {
         validatePasswordConfirm(form, bindingResult);
         validateAddress(form, bindingResult);
         validatePhonenumber(form, bindingResult);
