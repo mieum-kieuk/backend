@@ -6,6 +6,7 @@ import archivegarden.shop.exception.api.ConflictApiException;
 import archivegarden.shop.exception.api.EntityNotFoundApiException;
 import archivegarden.shop.repository.category.CategoryRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +27,7 @@ public class AdminCategoryService {
      * @return 저장된 카테고리 ID
      * @throws EntityNotFoundApiException 상위 카테고리가 존재하지 않는 경우
      */
+    @CacheEvict(cacheNames = "parentCategories", allEntries = true)
     @Transactional
     public Long addCategory(String name, Long parentId) {
         if (categoryRepository.existsByParentIdAndName(parentId, name)) {
@@ -129,7 +131,7 @@ public class AdminCategoryService {
                         c.getId(),
                         c.getName(),
                         c.getSortOrder(),
-                        null,
+                        parentId,
                         new ArrayList<>()
                 ))
                 .collect(Collectors.toList());
@@ -143,6 +145,7 @@ public class AdminCategoryService {
      * @throws EntityNotFoundApiException 카테고리가 존재하지 않는 경우
      * @throws ConflictApiException       (parent_id, name) 중복 되는 경우
      */
+    @CacheEvict(cacheNames = "parentCategories", allEntries = true)
     @Transactional
     public void updateCategoryName(Long categoryId, String newName) {
         Category category = categoryRepository.findById(categoryId)
@@ -168,6 +171,7 @@ public class AdminCategoryService {
      * @param newIndex    이동한 카테고리의 순서
      * @throws EntityNotFoundApiException 카테고리가 존재하지 않는 경우
      */
+    @CacheEvict(cacheNames = "parentCategories", allEntries = true)
     @Transactional
     public void moveCategory(Long id, Long newParentId, int newIndex) {
         Category category = categoryRepository.findById(id)
