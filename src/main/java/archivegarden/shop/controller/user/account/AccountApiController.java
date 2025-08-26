@@ -42,7 +42,7 @@ public class AccountApiController {
 
         String token = tokenService.issueToken(memberIdOpt.get(), TokenType.FIND_LOGIN_ID);
         return ResponseEntity.ok(
-                new FindAccountResponseDto("OK", "회원 존재 여부를 확인했습니다.",  token));
+                new FindAccountResponseDto("OK", "회원 존재 여부를 확인했습니다.", token));
     }
 
     @Operation(
@@ -98,7 +98,7 @@ public class AccountApiController {
                     @ApiResponse(responseCode = "403", description = "인증된 사용자는 사용할 수 없는 기능입니다.")
             }
     )
-    @PostMapping("/find-password/phonenumber")
+    @PostMapping("/find-password/phone")
     public ResponseEntity<FindAccountResponseDto> findPasswordByPhonenumber(@Validated @RequestBody FindPasswordByPhoneRequestDto req) {
         Optional<Long> memberIdOpt = accountService.findPasswordByPhone(req.loginId(), req.name(), req.phonenumber());
         if (memberIdOpt.isEmpty()) {

@@ -78,31 +78,30 @@ $('#find #findPwBtn').click(function () {
         });
     } else if ($('input[name="findType"]:checked').val() === 'PHONENUMBER') {
         let loginId = $('#loginId').val();
-        let phonenumber = $('#phonenumber1').val() + '-' + $('#phonenumber2').val() + '-' + $('#phonenumber3').val();
+        let name = $('#name').val();
+        let phonenumber = $('#phonenumber1').val() + $('#phonenumber2').val() + $('#phonenumber3').val();
 
         $.ajax({
             type: 'POST',
-            url: '/api/find-password/phonenumber',
-            data: {'loginId': loginId, 'phonenumber': phonenumber},
+            url: '/api/find-password/phone',
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            data: JSON.stringify(
+                {
+                    loginId: loginId,
+                    name: name,
+                    phonenumber: phonenumber
+                }
+            ),
             beforeSend: function (xhr) {
                 xhr.setRequestHeader(csrfHeader, csrfToken)
             },
-            success: function (result) {
-                if (result.status == 200) {
-                    if (resp.code == "OK") {
-                        window.location.href = resp.token == null ? '/find-password/complete' : '/find-password/complete?token=' + resp.token;
-                    } else if (resp.code == "NOT_FOUND") {
-                        Swal.fire({
-                            html: resp.message.replace('\n', '<br>'),
-                            showConfirmButton: true,
-                            confirmButtonText: '확인',
-                            customClass: mySwal,
-                            buttonsStyling: false
-                        });
-                    }
-                } else {
+            success: function (resp) {
+                if (resp.code == "OK") {
+                    window.location.href = resp.token == null ? '/find-password/complete' : '/find-password/complete?token=' + resp.token;
+                } else if (resp.code == "NOT_FOUND") {
                     Swal.fire({
-                        html: result.message.replace('\n', '<br>'),
+                        html: resp.message.replace('\n', '<br>'),
                         showConfirmButton: true,
                         confirmButtonText: '확인',
                         customClass: mySwal,
@@ -146,9 +145,19 @@ $('#find_pw #sendPwBtn').click(function () {
         beforeSend: function (xhr) {
             xhr.setRequestHeader(csrfHeader, csrfToken);
         },
-        success: function (result) {
+        success: function (resp) {
             if (result.status == 200) {
-                window.location.href = '/find-password/complete';
+                if (resp.code == "OK") {
+                    window.location.href = resp.token == null ? '/find-password/complete' : '/find-password/complete?token=' + resp.token;
+                } else if (resp.code == "NOT_FOUND") {
+                    Swal.fire({
+                        html: resp.message.replace('\n', '<br>'),
+                        showConfirmButton: true,
+                        confirmButtonText: '확인',
+                        customClass: mySwal,
+                        buttonsStyling: false
+                    });
+                }
             } else {
                 Swal.fire({
                     html: result.message.replace('\n', '<br>'),
@@ -301,6 +310,7 @@ function validateBeforeSubmit() {
 $('input[name="findType"]').change(function () {
     if ($('#findType1').is(':checked')) {
         $('#loginId').val('');
+        $('#name').val('');
         $('#phonenumber1').val('010');
         $('#phonenumber2').val('');
         $('#phonenumber3').val('');
@@ -309,6 +319,7 @@ $('input[name="findType"]').change(function () {
         $('.field-error').empty();
     } else if ($('#findType2').is(':checked')) {
         $('#loginId').val('');
+        $('#name').val('');
         $('#email').val('');
         $('#email_view').hide();
         $('#phonenumber_view').show();

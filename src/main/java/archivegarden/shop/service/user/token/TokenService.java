@@ -16,12 +16,12 @@ public class TokenService {
 
     private final RedisUtil redisUtil;
 
-    private static final long FIND_ACCOUNT_EXPIRE_SECONDS = 60 * 3L;   // 3분
+    private static final long FIND_ACCOUNT_EXPIRE_SECONDS = 60 * 3L;
 
     /**
      * 토큰 발급 및 Redis에 토큰 저장
      *
-     * @param memberId 회원 ID
+     * @param memberId  회원 ID
      * @param tokenType 토큰 타입
      * @return 발급된 토큰
      */
@@ -34,10 +34,10 @@ public class TokenService {
 
     /**
      * 토큰을 검증 후 삭제
-     *
+     * <p>
      * 없는/만료된/이미 사용된 토큰이면 Optional.empty()를 반환합니다.
      *
-     * @param token 일회용 토큰
+     * @param token     일회용 토큰
      * @param tokenType 토큰 타입
      * @return memberId(Optional) - 없으면 Optional.empty()
      */

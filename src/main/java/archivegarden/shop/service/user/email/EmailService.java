@@ -1,7 +1,6 @@
 package archivegarden.shop.service.user.email;
 
 import archivegarden.shop.entity.Member;
-import archivegarden.shop.exception.api.EntityNotFoundAjaxException;
 import archivegarden.shop.exception.global.EmailSendFailedException;
 import archivegarden.shop.exception.global.EntityNotFoundException;
 import archivegarden.shop.repository.member.MemberRepository;
@@ -45,13 +44,13 @@ public class EmailService {
     @Value("${spring.mail.username}")
     private String from;
 
-    private static final long EMAIL_VERIFICATION_EXPIRE_SECONDS = 60 * 3L;  // 3분
+    private static final long EMAIL_VERIFICATION_EXPIRE_SECONDS = 60 * 3L;
 
     /**
      * 회원가입 완료 후 본인 인증 메일 전송
      *
-     * @param to      수신자 이메일
-     * @param name    가입한 이름
+     * @param to        수신자 이메일
+     * @param name      가입한 이름
      * @param createdAt 가입 일시
      */
     public void sendEmailVerificationLink(String to, String name, LocalDateTime createdAt) {
@@ -139,20 +138,15 @@ public class EmailService {
 
     /**
      * 임시 비밀번호 발송
+     * <p>
      *
-     * 사용자의 이메일로 임시 비밀번호를 발급하여 전송하고, 비밀번호를 갱신합니다.
-     *
-     * @param memberId 수신자 ID
-     * @return 갱신된 회원 이메일
-     * @throws EntityNotFoundAjaxException 회원이 존재하지 않는 경우
-     * @throws EmailSendFailedException 이메일 발송 중 오류가 발생하는 경우
+     * @param email 수신자 이메일
+     * @param name 수신자 이름
+     * @param tempPassword 임시 비밀번호
      */
-    public String sendTempPassword(Long memberId) {
-        Member member = memberRepository.findById(memberId).orElseThrow(() -> new EntityNotFoundAjaxException("존재하지 않는 회원입니다."));
-        String tempPassword = createTempPassword();
-
+    public void sendTempPassword(String email, String name, String tempPassword) {
         Context context = new Context();
-        context.setVariable("name", member.getName());
+        context.setVariable("name", name);
         context.setVariable("tempPassword", tempPassword);
         context.setVariable("loginUrl", baseUrl + loginPath);
 
@@ -161,7 +155,7 @@ public class EmailService {
 
             String content = templateEngine.process("user/email/template/temp_password", context);
 
-            helper.setTo(member.getEmail());
+            helper.setTo(email);
             helper.setFrom(from);
             helper.setSubject("[미음키읔] 임시 비밀번호가 발급되었습니다.");
             helper.setText(content, true);
@@ -179,16 +173,11 @@ public class EmailService {
         } catch (MailException e) {
             throw new EmailSendFailedException("메일 전송 중 예기치 못한 오류가 발생했습니다.");
         }
-
-        String encodedPassword = passwordEncoder.encode(tempPassword);
-        member.updatePassword(encodedPassword);
-
-        return member.getEmail();
     }
 
     /**
      * 이메일 인증 상태 업데이트
-     *
+     * <p>
      * 사용자의 이메일 인증 여부를 DB에 업데이트합니다.
      *
      * @param email           회원 이메일
@@ -198,25 +187,5 @@ public class EmailService {
     private void updateEmailVerification(String email, boolean isEmailVerified) {
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 회원입니다."));
         member.updateEmailVerificationStatus(isEmailVerified);
-    }
-
-    /**
-     * 임시 비밀번호 생성
-     * <p>
-     * 영문 대문자와 숫자로 구성된 10자리 임시 비밀번호를 생성합니다.
-     *
-     * @return 임시 비밀번호
-     */
-    private String createTempPassword() {
-        char[] charSet = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
-                'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
-        String password = "";
-        int idx = 0;
-        for (int i = 0; i < 10; i++) {
-            idx = (int) (charSet.length * Math.random());
-            password += charSet[idx];
-        }
-
-        return password;
     }
 }
