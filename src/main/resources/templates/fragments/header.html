@@ -4,9 +4,7 @@
 <header th:fragment="header" id="header" class="header">
     <nav id="gnb">
         <div class="logo">
-            <a th:href="@{/}">
-                미음키읔
-            </a>
+            <a th:href="@{/}">미음키읔</a>
         </div>
         <div class="gnb_menu center">
             <ul class="depth1">
@@ -15,14 +13,14 @@
                     <ul class="depth2">
                         <li><a th:href="@{/products(category='sticker')}">Sticker</a></li>
                         <li><a th:href="@{/products(category='maskingtape')}">Masking tape</a></li>
-                        <li><a th:href="@{/products(category='phonecase')}">Phone case</a>
-                        </li>
+                        <li><a th:href="@{/products(category='phonecase')}">Phone case</a></li>
                     </ul>
                 </li>
                 <li class="depth1_menu" id="about"><a th:href="@{/about}">About</a></li>
-                <li class="depth1_menu" id="community">Community
+                <li class="depth1_menu" id="community">
+                    Community
                     <ul class="depth2">
-                        <li><a th:href="@{/community/notice}">공지사항</a></li>
+                        <li><a th:href="@{/community/notices}">공지사항</a></li>
                         <li><a th:href="@{/community/inquiries}">상품문의</a></li>
                     </ul>
                 </li>
@@ -36,7 +34,8 @@
                     <div class="search_form_wrap">
                         <form th:action="@{/search}" method="get">
                             <input type="text" placeholder="검색어를 입력해 주세요." name="keyword" maxlength="50">
-                            <button type="submit" class="search_btn"><img th:src="@{/images/search.svg}" alt="search"></button>
+                            <button type="submit" class="search_btn"><img th:src="@{/images/search.svg}" alt="search">
+                            </button>
                         </form>
                     </div>
                 </div>
@@ -49,13 +48,13 @@
                             <li><a th:href="@{/join}">회원가입</a></li>
                         </ul>
                         <ul class="depth2" sec:authorize="hasRole('USER')">
-                            <li><a  th:href="@{/mypage/order}">주문 내역</a></li>
+                            <li><a th:href="@{/mypage/order}">주문 내역</a></li>
                             <li><a>적립금 내역</a></li>
                             <li><a th:href="@{/mypage/wish}">위시리스트</a></li>
-                            <li><a>상품 후기</a></li>
-                            <li><a th:href="@{/mypage/inquiries}">상품 문의</a></li>
-                            <li><a th:href="@{/mypage/deliveries}">배송지 관리</a></li>
-                            <li><a th:href="@{/mypage/info}">개인 정보 수정</a></li>
+                            <li><a th:href="@{/mypage/review}">상품 후기</a></li>
+                            <li><a th:href="@{/mypage/inquiry}">상품 문의</a></li>
+                            <li><a th:href="@{/mypage/delivery}">배송지 관리</a></li>
+                            <li><a th:href="@{/account/edit}">개인 정보 수정</a></li>
                             <li>
                                 <form th:action="@{/logout}" method="post">
                                     <button type="submit">로그아웃</button>
@@ -67,8 +66,73 @@
                 </ul>
             </div>
             <div class="cart">
-                <a sec:authorize="isAnonymous()" th:href="@{/cart}" id="cartLink">Cart</a>
-                <a sec:authorize="isAuthenticated()" th:href="@{/cart}" id="cartLink">Cart(<span id="cartItemCount" th:text="${session.cartItemCount}"></span>)</a>
+                <a th:href="@{/cart}" class="cartLink">
+                    Cart
+                    <span sec:authorize="hasRole('USER')">(<span id="cartItemCount" th:text="${session.cartItemCount}"></span>)</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+    <nav id="gnbMobile">
+        <div class="logo">
+            <a th:href="@{/}">미음키읔</a>
+        </div>
+        <button class="hamburger" aria-label="메뉴 열기">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <div class="mobile_menu_bg">
+            <div class="mobile_menu">
+                <ul class="depth1">
+                    <li class="depth1_menu">
+                        <a th:href="@{/products}">Shop</a>
+                        <ul class="depth2">
+                            <li><a th:href="@{/products(category='sticker')}">Sticker</a></li>
+                            <li><a th:href="@{/products(category='maskingtape')}">Masking tape</a></li>
+                            <li><a th:href="@{/products(category='phonecase')}">Phone case</a></li>
+                        </ul>
+                    </li>
+                    <li class="depth1_menu"><a th:href="@{/about}">About</a></li>
+                    <li class="depth1_menu">
+                        <span>Community</span>
+                        <ul class="depth2">
+                            <li><a th:href="@{/community/notices}">공지사항</a></li>
+                            <li><a th:href="@{/community/inquiries}">상품문의</a></li>
+                        </ul>
+                    </li>
+                    <li class="depth1_menu" sec:authorize="hasRole('USER')">
+                        <a th:href="@{/mypage}">Mypage</a>
+                    </li>
+                </ul>
+                <div class="mobile_bottom_menu">
+                    <div class="search">
+                        <button type="button">Search</button>
+                        <div class="search_popup">
+                            <div class="search_bg"></div>
+                            <div class="search_form_wrap">
+                                <form th:action="@{/search}" method="get">
+                                    <input type="text" placeholder="검색어를 입력해 주세요." name="keyword" maxlength="50">
+                                    <button type="submit" class="search_btn"><img th:src="@{/images/search.svg}" alt="search">
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="account">
+                        <a sec:authorize="!hasRole('USER')" th:href="@{/login}">Login</a>
+                        <form sec:authorize="hasRole('USER')" th:action="@{/logout}" method="post">
+                            <button type="submit">Logout</button>
+                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+                        </form>
+                    </div>
+                    <div class="cart">
+                        <a th:href="@{/cart}" class="cartLink">
+                            Cart
+                            <span sec:authorize="hasRole('USER')">(<span id="cartItemCount" th:text="${session.cartItemCount}"></span>)</span>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </nav>
