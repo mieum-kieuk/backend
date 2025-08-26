@@ -26,16 +26,6 @@ public class ProductService {
     private final Executor executor;
 
     /**
-     * 최신 상품 9개 조회
-     *
-     * @return 상품 목록 DTO 리스트
-     */
-    public List<ProductListDto> getLatestProducts() {
-        List<Product> products = productRepository.findLatestProducts();
-        return convertToProductListDtoAsync(products);
-    }
-
-    /**
      * 키워드 기반 상품 검색
      *
      * @param keyword  검색어

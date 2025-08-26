@@ -125,27 +125,6 @@ public class UserProductRepositoryCustomImpl implements UserProductRepositoryCus
     }
 
     /**
-     * 최신 상품 9개 조회
-     *
-     * - 정렬 기준: 상품 등록일 기준 내림차순
-     * - 할인, 상품 이미지 fetchJoin
-     *
-     * @return 상품 리스트
-     */
-    @Override
-    public List<Product> findLatestProducts() {
-        return queryFactory
-                .selectFrom(product).distinct()
-                .leftJoin(product.discount, discount).fetchJoin()
-                .join(product.productImages, productImage).fetchJoin()
-                .where(productImage.imageType.ne(ImageType.DETAILS))
-                .orderBy(product.createdAt.desc())
-                .offset(0)
-                .limit(9)
-                .fetch();
-    }
-
-    /**
      * 팝업창에서 상품 검색
      *
      * @param cond 검색 조건
