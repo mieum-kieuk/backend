@@ -1,12 +1,11 @@
 package archivegarden.shop.controller.user.login;
 
-import archivegarden.shop.dto.ResultResponse;
+import archivegarden.shop.dto.common.ApiResponseDto;
 import archivegarden.shop.entity.Member;
 import archivegarden.shop.web.annotation.CurrentUser;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,11 +24,10 @@ public class LoginAjaxController {
             }
     )
     @GetMapping("/status")
-    public ResultResponse checkLogin(@CurrentUser Member loginMember) {
+    public ApiResponseDto checkLogin(@CurrentUser Member loginMember) {
         if(loginMember == null) {
-            return new ResultResponse(HttpStatus.UNAUTHORIZED.value(), "로그인이 필요한 서비스입니다.");
+            return new ApiResponseDto("UNAUTHORIZED", "로그인이 필요한 서비스입니다.");
         }
-
-        return new ResultResponse(HttpStatus.OK.value(), "로그인된 사용자입니다.");
+        return new ApiResponseDto("OK", "로그인된 사용자입니다.");
     }
 }

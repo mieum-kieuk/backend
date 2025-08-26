@@ -12,7 +12,8 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationFa
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.net.URLEncoder;
+
+import static archivegarden.shop.constant.SessionConstants.ADMIN_LOGIN_ERROR;
 
 @Slf4j
 @Component
@@ -30,12 +31,12 @@ public class AdminAuthenticationFailureHandler extends SimpleUrlAuthenticationFa
             errorMessage = "해당 아이디로 가입된 관리자 계정이 존재하지 않습니다.";
             log.info("[{}] {} cause=[{}, message={}]", "AdminUserDetailsService.loadUserByUsername()", "존재하지 않는 아이디로 로그인 시도", "UsernameNotFoundException", exception.getMessage());
         } else if(exception instanceof BadCredentialsException) {
-            errorMessage = "비밀번호가 일치하지 않습니다. 비밀번호를 확인해 주세요.";
+            errorMessage = "비밀번호가 일치하지 않습니다.\n비밀번호를 확인해 주세요.";
             log.info("[{}] {} cause=[{}, message={}]", "AdminAuthenticationProvider.authenticate()", "비밀번호가 일치하지 않음", "BadCredentialsException", exception.getMessage());
         }
 
-        errorMessage = URLEncoder.encode(errorMessage, "UTF-8");
-        setDefaultFailureUrl("/admin/login?error=true&exception=" + errorMessage);
+        request.getSession().setAttribute(ADMIN_LOGIN_ERROR, errorMessage);
+        setDefaultFailureUrl("/admin/login");
 
         super.onAuthenticationFailure(request, response, exception);
     }

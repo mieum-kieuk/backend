@@ -5,7 +5,7 @@ import archivegarden.shop.dto.admin.admin.AdminListDto;
 import archivegarden.shop.dto.admin.admin.JoinAdminForm;
 import archivegarden.shop.dto.common.JoinSuccessDto;
 import archivegarden.shop.entity.Admin;
-import archivegarden.shop.exception.api.EntityNotFoundAjaxException;
+import archivegarden.shop.exception.api.EntityNotFoundApiException;
 import archivegarden.shop.exception.global.DuplicateEntityException;
 import archivegarden.shop.exception.global.EntityNotFoundException;
 import archivegarden.shop.repository.admin.AdminAdminRepository;
@@ -109,11 +109,11 @@ public class AdminAdminService {
      * 관리자 삭제
      *
      * @param adminId 관리자 ID
-     * @throws EntityNotFoundAjaxException 관리자가 존재하지 않는 경우
+     * @throws EntityNotFoundApiException 관리자가 존재하지 않는 경우
      */
     public void deleteAdmin(Long adminId) {
         Admin admin = adminRepository.findById(adminId)
-                .orElseThrow(() -> new EntityNotFoundAjaxException("존재하지 않는 관리자입니다."));
+                .orElseThrow(() -> new EntityNotFoundApiException("존재하지 않는 관리자입니다."));
         adminRepository.delete(admin);
     }
 
@@ -123,11 +123,11 @@ public class AdminAdminService {
      * 관리자 권한을 부여하고 권한 부여 완료 이메일을 해당 관리자에게 전송합니다.
      *
      * @param adminId 관리자 ID
-     * @throws EntityNotFoundAjaxException 관리자가 존재하지 않는 경우
+     * @throws EntityNotFoundApiException 관리자가 존재하지 않는 경우
      */
     public void authorizeAdmin(Long adminId) {
         Admin admin = adminRepository.findById(adminId)
-                .orElseThrow(() -> new EntityNotFoundAjaxException("존재하지 않는 관리자입니다."));
+                .orElseThrow(() -> new EntityNotFoundApiException("존재하지 않는 관리자입니다."));
 
         admin.authorize();
 

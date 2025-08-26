@@ -14,9 +14,6 @@
 <div id="login">
     <div class="login_wrap">
         <form action="" th:action method="post" th:onsubmit="return validateBeforeSubmit()">
-            <div class="field-error" th:if="${error}">
-                <p th:text="${errorMessage}"></p>
-            </div>
             <div class="input_wrap">
                 <ul>
                     <li>
@@ -51,5 +48,10 @@
     </div>
 </div>
 <div th:replace="~{/fragments/footer :: fixed_footer}"></div>
+<script th:inline="javascript" th:if="${error}">
+    $(document).ready(function() {
+        showErrorAlert([[${error}]]);
+    });
+</script>
 </body>
 </html>

@@ -1,12 +1,12 @@
 package archivegarden.shop.exception.api;
 
-public class EntityNotFoundAjaxException extends RuntimeException {
+public class EntityNotFoundApiException extends RuntimeException {
 
-    public EntityNotFoundAjaxException(String message) {
+    public EntityNotFoundApiException(String message) {
         super(message);
     }
 
-    public EntityNotFoundAjaxException(String message, Throwable cause) {
+    public EntityNotFoundApiException(String message, Throwable cause) {
         super(message, cause);
     }
 }

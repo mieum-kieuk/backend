@@ -6,6 +6,8 @@ import archivegarden.shop.dto.admin.admin.JoinAdminForm;
 import archivegarden.shop.dto.common.JoinSuccessDto;
 import archivegarden.shop.exception.global.DuplicateEntityException;
 import archivegarden.shop.service.admin.admin.AdminAdminService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,6 +20,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 
+import static archivegarden.shop.constant.SessionConstants.ADMIN_LOGIN_ERROR;
+
 @Controller
 @RequestMapping("/admin")
 @RequiredArgsConstructor
@@ -26,13 +30,16 @@ public class AdminAdminController {
     private final AdminAdminService adminService;
 
     @GetMapping("/login")
-    public String login(
-            @RequestParam(name = "error", required = false) boolean error,
-            @RequestParam(name = "exception", required = false) String errorMessage,
-            Model model
-    ) {
-        model.addAttribute("error", error);
-        model.addAttribute("errorMessage", errorMessage);
+    public String login(HttpServletRequest req, Model model) {
+        HttpSession session = req.getSession(false);
+        if (session != null) {
+            String errorMessage = (String) session.getAttribute(ADMIN_LOGIN_ERROR);
+
+            if (errorMessage != null) {
+                model.addAttribute("error", errorMessage);
+                session.removeAttribute(ADMIN_LOGIN_ERROR);
+            }
+        }
 
         return "admin/login";
     }
