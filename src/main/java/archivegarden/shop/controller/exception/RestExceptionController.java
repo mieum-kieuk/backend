@@ -2,13 +2,11 @@ package archivegarden.shop.controller.exception;
 
 import archivegarden.shop.dto.common.ApiResponseDto;
 import archivegarden.shop.dto.common.ErrorResponseDto;
-import archivegarden.shop.exception.api.EmailSendFailedApiException;
-import archivegarden.shop.exception.api.EntityNotFoundAjaxException;
-import archivegarden.shop.exception.api.NotEnoughStockAjaxException;
-import archivegarden.shop.exception.api.SmsGatewayApiException;
+import archivegarden.shop.exception.api.*;
 import archivegarden.shop.exception.global.EmailSendFailedException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -20,9 +18,9 @@ import java.time.Instant;
 @RestControllerAdvice
 public class RestExceptionController {
 
-    @ExceptionHandler(EntityNotFoundAjaxException.class)
-    public ResponseEntity<ApiResponseDto> handleEntityNotFoundAjaxException(EntityNotFoundAjaxException e, HttpServletRequest req) {
-        log.warn("[EntityNotFoundAjaxException] uri={} user={} cause={}",
+    @ExceptionHandler(EntityNotFoundApiException.class)
+    public ResponseEntity<ApiResponseDto> handleEntityNotFoundApiException(EntityNotFoundApiException e, HttpServletRequest req) {
+        log.warn("[EntityNotFoundApiException] uri={} user={} cause={}",
                 req.getRequestURI(),
                 req.getUserPrincipal() != null ? req.getUserPrincipal().getName() : "anonymous",
                 e.getMessage()
@@ -30,6 +28,24 @@ public class RestExceptionController {
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(new ApiResponseDto("NOT_FOUND", e.getMessage()));
+    }
+
+    @ExceptionHandler(ConflictApiException.class)
+    public ResponseEntity<ErrorResponseDto> handleConflictApiException(ConflictApiException e, HttpServletRequest req) {
+        String user = req.getUserPrincipal() != null ? req.getUserPrincipal().getName() : "anonymous";
+
+        log.info("[ConflictApiException] uri={} user={} code={} msg={}", req.getRequestURI(), user, "CONFLICT", e.getMessage());
+
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(new ErrorResponseDto("CONFLICT", e.getMessage(), req.getRequestURI(), Instant.now()));
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<ErrorResponseDto> handleDataIntegrityViolationException(DataIntegrityViolationException e, HttpServletRequest req) {
+        log.warn("[DataIntegrityViolationException] uri={} cause={}", req.getRequestURI(), e.getMessage());
+
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(new ErrorResponseDto("CONFLICT", "중복된 데이터가 존재합니다.", req.getRequestURI(), Instant.now()));
     }
 
     @ExceptionHandler(SmsGatewayApiException.class)

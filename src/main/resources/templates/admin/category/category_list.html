@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head th:replace="~{fragments/head :: commonHead('카테고리 관리')}">
+    <th:block th:fragment="extraMeta">
+        <meta name="_csrf" th:content="${_csrf.token}"/>
+        <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    </th:block>
+    <th:block th:fragment="extraCss">
+        <link rel="stylesheet" th:href="@{/css/admin/admin.css}"/>
+        <link rel="stylesheet" th:href="@{/css/common/list.css}"/>
+    </th:block>
+    <th:block th:fragment="extraJs">
+        <script defer th:src="@{/js/admin/category.js}"></script>
+    </th:block>
+</head>
+
+<body>
+<div class="admin_wrap">
+    <div th:replace="~{/fragments/menu :: admin_menu}"></div>
+    <div id="categoryList" class="list wrapper">
+        <div class="content">
+            <h2 class="content_tit">카테고리 관리</h2>
+            <div class="admins_wrap category">
+                <div class="btn_wrap">
+                    <button type="button" class="btn1 add_btn">카테고리 추가</button>
+                    <button type="button" class="btn1 edit_btn">수정</button>
+                    <button type="button" class="btn1 delete_btn">삭제</button>
+                </div>
+                <div class="list_content">
+                    <div class="list_head category">
+                        <div class="item_cont">
+                            <div class="item title">카테고리 목록(드래그로 순서를 변경할 수 있어요)</div>
+                        </div>
+                    </div>
+                    <div id=sortable class="list category">
+                </div>
+                <div id="editCategoryModal" class="modal category">
+                    <div class="modal_content">
+                        <div class="modal_head">
+                            <h2 class="modal_title">카테고리 수정</h2>
+                            <img class="close" th:src="@{/images/close.svg}" alt="닫기">
+                        </div>
+                        <form id="editCategoryForm" novalidate>
+                            <input type="hidden" id="editCategoryId" name="editCategoryId">
+                            <div class="form_wrap">
+                                <div class="input_box_wrap">
+                                    <label for="editCategoryName" class="ess_tit">카테고리명</label>
+                                    <div class="input_box_wrap msg">
+                                        <input type="text" id="editCategoryName" name="editCategoryName" maxlength="50"
+                                               placeholder="카테고리명을 입력해 주세요" required/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="btn_wrap">
+                                <button type="button" class="btn1 cancel_btn">취소</button>
+                                <button type="submit" class="btn1 submit_btn">완료</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div id="categoryModal" class="modal category">
+                    <div class="modal_content">
+                        <div class="modal_head">
+                            <h2 class="modal_title">카테고리 추가</h2>
+                            <img class="close" th:src="@{/images/close.svg}" alt="닫기">
+                        </div>
+                        <form id="addCategoryForm" novalidate>
+                            <div class="form_wrap">
+                                <div class="input_box_wrap">
+                                    <label for="parentCategory" class="ess_tit">대분류</label>
+                                    <div class="select_wrap">
+                                        <select id="parentCategory" name="parentCategory"></select>
+                                        <img th:src="@{/images/keyboard_arrow_down_666.svg}" class="expand_icon" alt="카테고리">
+                                    </div>
+                                </div>
+                                <div class="input_box_wrap">
+                                    <label for="newCategoryName" class="ess_tit">카테고리명</label>
+                                    <div class="input_box_wrap msg">
+                                        <input type="text" id="newCategoryName" name="newCategoryName" maxlength="50" placeholder="카테고리명을 입력해 주세요"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="btn_wrap">
+                                <button type="button" class="btn1 cancel_btn">취소</button>
+                                <button type="submit" class="btn1 submit_btn">추가</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+

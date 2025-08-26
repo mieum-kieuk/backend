@@ -71,6 +71,22 @@ CREATE TABLE saved_point
     expired_at       TIMESTAMP NOT NULL
 );
 
+-- 카테고리
+DROP TABLE IF EXISTS category CASCADE;
+CREATE TABLE category
+(
+    category_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    parent_id   BIGINT NULL,
+    name        VARCHAR(50) NOT NULL,
+    sort_order  INT          NOT NULL DEFAULT 0,
+    created_at  TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at  TIMESTAMP,
+    CONSTRAINT FK_CATEGORY_PARENT_ID FOREIGN KEY (parent_id) REFERENCES category (category_id) ON DELETE CASCADE,
+    UNIQUE KEY UQ_CATEGORY_NAME (parent_id, name)
+);
+
+CREATE INDEX IDX_CATEGORY_PARENT_SORT ON category (parent_id, sort_order);
+
 -- 관리자
 DROP TABLE IF EXISTS admin CASCADE;
 CREATE TABLE admin
@@ -101,20 +117,6 @@ CREATE TABLE notice
     created_at TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP
 );
-
--- 카테고리
-DROP TABLE IF EXISTS category CASCADE;
-CREATE TABLE category
-(
-    category_id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    parent_id   BIGINT NULL,
-    name        VARCHAR(100) NOT NULL,
-    sort_order  INT          NOT NULL DEFAULT 1,
-    created_at  TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at  TIMESTAMP,
-    CONSTRAINT FK_CATEGORY_PARENT_ID FOREIGN KEY (parent_id) REFERENCES category (category_id) ON DELETE CASCADE,
-    UNIQUE KEY UQ_CATEGORY_NAME (parent_id, name)
-)
 
 -- 상품
 DROP TABLE IF EXISTS product CASCADE;
