@@ -103,7 +103,7 @@ public class MemberApiController {
 
 
         memberService.sendVerificationCode(phonenumber);
-        return ResponseEntity.ok(new ApiResponseDto("OK", "인증번호가 발송되었습니다. 받지 못하셨다면 휴대전화번호를 확인해 주세요."));
+        return ResponseEntity.ok(new ApiResponseDto("OK", "인증번호가 발송되었습니다.\n받지 못하셨다면 휴대전화번호를 확인해 주세요."));
     }
 
     @Operation(

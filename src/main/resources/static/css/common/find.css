@@ -254,7 +254,7 @@
 }
 @media (max-width: 945px) {
     #find {
-        min-width: 380px;
+        min-width: 360px;
         height: 100vh;
         padding: 20px;
         margin-bottom: 0;
@@ -268,7 +268,7 @@
         height: calc(100vh - 300px);
     }
     #find_pw {
-        min-width: 380px;
+        min-width: 360px;
         height: 100vh;
         padding: 0;
     }

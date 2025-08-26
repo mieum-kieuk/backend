@@ -394,7 +394,11 @@ function requestVerificationCode() {
         },
         success: function (resp) {
             $('.loader_wrap.white').hide();
-            $('#phoneNumberMsg').text(resp.message);
+            if (window.matchMedia("(max-width: 945px)").matches) {
+                $('#phoneNumberMsg').html(resp.message.replace(/\n/g, '<br>'));
+            } else {
+                $('#phoneNumberMsg').html(resp.message);
+            }
             $('#phoneNumberMsg').removeClass('error').addClass('success');
             $('#confirm_verify_mobile').css('display', 'flex');
             $('#btn_action_verify_mobile').text('재전송');

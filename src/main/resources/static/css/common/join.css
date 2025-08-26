@@ -14,10 +14,14 @@
   justify-content: center;
 }
 @media (max-width: 945px) {
-  #join{
-    min-width: 380px;
-    padding: 20px;
+  #join {
+    min-width: 360px;
+    padding: 20px 0;
     margin-top: 60px;
+  }
+  .join_wrap {
+    max-width: 360px;
+    padding: 20px;
   }
 }
 .title {
@@ -300,8 +304,11 @@
   white-space: nowrap;
 }
 @media (max-width: 945px) {
+  .input_wrap .phone_number.select {
+    width: 100%;
+  }
   .agree_all strong {
-    max-width: 380px;
+    max-width: 360px;
   }
 }
 .btn_wrap {

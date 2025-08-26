@@ -35,6 +35,8 @@
   #login {
     height: 100vh;
     max-height: none;
+    min-width: 360px;
+    padding: 20px;
   }
   .login_wrap {
     height: calc(100vh - 300px);

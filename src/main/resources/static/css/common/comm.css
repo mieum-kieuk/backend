@@ -535,7 +535,7 @@ legend {
   }
   #gnbMobile {
     display: flex;
-    min-width: 380px;
+    min-width: 360px;
   }
   .logo a {
     line-height: 1;
@@ -614,7 +614,7 @@ legend {
 }
 @media (max-width: 945px) {
   #main {
-    min-width: 380px;
+    min-width: 360px;
     width: 100vw;
   }
   .main_content {
@@ -663,7 +663,7 @@ legend {
   .footer {
     height: auto;
     padding: 20px;
-    min-width: 380px;
+    min-width: 360px;
   }
   .footer_wrap {
     display: none;
@@ -1232,4 +1232,12 @@ legend {
   border-right: 1px solid #eee;
   border-bottom-left-radius: 10px;
 
+}
+@media (max-width: 945px) {
+  .swal2-html-container.my-swal-text {
+    width: auto;
+  }
+  .swal2-popup.my-swal-popup {
+    min-width: 360px;
+  }
 }
