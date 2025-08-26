@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -48,10 +49,10 @@ public class AdminCategoryService {
 
     /**
      * 카테고리 조회
-     * <p>
-     * DB에서 카테고리 목록을 조회한 뒤 트리 구조로 변환하여 반환합니다.
      *
-     * @return 트리형태의 카테고리 목록
+     * 카테고리 목록을 조회한 뒤 트리 구조로 변환하여 반환합니다.
+     *
+     * @return 트리 형태의 카테고리 목록
      */
     @Transactional(readOnly = true)
     public List<CategoryNode> getCategories() {
@@ -81,6 +82,57 @@ public class AdminCategoryService {
         }
 
         return categoryTree;
+    }
+
+    /**
+     * 대분류 카테고리 조회
+     *
+     * 대분류 카테고리 목록을 조회합니다.
+     *
+     * @return 카테고리 목록
+     */
+    @Transactional(readOnly = true)
+    public List<CategoryNode> getParentCategories() {
+        List<Category> categories = categoryRepository
+                .findParentCategories();
+
+        return categories.stream()
+                .map(c -> new CategoryNode(
+                        c.getId(),
+                        c.getName(),
+                        c.getSortOrder(),
+                        null,
+                        new ArrayList<>()
+                ))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * 소분류 카테고리 조회
+     *
+     * 소분류 카테고리 목록을 조회합니다.
+     *
+     * @return 카테고리 목록
+     * @throws EntityNotFoundApiException 대분류 카테고리가 존재하지 않는 경우
+     */
+    @Transactional(readOnly = true)
+    public List<CategoryNode> getChildrenCategories(Long parentId) {
+        if (!categoryRepository.existsById(parentId)) {
+            throw new EntityNotFoundApiException("대분류 카테고리가 존재하지 않습니다.");
+        }
+
+        List<Category> categories = categoryRepository
+                .findChildrenCategories(parentId);
+
+        return categories.stream()
+                .map(c -> new CategoryNode(
+                        c.getId(),
+                        c.getName(),
+                        c.getSortOrder(),
+                        null,
+                        new ArrayList<>()
+                ))
+                .collect(Collectors.toList());
     }
 
     /**

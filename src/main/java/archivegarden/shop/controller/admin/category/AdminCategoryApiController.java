@@ -40,6 +40,21 @@ public class AdminCategoryApiController {
     }
 
     @Operation(
+            summary = "카테고리 소분류 조회",
+            description = "카테고리 소분류를 조회합니다..",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "카테고리를 조회했습니다."),
+                    @ApiResponse(responseCode = "403", description = "관리자 권한이 있는 사용자만 이용 가능합니다."),
+                    @ApiResponse(responseCode = "404", description = "parent 카테고리가 존재하지 않습니다."),
+            }
+    )
+    @GetMapping("/{parentId}/children")
+    public List<CategoryNode> childCategories(@PathVariable("parentId") Long parentId) {
+        List<CategoryNode> categories = categoryService.getChildrenCategories(parentId);
+        return categories;
+    }
+
+    @Operation(
             summary = "카테고리 등록",
             description = "카테고리를 추가합니다.",
             responses = {

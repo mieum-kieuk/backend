@@ -16,6 +16,12 @@ $(document).ready(function () {
         isNameValid();
     });
 
+    // 대분류 선택 시 소분류 업데이트
+    $("#parentCategory").on("change", function () {
+        let parentId = $(this).val();
+        loadChildCategory(parentId);
+    });
+
     $('#displayImageBtn').on('click', function () {
         $('#displayImage').click();
     });
@@ -316,7 +322,7 @@ function validateBeforeSubmit() {
             buttonsStyling: false
         });
         return false;
-    } else if (!isNameChecked)  {
+    } else if (!isNameChecked) {
         Swal.fire({
             text: '상품명 중복검사를 해주세요.',
             showConfirmButton: true,
@@ -481,24 +487,21 @@ function isNameValid() {
     }
 
     $.ajax({
-        type: 'POST',
-        url: '/ajax/admin/product/check/name',
-        async: false,
-        data: {name: name},
-        beforeSend: function (xhr) {
-            xhr.setRequestHeader(csrfHeader, csrfToken);
-        },
-        success: function (result) {
+        type: 'GET',
+        url: '/api/admin/products/name/exists?name=' + encodeURIComponent(name),
+        success: function (resp) {
             isNameChecked = true;
-            if (result.status == 200) {
-                isAvailableName = true;
-            } else {
-                isAvailableName = false;
-            }
+            isAvailableName = resp.available ? true : false;
         },
-        error: function () {
+        error: function (xhr) {
+            const resp = xhr.responseJSON;
+            let errorMessage = "상품명 중복 확인 중 오류가 발생했습니다.<br>다시 시도해 주세요.";
+
+            if (xhr.status === 400) errorMessage = resp?.message || '잘못된 요청입니다.';
+            else if (xhr.status === 403) errorMessage = resp?.message || '접근 권한이 없습니다.';
+
             Swal.fire({
-                html: "상품명 중복 확인 중 오류가 발생했습니다.<br>다시 시도해 주세요.",
+                html: errorMessage.replace(/\n/g, '<br>'),
                 showConfirmButton: true,
                 confirmButtonText: '확인',
                 customClass: mySwal,
@@ -525,9 +528,8 @@ $('#deleteProductBtn').click(function () {
         if (result.isConfirmed) {
             $.ajax({
                 type: 'DELETE',
-                url: '/ajax/admin/product',
-                async: false,
-                data: {productId: productId},
+                url: '/api/admin/product',
+                data: {'productId': productId},
                 beforeSend: function (xhr) {
                     xhr.setRequestHeader(csrfHeader, csrfToken)
                 },
@@ -591,7 +593,7 @@ $('#deleteProductsBtn').click(function () {
 
                 $.ajax({
                     type: 'DELETE',
-                    url: '/ajax/admin/products',
+                    url: '/api/admin/products',
                     async: false,
                     contentType: 'application/json',
                     data: JSON.stringify(productIds),
@@ -625,3 +627,39 @@ $('#deleteProductsBtn').click(function () {
         });
     }
 });
+
+function loadChildCategory(parentId) {
+    const childCategory = $("#childCategory");
+    childCategory.empty().append('<option value="" selected>소분류를 선택해 주세요.</option>');
+
+    $.ajax({
+        url: '/api/admin/categories/' + parentId + '/children',
+        method: "GET",
+        dataType: "json",
+        success: function (res) {
+            if (res && res.length > 0) {
+                res.forEach(function (child) {
+                    childCategory.append(`<option value="${child.id}">${child.name}</option>`);
+                });
+                childCategory.prop("disabled", false);
+            } else {
+                childCategory.prop("disabled", true);
+            }
+        },
+        error: function (xhr) {
+            const resp = xhr.responseJSON;
+            let errorMessage = "카테고리 조회 중 오류가 발생했습니다.<br>다시 시도해 주세요.";
+
+            if (xhr.status === 403) errorMessage = resp?.message || '접근 권한이 없습니다.';
+            else if (xhr.status === 404) errorMessage = resp?.message || '상위 카테고리가 존재하지 않습니다.';
+
+            Swal.fire({
+                html: errorMessage.replace(/\n/g, '<br>'),
+                showConfirmButton: true,
+                confirmButtonText: '확인',
+                customClass: mySwal,
+                buttonsStyling: false
+            });
+        }
+    });
+}

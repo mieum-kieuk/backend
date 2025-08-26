@@ -105,6 +105,25 @@ CREATE TABLE admin
     CONSTRAINT UQ_ADMIN__EMAIL UNIQUE (email)
 );
 
+-- 상품
+DROP TABLE IF EXISTS product CASCADE;
+CREATE TABLE product
+(
+    product_id     BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    category_id    BIGINT UNSGINED NOT NULL,
+    discount_id    BIGINT UNSIGNED,
+    name           VARCHAR(50) NOT NULL,
+    price          INT UNSIGNED NOT NULL,
+    stock_quantity INT UNSIGNED NOT NULL,
+    details        VARCHAR(1000),
+    size           VARCHAR(1000),
+    shipping       VARCHAR(1000),
+    notice         VARCHAR(1000),
+    created_at     TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at     TIMESTAMP,
+    CONSTRAINT UQ_PRODUCT_NAME UNIQUE (name)
+);
+
 -- 공지사항
 DROP TABLE IF EXISTS notice CASCADE;
 CREATE TABLE notice
@@ -116,25 +135,6 @@ CREATE TABLE notice
     hit        INT UNSIGNED NOT NULL DEFAULT 0,
     created_at TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP
-);
-
--- 상품
-DROP TABLE IF EXISTS product CASCADE;
-CREATE TABLE product
-(
-    product_id     BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    discount_id    BIGINT UNSIGNED,
-    name           VARCHAR(50) NOT NULL,
-    category       ENUM('STICKER', 'MASKINGTAPE', 'PHONECASE') NOT NULL,
-    price          INT UNSIGNED NOT NULL,
-    stock_quantity INT UNSIGNED NOT NULL,
-    details        VARCHAR(1000),
-    size           VARCHAR(1000),
-    shipping       VARCHAR(1000),
-    notice         VARCHAR(1000),
-    created_at     TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at     TIMESTAMP,
-    CONSTRAINT UQ_PRODUCT_NAME UNIQUE (name)
 );
 
 -- 상품 이미지

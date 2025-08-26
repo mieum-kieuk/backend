@@ -1,11 +1,12 @@
 package archivegarden.shop.controller.admin.product.product;
 
+import archivegarden.shop.dto.admin.category.CategoryNode;
 import archivegarden.shop.dto.admin.product.product.*;
 import archivegarden.shop.entity.Category;
 import archivegarden.shop.exception.global.FileUploadException;
+import archivegarden.shop.service.admin.category.AdminCategoryService;
 import archivegarden.shop.service.admin.product.AdminProductService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -13,46 +14,43 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-@Tag(name = "Product", description = "관리자 페이지에서 상품 관련 API")
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/admin/products")
 public class AdminProductController {
 
     private final AdminProductService productService;
+    private final AdminCategoryService categoryService;
 
-    @Operation(
-            summary = "상품 등록 폼 표시",
-            description = "새로운 상품 등록을 위한 화면을 반환합니다."
-    )
     @GetMapping("/add")
-    public String addProductForm(@ModelAttribute("addForm") AdminAddProductForm form, Model model) {
-        model.addAttribute("categories", categorySelectBox());
+    public String addProductForm(
+            @ModelAttribute("addForm") AdminAddProductForm form,
+            Model model
+    ) {
+        List<CategoryNode> parents = categoryService.getParentCategories();
+        model.addAttribute("parentCategories", parents);
         return "admin/product/product/add_product";
     }
 
-    @Operation(
-            summary = "상품 등록 요청",
-            description = "새로운 상품을 등록하고 상세 페이지로 리다이렉트합니다."
-    )
     @PostMapping("/add")
     public String addProduct(
-            @Valid @ModelAttribute("addForm") AdminAddProductForm form,
+            @Validated @ModelAttribute("addForm") AdminAddProductForm form,
             BindingResult bindingResult,
             Model model,
             RedirectAttributes redirectAttributes
     ) {
         validateAttachImage(form.getDisplayImage(), form.getDetailImages(), bindingResult);
         if (bindingResult.hasErrors()) {
-            model.addAttribute("categories", categorySelectBox());
+            List<CategoryNode> categories = categoryService.getCategories();
+            model.addAttribute("categories", categories);
             return "admin/product/product/add_product";
         }
 
@@ -78,10 +76,6 @@ public class AdminProductController {
         return "admin/product/product/product_details";
     }
 
-    @Operation(
-            summary = "상품 목록 조회",
-            description = "검색 조건에 따라 상품 목록을 페이징하여 조회합니다"
-    )
     @GetMapping
     public String products(
             @ModelAttribute("cond") AdminProductSearchCondition cond,
@@ -146,7 +140,7 @@ public class AdminProductController {
      */
     public List<Category> categorySelectBox() {
         List<Category> categories = new ArrayList<>();
-        Collections.addAll(categories, Category.values());
+//        Collections.addAll(categories, Category.values());
         return categories;
     }
 

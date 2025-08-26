@@ -32,13 +32,19 @@
                     </div>
                     <div class="field-error" th:errors="*{name}"></div>
                     <div class="input_box_wrap">
-                        <label for="category" class="ess_tit">카테고리</label>
+                        <label class="ess_tit">카테고리</label>
                         <div class="select_wrap">
-                            <select id="category" th:field="*{category}">
+                            <select id="parentCategory" th:field="*{category}">
                                 <option value="" selected>카테고리를 선택해 주세요.</option>
-                                <option th:each="category : ${categories}" th:value="${category}" th:text="${category.displayName}"></option>
+                                <option th:each="category : ${parentCategories}" th:value="${category.id}" th:text="${category.name}"></option>
                             </select>
-                           <img class="expand_icon" th:src="@{/images/keyboard_arrow_down_666.svg}" />
+                            <img class="expand_icon" th:src="@{/images/keyboard_arrow_down_666.svg}" />
+                        </div>
+                        <div class="select_wrap">
+                            <select id="childCategory" th:field="*{category}">
+                                <option value="" selected>카테고리를 선택해 주세요.</option>
+                            </select>
+                            <img class="expand_icon" th:src="@{/images/keyboard_arrow_down_666.svg}" />
                         </div>
                     </div>
                     <div class="field-error" th:errors="*{category}"></div>

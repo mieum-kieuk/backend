@@ -2,7 +2,7 @@ package archivegarden.shop.entity;
 
 import archivegarden.shop.dto.admin.product.product.AdminAddProductForm;
 import archivegarden.shop.dto.admin.product.product.AdminEditProductForm;
-import archivegarden.shop.exception.ajax.NotEnoughStockAjaxException;
+import archivegarden.shop.exception.api.NotEnoughStockAjaxException;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -26,8 +26,8 @@ public class Product extends BaseTimeEntity {
     @Column(length = 50, nullable = false)
     private String name;
 
-    @Column(nullable = false)
-    @Enumerated(value = EnumType.STRING)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Category category;
 
     @Column(nullable = false)

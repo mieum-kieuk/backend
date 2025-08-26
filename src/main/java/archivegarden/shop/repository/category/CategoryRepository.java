@@ -24,6 +24,22 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
     List<Category> findCategories();
 
     @Query("""
+                SELECT c
+                FROM Category c
+                WHERE  c.parentId IS NULL    
+                ORDER BY c.sortOrder ASC
+            """)
+    List<Category> findParentCategories();
+
+    @Query("""
+                SELECT c
+                FROM Category c
+                WHERE  c.parentId = :parentId   
+                ORDER BY c.sortOrder ASC
+            """)
+    List<Category> findChildrenCategories(@Param("parentId") Long parentId);
+
+    @Query("""
                 SELECT COALESCE(MAX(c.sortOrder), -1) + 1
                 FROM Category c
                 WHERE (:parentId IS NULL AND c.parentId IS NULL)
