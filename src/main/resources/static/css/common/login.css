@@ -5,7 +5,6 @@
   height: 100vh;
   max-height: calc(100vh - 230px);
 }
-
 .login_wrap {
   max-width: 380px;
   width: 100%;
@@ -32,7 +31,15 @@
 .login_wrap input::placeholder {
   color: #999;
 }
-
+@media (max-width: 945px) {
+  #login {
+    height: 100vh;
+    max-height: none;
+  }
+  .login_wrap {
+    height: calc(100vh - 300px);
+  }
+}
 .btn_wrap {
   display: flex;
   flex-direction: row;
@@ -74,64 +81,3 @@
   background-color: #fff;
 }/*# sourceMappingURL=login.css.map */
 
-#find {
-  display: flex;
-  justify-content: center;
-  padding-top: 120px;
-}
-
-.find_wrap {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  max-width: 380px;
-  width: 100%;
-  font-size: 11px;
-}
-.find_wrap .success_message {
-  margin-bottom: 20px;
-}
-.find_wrap .success_message h1, .find_wrap .success_message p, .find_wrap .success_message a {
-  text-align: center;
-}
-.find_wrap .success_message h1 {
-  font-size: 16px;
-  margin-bottom: 10px;
-}
-.find_wrap .success_message p {
-  font-size: 14px;
-}
-.find_wrap .submit_btn {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-}
-.find_wrap .submit_btn .login_btn {
-  background: #222;
-  color: #fff;
-  width: 40%;
-
-}
-.find_wrap .submit_btn .find_btn {
-  width: 40%;
-  margin-top: 15px;
-}
-.find_wrap .user_info {
-  padding: 20px;
-  margin: 30px;
-  border-top: 1px solid #222;
-  border-bottom: 1px solid #222;
-}
-.find_wrap .user_info li {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 2px;
-}
-.find_wrap .user_info li p {
-  width: 30px;
-  text-align: start;
-}
-.find_wrap .user_info li span {
-  margin-left: 50px;
-}

@@ -535,6 +535,7 @@ legend {
   }
   #gnbMobile {
     display: flex;
+    min-width: 380px;
   }
   .logo a {
     line-height: 1;
@@ -604,12 +605,7 @@ legend {
   background-image: url('../../images/main_web.jpg');
   background-position: center;
 }
-/*.main_slide img {*/
-/*  width: 100vw;*/
-/*  height: 100vh;*/
-/*  object-fit: contain;*/
-/*  object-position: center;*/
-/*}*/
+
 .main_product_wrap {
   width: 100%;
 }
@@ -618,7 +614,7 @@ legend {
 }
 @media (max-width: 945px) {
   #main {
-    min-width: unset;
+    min-width: 380px;
     width: 100vw;
   }
   .main_content {
@@ -667,6 +663,7 @@ legend {
   .footer {
     height: auto;
     padding: 20px;
+    min-width: 380px;
   }
   .footer_wrap {
     display: none;

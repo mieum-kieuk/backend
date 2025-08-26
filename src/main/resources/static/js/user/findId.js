@@ -2,7 +2,17 @@ $(window).on('unload', function () {
     $('input[type="text"]').val('');
     $('#findType1').prop('checked', true);
 });
+function updateFooterClass() {
+    if ($(window).width() <= 945) {
+        $('#fixed_footer').removeClass('fixed');
+    } else {
+        $('#fixed_footer').addClass('fixed');
+    }
+}
 
+updateFooterClass();
+
+$(window).on('resize', updateFooterClass);
 $('.submit_btn').click(function () {
 
     if (!validateBeforeSubmit()) {

@@ -1,3 +1,15 @@
+function updateFooterClass() {
+    if ($(window).width() <= 945) {
+        $('#fixed_footer').removeClass('fixed');
+    } else {
+        $('#fixed_footer').addClass('fixed');
+    }
+}
+
+updateFooterClass();
+
+// 리사이즈 될 때마다 체크
+$(window).on('resize', updateFooterClass);
 // 아이디 입력란 유효성 검사
 function isLoginIdPresent() {
     let loginId = $("#loginId").val();

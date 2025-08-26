@@ -4,6 +4,15 @@ $(window).on('unload', function () {
     $('#phonenumber1').val('010');
     $('#findType1').prop('checked', true);
 });
+function updateFooterClass() {
+    if ($(window).width() <= 945) {
+        $('#fixed_footer').removeClass('fixed');
+    } else {
+        $('#fixed_footer').addClass('fixed');
+    }
+}
+
+updateFooterClass();
 
 let csrfHeader = $("meta[name='_csrf_header']").attr("content");
 let csrfToken = $("meta[name='_csrf']").attr("content");
