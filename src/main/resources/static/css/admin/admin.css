@@ -886,7 +886,9 @@ th {
 .admin_wrap #admin_auth {
     pointer-events: none;
 }
-
+.admin_wrap #admin_auth span {
+    font-size: 12px;
+}
 .admin_wrap .admin_member .content {
     max-width: 450px;
     width: 100%;
@@ -902,7 +904,7 @@ th {
     font-size: 14px;
     margin: 4px 0 8px;
     color: #222;
-    font-weight: 400;
+    font-weight: 300;
 }
 
 .admin_wrap .admin_member .find_wrap {
@@ -978,7 +980,7 @@ th {
 
 .admin_wrap .input_wrap label {
     color: #222;
-    font-weight: 400;
+    font-weight: 300;
 }
 
 .admin_wrap #login .input_wrap input {

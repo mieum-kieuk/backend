@@ -129,18 +129,18 @@ function addClassToCategoryList() {
 
 // 카테고리 목록 렌더링
 function renderCategories(categories) {
-    if (!categories || categories.length === 0) {
-        return '';
-    }
-
     let categoryList = '<ol class="sortable-list">';
-    categories.forEach(function (category) {
-        categoryList += `<li data-id="${category.id}">
+
+    if (categories && categories.length > 0) {
+        categories.forEach(function (category) {
+            categoryList += `<li data-id="${category.id}">
                    <input type="checkbox" class="category-checkbox" data-id="${category.id}" data-name="${category.name}" />
                    <span class="category-name">${category.name}</span>
-                   ${renderCategories(category.children)}
+                   ${renderCategories(category.children)} <!-- 재귀 -->
                  </li>`;
-    });
+        });
+    }
+
     categoryList += '</ol>';
     return categoryList;
 }

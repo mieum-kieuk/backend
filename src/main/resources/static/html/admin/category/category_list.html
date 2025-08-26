@@ -102,25 +102,7 @@
                         </div>
                     </div>
                     <div id=sortable class="list category">
-                        <div id="categoryContainer">
-                        <ol class="sortable-list">
-<!--                            <li data-id="1">-->
-<!--                                <input type="checkbox" class="category-checkbox" data-id="1" data-name="Postcard" />-->
-<!--                                <span class="category-name">Postcard</span>-->
-<!--                                <ol class="sortable-list">-->
-<!--                                    <li data-id="2">-->
-<!--                                        <input type="checkbox" class="category-checkbox" data-id="2" data-name="홍콩" />-->
-<!--                                        <span class="category-name">홍콩</span>-->
-<!--                                        <ol class="sortable-list"></ol>-->
-<!--                                    </li>-->
-<!--                                </ol>-->
-<!--                            </li>-->
-                        </ol>
-                        </div>
                     </div>
-                        <div class="btn_wrap">
-                        <button id="saveCategoryBtn" class="btn1">저장</button>
-                        </div>
                 </div>
                 <div id="editCategoryModal" class="modal category">
                     <div class="modal_content">
@@ -134,7 +116,7 @@
                                 <div class="input_box_wrap">
                                     <label for="editCategoryName" class="ess_tit">카테고리명</label>
                                     <div class="input_box_wrap msg">
-                                        <input type="text" id="editCategoryName" name="editCategoryName" maxlength="50" placeholder="카테고리 이름 입력" required/>
+                                        <input type="text" id="editCategoryName" name="editCategoryName" maxlength="50" placeholder="카테고리명을 입력해 주세요." required/>
                                     </div>
                                 </div>
                             </div>
@@ -158,10 +140,6 @@
                                     <div class="select_wrap">
                                         <select id="parentCategory" name="parentCategory">
                                             <option value="">대분류로 추가</option>
-                                            <option value="1">Maskingtape</option>
-                                            <option value="2">Postcard</option>
-                                            <option value="3">Sticker</option>
-                                            <option value="4">Phonecase</option>
                                         </select>
                                         <img src="../../../images/keyboard_arrow_down_666.svg" class="expand_icon"
                                              alt="카테고리">
@@ -171,7 +149,7 @@
                                     <label for="newCategoryName" class="ess_tit">카테고리명</label>
                                     <div class="input_box_wrap msg">
                                         <input type="text" id="newCategoryName" name="newCategoryName" maxlength="50"
-                                               placeholder="카테고리명"/>
+                                               placeholder="카테고리명을 입력해 주세요."/>
                                     </div>
                                 </div>
                             </div>
@@ -185,25 +163,6 @@
             </div>
         </div>
     </div>
-<!--    <ul class="sortable">-->
-<!--        <li data-id="1">-->
-<!--            Postcard-->
-<!--            <ul>-->
-<!--                <li data-id="2">-->
-<!--                    홍콩-->
-<!--                    <ul>-->
-<!--                        <li data-id="3">홍콩1-->
-<!--                            <ul>-->
-<!--                                <li data-id="4">홍콩2</li>-->
-<!--                            </ul>-->
-<!--                        </li>-->
-<!--                    </ul>-->
-<!--                </li>-->
-<!--            </ul>-->
-<!--        </li>-->
-<!--        <li data-id="5">Sticker</li>-->
-<!--    </ul>-->
-
 </div>
 </body>
 </html>
